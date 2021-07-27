@@ -1,4 +1,25 @@
 <resources>
     <string name="app_name">CitasSalon</string>
     <string name="agendar_button">Agendar</string>
+    <string name="empleado">Empleado</string>
+    <string name="estilista_button">Estilista aleatorio</string>
+    <string name="staff_1">Flora Parra</string>
+    <string name="staff_2">Angela Bautista</string>
+    <string name="staff_3">Xavier Cruz</string>
+    <string name="staff_4">Jessica Estrada</string>
+    <string name="siguiente_button">Siguiente</string>
+    <string name="confirmacionDeCita">Confirmación de Cita</string>
+    <string name="place_selected">Zahra Norte</string>
+    <string name="staff_selected">Angela Bautista</string>
+    <string name="service_selected">Aplicación de tinte</string>
+    <string name="date_selected">15/01/2021</string>
+    <string name="hour_selected">16:00 hrs</string>
+    <string name="Subtotal">Subtotal</string>
+    <string name="Descuento">Descuento</string>
+    <string name="Total">Total</string>
+    <string name="Precio">$400</string>
+    <string name="PrecioDescontado">-$00.00</string>
+    <string name="PrecioTotal">$400.00</string>
+    <string name="confirmarcita_button">Confirmar Cita</string>
+    
 </resources>
