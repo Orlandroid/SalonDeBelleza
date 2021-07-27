@@ -21,5 +21,6 @@
     <string name="PrecioDescontado">-$00.00</string>
     <string name="PrecioTotal">$400.00</string>
     <string name="confirmarcita_button">Confirmar Cita</string>
-    
+    <string name="sigueinte">sigiente</string>
+    <string name="texto_sucursal">Sucursal</string>
 </resources>
