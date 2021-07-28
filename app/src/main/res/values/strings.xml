@@ -23,4 +23,14 @@
     <string name="confirmarcita_button">Confirmar Cita</string>
     <string name="sigueinte">sigiente</string>
     <string name="texto_sucursal">Sucursal</string>
+    <string name="email">username@email.com</string>
+    <string name="contraseña">password</string>
+    <string name="olvidaste_contraseña">¿Olvidaste tu contraseña?</string>
+    <string name="ingresar">Ingresar</string>
+    <string name="nombre">Nombre</string>
+    <string name="telefono">Número de teléfono</string>
+    <string name="cumpleaños">dd/mm/aaaa</string>
+    <string name="sin_cuenta">¿No tienes cuenta? Sign Up</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="terminos_condiciones">Acepto los términos y condiciones</string>
 </resources>

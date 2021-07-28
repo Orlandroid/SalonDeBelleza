@@ -21,7 +21,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:layout_marginBottom="16dp"
-            android:layoud_marginBotton="50dp"
+            android:layout_marginBotton="50dp"
             app:srcCompat="@drawable/logo" />
 
         <EditText
@@ -34,7 +34,7 @@
             android:drawableStart="@drawable/mail"
             android:drawablePadding="5dp"
             android:ems="10"
-            android:hint="username@email.com"
+            android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:padding="8dp" />
 
@@ -48,7 +48,7 @@
             android:drawableStart="@drawable/lock"
             android:drawablePadding="5dp"
             android:ems="10"
-            android:hint="password"
+            android:hint="@string/contraseña"
             android:inputType="textPassword"
             android:padding="8dp" />
 
@@ -58,7 +58,7 @@
             android:layout_margin="8dp"
             android:backgroundTint="@color/cafe"
             android:is="@+id/olvidaste_contraseña"
-            android:text="¿Olvidaste tu contraseña?"
+            android:text="@string/olvidaste_contraseña"
             android:textColor="@color/cafe2"
             android:visibility="visible" />
 
@@ -68,7 +68,7 @@
             android:layout_height="wrap_content"
             android:background="@drawable/button_border"
             android:padding="20dp"
-            android:text="Ingresar"
+            android:text="@string/ingresar"
             android:textColor="@color/white" />
 
         <Button
@@ -76,8 +76,8 @@
             android:layout_height="wrap_content"
             android:layout_margin="8dp"
             android:backgroundTint="@color/cafe"
-            android:is="@+id/sin_cuenta"
-            android:text="¿No tienes cuenta? Sign Up"
+            android:id="@+id/sin_cuenta"
+            android:text="@string/sin_cuenta"
             android:textColor="@color/cafe2"
             android:visibility="visible" />
 

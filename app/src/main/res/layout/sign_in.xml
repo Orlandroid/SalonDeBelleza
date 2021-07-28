@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:layoud_marginBotton="50dp"
+            android:layout_marginBotton="50dp"
             app:srcCompat="@drawable/logo" />
 
         <EditText
@@ -30,7 +30,7 @@
             android:drawableStart="@drawable/user"
             android:drawablePadding="5dp"
             android:ems="10"
-            android:hint="Nombre"
+            android:hint="@string/nombre"
             android:inputType="textPersonName"
             android:padding="4dp" />
 
@@ -44,7 +44,7 @@
             android:drawableStart="@drawable/phone"
             android:drawablePadding="5dp"
             android:ems="10"
-            android:hint="Número de teléfono"
+            android:hint="@string/telefono"
             android:inputType="phone"
             android:padding="4dp" />
 
@@ -58,7 +58,7 @@
             android:drawableStart="@drawable/mail"
             android:drawablePadding="5dp"
             android:ems="10"
-            android:hint="username@email.com"
+            android:hint="@string/email"
             android:inputType="textEmailAddress"
             android:padding="4dp" />
 
@@ -72,7 +72,7 @@
             android:drawableStart="@drawable/lock"
             android:drawablePadding="5dp"
             android:ems="10"
-            android:hint="password"
+            android:hint="@string/contraseña"
             android:inputType="textPassword"
             android:padding="4dp" />
 
@@ -86,7 +86,7 @@
             android:drawableStart="@drawable/birthday"
             android:drawablePadding="5dp"
             android:ems="10"
-            android:hint="dd/mm/aaaa"
+            android:hint="@string/cumpleaños"
             android:inputType="date"
             android:padding="4dp" />
 
@@ -133,7 +133,7 @@
                 android:layout_alignParentEnd="true"
                 android:layout_marginStart="127dp"
                 android:layout_marginEnd="118dp"
-                android:text="Acepto los términos y condiciones" />
+                android:text="@string/terminos_condiciones" />
 
             <Button
                 android:id="@+id/registrarse"
@@ -143,8 +143,8 @@
                 android:layout_alignParentBottom="true"
                 android:layout_marginEnd="13dp"
                 android:layout_marginBottom="49dp"
-                android:text="Registrarse"
-                android:background="@drawable/button_border"/>
+                android:background="@drawable/button_border"
+                android:text="@string/registrarse" />
 
 
         </RelativeLayout>
