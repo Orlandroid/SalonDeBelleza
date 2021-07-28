@@ -34,8 +34,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/chevron_left_lg"
-            android:translationX="110dp"
-            android:translationY="18dp" />
+            android:translationX="80dp"
+            android:translationY="8dp" />
 
         <ImageButton
             android:id="@+id/imageButton3"
@@ -43,8 +43,8 @@
             android:layout_height="wrap_content"
             android:rotation="180"
             android:src="@drawable/chevron_left_lg"
-            android:translationX="270dp"
-            android:translationY="18dp" />
+            android:translationX="275dp"
+            android:translationY="8dp" />
 
         <androidx.cardview.widget.CardView
             android:layout_width="33dp"
@@ -520,12 +520,6 @@
             android:textSize="20dp"
             android:translationX="340dp"
             android:translationY="204dp" />
-
-        <ImageButton
-            android:id="@+id/imageButton4"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/button_back" />
 
         <ImageButton
             android:id="@+id/imageButton2"
