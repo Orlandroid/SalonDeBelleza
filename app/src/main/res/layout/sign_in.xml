@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layoud_marginBotton="50dp"
+            app:srcCompat="@drawable/logo" />
+
+        <EditText
+            android:id="@+id/nombre"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/border_text"
+            android:backgroundTint="@color/cafe4"
+            android:drawableStart="@drawable/user"
+            android:drawablePadding="5dp"
+            android:ems="10"
+            android:hint="Nombre"
+            android:inputType="textPersonName"
+            android:padding="4dp" />
+
+        <EditText
+            android:id="@+id/telefono"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/border_text"
+            android:backgroundTint="@color/cafe4"
+            android:drawableStart="@drawable/phone"
+            android:drawablePadding="5dp"
+            android:ems="10"
+            android:hint="Número de teléfono"
+            android:inputType="phone"
+            android:padding="4dp" />
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/border_text"
+            android:backgroundTint="@color/cafe4"
+            android:drawableStart="@drawable/mail"
+            android:drawablePadding="5dp"
+            android:ems="10"
+            android:hint="username@email.com"
+            android:inputType="textEmailAddress"
+            android:padding="4dp" />
+
+        <EditText
+            android:id="@+id/contraseña"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/border_text"
+            android:backgroundTint="@color/cafe4"
+            android:drawableStart="@drawable/lock"
+            android:drawablePadding="5dp"
+            android:ems="10"
+            android:hint="password"
+            android:inputType="textPassword"
+            android:padding="4dp" />
+
+        <EditText
+            android:id="@+id/cumpleaños"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/border_text"
+            android:backgroundTint="@color/cafe4"
+            android:drawableStart="@drawable/birthday"
+            android:drawablePadding="5dp"
+            android:ems="10"
+            android:hint="dd/mm/aaaa"
+            android:inputType="date"
+            android:padding="4dp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible">
+
+            <ImageButton
+                android:id="@+id/imageButton4"
+                android:layout_width="87dp"
+                android:layout_height="107dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="73dp"
+                android:layout_marginEnd="54dp"
+                android:layout_marginBottom="44dp"
+                android:layout_toStartOf="@+id/button2"
+                android:layout_toEndOf="@+id/imageButton5"
+                android:background="@drawable/button_border_home"
+                android:scaleType="center"
+                app:srcCompat="@drawable/home" />
+
+            <ImageButton
+                android:id="@+id/imageButton5"
+                android:layout_width="98dp"
+                android:layout_height="89dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="24dp"
+                android:layout_marginTop="76dp"
+                android:layout_marginBottom="44dp"
+                android:background="@drawable/button_border_back"
+                android:scaleType="center"
+                app:srcCompat="@drawable/back" />
+
+            <CheckBox
+                android:id="@+id/terminos_condiciones"
+                android:layout_width="166dp"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginStart="127dp"
+                android:layout_marginEnd="118dp"
+                android:text="Acepto los términos y condiciones" />
+
+            <Button
+                android:id="@+id/registrarse"
+                android:layout_width="225dp"
+                android:layout_height="80dp"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginEnd="13dp"
+                android:layout_marginBottom="49dp"
+                android:text="Registrarse"
+                android:background="@drawable/button_border"/>
+
+
+        </RelativeLayout>
+
+    </LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

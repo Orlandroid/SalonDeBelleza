@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/background"
+    tools:context=".MainActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="0dp">
+
+
+        <androidx.appcompat.widget.AppCompatImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="16dp"
+            android:layoud_marginBotton="50dp"
+            app:srcCompat="@drawable/logo" />
+
+        <EditText
+            android:id="@+id/email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/border_text"
+            android:backgroundTint="@color/cafe4"
+            android:drawableStart="@drawable/mail"
+            android:drawablePadding="5dp"
+            android:ems="10"
+            android:hint="username@email.com"
+            android:inputType="textEmailAddress"
+            android:padding="8dp" />
+
+        <EditText
+            android:id="@+id/contraseña"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:background="@drawable/border_text"
+            android:backgroundTint="@color/cafe4"
+            android:drawableStart="@drawable/lock"
+            android:drawablePadding="5dp"
+            android:ems="10"
+            android:hint="password"
+            android:inputType="textPassword"
+            android:padding="8dp" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:backgroundTint="@color/cafe"
+            android:is="@+id/olvidaste_contraseña"
+            android:text="¿Olvidaste tu contraseña?"
+            android:textColor="@color/cafe2"
+            android:visibility="visible" />
+
+        <Button
+            android:id="@+id/ingresar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@drawable/button_border"
+            android:padding="20dp"
+            android:text="Ingresar"
+            android:textColor="@color/white" />
+
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:backgroundTint="@color/cafe"
+            android:is="@+id/sin_cuenta"
+            android:text="¿No tienes cuenta? Sign Up"
+            android:textColor="@color/cafe2"
+            android:visibility="visible" />
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible">
+
+            <ImageButton
+                android:id="@+id/imageButton4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginTop="27dp"
+                android:layout_marginEnd="128dp"
+                android:layout_marginBottom="53dp"
+                android:background="@drawable/button_border_home"
+                app:srcCompat="@drawable/home" />
+
+            <ImageButton
+                android:id="@+id/imageButton5"
+                android:layout_width="wrap_content"
+                android:layout_height="75dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentBottom="true"
+                android:layout_marginStart="128dp"
+                android:layout_marginTop="26dp"
+                android:layout_marginEnd="44dp"
+                android:layout_marginBottom="56dp"
+                android:layout_toStartOf="@+id/imageButton4"
+                android:background="@drawable/button_border_back"
+                app:srcCompat="@drawable/back" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
