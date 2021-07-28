@@ -527,6 +527,30 @@
             android:layout_height="wrap_content"
             android:src="@drawable/button_back" />
 
+        <ImageButton
+            android:id="@+id/imageButton2"
+            android:layout_width="53dp"
+            android:layout_height="53dp"
+            android:src="@drawable/back_button"
+            android:translationX="24dp"
+            android:translationY="299dp" />
+
+        <ImageButton
+            android:id="@+id/imageButton5"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:src="@drawable/home_button"
+            android:translationX="110dp"
+            android:translationY="292dp" />
+
+        <ImageButton
+            android:id="@+id/imageButton6"
+            android:layout_width="177dp"
+            android:layout_height="55dp"
+            android:src="@drawable/siguiente_button"
+            android:translationX="215dp"
+            android:translationY="298dp" />
+
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
@@ -542,7 +566,94 @@
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.585" />
+        app:layout_constraintVertical_bias="0.585" >
+
+        <ImageView
+            android:id="@+id/imageView2"
+            android:layout_width="65dp"
+            android:layout_height="65dp"
+            android:src="@drawable/image15_mask"
+            android:translationX="14dp"
+            android:translationY="14dp" />
+
+        <TextView
+            android:id="@+id/textView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Zahara norte"
+            android:textColor="@color/cafe2"
+            android:textSize="14dp"
+            android:translationX="14dp"
+            android:translationY="95dp" />
+
+        <TextView
+            android:id="@+id/textView6"
+            android:layout_width="60dp"
+            android:layout_height="36dp"
+            android:fontFamily="@font/poppins_medium"
+            android:lineSpacingExtra="-8dp"
+            android:text="Angela Bautista"
+            android:textColor="@color/cafe2"
+            android:textSize="14dp"
+            android:translationX="85dp"
+            android:translationY="28dp" />
+
+        <TextView
+            android:id="@+id/textView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Aplicación de tinte"
+            android:textColor="@color/cafe2"
+            android:textSize="10dp"
+            android:translationX="180dp"
+            android:translationY="14dp" />
+
+        <TextView
+            android:id="@+id/textView10"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:text="$300"
+            android:textColor="@color/cafe2"
+            android:textSize="10dp"
+            android:translationX="320dp"
+            android:translationY="14dp" />
+
+        <TextView
+            android:id="@+id/textView49"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:text="$100"
+            android:textColor="@color/cafe2"
+            android:textSize="10dp"
+            android:translationX="320dp"
+            android:translationY="32dp" />
+
+        <TextView
+            android:id="@+id/textView50"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:text="$400"
+            android:textColor="@color/cafe2"
+            android:textSize="10dp"
+            android:translationX="320dp"
+            android:translationY="100dp" />
+
+        <TextView
+            android:id="@+id/textView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/poppins_medium"
+            android:text="Corte de cabello"
+            android:textColor="@color/cafe2"
+            android:textSize="10dp"
+            android:translationX="180dp"
+            android:translationY="36dp" />
+    </androidx.cardview.widget.CardView>
 
     <TextView
         android:id="@+id/textView7"
@@ -560,6 +671,27 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cardView4"
         app:layout_constraintVertical_bias="1.0" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="22dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="388dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="658dp" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
