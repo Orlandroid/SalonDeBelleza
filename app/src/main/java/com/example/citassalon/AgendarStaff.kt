@@ -10,8 +10,8 @@ import android.widget.Toast
 class AgendarStaff : AppCompatActivity() {
     private lateinit var btnSiguiente: Button
     private lateinit var text: TextView
-    private lateinit var btnFloating1 : Button
-    private lateinit var btnFloating2 : Button
+    private lateinit var btnFloating1: Button
+    private lateinit var btnFloating2: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,7 +25,7 @@ class AgendarStaff : AppCompatActivity() {
             btnSiguiente.isEnabled = false
             text.visibility = View.INVISIBLE
 
-            btnFloating1 = findViewById(R.id.floatingActionButton)
-            btnFloating2 = findViewById(R.id.floatingActionButton2)
+
+        }
     }
-}}
+}

@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:layout_marginBotton="50dp"
+            android:layout_marginBottom="50dp"
             app:srcCompat="@drawable/logo" />
 
         <EditText
@@ -49,7 +49,7 @@
             android:padding="4dp" />
 
         <EditText
-            android:id="@+id/email"
+            android:id="@+id/txt_user"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -63,7 +63,7 @@
             android:padding="4dp" />
 
         <EditText
-            android:id="@+id/contraseña"
+            android:id="@+id/txt_passord"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
@@ -145,7 +145,6 @@
                 android:layout_marginBottom="49dp"
                 android:background="@drawable/button_border"
                 android:text="@string/registrarse" />
-
 
         </RelativeLayout>
 
