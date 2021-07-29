@@ -137,13 +137,13 @@
         android:layout_marginBottom="8dp"
         android:background="@drawable/button_back"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button5"
+        app:layout_constraintEnd_toStartOf="@+id/button_sigiente_sucursal"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/button4"
         app:srcCompat="@drawable/home" />
 
     <Button
-        android:id="@+id/button5"
+        android:id="@+id/button_sigiente_sucursal"
         android:layout_width="wrap_content"
         android:layout_height="64dp"
         android:layout_marginBottom="8dp"

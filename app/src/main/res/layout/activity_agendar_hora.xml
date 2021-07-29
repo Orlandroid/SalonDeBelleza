@@ -52,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_medium"
-            android:text="Zahara norte"
+            android:text="@string/zahara_norte"
             android:textColor="@color/cafe2"
             android:textSize="14dp"
             android:translationX="14dp"

@@ -9,6 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.CitasSalon">
+        <activity android:name=".AgendarServicio" />
+        <activity android:name=".AgendarHora" />
+        <activity android:name=".AgendarFecha" />
         <activity android:name=".AgendarConfirmacion" />
         <activity android:name=".AgendarSucursal" />
         <activity android:name=".AgendarStaff" />

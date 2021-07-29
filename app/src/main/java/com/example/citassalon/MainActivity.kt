@@ -3,7 +3,9 @@ package com.example.citassalon
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.*
+import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,7 +25,7 @@ class MainActivity : AppCompatActivity() {
         buttonBack = findViewById(R.id.button_back)
         textForgetPassword = findViewById(R.id.olvidaste_contraseña)
         textForgetPassword.setOnClickListener {
-            Toast.makeText(this, "Tu contraseña es Admin", Toast.LENGTH_LONG).show()
+            sendSnackBar(it, "Tu contraseña es Admin")
         }
         buttonGetIn.setOnClickListener {
             checkUserAndPassWord()
@@ -33,11 +35,24 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    val activitys = arrayOf(
+        AgendarConfirmacion::class.java,
+        AgendarFecha::class.java,
+        AgendarHora::class.java,
+        AgendarServicio::class.java,
+        AgendarStaff::class.java,
+        AgendarSucursal::class.java,
+        Home::class.java,
+        MainActivity::class.java
+    )
+
     private fun checkUserAndPassWord() {
         if (checkPassword()) {
             if (isEmailValid(user.text.toString())) {
                 val intent = Intent(this, Home::class.java)
                 startActivity(intent)
+            } else {
+                sendSnackBar(user, "Ingresa una cuenta de correo electronico correcta")
             }
         } else {
             password.error = "Contraseña incorrecta"
@@ -47,6 +62,10 @@ class MainActivity : AppCompatActivity() {
     private fun checkPassword(): Boolean {
         val password = password.text.toString()
         return password == "Admin"
+    }
+
+    private fun sendSnackBar(view: View, mensaje: String) {
+        Snackbar.make(view, mensaje, Snackbar.LENGTH_SHORT).show()
     }
 
     private fun isEmailValid(email: String): Boolean {
