@@ -5,6 +5,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
 import android.widget.*
+import com.example.citassalon.controller.UserController
+import com.example.citassalon.models.User
 import com.google.android.material.snackbar.Snackbar
 
 class MainActivity : AppCompatActivity() {
@@ -35,40 +37,30 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    val activitys = arrayOf(
-        AgendarConfirmacion::class.java,
-        AgendarFecha::class.java,
-        AgendarHora::class.java,
-        AgendarServicio::class.java,
-        AgendarStaff::class.java,
-        AgendarSucursal::class.java,
-        Home::class.java,
-        MainActivity::class.java
-    )
+
+    private fun isValidUser(): Boolean {
+        val user = user.text.toString()
+        val password = password.text.toString()
+        val usuario = User(user, password)
+        val userController = UserController()
+        return userController.checkUser(usuario)
+    }
 
     private fun checkUserAndPassWord() {
-        if (checkPassword()) {
-            if (isEmailValid(user.text.toString())) {
-                val intent = Intent(this, Home::class.java)
-                startActivity(intent)
-            } else {
-                sendSnackBar(user, "Ingresa una cuenta de correo electronico correcta")
-            }
+        if (isValidUser()) {
+            Toast.makeText(
+                this,
+                "El usuario y la contraseña son correctos", Toast.LENGTH_SHORT
+            ).show()
         } else {
-            password.error = "Contraseña incorrecta"
+            sendSnackBar(user, "Verifica tu usuario y contraseña")
         }
     }
 
-    private fun checkPassword(): Boolean {
-        val password = password.text.toString()
-        return password == "Admin"
-    }
 
     private fun sendSnackBar(view: View, mensaje: String) {
         Snackbar.make(view, mensaje, Snackbar.LENGTH_SHORT).show()
     }
 
-    private fun isEmailValid(email: String): Boolean {
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
-    }
+
 }
