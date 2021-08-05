@@ -2,19 +2,29 @@ package com.example.citassalon
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
+import android.widget.Button
 import android.widget.ListView
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 
-class AgendarServicio : AppCompatActivity() {
+class AgendarServicio : Fragment() {
 
-    private lateinit var listViewServicios: ListView
+    private lateinit var buttonNext: Button
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_agendar_servicio)
-        val data = arrayOf("Corte de cabelo", "Aplicaciones de tines", "Tratamiento capilr")
-        val adapter = ArrayAdapter(this, android.R.layout.simple_list_item_1, data)
-        listViewServicios = findViewById(R.id.list_view_servicios)
-        listViewServicios.adapter = adapter
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_agendar_servicio, container, false)
+        buttonNext = view.findViewById(R.id.button_next_servicio)
+        buttonNext.setOnClickListener {
+            findNavController().navigate(R.id.action_agendarServicio_to_agendarFecha)
+        }
+        return view
     }
 }

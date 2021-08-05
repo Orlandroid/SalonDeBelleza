@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nav_graph"
+    app:startDestination="@id/login">
+    <fragment
+        android:id="@+id/login"
+        android:name="com.example.citassalon.Login"
+        android:label="fragment_login"
+        tools:layout="@layout/fragment_login" >
+        <action
+            android:id="@+id/action_login_to_home32"
+            app:destination="@id/home3" />
+    </fragment>
+    <fragment
+        android:id="@+id/home3"
+        android:name="com.example.citassalon.Home"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" >
+        <action
+            android:id="@+id/action_home3_to_agendarSucursal"
+            app:destination="@id/agendarSucursal" />
+    </fragment>
+    <fragment
+        android:id="@+id/agendarSucursal"
+        android:name="com.example.citassalon.AgendarSucursal"
+        android:label="fragment_agendar_sucursal"
+        tools:layout="@layout/fragment_agendar_sucursal" >
+        <action
+            android:id="@+id/action_agendarSucursal_to_agendarStaff"
+            app:destination="@id/agendarStaff" />
+    </fragment>
+    <fragment
+        android:id="@+id/agendarStaff"
+        android:name="com.example.citassalon.AgendarStaff"
+        android:label="fragment_agendar_staff"
+        tools:layout="@layout/fragment_agendar_staff" >
+        <action
+            android:id="@+id/action_agendarStaff_to_agendarServicio"
+            app:destination="@id/agendarServicio" />
+    </fragment>
+    <fragment
+        android:id="@+id/agendarServicio"
+        android:name="com.example.citassalon.AgendarServicio"
+        android:label="fragment_agendar_servicio"
+        tools:layout="@layout/fragment_agendar_servicio" >
+        <action
+            android:id="@+id/action_agendarServicio_to_agendarFecha"
+            app:destination="@id/agendarFecha" />
+    </fragment>
+    <fragment
+        android:id="@+id/agendarFecha"
+        android:name="com.example.citassalon.AgendarFecha"
+        android:label="fragment_agendar_fecha"
+        tools:layout="@layout/fragment_agendar_fecha" >
+        <action
+            android:id="@+id/action_agendarFecha_to_agendarHora"
+            app:destination="@id/agendarHora" />
+    </fragment>
+    <fragment
+        android:id="@+id/agendarHora"
+        android:name="com.example.citassalon.AgendarHora"
+        android:label="fragment_agendar_hora"
+        tools:layout="@layout/fragment_agendar_hora" >
+        <action
+            android:id="@+id/action_agendarHora_to_agendarConfirmacion"
+            app:destination="@id/agendarConfirmacion" />
+    </fragment>
+    <fragment
+        android:id="@+id/agendarConfirmacion"
+        android:name="com.example.citassalon.AgendarConfirmacion"
+        android:label="fragment_agendar_confirmacion"
+        tools:layout="@layout/fragment_agendar_confirmacion" />
+</navigation>
