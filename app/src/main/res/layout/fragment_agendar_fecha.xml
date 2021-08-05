@@ -539,7 +539,7 @@
             android:translationY="292dp" />
 
         <ImageButton
-            android:id="@+id/imageButton6"
+            android:id="@+id/button_next"
             android:layout_width="177dp"
             android:layout_height="55dp"
             android:src="@drawable/siguiente_button"

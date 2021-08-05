@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background">
+    android:background="@drawable/background"
+    tools:context=".AgendarHora">
 
 
     <TextView
@@ -165,7 +166,7 @@
             android:translationY="292dp" />
 
         <ImageButton
-            android:id="@+id/imageButton7"
+            android:id="@+id/image_button_sigiente"
             android:layout_width="177dp"
             android:layout_height="55dp"
             android:src="@drawable/siguiente_button"

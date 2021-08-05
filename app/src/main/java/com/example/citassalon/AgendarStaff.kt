@@ -1,31 +1,29 @@
 package com.example.citassalon
 
-import androidx.appcompat.app.AppCompatActivity
+
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import android.widget.Button
-import android.widget.TextView
-import android.widget.Toast
-import com.google.android.material.floatingactionbutton.FloatingActionButton
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 
-class AgendarStaff : AppCompatActivity() {
-    private lateinit var btnSiguiente: Button
-    private lateinit var text: TextView
-    private lateinit var btnFloating1: FloatingActionButton
-    private lateinit var btnFloating2: FloatingActionButton
+class AgendarStaff : Fragment() {
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_agendar_staff)
-        Toast.makeText(this, "Entrando a la tercera actividad", Toast.LENGTH_SHORT).show()
+    private lateinit var buttonSigiente: Button
 
-        btnSiguiente = findViewById(R.id.btnSiguiente)
-
-        btnSiguiente.setOnClickListener {
-            btnSiguiente.isEnabled = false
-            text.visibility = View.INVISIBLE
-
-
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        val view = inflater.inflate(R.layout.fragment_agendar_staff, container, false)
+        buttonSigiente = view.findViewById(R.id.button_sigiente)
+        buttonSigiente.setOnClickListener {
+            findNavController().navigate(R.id.action_agendarStaff_to_agendarServicio)
         }
+        return view
     }
+
 }
