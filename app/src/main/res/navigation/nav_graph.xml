@@ -71,5 +71,14 @@
         android:id="@+id/agendarConfirmacion"
         android:name="com.example.citassalon.AgendarConfirmacion"
         android:label="fragment_agendar_confirmacion"
-        tools:layout="@layout/fragment_agendar_confirmacion" />
+        tools:layout="@layout/fragment_agendar_confirmacion" >
+        <action
+            android:id="@+id/action_agendarConfirmacion_to_citaAgendada"
+            app:destination="@id/citaAgendada" />
+    </fragment>
+    <fragment
+        android:id="@+id/citaAgendada"
+        android:name="com.example.citassalon.CitaAgendada"
+        android:label="fragment_cita_agendada"
+        tools:layout="@layout/fragment_cita_agendada" />
 </navigation>
