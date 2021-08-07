@@ -39,4 +39,12 @@
         <item name="android:textColor">@color/white</item>
         <item name="android:textSize">20sp</item>
     </style>
+
+    <style name="button_next">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">64dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+        <item name="android:backgroundTint">@color/azul_btn_sigiente</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
 </resources>
