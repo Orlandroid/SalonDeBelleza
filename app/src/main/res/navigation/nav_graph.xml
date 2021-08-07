@@ -80,5 +80,9 @@
         android:id="@+id/citaAgendada"
         android:name="com.example.citassalon.CitaAgendada"
         android:label="fragment_cita_agendada"
-        tools:layout="@layout/fragment_cita_agendada" />
+        tools:layout="@layout/fragment_cita_agendada" >
+        <action
+            android:id="@+id/action_citaAgendada_to_home3"
+            app:destination="@id/home3" />
+    </fragment>
 </navigation>
