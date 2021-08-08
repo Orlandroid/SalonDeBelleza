@@ -7,7 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.R
 
-class AdaptadorAgendarSucursal(private val sucursal: List<String>) :
+class AdaptadorAgendarSucursal(private val sucursales: List<String>, private val texto: TextView) :
     RecyclerView.Adapter<AdaptadorAgendarSucursal.ViewHolder>() {
 
 
@@ -21,10 +21,13 @@ class AdaptadorAgendarSucursal(private val sucursal: List<String>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.cartaTexto.text = sucursal[position]
+        holder.cartaTexto.text = sucursales[position]
+        holder.itemView.setOnClickListener {
+            texto.text = sucursales[position]
+        }
     }
 
-    override fun getItemCount(): Int = sucursal.size
+    override fun getItemCount(): Int = sucursales.size
 
 
 }
