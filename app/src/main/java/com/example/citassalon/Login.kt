@@ -30,7 +30,6 @@ class Login : Fragment() {
         buttonGetIn.setOnClickListener {
             checkUserAndPassWord()
         }
-        buttonBack = view.findViewById(R.id.button_back)
         textForgetPassword = view.findViewById(R.id.olvidaste_contraseña)
         return view
     }

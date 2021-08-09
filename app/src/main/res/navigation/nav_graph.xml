@@ -21,6 +21,9 @@
         <action
             android:id="@+id/action_home3_to_agendarSucursal"
             app:destination="@id/agendarSucursal" />
+        <action
+            android:id="@+id/action_home3_to_perfil"
+            app:destination="@id/perfil" />
     </fragment>
     <fragment
         android:id="@+id/agendarSucursal"
@@ -85,4 +88,9 @@
             android:id="@+id/action_citaAgendada_to_home3"
             app:destination="@id/home3" />
     </fragment>
+    <fragment
+        android:id="@+id/perfil"
+        android:name="com.example.citassalon.Perfil"
+        android:label="fragment_perfil"
+        tools:layout="@layout/fragment_perfil" />
 </navigation>
