@@ -10,12 +10,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.adapters.AdaptadorAgendarSucursal
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 
 class AgendarSucursal : Fragment() {
 
 
-    private lateinit var buttonNext: Button
+    private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var sucural: TextView
     private lateinit var recyclerViewSucursal: RecyclerView
 
@@ -26,8 +27,22 @@ class AgendarSucursal : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_agendar_sucursal, container, false)
-        buttonNext = view.findViewById(R.id.button_next_servicio)
         sucural = view.findViewById(R.id.text_agendar_sucursal)
+        bottomNavigationView = view.findViewById(R.id.sucursal_bottom_navigation_view)
+        bottomNavigationView.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.item_back -> {
+                    findNavController().navigate(R.id.action_agendarSucursal_to_home3)
+                }
+                R.id.item_home -> {
+                    findNavController().navigate(R.id.action_agendarSucursal_to_home3)
+                }
+                R.id.item_next -> {
+                    findNavController().navigate(R.id.action_agendarSucursal_to_agendarStaff)
+                }
+            }
+            true
+        }
         recyclerViewSucursal = view.findViewById(R.id.recycler_agendar_sucursal)
         recyclerViewSucursal.adapter =
             AdaptadorAgendarSucursal(
@@ -42,10 +57,6 @@ class AgendarSucursal : Fragment() {
                     "Queretaro"
                 ), sucural
             )
-        buttonNext.setOnClickListener {
-            findNavController().navigate(R.id.action_agendarSucursal_to_agendarStaff)
-            Toast.makeText(requireContext(), "Sigiente", Toast.LENGTH_SHORT).show()
-        }
         return view
     }
 

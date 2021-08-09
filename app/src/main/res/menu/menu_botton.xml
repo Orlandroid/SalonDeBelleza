@@ -1,0 +1,17 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/item_back"
+        android:enabled="true"
+        android:icon="@drawable/ic_arrow_foreground"
+        android:title="@string/regresar" />
+    <item
+        android:id="@+id/item_home"
+        android:enabled="true"
+        android:icon="@drawable/home"
+        android:title="@string/home" />
+    <item
+        android:id="@+id/item_next"
+        android:enabled="true"
+        android:icon="@drawable/ic_arrow_next_foreground"
+        android:title="@string/sigueinte" />
+</menu>

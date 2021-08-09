@@ -33,6 +33,9 @@
         <action
             android:id="@+id/action_agendarSucursal_to_agendarStaff"
             app:destination="@id/agendarStaff" />
+        <action
+            android:id="@+id/action_agendarSucursal_to_home3"
+            app:destination="@id/home3" />
     </fragment>
     <fragment
         android:id="@+id/agendarStaff"

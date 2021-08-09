@@ -48,5 +48,9 @@
     <string name="mensaje_confirmacion">Deseas confirmar tu cita en (marca) ?</string>
     <string name="confirmar">Si , Confirmar</string>
     <string name="cancelar">No,Cancelar</string>
+    <string name="evaluacion">Evaluacion</string>
+    <string name="staff">Staff</string>
+    <string name="regresar">regresar</string>
+    <string name="home">home</string>
 
 </resources>
