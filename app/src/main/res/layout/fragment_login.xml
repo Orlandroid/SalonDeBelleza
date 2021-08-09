@@ -8,29 +8,6 @@
     tools:context=".Login">
 
 
-    <ImageButton
-        android:id="@+id/button_back"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginStart="112dp"
-        android:layout_marginTop="28dp"
-        android:background="@drawable/button_back"
-        android:src="@drawable/chevron_left_lg"
-        android:textSize="20sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sin_cuenta" />
-
-    <ImageView
-        android:id="@+id/imageView4"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginStart="24dp"
-        android:layout_marginTop="64dp"
-        android:background="@drawable/button_back"
-        app:layout_constraintStart_toEndOf="@+id/button_back"
-        app:layout_constraintTop_toBottomOf="@+id/button_get_in"
-        app:srcCompat="@drawable/home" />
-
     <ImageView
         android:id="@+id/appCompatImageView"
         android:layout_width="150dp"
