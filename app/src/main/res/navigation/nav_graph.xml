@@ -92,5 +92,9 @@
         android:id="@+id/perfil"
         android:name="com.example.citassalon.Perfil"
         android:label="fragment_perfil"
-        tools:layout="@layout/fragment_perfil" />
+        tools:layout="@layout/fragment_perfil" >
+        <action
+            android:id="@+id/action_perfil_to_home3"
+            app:destination="@id/home3" />
+    </fragment>
 </navigation>

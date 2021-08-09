@@ -38,20 +38,18 @@ class AgendarStaff : Fragment() {
         populateRecyclerView()
         buttonSigiente.setOnClickListener {
             findNavController().navigate(R.id.action_agendarStaff_to_agendarServicio)
-
-
         }
         return view
     }
 
     private fun populateRecyclerView() {
         staff = listOf(
-            Staff(R.drawable.image_15, "Angela Bautista"),
-            Staff(R.drawable.image_18, "Xavier Cruz"),
-            Staff(R.drawable.image_19, "Flora Parra"),
-            Staff(R.drawable.image_20, "Jesica Estrada"),
+            Staff(R.drawable.image_15, "Angela Bautista", 1f),
+            Staff(R.drawable.image_18, "Xavier Cruz", 4f),
+            Staff(R.drawable.image_19, "Flora Parra", 3f),
+            Staff(R.drawable.image_20, "Jesica Estrada", 5f),
         )
-        staffRecyclerView.adapter = AdaptadorAgendarStaff(staff)
+        staffRecyclerView.adapter = AdaptadorAgendarStaff(staff, requireContext())
     }
 
 }
