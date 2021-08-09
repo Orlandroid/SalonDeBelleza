@@ -33,15 +33,18 @@ class AgendarSucursal : Fragment() {
             when (it.itemId) {
                 R.id.item_back -> {
                     findNavController().navigate(R.id.action_agendarSucursal_to_home3)
+                    true
                 }
                 R.id.item_home -> {
                     findNavController().navigate(R.id.action_agendarSucursal_to_home3)
+                    true
                 }
                 R.id.item_next -> {
                     findNavController().navigate(R.id.action_agendarSucursal_to_agendarStaff)
+                    true
                 }
+                else -> false
             }
-            true
         }
         recyclerViewSucursal = view.findViewById(R.id.recycler_agendar_sucursal)
         recyclerViewSucursal.adapter =
