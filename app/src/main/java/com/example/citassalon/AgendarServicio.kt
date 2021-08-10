@@ -15,10 +15,12 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.adapters.AdaptadorAgendarServicio
 import com.example.citassalon.adapters.AdaptadorAgendarSucursal
 import com.example.citassalon.models.Servicio
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class AgendarServicio : Fragment() {
 
-    private lateinit var buttonNext: Button
+
+    private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var servicio: TextView
     private lateinit var recyclerViewServicio: RecyclerView
 
@@ -28,8 +30,25 @@ class AgendarServicio : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_agendar_servicio, container, false)
-        buttonNext = view.findViewById(R.id.button_next_servicio)
         recyclerViewServicio = view.findViewById(R.id.recycler_agendar_servicio)
+        bottomNavigationView = view.findViewById(R.id.servicio_bottom_navigation_view)
+        bottomNavigationView.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.item_back -> {
+                    findNavController().navigate(R.id.action_agendarServicio_to_agendarStaff)
+                    true
+                }
+                R.id.item_home -> {
+                    findNavController().navigate(R.id.action_agendarServicio_to_home3)
+                    true
+                }
+                R.id.item_next -> {
+                    findNavController().navigate(R.id.action_agendarServicio_to_agendarFecha)
+                    true
+                }
+                else -> false
+            }
+        }
         recyclerViewServicio.adapter =
             AdaptadorAgendarServicio(
                 arrayListOf(
@@ -43,10 +62,8 @@ class AgendarServicio : Fragment() {
                     Servicio("Maquillaje"),
                     Servicio("Manicure"),
                     Servicio("Pedicure")
-                ))
-        buttonNext.setOnClickListener {
-            findNavController().navigate(R.id.action_agendarServicio_to_agendarFecha)
-        }
+                )
+            )
         return view
     }
 

@@ -106,64 +106,27 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-   <!-- <ListView
-        android:id="@+id/list_view_servicios"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        app:layout_constraintBottom_toTopOf="@+id/imageView3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout" />
--->
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_agendar_servicio"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="8dp"
         android:background="@color/white"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@+id/imageView3"
+        app:layout_constraintBottom_toTopOf="@+id/servicio_bottom_navigation_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/constraintLayout"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/constraintLayout"
         tools:listitem="@layout/item_servicio" />
 
-    <ImageButton
-        android:contentDescription="Regresar"
-        android:id="@+id/button4"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/button_back"
-        android:src="@drawable/chevron_left_lg"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/imageView3"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toStartOf="parent" />
-
-    <ImageView
-        android:id="@+id/imageView3"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_marginBottom="8dp"
-        android:background="@drawable/button_back"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toStartOf="@+id/button_next_servicio"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/button4"
-        app:srcCompat="@drawable/home" />
-
-    <Button
-        android:id="@+id/button_next_servicio"
-        android:text="@string/sigueinte"
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/servicio_bottom_navigation_view"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.5"
-        app:layout_constraintStart_toEndOf="@+id/imageView3"
-        style="@style/button_next" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/menu_botton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

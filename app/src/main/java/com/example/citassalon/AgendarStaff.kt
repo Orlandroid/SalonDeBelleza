@@ -17,10 +17,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.adapters.AdaptadorAgendarStaff
 import com.example.citassalon.models.Staff
+import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class AgendarStaff : Fragment() {
 
-    private lateinit var buttonSigiente: Button
+    private lateinit var bottomNavigationView: BottomNavigationView
     private lateinit var staffRecyclerView: RecyclerView
     private lateinit var staff: List<Staff>
 
@@ -31,14 +32,28 @@ class AgendarStaff : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_agendar_staff, container, false)
-        buttonSigiente = view.findViewById(R.id.button_next_servicio)
         staffRecyclerView = view.findViewById(R.id.recyclerStaff)
+        bottomNavigationView = view.findViewById(R.id.staff_bottom_navigation_view)
+        bottomNavigationView.setOnNavigationItemSelectedListener {
+            when (it.itemId) {
+                R.id.item_back -> {
+                    findNavController().navigate(R.id.action_agendarStaff_to_agendarSucursal)
+                    true
+                }
+                R.id.item_home -> {
+                    findNavController().navigate(R.id.action_agendarStaff_to_home3)
+                    true
+                }
+                R.id.item_next -> {
+                    findNavController().navigate(R.id.action_agendarStaff_to_agendarServicio)
+                    true
+                }
+                else -> false
+            }
+        }
         staffRecyclerView.layoutManager = GridLayoutManager(context, 2)
         staffRecyclerView.setHasFixedSize(true)
         populateRecyclerView()
-        buttonSigiente.setOnClickListener {
-            findNavController().navigate(R.id.action_agendarStaff_to_agendarServicio)
-        }
         return view
     }
 
