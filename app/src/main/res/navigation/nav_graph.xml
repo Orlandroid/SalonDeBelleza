@@ -84,6 +84,15 @@
         <action
             android:id="@+id/action_agendarHora_to_agendarConfirmacion"
             app:destination="@id/agendarConfirmacion" />
+        <action
+            android:id="@+id/action_agendarHora_to_citaAgendada"
+            app:destination="@id/citaAgendada" />
+        <action
+            android:id="@+id/action_agendarHora_to_agendarFecha"
+            app:destination="@id/agendarFecha" />
+        <action
+            android:id="@+id/action_agendarHora_to_home3"
+            app:destination="@id/home3" />
     </fragment>
     <fragment
         android:id="@+id/agendarConfirmacion"
