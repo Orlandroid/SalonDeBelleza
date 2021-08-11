@@ -52,5 +52,6 @@
     <string name="staff">Staff</string>
     <string name="regresar">regresar</string>
     <string name="home">home</string>
+    <string name="hora">Hora</string>
 
 </resources>
