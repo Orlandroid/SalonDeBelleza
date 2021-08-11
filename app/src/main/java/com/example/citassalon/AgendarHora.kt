@@ -18,10 +18,6 @@ class AgendarHora : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_agendar_hora, container, false)
-        buttonNext = view.findViewById(R.id.image_button_sigiente)
-        buttonNext.setOnClickListener {
-            findNavController().navigate(R.id.action_agendarHora_to_agendarConfirmacion)
-        }
         return view
     }
 

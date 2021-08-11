@@ -12,38 +12,31 @@
         android:id="@+id/textView2"
         android:layout_width="80dp"
         android:layout_height="31dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="16dp"
         android:fontFamily="@font/poppins_semibold"
-        android:text="Hora"
+        android:text="@string/hora"
         android:textColor="@android:color/white"
-        android:textSize="24dp"
-        app:layout_constraintBottom_toTopOf="@+id/cardView3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.066"
+        android:textSize="24sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView4"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@+id/cardView4" />
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView4"
-        android:layout_width="366dp"
+        android:layout_width="0dp"
         android:layout_height="129dp"
-        android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp"
+        android:layout_marginTop="16dp"
         app:cardBackgroundColor="@color/cafe4"
         app:cardCornerRadius="21dp"
-        app:layout_constraintBottom_toTopOf="@+id/cardView3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.585">
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/imageView2"
-            android:layout_width="65dp"
-            android:layout_height="65dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:src="@drawable/image15_mask"
             android:translationX="14dp"
             android:translationY="14dp" />
@@ -55,7 +48,7 @@
             android:fontFamily="@font/poppins_medium"
             android:text="@string/zahara_norte"
             android:textColor="@color/cafe2"
-            android:textSize="14dp"
+            android:textSize="14sp"
             android:translationX="14dp"
             android:translationY="95dp" />
 
@@ -66,7 +59,7 @@
             android:fontFamily="@font/poppins_medium"
             android:text="Agosto 2021"
             android:textColor="@color/cafe2"
-            android:textSize="14dp"
+            android:textSize="14sp"
             android:translationX="180dp"
             android:translationY="95dp" />
 
@@ -78,7 +71,7 @@
             android:lineSpacingExtra="-8dp"
             android:text="Angela Bautista"
             android:textColor="@color/cafe2"
-            android:textSize="14dp"
+            android:textSize="14sp"
             android:translationX="85dp"
             android:translationY="28dp" />
 
@@ -89,7 +82,7 @@
             android:fontFamily="@font/poppins_medium"
             android:text="Aplicación de tinte"
             android:textColor="@color/cafe2"
-            android:textSize="10dp"
+            android:textSize="10sp"
             android:translationX="180dp"
             android:translationY="14dp" />
 
@@ -111,7 +104,7 @@
             android:fontFamily="@font/poppins_medium"
             android:text="$100"
             android:textColor="@color/cafe2"
-            android:textSize="10dp"
+            android:textSize="10sp"
             android:translationX="320dp"
             android:translationY="32dp" />
 
@@ -122,7 +115,7 @@
             android:fontFamily="@font/poppins_medium"
             android:text="$400"
             android:textColor="@color/cafe2"
-            android:textSize="10dp"
+            android:textSize="10sp"
             android:translationX="320dp"
             android:translationY="75dp" />
 
@@ -133,62 +126,106 @@
             android:fontFamily="@font/poppins_medium"
             android:text="Corte de cabello"
             android:textColor="@color/cafe2"
-            android:textSize="10dp"
+            android:textSize="10sp"
             android:translationX="180dp"
             android:translationY="36dp" />
     </androidx.cardview.widget.CardView>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView3"
-        android:layout_width="414dp"
-        android:layout_height="399dp"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         app:cardBackgroundColor="@color/white"
         app:cardCornerRadius="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <ImageButton
-            android:id="@+id/imageButton9"
-            android:layout_width="53dp"
-            android:layout_height="53dp"
-            android:src="@drawable/back_button"
-            android:translationX="24dp"
-            android:translationY="299dp" />
-
-        <ImageButton
-            android:id="@+id/imageButton8"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:src="@drawable/home_button"
-            android:translationX="110dp"
-            android:translationY="292dp" />
-
-        <ImageButton
-            android:id="@+id/image_button_sigiente"
-            android:layout_width="177dp"
-            android:layout_height="55dp"
-            android:src="@drawable/siguiente_button"
-            android:translationX="215dp"
-            android:translationY="298dp" />
+        app:layout_constraintHorizontal_bias="0.39"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView2">
 
         <Button
-            android:id="@+id/button3"
-            android:layout_width="157dp"
+            android:id="@+id/button6"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/cafe4"
             android:fontFamily="@font/poppins_medium"
-            android:text="10:00"
+            android:rotationX="0"
+            android:rotationY="0"
+            android:text="11:00"
             android:textAlignment="center"
             android:textColor="@color/cafe3"
             android:textSize="22dp"
-            android:translationX="24dp"
+            android:translationX="235dp"
             android:translationY="15dp" />
 
         <Button
+            android:id="@+id/button15"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/cafe4"
+            android:fontFamily="@font/poppins_medium"
+            android:text="17:00"
+            android:textAlignment="center"
+            android:textColor="@color/cafe3"
+            android:textSize="22sp"
+            android:translationX="235dp"
+            android:translationY="195dp" />
+
+        <Button
+            android:id="@+id/button9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/cafe4"
+            android:fontFamily="@font/poppins_medium"
+            android:text="16:00"
+            android:textAlignment="center"
+            android:textColor="@color/cafe3"
+            android:textSize="22sp"
+            android:translationX="24dp"
+            android:translationY="195dp" />
+
+        <Button
+            android:id="@+id/button14"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/cafe4"
+            android:fontFamily="@font/poppins_medium"
+            android:text="15:00"
+            android:textAlignment="center"
+            android:textColor="@color/cafe3"
+            android:textSize="22sp"
+            android:translationX="235dp"
+            android:translationY="135dp" />
+
+        <Button
+            android:id="@+id/button8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/cafe4"
+            android:fontFamily="@font/poppins_medium"
+            android:text="14:00"
+            android:textAlignment="center"
+            android:textColor="@color/cafe3"
+            android:textSize="22sp"
+            android:translationX="24dp"
+            android:translationY="135dp" />
+
+        <Button
+            android:id="@+id/button11"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/cafe4"
+            android:fontFamily="@font/poppins_medium"
+            android:text="13:00"
+            android:textAlignment="center"
+            android:textColor="@color/cafe3"
+            android:textSize="22sp"
+            android:translationX="235dp"
+            android:translationY="75dp" />
+
+        <Button
             android:id="@+id/button7"
-            android:layout_width="157dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/cafe4"
             android:fontFamily="@font/poppins_medium"
@@ -200,103 +237,28 @@
             android:translationY="75dp" />
 
         <Button
-            android:id="@+id/button11"
-            android:layout_width="157dp"
+            android:id="@+id/button3"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/cafe4"
             android:fontFamily="@font/poppins_medium"
-            android:text="13:00"
-            android:textAlignment="center"
-            android:textColor="@color/cafe3"
-            android:textSize="22dp"
-            android:translationX="235dp"
-            android:translationY="75dp" />
-
-        <Button
-            android:id="@+id/button8"
-            android:layout_width="157dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/cafe4"
-            android:fontFamily="@font/poppins_medium"
-            android:text="14:00"
+            android:text="10:00"
             android:textAlignment="center"
             android:textColor="@color/cafe3"
             android:textSize="22dp"
             android:translationX="24dp"
-            android:translationY="135dp" />
-
-        <Button
-            android:id="@+id/button14"
-            android:layout_width="157dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/cafe4"
-            android:fontFamily="@font/poppins_medium"
-            android:text="15:00"
-            android:textAlignment="center"
-            android:textColor="@color/cafe3"
-            android:textSize="22dp"
-            android:translationX="235dp"
-            android:translationY="135dp" />
-
-        <Button
-            android:id="@+id/button9"
-            android:layout_width="157dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/cafe4"
-            android:fontFamily="@font/poppins_medium"
-            android:text="16:00"
-            android:textAlignment="center"
-            android:textColor="@color/cafe3"
-            android:textSize="22dp"
-            android:translationX="24dp"
-            android:translationY="195dp" />
-
-        <Button
-            android:id="@+id/button15"
-            android:layout_width="157dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/cafe4"
-            android:fontFamily="@font/poppins_medium"
-            android:text="17:00"
-            android:textAlignment="center"
-            android:textColor="@color/cafe3"
-            android:textSize="22dp"
-            android:translationX="235dp"
-            android:translationY="195dp" />
-
-        <Button
-            android:id="@+id/button6"
-            android:layout_width="157dp"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/cafe4"
-            android:fontFamily="@font/poppins_medium"
-            android:text="11:00"
-            android:textAlignment="center"
-            android:textColor="@color/cafe3"
-            android:textSize="22dp"
-            android:translationX="235dp"
             android:translationY="15dp" />
+
     </androidx.cardview.widget.CardView>
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline4"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="388dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="22dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="205dp" />
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottomNavigationView"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:background="@color/white"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/menu_botton" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

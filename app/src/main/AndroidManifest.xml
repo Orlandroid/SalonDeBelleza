@@ -12,13 +12,6 @@
         <activity
             android:name=".DetalleStaff"
             android:exported="true" />
-        <activity android:name=".AgendarServicio" />
-        <activity android:name=".AgendarHora" />
-        <activity android:name=".AgendarFecha" />
-        <activity android:name=".AgendarConfirmacion" />
-        <activity android:name=".AgendarSucursal" />
-        <activity android:name=".AgendarStaff" />
-        <activity android:name=".Home" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
