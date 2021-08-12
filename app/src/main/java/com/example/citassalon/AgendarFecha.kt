@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
+import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.TextView
 
@@ -16,6 +17,10 @@ import com.google.android.material.datepicker.MaterialDatePicker
 import java.util.*
 
 class AgendarFecha : Fragment() {
+
+
+    private lateinit var buttonNext: ImageButton
+    private lateinit var eTDate: EditText
 
     private lateinit var bottomNavigationView: BottomNavigationView
     override fun onCreateView(
@@ -42,7 +47,20 @@ class AgendarFecha : Fragment() {
                 else -> false
             }
         }
+        eTDate = view.findViewById(R.id.select_Date)
+        eTDate.setOnClickListener{
+            showDatePickerDialog()
+        }
         return view
+
+    }
+
+    private fun showDatePickerDialog() {
+        val newFragment = DatePickerFragment.newInstance(DatePickerDialog.OnDateSetListener { _, year, month, day ->
+            val selectedDate = day.toString() + " / " + (month + 1) + " / " + year
+            eTDate.setText(selectedDate)
+        })
+        newFragment.show(supportFragmentManager, "datePicker")
     }
 
 
