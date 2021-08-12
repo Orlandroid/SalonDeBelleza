@@ -9,11 +9,13 @@ import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.controller.UserController
+import com.google.android.material.textfield.TextInputEditText
+import com.google.android.material.textfield.TextInputLayout
 
 class Login : Fragment() {
 
-    private lateinit var user: EditText
-    private lateinit var password: EditText
+    private lateinit var user: TextInputLayout
+    private lateinit var password: TextInputLayout
     private lateinit var buttonGetIn: Button
     private lateinit var buttonBack: ImageButton
     private lateinit var textForgetPassword: TextView
@@ -36,7 +38,7 @@ class Login : Fragment() {
 
     private fun checkUserAndPassWord() {
         val userController = UserController()
-        if (userController.isValidUser(user.text.toString(), password.text.toString())) {
+        if (userController.isValidUser(user.editText?.text.toString(), password.editText?.text.toString())) {
             Toast.makeText(
                 activity,
                 "El usuario y la contraseña son correctos", Toast.LENGTH_SHORT

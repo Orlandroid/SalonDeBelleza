@@ -84,8 +84,13 @@
         app:layout_constraintGuide_begin="658dp" />
 
     <androidx.cardview.widget.CardView
+    android:background="@drawable/background"
+    tools:context=".AgendarFecha">
+
+
+    <androidx.cardview.widget.CardView
         android:id="@+id/cardView4"
-        android:layout_width="366dp"
+        android:layout_width="0dp"
         android:layout_height="129dp"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="24dp"
@@ -93,12 +98,13 @@
         android:translationY="-330dp"
         app:cardBackgroundColor="@color/cafe4"
         app:cardCornerRadius="21dp"
-        app:layout_constraintBottom_toTopOf="@+id/cardView3"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toEndOf="@id/guideline2"
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.585">
+        app:layout_constraintStart_toStartOf="@id/guideline3"
+        app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
             android:id="@+id/imageView2"
@@ -198,7 +204,38 @@
         android:translationX="20dp"
         android:translationY="-290dp" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.9" />
 
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.1" />
 
+    <CalendarView
+        android:id="@+id/calendarView"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:calendarTextColor="@color/white"
+        android:dayOfWeekBackground="@color/teal_200"
+        app:layout_constraintBottom_toTopOf="@+id/botton_navigation_view_agendar_fecha"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView4" />
+
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/botton_navigation_view_agendar_fecha"
+        android:layout_width="0dp"
+        android:layout_height="80dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/menu_botton" />
 
 </LinearLayout>

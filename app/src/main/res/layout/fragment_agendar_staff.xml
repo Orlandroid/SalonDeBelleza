@@ -10,15 +10,16 @@
 
     <Button
         android:id="@+id/button"
+        style="?attr/materialButtonOutlinedStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
+        android:layout_marginEnd="8dp"
         android:layout_marginBottom="16dp"
-        android:background="@drawable/button_white"
+        android:backgroundTint="@color/white"
         android:paddingLeft="8dp"
         android:paddingRight="8dp"
         android:text="@string/estilista_button"
-        android:textColor="@color/cafe2"
         app:layout_constraintBottom_toTopOf="@+id/recyclerStaff"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/guideline10" />
