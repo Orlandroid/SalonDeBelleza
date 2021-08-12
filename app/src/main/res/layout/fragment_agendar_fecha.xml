@@ -55,7 +55,7 @@
             android:drawablePadding="12dp"
             android:fontFamily="@font/poppins_medium"
             android:hint="@string/add_date"
-            android:clickable="false"
+            android:clickable="true"
             android:focusable="false"
             />
 
