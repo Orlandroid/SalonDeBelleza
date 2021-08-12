@@ -1,109 +1,55 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:background="@drawable/background">
+    tools:context="AgendarFecha"
+    android:background="@drawable/background"
+    android:orientation="vertical">
 
 
-    <androidx.cardview.widget.CardView
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/cardView3"
-        android:layout_width="414dp"
-        android:layout_height="399dp"
-        android:translationY="330dp"
-        app:cardBackgroundColor="@color/white"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:background="@color/white"
         app:cardCornerRadius="20dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/botton_navigation_view_agendar_fecha"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
-        app:layout_constraintStart_toStartOf="parent">
-
-        <ImageButton
-            android:id="@+id/imageButton2"
-            android:layout_width="53dp"
-            android:layout_height="53dp"
-            android:src="@drawable/back_button"
-            android:translationX="24dp"
-            android:translationY="299dp" />
-
-        <ImageButton
-            android:id="@+id/imageButton5"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:src="@drawable/home_button"
-            android:translationX="110dp"
-            android:translationY="292dp" />
-
-        <ImageButton
-            android:id="@+id/button_next"
-            android:layout_width="177dp"
-            android:layout_height="55dp"
-            android:src="@drawable/siguiente_button"
-            android:translationX="215dp"
-            android:translationY="298dp" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/cardView4">
 
         <EditText
             android:id="@+id/select_Date"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
-            android:translationY="100dp"
             android:backgroundTint="@color/cafe2"
+            android:clickable="false"
             android:drawableLeft="@drawable/calendar_icon"
             android:drawablePadding="12dp"
+            android:focusable="false"
             android:fontFamily="@font/poppins_medium"
             android:hint="@string/add_date"
-            android:clickable="true"
-            android:focusable="false"
-            />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-
-    </androidx.cardview.widget.CardView>
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="22dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_begin="388dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline5"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="658dp" />
-
-    <androidx.cardview.widget.CardView
-    android:background="@drawable/background"
-    tools:context=".AgendarFecha">
-
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.cardview.widget.CardView
         android:id="@+id/cardView4"
-        android:layout_width="0dp"
+        android:layout_width="366dp"
         android:layout_height="129dp"
         android:layout_marginTop="24dp"
-        android:layout_marginBottom="24dp"
-        android:translationX="22dp"
-        android:translationY="-330dp"
         app:cardBackgroundColor="@color/cafe4"
         app:cardCornerRadius="21dp"
-        app:layout_constraintEnd_toEndOf="@id/guideline2"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.488"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.585">
-        app:layout_constraintStart_toStartOf="@id/guideline3"
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
@@ -188,54 +134,18 @@
             android:fontFamily="@font/poppins_medium"
             android:text="Corte de cabello"
             android:textColor="@color/cafe2"
-            android:textSize="10dp"
-            android:translationX="180dp"
-            android:translationY="36dp" />
+            android:textSize="10dp" />
     </androidx.cardview.widget.CardView>
 
-    <TextView
-        android:id="@+id/textView17"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:fontFamily="@font/poppins_semibold"
-        android:text="Fecha "
-        android:textColor="@color/white"
-        android:textSize="25dp"
-        android:translationX="20dp"
-        android:translationY="-290dp" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.9" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.1" />
-
-    <CalendarView
-        android:id="@+id/calendarView"
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:calendarTextColor="@color/white"
-        android:dayOfWeekBackground="@color/teal_200"
-        app:layout_constraintBottom_toTopOf="@+id/botton_navigation_view_agendar_fecha"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView4" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/botton_navigation_view_agendar_fecha"
         android:layout_width="0dp"
         android:layout_height="80dp"
+        android:background="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:menu="@menu/menu_botton" />
 
-</LinearLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>

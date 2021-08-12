@@ -59,8 +59,8 @@ class AgendarFecha : Fragment() {
         val newFragment = DatePickerFragment.newInstance(DatePickerDialog.OnDateSetListener { _, year, month, day ->
             val selectedDate = day.toString() + " / " + (month + 1) + " / " + year
             eTDate.setText(selectedDate)
-        })
-        newFragment.show(supportFragmentManager, "datePicker")
+        },requireContext())
+        activity?.let { newFragment.show(it.supportFragmentManager, "datePicker") }
     }
 
 
