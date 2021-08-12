@@ -22,7 +22,6 @@ class AgendarConfirmacion : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_agendar_confirmacion, container, false)
-        buttonConfirmacionCita = view.findViewById(R.id.button_confirmacion_cita)
         bottomNavigationView = view.findViewById(R.id.confirmacion_bottom_navigation_view)
         bottomNavigationView.setOnNavigationItemSelectedListener {
             when (it.itemId) {
