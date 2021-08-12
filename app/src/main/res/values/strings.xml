@@ -53,6 +53,6 @@
     <string name="regresar">regresar</string>
     <string name="home">home</string>
     <string name="hora">Hora</string>
+    <string name="sucursales">SUCURSALES</string>
     <string name="add_date">Selecciona la fecha de tu cita</string>
-
 </resources>
