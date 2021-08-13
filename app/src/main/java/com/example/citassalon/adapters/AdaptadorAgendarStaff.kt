@@ -64,7 +64,6 @@ class AdaptadorAgendarStaff(private val staff: List<Staff>, private val context:
         menu?.add(0, 3, 0, "Añadir Reseña")
         menu?.add(0, 4, 0, "Ver Reseñas")
         menu?.add(0, 5, 0, "Reportar")
-
     }
 
 }

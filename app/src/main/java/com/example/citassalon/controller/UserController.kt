@@ -9,6 +9,7 @@ class UserController {
 
     private val users = listOf(User("admin@gmail.com", "admin"))
 
+
     private fun checkUser(user: User): Boolean {
         users.forEach {
             if (isEmailValid(it.user)) {

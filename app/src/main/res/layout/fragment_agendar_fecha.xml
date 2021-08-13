@@ -65,9 +65,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_medium"
-            android:text="Zahara norte"
+            android:text="@string/zahara_norte"
             android:textColor="@color/cafe2"
-            android:textSize="14dp"
+            android:textSize="14sp"
             android:translationX="14dp"
             android:translationY="95dp" />
 
@@ -77,9 +77,9 @@
             android:layout_height="36dp"
             android:fontFamily="@font/poppins_medium"
             android:lineSpacingExtra="-8dp"
-            android:text="Angela Bautista"
+            android:text="@string/angela_bautista"
             android:textColor="@color/cafe2"
-            android:textSize="14dp"
+            android:textSize="14sp"
             android:translationX="85dp"
             android:translationY="28dp" />
 
@@ -88,9 +88,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_medium"
-            android:text="Aplicación de tinte"
+            android:text="@string/aplicaci_n_de_tinte"
             android:textColor="@color/cafe2"
-            android:textSize="10dp"
+            android:textSize="11sp"
             android:translationX="180dp"
             android:translationY="14dp" />
 
@@ -99,9 +99,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_medium"
-            android:text="$300"
+            android:text="@string/_300"
             android:textColor="@color/cafe2"
-            android:textSize="10dp"
+            android:textSize="12sp"
             android:translationX="320dp"
             android:translationY="14dp" />
 
@@ -110,9 +110,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_medium"
-            android:text="$100"
+            android:text="@string/_100"
             android:textColor="@color/cafe2"
-            android:textSize="10dp"
+            android:textSize="12sp"
             android:translationX="320dp"
             android:translationY="32dp" />
 
@@ -121,9 +121,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_medium"
-            android:text="$400"
+            android:text="@string/_400"
             android:textColor="@color/cafe2"
-            android:textSize="10dp"
+            android:textSize="12sp"
             android:translationX="320dp"
             android:translationY="100dp" />
 
@@ -132,9 +132,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="@font/poppins_medium"
-            android:text="Corte de cabello"
+            android:text="@string/corte_de_cabello"
             android:textColor="@color/cafe2"
-            android:textSize="10dp" />
+            android:textSize="12sp" />
     </androidx.cardview.widget.CardView>
 
 

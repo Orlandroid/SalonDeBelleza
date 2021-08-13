@@ -54,7 +54,7 @@
                     android:layout_marginStart="8dp"
                     android:layout_marginTop="20dp"
                     android:layout_marginEnd="8dp"
-                    android:text="Agenla"
+                    android:text="@string/agenla"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageView2"
                     app:layout_constraintTop_toTopOf="parent" />
@@ -65,7 +65,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="8dp"
                     android:layout_marginEnd="8dp"
-                    android:text="Baustista"
+                    android:text="@string/baustista"
                     app:layout_constraintBottom_toBottomOf="parent"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toEndOf="@+id/imageView2"
@@ -90,7 +90,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:text="zona norte"
+                    android:text="@string/zona_norte"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/view" />
 
@@ -100,7 +100,7 @@
         <TextView
             android:id="@+id/textView4"
             style="@style/TextosAccion"
-            android:text="Servicio"
+            android:text="@string/servicio"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/cardView3" />
 

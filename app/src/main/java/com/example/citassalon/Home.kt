@@ -1,10 +1,9 @@
 package com.example.citassalon
 
 import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.Button
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -14,6 +13,38 @@ class Home : Fragment() {
 
     private lateinit var buttonAgendar: Button
     private lateinit var buttonPerfil: FloatingActionButton
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.toolbar_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.acercade -> {
+                Toast.makeText(requireContext(), "Acerca de", Toast.LENGTH_LONG).show()
+                return true
+            }
+            R.id.share -> {
+                Toast.makeText(requireContext(), "Compartir", Toast.LENGTH_LONG).show()
+                return true
+            }
+            R.id.info -> {
+                Toast.makeText(requireContext(), "Imformacion", Toast.LENGTH_LONG).show()
+                return true
+            }
+            R.id.more -> {
+                Toast.makeText(requireContext(), "Mas", Toast.LENGTH_LONG).show()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,

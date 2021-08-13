@@ -23,7 +23,7 @@
             android:background="@drawable/button_staff"
             android:drawableEnd="@drawable/next"
             android:padding="10dp"
-            android:text="Sucursal "
+            android:text="@string/sucursal"
             android:textColor="@color/cafe2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"

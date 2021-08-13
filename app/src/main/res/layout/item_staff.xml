@@ -35,7 +35,7 @@
             android:layout_marginTop="8dp"
             android:fontFamily="@font/poppins_medium"
             android:gravity="center"
-            android:text="Nombre staff"
+            android:text="@string/nombre_staff"
             android:textColor="@color/cafe3"
             android:textSize="16sp"
             android:textStyle="bold"
