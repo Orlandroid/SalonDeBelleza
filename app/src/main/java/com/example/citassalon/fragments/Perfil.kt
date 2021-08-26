@@ -1,14 +1,17 @@
-package com.example.citassalon
+package com.example.citassalon.fragments
 
 import android.os.Bundle
 import android.view.*
-import android.widget.ImageView
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import com.example.citassalon.R
+import com.example.citassalon.databinding.FragmentPerfilBinding
 
 class Perfil : Fragment() {
 
-    private lateinit var imageButton: ImageView
+
+    private var _binding: FragmentPerfilBinding? = null
+    private val binding get() = _binding!!
 
 
     override fun onCreateView(
@@ -16,12 +19,11 @@ class Perfil : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        val view = inflater.inflate(R.layout.fragment_perfil, container, false)
-        imageButton = view.findViewById(R.id.p_button_home)
-        imageButton.setOnClickListener {
+        _binding = FragmentPerfilBinding.inflate(inflater, container, false)
+        binding.pButtonHome.setOnClickListener {
             findNavController().navigate(R.id.action_perfil_to_home3)
         }
-        return view
+        return binding.root
     }
 
 

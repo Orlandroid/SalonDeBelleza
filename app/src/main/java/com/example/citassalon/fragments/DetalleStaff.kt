@@ -1,11 +1,11 @@
-package com.example.citassalon
+package com.example.citassalon.fragments
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.ImageView
 import android.widget.RatingBar
 import android.widget.TextView
-import com.google.android.material.snackbar.Snackbar
+import com.example.citassalon.R
 
 class DetalleStaff : AppCompatActivity() {
 

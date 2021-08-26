@@ -1,10 +1,9 @@
-package com.example.citassalon
+package com.example.citassalon.fragments
 
 import android.app.DatePickerDialog
 import android.app.Dialog
 import android.content.Context
 import android.os.Bundle
-import android.widget.DatePicker
 import androidx.fragment.app.DialogFragment
 import java.util.*
 

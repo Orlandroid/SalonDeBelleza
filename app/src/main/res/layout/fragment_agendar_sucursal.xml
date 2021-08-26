@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AgendarSucursal">
+    tools:context=".fragments.AgendarSucursal">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -37,7 +37,7 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_agendar_sucursal"
+        android:id="@+id/recycler_sucursal"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
