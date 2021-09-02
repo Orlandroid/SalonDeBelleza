@@ -18,21 +18,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardView2"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
         <TextView
             android:id="@+id/text_agendar_sucursal"
             style="@style/TextosAccion"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="8dp"
             android:text="@string/texto_sucursal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/cardView2" />
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

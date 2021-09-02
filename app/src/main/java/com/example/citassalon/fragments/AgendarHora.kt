@@ -36,7 +36,7 @@ class AgendarHora : Fragment(), BottomNavigationView.OnNavigationItemSelectedLis
                 true
             }
             R.id.item_next -> {
-                findNavController().navigate(R.id.action_agendarHora_to_citaAgendada)
+                findNavController().navigate(R.id.action_agendarHora_to_agendarConfirmacion)
                 true
             }
             else -> false
