@@ -29,20 +29,20 @@ class Login : Fragment() {
         binding.buttonGetIn.setOnClickListener {
             checkUserAndPassWord()
         }
-        binding.appCompatImageView.setOnClickListener {
+
+        binding.txtUser.addOnEditTextAttachedListener {
             animationImage()
         }
 
         return binding.root
     }
 
-    private fun animationImage(){
+    private fun animationImage() {
         binding.appCompatImageView.animate().apply {
             val valueAnimator = ValueAnimator.ofFloat(0f, 360f)
 
             valueAnimator.addUpdateListener {
                 val value = it.animatedValue as Float
-                // 2
                 binding.appCompatImageView.rotation = value
             }
 

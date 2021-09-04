@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.R
 import com.example.citassalon.models.Servicio
 
-class AdaptadorAgendarServicio(private val servicios: List<Servicio>):
+class AdaptadorAgendarServicio(private val servicios: List<Servicio>) :
     RecyclerView.Adapter<AdaptadorAgendarServicio.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -19,10 +19,12 @@ class AdaptadorAgendarServicio(private val servicios: List<Servicio>):
             itemView.setOnClickListener {
                 Log.w("CLIKC", "Click en el elemento")
             }
-    }}
+        }
+    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_servicio, parent, false)
+        val view =
+            LayoutInflater.from(parent.context).inflate(R.layout.item_servicio, parent, false)
         return ViewHolder(view)
     }
 
