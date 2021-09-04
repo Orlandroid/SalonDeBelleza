@@ -1,9 +1,12 @@
 package com.example.citassalon.fragments
 
+import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AccelerateDecelerateInterpolator
+import android.view.animation.LinearInterpolator
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
@@ -26,7 +29,27 @@ class Login : Fragment() {
         binding.buttonGetIn.setOnClickListener {
             checkUserAndPassWord()
         }
+        binding.appCompatImageView.setOnClickListener {
+            animationImage()
+        }
+
         return binding.root
+    }
+
+    private fun animationImage(){
+        binding.appCompatImageView.animate().apply {
+            val valueAnimator = ValueAnimator.ofFloat(0f, 360f)
+
+            valueAnimator.addUpdateListener {
+                val value = it.animatedValue as Float
+                // 2
+                binding.appCompatImageView.rotation = value
+            }
+
+            valueAnimator.interpolator = LinearInterpolator()
+            valueAnimator.duration = 2000
+            valueAnimator.start()
+        }
     }
 
     private fun checkUserAndPassWord() {
