@@ -40,6 +40,7 @@ android {
 dependencies {
 
     def room_version = "2.3.0"
+    def retrofit_version = "2.9.0"
 
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.6.0'
@@ -56,5 +57,10 @@ dependencies {
     //Room Dependecies
     implementation "androidx.room:room-runtime:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
+    //Retrofit Dependecies
+    implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
+    implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
+
+    implementation 'com.google.code.gson:gson:2.8.5'
 
 }

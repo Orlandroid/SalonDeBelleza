@@ -29,7 +29,6 @@ class AgendarStaff : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
     ): View? {
         _binding = FragmentAgendarStaffBinding.inflate(layoutInflater, container, false)
         binding.staffBottomNavigationView.setOnNavigationItemSelectedListener(this)
-        binding.recyclerStaff.layoutManager = GridLayoutManager(context, 2)
         binding.recyclerStaff.setHasFixedSize(true)
         populateRecyclerView()
         return binding.root
