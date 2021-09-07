@@ -11,7 +11,11 @@
         tools:layout="@layout/fragment_login" >
         <action
             android:id="@+id/action_login_to_home32"
-            app:destination="@id/home3" />
+            app:destination="@id/home3"
+            app:enterAnim="@anim/fade"
+            app:exitAnim="@anim/fade"
+            app:popEnterAnim="@anim/fade"
+            app:popExitAnim="@anim/fade" />
     </fragment>
     <fragment
         android:id="@+id/home3"
@@ -20,7 +24,11 @@
         tools:layout="@layout/fragment_home" >
         <action
             android:id="@+id/action_home3_to_agendarSucursal"
-            app:destination="@id/agendarSucursal" />
+            app:destination="@id/agendarSucursal"
+            app:enterAnim="@anim/blink"
+            app:exitAnim="@anim/zoom"
+            app:popEnterAnim="@anim/zoom"
+            app:popExitAnim="@anim/zoom" />
         <action
             android:id="@+id/action_home3_to_perfil"
             app:destination="@id/perfil" />
@@ -32,7 +40,11 @@
         tools:layout="@layout/fragment_agendar_sucursal" >
         <action
             android:id="@+id/action_agendarSucursal_to_agendarStaff"
-            app:destination="@id/agendarStaff" />
+            app:destination="@id/agendarStaff"
+            app:enterAnim="@anim/clockwise"
+            app:exitAnim="@anim/clockwise"
+            app:popEnterAnim="@anim/fade"
+            app:popExitAnim="@anim/hyperspace_jump" />
         <action
             android:id="@+id/action_agendarSucursal_to_home3"
             app:destination="@id/home3" />
@@ -44,7 +56,11 @@
         tools:layout="@layout/fragment_agendar_staff" >
         <action
             android:id="@+id/action_agendarStaff_to_agendarServicio"
-            app:destination="@id/agendarServicio" />
+            app:destination="@id/agendarServicio"
+            app:enterAnim="@anim/hyperspace_jump"
+            app:exitAnim="@anim/clockwise"
+            app:popEnterAnim="@anim/hyperspace_jump"
+            app:popExitAnim="@anim/fade" />
         <action
             android:id="@+id/action_agendarStaff_to_agendarSucursal"
             app:destination="@id/agendarSucursal" />
@@ -59,7 +75,11 @@
         tools:layout="@layout/fragment_agendar_servicio" >
         <action
             android:id="@+id/action_agendarServicio_to_agendarFecha"
-            app:destination="@id/agendarFecha" />
+            app:destination="@id/agendarFecha"
+            app:enterAnim="@anim/hyperspace_jump"
+            app:exitAnim="@anim/clockwise"
+            app:popEnterAnim="@anim/fade"
+            app:popExitAnim="@anim/move" />
         <action
             android:id="@+id/action_agendarServicio_to_agendarStaff"
             app:destination="@id/agendarStaff" />
@@ -74,7 +94,11 @@
         tools:layout="@layout/fragment_agendar_fecha" >
         <action
             android:id="@+id/action_agendarFecha_to_agendarHora"
-            app:destination="@id/agendarHora" />
+            app:destination="@id/agendarHora"
+            app:enterAnim="@anim/fade"
+            app:exitAnim="@anim/move"
+            app:popEnterAnim="@anim/hyperspace_jump"
+            app:popExitAnim="@anim/zoom" />
         <action
             android:id="@+id/action_agendarFecha_to_agendarServicio"
             app:destination="@id/agendarServicio" />
@@ -89,7 +113,11 @@
         tools:layout="@layout/fragment_agendar_hora" >
         <action
             android:id="@+id/action_agendarHora_to_agendarConfirmacion"
-            app:destination="@id/agendarConfirmacion" />
+            app:destination="@id/agendarConfirmacion"
+            app:enterAnim="@anim/hyperspace_jump"
+            app:exitAnim="@anim/fade"
+            app:popEnterAnim="@anim/move"
+            app:popExitAnim="@anim/zoom" />
         <action
             android:id="@+id/action_agendarHora_to_agendarFecha"
             app:destination="@id/agendarFecha" />
@@ -104,7 +132,11 @@
         tools:layout="@layout/fragment_agendar_confirmacion" >
         <action
             android:id="@+id/action_agendarConfirmacion_to_citaAgendada"
-            app:destination="@id/citaAgendada" />
+            app:destination="@id/citaAgendada"
+            app:enterAnim="@anim/zoom"
+            app:exitAnim="@anim/fade"
+            app:popEnterAnim="@anim/clockwise"
+            app:popExitAnim="@anim/zoom" />
         <action
             android:id="@+id/action_agendarConfirmacion_to_agendarHora"
             app:destination="@id/agendarHora" />
@@ -119,7 +151,11 @@
         tools:layout="@layout/fragment_cita_agendada" >
         <action
             android:id="@+id/action_citaAgendada_to_home3"
-            app:destination="@id/home3" />
+            app:destination="@id/home3"
+            app:enterAnim="@anim/move"
+            app:exitAnim="@anim/zoom"
+            app:popEnterAnim="@anim/clockwise"
+            app:popExitAnim="@anim/hyperspace_jump" />
     </fragment>
     <fragment
         android:id="@+id/perfil"
