@@ -64,7 +64,6 @@ class AgendarSucursal : Fragment(), BottomNavigationView.OnNavigationItemSelecte
                     Log.e("Not200", "Error not 200: $response")
                 }
             }
-
         })
     }
 
