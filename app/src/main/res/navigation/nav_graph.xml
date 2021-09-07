@@ -133,7 +133,7 @@
         <action
             android:id="@+id/action_agendarConfirmacion_to_citaAgendada"
             app:destination="@id/citaAgendada"
-            app:enterAnim="@anim/zoom"
+            app:enterAnim="@anim/fade"
             app:exitAnim="@anim/fade"
             app:popEnterAnim="@anim/clockwise"
             app:popExitAnim="@anim/zoom" />
@@ -152,8 +152,8 @@
         <action
             android:id="@+id/action_citaAgendada_to_home3"
             app:destination="@id/home3"
-            app:enterAnim="@anim/move"
-            app:exitAnim="@anim/zoom"
+            app:enterAnim="@anim/hyperspace_jump"
+            app:exitAnim="@anim/fade"
             app:popEnterAnim="@anim/clockwise"
             app:popExitAnim="@anim/hyperspace_jump" />
     </fragment>
