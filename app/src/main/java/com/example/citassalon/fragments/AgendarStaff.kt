@@ -90,6 +90,7 @@ class AgendarStaff : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
 
     override fun onSensorChanged(event: SensorEvent?) {
         if (event?.sensor?.type == Sensor.TYPE_ACCELEROMETER) {
+            
             Toast.makeText(requireContext(), event.sensor.name, Toast.LENGTH_SHORT).show()
         }
     }
