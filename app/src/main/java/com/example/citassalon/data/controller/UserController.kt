@@ -1,8 +1,7 @@
-package com.example.citassalon.controller
+package com.example.citassalon.data.controller
 
 import android.view.View
-import android.widget.EditText
-import com.example.citassalon.models.User
+import com.example.citassalon.data.models.User
 import com.google.android.material.snackbar.Snackbar
 
 class UserController {

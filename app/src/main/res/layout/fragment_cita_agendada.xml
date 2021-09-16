@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".fragments.CitaAgendada">
+    tools:context=".ui.citaagendada.CitaAgendada">
 
     <ImageView
         android:id="@+id/imageView7"

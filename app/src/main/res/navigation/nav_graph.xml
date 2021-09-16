@@ -6,7 +6,7 @@
     app:startDestination="@id/login">
     <fragment
         android:id="@+id/login"
-        android:name="com.example.citassalon.fragments.Login"
+        android:name="com.example.citassalon.ui.login.Login"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login">
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/home3"
-        android:name="com.example.citassalon.fragments.Home"
+        android:name="com.example.citassalon.ui.home.Home"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home">
         <action
@@ -31,7 +31,7 @@
     </fragment>
     <fragment
         android:id="@+id/agendarSucursal"
-        android:name="com.example.citassalon.fragments.AgendarSucursal"
+        android:name="com.example.citassalon.ui.sucursal.AgendarSucursal"
         android:label="fragment_agendar_sucursal"
         tools:layout="@layout/fragment_agendar_sucursal">
         <action
@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/agendarStaff"
-        android:name="com.example.citassalon.fragments.AgendarStaff"
+        android:name="com.example.citassalon.ui.staff.AgendarStaff"
         android:label="fragment_agendar_staff"
         tools:layout="@layout/fragment_agendar_staff">
         <action
@@ -58,7 +58,7 @@
     </fragment>
     <fragment
         android:id="@+id/agendarServicio"
-        android:name="com.example.citassalon.fragments.AgendarServicio"
+        android:name="com.example.citassalon.ui.servicio.AgendarServicio"
         android:label="fragment_agendar_servicio"
         tools:layout="@layout/fragment_agendar_servicio">
         <action
@@ -73,7 +73,7 @@
     </fragment>
     <fragment
         android:id="@+id/agendarFecha"
-        android:name="com.example.citassalon.fragments.AgendarFecha"
+        android:name="com.example.citassalon.ui.fecha.AgendarFecha"
         android:label="fragment_agendar_fecha"
         tools:layout="@layout/fragment_agendar_fecha">
         <action
@@ -88,7 +88,7 @@
     </fragment>
     <fragment
         android:id="@+id/agendarHora"
-        android:name="com.example.citassalon.fragments.AgendarHora"
+        android:name="com.example.citassalon.ui.hora.AgendarHora"
         android:label="fragment_agendar_hora"
         tools:layout="@layout/fragment_agendar_hora">
         <action
@@ -103,7 +103,7 @@
     </fragment>
     <fragment
         android:id="@+id/agendarConfirmacion"
-        android:name="com.example.citassalon.fragments.AgendarConfirmacion"
+        android:name="com.example.citassalon.ui.confirmarcita.AgendarConfirmacion"
         android:label="fragment_agendar_confirmacion"
         tools:layout="@layout/fragment_agendar_confirmacion">
         <action
@@ -118,7 +118,7 @@
     </fragment>
     <fragment
         android:id="@+id/citaAgendada"
-        android:name="com.example.citassalon.fragments.CitaAgendada"
+        android:name="com.example.citassalon.ui.citaagendada.CitaAgendada"
         android:label="fragment_cita_agendada"
         tools:layout="@layout/fragment_cita_agendada">
         <action
@@ -127,7 +127,7 @@
     </fragment>
     <fragment
         android:id="@+id/perfil"
-        android:name="com.example.citassalon.fragments.Perfil"
+        android:name="com.example.citassalon.ui.perfil.Perfil"
         android:label="fragment_perfil"
         tools:layout="@layout/fragment_perfil">
         <action

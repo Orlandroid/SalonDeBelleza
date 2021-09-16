@@ -1,4 +1,4 @@
-package com.example.citassalon
+package com.example.citassalon.ui
 
 
 import androidx.appcompat.app.AppCompatActivity

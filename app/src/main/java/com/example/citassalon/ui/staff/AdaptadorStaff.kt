@@ -1,4 +1,4 @@
-package com.example.citassalon.adapters
+package com.example.citassalon.ui.staff
 
 import android.content.Context
 import android.content.Intent
@@ -9,12 +9,12 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.citassalon.fragments.DetalleStaff
+import com.example.citassalon.ui.detallestaff.DetalleStaff
 import com.example.citassalon.R
-import com.example.citassalon.models.Staff
+import com.example.citassalon.data.models.Staff
 
-class AdaptadorAgendarStaff(private val staff: List<Staff>, private val context: Context) :
-    RecyclerView.Adapter<AdaptadorAgendarStaff.ViewHolder>(),
+class AdaptadorStaff(private val staff: List<Staff>, private val context: Context) :
+    RecyclerView.Adapter<AdaptadorStaff.ViewHolder>(),
     View.OnCreateContextMenuListener {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
