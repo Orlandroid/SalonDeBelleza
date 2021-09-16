@@ -1,4 +1,4 @@
-package com.example.citassalon.fragments
+package com.example.citassalon.ui.home
 
 import android.os.Bundle
 import android.view.*

@@ -1,4 +1,4 @@
-package com.example.citassalon.fragments
+package com.example.citassalon.ui.staff
 
 
 import android.hardware.SensorManager
@@ -10,9 +10,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
-import com.example.citassalon.adapters.AdaptadorAgendarStaff
 import com.example.citassalon.databinding.FragmentAgendarStaffBinding
-import com.example.citassalon.models.Staff
+import com.example.citassalon.data.models.Staff
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class AgendarStaff : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener {
@@ -43,7 +42,7 @@ class AgendarStaff : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
             Staff(R.drawable.image_19, "Flora Parra", 3f),
             Staff(R.drawable.image_20, "Jesica Estrada", 5f),
         )
-        binding.recyclerStaff.adapter = AdaptadorAgendarStaff(staff, requireContext())
+        binding.recyclerStaff.adapter = AdaptadorStaff(staff, requireContext())
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

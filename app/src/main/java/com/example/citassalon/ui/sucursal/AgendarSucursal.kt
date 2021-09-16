@@ -1,4 +1,4 @@
-package com.example.citassalon.fragments
+package com.example.citassalon.ui.sucursal
 
 
 import android.os.Bundle
@@ -10,11 +10,10 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
-import com.example.citassalon.adapters.AdaptadorAgendarSucursal
 import com.example.citassalon.data.retrofit.RetrofitInstance
 import com.example.citassalon.data.retrofit.WebServices
 import com.example.citassalon.databinding.FragmentAgendarSucursalBinding
-import com.example.citassalon.models.Sucursal
+import com.example.citassalon.data.models.Sucursal
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import retrofit2.Call
 import retrofit2.Callback
@@ -59,7 +58,7 @@ class AgendarSucursal : Fragment(), BottomNavigationView.OnNavigationItemSelecte
                     Log.e("Respuesta", "${response.body()}")
                     val country = response.body()
                     binding.recyclerSucursal.adapter =
-                        AdaptadorAgendarSucursal(country!!, binding.textAgendarSucursal)
+                        AdaptadorSucursal(country!!, binding.textAgendarSucursal)
                 } else {
                     Log.e("Not200", "Error not 200: $response")
                 }

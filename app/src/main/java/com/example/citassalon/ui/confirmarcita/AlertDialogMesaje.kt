@@ -1,7 +1,7 @@
-package com.example.citassalon
+package com.example.citassalon.ui.confirmarcita
 
 import android.content.Context
-import android.widget.Toast
+import com.example.citassalon.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class AlertDialogMesaje {

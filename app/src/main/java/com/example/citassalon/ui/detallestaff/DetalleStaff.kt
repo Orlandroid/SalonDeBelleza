@@ -1,4 +1,4 @@
-package com.example.citassalon.fragments
+package com.example.citassalon.ui.detallestaff
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

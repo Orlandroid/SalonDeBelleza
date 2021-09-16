@@ -1,17 +1,16 @@
-package com.example.citassalon.fragments
+package com.example.citassalon.ui.login
 
 import android.animation.ValueAnimator
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AccelerateDecelerateInterpolator
 import android.view.animation.LinearInterpolator
 import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
-import com.example.citassalon.controller.UserController
+import com.example.citassalon.data.controller.UserController
 import com.example.citassalon.databinding.FragmentLoginBinding
 
 class Login : Fragment() {

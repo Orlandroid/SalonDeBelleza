@@ -1,4 +1,4 @@
-package com.example.citassalon.adapters
+package com.example.citassalon.ui.sucursal
 
 import android.view.LayoutInflater
 import android.view.View
@@ -6,13 +6,13 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.R
-import com.example.citassalon.models.Sucursal
+import com.example.citassalon.data.models.Sucursal
 
-class AdaptadorAgendarSucursal(
+class AdaptadorSucursal(
     private val sucursales: List<Sucursal>,
     private val texto: TextView
 ) :
-    RecyclerView.Adapter<AdaptadorAgendarSucursal.ViewHolder>() {
+    RecyclerView.Adapter<AdaptadorSucursal.ViewHolder>() {
 
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -1,4 +1,4 @@
-package com.example.citassalon.adapters
+package com.example.citassalon.ui.servicio
 
 import android.util.Log
 import android.view.LayoutInflater
@@ -7,10 +7,10 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.R
-import com.example.citassalon.models.Servicio
+import com.example.citassalon.data.models.Servicio
 
-class AdaptadorAgendarServicio(private val servicios: List<Servicio>) :
-    RecyclerView.Adapter<AdaptadorAgendarServicio.ViewHolder>() {
+class AdaptadorServicio(private val servicios: List<Servicio>) :
+    RecyclerView.Adapter<AdaptadorServicio.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val servicio: TextView = itemView.findViewById(R.id.NombreServicio)

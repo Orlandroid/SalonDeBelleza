@@ -1,4 +1,4 @@
-package com.example.citassalon.fragments
+package com.example.citassalon.ui.servicio
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,9 +8,8 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
-import com.example.citassalon.adapters.AdaptadorAgendarServicio
 import com.example.citassalon.databinding.FragmentAgendarServicioBinding
-import com.example.citassalon.models.Servicio
+import com.example.citassalon.data.models.Servicio
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class AgendarServicio : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener {
@@ -27,7 +26,7 @@ class AgendarServicio : Fragment(), BottomNavigationView.OnNavigationItemSelecte
         _binding = FragmentAgendarServicioBinding.inflate(inflater, container, false)
         binding.servicioBottomNavigationView.setOnNavigationItemSelectedListener(this)
         binding.recyclerAgendarServicio.adapter =
-            AdaptadorAgendarServicio(
+            AdaptadorServicio(
                 arrayListOf(
                     Servicio("Corte de cabello"),
                     Servicio("Aplicación de tinte"),
