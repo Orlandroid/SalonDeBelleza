@@ -26,10 +26,10 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:hint="@string/email"
-        app:startIconDrawable="@drawable/ic_baseline_account_box_24"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/appCompatImageView">
+        app:layout_constraintTop_toBottomOf="@+id/appCompatImageView"
+        app:startIconDrawable="@drawable/ic_baseline_account_box_24">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -45,12 +45,12 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        app:startIconDrawable="@drawable/ic_baseline_lock_24"
-        app:endIconMode="password_toggle"
         android:hint="@string/contraseña"
+        app:endIconMode="password_toggle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_user">
+        app:layout_constraintTop_toBottomOf="@+id/txt_user"
+        app:startIconDrawable="@drawable/ic_baseline_lock_24">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
@@ -66,6 +66,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         android:text="@string/olvidaste_contraseña"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.033"
         app:layout_constraintStart_toStartOf="parent"
@@ -90,6 +91,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="20dp"
         android:text="@string/sin_cuenta"
+        android:textColor="@color/white"
         app:layout_constraintEnd_toStartOf="@+id/textView3"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -101,6 +103,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:text="@string/sing_up"
+        android:textColor="@color/white"
         app:layout_constraintStart_toEndOf="@+id/sin_cuenta"
         app:layout_constraintTop_toBottomOf="@+id/button_get_in" />
 
