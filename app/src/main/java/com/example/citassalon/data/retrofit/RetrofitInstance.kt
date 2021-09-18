@@ -10,7 +10,7 @@ class RetrofitInstance {
 
         fun getRetrofit(): Retrofit {
             return Retrofit.Builder()
-                .baseUrl("https://restcountries.eu/rest/v2/")
+                .baseUrl("http://192.168.0.157:5000")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build()
         }

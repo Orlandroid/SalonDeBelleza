@@ -6,6 +6,6 @@ import retrofit2.http.GET
 
 interface WebServices {
 
-    @GET("region/americas")
-    fun getPokemon(): Call<List<Sucursal>>
+    @GET("/estados")
+    fun getPokemon(): Call<Sucursal>
 }

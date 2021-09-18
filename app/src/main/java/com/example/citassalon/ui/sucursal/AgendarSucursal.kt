@@ -44,19 +44,19 @@ class AgendarSucursal : Fragment(), BottomNavigationView.OnNavigationItemSelecte
 
 
     private fun makeRequest() {
-        call.enqueue(object : Callback<List<Sucursal>> {
+        call.enqueue(object : Callback<Sucursal> {
 
-            override fun onFailure(call: Call<List<Sucursal>>, t: Throwable) {
+            override fun onFailure(call: Call<Sucursal>, t: Throwable) {
                 Log.e("error", "Error: $t")
             }
 
             override fun onResponse(
-                call: Call<List<Sucursal>>,
-                response: Response<List<Sucursal>>
+                call: Call<Sucursal>,
+                response: Response<Sucursal>
             ) {
                 if (response.code() == 200) {
                     Log.e("Respuesta", "${response.body()}")
-                    val country = response.body()
+                    val country = response.body()?.estados
                     binding.recyclerSucursal.adapter =
                         AdaptadorSucursal(country!!, binding.textAgendarSucursal)
                 } else {

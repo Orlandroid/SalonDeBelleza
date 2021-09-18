@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">CitasSalon</string>
+    <string name="app_name">Skeduly</string>
     <string name="agendar_button">Agendar</string>
     <string name="empleado">Empleado</string>
-    <string name="estilista_button">Estilista \n\n aleatorio</string>
+    <string name="estilista_button">Estilista  aleatorio</string>
     <string name="staff_1">Flora Parra</string>
     <string name="staff_2">Angela Bautista</string>
     <string name="staff_3">Xavier Cruz</string>
