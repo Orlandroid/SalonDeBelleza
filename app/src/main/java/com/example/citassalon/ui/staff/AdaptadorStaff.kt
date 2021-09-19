@@ -8,10 +8,12 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.ui.detallestaff.DetalleStaff
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Staff
+import com.example.citassalon.ui.sucursal.AgendarSucursalDirections
 
 class AdaptadorStaff(private val staff: List<Staff>, private val context: Context) :
     RecyclerView.Adapter<AdaptadorStaff.ViewHolder>(),
@@ -30,15 +32,12 @@ class AdaptadorStaff(private val staff: List<Staff>, private val context: Contex
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val item = staff[position]
-        holder.image.setImageResource(item.image)
-        holder.name.text = item.name
+        val currentStaff = staff[position]
+        holder.image.setImageResource(currentStaff.image)
+        holder.name.text = currentStaff.name
         holder.itemView.setOnClickListener {
-            val intent = Intent(context, DetalleStaff::class.java)
-            intent.putExtra("image", staff[position].image)
-            intent.putExtra("name", staff[position].name)
-            intent.putExtra("evaluation", staff[position].evaluation)
-            context.startActivity(intent)
+            val action = AgendarStaffDirections.actionAgendarStaffToDetalleStaff(currentStaff)
+            holder.itemView.findNavController().navigate(action)
         }
         holder.itemView.setOnCreateContextMenuListener(this)
 
