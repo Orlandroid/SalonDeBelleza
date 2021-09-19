@@ -2,6 +2,8 @@ plugins {
     id 'com.android.application'
     id 'kotlin-android'
     id 'kotlin-kapt'
+    id "kotlin-parcelize"
+    id 'androidx.navigation.safeargs.kotlin'
 }
 
 android {
@@ -60,7 +62,7 @@ dependencies {
     //Retrofit Dependecies
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-
+    //GSON
     implementation 'com.google.code.gson:gson:2.8.5'
 
 }

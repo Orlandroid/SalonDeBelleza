@@ -1,43 +1,40 @@
 package com.example.citassalon.ui.detallestaff
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ImageView
-import android.widget.RatingBar
-import android.widget.TextView
-import com.example.citassalon.R
-
-class DetalleStaff : AppCompatActivity() {
-
-    private lateinit var image: ImageView
-    private lateinit var nombre: TextView
-    private lateinit var evaluation: RatingBar
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.navArgs
+import com.example.citassalon.data.models.Staff
+import com.example.citassalon.databinding.FragmentDetalleStaffBinding
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_detalle_staff)
-        initView()
-        getValues()
+class DetalleStaff : Fragment() {
+
+
+    private var _binding: FragmentDetalleStaffBinding? = null
+    private val binding get() = _binding!!
+    private val args by navArgs<DetalleStaffArgs>()
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentDetalleStaffBinding.inflate(layoutInflater)
+        getFromArgs()
+        return binding.root
     }
 
-    private fun initView() {
-        image = findViewById(R.id.image_view_staff)
-        nombre = findViewById(R.id.d_nombre)
-        evaluation = findViewById(R.id.ratingBar)
+    private fun getFromArgs() {
+        setValueToView(args.currentStaff)
     }
 
-    private fun getValues() {
-        val imageSrc = intent.extras?.get("image") as Int
-        val nameStaff = intent.extras?.get("name") as String
-        val evalutionStaff = intent.extras?.get("evaluation") as Float
-        setValue(imageSrc, nameStaff, evalutionStaff)
-    }
-
-    private fun setValue(imagenP: Int, nameP: String, evaluationP: Float) {
-        image.setImageResource(imagenP)
-        nombre.text = nameP
-        evaluation.rating = evaluationP
+    private fun setValueToView(staff: Staff) {
+        binding.image.setImageResource(staff.image)
+        binding.name.text = staff.name
+        binding.ratingBarEvaluation.rating = staff.evaluation
     }
 
 }

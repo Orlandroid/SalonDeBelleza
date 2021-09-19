@@ -81,6 +81,9 @@
             app:exitAnim="@anim/to_right"
             app:popEnterAnim="@anim/from_right"
             app:popExitAnim="@anim/to_left" />
+        <action
+            android:id="@+id/action_agendarStaff_to_detalleStaff"
+            app:destination="@id/detalleStaff" />
     </fragment>
     <fragment
         android:id="@+id/agendarServicio"
@@ -211,5 +214,14 @@
             app:destination="@id/home3"
             app:enterAnim="@anim/from_left"
             app:exitAnim="@anim/to_right" />
+    </fragment>
+    <fragment
+        android:id="@+id/detalleStaff"
+        android:name="com.example.citassalon.ui.detallestaff.DetalleStaff"
+        android:label="fragment_detalle_staff"
+        tools:layout="@layout/fragment_detalle_staff" >
+        <argument
+            android:name="currentStaff"
+            app:argType="com.example.citassalon.data.models.Staff" />
     </fragment>
 </navigation>
