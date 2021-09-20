@@ -135,7 +135,7 @@
         android:id="@+id/cardView3"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@color/white"
+        android:background="@drawable/backgroun_recycler_view"
         app:cardCornerRadius="20dp"
         app:layout_constraintBottom_toTopOf="@+id/botton_navigation_view_agendar_hora"
         app:layout_constraintEnd_toEndOf="parent"
