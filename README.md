@@ -27,10 +27,10 @@ El objetivo principal de la app es la gestión de citas enfocado a establecimien
     <td><strong>Staff</strong></td>
   </tr>
   <tr>
-    <td><img src="screenshots/1.png" width="100%"></td>
-    <td><img src="screenshots/2.png" width="100%"></td>
-    <td><img src="screenshots/4.png" width="100%"></td>
-    <td><img src="screenshots/6.png" width="100%"></td>
+    <td><img src="screenshots/login.png" width="100%"></td>
+    <td><img src="screenshots/home.png" width="100%"></td>
+    <td><img src="screenshots/sucursales.png" width="100%"></td>
+    <td><img src="screenshots/staff.png" width="100%"></td>
   </tr>
   <tr>
     <td><strong>Servicio</strong></td>
@@ -39,10 +39,10 @@ El objetivo principal de la app es la gestión de citas enfocado a establecimien
     <td><strong>Cita agendada</strong></td>
   </tr>
   <tr>
-    <td><img src="screenshots/7.png" width="100%"></td>
-    <td><img src="screenshots/8.png" width="100%"></td>
-    <td><img src="screenshots/9.png" width="100%"></td>
-    <td><img src="screenshots/10.png" width="100%"></td>
+    <td><img src="screenshots/servicio.png" width="100%"></td>
+    <td><img src="screenshots/fecha.png" width="100%"></td>
+    <td><img src="screenshots/hora.png" width="100%"></td>
+    <td><img src="screenshots/cita agendada.png" width="100%"></td>
   </tr>
 </table> 
 
