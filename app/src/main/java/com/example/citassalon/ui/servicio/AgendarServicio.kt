@@ -12,7 +12,8 @@ import com.example.citassalon.databinding.FragmentAgendarServicioBinding
 import com.example.citassalon.data.models.Servicio
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
-class AgendarServicio : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener {
+class AgendarServicio : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener,
+    ListernerClickOnService {
 
 
     private var _binding: FragmentAgendarServicioBinding? = null
@@ -38,7 +39,7 @@ class AgendarServicio : Fragment(), BottomNavigationView.OnNavigationItemSelecte
                     Servicio("Maquillaje"),
                     Servicio("Manicure"),
                     Servicio("Pedicure")
-                )
+                ), this
             )
         return binding.root
     }
@@ -59,6 +60,10 @@ class AgendarServicio : Fragment(), BottomNavigationView.OnNavigationItemSelecte
             }
             else -> false
         }
+    }
+
+    override fun clickOnServicio(servicio: String) {
+        binding.tvServicio.text = servicio
     }
 
 

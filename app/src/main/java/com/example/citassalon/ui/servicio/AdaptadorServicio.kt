@@ -1,6 +1,5 @@
 package com.example.citassalon.ui.servicio
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,17 +8,15 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Servicio
 
-class AdaptadorServicio(private val servicios: List<Servicio>) :
+class AdaptadorServicio(
+    private val servicios: List<Servicio>,
+    private val listener: ListernerClickOnService
+) :
     RecyclerView.Adapter<AdaptadorServicio.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val servicio: TextView = itemView.findViewById(R.id.NombreServicio)
 
-        init {
-            itemView.setOnClickListener {
-                Log.w("CLIKC", "Click en el elemento")
-            }
-        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
@@ -31,6 +28,9 @@ class AdaptadorServicio(private val servicios: List<Servicio>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = servicios[position]
         holder.servicio.text = item.servicio
+        holder.itemView.setOnClickListener {
+            listener.clickOnServicio(item.servicio)
+        }
 
     }
 
