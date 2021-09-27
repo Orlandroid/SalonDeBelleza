@@ -8,10 +8,10 @@ import retrofit2.http.GET
 interface WebServices {
 
     @GET("/servicios")
-    fun getServicios(): Call<Servicio>
+    suspend fun getServicios(): Call<List<Servicio>>
 
     @GET("/sucursales")
-    fun getSucursales(): Call<Sucursal>
+    suspend fun getSucursales(): Call<List<Sucursal>>
 
 
 }
