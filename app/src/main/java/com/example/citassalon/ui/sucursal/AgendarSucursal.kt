@@ -8,27 +8,20 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
-import com.example.citassalon.data.retrofit.RetrofitInstance
-import com.example.citassalon.data.retrofit.WebServices
 import com.example.citassalon.databinding.FragmentAgendarSucursalBinding
-import com.example.citassalon.data.models.Sucursal
+import com.example.citassalon.util.ApiState
 import com.google.android.material.bottomnavigation.BottomNavigationView
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-
 
 class AgendarSucursal : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener {
 
 
     private var _binding: FragmentAgendarSucursalBinding? = null
     private val binding get() = _binding!!
-    val retrofit = RetrofitInstance.getRetrofit()
-    val webServices = retrofit.create(WebServices::class.java)
-    val call = webServices.getPokemon()
-
+    private val viewModel: ViewModelSucursal by viewModels()
+    private val TAG = AgendarSucursal::class.java.simpleName
 
     override
     fun onCreateView(
@@ -38,29 +31,21 @@ class AgendarSucursal : Fragment(), BottomNavigationView.OnNavigationItemSelecte
     ): View? {
         _binding = FragmentAgendarSucursalBinding.inflate(inflater)
         binding.sucursalBottomNavigationView.setOnNavigationItemSelectedListener(this)
-        makeRequest()
+        setUpObserves()
         return binding.root
     }
 
-
-    private fun makeRequest() {
-        call.enqueue(object : Callback<Sucursal> {
-
-            override fun onFailure(call: Call<Sucursal>, t: Throwable) {
-                Log.e("error", "Error: $t")
-            }
-
-            override fun onResponse(
-                call: Call<Sucursal>,
-                response: Response<Sucursal>
-            ) {
-                if (response.code() == 200) {
-                    Log.e("Respuesta", "${response.body()}")
-                    val country = response.body()?.estados
-                    binding.recyclerSucursal.adapter =
-                        AdaptadorSucursal(country!!, binding.textAgendarSucursal)
-                } else {
-                    Log.e("Not200", "Error not 200: $response")
+    private fun setUpObserves() {
+        viewModel.sucursalLiveData.observe(viewLifecycleOwner, {
+            when (it) {
+                is ApiState.Success -> {
+                    Log.w(TAG, it.data.toString())
+                }
+                is ApiState.Loading -> {
+                    Log.w(TAG, "Cargando")
+                }
+                is ApiState.Error -> {
+                    Log.w(TAG, it.message.toString())
                 }
             }
         })
