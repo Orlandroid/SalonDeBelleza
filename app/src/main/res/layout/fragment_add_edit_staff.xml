@@ -1,19 +1,8 @@
-<?xml version="1.0" encoding="utf-8"?>
-<layout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools">
-
-    <data>
-        <variable
-            name="viewModel"
-            type="com.example.citassalon.ui.staff.AddEditViewModel"
-            />
-    </data>
-
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        tools:context=".ui.staff.AddEditFragment">
+<androidx.constraintlayout.widget.ConstraintLayout android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
         <EditText
             android:id="@+id/edit_staff"
@@ -23,25 +12,12 @@
             android:ems="10"
             android:hint="Nombre del Staff"
             android:text="@{viewModel.staffName}"
-            android:onTextChanged="@{viewModel::setStaffName}"
             android:inputType="textPersonName"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.32" />
 
-        <Switch
-            android:id="@+id/switch_working"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onCheckedChanged="@{viewModel::setIsWorking}"
-            android:ems="10"
-            android:hint="Disponible"
-            android:inputType="textPersonName"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/guideline"
-            app:layout_constraintTop_toBottomOf="@+id/edit_staff" />
 
         <Button
             android:id="@+id/button_add_staff"
@@ -60,4 +36,3 @@
             android:orientation="horizontal"
             app:layout_constraintGuide_percent=".85" />
     </androidx.constraintlayout.widget.ConstraintLayout>
-</layout>
