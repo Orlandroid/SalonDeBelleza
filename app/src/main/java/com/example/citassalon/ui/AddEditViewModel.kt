@@ -5,7 +5,7 @@ import android.widget.CompoundButton
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.data.room.StaffRepository
+import com.example.citassalon.ui.staff.StaffRepository
 import kotlinx.coroutines.launch
 
 class AddEditViewModel(private val staffRepository: StaffRepository): ViewModel() {

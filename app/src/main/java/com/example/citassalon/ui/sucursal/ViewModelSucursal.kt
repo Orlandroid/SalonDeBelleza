@@ -9,13 +9,17 @@ import androidx.lifecycle.viewModelScope
 import com.example.citassalon.data.models.Sucursal
 import com.example.citassalon.data.repository.SucursalRepository
 import com.example.citassalon.util.ApiState
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import javax.inject.Inject
 
-class ViewModelSucursal(private val sucursalRepository: SucursalRepository) : ViewModel() {
+@HiltViewModel
+class ViewModelSucursal @Inject constructor(private val sucursalRepository: SucursalRepository) :
+    ViewModel() {
 
     private var _sucursalLiveData = MutableLiveData<ApiState<List<Sucursal>>>()
     val sucursalLiveData: LiveData<ApiState<List<Sucursal>>>
@@ -34,7 +38,6 @@ class ViewModelSucursal(private val sucursalRepository: SucursalRepository) : Vi
                     _sucursalLiveData.postValue(ApiState.Error(t, null))
                     Log.v("DEBUG : ", t.message.toString())
                 }
-
                 override fun onResponse(
                     call: Call<List<Sucursal>>,
                     response: Response<List<Sucursal>>
@@ -49,7 +52,7 @@ class ViewModelSucursal(private val sucursalRepository: SucursalRepository) : Vi
     }
 
     fun cancelService() {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.IO) {
             sucursalRepository.cancelService()
         }
     }

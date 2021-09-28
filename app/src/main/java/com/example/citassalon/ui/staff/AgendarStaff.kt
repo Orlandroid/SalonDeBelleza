@@ -11,7 +11,6 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentAgendarStaffBinding
-import com.example.citassalon.data.models.Staff
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -19,7 +18,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class AgendarStaff : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener {
 
 
-    private lateinit var staff: List<Staff>
     private var _binding: FragmentAgendarStaffBinding? = null
     private val binding get() = _binding!!
     private val viewModelStaff: ViewModelStaff by viewModels()
@@ -42,16 +40,6 @@ class AgendarStaff : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
         viewModelStaff.staffs.observe(viewLifecycleOwner, {
             binding.recyclerStaff.adapter = AdaptadorStaff(it)
         })
-    }
-
-    private fun populateRecyclerView() {
-        staff = listOf(
-            Staff(0, R.drawable.image_15, "Angela Bautista", 1f),
-            Staff(0, R.drawable.image_18, "Xavier Cruz", 4f),
-            Staff(0, R.drawable.image_19, "Flora Parra", 3f),
-            Staff(0, R.drawable.image_20, "Jesica Estrada", 5f),
-        )
-        binding.recyclerStaff.adapter = AdaptadorStaff(staff)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

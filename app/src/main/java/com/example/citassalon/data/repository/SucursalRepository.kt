@@ -1,11 +1,12 @@
 package com.example.citassalon.data.repository
 
 import com.example.citassalon.data.retrofit.WebServices
+import javax.inject.Inject
 
-class SucursalRepository(private val services: WebServices) {
+class SucursalRepository @Inject constructor(private val services: WebServices) {
 
-    suspend fun getSucursales() = services.getSucursales()
+    fun getSucursales() = services.getSucursales()
 
-    suspend fun cancelService() = services.getServicios().cancel()
+    fun cancelService() = services.getServicios()
 
 }

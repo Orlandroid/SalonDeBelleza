@@ -16,12 +16,13 @@ import com.example.citassalon.util.ApiState
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AgendarSucursal : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener {
 
 
     private var _binding: FragmentAgendarSucursalBinding? = null
     private val binding get() = _binding!!
-
+    private val viewModel: ViewModelSucursal by viewModels()
     private val TAG = AgendarSucursal::class.java.simpleName
 
     override
@@ -37,7 +38,22 @@ class AgendarSucursal : Fragment(), BottomNavigationView.OnNavigationItemSelecte
     }
 
     private fun setUpObserves() {
-
+        viewModel.sucursalLiveData.observe(viewLifecycleOwner, {
+            when (it) {
+                is ApiState.Success -> {
+                    if (it.data != null) {
+                        binding.recyclerSucursal.adapter =
+                            AdaptadorSucursal(it.data, binding.textAgendarSucursal)
+                    }
+                }
+                is ApiState.Loading -> {
+                    Log.w(TAG, "Cargando")
+                }
+                is ApiState.Error -> {
+                    Log.w(TAG, it.message.toString())
+                }
+            }
+        })
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {

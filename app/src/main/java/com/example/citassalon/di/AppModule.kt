@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.example.citassalon.data.room.SkedulyDatabase
 import com.example.citassalon.data.room.StaffDao
-import com.example.citassalon.data.room.StaffRepository
+import com.example.citassalon.ui.staff.StaffRepository
 import com.example.citassalon.util.DATABASE_NAME
 import dagger.Module
 import dagger.Provides

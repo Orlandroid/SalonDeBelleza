@@ -1,6 +1,7 @@
-package com.example.citassalon.data.room
+package com.example.citassalon.ui.staff
 
 import com.example.citassalon.data.models.Staff
+import com.example.citassalon.data.room.StaffDao
 import javax.inject.Inject
 
 class StaffRepository @Inject constructor(private val db: StaffDao) {

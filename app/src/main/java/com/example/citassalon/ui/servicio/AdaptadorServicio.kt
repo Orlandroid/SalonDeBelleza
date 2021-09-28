@@ -27,9 +27,9 @@ class AdaptadorServicio(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = servicios[position]
-        holder.servicio.text = item.servicio
+        holder.servicio.text = item.name
         holder.itemView.setOnClickListener {
-            listener.clickOnServicio(item.servicio)
+            listener.clickOnServicio(item.name)
         }
 
     }
