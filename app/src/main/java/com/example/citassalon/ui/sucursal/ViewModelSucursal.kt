@@ -53,7 +53,7 @@ class ViewModelSucursal @Inject constructor(private val sucursalRepository: Sucu
 
     fun cancelService() {
         viewModelScope.launch(Dispatchers.IO) {
-            sucursalRepository.cancelService()
+            sucursalRepository.getSucursales().cancel()
         }
     }
 

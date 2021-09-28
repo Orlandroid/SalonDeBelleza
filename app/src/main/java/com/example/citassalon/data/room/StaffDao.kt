@@ -10,10 +10,10 @@ interface StaffDao {
     suspend fun insertStaff(staff: Staff)
 
     @Insert
-    suspend fun insertManyStaff(vehicle: List<Staff>)
+    suspend fun insertManyStaff(staffs: List<Staff>)
 
     @Update
-    suspend fun updateStaff(staffname: Staff)
+    suspend fun updateStaff(staff: Staff)
 
     @Delete
     suspend fun deleteStaff(staff: Staff)
