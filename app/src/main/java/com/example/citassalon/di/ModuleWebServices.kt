@@ -1,5 +1,6 @@
 package com.example.citassalon.di
 
+import com.example.citassalon.data.repository.ServiceRepository
 import com.example.citassalon.data.repository.SucursalRepository
 import com.example.citassalon.data.retrofit.WebServices
 import com.example.citassalon.util.BASE_URL
@@ -31,5 +32,9 @@ object ModuleWebServices {
     @Provides
     fun provideSucursalRepository(webServices: WebServices): SucursalRepository =
         SucursalRepository(webServices)
+
+    @Singleton
+    @Provides
+    fun provideServicesRepository(webServices: WebServices) = ServiceRepository(webServices)
 
 }

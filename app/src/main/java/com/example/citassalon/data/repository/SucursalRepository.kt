@@ -7,5 +7,4 @@ class SucursalRepository @Inject constructor(private val services: WebServices) 
 
     fun getSucursales() = services.getSucursales()
 
-
 }

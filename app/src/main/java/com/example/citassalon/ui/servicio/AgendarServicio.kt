@@ -6,18 +6,22 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentAgendarServicioBinding
-import com.example.citassalon.data.models.Servicio
+import com.example.citassalon.util.ApiState
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AgendarServicio : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener,
     ListernerClickOnService {
 
 
     private var _binding: FragmentAgendarServicioBinding? = null
     private val binding get() = _binding!!
+    private val viewModelAgendarServicio: ViewModelAgendarServicio by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -26,22 +30,27 @@ class AgendarServicio : Fragment(), BottomNavigationView.OnNavigationItemSelecte
     ): View? {
         _binding = FragmentAgendarServicioBinding.inflate(inflater, container, false)
         binding.servicioBottomNavigationView.setOnNavigationItemSelectedListener(this)
-        binding.recyclerAgendarServicio.adapter =
-            AdaptadorServicio(
-                arrayListOf(
-                    Servicio("Corte de cabello", 100),
-                    Servicio("Aplicación de tinte", 100),
-                    Servicio("Tratamiento Capilar", 100),
-                    Servicio("Depilación", 100),
-                    Servicio("Alaciado", 100),
-                    Servicio("Corte de uñas", 100),
-                    Servicio("Limpieza facial", 100),
-                    Servicio("Maquillaje", 100),
-                    Servicio("Manicure", 100),
-                    Servicio("Pedicure", 100)
-                ), this
-            )
+        setUpObservers()
         return binding.root
+    }
+
+    private fun setUpObservers() {
+        viewModelAgendarServicio.serviceLiveData.observe(viewLifecycleOwner, {
+            when (it) {
+                is ApiState.Loading -> {
+                    binding.progressBarS.visibility = View.VISIBLE
+                }
+                is ApiState.Success -> {
+                    if (it.data != null) {
+                        binding.progressBarS.visibility = View.GONE
+                        binding.recyclerAgendarServicio.adapter = AdaptadorServicio(it.data, this)
+                    }
+                }
+                is ApiState.Error -> {
+                    binding.progressBarS.visibility = View.GONE
+                }
+            }
+        })
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
