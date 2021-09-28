@@ -7,11 +7,11 @@ import retrofit2.http.GET
 
 interface WebServices {
 
-    @GET("/servicios")
-    suspend fun getServicios(): Call<List<Servicio>>
+    @GET("servicios/")
+    fun getServicios(): Call<List<Servicio>>
 
-    @GET("/sucursales")
-    suspend fun getSucursales(): Call<List<Sucursal>>
+    @GET("sucursales/")
+    fun getSucursales(): Call<List<Sucursal>>
 
 
 }

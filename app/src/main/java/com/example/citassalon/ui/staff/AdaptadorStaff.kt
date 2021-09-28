@@ -1,7 +1,5 @@
 package com.example.citassalon.ui.staff
 
-import android.content.Context
-import android.content.Intent
 import android.view.ContextMenu
 import android.view.LayoutInflater
 import android.view.View
@@ -10,12 +8,10 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.citassalon.ui.detallestaff.DetalleStaff
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Staff
-import com.example.citassalon.ui.sucursal.AgendarSucursalDirections
 
-class AdaptadorStaff(private val staff: List<Staff>, private val context: Context) :
+class AdaptadorStaff(private val staff: List<Staff>) :
     RecyclerView.Adapter<AdaptadorStaff.ViewHolder>(),
     View.OnCreateContextMenuListener {
 

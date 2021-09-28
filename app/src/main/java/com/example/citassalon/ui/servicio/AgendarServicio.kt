@@ -29,16 +29,16 @@ class AgendarServicio : Fragment(), BottomNavigationView.OnNavigationItemSelecte
         binding.recyclerAgendarServicio.adapter =
             AdaptadorServicio(
                 arrayListOf(
-                    Servicio("Corte de cabello"),
-                    Servicio("Aplicación de tinte"),
-                    Servicio("Tratamiento Capilar"),
-                    Servicio("Depilación"),
-                    Servicio("Alaciado"),
-                    Servicio("Corte de uñas"),
-                    Servicio("Limpieza facial"),
-                    Servicio("Maquillaje"),
-                    Servicio("Manicure"),
-                    Servicio("Pedicure")
+                    Servicio("Corte de cabello", 100),
+                    Servicio("Aplicación de tinte", 100),
+                    Servicio("Tratamiento Capilar", 100),
+                    Servicio("Depilación", 100),
+                    Servicio("Alaciado", 100),
+                    Servicio("Corte de uñas", 100),
+                    Servicio("Limpieza facial", 100),
+                    Servicio("Maquillaje", 100),
+                    Servicio("Manicure", 100),
+                    Servicio("Pedicure", 100)
                 ), this
             )
         return binding.root

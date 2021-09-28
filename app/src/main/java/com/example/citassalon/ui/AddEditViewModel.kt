@@ -1,13 +1,11 @@
-package com.example.citassalon.ui.staff
+package com.example.citassalon.ui
 
-import android.text.Editable
-import android.util.Log
+
 import android.widget.CompoundButton
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.data.models.room.StaffName
-import com.example.citassalon.data.models.room.StaffRepository
+import com.example.citassalon.ui.staff.StaffRepository
 import kotlinx.coroutines.launch
 
 class AddEditViewModel(private val staffRepository: StaffRepository): ViewModel() {
@@ -29,12 +27,9 @@ class AddEditViewModel(private val staffRepository: StaffRepository): ViewModel(
 
     fun newStaff() = viewModelScope.launch{
         if ( !staffName.isNullOrBlank()){
-            val staff = StaffName(
-                staffName = staffName!!,
-                isWorking = isWorking
-            )
+            //val staff = StaffName(staffName = staffName!!, isWorking = isWorking)
 
-            staffRepository.addStaff(staff)
+            //staffRepository.addStaff(staff)
 
             _staffDone.value = true
         }

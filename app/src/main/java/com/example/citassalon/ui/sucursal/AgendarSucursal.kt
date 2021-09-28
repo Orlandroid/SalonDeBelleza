@@ -14,7 +14,9 @@ import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentAgendarSucursalBinding
 import com.example.citassalon.util.ApiState
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AgendarSucursal : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener {
 
 
@@ -39,7 +41,10 @@ class AgendarSucursal : Fragment(), BottomNavigationView.OnNavigationItemSelecte
         viewModel.sucursalLiveData.observe(viewLifecycleOwner, {
             when (it) {
                 is ApiState.Success -> {
-                    Log.w(TAG, it.data.toString())
+                    if (it.data != null) {
+                        binding.recyclerSucursal.adapter =
+                            AdaptadorSucursal(it.data, binding.textAgendarSucursal)
+                    }
                 }
                 is ApiState.Loading -> {
                     Log.w(TAG, "Cargando")
