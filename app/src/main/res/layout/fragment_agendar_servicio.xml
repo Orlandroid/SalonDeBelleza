@@ -141,4 +141,15 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
+    <ProgressBar
+        android:id="@+id/progressBarS"
+        style="?android:attr/progressBarStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="@+id/recycler_agendar_servicio"
+        app:layout_constraintEnd_toEndOf="@+id/recycler_agendar_servicio"
+        app:layout_constraintStart_toStartOf="@+id/recycler_agendar_servicio"
+        app:layout_constraintTop_toTopOf="@+id/recycler_agendar_servicio" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

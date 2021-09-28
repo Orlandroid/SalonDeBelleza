@@ -42,14 +42,16 @@ class AgendarSucursal : Fragment(), BottomNavigationView.OnNavigationItemSelecte
             when (it) {
                 is ApiState.Success -> {
                     if (it.data != null) {
+                        binding.progressBar.visibility = View.GONE
                         binding.recyclerSucursal.adapter =
                             AdaptadorSucursal(it.data, binding.textAgendarSucursal)
                     }
                 }
                 is ApiState.Loading -> {
-                    Log.w(TAG, "Cargando")
+                    binding.progressBar.visibility = View.VISIBLE
                 }
                 is ApiState.Error -> {
+                    binding.progressBar.visibility = View.GONE
                     Log.w(TAG, it.message.toString())
                 }
             }
