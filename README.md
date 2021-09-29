@@ -11,6 +11,7 @@ El objetivo principal de la app es la gestión de citas enfocado a establecimien
 
 ## Features
 
+- MVVM Arquitecture
 - Navigation Componet
 - Fragments
 - RecyclerView
@@ -18,6 +19,13 @@ El objetivo principal de la app es la gestión de citas enfocado a establecimien
 - Kotlin
 - Maquetacion con uso de ConstrintLayout
 - Material Design
+- ViewBinding
+- Retrofit
+- Trancitions entre fragments
+- Single Activity
+- Room Database
+- Dagger Hilt
+- Corutinas
 
  <table>
   <tr>
