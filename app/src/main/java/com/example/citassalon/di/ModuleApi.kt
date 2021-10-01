@@ -1,6 +1,7 @@
 package com.example.citassalon.di
 
 import com.example.citassalon.data.repository.ServiceRepository
+import com.example.citassalon.data.repository.StaffRepositoryRemote
 import com.example.citassalon.data.repository.SucursalRepository
 import com.example.citassalon.data.retrofit.WebServices
 import com.example.citassalon.util.BASE_URL
@@ -14,7 +15,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object ModuleWebServices {
+object ModuleApi {
 
     @Singleton
     @Provides
@@ -36,5 +37,9 @@ object ModuleWebServices {
     @Singleton
     @Provides
     fun provideServicesRepository(webServices: WebServices) = ServiceRepository(webServices)
+
+    @Singleton
+    @Provides
+    fun provideStaffRepositoryRemote(webServices: WebServices) = StaffRepositoryRemote(webServices)
 
 }

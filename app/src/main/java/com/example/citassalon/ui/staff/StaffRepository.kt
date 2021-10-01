@@ -1,29 +1,29 @@
 package com.example.citassalon.ui.staff
 
-import com.example.citassalon.data.models.Staff
-import com.example.citassalon.data.room.StaffDao
+import com.example.citassalon.data.models.Appointment
+import com.example.citassalon.data.room.AppointmentDao
 import javax.inject.Inject
 
-class StaffRepository @Inject constructor(private val db: StaffDao) {
+class StaffRepository @Inject constructor(private val db: AppointmentDao) {
 
-    suspend fun addStaff(staff: Staff) {
-        db.insertStaff(staff)
+    suspend fun addStaff(appointment: Appointment) {
+        db.insertAppointment(appointment)
     }
 
-    suspend fun addManyStaff(staff: List<Staff>) {
-        db.insertManyStaff(staff)
+    suspend fun addManyStaff(appointment: List<Appointment>) {
+        db.insertManyAppointment(appointment)
     }
 
-    suspend fun getAllStaff(): List<Staff> {
-        return db.getAllStaff()
+    suspend fun getAllStaff(): List<Appointment> {
+        return db.getAllAppointment()
     }
 
-    suspend fun updateStaff(staff: Staff) {
-        db.updateStaff(staff)
+    suspend fun updateStaff(appointment: Appointment) {
+        db.updateAppointment(appointment)
     }
 
-    suspend fun deleteStaff(staff: Staff) {
-        db.deleteStaff(staff)
+    suspend fun deleteStaff(appointment: Appointment) {
+        db.deleteAppointment(appointment)
     }
 
     suspend fun deleteAllStaff() {

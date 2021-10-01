@@ -11,6 +11,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentAgendarStaffBinding
+import com.example.citassalon.ui.servicio.AdaptadorServicio
+import com.example.citassalon.util.ApiState
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -36,9 +38,23 @@ class AgendarStaff : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
 
     }
 
+
     private fun setUpObservers() {
-        viewModelStaff.staffs.observe(viewLifecycleOwner, {
-            binding.recyclerStaff.adapter = AdaptadorStaff(it)
+        viewModelStaff.staffLiveData.observe(viewLifecycleOwner, {
+            when (it) {
+                is ApiState.Loading -> {
+                    //binding.progressBarS.visibility = View.VISIBLE
+                }
+                is ApiState.Success -> {
+                    if (it.data != null) {
+                        //binding.progressBarS.visibility = View.GONE
+                        binding.recyclerStaff.adapter = AdaptadorStaff(it.data)
+                    }
+                }
+                is ApiState.Error -> {
+                    //binding.progressBarS.visibility = View.GONE
+                }
+            }
         })
     }
 

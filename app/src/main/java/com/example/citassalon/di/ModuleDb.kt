@@ -2,8 +2,8 @@ package com.example.citassalon.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.citassalon.data.room.AppointmentDao
 import com.example.citassalon.data.room.SkedulyDatabase
-import com.example.citassalon.data.room.StaffDao
 import com.example.citassalon.ui.staff.StaffRepository
 import com.example.citassalon.util.DATABASE_NAME
 import dagger.Module
@@ -17,8 +17,7 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 
-object AppModule {
-
+object ModuleDb {
 
     @Provides
     @Singleton
@@ -33,11 +32,9 @@ object AppModule {
 
     @Singleton
     @Provides
-    fun provideStaffDao(db: SkedulyDatabase) = db.staffDao()
+    fun provideAppointmentDao(db: SkedulyDatabase) = db.appointmentDao()
 
     @Singleton
     @Provides
-    fun provideStaffRepository(staffDao: StaffDao) = StaffRepository(staffDao)
-
-
+    fun provideStaffRepository(appointmentDao: AppointmentDao) = StaffRepository(appointmentDao)
 }

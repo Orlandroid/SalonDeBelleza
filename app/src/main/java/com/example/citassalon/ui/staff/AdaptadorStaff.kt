@@ -30,7 +30,7 @@ class AdaptadorStaff(private val staff: List<Staff>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentStaff = staff[position]
         holder.image.setImageResource(currentStaff.image)
-        holder.name.text = currentStaff.name
+        holder.name.text = currentStaff.nombre
         holder.itemView.setOnClickListener {
             val action = AgendarStaffDirections.actionAgendarStaffToDetalleStaff(currentStaff)
             holder.itemView.findNavController().navigate(action)

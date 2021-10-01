@@ -1,17 +1,15 @@
 package com.example.citassalon.data.models
 
 import android.os.Parcelable
-import androidx.room.Entity
-import androidx.room.PrimaryKey
+import com.example.citassalon.R
 import kotlinx.parcelize.Parcelize
 
 
 @Parcelize
-@Entity(tableName = "staff")
 data class Staff(
-    @PrimaryKey(autoGenerate = true)
-    val id: Int,
-    val image: Int,
-    val name: String,
-    val evaluation: Float
+    val id: Int = 0,
+    val image: Int = R.drawable.image_20,
+    val nombre: String,
+    val sexo: String,
+    val valoracion: Float
 ) : Parcelable
