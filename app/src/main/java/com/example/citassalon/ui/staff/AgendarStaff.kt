@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.GridLayoutManager
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentAgendarStaffBinding
 import com.example.citassalon.ui.servicio.AdaptadorServicio
@@ -33,6 +34,7 @@ class AgendarStaff : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
         _binding = FragmentAgendarStaffBinding.inflate(layoutInflater, container, false)
         binding.staffBottomNavigationView.setOnNavigationItemSelectedListener(this)
         binding.recyclerStaff.setHasFixedSize(true)
+        binding.recyclerStaff.layoutManager = GridLayoutManager(requireContext(),2)
         setUpObservers()
         return binding.root
 

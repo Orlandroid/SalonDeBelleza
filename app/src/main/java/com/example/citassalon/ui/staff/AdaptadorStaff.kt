@@ -29,7 +29,7 @@ class AdaptadorStaff(private val staff: List<Staff>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentStaff = staff[position]
-        holder.image.setImageResource(currentStaff.image)
+        holder.image.setImageResource(currentStaff.getResourceImage())
         holder.name.text = currentStaff.nombre
         holder.itemView.setOnClickListener {
             val action = AgendarStaffDirections.actionAgendarStaffToDetalleStaff(currentStaff)

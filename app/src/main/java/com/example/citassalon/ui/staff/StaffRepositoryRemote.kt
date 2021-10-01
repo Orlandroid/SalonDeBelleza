@@ -1,4 +1,4 @@
-package com.example.citassalon.data.repository
+package com.example.citassalon.ui.staff
 
 import com.example.citassalon.data.retrofit.WebServices
 import javax.inject.Inject

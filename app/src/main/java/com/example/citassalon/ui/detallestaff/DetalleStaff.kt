@@ -32,7 +32,7 @@ class DetalleStaff : Fragment() {
     }
 
     private fun setValueToView(staff: Staff) {
-        binding.image.setImageResource(staff.image)
+        binding.image.setImageResource(staff.getResourceImage())
         binding.name.text = staff.nombre
         binding.ratingBarEvaluation.rating = staff.valoracion
     }

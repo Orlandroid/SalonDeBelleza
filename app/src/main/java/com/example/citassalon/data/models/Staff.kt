@@ -7,9 +7,13 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Staff(
-    val id: Int = 0,
-    val image: Int = R.drawable.image_20,
     val nombre: String,
     val sexo: String,
     val valoracion: Float
-) : Parcelable
+) : Parcelable {
+    fun getResourceImage(): Int =
+        when (sexo) {
+            "hombre" -> R.drawable.image_18
+            else -> R.drawable.image_15
+        }
+}

@@ -1,7 +1,7 @@
 package com.example.citassalon.di
 
 import com.example.citassalon.data.repository.ServiceRepository
-import com.example.citassalon.data.repository.StaffRepositoryRemote
+import com.example.citassalon.ui.staff.StaffRepositoryRemote
 import com.example.citassalon.data.repository.SucursalRepository
 import com.example.citassalon.data.retrofit.WebServices
 import com.example.citassalon.util.BASE_URL
