@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
+import com.example.citassalon.data.models.Servicio
 import com.example.citassalon.databinding.FragmentAgendarServicioBinding
 import com.example.citassalon.util.ApiState
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -71,8 +72,8 @@ class AgendarServicio : Fragment(), BottomNavigationView.OnNavigationItemSelecte
         }
     }
 
-    override fun clickOnServicio(servicio: String) {
-        binding.tvServicio.text = servicio
+    override fun clickOnServicio(servicio: Servicio) {
+        binding.tvServicio.text = servicio.name
     }
 
 

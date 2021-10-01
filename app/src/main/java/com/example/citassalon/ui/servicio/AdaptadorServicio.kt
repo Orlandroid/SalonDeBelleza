@@ -29,7 +29,7 @@ class AdaptadorServicio(
         val item = servicios[position]
         holder.servicio.text = item.name
         holder.itemView.setOnClickListener {
-            listener.clickOnServicio(item.name)
+            listener.clickOnServicio(item)
         }
 
     }
