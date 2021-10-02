@@ -1,7 +1,5 @@
 package com.example.citassalon.util
 
-
-
 sealed class ApiState<T>(val data: T? = null, val message: String? = null) {
 
     class Success<T>(data: T) : ApiState<T>(data)

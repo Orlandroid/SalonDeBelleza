@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cardView"
-    app:cardBackgroundColor="@color/beige"
+    app:cardBackgroundColor="@color/cafe4"
     app:cardCornerRadius="16dp"
     app:cardUseCompatPadding="true"
     app:cardElevation="6dp"

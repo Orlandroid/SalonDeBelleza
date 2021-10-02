@@ -82,4 +82,5 @@
     <string name="sucursal">Sucursal</string>
     <string name="more">more</string>
     <string name="confirma_cita">Confirma cita</string>
+    <string name="selecciona_la_hora_de_tu_cita">Selecciona la hora de tu cita</string>
 </resources>

@@ -23,20 +23,35 @@
 
         <EditText
             android:id="@+id/select_Date"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="20dp"
             android:backgroundTint="@color/cafe2"
             android:clickable="false"
-            android:drawableLeft="@drawable/calendar_icon"
+            android:drawableStart="@drawable/insert_invitation_24px"
             android:drawablePadding="12dp"
             android:focusable="false"
             android:fontFamily="@font/poppins_medium"
             android:hint="@string/add_date"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/edHora"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/edHora"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:drawableStart="@drawable/watch_later_24px"
+            android:drawablePadding="12dp"
+            android:fontFamily="@font/poppins_medium"
+            android:hint="@string/selecciona_la_hora_de_tu_cita"
+            android:inputType="textPersonName"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/select_Date" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
