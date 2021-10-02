@@ -32,7 +32,7 @@ class AgendarConfirmacion : Fragment(), BottomNavigationView.OnNavigationItemSel
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.element_back -> {
-                findNavController().navigate(R.id.action_agendarConfirmacion_to_agendarHora)
+                findNavController().navigate(R.id.action_agendarConfirmacion_to_agendarFecha)
                 true
             }
             R.id.element_home -> {

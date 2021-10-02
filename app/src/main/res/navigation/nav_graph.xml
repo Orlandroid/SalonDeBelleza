@@ -118,13 +118,6 @@
         android:label="fragment_agendar_fecha"
         tools:layout="@layout/fragment_agendar_fecha">
         <action
-            android:id="@+id/action_agendarFecha_to_agendarHora"
-            app:destination="@id/agendarHora"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
-            app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right" />
-        <action
             android:id="@+id/action_agendarFecha_to_agendarServicio"
             app:destination="@id/agendarServicio"
             app:enterAnim="@anim/from_left"
@@ -138,33 +131,13 @@
             app:exitAnim="@anim/to_right"
             app:popEnterAnim="@anim/from_right"
             app:popExitAnim="@anim/to_left" />
-    </fragment>
-    <fragment
-        android:id="@+id/agendarHora"
-        android:name="com.example.citassalon.ui.hora.AgendarHora"
-        android:label="fragment_agendar_hora"
-        tools:layout="@layout/fragment_agendar_hora">
         <action
-            android:id="@+id/action_agendarHora_to_agendarConfirmacion"
+            android:id="@+id/action_agendarFecha_to_agendarConfirmacion"
             app:destination="@id/agendarConfirmacion"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
-        <action
-            android:id="@+id/action_agendarHora_to_agendarFecha"
-            app:destination="@id/agendarFecha"
-            app:enterAnim="@anim/from_left"
-            app:exitAnim="@anim/to_right"
-            app:popEnterAnim="@anim/from_right"
-            app:popExitAnim="@anim/to_left" />
-        <action
-            android:id="@+id/action_agendarHora_to_home3"
-            app:destination="@id/home3"
-            app:enterAnim="@anim/from_left"
-            app:exitAnim="@anim/to_right"
-            app:popEnterAnim="@anim/from_right"
-            app:popExitAnim="@anim/to_left" />
     </fragment>
     <fragment
         android:id="@+id/agendarConfirmacion"
@@ -179,15 +152,15 @@
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
         <action
-            android:id="@+id/action_agendarConfirmacion_to_agendarHora"
-            app:destination="@id/agendarHora"
+            android:id="@+id/action_agendarConfirmacion_to_home3"
+            app:destination="@id/home3"
             app:enterAnim="@anim/from_left"
             app:exitAnim="@anim/to_right"
             app:popEnterAnim="@anim/from_right"
             app:popExitAnim="@anim/to_left" />
         <action
-            android:id="@+id/action_agendarConfirmacion_to_home3"
-            app:destination="@id/home3"
+            android:id="@+id/action_agendarConfirmacion_to_agendarFecha"
+            app:destination="@id/agendarFecha"
             app:enterAnim="@anim/from_left"
             app:exitAnim="@anim/to_right"
             app:popEnterAnim="@anim/from_right"
@@ -219,7 +192,7 @@
         android:id="@+id/detalleStaff"
         android:name="com.example.citassalon.ui.detallestaff.DetalleStaff"
         android:label="fragment_detalle_staff"
-        tools:layout="@layout/fragment_detalle_staff" >
+        tools:layout="@layout/fragment_detalle_staff">
         <argument
             android:name="currentStaff"
             app:argType="com.example.citassalon.data.models.Staff" />
