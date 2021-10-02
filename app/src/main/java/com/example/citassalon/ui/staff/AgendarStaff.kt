@@ -11,14 +11,15 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.citassalon.R
+import com.example.citassalon.data.models.Staff
 import com.example.citassalon.databinding.FragmentAgendarStaffBinding
-import com.example.citassalon.ui.servicio.AdaptadorServicio
 import com.example.citassalon.util.ApiState
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AgendarStaff : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener {
+class AgendarStaff : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener,
+    ClickOnStaff {
 
 
     private var _binding: FragmentAgendarStaffBinding? = null
@@ -34,7 +35,7 @@ class AgendarStaff : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
         _binding = FragmentAgendarStaffBinding.inflate(layoutInflater, container, false)
         binding.staffBottomNavigationView.setOnNavigationItemSelectedListener(this)
         binding.recyclerStaff.setHasFixedSize(true)
-        binding.recyclerStaff.layoutManager = GridLayoutManager(requireContext(),2)
+        binding.recyclerStaff.layoutManager = GridLayoutManager(requireContext(), 2)
         setUpObservers()
         return binding.root
 
@@ -50,7 +51,7 @@ class AgendarStaff : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
                 is ApiState.Success -> {
                     if (it.data != null) {
                         //binding.progressBarS.visibility = View.GONE
-                        binding.recyclerStaff.adapter = AdaptadorStaff(it.data)
+                        binding.recyclerStaff.adapter = AdaptadorStaff(it.data,this)
                     }
                 }
                 is ApiState.Error -> {
@@ -76,6 +77,10 @@ class AgendarStaff : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
             }
             else -> false
         }
+    }
+
+    override fun clickOnStaf(stafff: Staff) {
+        binding.textAgendarSucursal.text = stafff.nombre
     }
 
 
