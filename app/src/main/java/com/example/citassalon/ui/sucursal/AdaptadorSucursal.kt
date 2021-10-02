@@ -10,7 +10,7 @@ import com.example.citassalon.data.models.Sucursal
 
 class AdaptadorSucursal(
     private val sucursales: List<Sucursal>,
-    private val texto: TextView
+    private val listener: ClickOnSucursal
 ) :
     RecyclerView.Adapter<AdaptadorSucursal.ViewHolder>() {
 
@@ -25,9 +25,10 @@ class AdaptadorSucursal(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.cartaTexto.text = sucursales[position].name
+        val currentSucursal = sucursales[position]
+        holder.cartaTexto.text = currentSucursal.name
         holder.itemView.setOnClickListener {
-            texto.text = sucursales[position].name
+            listener.clickOnSucursal(currentSucursal)
         }
     }
 

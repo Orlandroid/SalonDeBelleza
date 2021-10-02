@@ -11,13 +11,15 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
+import com.example.citassalon.data.models.Sucursal
 import com.example.citassalon.databinding.FragmentAgendarSucursalBinding
 import com.example.citassalon.util.ApiState
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AgendarSucursal : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener {
+class AgendarSucursal : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener,
+    ClickOnSucursal {
 
 
     private var _binding: FragmentAgendarSucursalBinding? = null
@@ -44,7 +46,7 @@ class AgendarSucursal : Fragment(), BottomNavigationView.OnNavigationItemSelecte
                     if (it.data != null) {
                         binding.progressBar.visibility = View.GONE
                         binding.recyclerSucursal.adapter =
-                            AdaptadorSucursal(it.data, binding.textAgendarSucursal)
+                            AdaptadorSucursal(it.data, this)
                     }
                 }
                 is ApiState.Loading -> {
@@ -74,6 +76,10 @@ class AgendarSucursal : Fragment(), BottomNavigationView.OnNavigationItemSelecte
             }
             else -> false
         }
+    }
+
+    override fun clickOnSucursal(sucursal: Sucursal) {
+        binding.textAgendarSucursal.text = sucursal.name
     }
 
 }

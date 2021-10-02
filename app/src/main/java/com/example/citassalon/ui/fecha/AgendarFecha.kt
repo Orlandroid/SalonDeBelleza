@@ -24,8 +24,13 @@ class AgendarFecha : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
     ): View? {
         _binding = FragmentAgendarFechaBinding.inflate(inflater, container, false)
         binding.bottonNavigationViewAgendarFecha.setOnNavigationItemSelectedListener(this)
+
         binding.selectDate.setOnClickListener {
             showDatePickerDialog()
+        }
+
+        binding.edHora.setOnClickListener {
+            showTimePickerDialog()
         }
 
         return binding.root
@@ -39,6 +44,15 @@ class AgendarFecha : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
                 binding.selectDate.setText(selectedDate)
             }, requireContext())
         activity?.let { newFragment.show(it.supportFragmentManager, "datePicker") }
+    }
+
+    private fun showTimePickerDialog() {
+        val timePicker = TimePickerFragment { onTimeSelected(it) }
+        activity?.let { timePicker.show(it.supportFragmentManager, "timePicker") }
+    }
+
+    private fun onTimeSelected(time: String) {
+        binding.edHora.setText(time)
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
