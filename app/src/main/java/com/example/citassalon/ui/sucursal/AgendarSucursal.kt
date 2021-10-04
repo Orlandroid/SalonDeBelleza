@@ -71,7 +71,10 @@ class AgendarSucursal : Fragment(), BottomNavigationView.OnNavigationItemSelecte
                 true
             }
             R.id.item_next -> {
-                findNavController().navigate(R.id.action_agendarSucursal_to_agendarStaff)
+                val action = AgendarSucursalDirections.actionAgendarSucursalToAgendarStaff(
+                    binding.textAgendarSucursal.text.toString()
+                )
+                findNavController().navigate(action)
                 true
             }
             else -> false

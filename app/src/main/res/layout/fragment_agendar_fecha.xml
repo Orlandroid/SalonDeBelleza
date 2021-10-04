@@ -86,18 +86,18 @@
                 app:layout_constraintGuide_percent="0.7" />
 
             <ImageView
-                android:id="@+id/imageView5"
+                android:id="@+id/img_staff"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:src="@drawable/image15_mask"
                 app:layout_constraintBottom_toTopOf="@+id/guideline31"
-                app:layout_constraintEnd_toStartOf="@+id/textView20"
+                app:layout_constraintEnd_toStartOf="@+id/tv_staff_name"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView20"
+                android:id="@+id/tv_staff_name"
                 android:layout_width="wrap_content"
                 android:layout_height="0dp"
                 android:gravity="center"
@@ -105,11 +105,11 @@
                 android:textColor="@color/textcard"
                 app:layout_constraintBottom_toTopOf="@+id/guideline31"
                 app:layout_constraintEnd_toStartOf="@+id/guideline30"
-                app:layout_constraintStart_toEndOf="@+id/imageView5"
+                app:layout_constraintStart_toEndOf="@+id/img_staff"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView21"
+                android:id="@+id/textSucursal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/zahara_norte"
@@ -120,7 +120,7 @@
                 app:layout_constraintTop_toTopOf="@+id/guideline31" />
 
             <TextView
-                android:id="@+id/textView22"
+                android:id="@+id/tv_servicio_precio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/_400"
@@ -131,28 +131,17 @@
                 app:layout_constraintTop_toTopOf="@+id/guideline31" />
 
             <TextView
-                android:id="@+id/textView23"
+                android:id="@+id/txtServicio"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/corte_de_cabello"
                 android:textColor="@color/textcard"
-                app:layout_constraintBottom_toTopOf="@+id/textView24"
+                app:layout_constraintBottom_toTopOf="@+id/guideline31"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="@+id/guideline30"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <TextView
-                android:id="@+id/textView24"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/_100"
-                android:textColor="@color/textcard"
-                app:layout_constraintBottom_toTopOf="@+id/textView22"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="@+id/guideline30"
-                app:layout_constraintTop_toBottomOf="@+id/textView23" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 

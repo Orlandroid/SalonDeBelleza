@@ -17,5 +17,4 @@ interface WebServices {
     @GET("staffs/")
     fun getStaff(): Call<List<Staff>>
 
-
 }

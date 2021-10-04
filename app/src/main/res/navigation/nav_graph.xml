@@ -68,13 +68,6 @@
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
         <action
-            android:id="@+id/action_agendarStaff_to_agendarSucursal"
-            app:destination="@id/agendarSucursal"
-            app:enterAnim="@anim/from_left"
-            app:exitAnim="@anim/to_right"
-            app:popEnterAnim="@anim/from_right"
-            app:popExitAnim="@anim/to_left" />
-        <action
             android:id="@+id/action_agendarStaff_to_home3"
             app:destination="@id/home3"
             app:enterAnim="@anim/from_left"
@@ -84,6 +77,9 @@
         <action
             android:id="@+id/action_agendarStaff_to_detalleStaff"
             app:destination="@id/detalleStaff" />
+        <argument
+            android:name="sucursal"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/agendarServicio"
@@ -98,32 +94,24 @@
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
         <action
-            android:id="@+id/action_agendarServicio_to_agendarStaff"
-            app:destination="@id/agendarStaff"
-            app:enterAnim="@anim/from_left"
-            app:exitAnim="@anim/to_right"
-            app:popEnterAnim="@anim/from_right"
-            app:popExitAnim="@anim/to_left" />
-        <action
             android:id="@+id/action_agendarServicio_to_home3"
             app:destination="@id/home3"
             app:enterAnim="@anim/from_left"
             app:exitAnim="@anim/to_right"
             app:popEnterAnim="@anim/from_right"
             app:popExitAnim="@anim/to_left" />
+        <argument
+            android:name="staff"
+            app:argType="com.example.citassalon.data.models.Staff" />
+        <argument
+            android:name="sucursal"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/agendarFecha"
         android:name="com.example.citassalon.ui.fecha.AgendarFecha"
         android:label="fragment_agendar_fecha"
         tools:layout="@layout/fragment_agendar_fecha">
-        <action
-            android:id="@+id/action_agendarFecha_to_agendarServicio"
-            app:destination="@id/agendarServicio"
-            app:enterAnim="@anim/from_left"
-            app:exitAnim="@anim/to_right"
-            app:popEnterAnim="@anim/from_right"
-            app:popExitAnim="@anim/to_left" />
         <action
             android:id="@+id/action_agendarFecha_to_home3"
             app:destination="@id/home3"
@@ -138,6 +126,15 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
+        <argument
+            android:name="sucursal"
+            app:argType="string" />
+        <argument
+            android:name="staff"
+            app:argType="com.example.citassalon.data.models.Staff" />
+        <argument
+            android:name="servicio"
+            app:argType="com.example.citassalon.data.models.Servicio" />
     </fragment>
     <fragment
         android:id="@+id/agendarConfirmacion"
@@ -158,13 +155,21 @@
             app:exitAnim="@anim/to_right"
             app:popEnterAnim="@anim/from_right"
             app:popExitAnim="@anim/to_left" />
-        <action
-            android:id="@+id/action_agendarConfirmacion_to_agendarFecha"
-            app:destination="@id/agendarFecha"
-            app:enterAnim="@anim/from_left"
-            app:exitAnim="@anim/to_right"
-            app:popEnterAnim="@anim/from_right"
-            app:popExitAnim="@anim/to_left" />
+        <argument
+            android:name="sucursal"
+            app:argType="string" />
+        <argument
+            android:name="staff"
+            app:argType="com.example.citassalon.data.models.Staff" />
+        <argument
+            android:name="servicio"
+            app:argType="com.example.citassalon.data.models.Servicio" />
+        <argument
+            android:name="fecha"
+            app:argType="string" />
+        <argument
+            android:name="hora"
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/citaAgendada"

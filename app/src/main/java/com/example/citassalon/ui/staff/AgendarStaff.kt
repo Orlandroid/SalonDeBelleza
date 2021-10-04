@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Staff
@@ -25,6 +26,11 @@ class AgendarStaff : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
     private var _binding: FragmentAgendarStaffBinding? = null
     private val binding get() = _binding!!
     private val viewModelStaff: ViewModelStaff by viewModels()
+    private val args: AgendarStaffArgs by navArgs()
+
+    /**this is the staff what change each time what the user
+     * give a clik on the recycler*/
+    private var currentStaff: Staff? = null
 
 
     override fun onCreateView(
@@ -37,8 +43,17 @@ class AgendarStaff : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
         binding.recyclerStaff.setHasFixedSize(true)
         binding.recyclerStaff.layoutManager = GridLayoutManager(requireContext(), 2)
         setUpObservers()
+        getArgs()
         return binding.root
 
+    }
+
+    private fun getArgs() {
+        setValueToView(args.sucursal)
+    }
+
+    private fun setValueToView(sucursal: String) {
+        binding.tvSucursal.text = sucursal
     }
 
 
@@ -51,7 +66,7 @@ class AgendarStaff : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
                 is ApiState.Success -> {
                     if (it.data != null) {
                         //binding.progressBarS.visibility = View.GONE
-                        binding.recyclerStaff.adapter = AdaptadorStaff(it.data,this)
+                        binding.recyclerStaff.adapter = AdaptadorStaff(it.data, this)
                     }
                 }
                 is ApiState.Error -> {
@@ -64,7 +79,6 @@ class AgendarStaff : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.item_back -> {
-                findNavController().navigate(R.id.action_agendarStaff_to_agendarSucursal)
                 true
             }
             R.id.item_home -> {
@@ -72,7 +86,13 @@ class AgendarStaff : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
                 true
             }
             R.id.item_next -> {
-                findNavController().navigate(R.id.action_agendarStaff_to_agendarServicio)
+                val action = currentStaff?.let {
+                    AgendarStaffDirections.actionAgendarStaffToAgendarServicio(
+                        it,
+                        args.sucursal
+                    )
+                }
+                action?.let { findNavController().navigate(it) }
                 true
             }
             else -> false
@@ -80,7 +100,8 @@ class AgendarStaff : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
     }
 
     override fun clickOnStaf(stafff: Staff) {
-        binding.textAgendarSucursal.text = stafff.nombre
+        binding.tvEmpleado.text = stafff.nombre
+        currentStaff = stafff
     }
 
 

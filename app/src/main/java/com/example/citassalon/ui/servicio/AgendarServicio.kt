@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Servicio
 import com.example.citassalon.databinding.FragmentAgendarServicioBinding
@@ -24,6 +25,11 @@ class AgendarServicio : Fragment(), BottomNavigationView.OnNavigationItemSelecte
     private val binding get() = _binding!!
     private val viewModelAgendarServicio: ViewModelAgendarServicio by viewModels()
 
+
+    private val args: AgendarServicioArgs by navArgs()
+    private var currentServicio: Servicio? = null
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -32,7 +38,14 @@ class AgendarServicio : Fragment(), BottomNavigationView.OnNavigationItemSelecte
         _binding = FragmentAgendarServicioBinding.inflate(inflater, container, false)
         binding.servicioBottomNavigationView.setOnNavigationItemSelectedListener(this)
         setUpObservers()
+        setValuesToView(args)
         return binding.root
+    }
+
+    private fun setValuesToView(args: AgendarServicioArgs) {
+        binding.sucursal.text = args.sucursal
+        binding.staffImage.setImageResource(args.staff.getResourceImage())
+        binding.nombreStaff.text = args.staff.nombre
     }
 
     private fun setUpObservers() {
@@ -57,7 +70,6 @@ class AgendarServicio : Fragment(), BottomNavigationView.OnNavigationItemSelecte
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.item_back -> {
-                findNavController().navigate(R.id.action_agendarServicio_to_agendarStaff)
                 true
             }
             R.id.item_home -> {
@@ -65,7 +77,14 @@ class AgendarServicio : Fragment(), BottomNavigationView.OnNavigationItemSelecte
                 true
             }
             R.id.item_next -> {
-                findNavController().navigate(R.id.action_agendarServicio_to_agendarFecha)
+                val action = currentServicio?.let {
+                    AgendarServicioDirections.actionAgendarServicioToAgendarFecha(
+                        args.sucursal,
+                        args.staff,
+                        it
+                    )
+                }
+                action?.let { findNavController().navigate(it) }
                 true
             }
             else -> false
@@ -74,6 +93,7 @@ class AgendarServicio : Fragment(), BottomNavigationView.OnNavigationItemSelecte
 
     override fun clickOnServicio(servicio: Servicio) {
         binding.tvServicio.text = servicio.name
+        currentServicio = servicio
     }
 
 
