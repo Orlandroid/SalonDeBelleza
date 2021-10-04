@@ -2,7 +2,9 @@ package com.example.citassalon.di
 
 import android.content.Context
 import androidx.room.Room
+import com.example.citassalon.data.room.AppointmentDao
 import com.example.citassalon.data.room.SkedulyDatabase
+import com.example.citassalon.ui.confirmarcita.AppointmentRepository
 import com.example.citassalon.util.DATABASE_NAME
 import dagger.Module
 import dagger.Provides
@@ -31,5 +33,9 @@ object ModuleDb {
     @Singleton
     @Provides
     fun provideAppointmentDao(db: SkedulyDatabase) = db.appointmentDao()
+
+    @Singleton
+    @Provides
+    fun provideAppoinmentRepository(dao: AppointmentDao) = AppointmentRepository(dao)
 
 }

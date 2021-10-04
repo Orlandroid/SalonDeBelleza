@@ -6,16 +6,21 @@ import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.citassalon.R
+import com.example.citassalon.data.models.Appointment
 import com.example.citassalon.databinding.FragmentAgendarConfirmacionBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class AgendarConfirmacion : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener {
 
     private var _binding: FragmentAgendarConfirmacionBinding? = null
     private val binding get() = _binding!!
+    private val viewModel: ViewModelAgendarConfirmacion by viewModels()
 
     private val args: AgendarConfirmacionArgs by navArgs()
 
@@ -27,6 +32,7 @@ class AgendarConfirmacion : Fragment(), BottomNavigationView.OnNavigationItemSel
         _binding = FragmentAgendarConfirmacionBinding.inflate(inflater, container, false)
         binding.confirmacionBottomNavigationView.setOnNavigationItemSelectedListener(this)
         binding.buttonConfirmar.setOnClickListener {
+            viewModel.getApp()
             findNavController().navigate(R.id.action_agendarConfirmacion_to_citaAgendada)
         }
         setValuesToView(args)
