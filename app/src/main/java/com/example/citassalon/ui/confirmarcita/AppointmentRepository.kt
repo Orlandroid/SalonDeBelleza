@@ -1,4 +1,4 @@
-package com.example.citassalon.ui.citaagendada
+package com.example.citassalon.ui.confirmarcita
 
 import com.example.citassalon.data.models.Appointment
 import com.example.citassalon.data.room.AppointmentDao

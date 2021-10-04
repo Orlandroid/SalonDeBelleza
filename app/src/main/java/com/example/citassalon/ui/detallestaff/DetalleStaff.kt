@@ -37,4 +37,9 @@ class DetalleStaff : Fragment() {
         binding.ratingBarEvaluation.rating = staff.valoracion
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
 }

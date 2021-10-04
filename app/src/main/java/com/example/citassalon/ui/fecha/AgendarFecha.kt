@@ -91,5 +91,9 @@ class AgendarFecha : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 
 }

@@ -84,5 +84,10 @@ class AgendarSucursal : Fragment(), BottomNavigationView.OnNavigationItemSelecte
     override fun clickOnSucursal(sucursal: Sucursal) {
         binding.textAgendarSucursal.text = sucursal.name
     }
+    
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 
 }
