@@ -32,7 +32,17 @@ class AgendarConfirmacion : Fragment(), BottomNavigationView.OnNavigationItemSel
         _binding = FragmentAgendarConfirmacionBinding.inflate(inflater, container, false)
         binding.confirmacionBottomNavigationView.setOnNavigationItemSelectedListener(this)
         binding.buttonConfirmar.setOnClickListener {
-            viewModel.getApp()
+            viewModel.saveAppointMent(
+                Appointment(
+                    0,
+                    args.sucursal,
+                    args.staff.nombre,
+                    args.servicio.name,
+                    args.fecha,
+                    args.hora,
+                    args.servicio.precio.toString()
+                )
+            )
             findNavController().navigate(R.id.action_agendarConfirmacion_to_citaAgendada)
         }
         setValuesToView(args)
