@@ -25,7 +25,7 @@
         app:layout_constraintTop_toTopOf="@+id/guideline8" />
 
     <TextView
-        android:id="@+id/text_agendar_sucursal"
+        android:id="@+id/tvEmpleado"
         style="@style/TextosAccion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -55,14 +55,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/place_24px"
-                app:layout_constraintBottom_toTopOf="@+id/textView7"
+                app:layout_constraintBottom_toTopOf="@+id/tvSucursal"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.5"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/textView7"
+                android:id="@+id/tvSucursal"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/zahara_norte"

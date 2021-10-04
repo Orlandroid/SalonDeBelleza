@@ -21,11 +21,13 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/textView5"
+        android:id="@+id/c_sucursal"
         style="@style/ConfirmarCita"
-        android:layout_width="288dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:paddingTop="1dp"
         android:text="@string/place_selected"
         android:textColor="@color/black"
@@ -36,35 +38,39 @@
 
 
     <TextView
-        android:id="@+id/textView8"
+        android:id="@+id/c_satff"
         style="@style/ConfirmarCita"
-        android:layout_width="288dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:paddingTop="5dp"
         android:text="@string/staff_selected"
         android:textColor="@color/black"
         app:drawableStartCompat="@drawable/face_unlock_24px"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView5" />
+        app:layout_constraintTop_toBottomOf="@+id/c_sucursal" />
 
     <TextView
-        android:id="@+id/textView9"
+        android:id="@+id/c_servicio"
         style="@style/ConfirmarCita"
-        android:layout_width="288dp"
+        android:layout_width="0dp"
         android:layout_height="40dp"
+        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
         android:paddingTop="5dp"
         android:text="@string/service_selected"
         android:textColor="@color/black"
         app:drawableStartCompat="@drawable/stars_24px"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView8" />
+        app:layout_constraintTop_toBottomOf="@+id/c_satff" />
 
     <TextView
-        android:id="@+id/textView10"
+        android:id="@+id/c_fecha"
         style="@style/ConfirmarCita"
         android:layout_width="wrap_content"
         android:layout_height="46dp"
@@ -76,10 +82,10 @@
         app:drawableStartCompat="@drawable/insert_invitation_24px"
         app:layout_constraintEnd_toStartOf="@+id/guideline11"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
+        app:layout_constraintTop_toBottomOf="@+id/c_servicio" />
 
     <TextView
-        android:id="@+id/tv_fecha"
+        android:id="@+id/c_hora"
         style="@style/ConfirmarCita"
         android:layout_width="wrap_content"
         android:layout_height="46dp"
@@ -91,85 +97,33 @@
         app:drawableStartCompat="@drawable/watch_later_24px"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/guideline11"
-        app:layout_constraintTop_toBottomOf="@+id/textView9" />
-
-    <TextView
-        android:id="@+id/textView15"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/poppins_light"
-        android:text="@string/PrecioDescontado"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/guideline11"
-        app:layout_constraintTop_toBottomOf="@+id/textView14" />
-
-    <TextView
-        android:id="@+id/textView12"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:fontFamily="@font/poppins_light"
-        android:text="@string/Descuento"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline11"
-        app:layout_constraintTop_toBottomOf="@+id/textView11" />
-
-    <TextView
-        android:id="@+id/textView11"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:fontFamily="@font/poppins_light"
-        android:text="@string/Subtotal"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline11"
-        app:layout_constraintTop_toBottomOf="@+id/textView10" />
-
-    <TextView
-        android:id="@+id/textView14"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:fontFamily="@font/poppins_light"
-        android:text="@string/Precio"
-        android:textColor="@color/white"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="@+id/guideline11"
-        app:layout_constraintTop_toBottomOf="@+id/tv_fecha" />
+        app:layout_constraintTop_toBottomOf="@+id/c_servicio" />
 
     <TextView
         android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/poppins_medium"
         android:text="@string/Total"
         android:textColor="@color/white"
         android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/button_confirmar"
         app:layout_constraintEnd_toStartOf="@+id/guideline11"
-        app:layout_constraintTop_toBottomOf="@+id/textView12" />
+        app:layout_constraintTop_toBottomOf="@+id/c_fecha" />
 
     <TextView
-        android:id="@+id/textView16"
+        android:id="@+id/c_precio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
         android:fontFamily="@font/poppins_bold"
         android:text="@string/PrecioTotal"
         android:textColor="@color/white"
         android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/button_confirmar"
         app:layout_constraintStart_toStartOf="@+id/guideline11"
-        app:layout_constraintTop_toBottomOf="@+id/textView15" />
+        app:layout_constraintTop_toBottomOf="@+id/c_hora" />
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/confirmacion_bottom_navigation_view"
@@ -192,13 +146,10 @@
         android:id="@+id/button_confirmar"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="32dp"
         android:text="@string/confirma_cita"
         app:layout_constraintBottom_toTopOf="@+id/confirmacion_bottom_navigation_view"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView13" />
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

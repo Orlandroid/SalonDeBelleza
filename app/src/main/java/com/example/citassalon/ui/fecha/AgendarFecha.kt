@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentAgendarFechaBinding
 import com.google.android.material.bottomnavigation.BottomNavigationView
@@ -16,6 +17,8 @@ class AgendarFecha : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
 
     private var _binding: FragmentAgendarFechaBinding? = null
     private val binding get() = _binding!!
+
+    private val args: AgendarFechaArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,9 +35,18 @@ class AgendarFecha : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
         binding.edHora.setOnClickListener {
             showTimePickerDialog()
         }
+        setValuesToView(args)
 
         return binding.root
 
+    }
+
+    private fun setValuesToView(args: AgendarFechaArgs) {
+        binding.imgStaff.setImageResource(args.staff.getResourceImage())
+        binding.tvStaffName.text = args.staff.nombre
+        binding.txtServicio.text = args.servicio.name
+        binding.tvServicioPrecio.text = args.servicio.precio.toString()
+        binding.textSucursal.text = args.sucursal
     }
 
     private fun showDatePickerDialog() {
@@ -58,7 +70,6 @@ class AgendarFecha : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         return when (item.itemId) {
             R.id.item_back -> {
-                findNavController().navigate(R.id.action_agendarFecha_to_agendarServicio)
                 true
             }
             R.id.item_home -> {
@@ -66,7 +77,14 @@ class AgendarFecha : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
                 true
             }
             R.id.item_next -> {
-                findNavController().navigate(R.id.action_agendarFecha_to_agendarHora)
+                val action = AgendarFechaDirections.actionAgendarFechaToAgendarConfirmacion(
+                    args.sucursal,
+                    args.staff,
+                    args.servicio,
+                    binding.selectDate.text.toString(),
+                    binding.edHora.text.toString()
+                )
+                findNavController().navigate(action)
                 true
             }
             else -> false
