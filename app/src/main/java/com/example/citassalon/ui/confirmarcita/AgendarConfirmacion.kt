@@ -55,4 +55,9 @@ class AgendarConfirmacion : Fragment(), BottomNavigationView.OnNavigationItemSel
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
 }

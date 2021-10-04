@@ -67,5 +67,10 @@ class Login : Fragment() {
             userController.sendSnackBar(binding.txtUser, "Verifica tu usuario y contraseña")
         }
     }
+    
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 
 }

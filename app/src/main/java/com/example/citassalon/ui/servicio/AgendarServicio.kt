@@ -96,5 +96,9 @@ class AgendarServicio : Fragment(), BottomNavigationView.OnNavigationItemSelecte
         currentServicio = servicio
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 
 }

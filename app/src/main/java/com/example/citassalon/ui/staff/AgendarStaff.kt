@@ -104,5 +104,10 @@ class AgendarStaff : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
         currentStaff = stafff
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
+
 
 }
