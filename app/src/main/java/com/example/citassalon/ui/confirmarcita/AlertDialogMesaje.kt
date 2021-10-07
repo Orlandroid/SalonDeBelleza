@@ -4,27 +4,23 @@ import android.content.Context
 import com.example.citassalon.R
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class AlertDialogMesaje {
+class AlertDialogMesaje(private val context: Context, private val listener: ListenerAlertDialog) {
 
-    private var confirmacion = false
-
-    fun showAlertDialog(context: Context, titulo: String, mensaje: String) {
-        val alert = MaterialAlertDialogBuilder(context, R.style.AlertDialogTheme)
-        alert.setTitle(titulo)
-            .setMessage(mensaje)
-            .setPositiveButton("Confirmar") { dialog, _ ->
-                confirmacion = true
+    fun showAlertDialog() {
+        val alert = MaterialAlertDialogBuilder(context)
+        alert.setTitle(R.string.confirma_cita)
+            .setMessage(R.string.mensaje_confirmacion)
+            .setPositiveButton(R.string.confirmar) { dialog, _ ->
+                listener.clickOnConfirmar()
                 dialog.dismiss()
-
             }
-            .setNegativeButton("Cancel") { dialog, _ ->
-                confirmacion = false
+            .setNegativeButton(R.string.cancelar) { dialog, _ ->
+                listener.clickOnCancel()
                 dialog.dismiss()
             }
         alert.create()
         alert.show()
     }
 
-    fun getConfirmacion(): Boolean = confirmacion
 
 }

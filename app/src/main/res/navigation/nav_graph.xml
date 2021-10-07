@@ -34,6 +34,9 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_home3_to_sucursales"
+            app:destination="@id/sucursales" />
     </fragment>
     <fragment
         android:id="@+id/agendarSucursal"
@@ -173,7 +176,7 @@
     </fragment>
     <fragment
         android:id="@+id/citaAgendada"
-        android:name="com.example.citassalon.ui.citaagendada.CitaAgendada"
+        android:name="com.example.citassalon.ui.cita_agendada.CitaAgendada"
         android:label="fragment_cita_agendada"
         tools:layout="@layout/fragment_cita_agendada">
         <action
@@ -195,11 +198,16 @@
     </fragment>
     <fragment
         android:id="@+id/detalleStaff"
-        android:name="com.example.citassalon.ui.detallestaff.DetalleStaff"
+        android:name="com.example.citassalon.ui.detalle_staff.DetalleStaff"
         android:label="fragment_detalle_staff"
         tools:layout="@layout/fragment_detalle_staff">
         <argument
             android:name="currentStaff"
             app:argType="com.example.citassalon.data.models.Staff" />
     </fragment>
+    <fragment
+        android:id="@+id/sucursales"
+        android:name="com.example.citassalon.ui.info.sucursales.Sucursales"
+        android:label="fragment_sucursales"
+        tools:layout="@layout/fragment_sucursales" />
 </navigation>

@@ -1,4 +1,4 @@
-package com.example.citassalon.ui.sucursal
+package com.example.citassalon.ui.share_beetwen_sucursales
 
 import com.example.citassalon.data.models.Sucursal
 

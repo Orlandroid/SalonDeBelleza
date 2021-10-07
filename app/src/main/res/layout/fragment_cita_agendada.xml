@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".ui.citaagendada.CitaAgendada">
+    tools:context=".ui.cita_agendada.CitaAgendada">
 
     <ImageView
         android:id="@+id/imageView7"
@@ -22,7 +22,6 @@
         android:layout_height="wrap_content"
         android:text="@string/muy_bien"
         android:textSize="34sp"
-        android:textColor="@color/white"
         app:layout_constraintBottom_toTopOf="@+id/textView51"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +34,6 @@
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
         android:text="@string/cita_agendada"
-        android:textColor="@color/white"
         android:textSize="34sp"
         app:layout_constraintBottom_toTopOf="@id/guideline17"
         app:layout_constraintEnd_toEndOf="parent"

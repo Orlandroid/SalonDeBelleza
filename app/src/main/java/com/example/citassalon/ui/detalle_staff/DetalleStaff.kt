@@ -1,4 +1,4 @@
-package com.example.citassalon.ui.detallestaff
+package com.example.citassalon.ui.detalle_staff
 
 import android.os.Bundle
 import android.view.LayoutInflater
