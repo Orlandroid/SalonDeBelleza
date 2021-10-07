@@ -13,6 +13,9 @@ import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Sucursal
 import com.example.citassalon.databinding.FragmentAgendarSucursalBinding
+import com.example.citassalon.ui.share_beetwen_sucursales.AdaptadorSucursal
+import com.example.citassalon.ui.share_beetwen_sucursales.ClickOnSucursal
+import com.example.citassalon.ui.share_beetwen_sucursales.ViewModelSucursal
 import com.example.citassalon.util.ApiState
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint

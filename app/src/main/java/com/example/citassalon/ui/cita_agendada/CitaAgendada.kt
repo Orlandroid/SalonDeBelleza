@@ -1,4 +1,4 @@
-package com.example.citassalon.ui.citaagendada
+package com.example.citassalon.ui.cita_agendada
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -12,8 +12,6 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.core.content.ContextCompat.getColor
-import androidx.core.content.ContextCompat.getSystemService
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentCitaAgendadaBinding
