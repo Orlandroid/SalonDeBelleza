@@ -16,7 +16,8 @@ import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AgendarConfirmacion : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener {
+class AgendarConfirmacion : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener,
+    ListenerAlertDialog {
 
     private var _binding: FragmentAgendarConfirmacionBinding? = null
     private val binding get() = _binding!!
@@ -32,18 +33,8 @@ class AgendarConfirmacion : Fragment(), BottomNavigationView.OnNavigationItemSel
         _binding = FragmentAgendarConfirmacionBinding.inflate(inflater, container, false)
         binding.confirmacionBottomNavigationView.setOnNavigationItemSelectedListener(this)
         binding.buttonConfirmar.setOnClickListener {
-            viewModel.saveAppointMent(
-                Appointment(
-                    0,
-                    args.sucursal,
-                    args.staff.nombre,
-                    args.servicio.name,
-                    args.fecha,
-                    args.hora,
-                    args.servicio.precio.toString()
-                )
-            )
-            findNavController().navigate(R.id.action_agendarConfirmacion_to_citaAgendada)
+            val alert = AlertDialogMesaje(requireContext(), this)
+            alert.showAlertDialog()
         }
         setValuesToView(args)
         return binding.root
@@ -74,6 +65,25 @@ class AgendarConfirmacion : Fragment(), BottomNavigationView.OnNavigationItemSel
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun clickOnConfirmar() {
+        viewModel.saveAppointMent(
+            Appointment(
+                0,
+                args.sucursal,
+                args.staff.nombre,
+                args.servicio.name,
+                args.fecha,
+                args.hora,
+                args.servicio.precio.toString()
+            )
+        )
+        findNavController().navigate(R.id.action_agendarConfirmacion_to_citaAgendada)
+    }
+
+    override fun clickOnCancel() {
+        
     }
 
 }
