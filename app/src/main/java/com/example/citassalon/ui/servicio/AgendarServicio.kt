@@ -2,24 +2,19 @@ package com.example.citassalon.ui.servicio
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.citassalon.R
 import com.example.citassalon.data.models.Servicio
 import com.example.citassalon.databinding.FragmentAgendarServicioBinding
-import com.example.citassalon.util.AlertsDialogMessages
 import com.example.citassalon.util.ApiState
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AgendarServicio : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener,
-    ListernerClickOnService {
+class AgendarServicio : Fragment(), ListernerClickOnService {
 
 
     private var _binding: FragmentAgendarServicioBinding? = null
@@ -37,7 +32,6 @@ class AgendarServicio : Fragment(), BottomNavigationView.OnNavigationItemSelecte
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentAgendarServicioBinding.inflate(inflater, container, false)
-        binding.servicioBottomNavigationView.setOnNavigationItemSelectedListener(this)
         setUpObservers()
         setValuesToView(args)
         return binding.root
@@ -68,45 +62,15 @@ class AgendarServicio : Fragment(), BottomNavigationView.OnNavigationItemSelecte
         })
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.item_back -> {
-                true
-            }
-            R.id.item_home -> {
-                findNavController().navigate(R.id.action_agendarServicio_to_home3)
-                true
-            }
-            R.id.item_next -> {
-                val action = currentServicio?.let {
-                    AgendarServicioDirections.actionAgendarServicioToAgendarFecha(
-                        args.sucursal,
-                        args.staff,
-                        it
-                    )
-                }
-                if (action != null) {
-                    findNavController().navigate(action)
-                } else {
-                    notMove()
-                }
-                true
-            }
-            else -> false
-        }
-    }
-
-    private fun notMove() {
-        val alert = AlertsDialogMessages(requireContext())
-        alert.showSimpleMessage(
-            requireContext().getString(R.string.informacion),
-            requireContext().getString(R.string.selecciona_un_servicio),
-        )
-    }
-
     override fun clickOnServicio(servicio: Servicio) {
         binding.tvServicio.text = servicio.name
         currentServicio = servicio
+        val acction = AgendarServicioDirections.actionAgendarServicioToAgendarFecha(
+            args.sucursal,
+            args.staff,
+            servicio
+        )
+        findNavController().navigate(acction)
     }
 
     override fun onDestroy() {

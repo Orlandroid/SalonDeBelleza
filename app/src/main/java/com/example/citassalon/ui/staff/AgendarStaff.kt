@@ -16,12 +16,10 @@ import com.example.citassalon.data.models.Staff
 import com.example.citassalon.databinding.FragmentAgendarStaffBinding
 import com.example.citassalon.util.AlertsDialogMessages
 import com.example.citassalon.util.ApiState
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AgendarStaff : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener,
-    ClickOnStaff {
+class AgendarStaff : Fragment(), ClickOnStaff {
 
 
     private var _binding: FragmentAgendarStaffBinding? = null
@@ -40,13 +38,11 @@ class AgendarStaff : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentAgendarStaffBinding.inflate(layoutInflater, container, false)
-        binding.staffBottomNavigationView.setOnNavigationItemSelectedListener(this)
         binding.recyclerStaff.setHasFixedSize(true)
         binding.recyclerStaff.layoutManager = GridLayoutManager(requireContext(), 2)
         setUpObservers()
         getArgs()
         return binding.root
-
     }
 
     private fun getArgs() {
@@ -77,45 +73,14 @@ class AgendarStaff : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
         })
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.item_back -> {
-                true
-            }
-            R.id.item_home -> {
-                findNavController().navigate(R.id.action_agendarStaff_to_home3)
-                true
-            }
-            R.id.item_next -> {
-                val action = currentStaff?.let {
-                    AgendarStaffDirections.actionAgendarStaffToAgendarServicio(
-                        it,
-                        args.sucursal
-                    )
-                }
-                if (action != null) {
-                    findNavController().navigate(action)
-                } else {
-                    notMove()
-                }
-
-                true
-            }
-            else -> false
-        }
-    }
-
-    private fun notMove() {
-        val alert = AlertsDialogMessages(requireContext())
-        alert.showSimpleMessage(
-            requireContext().getString(R.string.informacion),
-            requireContext().getString(R.string.selecciona_un_empleado),
+    override fun clickOnStaff(staff: Staff) {
+        binding.tvEmpleado.text = staff.nombre
+        currentStaff = staff
+        val acction = AgendarStaffDirections.actionAgendarStaffToAgendarServicio(
+            staff,
+            args.sucursal
         )
-    }
-
-    override fun clickOnStaf(stafff: Staff) {
-        binding.tvEmpleado.text = stafff.nombre
-        currentStaff = stafff
+        findNavController().navigate(acction)
     }
 
     override fun onDestroy() {

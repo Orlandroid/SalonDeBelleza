@@ -50,13 +50,6 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
-        <action
-            android:id="@+id/action_agendarSucursal_to_home3"
-            app:destination="@id/home3"
-            app:enterAnim="@anim/from_left"
-            app:exitAnim="@anim/to_right"
-            app:popEnterAnim="@anim/from_right"
-            app:popExitAnim="@anim/to_left" />
     </fragment>
     <fragment
         android:id="@+id/agendarStaff"
@@ -70,13 +63,6 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
-        <action
-            android:id="@+id/action_agendarStaff_to_home3"
-            app:destination="@id/home3"
-            app:enterAnim="@anim/from_left"
-            app:exitAnim="@anim/to_right"
-            app:popEnterAnim="@anim/from_right"
-            app:popExitAnim="@anim/to_left" />
         <action
             android:id="@+id/action_agendarStaff_to_detalleStaff"
             app:destination="@id/detalleStaff" />
@@ -96,13 +82,6 @@
             app:exitAnim="@anim/to_left"
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
-        <action
-            android:id="@+id/action_agendarServicio_to_home3"
-            app:destination="@id/home3"
-            app:enterAnim="@anim/from_left"
-            app:exitAnim="@anim/to_right"
-            app:popEnterAnim="@anim/from_right"
-            app:popExitAnim="@anim/to_left" />
         <argument
             android:name="staff"
             app:argType="com.example.citassalon.data.models.Staff" />
@@ -115,13 +94,6 @@
         android:name="com.example.citassalon.ui.fecha.AgendarFecha"
         android:label="fragment_agendar_fecha"
         tools:layout="@layout/fragment_agendar_fecha">
-        <action
-            android:id="@+id/action_agendarFecha_to_home3"
-            app:destination="@id/home3"
-            app:enterAnim="@anim/from_left"
-            app:exitAnim="@anim/to_right"
-            app:popEnterAnim="@anim/from_right"
-            app:popExitAnim="@anim/to_left" />
         <action
             android:id="@+id/action_agendarFecha_to_agendarConfirmacion"
             app:destination="@id/agendarConfirmacion"

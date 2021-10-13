@@ -13,21 +13,12 @@
         android:layout_height="0dp"
         android:background="@drawable/backgroun_recycler_view"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@+id/servicio_bottom_navigation_view"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline15"
         tools:listitem="@layout/item_servicio" />
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/servicio_bottom_navigation_view"
-        android:layout_width="0dp"
-        android:layout_height="80dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/menu_botton" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline15"

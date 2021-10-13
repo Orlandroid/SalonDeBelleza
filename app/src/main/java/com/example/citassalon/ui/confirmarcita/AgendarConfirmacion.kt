@@ -13,12 +13,10 @@ import com.example.citassalon.R
 import com.example.citassalon.data.models.Appointment
 import com.example.citassalon.databinding.FragmentAgendarConfirmacionBinding
 import com.example.citassalon.util.AlertsDialogMessages
-import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AgendarConfirmacion : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener,
-    ListenerAlertDialog {
+class AgendarConfirmacion : Fragment(), ListenerAlertDialog {
 
     private var _binding: FragmentAgendarConfirmacionBinding? = null
     private val binding get() = _binding!!
@@ -32,7 +30,6 @@ class AgendarConfirmacion : Fragment(), BottomNavigationView.OnNavigationItemSel
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentAgendarConfirmacionBinding.inflate(inflater, container, false)
-        binding.confirmacionBottomNavigationView.setOnNavigationItemSelectedListener(this)
         binding.buttonConfirmar.setOnClickListener {
             showComfirmAppointment()
         }
@@ -52,19 +49,6 @@ class AgendarConfirmacion : Fragment(), BottomNavigationView.OnNavigationItemSel
         binding.cFecha.text = args.fecha
         binding.cHora.text = args.hora
         binding.cPrecio.text = args.servicio.precio.toString()
-    }
-
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.element_back -> {
-                true
-            }
-            R.id.element_home -> {
-                findNavController().navigate(R.id.action_agendarConfirmacion_to_home3)
-                true
-            }
-            else -> false
-        }
     }
 
     override fun onDestroy() {
