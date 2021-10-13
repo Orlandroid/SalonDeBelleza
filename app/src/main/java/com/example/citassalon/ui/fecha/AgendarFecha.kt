@@ -11,6 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentAgendarFechaBinding
+import com.example.citassalon.util.AlertsDialogMessages
 import com.google.android.material.bottomnavigation.BottomNavigationView
 
 class AgendarFecha : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener {
@@ -84,12 +85,31 @@ class AgendarFecha : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
                     binding.selectDate.text.toString(),
                     binding.edHora.text.toString()
                 )
-                findNavController().navigate(action)
+                if (areEmptyTimeOrDate()) {
+                    findNavController().navigate(action)
+                } else {
+                    notMove()
+                }
                 true
             }
             else -> false
         }
     }
+
+    private fun areEmptyTimeOrDate(): Boolean {
+        val date = binding.selectDate.text.toString().trim()
+        val time = binding.edHora.text.toString().trim()
+        return date.isNotEmpty() and time.isNotEmpty()
+    }
+
+    private fun notMove() {
+        val alert = AlertsDialogMessages(requireContext())
+        alert.showSimpleMessage(
+            requireContext().getString(R.string.informacion),
+            requireContext().getString(R.string.selecciona_hora_fecha)
+        )
+    }
+
 
     override fun onDestroy() {
         super.onDestroy()

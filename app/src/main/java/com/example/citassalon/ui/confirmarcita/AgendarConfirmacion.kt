@@ -12,6 +12,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Appointment
 import com.example.citassalon.databinding.FragmentAgendarConfirmacionBinding
+import com.example.citassalon.util.AlertsDialogMessages
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -33,11 +34,15 @@ class AgendarConfirmacion : Fragment(), BottomNavigationView.OnNavigationItemSel
         _binding = FragmentAgendarConfirmacionBinding.inflate(inflater, container, false)
         binding.confirmacionBottomNavigationView.setOnNavigationItemSelectedListener(this)
         binding.buttonConfirmar.setOnClickListener {
-            val alert = AlertDialogMesaje(requireContext(), this)
-            alert.showAlertDialog()
+            showComfirmAppointment()
         }
         setValuesToView(args)
         return binding.root
+    }
+
+    private fun showComfirmAppointment() {
+        val alert = AlertsDialogMessages(requireContext())
+        alert.showComfirmationAppoinment(this)
     }
 
     private fun setValuesToView(args: AgendarConfirmacionArgs) {
@@ -83,7 +88,7 @@ class AgendarConfirmacion : Fragment(), BottomNavigationView.OnNavigationItemSel
     }
 
     override fun clickOnCancel() {
-        
+
     }
 
 }

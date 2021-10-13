@@ -16,6 +16,7 @@ import com.example.citassalon.databinding.FragmentAgendarSucursalBinding
 import com.example.citassalon.ui.share_beetwen_sucursales.AdaptadorSucursal
 import com.example.citassalon.ui.share_beetwen_sucursales.ClickOnSucursal
 import com.example.citassalon.ui.share_beetwen_sucursales.ViewModelSucursal
+import com.example.citassalon.util.AlertsDialogMessages
 import com.example.citassalon.util.ApiState
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -77,17 +78,30 @@ class AgendarSucursal : Fragment(), BottomNavigationView.OnNavigationItemSelecte
                 val action = AgendarSucursalDirections.actionAgendarSucursalToAgendarStaff(
                     binding.textAgendarSucursal.text.toString()
                 )
-                findNavController().navigate(action)
+                if (binding.textAgendarSucursal.text.toString().isNotEmpty()) {
+                    findNavController().navigate(action)
+                } else {
+                    notMove()
+                }
+
                 true
             }
             else -> false
         }
     }
 
+    private fun notMove() {
+        val alert = AlertsDialogMessages(requireContext())
+        alert.showSimpleMessage(
+            requireContext().getString(R.string.informacion),
+            requireContext().getString(R.string.selecciona_una_sucursal),
+        )
+    }
+
     override fun clickOnSucursal(sucursal: Sucursal) {
         binding.textAgendarSucursal.text = sucursal.name
     }
-    
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null

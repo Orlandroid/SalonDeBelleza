@@ -34,7 +34,6 @@
         android:id="@+id/text_agendar_sucursal"
         style="@style/TextosAccion"
         android:layout_marginBottom="16dp"
-        android:text="@string/texto_sucursal"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
         app:layout_constraintEnd_toStartOf="@+id/guideline12"

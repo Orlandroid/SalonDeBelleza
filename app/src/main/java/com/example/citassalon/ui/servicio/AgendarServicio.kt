@@ -12,6 +12,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Servicio
 import com.example.citassalon.databinding.FragmentAgendarServicioBinding
+import com.example.citassalon.util.AlertsDialogMessages
 import com.example.citassalon.util.ApiState
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -84,11 +85,23 @@ class AgendarServicio : Fragment(), BottomNavigationView.OnNavigationItemSelecte
                         it
                     )
                 }
-                action?.let { findNavController().navigate(it) }
+                if (action != null) {
+                    findNavController().navigate(action)
+                } else {
+                    notMove()
+                }
                 true
             }
             else -> false
         }
+    }
+
+    private fun notMove() {
+        val alert = AlertsDialogMessages(requireContext())
+        alert.showSimpleMessage(
+            requireContext().getString(R.string.informacion),
+            requireContext().getString(R.string.selecciona_un_servicio),
+        )
     }
 
     override fun clickOnServicio(servicio: Servicio) {

@@ -14,6 +14,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Staff
 import com.example.citassalon.databinding.FragmentAgendarStaffBinding
+import com.example.citassalon.util.AlertsDialogMessages
 import com.example.citassalon.util.ApiState
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import dagger.hilt.android.AndroidEntryPoint
@@ -92,11 +93,24 @@ class AgendarStaff : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
                         args.sucursal
                     )
                 }
-                action?.let { findNavController().navigate(it) }
+                if (action != null) {
+                    findNavController().navigate(action)
+                } else {
+                    notMove()
+                }
+
                 true
             }
             else -> false
         }
+    }
+
+    private fun notMove() {
+        val alert = AlertsDialogMessages(requireContext())
+        alert.showSimpleMessage(
+            requireContext().getString(R.string.informacion),
+            requireContext().getString(R.string.selecciona_un_empleado),
+        )
     }
 
     override fun clickOnStaf(stafff: Staff) {
