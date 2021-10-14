@@ -80,8 +80,41 @@
     <string name="servicio">Servicio</string>
     <string name="nombre_staff">Nombre staff</string>
     <string name="sucursal">Sucursal</string>
+    <string name="terminos_y_condiciones">
+         Lorem ipsum dolor sit amet consectetur adipisicing elit.
+     Repudiandae saepe temporibus, aut enim quibusdam debitis
+      voluptate aliquid reprehenderit ea dolorum tenetur, molestiae
+      voluptatibus similique error accusamus omnis vero et velit deserunt,
+      necessitatibus nihil sit perferendis! Eveniet ab corporis nihil aperiam
+      libero quibusdam reiciendis quis beatae pariatur animi inventore quod
+       dignissimos eligendi, facilis aspernatur ea! Maxime eius possimus,
+       aperiam harum vitae ipsum sapiente minus suscipit eligendi enim voluptatem,
+       adipisci eveniet voluptas voluptate rerum perspiciatis? Soluta, molestiae
+       maiores magnam aliquid explicabo facere. Repudiandae labore illum,
+       atque ullam debitis officiis adipisci amet perspiciatis in ipsam soluta,
+        quasi nam magni? Deleniti ratione in necessitatibus saepe itaque, doloremque
+        aut expedita blanditiis qui laboriosam fugit porro dolores. Doloribus laudantium
+        reprehenderit ducimus voluptas ad, similique commodi maxime voluptatibus
+        voluptatum voluptates in at aperiam itaque esse repellendus sit mollitia sint
+         praesentium molestias quidem veniam cum veritatis. Perspiciatis architecto
+         labore magnam cum ipsum, veniam, placeat dolore doloremque quasi deleniti nisi
+         quae quo inventore debitis hic? Nobis sint quam optio voluptatum rem assumenda
+         dolorem, nam illo quae reiciendis quo non. Illo, non aliquam consectetur dicta
+         expedita eligendi, tenetur fuga quisquam qui corporis incidunt vel? Atque nostrum
+         consectetur, rem soluta, explicabo minus cumque molestiae, tenetur totam inventore
+         hic animi? Minima ipsam facere aliquid ipsa esse nesciunt voluptatibus, ea iure nostrum.
+         Amet consequatur natus nam vero aliquid sunt rerum ratione eligendi, facere accusamus
+         repellendus voluptatibus quidem? Repellat molestias dignissimos explicabo consequatur
+          est autem natus. Perferendis unde nobis necessitatibus magnam at aspernatur animi,
+    </string>
+    <string name="network_error">Error de conexion</string>
+    <string name="retry">Reintentar</string>
     <string name="more">more</string>
     <string name="confirma_cita">Confirma cita</string>
     <string name="selecciona_la_hora_de_tu_cita">Selecciona la hora de tu cita</string>
     <string name="notificacion_mensaje">Tu cita ha sido agendada con exito</string>
+    <string name="selecciona_un_empleado">Debes de seleccionar un empleado para poder avanzar a la siguiente pantalla</string>
+    <string name="selecciona_un_servicio">Debes de seleccionar un servicio para poder avanzar a la siguiente pantalla</string>
+    <string name="selecciona_una_sucursal">Debes de seleccionar una sucursal para poder avanzar a la siguiente pantalla</string>
+    <string name="selecciona_hora_fecha">Debes de seleccionar hora y fecha poder avanzar a la siguiente pantalla</string>
 </resources>

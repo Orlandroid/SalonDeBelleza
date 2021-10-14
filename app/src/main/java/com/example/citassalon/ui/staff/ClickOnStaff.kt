@@ -4,5 +4,5 @@ import com.example.citassalon.data.models.Staff
 
 interface ClickOnStaff {
 
-    fun clickOnStaf(stafff: Staff)
+    fun clickOnStaff(staff: Staff)
 }

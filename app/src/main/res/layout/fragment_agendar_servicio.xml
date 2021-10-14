@@ -13,21 +13,40 @@
         android:layout_height="0dp"
         android:background="@drawable/backgroun_recycler_view"
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-        app:layout_constraintBottom_toTopOf="@+id/servicio_bottom_navigation_view"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline15"
         tools:listitem="@layout/item_servicio" />
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/servicio_bottom_navigation_view"
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_servicio"
         android:layout_width="0dp"
-        android:layout_height="80dp"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/menu_botton" />
+        app:layout_constraintTop_toTopOf="@+id/guideline15">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/shimmer" />
+
+            <include layout="@layout/shimmer" />
+
+            <include layout="@layout/shimmer" />
+
+            <include layout="@layout/shimmer" />
+
+            <include layout="@layout/shimmer" />
+
+            <include layout="@layout/shimmer" />
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline15"
@@ -139,16 +158,5 @@
                 app:layout_constraintTop_toTopOf="@+id/guideline23" />
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
-
-    <ProgressBar
-        android:id="@+id/progressBarS"
-        style="?android:attr/progressBarStyle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="@+id/recycler_agendar_servicio"
-        app:layout_constraintEnd_toEndOf="@+id/recycler_agendar_servicio"
-        app:layout_constraintStart_toStartOf="@+id/recycler_agendar_servicio"
-        app:layout_constraintTop_toTopOf="@+id/recycler_agendar_servicio" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -35,7 +35,7 @@ class AdaptadorStaff(private val staff: List<Staff>, private val listener: Click
             holder.itemView.findNavController().navigate(action)
         }
         holder.image.setOnClickListener {
-            listener.clickOnStaf(currentStaff)
+            listener.clickOnStaff(currentStaff)
         }
     }
 

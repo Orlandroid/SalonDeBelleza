@@ -5,6 +5,6 @@ import javax.inject.Inject
 
 class SucursalRepository @Inject constructor(private val services: WebServices) {
 
-    fun getSucursales() = services.getSucursales()
+    suspend fun getSucursales() = services.getSucursales()
 
 }

@@ -4,7 +4,6 @@ package com.example.citassalon.ui.sucursal
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -17,12 +16,13 @@ import com.example.citassalon.ui.share_beetwen_sucursales.AdaptadorSucursal
 import com.example.citassalon.ui.share_beetwen_sucursales.ClickOnSucursal
 import com.example.citassalon.ui.share_beetwen_sucursales.ViewModelSucursal
 import com.example.citassalon.util.ApiState
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.citassalon.util.action
+import com.example.citassalon.util.displaySnack
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AgendarSucursal : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener,
-    ClickOnSucursal {
+class AgendarSucursal : Fragment(), ClickOnSucursal {
 
 
     private var _binding: FragmentAgendarSucursalBinding? = null
@@ -37,57 +37,54 @@ class AgendarSucursal : Fragment(), BottomNavigationView.OnNavigationItemSelecte
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentAgendarSucursalBinding.inflate(inflater)
-        binding.sucursalBottomNavigationView.setOnNavigationItemSelectedListener(this)
         setUpObserves()
         return binding.root
     }
 
     private fun setUpObserves() {
-        viewModel.sucursalLiveData.observe(viewLifecycleOwner, {
+        viewModel.sucursal.observe(viewLifecycleOwner, {
             when (it) {
                 is ApiState.Success -> {
                     if (it.data != null) {
-                        binding.progressBar.visibility = View.GONE
+                        binding.shimmerSucursal.visibility = View.GONE
                         binding.recyclerSucursal.adapter =
                             AdaptadorSucursal(it.data, this)
                     }
                 }
                 is ApiState.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
+
                 }
                 is ApiState.Error -> {
-                    binding.progressBar.visibility = View.GONE
+                    binding.shimmerSucursal.visibility = View.GONE
                     Log.w(TAG, it.message.toString())
+                }
+                is ApiState.ErrorNetwork -> {
+                    snackErrorConection()
                 }
             }
         })
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.item_back -> {
-                findNavController().navigate(R.id.action_agendarSucursal_to_home3)
-                true
+    private fun snackErrorConection() {
+        binding.root.displaySnack(
+            getString(R.string.network_error),
+            Snackbar.LENGTH_INDEFINITE
+        ) {
+            action(getString(R.string.retry)) {
+                viewModel.getSucursales()
             }
-            R.id.item_home -> {
-                findNavController().navigate(R.id.action_agendarSucursal_to_home3)
-                true
-            }
-            R.id.item_next -> {
-                val action = AgendarSucursalDirections.actionAgendarSucursalToAgendarStaff(
-                    binding.textAgendarSucursal.text.toString()
-                )
-                findNavController().navigate(action)
-                true
-            }
-            else -> false
         }
     }
 
+
     override fun clickOnSucursal(sucursal: Sucursal) {
         binding.textAgendarSucursal.text = sucursal.name
+        val action = AgendarSucursalDirections.actionAgendarSucursalToAgendarStaff(
+            binding.textAgendarSucursal.text.toString()
+        )
+        findNavController().navigate(action)
     }
-    
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null

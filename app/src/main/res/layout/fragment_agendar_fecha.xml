@@ -15,7 +15,7 @@
         android:layout_height="0dp"
         android:background="@drawable/backgroun_recycler_view"
         app:cardCornerRadius="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/botton_navigation_view_agendar_fecha"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,10 +26,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/cafe2"
-            android:clickable="false"
             android:drawableStart="@drawable/insert_invitation_24px"
             android:drawablePadding="12dp"
-            android:focusable="false"
             android:fontFamily="@font/poppins_medium"
             android:hint="@string/add_date"
             app:layout_constraintBottom_toTopOf="@+id/edHora"
@@ -145,15 +143,6 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/botton_navigation_view_agendar_fecha"
-        android:layout_width="0dp"
-        android:layout_height="80dp"
-        app:itemIconTint="@color/black"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/menu_botton" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline25"

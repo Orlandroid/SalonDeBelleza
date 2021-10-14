@@ -6,18 +6,18 @@ import com.example.citassalon.data.models.Sucursal
 import com.example.citassalon.util.SERVICIOS
 import com.example.citassalon.util.STAFFS
 import com.example.citassalon.util.SUCURSALES
-import retrofit2.Call
+import retrofit2.Response
 import retrofit2.http.GET
 
 interface WebServices {
 
     @GET(SERVICIOS)
-    fun getServicios(): Call<List<Servicio>>
+    suspend fun getServicios(): Response<List<Servicio>>
 
     @GET(SUCURSALES)
-    fun getSucursales(): Call<List<Sucursal>>
+    suspend fun getSucursales(): Response<List<Sucursal>>
 
     @GET(STAFFS)
-    fun getStaff(): Call<List<Staff>>
+    suspend fun getStaff(): Response<List<Staff>>
 
 }

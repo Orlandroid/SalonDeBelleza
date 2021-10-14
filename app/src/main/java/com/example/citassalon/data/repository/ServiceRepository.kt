@@ -5,5 +5,6 @@ import javax.inject.Inject
 
 class ServiceRepository @Inject constructor(private val webServices: WebServices) {
 
-    fun getServices() = webServices.getServicios()
+    suspend fun getServices() = webServices.getServicios()
+
 }

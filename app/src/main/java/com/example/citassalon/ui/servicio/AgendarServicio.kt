@@ -2,7 +2,6 @@ package com.example.citassalon.ui.servicio
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -13,12 +12,13 @@ import com.example.citassalon.R
 import com.example.citassalon.data.models.Servicio
 import com.example.citassalon.databinding.FragmentAgendarServicioBinding
 import com.example.citassalon.util.ApiState
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.citassalon.util.action
+import com.example.citassalon.util.displaySnack
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AgendarServicio : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener,
-    ListernerClickOnService {
+class AgendarServicio : Fragment(), ListernerClickOnService {
 
 
     private var _binding: FragmentAgendarServicioBinding? = null
@@ -36,7 +36,6 @@ class AgendarServicio : Fragment(), BottomNavigationView.OnNavigationItemSelecte
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentAgendarServicioBinding.inflate(inflater, container, false)
-        binding.servicioBottomNavigationView.setOnNavigationItemSelectedListener(this)
         setUpObservers()
         setValuesToView(args)
         return binding.root
@@ -49,51 +48,47 @@ class AgendarServicio : Fragment(), BottomNavigationView.OnNavigationItemSelecte
     }
 
     private fun setUpObservers() {
-        viewModelAgendarServicio.serviceLiveData.observe(viewLifecycleOwner, {
+        viewModelAgendarServicio.services.observe(viewLifecycleOwner, {
             when (it) {
                 is ApiState.Loading -> {
-                    binding.progressBarS.visibility = View.VISIBLE
+
                 }
                 is ApiState.Success -> {
                     if (it.data != null) {
-                        binding.progressBarS.visibility = View.GONE
+                        binding.shimmerServicio.visibility = View.GONE
                         binding.recyclerAgendarServicio.adapter = AdaptadorServicio(it.data, this)
                     }
                 }
                 is ApiState.Error -> {
-                    binding.progressBarS.visibility = View.GONE
+                    binding.shimmerServicio.visibility = View.GONE
+                }
+                is ApiState.ErrorNetwork -> {
+                    snackErrorConection()
                 }
             }
         })
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.item_back -> {
-                true
+    private fun snackErrorConection() {
+        binding.root.displaySnack(
+            getString(R.string.network_error),
+            Snackbar.LENGTH_INDEFINITE
+        ) {
+            action(getString(R.string.retry)) {
+                viewModelAgendarServicio.getServices()
             }
-            R.id.item_home -> {
-                findNavController().navigate(R.id.action_agendarServicio_to_home3)
-                true
-            }
-            R.id.item_next -> {
-                val action = currentServicio?.let {
-                    AgendarServicioDirections.actionAgendarServicioToAgendarFecha(
-                        args.sucursal,
-                        args.staff,
-                        it
-                    )
-                }
-                action?.let { findNavController().navigate(it) }
-                true
-            }
-            else -> false
         }
     }
 
     override fun clickOnServicio(servicio: Servicio) {
         binding.tvServicio.text = servicio.name
         currentServicio = servicio
+        val acction = AgendarServicioDirections.actionAgendarServicioToAgendarFecha(
+            args.sucursal,
+            args.staff,
+            servicio
+        )
+        findNavController().navigate(acction)
     }
 
     override fun onDestroy() {

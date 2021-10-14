@@ -3,7 +3,6 @@ package com.example.citassalon.ui.staff
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -15,12 +14,13 @@ import com.example.citassalon.R
 import com.example.citassalon.data.models.Staff
 import com.example.citassalon.databinding.FragmentAgendarStaffBinding
 import com.example.citassalon.util.ApiState
-import com.google.android.material.bottomnavigation.BottomNavigationView
+import com.example.citassalon.util.action
+import com.example.citassalon.util.displaySnack
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AgendarStaff : Fragment(), BottomNavigationView.OnNavigationItemSelectedListener,
-    ClickOnStaff {
+class AgendarStaff : Fragment(), ClickOnStaff {
 
 
     private var _binding: FragmentAgendarStaffBinding? = null
@@ -39,13 +39,10 @@ class AgendarStaff : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentAgendarStaffBinding.inflate(layoutInflater, container, false)
-        binding.staffBottomNavigationView.setOnNavigationItemSelectedListener(this)
-        binding.recyclerStaff.setHasFixedSize(true)
-        binding.recyclerStaff.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.recyclerStaff.setLayoutManager(GridLayoutManager(requireContext(), 2))
         setUpObservers()
         getArgs()
         return binding.root
-
     }
 
     private fun getArgs() {
@@ -58,50 +55,45 @@ class AgendarStaff : Fragment(), BottomNavigationView.OnNavigationItemSelectedLi
 
 
     private fun setUpObservers() {
-        viewModelStaff.staffLiveData.observe(viewLifecycleOwner, {
+        viewModelStaff.staff.observe(viewLifecycleOwner, {
             when (it) {
                 is ApiState.Loading -> {
-                    //binding.progressBarS.visibility = View.VISIBLE
+
                 }
                 is ApiState.Success -> {
                     if (it.data != null) {
-                        //binding.progressBarS.visibility = View.GONE
                         binding.recyclerStaff.adapter = AdaptadorStaff(it.data, this)
                     }
                 }
                 is ApiState.Error -> {
-                    //binding.progressBarS.visibility = View.GONE
+
+                }
+                is ApiState.ErrorNetwork -> {
+                    snackErrorConection()
                 }
             }
         })
     }
 
-    override fun onNavigationItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.item_back -> {
-                true
+    private fun snackErrorConection() {
+        binding.root.displaySnack(
+            getString(R.string.network_error),
+            Snackbar.LENGTH_INDEFINITE
+        ) {
+            action(getString(R.string.retry)) {
+                viewModelStaff.getSttafs()
             }
-            R.id.item_home -> {
-                findNavController().navigate(R.id.action_agendarStaff_to_home3)
-                true
-            }
-            R.id.item_next -> {
-                val action = currentStaff?.let {
-                    AgendarStaffDirections.actionAgendarStaffToAgendarServicio(
-                        it,
-                        args.sucursal
-                    )
-                }
-                action?.let { findNavController().navigate(it) }
-                true
-            }
-            else -> false
         }
     }
 
-    override fun clickOnStaf(stafff: Staff) {
-        binding.tvEmpleado.text = stafff.nombre
-        currentStaff = stafff
+    override fun clickOnStaff(staff: Staff) {
+        binding.tvEmpleado.text = staff.nombre
+        currentStaff = staff
+        val acction = AgendarStaffDirections.actionAgendarStaffToAgendarServicio(
+            staff,
+            args.sucursal
+        )
+        findNavController().navigate(acction)
     }
 
     override fun onDestroy() {
