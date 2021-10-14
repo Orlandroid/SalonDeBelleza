@@ -24,10 +24,10 @@ class ViewModelStaff @Inject constructor(
         get() = _staff
 
     init {
-        getSucursales()
+        getSttafs()
     }
 
-    private fun getSucursales() {
+    fun getSttafs() {
         viewModelScope.launch(Dispatchers.IO) {
             _staff.postValue(ApiState.Loading(null))
             if (networkHelper.isNetworkConnected()) {
@@ -36,7 +36,7 @@ class ViewModelStaff @Inject constructor(
                     _staff.postValue(ApiState.Success(response.body()!!))
                 }
             } else {
-                _staff.postValue(ApiState.ErrorNetwork("Error conection"))
+                _staff.postValue(ApiState.ErrorNetwork())
             }
         }
     }

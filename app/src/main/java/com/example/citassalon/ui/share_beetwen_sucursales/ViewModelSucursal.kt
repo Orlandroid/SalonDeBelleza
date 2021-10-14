@@ -29,7 +29,7 @@ class ViewModelSucursal @Inject constructor(
         getSucursales()
     }
 
-    private fun getSucursales() {
+    fun getSucursales() {
         viewModelScope.launch(Dispatchers.IO) {
             _sucursal.postValue(ApiState.Loading(null))
             if (networkHelper.isNetworkConnected()) {
@@ -38,7 +38,7 @@ class ViewModelSucursal @Inject constructor(
                     _sucursal.postValue(ApiState.Success(response.body()!!))
                 }
             } else {
-                _sucursal.postValue(ApiState.ErrorNetwork("Error conection"))
+                _sucursal.postValue(ApiState.ErrorNetwork())
             }
         }
     }

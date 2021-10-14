@@ -25,10 +25,10 @@ class ViewModelAgendarServicio @Inject constructor(
         get() = _services
 
     init {
-        getSucursales()
+        getServices()
     }
 
-    private fun getSucursales() {
+    fun getServices() {
         viewModelScope.launch(Dispatchers.IO) {
             _services.postValue(ApiState.Loading(null))
             if (networkHelper.isNetworkConnected()) {
@@ -37,7 +37,7 @@ class ViewModelAgendarServicio @Inject constructor(
                     _services.postValue(ApiState.Success(response.body()!!))
                 }
             } else {
-                _services.postValue(ApiState.ErrorNetwork("Error conection"))
+                _services.postValue(ApiState.ErrorNetwork())
             }
         }
     }

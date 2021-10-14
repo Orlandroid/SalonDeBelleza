@@ -8,9 +8,13 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.citassalon.R
 import com.example.citassalon.data.models.Servicio
 import com.example.citassalon.databinding.FragmentAgendarServicioBinding
 import com.example.citassalon.util.ApiState
+import com.example.citassalon.util.action
+import com.example.citassalon.util.displaySnack
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -58,8 +62,22 @@ class AgendarServicio : Fragment(), ListernerClickOnService {
                 is ApiState.Error -> {
                     binding.progressBarS.visibility = View.GONE
                 }
+                is ApiState.ErrorNetwork -> {
+                    snackErrorConection()
+                }
             }
         })
+    }
+
+    private fun snackErrorConection() {
+        binding.root.displaySnack(
+            getString(R.string.network_error),
+            Snackbar.LENGTH_INDEFINITE
+        ) {
+            action(getString(R.string.retry)) {
+                viewModelAgendarServicio.getServices()
+            }
+        }
     }
 
     override fun clickOnServicio(servicio: Servicio) {

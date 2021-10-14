@@ -10,9 +10,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.citassalon.R
 import com.example.citassalon.data.models.Staff
 import com.example.citassalon.databinding.FragmentAgendarStaffBinding
 import com.example.citassalon.util.ApiState
+import com.example.citassalon.util.action
+import com.example.citassalon.util.displaySnack
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -55,19 +59,32 @@ class AgendarStaff : Fragment(), ClickOnStaff {
         viewModelStaff.staff.observe(viewLifecycleOwner, {
             when (it) {
                 is ApiState.Loading -> {
-                    //binding.progressBarS.visibility = View.VISIBLE
+
                 }
                 is ApiState.Success -> {
                     if (it.data != null) {
-                        //binding.progressBarS.visibility = View.GONE
                         binding.recyclerStaff.adapter = AdaptadorStaff(it.data, this)
                     }
                 }
                 is ApiState.Error -> {
-                    //binding.progressBarS.visibility = View.GONE
+
+                }
+                is ApiState.ErrorNetwork -> {
+                    snackErrorConection()
                 }
             }
         })
+    }
+
+    private fun snackErrorConection() {
+        binding.root.displaySnack(
+            getString(R.string.network_error),
+            Snackbar.LENGTH_INDEFINITE
+        ) {
+            action(getString(R.string.retry)) {
+                viewModelStaff.getSttafs()
+            }
+        }
     }
 
     override fun clickOnStaff(staff: Staff) {

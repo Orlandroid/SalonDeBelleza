@@ -10,12 +10,16 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.citassalon.R
 import com.example.citassalon.data.models.Sucursal
 import com.example.citassalon.databinding.FragmentAgendarSucursalBinding
 import com.example.citassalon.ui.share_beetwen_sucursales.AdaptadorSucursal
 import com.example.citassalon.ui.share_beetwen_sucursales.ClickOnSucursal
 import com.example.citassalon.ui.share_beetwen_sucursales.ViewModelSucursal
 import com.example.citassalon.util.ApiState
+import com.example.citassalon.util.action
+import com.example.citassalon.util.displaySnack
+import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -56,15 +60,24 @@ class AgendarSucursal : Fragment(), ClickOnSucursal {
                     Log.w(TAG, it.message.toString())
                 }
                 is ApiState.ErrorNetwork -> {
-                    Toast.makeText(
-                        requireContext(),
-                        "Asegurate de que tengas conexion a internt",
-                        Toast.LENGTH_SHORT
-                    ).show()
+                    binding.progressBar.visibility = View.GONE
+                    snackErrorConection()
                 }
             }
         })
     }
+
+    private fun snackErrorConection() {
+        binding.root.displaySnack(
+            getString(R.string.network_error),
+            Snackbar.LENGTH_INDEFINITE
+        ) {
+            action(getString(R.string.retry)) {
+                viewModel.getSucursales()
+            }
+        }
+    }
+
 
     override fun clickOnSucursal(sucursal: Sucursal) {
         binding.textAgendarSucursal.text = sucursal.name
