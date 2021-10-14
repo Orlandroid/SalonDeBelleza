@@ -44,7 +44,7 @@ class AgendarServicio : Fragment(), ListernerClickOnService {
     }
 
     private fun setUpObservers() {
-        viewModelAgendarServicio.serviceLiveData.observe(viewLifecycleOwner, {
+        viewModelAgendarServicio.services.observe(viewLifecycleOwner, {
             when (it) {
                 is ApiState.Loading -> {
                     binding.progressBarS.visibility = View.VISIBLE

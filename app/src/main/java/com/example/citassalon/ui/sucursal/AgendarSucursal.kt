@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -38,7 +39,7 @@ class AgendarSucursal : Fragment(), ClickOnSucursal {
     }
 
     private fun setUpObserves() {
-        viewModel.sucursalLiveData.observe(viewLifecycleOwner, {
+        viewModel.sucursal.observe(viewLifecycleOwner, {
             when (it) {
                 is ApiState.Success -> {
                     if (it.data != null) {
@@ -53,6 +54,13 @@ class AgendarSucursal : Fragment(), ClickOnSucursal {
                 is ApiState.Error -> {
                     binding.progressBar.visibility = View.GONE
                     Log.w(TAG, it.message.toString())
+                }
+                is ApiState.ErrorNetwork -> {
+                    Toast.makeText(
+                        requireContext(),
+                        "Asegurate de que tengas conexion a internt",
+                        Toast.LENGTH_SHORT
+                    ).show()
                 }
             }
         })

@@ -1,7 +1,6 @@
 package com.example.citassalon.ui.share_beetwen_sucursales
 
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,21 +8,22 @@ import androidx.lifecycle.viewModelScope
 import com.example.citassalon.data.models.Sucursal
 import com.example.citassalon.data.repository.SucursalRepository
 import com.example.citassalon.util.ApiState
+import com.example.citassalon.util.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
 import javax.inject.Inject
 
 @HiltViewModel
-class ViewModelSucursal @Inject constructor(private val sucursalRepository: SucursalRepository) :
+class ViewModelSucursal @Inject constructor(
+    private val sucursalRepository: SucursalRepository,
+    private val networkHelper: NetworkHelper
+) :
     ViewModel() {
 
-    private var _sucursalLiveData = MutableLiveData<ApiState<List<Sucursal>>>()
-    val sucursalLiveData: LiveData<ApiState<List<Sucursal>>>
-        get() = _sucursalLiveData
+    private var _sucursal = MutableLiveData<ApiState<List<Sucursal>>>()
+    val sucursal: LiveData<ApiState<List<Sucursal>>>
+        get() = _sucursal
 
     init {
         getSucursales()
@@ -31,30 +31,17 @@ class ViewModelSucursal @Inject constructor(private val sucursalRepository: Sucu
 
     private fun getSucursales() {
         viewModelScope.launch(Dispatchers.IO) {
-            val serviceSucursales = sucursalRepository.getSucursales()
-            _sucursalLiveData.postValue(ApiState.Loading(null))
-            serviceSucursales.enqueue(object : Callback<List<Sucursal>> {
-                override fun onFailure(call: Call<List<Sucursal>>, t: Throwable) {
-                    _sucursalLiveData.postValue(ApiState.Error(t, null))
-                    Log.v("DEBUG : ", t.message.toString())
+            _sucursal.postValue(ApiState.Loading(null))
+            if (networkHelper.isNetworkConnected()) {
+                val response = sucursalRepository.getSucursales()
+                if (response.isSuccessful) {
+                    _sucursal.postValue(ApiState.Success(response.body()!!))
                 }
-                override fun onResponse(
-                    call: Call<List<Sucursal>>,
-                    response: Response<List<Sucursal>>
-                ) {
-                    if (response.isSuccessful) {
-                        _sucursalLiveData.postValue(ApiState.Success(response.body()!!))
-                        Log.v("DEBUG : ", response.body().toString())
-                    }
-                }
-            })
+            } else {
+                _sucursal.postValue(ApiState.ErrorNetwork("Error conection"))
+            }
         }
     }
 
-    fun cancelService() {
-        viewModelScope.launch(Dispatchers.IO) {
-            sucursalRepository.getSucursales().cancel()
-        }
-    }
 
 }

@@ -34,7 +34,7 @@ class Sucursales : Fragment(), ClickOnSucursal {
     }
 
     private fun setUpObserves() {
-        viewModel.sucursalLiveData.observe(viewLifecycleOwner, {
+        viewModel.sucursal.observe(viewLifecycleOwner, {
             when (it) {
                 is ApiState.Success -> {
                     if (it.data != null) {

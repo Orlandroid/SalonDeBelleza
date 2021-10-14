@@ -3,7 +3,6 @@ package com.example.citassalon.ui.staff
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
@@ -11,10 +10,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.citassalon.R
 import com.example.citassalon.data.models.Staff
 import com.example.citassalon.databinding.FragmentAgendarStaffBinding
-import com.example.citassalon.util.AlertsDialogMessages
 import com.example.citassalon.util.ApiState
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -55,7 +52,7 @@ class AgendarStaff : Fragment(), ClickOnStaff {
 
 
     private fun setUpObservers() {
-        viewModelStaff.staffLiveData.observe(viewLifecycleOwner, {
+        viewModelStaff.staff.observe(viewLifecycleOwner, {
             when (it) {
                 is ApiState.Loading -> {
                     //binding.progressBarS.visibility = View.VISIBLE

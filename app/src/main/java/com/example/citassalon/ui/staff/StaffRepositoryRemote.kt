@@ -5,5 +5,5 @@ import javax.inject.Inject
 
 class StaffRepositoryRemote @Inject constructor(private val webServices: WebServices) {
 
-    fun getStaffs() = webServices.getStaff()
+    suspend fun getStaffs() = webServices.getStaff()
 }
