@@ -39,8 +39,7 @@ class AgendarStaff : Fragment(), ClickOnStaff {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentAgendarStaffBinding.inflate(layoutInflater, container, false)
-        binding.recyclerStaff.setHasFixedSize(true)
-        binding.recyclerStaff.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.recyclerStaff.setLayoutManager(GridLayoutManager(requireContext(), 2))
         setUpObservers()
         getArgs()
         return binding.root

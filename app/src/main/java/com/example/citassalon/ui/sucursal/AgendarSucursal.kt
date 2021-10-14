@@ -6,7 +6,6 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -47,20 +46,19 @@ class AgendarSucursal : Fragment(), ClickOnSucursal {
             when (it) {
                 is ApiState.Success -> {
                     if (it.data != null) {
-                        binding.progressBar.visibility = View.GONE
+                        binding.shimmerSucursal.visibility = View.GONE
                         binding.recyclerSucursal.adapter =
                             AdaptadorSucursal(it.data, this)
                     }
                 }
                 is ApiState.Loading -> {
-                    binding.progressBar.visibility = View.VISIBLE
+
                 }
                 is ApiState.Error -> {
-                    binding.progressBar.visibility = View.GONE
+                    binding.shimmerSucursal.visibility = View.GONE
                     Log.w(TAG, it.message.toString())
                 }
                 is ApiState.ErrorNetwork -> {
-                    binding.progressBar.visibility = View.GONE
                     snackErrorConection()
                 }
             }

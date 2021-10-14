@@ -51,16 +51,16 @@ class AgendarServicio : Fragment(), ListernerClickOnService {
         viewModelAgendarServicio.services.observe(viewLifecycleOwner, {
             when (it) {
                 is ApiState.Loading -> {
-                    binding.progressBarS.visibility = View.VISIBLE
+
                 }
                 is ApiState.Success -> {
                     if (it.data != null) {
-                        binding.progressBarS.visibility = View.GONE
+                        binding.shimmerServicio.visibility = View.GONE
                         binding.recyclerAgendarServicio.adapter = AdaptadorServicio(it.data, this)
                     }
                 }
                 is ApiState.Error -> {
-                    binding.progressBarS.visibility = View.GONE
+                    binding.shimmerServicio.visibility = View.GONE
                 }
                 is ApiState.ErrorNetwork -> {
                     snackErrorConection()

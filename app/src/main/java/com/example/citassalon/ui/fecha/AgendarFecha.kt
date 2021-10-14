@@ -81,6 +81,7 @@ class AgendarFecha : Fragment() {
         }
     }
 
+
     private fun areNotEmptyTimeOrDate(): Boolean {
         val date = binding.selectDate.text.toString().trim()
         val time = binding.edHora.text.toString().trim()
