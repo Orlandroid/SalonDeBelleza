@@ -28,18 +28,14 @@ class AgendarStaff : Fragment(), ClickOnStaff {
     private val viewModelStaff: ViewModelStaff by viewModels()
     private val args: AgendarStaffArgs by navArgs()
 
-    /**this is the staff what change each time what the user
-     * give a clik on the recycler*/
-    private var currentStaff: Staff? = null
-
-
+    
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentAgendarStaffBinding.inflate(layoutInflater, container, false)
-        binding.recyclerStaff.setLayoutManager(GridLayoutManager(requireContext(), 2))
+        binding.recyclerStaff.layoutManager = GridLayoutManager(requireContext(), 2)
         setUpObservers()
         getArgs()
         return binding.root
@@ -88,12 +84,11 @@ class AgendarStaff : Fragment(), ClickOnStaff {
 
     override fun clickOnStaff(staff: Staff) {
         binding.tvEmpleado.text = staff.nombre
-        currentStaff = staff
-        val acction = AgendarStaffDirections.actionAgendarStaffToAgendarServicio(
+        val action = AgendarStaffDirections.actionAgendarStaffToAgendarServicio(
             staff,
             args.sucursal
         )
-        findNavController().navigate(acction)
+        findNavController().navigate(action)
     }
 
     override fun onDestroy() {

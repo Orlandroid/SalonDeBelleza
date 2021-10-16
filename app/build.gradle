@@ -5,6 +5,7 @@ plugins {
     id "kotlin-parcelize"
     id 'androidx.navigation.safeargs.kotlin'
     id 'dagger.hilt.android.plugin'
+    id 'com.google.gms.google-services'
 }
 
 android {
@@ -42,6 +43,7 @@ android {
 
 dependencies {
 
+    implementation 'com.google.firebase:firebase-auth-ktx:21.0.1'
     def room_version = "2.3.0"
     def retrofit_version = "2.9.0"
     def navigation_version = "2.3.5"
@@ -81,4 +83,8 @@ dependencies {
     //Shimmer
     implementation 'com.facebook.shimmer:shimmer:0.5.0'
     implementation "com.github.skydoves:androidveil:1.1.1"
+    //Firebase
+    implementation platform('com.google.firebase:firebase-bom:28.0.1')
+    implementation 'com.google.firebase:firebase-auth-ktx'
+
 }
