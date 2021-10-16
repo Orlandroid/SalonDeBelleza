@@ -6,13 +6,19 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.data.models.Sucursal
-import com.example.citassalon.data.repository.SucursalRepository
+import com.example.citassalon.ui.sucursal.SucursalRepository
 import com.example.citassalon.util.ApiState
 import com.example.citassalon.util.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+
+/**
+ * Este ViewModel es usado por 2 fragments los cuales son
+ * /ui/AgendarSucursal
+ * /ui/info/InfoSucursal
+ * ***/
 
 @HiltViewModel
 class ViewModelSucursal @Inject constructor(
