@@ -58,39 +58,31 @@
     </com.google.android.material.textfield.TextInputLayout>
 
 
-    <TextView
-        android:id="@+id/olvidaste_contraseña"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:text="@string/olvidaste_contraseña"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.033"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_passord" />
-
     <Button
         android:id="@+id/button_get_in"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:padding="15dp"
         android:text="@string/ingresar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/olvidaste_contraseña" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_passord" />
 
-    <TextView
-        android:id="@+id/sin_cuenta"
-        android:layout_width="wrap_content"
+    <Button
+        android:id="@+id/button_sign_up"
+        style="@style/Widget.MaterialComponents.Button.TextButton"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/sin_cuenta"
-        app:layout_constraintEnd_toStartOf="@+id/textView3"
-        app:layout_constraintHorizontal_bias="0.5"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="@color/white"
+        android:padding="15dp"
+        android:text="@string/sing_up"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button_get_in" />
 
@@ -98,10 +90,11 @@
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="@string/sing_up"
-        app:layout_constraintStart_toEndOf="@+id/sin_cuenta"
-        app:layout_constraintTop_toBottomOf="@+id/button_get_in" />
+        android:layout_marginTop="24dp"
+        android:text="@string/olvidaste_contraseña"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button_sign_up" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

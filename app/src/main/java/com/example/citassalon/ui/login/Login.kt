@@ -6,11 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
-import android.widget.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
+import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentLoginBinding
-import com.example.citassalon.util.LoginStatus
+import com.example.citassalon.util.SessionStatus
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -31,7 +32,9 @@ class Login : Fragment() {
         binding.buttonGetIn.setOnClickListener {
             checkUserAndPassWord()
         }
-
+        binding.buttonSignUp.setOnClickListener {
+            findNavController().navigate(R.id.action_login_to_signUp)
+        }
         binding.txtUser.addOnEditTextAttachedListener {
             animationImage()
         }
@@ -42,12 +45,10 @@ class Login : Fragment() {
     private fun animationImage() {
         binding.appCompatImageView.animate().apply {
             val valueAnimator = ValueAnimator.ofFloat(0f, 360f)
-
             valueAnimator.addUpdateListener {
                 val value = it.animatedValue as Float
                 binding.appCompatImageView.rotation = value
             }
-
             valueAnimator.interpolator = LinearInterpolator()
             valueAnimator.duration = 2000
             valueAnimator.start()
@@ -57,16 +58,16 @@ class Login : Fragment() {
     private fun setUpObserves() {
         viewModel.loginStatus.observe(viewLifecycleOwner, {
             when (it) {
-                is LoginStatus.LOADING -> {
+                is SessionStatus.LOADING -> {
 
                 }
-                is LoginStatus.SUCESS -> {
-                    Toast.makeText(requireContext(), "Iniciando Session", Toast.LENGTH_SHORT).show()
+                is SessionStatus.SUCESS -> {
+                    findNavController().navigate(R.id.action_login_to_home32)
                 }
-                is LoginStatus.ERROR -> {
+                is SessionStatus.ERROR -> {
 
                 }
-                is LoginStatus.NETWORKERROR -> {
+                is SessionStatus.NETWORKERROR -> {
 
                 }
             }

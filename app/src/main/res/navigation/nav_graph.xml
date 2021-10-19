@@ -14,6 +14,9 @@
             app:destination="@id/home3"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left" />
+        <action
+            android:id="@+id/action_login_to_signUp"
+            app:destination="@id/signUp" />
     </fragment>
     <fragment
         android:id="@+id/home3"
@@ -182,4 +185,9 @@
         android:name="com.example.citassalon.ui.info.sucursales.Sucursales"
         android:label="fragment_sucursales"
         tools:layout="@layout/fragment_sucursales" />
+    <fragment
+        android:id="@+id/signUp"
+        android:name="com.example.citassalon.ui.sign_up.SignUp"
+        android:label="sign_in"
+        tools:layout="@layout/sign_in" />
 </navigation>
