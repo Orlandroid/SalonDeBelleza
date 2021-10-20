@@ -170,6 +170,9 @@
             app:destination="@id/home3"
             app:enterAnim="@anim/from_left"
             app:exitAnim="@anim/to_right" />
+        <action
+            android:id="@+id/action_perfil_to_login"
+            app:destination="@id/login" />
     </fragment>
     <fragment
         android:id="@+id/detalleStaff"

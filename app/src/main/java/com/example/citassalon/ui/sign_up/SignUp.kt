@@ -37,15 +37,22 @@ class SignUp : Fragment() {
         viewModel.singUp.observe(viewLifecycleOwner, {
             when (it) {
                 is SessionStatus.LOADING -> {
-
+                    binding.buttonRegistarse.isEnabled = false
+                    binding.progress.visibility = View.VISIBLE
                 }
                 is SessionStatus.SUCESS -> {
+                    binding.buttonRegistarse.isEnabled = true
+                    binding.progress.visibility = View.GONE
                     binding.root.showSnack("Usuario registraro correctamente")
                 }
                 is SessionStatus.ERROR -> {
+                    binding.buttonRegistarse.isEnabled = true
+                    binding.progress.visibility = View.GONE
                     binding.root.showSnack("Error al registar al usuario")
                 }
                 is SessionStatus.NETWORKERROR -> {
+                    binding.buttonRegistarse.isEnabled = true
+                    binding.progress.visibility = View.GONE
                     binding.root.showSnack("Error de red verifica que tengas conexion a internet")
                 }
             }

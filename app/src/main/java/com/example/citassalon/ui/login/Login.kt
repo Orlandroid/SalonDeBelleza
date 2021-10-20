@@ -12,6 +12,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentLoginBinding
 import com.example.citassalon.util.SessionStatus
+import com.example.citassalon.util.showSnack
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -30,7 +31,7 @@ class Login : Fragment() {
     ): View? {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         binding.buttonGetIn.setOnClickListener {
-            checkUserAndPassWord()
+            login()
         }
         binding.buttonSignUp.setOnClickListener {
             findNavController().navigate(R.id.action_login_to_signUp)
@@ -59,25 +60,35 @@ class Login : Fragment() {
         viewModel.loginStatus.observe(viewLifecycleOwner, {
             when (it) {
                 is SessionStatus.LOADING -> {
-
+                    binding.progress.visibility = View.VISIBLE
+                    binding.buttonGetIn.isEnabled = false
                 }
                 is SessionStatus.SUCESS -> {
+                    binding.progress.visibility = View.GONE
+                    binding.buttonGetIn.isEnabled = true
                     findNavController().navigate(R.id.action_login_to_home32)
                 }
                 is SessionStatus.ERROR -> {
-
+                    binding.progress.visibility = View.GONE
+                    binding.buttonGetIn.isEnabled = true
+                    binding.root.showSnack("ERROR AL INICIAR SESSION CON EL USUARIO")
                 }
                 is SessionStatus.NETWORKERROR -> {
-
+                    binding.buttonGetIn.isEnabled = true
+                    binding.progress.visibility = View.GONE
+                    binding.root.showSnack("ERROR INTERNET")
                 }
             }
         })
     }
 
-    private fun checkUserAndPassWord() {
+
+    private fun login() {
         val user = binding.txtUser.editText?.text.toString()
         val password = binding.txtPassord.editText?.text.toString()
-        viewModel.login(user, password)
+        if (user.isNotEmpty() && password.isNotEmpty())
+            viewModel.login(user, password)
+        else binding.root.showSnack("Debes de llenar ambos campos")
     }
 
     override fun onDestroy() {
