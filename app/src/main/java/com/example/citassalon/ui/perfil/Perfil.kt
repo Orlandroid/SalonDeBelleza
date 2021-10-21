@@ -27,13 +27,15 @@ class Perfil : Fragment() {
         binding.buttonTermAdnCondictions.setOnClickListener {
             showTermAndCondition()
         }
+        binding.buttonCerrarSession.setOnClickListener {
+            findNavController().navigate(R.id.action_perfil_to_login)
+        }
         return binding.root
     }
 
     private fun showTermAndCondition() {
         val alert = AlertsDialogMessages(requireContext())
         alert.showTermAndConditions()
-
     }
 
 

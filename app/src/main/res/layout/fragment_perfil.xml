@@ -95,7 +95,7 @@
         app:layout_constraintTop_toBottomOf="@+id/button12" />
 
     <Button
-        android:id="@+id/button16"
+        android:id="@+id/button_cerrar_session"
         style="?attr/materialButtonOutlinedStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -118,7 +118,7 @@
         android:background="@drawable/button_back"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button16"
+        app:layout_constraintTop_toBottomOf="@+id/button_cerrar_session"
         app:srcCompat="@drawable/home" />
 
 

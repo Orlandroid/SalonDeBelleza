@@ -1,7 +1,7 @@
 package com.example.citassalon.di
 
 import com.example.citassalon.data.firebase.FireBaseSource
-import com.example.citassalon.ui.login.FirebaseRepository
+import com.example.citassalon.data.firebase.FirebaseRepository
 import com.google.firebase.auth.FirebaseAuth
 import dagger.Module
 import dagger.Provides

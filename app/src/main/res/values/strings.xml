@@ -117,4 +117,5 @@
     <string name="selecciona_un_servicio">Debes de seleccionar un servicio para poder avanzar a la siguiente pantalla</string>
     <string name="selecciona_una_sucursal">Debes de seleccionar una sucursal para poder avanzar a la siguiente pantalla</string>
     <string name="selecciona_hora_fecha">Debes de seleccionar hora y fecha poder avanzar a la siguiente pantalla</string>
+    <string name="cargando">cargando...</string>
 </resources>
