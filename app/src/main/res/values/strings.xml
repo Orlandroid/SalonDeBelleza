@@ -66,14 +66,6 @@
     <string name="_100">$100</string>
     <string name="_400">$400</string>
     <string name="corte_de_cabello">Corte de cabello</string>
-    <string name="_11_00">11:00</string>
-    <string name="_17_00">17:00</string>
-    <string name="_16_00">16:00</string>
-    <string name="_15_00">15:00</string>
-    <string name="_14_00">14:00</string>
-    <string name="_13_00">13:00</string>
-    <string name="_12_00">12:00</string>
-    <string name="_10_00">10:00</string>
     <string name="agenla">Agenla</string>
     <string name="baustista">Baustista</string>
     <string name="zona_norte">zona norte</string>
@@ -107,6 +99,7 @@
          repellendus voluptatibus quidem? Repellat molestias dignissimos explicabo consequatur
           est autem natus. Perferendis unde nobis necessitatibus magnam at aspernatur animi,
     </string>
+    <string name="nombre_establecimiento">Nombre Establecimiento</string>
     <string name="network_error">Error de conexion</string>
     <string name="retry">Reintentar</string>
     <string name="more">more</string>
@@ -117,5 +110,5 @@
     <string name="selecciona_un_servicio">Debes de seleccionar un servicio para poder avanzar a la siguiente pantalla</string>
     <string name="selecciona_una_sucursal">Debes de seleccionar una sucursal para poder avanzar a la siguiente pantalla</string>
     <string name="selecciona_hora_fecha">Debes de seleccionar hora y fecha poder avanzar a la siguiente pantalla</string>
-    <string name="cargando">cargando...</string>
+    <string name="aviso">aviso</string>
 </resources>
