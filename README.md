@@ -7,7 +7,14 @@ El objetivo principal de la app es la gestión de citas enfocado a establecimien
 
 - credenciales 
 - admin@gmail.com 
-- admin 
+- admin
+
+-usuario@gmail.com
+-usuario1234
+
+-root@gmail.com
+-root1234
+
 
 ## Features
 
