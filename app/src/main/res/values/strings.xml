@@ -45,7 +45,7 @@
     <string name="terminosCondiciones">Términos y condiciones</string>
     <string name="cerrarSesion">Cerrar sesión</string>
     <string name="usuario">Usuario</string>
-    <string name="mensaje_confirmacion">Deseas confirmar tu cita en (marca) ?</string>
+    <string name="mensaje_confirmacion">Deseas confirmar \n tu cita en (marca) ?</string>
     <string name="confirmar">Si , Confirmar</string>
     <string name="cancelar">No,Cancelar</string>
     <string name="evaluacion">Evaluacion</string>
@@ -62,14 +62,12 @@
     <string name="angela_bautista">Angela Bautista</string>
     <string name="aplicaci_n_de_tinte">Aplicación de tinte</string>
     <string name="agosto_2021">Agosto 2021</string>
-    <string name="_300">$300</string>
-    <string name="_100">$100</string>
-    <string name="_400">$400</string>
     <string name="corte_de_cabello">Corte de cabello</string>
     <string name="agenla">Agenla</string>
     <string name="baustista">Baustista</string>
     <string name="zona_norte">zona norte</string>
     <string name="servicio">Servicio</string>
+    <string name="_400">400</string>
     <string name="nombre_staff">Nombre staff</string>
     <string name="sucursal">Sucursal</string>
     <string name="terminos_y_condiciones">

@@ -13,7 +13,6 @@ import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentLoginBinding
 import com.example.citassalon.util.AlertsDialogMessages
 import com.example.citassalon.util.SessionStatus
-import com.example.citassalon.util.showSnack
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -72,12 +71,12 @@ class Login : Fragment() {
                 is SessionStatus.ERROR -> {
                     binding.progress.visibility = View.GONE
                     binding.buttonGetIn.isEnabled = true
-                    showAlertMessage("ERROR AL INICIAR SESSION CON EL USUARIO")
+                    showAlertMessage("Error al iniciar session con el usuario")
                 }
                 is SessionStatus.NETWORKERROR -> {
                     binding.buttonGetIn.isEnabled = true
                     binding.progress.visibility = View.GONE
-                    showAlertMessage("ERROR INTERNET")
+                    showAlertMessage("Error de internet")
                 }
             }
         })

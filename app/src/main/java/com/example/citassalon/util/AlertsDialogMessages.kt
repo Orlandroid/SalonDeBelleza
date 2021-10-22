@@ -14,19 +14,23 @@ class AlertsDialogMessages(private val context: Context) {
      *  Show one AlertDialog to confirm appointment
      * **/
     fun showComfirmationAppoinment(listener: ListenerAlertDialog) {
+        val view = LayoutInflater.from(context).inflate(R.layout.alert_confirmar_cita, null)
         val alert = MaterialAlertDialogBuilder(context)
-        alert.setTitle(R.string.confirma_cita)
-            .setMessage(R.string.mensaje_confirmacion)
-            .setPositiveButton(R.string.confirmar) { dialog, _ ->
-                listener.clickOnConfirmar()
-                dialog.dismiss()
-            }
-            .setNegativeButton(R.string.cancelar) { dialog, _ ->
-                listener.clickOnCancel()
-                dialog.dismiss()
-            }
-        alert.create()
-        alert.show()
+            .setView(view)
+            .setCancelable(false)
+            .show()
+
+        /**Setting cliks of buttons*/
+        val comfirmar: Button = view.findViewById(R.id.alert_cita_comfirmar)
+        val cancelar: Button = view.findViewById(R.id.alert_cita_cancelar)
+        comfirmar.setOnClickListener {
+            listener.clickOnConfirmar()
+            alert.dismiss()
+        }
+        cancelar.setOnClickListener {
+            listener.clickOnCancel()
+            alert.dismiss()
+        }
     }
 
     fun showCustomAlert(messageP: String) {
@@ -44,6 +48,7 @@ class AlertsDialogMessages(private val context: Context) {
             customDialog.dismiss()
         }
     }
+
 
     fun showSimpleMessage(title: String, message: String) {
         MaterialAlertDialogBuilder(context)
