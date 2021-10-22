@@ -11,8 +11,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentLoginBinding
+import com.example.citassalon.util.AlertsDialogMessages
 import com.example.citassalon.util.SessionStatus
-import com.example.citassalon.util.showSnack
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -71,24 +71,28 @@ class Login : Fragment() {
                 is SessionStatus.ERROR -> {
                     binding.progress.visibility = View.GONE
                     binding.buttonGetIn.isEnabled = true
-                    binding.root.showSnack("ERROR AL INICIAR SESSION CON EL USUARIO")
+                    showAlertMessage("Error al iniciar session con el usuario")
                 }
                 is SessionStatus.NETWORKERROR -> {
                     binding.buttonGetIn.isEnabled = true
                     binding.progress.visibility = View.GONE
-                    binding.root.showSnack("ERROR INTERNET")
+                    showAlertMessage("Error de internet")
                 }
             }
         })
     }
 
+    private fun showAlertMessage(message: String) {
+        val alert = AlertsDialogMessages(requireContext())
+        alert.showCustomAlert(message)
+    }
 
     private fun login() {
         val user = binding.txtUser.editText?.text.toString()
         val password = binding.txtPassord.editText?.text.toString()
         if (user.isNotEmpty() && password.isNotEmpty())
             viewModel.login(user, password)
-        else binding.root.showSnack("Debes de llenar ambos campos")
+        else showAlertMessage("Debes de llenar ambos campos")
     }
 
     override fun onDestroy() {
