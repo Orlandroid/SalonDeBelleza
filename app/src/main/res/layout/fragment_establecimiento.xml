@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/background"
     tools:context=".ui.info.establecimiento.Establecimiento">
 
     <androidx.constraintlayout.widget.Guideline
@@ -13,50 +14,40 @@
         android:orientation="horizontal"
         app:layout_constraintGuide_percent="0.4" />
 
-
-    <include
-        android:id="@+id/sucursales"
-        layout="@layout/row_elemento_info"
+    <LinearLayout
         android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintEnd_toStartOf="@+id/guideline33"
-        app:layout_constraintStart_toStartOf="@+id/guideline32"
-        app:layout_constraintTop_toTopOf="@+id/guideline22" />
+        android:layout_height="0dp"
+        android:background="@drawable/backgroun_recycler_view"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline22">
 
-    <include
-        android:id="@+id/productos"
-        layout="@layout/row_elemento_info"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline33"
-        app:layout_constraintStart_toStartOf="@+id/guideline32"
-        app:layout_constraintTop_toBottomOf="@+id/sucursales" />
+        <include
+            android:id="@+id/sucursales"
+            layout="@layout/row_elemento_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+        <include
+            android:id="@+id/productos"
+            layout="@layout/row_elemento_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/nombre_establecimiento"
-        android:textColor="@color/black"
         android:textSize="18sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline22"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline32"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.06" />
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline33"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.94" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

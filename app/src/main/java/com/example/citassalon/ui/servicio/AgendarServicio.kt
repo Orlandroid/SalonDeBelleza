@@ -6,7 +6,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Servicio
@@ -14,6 +13,7 @@ import com.example.citassalon.databinding.FragmentAgendarServicioBinding
 import com.example.citassalon.util.ApiState
 import com.example.citassalon.util.action
 import com.example.citassalon.util.displaySnack
+import com.example.citassalon.util.navigate
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -88,7 +88,7 @@ class AgendarServicio : Fragment(), ListernerClickOnService {
             args.staff,
             servicio
         )
-        findNavController().navigate(acction)
+        navigate(acction)
     }
 
     override fun onDestroy() {

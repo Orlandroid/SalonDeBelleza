@@ -3,9 +3,11 @@ package com.example.citassalon.ui.home
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
-import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentHomeBinding
+import com.example.citassalon.util.HOME_TO_NOMBRE_ESTABLECIMEINTO
+import com.example.citassalon.util.HOME_TO_PERFIL
+import com.example.citassalon.util.HOME_TO_SUCURSALES
+import com.example.citassalon.util.navigate
 
 
 class Home : Fragment() {
@@ -20,13 +22,13 @@ class Home : Fragment() {
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         binding.buttonAgendar.setOnClickListener {
-            findNavController().navigate(R.id.action_home3_to_agendarSucursal)
+            it.navigate(HOME_TO_SUCURSALES)
         }
         binding.btnFloatingPerfil.setOnClickListener {
-            findNavController().navigate(R.id.action_home3_to_perfil)
+            it.navigate(HOME_TO_PERFIL)
         }
         binding.btnFloatingList.setOnClickListener {
-            findNavController().navigate(R.id.nav_info)
+            it.navigate(HOME_TO_NOMBRE_ESTABLECIMEINTO)
         }
         return binding.root
     }

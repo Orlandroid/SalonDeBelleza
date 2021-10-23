@@ -8,11 +8,8 @@ import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
-import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentLoginBinding
-import com.example.citassalon.util.AlertsDialogMessages
-import com.example.citassalon.util.SessionStatus
+import com.example.citassalon.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -34,7 +31,7 @@ class Login : Fragment() {
             login()
         }
         binding.buttonSignUp.setOnClickListener {
-            findNavController().navigate(R.id.action_login_to_signUp)
+            it.navigate(LOGIN_TO_SINGUP)
         }
         binding.txtUser.addOnEditTextAttachedListener {
             animationImage()
@@ -66,7 +63,7 @@ class Login : Fragment() {
                 is SessionStatus.SUCESS -> {
                     binding.progress.visibility = View.GONE
                     binding.buttonGetIn.isEnabled = true
-                    findNavController().navigate(R.id.action_login_to_home32)
+                    navigate(LOGIN_TO_HOME)
                 }
                 is SessionStatus.ERROR -> {
                     binding.progress.visibility = View.GONE

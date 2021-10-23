@@ -12,9 +12,10 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentCitaAgendadaBinding
+import com.example.citassalon.util.CITA_AGENDADA_TO_HOME
+import com.example.citassalon.util.navigate
 
 
 class CitaAgendada : Fragment() {
@@ -29,7 +30,7 @@ class CitaAgendada : Fragment() {
     ): View? {
         _binding = FragmentCitaAgendadaBinding.inflate(inflater, container, false)
         binding.buttonAceptar.setOnClickListener {
-            findNavController().navigate(R.id.action_citaAgendada_to_home3)
+            it.navigate(CITA_AGENDADA_TO_HOME)
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             setNotificationChannel()

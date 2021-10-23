@@ -13,6 +13,8 @@ import com.example.citassalon.R
 import com.example.citassalon.data.models.Appointment
 import com.example.citassalon.databinding.FragmentAgendarConfirmacionBinding
 import com.example.citassalon.util.AlertsDialogMessages
+import com.example.citassalon.util.COMFIRMAR_CITA_TO_CITA_AGENDADA
+import com.example.citassalon.util.navigate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -68,7 +70,7 @@ class AgendarConfirmacion : Fragment(), ListenerAlertDialog {
                 args.servicio.precio.toString()
             )
         )
-        findNavController().navigate(R.id.action_agendarConfirmacion_to_citaAgendada)
+        navigate(COMFIRMAR_CITA_TO_CITA_AGENDADA)
     }
 
     override fun clickOnCancel() {

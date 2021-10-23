@@ -7,6 +7,8 @@ import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentPerfilBinding
 import com.example.citassalon.util.AlertsDialogMessages
+import com.example.citassalon.util.PERFIL_TO_HOME
+import com.example.citassalon.util.navigate
 
 class Perfil : Fragment() {
 
@@ -21,14 +23,11 @@ class Perfil : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentPerfilBinding.inflate(inflater, container, false)
-        binding.pButtonHome.setOnClickListener {
-            findNavController().navigate(R.id.action_perfil_to_home3)
-        }
         binding.buttonTermAdnCondictions.setOnClickListener {
             showTermAndCondition()
         }
         binding.buttonCerrarSession.setOnClickListener {
-            findNavController().navigate(R.id.action_perfil_to_login)
+            it.navigate(PERFIL_TO_HOME)
         }
         return binding.root
     }
