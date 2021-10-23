@@ -26,7 +26,7 @@ class Home : Fragment() {
             findNavController().navigate(R.id.action_home3_to_perfil)
         }
         binding.btnFloatingList.setOnClickListener {
-            findNavController().navigate(R.id.action_home3_to_sucursales)
+            findNavController().navigate(R.id.nav_info)
         }
         return binding.root
     }

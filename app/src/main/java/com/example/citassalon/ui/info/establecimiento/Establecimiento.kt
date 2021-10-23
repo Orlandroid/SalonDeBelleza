@@ -18,6 +18,8 @@ class Establecimiento : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentEstablecimientoBinding.inflate(inflater, container, false)
+        binding.sucursales.textElement.text = "Sucuesales"
+        binding.productos.textElement.text = "Productos"
         return binding.root
     }
 

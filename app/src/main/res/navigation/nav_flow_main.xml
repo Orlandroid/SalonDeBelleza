@@ -193,5 +193,5 @@
         android:name="com.example.citassalon.ui.sign_up.SignUp"
         android:label="sign_in"
         tools:layout="@layout/sign_in" />
-
+    <include app:graph="@navigation/nav_info" />
 </navigation>

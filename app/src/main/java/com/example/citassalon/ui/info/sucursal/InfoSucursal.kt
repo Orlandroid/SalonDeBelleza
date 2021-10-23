@@ -4,4 +4,5 @@ import androidx.fragment.app.Fragment
 
 class InfoSucursal : Fragment() {
 
+
 }

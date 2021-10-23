@@ -18,5 +18,5 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.0"
-        app:navGraph="@navigation/nav_flow_main" />
+        app:navGraph="@navigation/main" />
 </androidx.constraintlayout.widget.ConstraintLayout>

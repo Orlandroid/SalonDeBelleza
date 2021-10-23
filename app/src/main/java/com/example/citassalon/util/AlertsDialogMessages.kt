@@ -8,6 +8,11 @@ import com.example.citassalon.R
 import com.example.citassalon.ui.confirmarcita.ListenerAlertDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
+/**
+ * This class Show AlertDialog for
+ *  the whole application
+ * **/
+
 class AlertsDialogMessages(private val context: Context) {
 
     /** @param listener
