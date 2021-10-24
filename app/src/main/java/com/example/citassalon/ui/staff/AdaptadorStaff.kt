@@ -10,6 +10,7 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Staff
+import com.example.citassalon.util.navigate
 
 class AdaptadorStaff(private val staff: List<Staff>, private val listener: ClickOnStaff) :
     RecyclerView.Adapter<AdaptadorStaff.ViewHolder>() {
@@ -32,7 +33,7 @@ class AdaptadorStaff(private val staff: List<Staff>, private val listener: Click
         holder.name.text = currentStaff.nombre
         holder.itemView.setOnClickListener {
             val action = AgendarStaffDirections.actionAgendarStaffToDetalleStaff(currentStaff)
-            holder.itemView.findNavController().navigate(action)
+            it.navigate(action)
         }
         holder.image.setOnClickListener {
             listener.clickOnStaff(currentStaff)

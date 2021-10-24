@@ -45,7 +45,12 @@ fun Fragment.navigate(accion: Int) {
  *  but accion is NavDirections and this mean what
  *   the acction have args
  *  */
+
 fun Fragment.navigate(accion: NavDirections) {
+    findNavController().navigate(accion)
+}
+
+fun View.navigate(accion: NavDirections) {
     findNavController().navigate(accion)
 }
 
