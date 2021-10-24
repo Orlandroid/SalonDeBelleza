@@ -109,4 +109,15 @@
     <string name="selecciona_una_sucursal">Debes de seleccionar una sucursal para poder avanzar a la siguiente pantalla</string>
     <string name="selecciona_hora_fecha">Debes de seleccionar hora y fecha poder avanzar a la siguiente pantalla</string>
     <string name="aviso">aviso</string>
+    <string name="cancelar_alert">Cancelar</string>
+    <!-- Strings for module info -->
+    <string name="productos">Productos</string>
+    <string name="servicios">Servicios</string>
+    <string name="ubicacion">Ubicacion</string>
+    <string name="nustro_staff">Nuestro Staff</string>
+    <string name="cerrar_session">Cerrar session</string>
+    <string name="seguro_que_deseas_cerrar_sesion">¿Seguro que deseas cerrar sesion?</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
 </resources>

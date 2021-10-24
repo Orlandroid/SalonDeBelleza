@@ -2,21 +2,21 @@ package com.example.citassalon.ui.confirmarcita
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.citassalon.R
 import com.example.citassalon.data.models.Appointment
 import com.example.citassalon.databinding.FragmentAgendarConfirmacionBinding
+import com.example.citassalon.util.AlertDialogWithButtons
 import com.example.citassalon.util.AlertsDialogMessages
+import com.example.citassalon.util.COMFIRMAR_CITA_TO_CITA_AGENDADA
+import com.example.citassalon.util.navigate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AgendarConfirmacion : Fragment(), ListenerAlertDialog {
+class AgendarConfirmacion : Fragment(), AlertDialogWithButtons {
 
     private var _binding: FragmentAgendarConfirmacionBinding? = null
     private val binding get() = _binding!!
@@ -68,7 +68,7 @@ class AgendarConfirmacion : Fragment(), ListenerAlertDialog {
                 args.servicio.precio.toString()
             )
         )
-        findNavController().navigate(R.id.action_agendarConfirmacion_to_citaAgendada)
+        navigate(COMFIRMAR_CITA_TO_CITA_AGENDADA)
     }
 
     override fun clickOnCancel() {

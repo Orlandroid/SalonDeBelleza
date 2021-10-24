@@ -6,9 +6,9 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.citassalon.databinding.FragmentAgendarFechaBinding
+import com.example.citassalon.util.navigate
 
 class AgendarFecha : Fragment() {
 
@@ -77,7 +77,7 @@ class AgendarFecha : Fragment() {
                 binding.selectDate.text.toString(),
                 binding.edHora.text.toString()
             )
-            findNavController().navigate(action)
+            navigate(action)
         }
     }
 

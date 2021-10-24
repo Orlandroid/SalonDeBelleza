@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.citassalon.R
@@ -16,6 +15,7 @@ import com.example.citassalon.databinding.FragmentAgendarStaffBinding
 import com.example.citassalon.util.ApiState
 import com.example.citassalon.util.action
 import com.example.citassalon.util.displaySnack
+import com.example.citassalon.util.navigate
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -28,7 +28,7 @@ class AgendarStaff : Fragment(), ClickOnStaff {
     private val viewModelStaff: ViewModelStaff by viewModels()
     private val args: AgendarStaffArgs by navArgs()
 
-    
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -88,7 +88,7 @@ class AgendarStaff : Fragment(), ClickOnStaff {
             staff,
             args.sucursal
         )
-        findNavController().navigate(action)
+        navigate(action)
     }
 
     override fun onDestroy() {
