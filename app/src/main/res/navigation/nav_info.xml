@@ -18,5 +18,14 @@
         android:id="@+id/sucursales2"
         android:name="com.example.citassalon.ui.info.sucursales.Sucursales"
         android:label="fragment_sucursales"
-        tools:layout="@layout/fragment_sucursales" />
+        tools:layout="@layout/fragment_sucursales" >
+        <action
+            android:id="@+id/action_sucursales2_to_negocioInfo"
+            app:destination="@id/negocioInfo" />
+    </fragment>
+    <fragment
+        android:id="@+id/negocioInfo"
+        android:name="com.example.citassalon.ui.info.sucursal.NegocioInfo"
+        android:label="fragment_negocio_info"
+        tools:layout="@layout/fragment_negocio_info" />
 </navigation>

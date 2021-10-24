@@ -13,6 +13,9 @@ import com.example.citassalon.ui.share_beetwen_sucursales.AdaptadorSucursal
 import com.example.citassalon.ui.share_beetwen_sucursales.ClickOnSucursal
 import com.example.citassalon.ui.share_beetwen_sucursales.ViewModelSucursal
 import com.example.citassalon.util.ApiState
+import com.example.citassalon.util.SUCURALES_TO_INFO_NEGOCIO
+import com.example.citassalon.util.SUCURSALES
+import com.example.citassalon.util.navigate
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -58,6 +61,6 @@ class Sucursales : Fragment(), ClickOnSucursal {
     }
 
     override fun clickOnSucursal(sucursal: Sucursal) {
-        Toast.makeText(requireContext(), "Click en ${sucursal.name}", Toast.LENGTH_SHORT).show()
+        navigate(SUCURALES_TO_INFO_NEGOCIO)
     }
 }

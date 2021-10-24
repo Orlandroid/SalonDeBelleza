@@ -32,6 +32,8 @@ class Perfil : Fragment() {
         return binding.root
     }
 
+
+
     private fun showTermAndCondition() {
         val alert = AlertsDialogMessages(requireContext())
         alert.showTermAndConditions()
