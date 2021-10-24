@@ -5,7 +5,6 @@ import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.TextView
 import com.example.citassalon.R
-import com.example.citassalon.ui.confirmarcita.ListenerAlertDialog
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 /**
@@ -18,7 +17,7 @@ class AlertsDialogMessages(private val context: Context) {
     /** @param listener
      *  Show one AlertDialog to confirm appointment
      * **/
-    fun showComfirmationAppoinment(listener: ListenerAlertDialog) {
+    fun showComfirmationAppoinment(listener: AlertDialogWithButtons) {
         val view = LayoutInflater.from(context).inflate(R.layout.alert_confirmar_cita, null)
         val alert = MaterialAlertDialogBuilder(context)
             .setView(view)
@@ -29,6 +28,37 @@ class AlertsDialogMessages(private val context: Context) {
         val comfirmar: Button = view.findViewById(R.id.alert_cita_comfirmar)
         val cancelar: Button = view.findViewById(R.id.alert_cita_cancelar)
         comfirmar.setOnClickListener {
+            listener.clickOnConfirmar()
+            alert.dismiss()
+        }
+        cancelar.setOnClickListener {
+            listener.clickOnCancel()
+            alert.dismiss()
+        }
+    }
+
+    /**
+     *  Show one alertialog with two button acept and cancel
+     *  alse you can add you own title and body message
+     * */
+    fun alertPositiveAndNegative(
+        listener: AlertDialogWithButtons,
+        title: String,
+        bodyMessage: String
+    ) {
+        val view = LayoutInflater.from(context).inflate(R.layout.alert_button_aceptar_cancel, null)
+        val alert = MaterialAlertDialogBuilder(context)
+            .setView(view)
+            .setCancelable(false)
+            .show()
+
+        val aceptar: Button = view.findViewById(R.id.alert_aceptar)
+        val cancelar: Button = view.findViewById(R.id.alert_cancelar)
+        val alertTitle: TextView = view.findViewById(R.id.alert_title)
+        val alertBodyMessage: TextView = view.findViewById(R.id.alert_body_message)
+        alertTitle.text = title
+        alertBodyMessage.text = bodyMessage
+        aceptar.setOnClickListener {
             listener.clickOnConfirmar()
             alert.dismiss()
         }
