@@ -27,5 +27,30 @@
         android:id="@+id/negocioInfo"
         android:name="com.example.citassalon.ui.info.sucursal.NegocioInfo"
         android:label="fragment_negocio_info"
-        tools:layout="@layout/fragment_negocio_info" />
+        tools:layout="@layout/fragment_negocio_info" >
+        <action
+            android:id="@+id/action_negocioInfo_to_nuestroStaff"
+            app:destination="@id/nuestroStaff" />
+        <action
+            android:id="@+id/action_negocioInfo_to_infoServicios"
+            app:destination="@id/infoServicios" />
+        <action
+            android:id="@+id/action_negocioInfo_to_ubicacion"
+            app:destination="@id/ubicacion" />
+    </fragment>
+    <fragment
+        android:id="@+id/nuestroStaff"
+        android:name="com.example.citassalon.ui.info.nuestro_staff.NuestroStaff"
+        android:label="fragment_nuestro_staff"
+        tools:layout="@layout/fragment_nuestro_staff" />
+    <fragment
+        android:id="@+id/infoServicios"
+        android:name="com.example.citassalon.ui.info.servicios.InfoServicios"
+        android:label="fragment_info_servicios"
+        tools:layout="@layout/fragment_info_servicios" />
+    <fragment
+        android:id="@+id/ubicacion"
+        android:name="com.example.citassalon.ui.info.ubicacion.Ubicacion"
+        android:label="fragment_ubicacion"
+        tools:layout="@layout/fragment_ubicacion" />
 </navigation>

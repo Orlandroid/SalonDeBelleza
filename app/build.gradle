@@ -88,5 +88,7 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:28.0.1')
     implementation 'com.google.firebase:firebase-auth-ktx'
 
+    implementation 'com.google.android.gms:play-services-maps:17.0.1'
+
 
 }

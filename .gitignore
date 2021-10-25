@@ -145,3 +145,6 @@ fabric.properties
 !/gradle/wrapper/gradle-wrapper.jar
 
 # End of https://www.toptal.com/developers/gitignore/api/androidstudio
+
+#For ignore API_KEY_OF_GOOGLE_MAPS
+app/src/main/res/values/google_maps_api.xml
