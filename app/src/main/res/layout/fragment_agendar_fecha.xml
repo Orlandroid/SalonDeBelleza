@@ -83,11 +83,11 @@
                 android:orientation="horizontal"
                 app:layout_constraintGuide_percent="0.7" />
 
-            <ImageView
+            <de.hdodenhof.circleimageview.CircleImageView
                 android:id="@+id/img_staff"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:src="@drawable/image15_mask"
+                android:src="@drawable/image_18"
                 app:layout_constraintBottom_toTopOf="@+id/guideline31"
                 app:layout_constraintEnd_toStartOf="@+id/tv_staff_name"
                 app:layout_constraintHorizontal_bias="0.5"
