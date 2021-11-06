@@ -2,7 +2,6 @@ package com.example.citassalon.ui.confirmarcita
 
 import com.example.citassalon.data.models.Appointment
 import com.example.citassalon.data.room.AppointmentDao
-import javax.inject.Inject
 
 class AppointmentRepository constructor(private val db: AppointmentDao) {
 

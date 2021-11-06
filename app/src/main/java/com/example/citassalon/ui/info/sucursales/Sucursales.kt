@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.citassalon.data.models.Sucursal
@@ -14,7 +13,6 @@ import com.example.citassalon.ui.share_beetwen_sucursales.ClickOnSucursal
 import com.example.citassalon.ui.share_beetwen_sucursales.ViewModelSucursal
 import com.example.citassalon.util.ApiState
 import com.example.citassalon.util.SUCURALES_TO_INFO_NEGOCIO
-import com.example.citassalon.util.SUCURSALES
 import com.example.citassalon.util.navigate
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -25,7 +23,6 @@ class Sucursales : Fragment(), ClickOnSucursal {
     private var _binding: FragmentSucursalesBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ViewModelSucursal by viewModels()
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -42,7 +39,7 @@ class Sucursales : Fragment(), ClickOnSucursal {
                 is ApiState.Success -> {
                     if (it.data != null) {
                         binding.recyclerView.adapter =
-                            AdaptadorSucursal(it.data, this)
+                            AdaptadorSucursal(it.data, getListener())
                     }
                 }
                 is ApiState.Loading -> {
@@ -51,9 +48,14 @@ class Sucursales : Fragment(), ClickOnSucursal {
                 is ApiState.Error -> {
 
                 }
+                is ApiState.ErrorNetwork -> {
+
+                }
             }
         })
     }
+
+    private fun getListener(): ClickOnSucursal = this
 
     override fun onDestroy() {
         super.onDestroy()
@@ -63,4 +65,5 @@ class Sucursales : Fragment(), ClickOnSucursal {
     override fun clickOnSucursal(sucursal: Sucursal) {
         navigate(SUCURALES_TO_INFO_NEGOCIO)
     }
+
 }

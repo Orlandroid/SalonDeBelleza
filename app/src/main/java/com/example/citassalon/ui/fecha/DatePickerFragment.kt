@@ -7,7 +7,7 @@ import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import java.util.*
 
-class DatePickerFragment(private val contextP: Context): DialogFragment() {
+class DatePickerFragment(private val contextP: Context) : DialogFragment() {
 
     private var listener: DatePickerDialog.OnDateSetListener? = null
 
@@ -16,12 +16,19 @@ class DatePickerFragment(private val contextP: Context): DialogFragment() {
         val year = c.get(Calendar.YEAR)
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
+        val picker = DatePickerDialog(contextP, listener, year, month, day)
 
-        return DatePickerDialog(contextP, listener, year, month, day)
+        /**get the date of today  */
+        val today = c.timeInMillis
+        picker.datePicker.minDate = today
+        return picker
     }
 
     companion object {
-        fun newInstance(listener: DatePickerDialog.OnDateSetListener,contextP: Context): DatePickerFragment {
+        fun newInstance(
+            listener: DatePickerDialog.OnDateSetListener,
+            contextP: Context
+        ): DatePickerFragment {
             val fragment = DatePickerFragment(contextP)
             fragment.listener = listener
             return fragment

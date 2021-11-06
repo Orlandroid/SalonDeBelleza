@@ -117,4 +117,5 @@
     <string name="nustro_staff">Nuestro Staff</string>
     <string name="cerrar_session">Cerrar session</string>
     <string name="seguro_que_deseas_cerrar_sesion">¿Seguro que deseas cerrar sesion?</string>
+    <string name="correo_electronico">correo electronico</string>
 </resources>

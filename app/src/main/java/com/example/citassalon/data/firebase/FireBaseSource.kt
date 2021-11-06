@@ -12,4 +12,7 @@ class FireBaseSource @Inject constructor(private val firebaseAuth: FirebaseAuth)
 
     fun registrer(email: String, password: String) =
         firebaseAuth.createUserWithEmailAndPassword(email, password)
+
+    fun logout()=firebaseAuth.signOut()
+
 }

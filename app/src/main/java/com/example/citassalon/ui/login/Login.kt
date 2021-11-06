@@ -29,6 +29,7 @@ class Login : Fragment() {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         binding.buttonGetIn.setOnClickListener {
             login()
+            navigate(LOGIN_TO_HOME)
         }
         binding.buttonSignUp.setOnClickListener {
             it.navigate(LOGIN_TO_SINGUP)
