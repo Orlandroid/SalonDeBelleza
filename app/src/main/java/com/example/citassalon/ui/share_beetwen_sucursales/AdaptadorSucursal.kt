@@ -32,7 +32,7 @@ class AdaptadorSucursal(
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val currentSucursal = sucursales[position]
-        holder.cartaTexto.text = currentSucursal.name
+        holder.cartaTexto.text = currentSucursal.nombre
         holder.itemView.setOnClickListener {
             listener.clickOnSucursal(currentSucursal)
         }

@@ -17,7 +17,7 @@ class AlertsDialogMessages(private val context: Context) {
     /** @param listener
      *  Show one AlertDialog to confirm appointment
      * **/
-    fun showComfirmationAppoinment(listener: AlertDialogWithButtons) {
+    fun showComfirmationAppoinment(listener: ListenerAlertDialogWithButtons) {
         val view = LayoutInflater.from(context).inflate(R.layout.alert_confirmar_cita, null)
         val alert = MaterialAlertDialogBuilder(context)
             .setView(view)
@@ -42,7 +42,7 @@ class AlertsDialogMessages(private val context: Context) {
      *  alse you can add you own title and body message
      * */
     fun alertPositiveAndNegative(
-        listener: AlertDialogWithButtons,
+        listener: ListenerAlertDialogWithButtons,
         title: String,
         bodyMessage: String
     ) {

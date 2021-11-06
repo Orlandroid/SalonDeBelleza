@@ -18,9 +18,11 @@ const val ESTABLECIMIENTO_TO_SUCURSALES = R.id.action_establecimiento_to_sucursa
  *  nos atamos al nav_grap info*/
 const val HOME_TO_NOMBRE_ESTABLECIMEINTO = R.id.nav_info
 
-
 /**
  *  This acctions are for the nav_info
  * */
 const val SUCURALES_TO_INFO_NEGOCIO = R.id.action_sucursales2_to_negocioInfo
+const val INFO_NEGOCIO_TO_NUESTRO_STAFF = R.id.action_negocioInfo_to_nuestroStaff
+const val INFO_NEGOCIO_TO_INFO_SERVICIOS = R.id.action_negocioInfo_to_infoServicios
+const val INFO_NEGOCIO_TO_UBICACION = R.id.action_negocioInfo_to_ubicacion
 

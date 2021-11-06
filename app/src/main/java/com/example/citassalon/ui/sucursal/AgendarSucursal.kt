@@ -18,6 +18,12 @@ import com.example.citassalon.util.*
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
+/**
+ * This fragments have one viewModel wich is
+ * ViewModelSucursal and is on this path
+ * ui/share_beetwen_sucursales/ViewModelSucursal
+ * **/
+
 @AndroidEntryPoint
 class AgendarSucursal : Fragment(), ClickOnSucursal {
 
@@ -75,7 +81,7 @@ class AgendarSucursal : Fragment(), ClickOnSucursal {
 
 
     override fun clickOnSucursal(sucursal: Sucursal) {
-        binding.textAgendarSucursal.text = sucursal.name
+        binding.textAgendarSucursal.text = sucursal.nombre
         val action = AgendarSucursalDirections.actionAgendarSucursalToAgendarStaff(
             binding.textAgendarSucursal.text.toString()
         )

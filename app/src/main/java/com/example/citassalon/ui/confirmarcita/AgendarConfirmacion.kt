@@ -9,14 +9,14 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.example.citassalon.data.models.Appointment
 import com.example.citassalon.databinding.FragmentAgendarConfirmacionBinding
-import com.example.citassalon.util.AlertDialogWithButtons
+import com.example.citassalon.util.ListenerAlertDialogWithButtons
 import com.example.citassalon.util.AlertsDialogMessages
 import com.example.citassalon.util.COMFIRMAR_CITA_TO_CITA_AGENDADA
 import com.example.citassalon.util.navigate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AgendarConfirmacion : Fragment(), AlertDialogWithButtons {
+class AgendarConfirmacion : Fragment(), ListenerAlertDialogWithButtons {
 
     private var _binding: FragmentAgendarConfirmacionBinding? = null
     private val binding get() = _binding!!
@@ -31,13 +31,13 @@ class AgendarConfirmacion : Fragment(), AlertDialogWithButtons {
     ): View? {
         _binding = FragmentAgendarConfirmacionBinding.inflate(inflater, container, false)
         binding.buttonConfirmar.setOnClickListener {
-            showComfirmAppointment()
+            showAlertComfirmAppointment()
         }
         setValuesToView(args)
         return binding.root
     }
 
-    private fun showComfirmAppointment() {
+    private fun showAlertComfirmAppointment() {
         val alert = AlertsDialogMessages(requireContext())
         alert.showComfirmationAppoinment(this)
     }
@@ -57,6 +57,11 @@ class AgendarConfirmacion : Fragment(), AlertDialogWithButtons {
     }
 
     override fun clickOnConfirmar() {
+        saveToDatabaseAppointMent()
+        navigate(COMFIRMAR_CITA_TO_CITA_AGENDADA)
+    }
+
+    private fun saveToDatabaseAppointMent() {
         viewModel.saveAppointMent(
             Appointment(
                 0,
@@ -68,7 +73,6 @@ class AgendarConfirmacion : Fragment(), AlertDialogWithButtons {
                 args.servicio.precio.toString()
             )
         )
-        navigate(COMFIRMAR_CITA_TO_CITA_AGENDADA)
     }
 
     override fun clickOnCancel() {
