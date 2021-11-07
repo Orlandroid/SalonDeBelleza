@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.TextView
 import com.example.citassalon.R
+import com.example.citassalon.interfaces.ListenerAlertDialogWithButtons
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 /**

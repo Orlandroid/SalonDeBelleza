@@ -47,7 +47,7 @@
         app:layout_constraintTop_toBottomOf="@+id/nombre_usuario" />
 
     <Button
-        android:id="@+id/button13"
+        android:id="@+id/button_historial_de_citas"
         style="?attr/materialButtonOutlinedStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -76,7 +76,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/button13" />
+        app:layout_constraintTop_toBottomOf="@+id/button_historial_de_citas" />
 
     <Button
         android:id="@+id/button_term_adn_condictions"

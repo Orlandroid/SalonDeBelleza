@@ -173,6 +173,9 @@
         <action
             android:id="@+id/action_perfil_to_login"
             app:destination="@id/login" />
+        <action
+            android:id="@+id/action_perfil_to_historialDeCitas"
+            app:destination="@id/historialDeCitas" />
     </fragment>
     <fragment
         android:id="@+id/detalleStaff"
@@ -194,4 +197,9 @@
         android:label="sign_in"
         tools:layout="@layout/sign_in" />
     <include app:graph="@navigation/nav_info" />
+    <fragment
+        android:id="@+id/historialDeCitas"
+        android:name="com.example.citassalon.ui.perfil.historial_citas.HistorialDeCitas"
+        android:label="fragment_historial_de_citas"
+        tools:layout="@layout/fragment_historial_de_citas" />
 </navigation>

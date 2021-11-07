@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.navArgs
 import com.example.citassalon.data.models.Appointment
 import com.example.citassalon.databinding.FragmentAgendarConfirmacionBinding
-import com.example.citassalon.util.ListenerAlertDialogWithButtons
+import com.example.citassalon.interfaces.ListenerAlertDialogWithButtons
 import com.example.citassalon.util.AlertsDialogMessages
 import com.example.citassalon.util.COMFIRMAR_CITA_TO_CITA_AGENDADA
 import com.example.citassalon.util.navigate

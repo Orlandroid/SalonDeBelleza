@@ -7,10 +7,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentPerfilBinding
-import com.example.citassalon.util.ListenerAlertDialogWithButtons
-import com.example.citassalon.util.AlertsDialogMessages
-import com.example.citassalon.util.PERFIL_TO_HOME
-import com.example.citassalon.util.navigate
+import com.example.citassalon.interfaces.ListenerAlertDialogWithButtons
+import com.example.citassalon.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -35,6 +33,9 @@ class Perfil : Fragment(), ListenerAlertDialogWithButtons {
         binding.buttonCerrarSession.setOnClickListener {
             logout()
         }
+        binding.buttonHistorialDeCitas.setOnClickListener {
+            navigate(PERFIL_TO_HISTORIAL_DE_CITAS)
+        }
         setUpObserver()
         return binding.root
     }
@@ -42,10 +43,10 @@ class Perfil : Fragment(), ListenerAlertDialogWithButtons {
     private fun setUpObserver() {
         viewModelPerfil.firebaseUser.observe(viewLifecycleOwner, {
             binding.nombreUsuario.text = it.email
-            Log.w("USER",it.tenantId.toString())
-            Log.w("USER",it.uid.toString())
-            Log.w("USER",it.displayName.toString())
-            Log.w("USER",it.email.toString())
+            Log.w("USER", it.tenantId.toString())
+            Log.w("USER", it.uid.toString())
+            Log.w("USER", it.displayName.toString())
+            Log.w("USER", it.email.toString())
         })
     }
 
