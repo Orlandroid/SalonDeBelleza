@@ -13,6 +13,7 @@ const val PERFIL_TO_HOME = R.id.action_perfil_to_login
 const val COMFIRMAR_CITA_TO_CITA_AGENDADA = R.id.action_agendarConfirmacion_to_citaAgendada
 const val CITA_AGENDADA_TO_HOME = R.id.action_citaAgendada_to_home3
 const val ESTABLECIMIENTO_TO_SUCURSALES = R.id.action_establecimiento_to_sucursales2
+const val PERFIL_TO_HISTORIAL_DE_CITAS = R.id.action_perfil_to_historialDeCitas
 
 /*** en esta accion HOME_TO_NOMBRE_ESTABLECIMEINTO
  *  nos atamos al nav_grap info*/

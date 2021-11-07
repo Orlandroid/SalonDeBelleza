@@ -1,4 +1,4 @@
-package com.example.citassalon.util
+package com.example.citassalon.interfaces
 
 
 /** Interface what manage click of buttons

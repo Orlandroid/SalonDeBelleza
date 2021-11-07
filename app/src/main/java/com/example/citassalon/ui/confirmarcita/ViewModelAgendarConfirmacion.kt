@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.data.models.Appointment
+import com.example.citassalon.data.repository.AppointmentRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,6 +19,7 @@ class ViewModelAgendarConfirmacion @Inject constructor(private val appointmentRe
             appointmentRepository.addAppointment(appointment)
         }
     }
+
 
     fun getApp() {
         viewModelScope.launch(Dispatchers.IO) {

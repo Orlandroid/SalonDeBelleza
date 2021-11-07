@@ -1,9 +1,10 @@
-package com.example.citassalon.ui.confirmarcita
+package com.example.citassalon.data.repository
 
 import com.example.citassalon.data.models.Appointment
 import com.example.citassalon.data.room.AppointmentDao
+import javax.inject.Inject
 
-class AppointmentRepository constructor(private val db: AppointmentDao) {
+class AppointmentRepository @Inject constructor(private val db: AppointmentDao) {
 
     suspend fun addAppointment(appointment: Appointment) {
         db.insertAppointment(appointment)

@@ -81,7 +81,7 @@ class AgendarSucursal : Fragment(), ClickOnSucursal {
 
 
     override fun clickOnSucursal(sucursal: Sucursal) {
-        binding.textAgendarSucursal.text = sucursal.nombre
+        binding.textAgendarSucursal.text = sucursal.name
         val action = AgendarSucursalDirections.actionAgendarSucursalToAgendarStaff(
             binding.textAgendarSucursal.text.toString()
         )
