@@ -42,7 +42,9 @@ class Perfil : Fragment(), ListenerAlertDialogWithButtons {
 
     private fun setUpObserver() {
         viewModelPerfil.firebaseUser.observe(viewLifecycleOwner, {
-            binding.nombreUsuario.text = it.email
+            if (it.email != null) {
+                binding.nombreUsuario.text = it.email
+            }
             Log.w("USER", it.tenantId.toString())
             Log.w("USER", it.uid.toString())
             Log.w("USER", it.displayName.toString())
