@@ -123,4 +123,5 @@
     <string name="fecha">fecha</string>
     <string name="recuerda_tu_usuario">recuerda tu usuario</string>
     <string name="ingresa_tu_correo">ingresa tu correo</string>
+    <string name="ingresar_con_google">INGRESAR CON GOOGLE</string>
 </resources>
