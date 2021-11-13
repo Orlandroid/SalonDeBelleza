@@ -6,6 +6,7 @@ import androidx.lifecycle.ViewModel
 import com.example.citassalon.data.firebase.FirebaseRepository
 import com.example.citassalon.util.SessionStatus
 import com.example.citassalon.util.NetworkHelper
+import com.example.citassalon.util.PreferencesManager
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -13,12 +14,20 @@ import javax.inject.Inject
 class ViewModelLogin
 @Inject constructor(
     private val networkHelper: NetworkHelper,
-    private val firebaseRepository: FirebaseRepository
+    private val firebaseRepository: FirebaseRepository,
+    private val preferencesManager: PreferencesManager
 ) : ViewModel() {
 
     private val _loginStatus = MutableLiveData<SessionStatus>()
     val loginStatus: LiveData<SessionStatus> get() = _loginStatus
 
+    fun saveUserEmailToPreferences(userEmail: String) {
+        preferencesManager.saveUserEmail(userEmail)
+    }
+
+    fun getUserEmailFromPreferences(): String? {
+        return preferencesManager.getUserEmail()
+    }
 
     fun login(email: String, password: String) {
         _loginStatus.value = SessionStatus.LOADING

@@ -7,7 +7,6 @@
     android:background="@drawable/background"
     tools:context=".ui.staff.AgendarStaff">
 
-
     <Button
         android:id="@+id/button"
         style="?attr/materialButtonOutlinedStyle"
@@ -18,7 +17,7 @@
         android:layout_marginEnd="8dp"
         android:backgroundTint="@color/white"
         android:text="@string/estilista_button"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerStaff"
+        app:layout_constraintBottom_toTopOf="@+id/skeleton_recycler"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.633"
         app:layout_constraintStart_toStartOf="@+id/guideline10"
@@ -31,7 +30,7 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:text="@string/empleado"
-        app:layout_constraintBottom_toTopOf="@+id/recyclerStaff"
+        app:layout_constraintBottom_toTopOf="@+id/skeleton_recycler"
         app:layout_constraintEnd_toStartOf="@+id/guideline10"
         app:layout_constraintStart_toStartOf="parent" />
 
@@ -76,17 +75,26 @@
     </androidx.cardview.widget.CardView>
 
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerStaff"
+    <com.faltenreich.skeletonlayout.SkeletonLayout
+        android:id="@+id/skeleton_recycler"
+        app:maskColor="@color/gris"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:background="@drawable/backgroun_recycler_view"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline9"
-        tools:listitem="@layout/item_staff" />
+        app:shimmerColor="@color/gris">
+
+        <androidx.recyclerview.widget.RecyclerView
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            android:id="@+id/recyclerStaff"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@drawable/backgroun_recycler_view"
+            tools:listitem="@layout/item_staff" />
+    </com.faltenreich.skeletonlayout.SkeletonLayout>
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline9"

@@ -2,6 +2,7 @@ package com.example.citassalon.ui.staff
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -16,6 +17,7 @@ import com.example.citassalon.util.ApiState
 import com.example.citassalon.util.action
 import com.example.citassalon.util.displaySnack
 import com.example.citassalon.util.navigate
+import com.faltenreich.skeletonlayout.applySkeleton
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -27,6 +29,7 @@ class AgendarStaff : Fragment(), ClickOnStaff {
     private val binding get() = _binding!!
     private val viewModelStaff: ViewModelStaff by viewModels()
     private val args: AgendarStaffArgs by navArgs()
+    private val adaptador = AdaptadorStaff(getListener())
 
 
     override fun onCreateView(
@@ -36,9 +39,16 @@ class AgendarStaff : Fragment(), ClickOnStaff {
     ): View? {
         _binding = FragmentAgendarStaffBinding.inflate(layoutInflater, container, false)
         binding.recyclerStaff.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.recyclerStaff.adapter = adaptador
+        Log.w("Skeeletoon", "Aplicacion el skeleton")
+        binding.recyclerStaff.applySkeleton(R.layout.item_staff)
         setUpObservers()
         getArgs()
         return binding.root
+    }
+
+    private fun getListener(): ClickOnStaff {
+        return this
     }
 
     private fun getArgs() {
@@ -54,11 +64,14 @@ class AgendarStaff : Fragment(), ClickOnStaff {
         viewModelStaff.staff.observe(viewLifecycleOwner, {
             when (it) {
                 is ApiState.Loading -> {
-
+                    binding.skeletonRecycler.showSkeleton()
+                    Log.w("Skeeletoon", "Aplicacion el skeleton")
                 }
                 is ApiState.Success -> {
                     if (it.data != null) {
-                        binding.recyclerStaff.adapter = AdaptadorStaff(it.data, this)
+                        Log.w("Skeeletoon", "Quitando el Skeleton")
+                        binding.skeletonRecycler.showOriginal()
+                        adaptador.setData(it.data)
                     }
                 }
                 is ApiState.Error -> {

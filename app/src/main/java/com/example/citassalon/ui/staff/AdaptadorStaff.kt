@@ -1,19 +1,27 @@
 package com.example.citassalon.ui.staff
 
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Staff
 import com.example.citassalon.util.navigate
 
-class AdaptadorStaff(private val staff: List<Staff>, private val listener: ClickOnStaff) :
+class AdaptadorStaff(private val listener: ClickOnStaff) :
     RecyclerView.Adapter<AdaptadorStaff.ViewHolder>() {
+
+    private var listaStaff: List<Staff> = arrayListOf()
+
+    @SuppressLint("NotifyDataSetChanged")
+    fun setData(lista: List<Staff>) {
+        listaStaff = lista
+        notifyDataSetChanged()
+    }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val image: ImageView = itemView.findViewById(R.id.staff_picture)
@@ -28,7 +36,7 @@ class AdaptadorStaff(private val staff: List<Staff>, private val listener: Click
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val currentStaff = staff[position]
+        val currentStaff = listaStaff[position]
         holder.image.setImageResource(currentStaff.getResourceImage())
         holder.name.text = currentStaff.nombre
         holder.itemView.setOnClickListener {
@@ -41,7 +49,7 @@ class AdaptadorStaff(private val staff: List<Staff>, private val listener: Click
     }
 
     override fun getItemCount(): Int {
-        return staff.size
+        return listaStaff.size
     }
 
 }

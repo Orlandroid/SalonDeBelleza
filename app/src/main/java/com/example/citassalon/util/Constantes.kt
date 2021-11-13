@@ -8,5 +8,7 @@ const val DATABASE_NAME = "Skeduly"
 const val SERVICIOS = "servicios/"
 const val SUCURSALES = "sucursales/"
 const val STAFFS = "staffs/"
+const val SHARE_PREFERENCES = "Skeduly"
 
 /****/
+

@@ -22,13 +22,13 @@ class Home : Fragment() {
     ): View? {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         binding.buttonAgendar.setOnClickListener {
-            it.navigate(HOME_TO_SUCURSALES)
+            navigate(HOME_TO_SUCURSALES)
         }
         binding.btnFloatingPerfil.setOnClickListener {
-            it.navigate(HOME_TO_PERFIL)
+            navigate(HOME_TO_PERFIL)
         }
         binding.btnFloatingList.setOnClickListener {
-            it.navigate(HOME_TO_NOMBRE_ESTABLECIMEINTO)
+            navigate(HOME_TO_NOMBRE_ESTABLECIMEINTO)
         }
         return binding.root
     }

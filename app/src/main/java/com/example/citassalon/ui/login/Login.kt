@@ -27,17 +27,22 @@ class Login : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
+        setUpUi()
+        setUpObserves()
+        return binding.root
+    }
+
+    private fun setUpUi() {
         binding.buttonGetIn.setOnClickListener {
             login()
         }
         binding.buttonSignUp.setOnClickListener {
-            it.navigate(LOGIN_TO_SINGUP)
+            navigate(LOGIN_TO_SINGUP)
         }
         binding.txtUser.addOnEditTextAttachedListener {
             animationImage()
         }
-        setUpObserves()
-        return binding.root
+        binding.txtUser.editText?.setText(viewModel.getUserEmailFromPreferences())
     }
 
     private fun animationImage() {
@@ -53,6 +58,17 @@ class Login : Fragment() {
         }
     }
 
+    private fun saveUserEmailToPreferences() {
+        val userEmail = binding.txtUser.editText?.text.toString()
+        if (userEmail.isEmpty()) {
+            return
+        }
+        if (!binding.checkBox.isChecked) {
+            return
+        }
+        viewModel.saveUserEmailToPreferences(userEmail)
+    }
+
     private fun setUpObserves() {
         viewModel.loginStatus.observe(viewLifecycleOwner, {
             when (it) {
@@ -64,6 +80,7 @@ class Login : Fragment() {
                     binding.progress.visibility = View.GONE
                     binding.buttonGetIn.isEnabled = true
                     navigate(LOGIN_TO_HOME)
+                    saveUserEmailToPreferences()
                 }
                 is SessionStatus.ERROR -> {
                     binding.progress.visibility = View.GONE
