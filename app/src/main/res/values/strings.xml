@@ -122,4 +122,5 @@
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="fecha">fecha</string>
     <string name="recuerda_tu_usuario">recuerda tu usuario</string>
+    <string name="ingresa_tu_correo">ingresa tu correo</string>
 </resources>

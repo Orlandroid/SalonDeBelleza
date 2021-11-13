@@ -9,4 +9,8 @@ class FirebaseRepository @Inject constructor(private val fireBaseSource: FireBas
     fun login(email: String, password: String) = fireBaseSource.login(email, password)
 
     fun registrer(email: String, password: String) = fireBaseSource.registrer(email, password)
+
+    fun forgetPassword(email: String) = fireBaseSource.forgetPassword(email)
+
+
 }
