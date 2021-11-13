@@ -21,12 +21,30 @@ class ViewModelLogin
     private val _loginStatus = MutableLiveData<SessionStatus>()
     val loginStatus: LiveData<SessionStatus> get() = _loginStatus
 
+    private val _forgetPasswordStatus = MutableLiveData<SessionStatus>()
+    val forgetPasswordStatus: LiveData<SessionStatus> get() = _forgetPasswordStatus
+
     fun saveUserEmailToPreferences(userEmail: String) {
         preferencesManager.saveUserEmail(userEmail)
     }
 
     fun getUserEmailFromPreferences(): String? {
         return preferencesManager.getUserEmail()
+    }
+
+    fun forgetPassword(email: String) {
+        _forgetPasswordStatus.value = SessionStatus.LOADING
+        if (!networkHelper.isNetworkConnected()) {
+            _forgetPasswordStatus.value = SessionStatus.NETWORKERROR
+            return
+        }
+        firebaseRepository.forgetPassword(email).addOnCompleteListener {
+            if (it.isSuccessful) {
+                _forgetPasswordStatus.value = SessionStatus.SUCESS
+            } else {
+                _forgetPasswordStatus.value = SessionStatus.ERROR
+            }
+        }
     }
 
     fun login(email: String, password: String) {

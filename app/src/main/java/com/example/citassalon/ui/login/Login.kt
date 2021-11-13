@@ -6,15 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.LinearInterpolator
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.citassalon.databinding.FragmentLoginBinding
 import com.example.citassalon.util.*
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 
 @AndroidEntryPoint
-class Login : Fragment() {
+class Login : Fragment(), ListeneClickOnRecoverPassword {
 
 
     private var _binding: FragmentLoginBinding? = null
@@ -43,6 +45,17 @@ class Login : Fragment() {
             animationImage()
         }
         binding.txtUser.editText?.setText(viewModel.getUserEmailFromPreferences())
+        binding.tvForgetPassword.setOnClickListener {
+            showForgetPassword()
+        }
+        binding.root.setOnClickListener {
+            hideKeyboard()
+        }
+    }
+
+    private fun showForgetPassword() {
+        val dialog = ForgetPasswordDialog(getListener())
+        activity?.let { dialog.show(it.supportFragmentManager, "forgetPassword") }
     }
 
     private fun animationImage() {
@@ -69,7 +82,35 @@ class Login : Fragment() {
         viewModel.saveUserEmailToPreferences(userEmail)
     }
 
+
     private fun setUpObserves() {
+        observerLoginStatus()
+        observerforgetPasswordStatus()
+    }
+
+
+    private fun observerforgetPasswordStatus() {
+        viewModel.forgetPasswordStatus.observe(viewLifecycleOwner, {
+            when (it) {
+                is SessionStatus.LOADING -> {
+                    binding.progress.visibility = View.VISIBLE
+                }
+                is SessionStatus.SUCESS -> {
+                    binding.progress.visibility = View.INVISIBLE
+                    showSendPasswordCorrect()
+                }
+                is SessionStatus.ERROR -> {
+
+                }
+                is SessionStatus.NETWORKERROR -> {
+                    showAlertMessage("Revisa tu conexion de internet")
+                }
+            }
+        })
+    }
+
+
+    private fun observerLoginStatus() {
         viewModel.loginStatus.observe(viewLifecycleOwner, {
             when (it) {
                 is SessionStatus.LOADING -> {
@@ -96,9 +137,22 @@ class Login : Fragment() {
         })
     }
 
+
+    private fun getListener(): ListeneClickOnRecoverPassword {
+        return this
+    }
+
     private fun showAlertMessage(message: String) {
         val alert = AlertsDialogMessages(requireContext())
         alert.showCustomAlert(message)
+    }
+
+    private fun showSendPasswordCorrect() {
+        val alert = AlertsDialogMessages(requireContext())
+        alert.showSimpleMessage(
+            "Informacion",
+            "Se ha enviado un correo a tu correo para restablecer tu contraseña"
+        )
     }
 
     private fun login() {
@@ -113,5 +167,10 @@ class Login : Fragment() {
         super.onDestroy()
         _binding = null
     }
+
+    override fun clickOnResetPassword(email: String) {
+        viewModel.forgetPassword(email)
+    }
+
 
 }
