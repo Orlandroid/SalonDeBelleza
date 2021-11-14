@@ -1,34 +1,33 @@
 {
   "project_info": {
-    "project_number": "428678222027",
-    "firebase_url": "https://skeduly-default-rtdb.firebaseio.com",
-    "project_id": "skeduly",
-    "storage_bucket": "skeduly.appspot.com"
+    "project_number": "691057184844",
+    "project_id": "skedulyapplication",
+    "storage_bucket": "skedulyapplication.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:428678222027:android:85940986cc582948cd0b4e",
+        "mobilesdk_app_id": "1:691057184844:android:67e0916c8d9198c1b7e4e9",
         "android_client_info": {
           "package_name": "com.example.citassalon"
         }
       },
       "oauth_client": [
         {
-          "client_id": "428678222027-it5ba6j4lml8en1dnaj52igb0cc3r5ad.apps.googleusercontent.com",
+          "client_id": "691057184844-0qj57lspkfavo5cckmmhib5725dg8jgl.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDta1MljJuhs_7c2wfgvQvWhY4rfg0CbfU"
+          "current_key": "AIzaSyAaF94qcz-FPR9ydEf1ZGh3MstlD0zfyjQ"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "428678222027-it5ba6j4lml8en1dnaj52igb0cc3r5ad.apps.googleusercontent.com",
+              "client_id": "691057184844-0qj57lspkfavo5cckmmhib5725dg8jgl.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
