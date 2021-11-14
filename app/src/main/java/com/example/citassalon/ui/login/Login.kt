@@ -1,7 +1,9 @@
 package com.example.citassalon.ui.login
 
 import android.animation.ValueAnimator
+import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -9,10 +11,14 @@ import android.view.animation.LinearInterpolator
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentLoginBinding
 import com.example.citassalon.util.*
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInClient
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
 
 
 @AndroidEntryPoint
@@ -22,6 +28,9 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ViewModelLogin by viewModels()
+    private lateinit var googleSignInClient: GoogleSignInClient
+    private val RC_SIGN_IN = 200
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -31,8 +40,39 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         setUpUi()
         setUpObserves()
+        configureGoogleSignIn()
         return binding.root
     }
+
+
+    private fun configureGoogleSignIn() {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken("691057184844-0qj57lspkfavo5cckmmhib5725dg8jgl.apps.googleusercontent.com")
+            .requestEmail()
+            .build()
+        googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
+    }
+
+
+    private fun signIn() {
+        val signInIntent = googleSignInClient.signInIntent
+        startActivityForResult(signInIntent, RC_SIGN_IN)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == RC_SIGN_IN) {
+            val task = GoogleSignIn.getSignedInAccountFromIntent(data)
+            try {
+                val account = task.getResult(ApiException::class.java)!!
+                viewModel.firebaseAuthWithGoogle(account.idToken!!)
+                Log.w("TAG", "Entramos")
+            } catch (e: ApiException) {
+                Log.w("TAG", e.localizedMessage)
+            }
+        }
+    }
+
 
     private fun setUpUi() {
         binding.buttonGetIn.setOnClickListener {
@@ -47,6 +87,12 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
         binding.txtUser.editText?.setText(viewModel.getUserEmailFromPreferences())
         binding.tvForgetPassword.setOnClickListener {
             showForgetPassword()
+        }
+        binding.root.setOnClickListener {
+            hideKeyboard()
+        }
+        binding.buttonLoginGoogle.setOnClickListener {
+            signIn()
         }
         binding.root.setOnClickListener {
             hideKeyboard()
@@ -86,6 +132,7 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
     private fun setUpObserves() {
         observerLoginStatus()
         observerforgetPasswordStatus()
+        observerGoogleLoginStatus()
     }
 
 
@@ -104,6 +151,25 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
                 }
                 is SessionStatus.NETWORKERROR -> {
                     showAlertMessage("Revisa tu conexion de internet")
+                }
+            }
+        })
+    }
+
+    private fun observerGoogleLoginStatus() {
+        viewModel.loginGoogleStatus.observe(viewLifecycleOwner, {
+            when (it) {
+                is SessionStatus.LOADING -> {
+
+                }
+                is SessionStatus.SUCESS -> {
+                    navigate(LOGIN_TO_HOME)
+                }
+                is SessionStatus.ERROR -> {
+                    showAlertMessage("Error al iniciar con google intenta otro metodo")
+                }
+                is SessionStatus.NETWORKERROR -> {
+                    showAlertMessage("Revisa tu conexion")
                 }
             }
         })
