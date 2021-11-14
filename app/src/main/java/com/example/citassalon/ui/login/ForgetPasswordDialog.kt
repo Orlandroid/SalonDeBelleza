@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.DialogFragment
 import com.example.citassalon.databinding.AlertDialogForgetPasswordBinding
-import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class ForgetPasswordDialog(private val listener: ListeneClickOnRecoverPassword) :
     DialogFragment() {
@@ -43,7 +42,7 @@ class ForgetPasswordDialog(private val listener: ListeneClickOnRecoverPassword) 
 
     private fun setUpUi() {
         isCancelable = false
-        binding.buttonCancelar.setOnClickListener {
+        binding.buttonClose.setOnClickListener {
             dialog?.dismiss()
         }
         binding.buttonForgetPasword.setOnClickListener {

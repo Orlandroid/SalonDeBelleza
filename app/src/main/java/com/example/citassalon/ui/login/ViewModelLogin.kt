@@ -1,5 +1,6 @@
 package com.example.citassalon.ui.login
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -7,6 +8,7 @@ import com.example.citassalon.data.firebase.FirebaseRepository
 import com.example.citassalon.util.SessionStatus
 import com.example.citassalon.util.NetworkHelper
 import com.example.citassalon.util.PreferencesManager
+import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -23,6 +25,9 @@ class ViewModelLogin
 
     private val _forgetPasswordStatus = MutableLiveData<SessionStatus>()
     val forgetPasswordStatus: LiveData<SessionStatus> get() = _forgetPasswordStatus
+
+    private val _loginGoogleStatus = MutableLiveData<SessionStatus>()
+    val loginGoogleStatus: LiveData<SessionStatus> get() = _loginGoogleStatus
 
     fun saveUserEmailToPreferences(userEmail: String) {
         preferencesManager.saveUserEmail(userEmail)
@@ -60,6 +65,23 @@ class ViewModelLogin
                 }
         } else {
             _loginStatus.value = SessionStatus.NETWORKERROR
+        }
+    }
+
+    fun firebaseAuthWithGoogle(idToken: String) {
+        _loginGoogleStatus.value = SessionStatus.LOADING
+        if (!networkHelper.isNetworkConnected()) {
+            _loginGoogleStatus.value = SessionStatus.NETWORKERROR
+            return
+        }
+        val credential = GoogleAuthProvider.getCredential(idToken, null)
+        firebaseRepository.signInWithCredential(credential).addOnCompleteListener {
+            if (it.isSuccessful) {
+                _loginGoogleStatus.value = SessionStatus.SUCESS
+            } else {
+                _loginGoogleStatus.value = SessionStatus.ERROR
+
+            }
         }
     }
 

@@ -1,6 +1,7 @@
 {
   "project_info": {
     "project_number": "428678222027",
+    "firebase_url": "https://skeduly-default-rtdb.firebaseio.com",
     "project_id": "skeduly",
     "storage_bucket": "skeduly.appspot.com"
   },

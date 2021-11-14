@@ -93,7 +93,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginEnd="16dp"
         android:padding="15dp"
-        android:text="Iniciar session"
+        android:text="@string/iniciar_session"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/progress" />
