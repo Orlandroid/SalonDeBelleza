@@ -6,9 +6,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.citassalon.databinding.SignInBinding
 import com.example.citassalon.util.AlertsDialogMessages
+import com.example.citassalon.util.SING_UP_TO_LOGIN
 import com.example.citassalon.util.SessionStatus
+import com.example.citassalon.util.navigate
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -30,6 +33,9 @@ class SignUp : Fragment() {
         binding.buttonRegistarse.setOnClickListener {
             singUp()
         }
+        binding.buttonLogin.setOnClickListener {
+            findNavController().popBackStack()
+        }
         return binding.root
     }
 
@@ -44,6 +50,7 @@ class SignUp : Fragment() {
                     binding.buttonRegistarse.isEnabled = true
                     binding.progress.visibility = View.GONE
                     showAlertMessage("Usuario registraro correctamente")
+                    navigate(SING_UP_TO_LOGIN)
                 }
                 is SessionStatus.ERROR -> {
                     binding.buttonRegistarse.isEnabled = true

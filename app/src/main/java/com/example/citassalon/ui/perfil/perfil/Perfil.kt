@@ -1,4 +1,4 @@
-package com.example.citassalon.ui.perfil
+package com.example.citassalon.ui.perfil.perfil
 
 import android.os.Bundle
 import android.util.Log
@@ -13,7 +13,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class Perfil : Fragment(), ListenerAlertDialogWithButtons {
+class Perfil : Fragment(), ListenerAlertDialogWithButtons, ListenerClickOnElementsRecycler {
 
 
     private var _binding: FragmentPerfilBinding? = null
@@ -27,17 +27,47 @@ class Perfil : Fragment(), ListenerAlertDialogWithButtons {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentPerfilBinding.inflate(inflater, container, false)
-        binding.buttonTermAdnCondictions.setOnClickListener {
-            showTermAndCondition()
-        }
-        binding.buttonCerrarSession.setOnClickListener {
-            logout()
-        }
-        binding.buttonHistorialDeCitas.setOnClickListener {
-            navigate(PERFIL_TO_HISTORIAL_DE_CITAS)
-        }
+        setUpUi()
         setUpObserver()
         return binding.root
+    }
+
+
+    private fun setUpUi() {
+        setUpRecyclerView()
+    }
+
+    private fun getListener(): ListenerClickOnElementsRecycler {
+        return this
+    }
+
+    private fun setUpRecyclerView() {
+        binding.recyclerProfile.adapter = AdaptadorPerfil(setElementsMenu(), getListener())
+    }
+
+    private fun setElementsMenu(): List<PerfilItem> {
+        val elementsMenu = arrayListOf<PerfilItem>()
+        val perfil = PerfilItem("Perfil", R.drawable.perfil)
+        val historial = PerfilItem("Historial de citas", R.drawable.perfil)
+        val contactanos = PerfilItem("Contactanos", R.drawable.perfil)
+        val terminos = PerfilItem("Terminos y condiciones", R.drawable.perfil)
+        val cerrarSesion = PerfilItem("Cerrar sesion", R.drawable.perfil)
+        elementsMenu.add(perfil)
+        elementsMenu.add(historial)
+        elementsMenu.add(contactanos)
+        elementsMenu.add(terminos)
+        elementsMenu.add(cerrarSesion)
+        return elementsMenu
+    }
+
+    override fun clickOnElement(position: Int) {
+        when (position) {
+            1 -> Log.w("uno", "unos")
+            2 -> navigate(PERFIL_TO_HISTORIAL_DE_CITAS)
+            3 -> Log.w("uno", "unos")
+            4 -> showTermAndCondition()
+            5 -> logout()
+        }
     }
 
     private fun setUpObserver() {
@@ -73,11 +103,13 @@ class Perfil : Fragment(), ListenerAlertDialogWithButtons {
     }
 
     override fun clickOnConfirmar() {
+        viewModelPerfil.destroyUserSession()
         navigate(PERFIL_TO_HOME)
     }
 
     override fun clickOnCancel() {
 
     }
+
 
 }

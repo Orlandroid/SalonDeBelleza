@@ -4,8 +4,11 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 import com.example.citassalon.R
+import com.example.citassalon.databinding.AlertDialogForgetPasswordBinding
 import com.example.citassalon.interfaces.ListenerAlertDialogWithButtons
+import com.example.citassalon.ui.login.ListeneClickOnRecoverPassword
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 /**
@@ -90,6 +93,7 @@ class AlertsDialogMessages(private val context: Context) {
         MaterialAlertDialogBuilder(context)
             .setTitle(title)
             .setMessage(message)
+            .setCancelable(false)
             .setPositiveButton(R.string.aceptar) { dialog, which ->
             }
             .show()

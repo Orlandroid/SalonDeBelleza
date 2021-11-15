@@ -7,19 +7,6 @@
     android:background="@drawable/background"
     tools:context=".ui.sign_up.SignUp">
 
-    <CheckBox
-        android:id="@+id/terminos_condiciones"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="16dp"
-        android:layout_marginEnd="16dp"
-        android:text="@string/terminos_condiciones"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/password" />
-
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/user"
         android:layout_width="match_parent"
@@ -86,6 +73,7 @@
         app:layout_constraintTop_toTopOf="@+id/button_registarse" />
 
     <Button
+        android:padding="15dp"
         android:id="@+id/button_registarse"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -95,6 +83,19 @@
         android:text="@string/registrarse"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/terminos_condiciones" />
+        app:layout_constraintTop_toBottomOf="@+id/password" />
+
+    <Button
+        android:id="@+id/button_login"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
+        android:padding="15dp"
+        android:text="@string/iniciar_session"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/progress" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
