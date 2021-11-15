@@ -191,8 +191,8 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
                 is SessionStatus.SUCESS -> {
                     binding.progress.visibility = View.GONE
                     binding.buttonGetIn.isEnabled = true
-                    navigate(LOGIN_TO_HOME)
                     saveUserEmailToPreferences()
+                    navigate(LOGIN_TO_HOME)
                 }
                 is SessionStatus.ERROR -> {
                     binding.progress.visibility = View.GONE
