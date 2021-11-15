@@ -8,7 +8,7 @@ El objetivo principal de la app es la gestión de citas enfocado a establecimien
 - credenciales 
 
 - admin@gmail.com 
-- admin
+- admin1234
 
 - usuario@gmail.com
 - usuario1234
@@ -28,9 +28,11 @@ El objetivo principal de la app es la gestión de citas enfocado a establecimien
 - Maquetacion con uso de ConstrintLayout
 - Material Design
 - ViewBinding
+- DataBinding
+- FirebaseAutentication
 - Retrofit
 - Trancitions entre fragments
-- Single Activity
+- Single-Activity Arquitecture
 - Room Database
 - Dagger Hilt
 - Corutinas
@@ -38,27 +40,37 @@ El objetivo principal de la app es la gestión de citas enfocado a establecimien
  <table>
   <tr>
     <td><strong>Login</strong></td>
+   <td><strong>Login Forget</strong></td>
     <td><strong>Home</strong></td>
     <td><strong>Sucursal</strong></td>
-    <td><strong>Staff</strong></td>
   </tr>
   <tr>
     <td><img src="screenshots/login.png" width="100%"></td>
+    <td><img src="screenshots/sign_up_alert.png" width="100%"></td>
     <td><img src="screenshots/home.png" width="100%"></td>
     <td><img src="screenshots/sucursales.png" width="100%"></td>
-    <td><img src="screenshots/staff.png" width="100%"></td>
   </tr>
   <tr>
     <td><strong>Servicio</strong></td>
     <td><strong>Fecha</strong></td>
-    <td><strong>Hora</strong></td>
-    <td><strong>Cita agendada</strong></td>
+    <td><strong>Detalle</strong></td>
+    <td><strong>Staff</strong></td>
   </tr>
   <tr>
     <td><img src="screenshots/servicio.png" width="100%"></td>
     <td><img src="screenshots/fecha.png" width="100%"></td>
-    <td><img src="screenshots/hora.png" width="100%"></td>
-    <td><img src="screenshots/cita agendada.png" width="100%"></td>
+    <td><img src="screenshots/detalle.png" width="100%"></td>
+    <td><img src="screenshots/staff.png" width="100%"></td>
+  </tr>
+ <tr>
+    <td><strong>perfil</strong></td>
+    <td><strong>Sign up</strong></td>
+  <td><strong>Cita Agendada</strong></td>
+  </tr>
+  <tr>
+    <td><img src="screenshots/perfil.png" width="100%"></td>
+    <td><img src="screenshots/sing_up.png" width="100%"></td>
+   <td><img src="screenshots/cita agendada.png" width="100%"></td>
   </tr>
 </table> 
 
