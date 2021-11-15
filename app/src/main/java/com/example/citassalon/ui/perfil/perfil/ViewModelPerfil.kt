@@ -1,4 +1,4 @@
-package com.example.citassalon.ui.perfil
+package com.example.citassalon.ui.perfil.perfil
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
