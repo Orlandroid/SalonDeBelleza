@@ -44,7 +44,7 @@
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/perfil" />
+        app:srcCompat="@drawable/perfil_negro" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnFloatingList"
