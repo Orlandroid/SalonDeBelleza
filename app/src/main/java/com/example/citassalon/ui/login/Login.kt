@@ -41,9 +41,17 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
         setUpUi()
         setUpObserves()
         configureGoogleSignIn()
+        isSessionActive()
         return binding.root
     }
 
+
+    private fun isSessionActive() {
+        Log.w("ANDROID", viewModel.getUserSession().toString())
+        if (viewModel.getUserSession()) {
+            navigate(LOGIN_TO_HOME)
+        }
+    }
 
     private fun configureGoogleSignIn() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -93,9 +101,6 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
         }
         binding.buttonLoginGoogle.setOnClickListener {
             signIn()
-        }
-        binding.root.setOnClickListener {
-            hideKeyboard()
         }
     }
 

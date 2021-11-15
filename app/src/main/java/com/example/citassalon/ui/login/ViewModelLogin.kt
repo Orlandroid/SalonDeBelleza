@@ -1,13 +1,13 @@
 package com.example.citassalon.ui.login
 
-import android.util.Log
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.citassalon.data.firebase.FirebaseRepository
+import com.example.citassalon.data.preferences.LoginPeferences
 import com.example.citassalon.util.SessionStatus
 import com.example.citassalon.util.NetworkHelper
-import com.example.citassalon.util.PreferencesManager
 import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
@@ -17,7 +17,7 @@ class ViewModelLogin
 @Inject constructor(
     private val networkHelper: NetworkHelper,
     private val firebaseRepository: FirebaseRepository,
-    private val preferencesManager: PreferencesManager
+    private val loginPeferences: LoginPeferences
 ) : ViewModel() {
 
     private val _loginStatus = MutableLiveData<SessionStatus>()
@@ -30,12 +30,21 @@ class ViewModelLogin
     val loginGoogleStatus: LiveData<SessionStatus> get() = _loginGoogleStatus
 
     fun saveUserEmailToPreferences(userEmail: String) {
-        preferencesManager.saveUserEmail(userEmail)
+        loginPeferences.saveUserEmail(userEmail)
     }
 
     fun getUserEmailFromPreferences(): String? {
-        return preferencesManager.getUserEmail()
+        return loginPeferences.getUserEmail()
     }
+
+    private fun saveUserSession() {
+        loginPeferences.saveUserSession()
+    }
+
+    fun getUserSession(): Boolean {
+        return loginPeferences.getUserSession()
+    }
+
 
     fun forgetPassword(email: String) {
         _forgetPasswordStatus.value = SessionStatus.LOADING
@@ -59,6 +68,7 @@ class ViewModelLogin
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
                         _loginStatus.value = SessionStatus.SUCESS
+                        saveUserSession()
                     } else {
                         _loginStatus.value = SessionStatus.ERROR
                     }

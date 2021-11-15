@@ -73,6 +73,7 @@ class Perfil : Fragment(), ListenerAlertDialogWithButtons {
     }
 
     override fun clickOnConfirmar() {
+        viewModelPerfil.destroyUserSession()
         navigate(PERFIL_TO_HOME)
     }
 
