@@ -2,7 +2,8 @@ package com.example.citassalon.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.citassalon.util.PreferencesManager
+import com.example.citassalon.data.preferences.LoginPeferences
+import com.example.citassalon.data.preferences.PreferencesManager
 import com.example.citassalon.util.SHARE_PREFERENCES
 import dagger.Module
 import dagger.Provides
@@ -26,5 +27,12 @@ object ModuleApp {
     fun providePreferencesManager(sharedPreferences: SharedPreferences): PreferencesManager {
         return PreferencesManager(sharedPreferences)
     }
+
+    @Singleton
+    @Provides
+    fun provideLoginPreferences(sharedPreferences: SharedPreferences): LoginPeferences {
+        return LoginPeferences(sharedPreferences)
+    }
+
 
 }
