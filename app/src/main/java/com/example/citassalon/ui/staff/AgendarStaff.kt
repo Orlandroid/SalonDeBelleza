@@ -38,12 +38,9 @@ class AgendarStaff : Fragment(), ClickOnStaff {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentAgendarStaffBinding.inflate(layoutInflater, container, false)
-        binding.recyclerStaff.layoutManager = GridLayoutManager(requireContext(), 2)
-        binding.recyclerStaff.adapter = adaptador
-        Log.w("Skeeletoon", "Aplicacion el skeleton")
         binding.recyclerStaff.applySkeleton(R.layout.item_staff)
-        setUpObservers()
         getArgs()
+        setUpObservers()
         return binding.root
     }
 
@@ -59,18 +56,33 @@ class AgendarStaff : Fragment(), ClickOnStaff {
         binding.tvSucursal.text = sucursal
     }
 
+    private fun setUpRecyclerView() {
+        binding.recyclerStaff.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.recyclerStaff.adapter = adaptador
+    }
+
+    private fun showSkeleton() {
+        binding.recyclerStaff.applySkeleton(R.layout.item_staff)
+        binding.skeletonRecycler.showSkeleton()
+    }
+
+    private fun hideSkeleton() {
+        binding.skeletonRecycler.showOriginal()
+    }
+
 
     private fun setUpObservers() {
         viewModelStaff.staff.observe(viewLifecycleOwner, {
             when (it) {
                 is ApiState.Loading -> {
-                    binding.skeletonRecycler.showSkeleton()
-                    Log.w("Skeeletoon", "Aplicacion el skeleton")
+                    binding.tvEmpleado.text="Loding"
+                    setUpRecyclerView()
+                    showSkeleton()
                 }
                 is ApiState.Success -> {
                     if (it.data != null) {
-                        Log.w("Skeeletoon", "Quitando el Skeleton")
-                        binding.skeletonRecycler.showOriginal()
+                        binding.tvEmpleado.text="Success"
+                        hideSkeleton()
                         adaptador.setData(it.data)
                     }
                 }
