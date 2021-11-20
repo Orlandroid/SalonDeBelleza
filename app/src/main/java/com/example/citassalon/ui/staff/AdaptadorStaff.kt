@@ -1,12 +1,11 @@
 package com.example.citassalon.ui.staff
 
-
-import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Staff
@@ -17,7 +16,6 @@ class AdaptadorStaff(private val listener: ClickOnStaff) :
 
     private var listaStaff: List<Staff> = arrayListOf()
 
-    @SuppressLint("NotifyDataSetChanged")
     fun setData(lista: List<Staff>) {
         listaStaff = lista
         notifyDataSetChanged()

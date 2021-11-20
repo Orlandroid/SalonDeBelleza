@@ -17,6 +17,7 @@ import com.example.citassalon.util.ApiState
 import com.example.citassalon.util.action
 import com.example.citassalon.util.displaySnack
 import com.example.citassalon.util.navigate
+import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,6 +31,7 @@ class AgendarStaff : Fragment(), ClickOnStaff {
     private val viewModelStaff: ViewModelStaff by viewModels()
     private val args: AgendarStaffArgs by navArgs()
     private val adaptador = AdaptadorStaff(getListener())
+    private lateinit var skeletonRecyclerView: Skeleton
 
 
     override fun onCreateView(
@@ -38,7 +40,8 @@ class AgendarStaff : Fragment(), ClickOnStaff {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentAgendarStaffBinding.inflate(layoutInflater, container, false)
-        binding.recyclerStaff.applySkeleton(R.layout.item_staff)
+        skeletonRecyclerView = binding.recyclerStaff.applySkeleton(R.layout.item_staff,4)
+        setUpRecyclerView()
         getArgs()
         setUpObservers()
         return binding.root
@@ -62,12 +65,11 @@ class AgendarStaff : Fragment(), ClickOnStaff {
     }
 
     private fun showSkeleton() {
-        binding.recyclerStaff.applySkeleton(R.layout.item_staff)
-        binding.skeletonRecycler.showSkeleton()
+        skeletonRecyclerView.showSkeleton()
     }
 
     private fun hideSkeleton() {
-        binding.skeletonRecycler.showOriginal()
+        skeletonRecyclerView.showOriginal()
     }
 
 
@@ -75,14 +77,14 @@ class AgendarStaff : Fragment(), ClickOnStaff {
         viewModelStaff.staff.observe(viewLifecycleOwner, {
             when (it) {
                 is ApiState.Loading -> {
-                    binding.tvEmpleado.text="Loding"
-                    setUpRecyclerView()
                     showSkeleton()
+                    binding.tvEmpleado.text = "Loding"
                 }
                 is ApiState.Success -> {
+                    hideSkeleton()
                     if (it.data != null) {
-                        binding.tvEmpleado.text="Success"
-                        hideSkeleton()
+                        binding.tvEmpleado.text = "Success"
+                        setUpRecyclerView()
                         adaptador.setData(it.data)
                     }
                 }
