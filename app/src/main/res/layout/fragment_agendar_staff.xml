@@ -77,9 +77,11 @@
 
     <com.faltenreich.skeletonlayout.SkeletonLayout
         android:id="@+id/skeleton_recycler"
+        android:background="@drawable/backgroun_recycler_view"
         app:maskColor="@color/gris"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        app:showShimmer="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
