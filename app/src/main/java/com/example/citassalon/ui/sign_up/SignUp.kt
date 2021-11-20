@@ -33,9 +33,6 @@ class SignUp : Fragment() {
         binding.buttonRegistarse.setOnClickListener {
             singUp()
         }
-        binding.buttonLogin.setOnClickListener {
-            findNavController().popBackStack()
-        }
         return binding.root
     }
 
