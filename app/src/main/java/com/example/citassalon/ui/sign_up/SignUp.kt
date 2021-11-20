@@ -4,14 +4,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.example.citassalon.databinding.SignInBinding
-import com.example.citassalon.util.AlertsDialogMessages
-import com.example.citassalon.util.SING_UP_TO_LOGIN
-import com.example.citassalon.util.SessionStatus
-import com.example.citassalon.util.navigate
+import com.example.citassalon.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -30,10 +27,18 @@ class SignUp : Fragment() {
     ): View? {
         _binding = SignInBinding.inflate(layoutInflater, container, false)
         setUpObservers()
+        setUpUi()
+        return binding.root
+    }
+
+    private fun setUpUi(){
         binding.buttonRegistarse.setOnClickListener {
             singUp()
         }
-        return binding.root
+        binding.container.setOnClickListener {
+            hideKeyboard()
+        }
+        doOnTextChange()
     }
 
     private fun setUpObservers() {
@@ -63,9 +68,37 @@ class SignUp : Fragment() {
         })
     }
 
+    private fun doOnTextChange() {
+        with(binding) {
+            nombre.editText?.doOnTextChanged { _, _, _, _ ->
+                buttonRegistarse.isEnabled = !areEmptyFields()
+            }
+            telefono.editText?.doOnTextChanged { _, _, _, _ ->
+                buttonRegistarse.isEnabled = !areEmptyFields()
+            }
+            correo.editText?.doOnTextChanged { _, _, _, _ ->
+                buttonRegistarse.isEnabled = !areEmptyFields()
+            }
+            password.editText?.doOnTextChanged { _, _, _, _ ->
+                buttonRegistarse.isEnabled = !areEmptyFields()
+            }
+            birtday.editText?.doOnTextChanged { _, _, _, _ ->
+                buttonRegistarse.isEnabled = !areEmptyFields()
+            }
+        }
+    }
+
+    private fun areEmptyFields(): Boolean {
+        val nombreIsEmpty = binding.nombre.editText?.text.toString().trim().isEmpty()
+        val telefonoIsEmpty = binding.telefono.editText?.text.toString().trim().isEmpty()
+        val correoIsEmpty = binding.correo.editText?.text.toString().trim().isEmpty()
+        val passwordIsEmpty = binding.password.editText?.text.toString().trim().isEmpty()
+        val birthDayIsEmpty = binding.birtday.editText?.text.toString().trim().isEmpty()
+        return nombreIsEmpty or telefonoIsEmpty or correoIsEmpty or passwordIsEmpty or birthDayIsEmpty
+    }
 
     private fun singUp() {
-        val user = binding.user.editText?.text.toString().trim()
+        val user = binding.correo.editText?.text.toString().trim()
         val password = binding.password.editText?.text.toString().trim()
         if (user.isNotEmpty() && password.isNotEmpty()) {
             viewModel.sinUp(user, password)

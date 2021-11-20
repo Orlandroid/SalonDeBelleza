@@ -7,11 +7,12 @@
     android:layout_height="match_parent">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context=".ui.sign_up.SignUp">
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/user"
+            android:id="@+id/correo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="16dp"
@@ -41,7 +42,7 @@
             app:endIconMode="password_toggle"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/user"
+            app:layout_constraintTop_toBottomOf="@+id/correo"
             app:startIconDrawable="@drawable/ic_baseline_lock_24">
 
             <com.google.android.material.textfield.TextInputEditText
@@ -134,6 +135,7 @@
             app:layout_constraintTop_toTopOf="@+id/button_registarse" />
 
         <Button
+            android:enabled="false"
             android:id="@+id/button_registarse"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
