@@ -9,7 +9,6 @@ import com.example.citassalon.util.ApiState
 import com.example.citassalon.util.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -31,7 +30,6 @@ class ViewModelStaff @Inject constructor(
     fun getSttafs() {
         viewModelScope.launch(Dispatchers.IO) {
             _staff.postValue(ApiState.Loading(null))
-            delay(5000)
             if (networkHelper.isNetworkConnected()) {
                 val response = repository.getStaffs()
                 if (response.isSuccessful) {
