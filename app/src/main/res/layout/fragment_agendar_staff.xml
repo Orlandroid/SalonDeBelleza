@@ -77,7 +77,6 @@
 
     <com.faltenreich.skeletonlayout.SkeletonLayout
         android:id="@+id/skeleton_recycler"
-        app:maskColor="@color/gris"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -85,11 +84,13 @@
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline9"
-        app:shimmerColor="@color/gris">
+        app:maskColor="@color/gris"
+        app:shimmerColor="@color/gris"
+        app:showShimmer="true">
 
         <androidx.recyclerview.widget.RecyclerView
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
             android:id="@+id/recyclerStaff"
+            tools:itemCount="4"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/backgroun_recycler_view"

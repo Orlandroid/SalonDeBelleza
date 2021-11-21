@@ -17,6 +17,7 @@ import com.example.citassalon.util.ApiState
 import com.example.citassalon.util.action
 import com.example.citassalon.util.displaySnack
 import com.example.citassalon.util.navigate
+import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,6 +31,7 @@ class AgendarStaff : Fragment(), ClickOnStaff {
     private val viewModelStaff: ViewModelStaff by viewModels()
     private val args: AgendarStaffArgs by navArgs()
     private val adaptador = AdaptadorStaff(getListener())
+    private lateinit var skeletonRecyclerView: Skeleton
 
 
     override fun onCreateView(
@@ -38,12 +40,10 @@ class AgendarStaff : Fragment(), ClickOnStaff {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentAgendarStaffBinding.inflate(layoutInflater, container, false)
-        binding.recyclerStaff.layoutManager = GridLayoutManager(requireContext(), 2)
-        binding.recyclerStaff.adapter = adaptador
-        Log.w("Skeeletoon", "Aplicacion el skeleton")
-        binding.recyclerStaff.applySkeleton(R.layout.item_staff)
-        setUpObservers()
+        skeletonRecyclerView = binding.recyclerStaff.applySkeleton(R.layout.item_staff,4)
+        setUpRecyclerView()
         getArgs()
+        setUpObservers()
         return binding.root
     }
 
@@ -59,18 +59,30 @@ class AgendarStaff : Fragment(), ClickOnStaff {
         binding.tvSucursal.text = sucursal
     }
 
+    private fun setUpRecyclerView() {
+        binding.recyclerStaff.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.recyclerStaff.adapter = adaptador
+    }
+
+    private fun showSkeleton() {
+        skeletonRecyclerView.showSkeleton()
+    }
+
+    private fun hideSkeleton() {
+        skeletonRecyclerView.showOriginal()
+    }
+
 
     private fun setUpObservers() {
         viewModelStaff.staff.observe(viewLifecycleOwner, {
             when (it) {
                 is ApiState.Loading -> {
-                    binding.skeletonRecycler.showSkeleton()
-                    Log.w("Skeeletoon", "Aplicacion el skeleton")
+                    showSkeleton()
                 }
                 is ApiState.Success -> {
+                    hideSkeleton()
                     if (it.data != null) {
-                        Log.w("Skeeletoon", "Quitando el Skeleton")
-                        binding.skeletonRecycler.showOriginal()
+                        setUpRecyclerView()
                         adaptador.setData(it.data)
                     }
                 }

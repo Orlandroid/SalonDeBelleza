@@ -96,7 +96,7 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
         binding.tvForgetPassword.setOnClickListener {
             showForgetPassword()
         }
-        binding.root.setOnClickListener {
+        binding.container.setOnClickListener {
             hideKeyboard()
         }
         binding.buttonLoginGoogle.setOnClickListener {
