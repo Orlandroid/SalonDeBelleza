@@ -1,6 +1,9 @@
 package com.example.citassalon.data.models
 
 data class User(
-    val user: String,
-    val password: String
+    val name: String,
+    val phone: String,
+    val emial: String,
+    val password: String,
+    val birthDay: String
 )
