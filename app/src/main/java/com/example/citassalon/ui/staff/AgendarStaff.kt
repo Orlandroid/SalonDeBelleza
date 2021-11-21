@@ -78,12 +78,10 @@ class AgendarStaff : Fragment(), ClickOnStaff {
             when (it) {
                 is ApiState.Loading -> {
                     showSkeleton()
-                    binding.tvEmpleado.text = "Loding"
                 }
                 is ApiState.Success -> {
                     hideSkeleton()
                     if (it.data != null) {
-                        binding.tvEmpleado.text = "Success"
                         setUpRecyclerView()
                         adaptador.setData(it.data)
                     }

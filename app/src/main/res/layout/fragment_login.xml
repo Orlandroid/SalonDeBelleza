@@ -7,6 +7,7 @@
     android:background="@drawable/background">
 
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:context=".ui.login.Login">
@@ -35,6 +36,7 @@
             app:startIconDrawable="@drawable/ic_baseline_account_box_24">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:maxLines="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 
@@ -56,6 +58,7 @@
             app:startIconDrawable="@drawable/ic_baseline_lock_24">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:maxLines="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:inputType="textPassword" />
@@ -69,7 +72,6 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:padding="15dp"
             android:text="@string/ingresar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +86,6 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:backgroundTint="@color/white"
-            android:padding="15dp"
             android:text="@string/sing_up"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -101,6 +102,7 @@
             app:layout_constraintTop_toBottomOf="@+id/txt_passord" />
 
         <ProgressBar
+            android:visibility="invisible"
             android:id="@+id/progress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -171,7 +173,6 @@
             android:layout_marginEnd="16dp"
             android:backgroundTint="@color/white"
             android:drawableLeft="@drawable/google_30"
-            android:padding="15dp"
             android:text="@string/ingresar_con_google"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
