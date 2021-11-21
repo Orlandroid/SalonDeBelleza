@@ -31,7 +31,7 @@ class SignUp : Fragment() {
         return binding.root
     }
 
-    private fun setUpUi(){
+    private fun setUpUi() {
         binding.buttonRegistarse.setOnClickListener {
             singUp()
         }
@@ -68,22 +68,34 @@ class SignUp : Fragment() {
         })
     }
 
+    private fun isValidPassword(): Boolean =
+        binding.password.editText?.text.toString().trim().length > 5
+
+    private fun getEmail(): String = binding.correo.editText?.text.toString()
+
+    private fun isValidTheData(): Boolean =
+        !areEmptyFields() and isValidPassword() and isValidEmail(getEmail())
+
     private fun doOnTextChange() {
         with(binding) {
             nombre.editText?.doOnTextChanged { _, _, _, _ ->
-                buttonRegistarse.isEnabled = !areEmptyFields()
+                buttonRegistarse.isEnabled = isValidTheData()
             }
             telefono.editText?.doOnTextChanged { _, _, _, _ ->
-                buttonRegistarse.isEnabled = !areEmptyFields()
+                buttonRegistarse.isEnabled = isValidTheData()
             }
             correo.editText?.doOnTextChanged { _, _, _, _ ->
-                buttonRegistarse.isEnabled = !areEmptyFields()
+                buttonRegistarse.isEnabled = isValidTheData()
             }
             password.editText?.doOnTextChanged { _, _, _, _ ->
-                buttonRegistarse.isEnabled = !areEmptyFields()
+                buttonRegistarse.isEnabled = isValidTheData()
+                if (!isValidPassword()) {
+                    binding.password.editText?.error =
+                        "La contraseña debe ser de minimo de 6 digitos"
+                }
             }
             birtday.editText?.doOnTextChanged { _, _, _, _ ->
-                buttonRegistarse.isEnabled = !areEmptyFields()
+                buttonRegistarse.isEnabled = isValidTheData()
             }
         }
     }
