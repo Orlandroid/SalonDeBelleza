@@ -37,6 +37,9 @@ El objetivo principal de la app es la gestión de citas enfocado a establecimien
 - Dagger Hilt
 - Corutinas
 
+
+  [Video](https://www.youtube.com/watch?v=NiYT53pavk4)
+
  <table>
   <tr>
     <td><strong>Login</strong></td>
