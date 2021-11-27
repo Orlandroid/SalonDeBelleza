@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.example.citassalon.databinding.FragmentAgendarFechaBinding
 import com.example.citassalon.util.navigate
+import com.example.citassalon.util.showDatePickerDialog
 
-class AgendarFecha : Fragment() {
+class AgendarFecha : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private var _binding: FragmentAgendarFechaBinding? = null
     private val binding get() = _binding!!
@@ -24,7 +26,7 @@ class AgendarFecha : Fragment() {
     ): View? {
         _binding = FragmentAgendarFechaBinding.inflate(inflater, container, false)
         binding.selectDate.setOnClickListener {
-            showDatePickerDialog()
+            showDatePickerDialog(getListenerOnDataSet(),this,true)
         }
 
         binding.edHora.setOnClickListener {
@@ -45,15 +47,17 @@ class AgendarFecha : Fragment() {
         binding.textSucursal.text = args.sucursal
     }
 
-    private fun showDatePickerDialog() {
-        val newFragment =
-            DatePickerFragment.newInstance(DatePickerDialog.OnDateSetListener { _, year, month, day ->
-                val selectedDate = day.toString() + " / " + (month + 1) + " / " + year
-                binding.selectDate.setText(selectedDate)
-                goToComfirm()
-            }, requireContext())
-        activity?.let { newFragment.show(it.supportFragmentManager, "datePicker") }
+
+    override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
+        val selectedDate = day.toString() + " / " + (month + 1) + " / " + year
+        binding.selectDate.setText(selectedDate)
+        goToComfirm()
     }
+
+    private fun getListenerOnDataSet():DatePickerDialog.OnDateSetListener{
+        return this
+    }
+
 
     private fun showTimePickerDialog() {
         val timePicker = TimePickerFragment {
@@ -92,5 +96,6 @@ class AgendarFecha : Fragment() {
         super.onDestroy()
         _binding = null
     }
+
 
 }

@@ -1,13 +1,16 @@
 package com.example.citassalon.util
 
 import android.app.Activity
+import android.app.DatePickerDialog
 import android.content.Context
 import android.view.View
 import android.view.inputmethod.InputMethodManager
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.example.citassalon.ui.fecha.DatePickerFragment
 import com.google.android.material.snackbar.Snackbar
 
 
@@ -69,3 +72,10 @@ fun Context.hideKeyboard(view: View) {
     val inputMethodManager = getSystemService(Activity.INPUT_METHOD_SERVICE) as InputMethodManager
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }
+
+fun showDatePickerDialog(listener: DatePickerDialog.OnDateSetListener, fragment: Fragment,setMinDate:Boolean=false) {
+    val newFragment =
+        DatePickerFragment.newInstance(listener, fragment.requireContext(),setMinDate)
+    fragment.activity?.let { newFragment.show(it.supportFragmentManager, "datePicker") }
+}
+
