@@ -7,9 +7,9 @@ import android.os.Bundle
 import androidx.fragment.app.DialogFragment
 import java.util.*
 
-class DatePickerFragment(private val contextP: Context) : DialogFragment() {
-
-    private var listener: DatePickerDialog.OnDateSetListener? = null
+class DatePickerFragment(
+    private val contextP: Context,
+    private val listener: DatePickerDialog.OnDateSetListener) : DialogFragment() {
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         val c = Calendar.getInstance()
@@ -17,8 +17,6 @@ class DatePickerFragment(private val contextP: Context) : DialogFragment() {
         val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
         val picker = DatePickerDialog(contextP, listener, year, month, day)
-
-        /**get the date of today  */
         val today = c.timeInMillis
         picker.datePicker.minDate = today
         return picker
@@ -29,9 +27,7 @@ class DatePickerFragment(private val contextP: Context) : DialogFragment() {
             listener: DatePickerDialog.OnDateSetListener,
             contextP: Context
         ): DatePickerFragment {
-            val fragment = DatePickerFragment(contextP)
-            fragment.listener = listener
-            return fragment
+            return DatePickerFragment(contextP, listener)
         }
     }
 

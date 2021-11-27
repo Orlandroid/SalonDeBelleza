@@ -1,20 +1,23 @@
 package com.example.citassalon.ui.sign_up
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.citassalon.data.models.User
 import com.example.citassalon.databinding.SignInBinding
+import com.example.citassalon.ui.fecha.DatePickerFragment
 import com.example.citassalon.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class SignUp : Fragment() {
+class SignUp : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private var _binding: SignInBinding? = null
     private val binding get() = _binding!!
@@ -40,7 +43,14 @@ class SignUp : Fragment() {
         binding.container.setOnClickListener {
             hideKeyboard()
         }
+        binding.birtday.setEndIconOnClickListener {
+            showDatePickerDialog(getListenerOnDataSet(),this)
+        }
         doOnTextChange()
+    }
+
+    private fun getListenerOnDataSet(): DatePickerDialog.OnDateSetListener {
+        return this
     }
 
     private fun setUpObservers() {
@@ -139,6 +149,11 @@ class SignUp : Fragment() {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
+        val selectedDate = day.toString() + " / " + (month + 1) + " / " + year
+        binding.birtday.editText?.setText(selectedDate)
     }
 
 }
