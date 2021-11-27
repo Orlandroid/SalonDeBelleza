@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.citassalon.data.models.User
 import com.example.citassalon.databinding.SignInBinding
 import com.example.citassalon.util.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -33,6 +34,7 @@ class SignUp : Fragment() {
 
     private fun setUpUi() {
         binding.buttonRegistarse.setOnClickListener {
+            saveUserImformation()
             singUp()
         }
         binding.container.setOnClickListener {
@@ -112,11 +114,21 @@ class SignUp : Fragment() {
     private fun singUp() {
         val user = binding.correo.editText?.text.toString().trim()
         val password = binding.password.editText?.text.toString().trim()
-        if (user.isNotEmpty() && password.isNotEmpty()) {
-            viewModel.sinUp(user, password)
-        } else {
-            showAlertMessage("Debes ingresar ambos campos")
-        }
+        viewModel.sinUp(user, password)
+    }
+
+    private fun getUser(): User {
+        val nombre = binding.nombre.editText?.text.toString()
+        val telefono = binding.telefono.editText?.text.toString()
+        val correo = binding.correo.editText?.text.toString()
+        val password = binding.password.editText?.text.toString()
+        val birthDay = binding.birtday.editText?.text.toString()
+        return User(nombre, telefono, correo, password, birthDay)
+    }
+
+    private fun saveUserImformation() {
+        val user = getUser()
+        viewModel.saveUserImformation(user)
     }
 
     private fun showAlertMessage(message: String) {
