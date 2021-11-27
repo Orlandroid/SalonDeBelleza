@@ -73,9 +73,9 @@ fun Context.hideKeyboard(view: View) {
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
-fun showDatePickerDialog(listener: DatePickerDialog.OnDateSetListener, fragment: Fragment) {
+fun showDatePickerDialog(listener: DatePickerDialog.OnDateSetListener, fragment: Fragment,setMinDate:Boolean=false) {
     val newFragment =
-        DatePickerFragment.newInstance(listener, fragment.requireContext())
+        DatePickerFragment.newInstance(listener, fragment.requireContext(),setMinDate)
     fragment.activity?.let { newFragment.show(it.supportFragmentManager, "datePicker") }
 }
 

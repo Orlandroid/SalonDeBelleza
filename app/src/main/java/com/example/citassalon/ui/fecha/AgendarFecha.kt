@@ -26,7 +26,7 @@ class AgendarFecha : Fragment(), DatePickerDialog.OnDateSetListener {
     ): View? {
         _binding = FragmentAgendarFechaBinding.inflate(inflater, container, false)
         binding.selectDate.setOnClickListener {
-            showDatePickerDialog(getListenerOnDataSet(),this)
+            showDatePickerDialog(getListenerOnDataSet(),this,true)
         }
 
         binding.edHora.setOnClickListener {
