@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
-    app:startDestination="@id/login">
+    app:startDestination="@id/splashScreenFragment">
     <fragment
         android:id="@+id/login"
         android:name="com.example.citassalon.ui.login.Login"
@@ -200,10 +200,18 @@
             android:id="@+id/action_signUp_to_login"
             app:destination="@id/login" />
     </fragment>
-    <include app:graph="@navigation/nav_info" />
     <fragment
         android:id="@+id/historialDeCitas"
         android:name="com.example.citassalon.ui.perfil.historial_citas.HistorialDeCitas"
         android:label="fragment_historial_de_citas"
         tools:layout="@layout/fragment_historial_de_citas" />
+    <fragment
+        android:id="@+id/splashScreenFragment"
+        android:name="com.example.citassalon.ui.splashscreen.SplashScreenFragment"
+        android:label="fragment_splash_screen"
+        tools:layout="@layout/fragment_splash_screen" >
+        <action
+            android:id="@+id/action_splashScreenFragment_to_login"
+            app:destination="@id/login" />
+    </fragment>
 </navigation>

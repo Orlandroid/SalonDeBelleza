@@ -19,6 +19,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:hint="@string/correo_electronico"
+            app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/telefono"
@@ -61,6 +62,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:hint="@string/nombre"
+            app:endIconMode="clear_text"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/imageView2">
@@ -81,6 +83,7 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:hint="Telefono"
+            app:endIconMode="clear_text"
             app:startIconDrawable="@drawable/phone_24px"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -102,12 +105,15 @@
             android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
             android:hint="@string/cumpleaños"
+            app:endIconMode="custom"
+            app:endIconDrawable="@drawable/ic_today"
             app:startIconDrawable="@drawable/ic_cake"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/password">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:enabled="false"
                 android:maxLines="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

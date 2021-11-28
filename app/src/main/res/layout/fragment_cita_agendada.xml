@@ -7,39 +7,38 @@
     android:background="@drawable/background"
     tools:context=".ui.cita_agendada.CitaAgendada">
 
-    <ImageView
-        android:id="@+id/imageView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/correct"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline16" />
-
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_head"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/muy_bien"
         android:textSize="34sp"
-        app:layout_constraintBottom_toTopOf="@+id/textView51"
+        app:layout_constraintBottom_toTopOf="@+id/tv_body"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView7" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <TextView
-        android:id="@+id/textView51"
+        android:id="@+id/tv_body"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:text="@string/cita_agendada"
         android:textSize="34sp"
         app:layout_constraintBottom_toTopOf="@id/guideline17"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/imageAnimation"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/tv_head"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline16"
+        app:lottie_autoPlay="true" />
+
     <Button
+        android:visibility="invisible"
         android:id="@+id/button_aceptar"
         style="@style/button_next"
         android:layout_width="0dp"
@@ -64,13 +63,13 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.14" />
+        app:layout_constraintGuide_percent="0.07" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline17"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.6" />
+        app:layout_constraintGuide_percent="0.69" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

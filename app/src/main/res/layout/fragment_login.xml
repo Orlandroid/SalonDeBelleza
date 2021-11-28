@@ -12,15 +12,16 @@
         android:layout_height="wrap_content"
         tools:context=".ui.login.Login">
 
-        <ImageView
-            android:id="@+id/appCompatImageView"
+        <com.airbnb.lottie.LottieAnimationView
+            app:lottie_rawRes="@raw/login_icon"
+            android:id="@+id/image_animation"
             android:layout_width="150dp"
             android:layout_height="150dp"
             android:layout_marginTop="16dp"
+            app:lottie_autoPlay="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/logo" />
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/txt_user"
@@ -29,13 +30,15 @@
             android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
             android:layout_marginEnd="8dp"
+            app:endIconMode="clear_text"
             android:hint="@string/correo_electronico"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/appCompatImageView"
+            app:layout_constraintTop_toBottomOf="@+id/image_animation"
             app:startIconDrawable="@drawable/ic_baseline_account_box_24">
 
             <com.google.android.material.textfield.TextInputEditText
+                android:inputType="textEmailAddress"
                 android:maxLines="1"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />

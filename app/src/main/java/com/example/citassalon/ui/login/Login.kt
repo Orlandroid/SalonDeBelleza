@@ -1,14 +1,12 @@
 package com.example.citassalon.ui.login
 
-import android.animation.ValueAnimator
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.LinearInterpolator
-import android.widget.Toast
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.citassalon.R
@@ -44,6 +42,8 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
         isSessionActive()
         return binding.root
     }
+
+
 
 
     private fun isSessionActive() {
@@ -89,9 +89,6 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
         binding.buttonSignUp.setOnClickListener {
             navigate(LOGIN_TO_SINGUP)
         }
-        binding.txtUser.addOnEditTextAttachedListener {
-            animationImage()
-        }
         binding.txtUser.editText?.setText(viewModel.getUserEmailFromPreferences())
         binding.tvForgetPassword.setOnClickListener {
             showForgetPassword()
@@ -109,18 +106,6 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
         activity?.let { dialog.show(it.supportFragmentManager, "forgetPassword") }
     }
 
-    private fun animationImage() {
-        binding.appCompatImageView.animate().apply {
-            val valueAnimator = ValueAnimator.ofFloat(0f, 360f)
-            valueAnimator.addUpdateListener {
-                val value = it.animatedValue as Float
-                binding.appCompatImageView.rotation = value
-            }
-            valueAnimator.interpolator = LinearInterpolator()
-            valueAnimator.duration = 2000
-            valueAnimator.start()
-        }
-    }
 
     private fun saveUserEmailToPreferences() {
         val userEmail = binding.txtUser.editText?.text.toString()

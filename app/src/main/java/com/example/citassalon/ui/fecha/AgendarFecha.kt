@@ -5,12 +5,15 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.example.citassalon.databinding.FragmentAgendarFechaBinding
+import com.example.citassalon.util.hideKeyboard
 import com.example.citassalon.util.navigate
+import com.example.citassalon.util.showDatePickerDialog
 
-class AgendarFecha : Fragment() {
+class AgendarFecha : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private var _binding: FragmentAgendarFechaBinding? = null
     private val binding get() = _binding!!
@@ -23,17 +26,24 @@ class AgendarFecha : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentAgendarFechaBinding.inflate(inflater, container, false)
-        binding.selectDate.setOnClickListener {
-            showDatePickerDialog()
-        }
-
-        binding.edHora.setOnClickListener {
-            showTimePickerDialog()
-        }
-
-        setValuesToView(args)
-
+        setUpUi()
         return binding.root
+
+    }
+
+    private fun setUpUi() {
+        with(binding) {
+            edHora.setEndIconOnClickListener {
+                showTimePickerDialog()
+            }
+            mainView.setOnClickListener {
+                hideKeyboard()
+            }
+            etFecha.setEndIconOnClickListener {
+                showDatePickerDialog(getListenerOnDataSet(), this@AgendarFecha, true)
+            }
+        }
+        setValuesToView(args)
 
     }
 
@@ -45,15 +55,17 @@ class AgendarFecha : Fragment() {
         binding.textSucursal.text = args.sucursal
     }
 
-    private fun showDatePickerDialog() {
-        val newFragment =
-            DatePickerFragment.newInstance(DatePickerDialog.OnDateSetListener { _, year, month, day ->
-                val selectedDate = day.toString() + " / " + (month + 1) + " / " + year
-                binding.selectDate.setText(selectedDate)
-                goToComfirm()
-            }, requireContext())
-        activity?.let { newFragment.show(it.supportFragmentManager, "datePicker") }
+
+    override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
+        val selectedDate = day.toString() + " / " + (month + 1) + " / " + year
+        binding.etFecha.editText?.setText(selectedDate)
+        goToComfirm()
     }
+
+    private fun getListenerOnDataSet(): DatePickerDialog.OnDateSetListener {
+        return this
+    }
+
 
     private fun showTimePickerDialog() {
         val timePicker = TimePickerFragment {
@@ -64,7 +76,7 @@ class AgendarFecha : Fragment() {
     }
 
     private fun onTimeSelected(time: String) {
-        binding.edHora.setText(time)
+        binding.edHora.editText?.setText(time)
     }
 
 
@@ -74,8 +86,8 @@ class AgendarFecha : Fragment() {
                 args.sucursal,
                 args.staff,
                 args.servicio,
-                binding.selectDate.text.toString(),
-                binding.edHora.text.toString()
+                binding.etFecha.editText?.text.toString(),
+                binding.edHora.editText?.text.toString()
             )
             navigate(action)
         }
@@ -83,8 +95,8 @@ class AgendarFecha : Fragment() {
 
 
     private fun areNotEmptyTimeOrDate(): Boolean {
-        val date = binding.selectDate.text.toString().trim()
-        val time = binding.edHora.text.toString().trim()
+        val date = binding.etFecha.editText?.text.toString().trim()
+        val time = binding.edHora.editText?.text.toString().trim()
         return date.isNotEmpty() and time.isNotEmpty()
     }
 
@@ -92,5 +104,6 @@ class AgendarFecha : Fragment() {
         super.onDestroy()
         _binding = null
     }
+
 
 }
