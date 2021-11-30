@@ -77,4 +77,4 @@ El objetivo principal de la app es la gestión de citas enfocado a establecimien
   </tr>
 </table> 
 
-<img src="screenshots/Flujos app.png">
+<img src="screenshots/Flujos.png">
