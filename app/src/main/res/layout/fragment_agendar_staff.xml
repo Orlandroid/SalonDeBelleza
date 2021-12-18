@@ -7,6 +7,12 @@
     android:background="@drawable/background"
     tools:context=".ui.staff.AgendarStaff">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <Button
         android:id="@+id/button"
         style="?attr/materialButtonOutlinedStyle"

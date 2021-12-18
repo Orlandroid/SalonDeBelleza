@@ -7,6 +7,11 @@
     android:background="@drawable/background"
     tools:context=".ui.servicio.AgendarServicio">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_agendar_servicio"
         android:layout_width="0dp"

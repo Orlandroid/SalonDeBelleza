@@ -11,9 +11,7 @@
         tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_login_to_home32"
-            app:destination="@id/home3"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left" />
+            app:destination="@id/home3" />
         <action
             android:id="@+id/action_login_to_signUp"
             app:destination="@id/signUp" />
@@ -25,11 +23,7 @@
         tools:layout="@layout/fragment_home">
         <action
             android:id="@+id/action_home3_to_agendarSucursal"
-            app:destination="@id/agendarSucursal"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
-            app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right" />
+            app:destination="@id/agendarSucursal" />
         <action
             android:id="@+id/action_home3_to_perfil"
             app:destination="@id/perfil"

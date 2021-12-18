@@ -5,6 +5,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.citassalon.data.models.Staff
 import com.example.citassalon.databinding.FragmentDetalleStaffBinding
@@ -23,8 +24,18 @@ class DetalleStaff : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentDetalleStaffBinding.inflate(layoutInflater)
-        getFromArgs()
+        setUpUi()
         return binding.root
+    }
+
+    private fun setUpUi(){
+        with(binding){
+            toolbar.toolbarTitle.text="Detalle Staff"
+            toolbar.toolbarBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
+        }
+        getFromArgs()
     }
 
     private fun getFromArgs() {

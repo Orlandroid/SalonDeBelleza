@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentPerfilBinding
 import com.example.citassalon.interfaces.ListenerAlertDialogWithButtons
@@ -35,6 +36,12 @@ class Perfil : Fragment(), ListenerAlertDialogWithButtons, ListenerClickOnElemen
 
     private fun setUpUi() {
         setUpRecyclerView()
+        with(binding){
+            toolbar.toolbarTitle.text="Perfil"
+            toolbar.toolbarBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
+        }
     }
 
     private fun getListener(): ListenerClickOnElementsRecycler {

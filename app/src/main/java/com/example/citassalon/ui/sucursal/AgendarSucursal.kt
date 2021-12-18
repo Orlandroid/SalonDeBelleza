@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Sucursal
 import com.example.citassalon.databinding.FragmentAgendarSucursalBinding
@@ -40,8 +41,18 @@ class AgendarSucursal : Fragment(), ClickOnSucursal {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentAgendarSucursalBinding.inflate(inflater)
-        setUpObserves()
+        setUpUi()
         return binding.root
+    }
+
+    private fun setUpUi(){
+        with(binding){
+            toolbar.toolbarTitle.text="Agendar Sucursal"
+            toolbar.toolbarBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
+        }
+        setUpObserves()
     }
 
     private fun setUpObserves() {
