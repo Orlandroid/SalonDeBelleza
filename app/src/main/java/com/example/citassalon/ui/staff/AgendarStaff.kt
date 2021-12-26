@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.citassalon.R
@@ -40,11 +41,21 @@ class AgendarStaff : Fragment(), ClickOnStaff {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentAgendarStaffBinding.inflate(layoutInflater, container, false)
-        skeletonRecyclerView = binding.recyclerStaff.applySkeleton(R.layout.item_staff,4)
+        setUpUi()
+        return binding.root
+    }
+
+    private fun setUpUi() {
+        with(binding) {
+            skeletonRecyclerView = recyclerStaff.applySkeleton(R.layout.item_staff, 4)
+            toolbar.toolbarTitle.text = "Agendar Staff"
+            toolbar.toolbarBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
+        }
         setUpRecyclerView()
         getArgs()
         setUpObservers()
-        return binding.root
     }
 
     private fun getListener(): ClickOnStaff {

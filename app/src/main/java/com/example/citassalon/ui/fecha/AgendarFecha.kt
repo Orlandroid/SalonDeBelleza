@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
 import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.citassalon.databinding.FragmentAgendarFechaBinding
 import com.example.citassalon.util.hideKeyboard
@@ -33,6 +34,10 @@ class AgendarFecha : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private fun setUpUi() {
         with(binding) {
+            toolbar.toolbarTitle.text="Agendar Hora"
+            toolbar.toolbarBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
             edHora.setEndIconOnClickListener {
                 showTimePickerDialog()
             }

@@ -7,18 +7,24 @@
     android:background="@drawable/background"
     tools:context=".ui.confirmarcita.AgendarConfirmacion">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:id="@+id/text_agendar_sucursal"
         style="@style/TextosAccion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="24dp"
         android:fontFamily="@font/poppins_semibold"
         android:text="@string/confirmacionDeCita"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
     <TextView
         android:id="@+id/c_sucursal"
@@ -101,10 +107,10 @@
         android:id="@+id/textView13"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/poppins_medium"
         android:text="@string/Total"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/button_confirmar"
         app:layout_constraintEnd_toStartOf="@+id/c_precio"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
@@ -114,10 +120,10 @@
         android:id="@+id/c_precio"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
         android:fontFamily="@font/poppins_bold"
         android:text="@string/PrecioTotal"
         android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/button_confirmar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toEndOf="@+id/textView13"
@@ -125,15 +131,15 @@
 
     <Button
         android:id="@+id/button_confirmar"
-        android:layout_width="0dp"
+        android:layout_width="379dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="32dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
         android:backgroundTint="@color/azul_btn_sigiente"
         android:text="@string/confirma_cita"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/c_precio" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

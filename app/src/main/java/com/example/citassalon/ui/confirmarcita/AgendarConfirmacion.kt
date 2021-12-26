@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.citassalon.data.models.Appointment
 import com.example.citassalon.databinding.FragmentAgendarConfirmacionBinding
@@ -30,11 +31,21 @@ class AgendarConfirmacion : Fragment(), ListenerAlertDialogWithButtons {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentAgendarConfirmacionBinding.inflate(inflater, container, false)
-        binding.buttonConfirmar.setOnClickListener {
-            showAlertComfirmAppointment()
+        setUpUi()
+        return binding.root
+    }
+
+    private fun setUpUi() {
+        with(binding) {
+            buttonConfirmar.setOnClickListener {
+                showAlertComfirmAppointment()
+            }
+            toolbar.toolbarTitle.text = "Agendar Comfirmacion"
+            toolbar.toolbarBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
         }
         setValuesToView(args)
-        return binding.root
     }
 
     private fun showAlertComfirmAppointment() {

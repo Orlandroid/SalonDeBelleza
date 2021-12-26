@@ -44,8 +44,6 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
     }
 
 
-
-
     private fun isSessionActive() {
         Log.w("ANDROID", viewModel.getUserSession().toString())
         if (viewModel.getUserSession()) {
@@ -153,7 +151,8 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
 
                 }
                 is SessionStatus.SUCESS -> {
-                    navigate(LOGIN_TO_HOME)
+                    val action = LoginDirections.actionLoginToHome32()
+                    navigate(action)
                 }
                 is SessionStatus.ERROR -> {
                     showAlertMessage("Error al iniciar con google intenta otro metodo")

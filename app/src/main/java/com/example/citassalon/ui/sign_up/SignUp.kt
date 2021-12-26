@@ -9,6 +9,7 @@ import android.widget.DatePicker
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.citassalon.data.models.User
 import com.example.citassalon.databinding.SignInBinding
 import com.example.citassalon.ui.fecha.DatePickerFragment
@@ -36,15 +37,21 @@ class SignUp : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun setUpUi() {
-        binding.buttonRegistarse.setOnClickListener {
-            saveUserImformation()
-            singUp()
-        }
-        binding.container.setOnClickListener {
-            hideKeyboard()
-        }
-        binding.birtday.setEndIconOnClickListener {
-            showDatePickerDialog(getListenerOnDataSet(),this)
+        with(binding) {
+            toolbarLayout.toolbarBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
+            toolbarLayout.toolbarTitle.text = "SignUp"
+            buttonRegistarse.setOnClickListener {
+                saveUserImformation()
+                singUp()
+            }
+            container.setOnClickListener {
+                hideKeyboard()
+            }
+            birtday.setEndIconOnClickListener {
+                showDatePickerDialog(getListenerOnDataSet(), this@SignUp)
+            }
         }
         doOnTextChange()
     }

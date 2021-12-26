@@ -8,6 +8,13 @@
     android:background="@drawable/background"
     tools:context=".ui.sucursal.AgendarSucursal">
 
+    <include
+        android:id="@+id/toolbar"
+        layout="@layout/toolbar_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_sucursal"
         android:layout_width="0dp"
