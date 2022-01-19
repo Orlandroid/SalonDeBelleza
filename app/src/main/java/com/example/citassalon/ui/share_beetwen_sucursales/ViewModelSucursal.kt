@@ -8,7 +8,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.data.models.Sucursal
 import com.example.citassalon.data.repository.Repository
-import com.example.citassalon.ui.sucursal.SucursalRepository
 import com.example.citassalon.util.ApiState
 import com.example.citassalon.util.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
