@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.data.models.Servicio
+import com.example.citassalon.data.repository.Repository
 import com.example.citassalon.util.ApiState
 import com.example.citassalon.util.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ViewModelAgendarServicio @Inject constructor(
-    private val serviceRepository: ServiceRepository,
+    private val repository: Repository,
     private val networkHelper: NetworkHelper
 ) :
     ViewModel() {
@@ -31,7 +32,7 @@ class ViewModelAgendarServicio @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             _services.postValue(ApiState.Loading(null))
             if (networkHelper.isNetworkConnected()) {
-                val response = serviceRepository.getServices()
+                val response = repository.getServices()
                 if (response.isSuccessful) {
                     _services.postValue(ApiState.Success(response.body()!!))
                 }

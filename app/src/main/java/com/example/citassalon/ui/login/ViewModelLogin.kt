@@ -4,8 +4,8 @@ package com.example.citassalon.ui.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.citassalon.data.firebase.FirebaseRepository
 import com.example.citassalon.data.preferences.LoginPeferences
+import com.example.citassalon.data.repository.Repository
 import com.example.citassalon.util.SessionStatus
 import com.example.citassalon.util.NetworkHelper
 import com.google.firebase.auth.GoogleAuthProvider
@@ -16,7 +16,7 @@ import javax.inject.Inject
 class ViewModelLogin
 @Inject constructor(
     private val networkHelper: NetworkHelper,
-    private val firebaseRepository: FirebaseRepository,
+    private val repository: Repository,
     private val loginPeferences: LoginPeferences
 ) : ViewModel() {
 
@@ -52,7 +52,7 @@ class ViewModelLogin
             _forgetPasswordStatus.value = SessionStatus.NETWORKERROR
             return
         }
-        firebaseRepository.forgetPassword(email).addOnCompleteListener {
+        repository.forgetPassword(email).addOnCompleteListener {
             if (it.isSuccessful) {
                 _forgetPasswordStatus.value = SessionStatus.SUCESS
             } else {
@@ -64,7 +64,7 @@ class ViewModelLogin
     fun login(email: String, password: String) {
         _loginStatus.value = SessionStatus.LOADING
         if (networkHelper.isNetworkConnected()) {
-            firebaseRepository.login(email, password)
+            repository.login(email, password)
                 .addOnCompleteListener {
                     if (it.isSuccessful) {
                         _loginStatus.value = SessionStatus.SUCESS
@@ -85,7 +85,7 @@ class ViewModelLogin
             return
         }
         val credential = GoogleAuthProvider.getCredential(idToken, null)
-        firebaseRepository.signInWithCredential(credential).addOnCompleteListener {
+        repository.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
                 _loginGoogleStatus.value = SessionStatus.SUCESS
             } else {

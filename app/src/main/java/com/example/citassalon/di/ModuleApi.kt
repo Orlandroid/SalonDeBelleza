@@ -1,9 +1,12 @@
 package com.example.citassalon.di
 
+import com.example.citassalon.data.firebase.FireBaseSource
+import com.example.citassalon.data.repository.Repository
 import com.example.citassalon.ui.servicio.ServiceRepository
 import com.example.citassalon.ui.staff.StaffRepositoryRemote
 import com.example.citassalon.ui.sucursal.SucursalRepository
 import com.example.citassalon.data.retrofit.WebServices
+import com.example.citassalon.data.room.AppointmentDao
 import com.example.citassalon.util.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -31,15 +34,11 @@ object ModuleApi {
 
     @Singleton
     @Provides
-    fun provideSucursalRepository(webServices: WebServices): SucursalRepository =
-        SucursalRepository(webServices)
-
-    @Singleton
-    @Provides
-    fun provideServicesRepository(webServices: WebServices) = ServiceRepository(webServices)
-
-    @Singleton
-    @Provides
-    fun provideStaffRepositoryRemote(webServices: WebServices) = StaffRepositoryRemote(webServices)
+    fun provideRepository(
+        dao: AppointmentDao,
+        webServices: WebServices,
+        fireBaseSource: FireBaseSource
+    ): Repository =
+        Repository(dao, webServices, fireBaseSource)
 
 }

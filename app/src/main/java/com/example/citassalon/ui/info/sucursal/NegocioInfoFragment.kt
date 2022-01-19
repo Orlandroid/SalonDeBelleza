@@ -13,7 +13,7 @@ import com.example.citassalon.util.INFO_NEGOCIO_TO_UBICACION
 import com.example.citassalon.util.navigate
 
 
-class NegocioInfo : Fragment() {
+class NegocioInfoFragment : Fragment() {
 
     private var _binding: FragmentNegocioInfoBinding? = null
     private val binding get() = _binding!!

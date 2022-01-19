@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.data.models.Sucursal
+import com.example.citassalon.data.repository.Repository
 import com.example.citassalon.ui.sucursal.SucursalRepository
 import com.example.citassalon.util.ApiState
 import com.example.citassalon.util.NetworkHelper
@@ -23,7 +24,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ViewModelSucursal @Inject constructor(
-    private val sucursalRepository: SucursalRepository,
+    private val repository: Repository,
     private val networkHelper: NetworkHelper
 ) :
     ViewModel() {
@@ -40,7 +41,7 @@ class ViewModelSucursal @Inject constructor(
         viewModelScope.launch(Dispatchers.IO) {
             _sucursal.postValue(ApiState.Loading(null))
             if (networkHelper.isNetworkConnected()) {
-                val response = sucursalRepository.getSucursales()
+                val response = repository.getSucursales()
                 if (response.isSuccessful) {
                     _sucursal.postValue(ApiState.Success(response.body()!!))
                     Log.w("SUCURSALES", response.body().toString())

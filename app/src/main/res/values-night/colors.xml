@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="primaryColor">#4e342e</color>
+    <color name="primaryLightColor">#7b5e57</color>
+    <color name="primaryDarkColor">#260e04</color>
+    <color name="primaryTextColor">#a1887f</color>
+    <color name="purple_200">#FFBB86FC</color>
+    <color name="purple_500">#FF6200EE</color>
+    <color name="purple_700">#FF3700B3</color>
+    <color name="teal_200">#FF03DAC5</color>
+    <color name="teal_700">#FF018786</color>
+    <color name="black">#FFFFFFFF</color>
+    <color name="black1">#051721</color>
+    <color name="white"> #FF000000</color>
+    <color name="brown_back">#A78A50</color>
+    <color name="beige">#ECCC91</color>
+    <color name="cafe">#a18262</color>
+    <color name="cafe2">#766139</color>
+    <color name="cafe3">#7C6D44</color>
+    <color name="cafe4">#CAB996</color>
+    <color name="cafe_dialog">#B49B6A</color>
+    <color name="textcard">#766139</color>
+    <color name="azul_btn_sigiente">#051721</color>
+    <color name="gris">#9F9F9F</color>
+</resources>

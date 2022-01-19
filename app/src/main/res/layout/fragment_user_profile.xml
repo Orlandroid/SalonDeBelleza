@@ -5,7 +5,7 @@
     android:background="@drawable/background"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.perfil.userprofile.UserProfile">
+    tools:context=".ui.perfil.userprofile.UserProfileFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline41"

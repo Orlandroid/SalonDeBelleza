@@ -4,8 +4,8 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.citassalon.data.firebase.FirebaseRepository
 import com.example.citassalon.data.models.User
+import com.example.citassalon.data.repository.Repository
 import com.example.citassalon.util.NetworkHelper
 import com.example.citassalon.util.SessionStatus
 import com.google.firebase.database.FirebaseDatabase
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ViewModelSignUp @Inject constructor(
-    private val firebaseRepository: FirebaseRepository,
+    private val repository: Repository,
     private val firebaseDatabase: FirebaseDatabase,
     private val networkHelper: NetworkHelper
 ) : ViewModel() {
@@ -25,7 +25,7 @@ class ViewModelSignUp @Inject constructor(
     fun sinUp(email: String, password: String) {
         _singUp.value = SessionStatus.LOADING
         if (networkHelper.isNetworkConnected()) {
-            firebaseRepository.registrer(email, password).addOnCompleteListener {
+            repository.registrer(email, password).addOnCompleteListener {
                 if (it.isSuccessful) {
                     _singUp.value = SessionStatus.SUCESS
                 } else {
@@ -41,7 +41,7 @@ class ViewModelSignUp @Inject constructor(
         if (!networkHelper.isNetworkConnected()) {
             return
         }
-        val userUii = firebaseRepository.getUser()?.uid ?: return
+        val userUii = repository.getUser()?.uid ?: return
         Log.w("Usuario",userUii)
         firebaseDatabase.getReference("users").child(userUii).setValue(user)
             .addOnCompleteListener {

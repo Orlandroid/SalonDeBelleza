@@ -1,27 +1,32 @@
-package com.example.citassalon.ui.info.servicios
+package com.example.citassalon.ui.perfil.userprofile
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.citassalon.databinding.FragmentInfoServiciosBinding
+import com.example.citassalon.databinding.FragmentUserProfileBinding
 
+class UserProfileFragment : Fragment() {
 
-class InfoServicios : Fragment() {
-
-    private var _binding: FragmentInfoServiciosBinding? = null
+    private var _binding: FragmentUserProfileBinding? = null
     private val binding get() = _binding!!
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentInfoServiciosBinding.inflate(layoutInflater, container, false)
+        _binding = FragmentUserProfileBinding.inflate(inflater, container, false)
         return binding.root
+    }
+
+    private fun setUpUi() {
+
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
     }
+
 }

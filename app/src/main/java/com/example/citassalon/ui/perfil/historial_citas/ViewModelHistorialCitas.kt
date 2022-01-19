@@ -4,7 +4,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.data.models.Appointment
-import com.example.citassalon.data.repository.AppointmentRepository
+import com.example.citassalon.data.repository.Repository
 import com.example.citassalon.util.ApiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -13,7 +13,7 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class ViewModelHistorialCitas @Inject constructor(private val appointmentRepository: AppointmentRepository) :
+class ViewModelHistorialCitas @Inject constructor(private val appointmentRepository: Repository) :
     ViewModel() {
 
     private val _appointment = MutableLiveData<ApiState<List<Appointment>>>()

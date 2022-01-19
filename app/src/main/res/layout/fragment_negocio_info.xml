@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    tools:context=".ui.info.sucursal.NegocioInfo">
+    tools:context=".ui.info.sucursal.NegocioInfoFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline32"

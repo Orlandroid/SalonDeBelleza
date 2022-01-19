@@ -3,15 +3,15 @@ package com.example.citassalon.ui.perfil.perfil
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.citassalon.data.firebase.FirebaseRepository
 import com.example.citassalon.data.preferences.LoginPeferences
+import com.example.citassalon.data.repository.Repository
 import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
 class ViewModelPerfil @Inject constructor(
-    private val firebaseRepository: FirebaseRepository,
+    private val repository: Repository,
     private val loginPeferences: LoginPeferences
 ) :
     ViewModel() {
@@ -24,7 +24,7 @@ class ViewModelPerfil @Inject constructor(
     }
 
     init {
-        _firebaseUser.value = firebaseRepository.getUser()
+        _firebaseUser.value = repository.getUser()
     }
 
 }
