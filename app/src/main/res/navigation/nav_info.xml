@@ -25,7 +25,7 @@
     </fragment>
     <fragment
         android:id="@+id/negocioInfo"
-        android:name="com.example.citassalon.ui.info.sucursal.NegocioInfo"
+        android:name="com.example.citassalon.ui.info.sucursal.NegocioInfoFragment"
         android:label="fragment_negocio_info"
         tools:layout="@layout/fragment_negocio_info" >
         <action
@@ -40,17 +40,17 @@
     </fragment>
     <fragment
         android:id="@+id/nuestroStaff"
-        android:name="com.example.citassalon.ui.info.nuestro_staff.NuestroStaff"
+        android:name="com.example.citassalon.ui.info.nuestro_staff.NuestroStaffFragment"
         android:label="fragment_nuestro_staff"
         tools:layout="@layout/fragment_nuestro_staff" />
     <fragment
         android:id="@+id/infoServicios"
-        android:name="com.example.citassalon.ui.info.servicios.InfoServicios"
+        android:name="com.example.citassalon.ui.info.servicios.InfoServiciosFragment"
         android:label="fragment_info_servicios"
         tools:layout="@layout/fragment_info_servicios" />
     <fragment
         android:id="@+id/ubicacion"
-        android:name="com.example.citassalon.ui.info.ubicacion.Ubicacion"
+        android:name="com.example.citassalon.ui.info.ubicacion.UbicacionFragment"
         android:label="fragment_ubicacion"
         tools:layout="@layout/fragment_ubicacion" />
 </navigation>

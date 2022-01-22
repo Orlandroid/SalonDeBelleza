@@ -4,10 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
-    tools:context=".ui.info.nuestro_staff.NuestroStaff">
+    android:background="@color/background"
+    tools:context=".ui.info.nuestro_staff.NuestroStaffFragment">
 
     <TextView
+        android:textColor="@color/white"
         android:id="@+id/tv_nuestro_staff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

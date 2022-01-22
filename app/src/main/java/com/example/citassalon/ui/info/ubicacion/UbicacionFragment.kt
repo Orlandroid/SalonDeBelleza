@@ -15,7 +15,7 @@ import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 
 
-class Ubicacion : Fragment(), OnMapReadyCallback {
+class UbicacionFragment : Fragment(), OnMapReadyCallback {
 
     private var _binding: FragmentUbicacionBinding? = null
     private val binding get() = _binding!!

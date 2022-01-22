@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
+    android:background="@color/background"
     tools:context=".ui.staff.AgendarStaff">
 
     <include
@@ -17,6 +17,7 @@
         android:id="@+id/button"
         style="?attr/materialButtonOutlinedStyle"
         android:layout_width="0dp"
+        android:textColor="@color/black"
         android:layout_height="wrap_content"
         android:layout_gravity="bottom"
         android:layout_marginStart="8dp"

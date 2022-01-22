@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background"
-    tools:context=".ui.info.sucursal.NegocioInfo">
+    android:background="@color/background"
+    tools:context=".ui.info.sucursal.NegocioInfoFragment">
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline32"
@@ -45,6 +45,8 @@
     </LinearLayout>
 
     <TextView
+        android:textSize="24sp"
+        android:textColor="@color/white"
         android:id="@+id/textView6"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -6,7 +6,7 @@ import androidx.room.RoomDatabase
 import com.example.citassalon.data.models.Appointment
 
 
-@Database(entities = [Appointment::class], version = 2, exportSchema = false)
+@Database(entities = [Appointment::class], version = 1, exportSchema = false)
 
 abstract class SkedulyDatabase : RoomDatabase() {
 

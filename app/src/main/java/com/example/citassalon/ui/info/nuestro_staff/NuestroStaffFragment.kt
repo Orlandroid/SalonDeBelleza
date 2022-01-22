@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import com.example.citassalon.databinding.FragmentNuestroStaffBinding
 
 
-class NuestroStaff : Fragment() {
+class NuestroStaffFragment : Fragment() {
 
     private var _binding: FragmentNuestroStaffBinding? = null
     private val binding get() = _binding!!

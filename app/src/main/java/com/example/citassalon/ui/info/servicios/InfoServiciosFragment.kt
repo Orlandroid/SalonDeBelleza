@@ -1,22 +1,22 @@
-package com.example.citassalon.ui.perfil.userprofile
+package com.example.citassalon.ui.info.servicios
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.citassalon.databinding.FragmentUserProfileBinding
+import com.example.citassalon.databinding.FragmentInfoServiciosBinding
 
-class UserProfile : Fragment() {
 
-    private var _binding: FragmentUserProfileBinding? = null
+class InfoServiciosFragment : Fragment() {
+
+    private var _binding: FragmentInfoServiciosBinding? = null
     private val binding get() = _binding!!
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentUserProfileBinding.inflate(inflater, container, false)
+        _binding = FragmentInfoServiciosBinding.inflate(layoutInflater, container, false)
         return binding.root
     }
 
@@ -24,5 +24,4 @@ class UserProfile : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

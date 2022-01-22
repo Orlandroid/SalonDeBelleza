@@ -1,7 +1,6 @@
 package com.example.citassalon.di
 
 import com.example.citassalon.data.firebase.FireBaseSource
-import com.example.citassalon.data.firebase.FirebaseRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import dagger.Module
@@ -25,10 +24,6 @@ object ModuleFirebase {
     fun provideFirebaseSource(firebaseAuth: FirebaseAuth): FireBaseSource =
         FireBaseSource(firebaseAuth)
 
-    @Singleton
-    @Provides
-    fun provideFirebaseRepository(fireBaseSource: FireBaseSource): FirebaseRepository =
-        FirebaseRepository(fireBaseSource)
 
     @Singleton
     @Provides

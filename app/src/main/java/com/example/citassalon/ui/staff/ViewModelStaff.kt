@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.data.models.Staff
+import com.example.citassalon.data.repository.Repository
 import com.example.citassalon.util.ApiState
 import com.example.citassalon.util.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +15,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ViewModelStaff @Inject constructor(
-    private val repository: StaffRepositoryRemote,
+    private val repository: Repository,
     private val networkHelper: NetworkHelper
 ) :
     ViewModel() {
