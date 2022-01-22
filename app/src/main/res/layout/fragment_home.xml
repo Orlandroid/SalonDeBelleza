@@ -24,6 +24,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:backgroundTint="@color/white"
+        android:textColor="@color/black"
         android:fontFamily="@font/poppins_medium"
         android:text="@string/agendar_button"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -37,12 +38,12 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="48dp"
-        android:layout_marginBottom="56dp"
+        android:layout_marginBottom="60dp"
         android:backgroundTint="@color/beige"
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:srcCompat="@drawable/perfil_negro" />
+        app:srcCompat="@drawable/ic_baseline_person_24" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/btnFloatingList"
@@ -54,5 +55,5 @@
         android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:srcCompat="@drawable/list_24px" />
+        app:srcCompat="@drawable/ic_baseline_list_24" />
 </androidx.constraintlayout.widget.ConstraintLayout>

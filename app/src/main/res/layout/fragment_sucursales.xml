@@ -27,6 +27,8 @@
         tools:listitem="@layout/card_layout" />
 
     <TextView
+        android:textSize="24sp"
+        android:textColor="@color/white"
         android:id="@+id/info_sucursales"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

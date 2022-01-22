@@ -8,6 +8,7 @@
     tools:context=".ui.info.nuestro_staff.NuestroStaffFragment">
 
     <TextView
+        android:textColor="@color/white"
         android:id="@+id/tv_nuestro_staff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
