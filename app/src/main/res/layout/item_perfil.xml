@@ -35,7 +35,7 @@
                 android:layout_marginEnd="16dp"
                 android:drawableEnd="@drawable/ic_baseline_arrow_forward_24"
                 android:text="@string/historial"
-                android:textColor="@color/black1"
+                android:textColor="@color/black"
                 android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"

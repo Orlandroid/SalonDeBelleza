@@ -13,7 +13,6 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
-import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentCitaAgendadaBinding
 import com.example.citassalon.util.CITA_AGENDADA_TO_HOME
