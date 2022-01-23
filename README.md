@@ -18,24 +18,18 @@ El objetivo principal de la app es la gestión de citas enfocado a establecimien
 
 
 ## Features
-
-- MVVM Arquitecture
-- Navigation Componet
-- Fragments
+- Single-Activity Arquitecture
+- Android Jetpack (MVVM Arquitecture ,Navigation Component,DataBinding,ViewBinding,Fragments,Dagger Hilt,Room Database,Componentes Material Design) 
 - RecyclerView
 - Control de versiones GIT
 - Kotlin
 - Maquetacion con uso de ConstrintLayout
-- Material Design
-- ViewBinding
-- DataBinding
 - FirebaseAutentication
 - Retrofit
 - Trancitions entre fragments
-- Single-Activity Arquitecture
-- Room Database
-- Dagger Hilt
+- Lottie (Animaciones)
 - Corutinas
+- Dark theme
 
 
   [Video](https://www.youtube.com/watch?v=NiYT53pavk4)
