@@ -15,7 +15,7 @@
         app:layout_constraintGuide_percent="0.15" />
 
     <TextView
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:id="@+id/textView7"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
