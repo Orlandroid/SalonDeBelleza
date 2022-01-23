@@ -69,6 +69,47 @@ El objetivo principal de la app es la gestión de citas enfocado a establecimien
     <td><img src="screenshots/sing_up.png" width="100%"></td>
    <td><img src="screenshots/cita agendada.png" width="100%"></td>
   </tr>
-</table> 
+</table>
+
+### Dark 
+
+
+<table>
+  <tr>
+    <td><strong>Login</strong></td>
+   <td><strong>Login Forget</strong></td>
+    <td><strong>Home</strong></td>
+    <td><strong>Sucursal</strong></td>
+  </tr>
+  <tr>
+    <td><img src="screenshots/login_dark.png" width="100%"></td>
+    <td><img src="screenshots/sign_up_alert_dark.png" width="100%"></td>
+    <td><img src="screenshots/home_dark.png" width="100%"></td>
+    <td><img src="screenshots/sucursales_dark.png" width="100%"></td>
+  </tr>
+  <tr>
+    <td><strong>Servicio</strong></td>
+    <td><strong>Fecha</strong></td>
+    <td><strong>Detalle</strong></td>
+    <td><strong>Staff</strong></td>
+  </tr>
+  <tr>
+    <td><img src="screenshots/servicio_dark.png" width="100%"></td>
+    <td><img src="screenshots/fecha_dark.png" width="100%"></td>
+    <td><img src="screenshots/detalle_dark.png" width="100%"></td>
+    <td><img src="screenshots/staff_dark.png" width="100%"></td>
+  </tr>
+ <tr>
+    <td><strong>perfil</strong></td>
+    <td><strong>Sign up</strong></td>
+  <td><strong>Cita Agendada</strong></td>
+  </tr>
+  <tr>
+    <td><img src="screenshots/perfil_dark.png" width="100%"></td>
+    <td><img src="screenshots/sing_up_dark.png" width="100%"></td>
+   <td><img src="screenshots/cita agendada_dark.png" width="100%"></td>
+  </tr>
+</table>
+
 
 <img src="screenshots/Flujos.png">
