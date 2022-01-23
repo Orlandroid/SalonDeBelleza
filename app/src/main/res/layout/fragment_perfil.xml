@@ -35,7 +35,7 @@
         android:backgroundTint="@color/cafe"
         android:gravity="center"
         android:text="@string/usuario"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="20sp"
         app:layout_constraintBottom_toTopOf="@+id/recyclerProfile"
         app:layout_constraintEnd_toEndOf="parent"

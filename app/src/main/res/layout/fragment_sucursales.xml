@@ -28,7 +28,7 @@
 
     <TextView
         android:textSize="24sp"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:id="@+id/info_sucursales"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

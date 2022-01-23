@@ -163,6 +163,7 @@
                 app:layout_constraintTop_toTopOf="@+id/button_registarse" />
 
             <Button
+                android:textColor="@color/black"
                 android:id="@+id/button_registarse"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
