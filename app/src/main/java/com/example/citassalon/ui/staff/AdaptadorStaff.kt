@@ -21,6 +21,8 @@ class AdaptadorStaff(private val listener: ClickOnStaff) :
         notifyDataSetChanged()
     }
 
+    fun getData(): List<Staff> = listaStaff
+
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val image: ImageView = itemView.findViewById(R.id.staff_picture)
         val name: TextView = itemView.findViewById(R.id.staff_name)
