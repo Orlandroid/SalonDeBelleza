@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentNegocioInfoBinding
+import com.example.citassalon.ui.info.establecimiento.EstablecimientoDirections
 import com.example.citassalon.util.INFO_NEGOCIO_TO_INFO_SERVICIOS
 import com.example.citassalon.util.INFO_NEGOCIO_TO_NUESTRO_STAFF
 import com.example.citassalon.util.INFO_NEGOCIO_TO_UBICACION
@@ -25,13 +26,16 @@ class NegocioInfoFragment : Fragment() {
         _binding = FragmentNegocioInfoBinding.inflate(layoutInflater, container, false)
         setMenuName()
         binding.menuSttaf.cardMenu.setOnClickListener {
-            it.navigate(INFO_NEGOCIO_TO_NUESTRO_STAFF)
+            val action = NegocioInfoFragmentDirections.actionNegocioInfoToNuestroStaff()
+            navigate(action)
         }
         binding.menuServicios.cardMenu.setOnClickListener {
-            it.navigate(INFO_NEGOCIO_TO_INFO_SERVICIOS)
+            val action = NegocioInfoFragmentDirections.actionNegocioInfoToInfoServicios()
+            navigate(action)
         }
         binding.menuUbicacion.cardMenu.setOnClickListener {
-            it.navigate(INFO_NEGOCIO_TO_UBICACION)
+            val action = NegocioInfoFragmentDirections.actionNegocioInfoToUbicacion()
+            navigate(action)
         }
         return binding.root
     }

@@ -2,11 +2,9 @@ package com.example.citassalon.ui.staff
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -15,7 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Staff
 import com.example.citassalon.databinding.FragmentAgendarStaffBinding
-import com.example.citassalon.util.ApiState
+import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.util.action
 import com.example.citassalon.util.displaySnack
 import com.example.citassalon.util.navigate
@@ -91,7 +89,7 @@ class AgendarStaff : Fragment(), ClickOnStaff {
 
 
     private fun setUpObservers() {
-        viewModelStaff.staff.observe(viewLifecycleOwner, {
+        viewModelStaff.staff.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiState.Loading -> {
                     showSkeleton()
@@ -110,7 +108,7 @@ class AgendarStaff : Fragment(), ClickOnStaff {
                     snackErrorConection()
                 }
             }
-        })
+        }
     }
 
     private fun snackErrorConection() {

@@ -11,7 +11,7 @@ import com.example.citassalon.databinding.FragmentSucursalesBinding
 import com.example.citassalon.ui.share_beetwen_sucursales.AdaptadorSucursal
 import com.example.citassalon.ui.share_beetwen_sucursales.ClickOnSucursal
 import com.example.citassalon.ui.share_beetwen_sucursales.ViewModelSucursal
-import com.example.citassalon.util.ApiState
+import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.util.SUCURALES_TO_INFO_NEGOCIO
 import com.example.citassalon.util.navigate
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,7 +34,7 @@ class Sucursales : Fragment(), ClickOnSucursal {
     }
 
     private fun setUpObserves() {
-        viewModel.sucursal.observe(viewLifecycleOwner, {
+        viewModel.sucursal.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiState.Success -> {
                     if (it.data != null) {
@@ -52,7 +52,7 @@ class Sucursales : Fragment(), ClickOnSucursal {
 
                 }
             }
-        })
+        }
     }
 
     private fun getListener(): ClickOnSucursal = this
@@ -63,7 +63,8 @@ class Sucursales : Fragment(), ClickOnSucursal {
     }
 
     override fun clickOnSucursal(sucursal: Sucursal) {
-        navigate(SUCURALES_TO_INFO_NEGOCIO)
+        val action = SucursalesDirections.actionSucursales2ToNegocioInfo()
+        navigate(action)
     }
 
 }

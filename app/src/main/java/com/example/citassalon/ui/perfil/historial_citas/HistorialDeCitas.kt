@@ -7,9 +7,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
-import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.citassalon.databinding.FragmentHistorialDeCitasBinding
-import com.example.citassalon.util.ApiState
+import com.example.citassalon.data.state.ApiState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -30,7 +29,7 @@ class HistorialDeCitas : Fragment() {
 
 
     private fun setUpObservers() {
-        viewModel.appointment.observe(viewLifecycleOwner, {
+        viewModel.appointment.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiState.Loading -> {
 
@@ -48,7 +47,7 @@ class HistorialDeCitas : Fragment() {
 
                 }
             }
-        })
+        }
     }
 
     override fun onDestroyView() {

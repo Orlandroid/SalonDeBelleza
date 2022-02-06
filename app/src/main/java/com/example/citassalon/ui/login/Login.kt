@@ -6,10 +6,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.citassalon.R
+import androidx.navigation.fragment.findNavController
+import com.example.citassalon.data.state.SessionStatus
 import com.example.citassalon.databinding.FragmentLoginBinding
 import com.example.citassalon.util.*
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -34,7 +34,7 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentLoginBinding.inflate(inflater, container, false)
         setUpUi()
         setUpObserves()
@@ -47,7 +47,8 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
     private fun isSessionActive() {
         Log.w("ANDROID", viewModel.getUserSession().toString())
         if (viewModel.getUserSession()) {
-            navigate(LOGIN_TO_HOME)
+            val action = LoginDirections.actionLoginToHome32()
+            navigate(action)
         }
     }
 
@@ -85,7 +86,8 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
             login()
         }
         binding.buttonSignUp.setOnClickListener {
-            navigate(LOGIN_TO_SINGUP)
+            val action = LoginDirections.actionLoginToSignUp()
+            navigate(action)
         }
         binding.txtUser.editText?.setText(viewModel.getUserEmailFromPreferences())
         binding.tvForgetPassword.setOnClickListener {
@@ -125,7 +127,7 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
 
 
     private fun observerforgetPasswordStatus() {
-        viewModel.forgetPasswordStatus.observe(viewLifecycleOwner, {
+        viewModel.forgetPasswordStatus.observe(viewLifecycleOwner) {
             when (it) {
                 is SessionStatus.LOADING -> {
                     binding.progress.visibility = View.VISIBLE
@@ -141,11 +143,11 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
                     showAlertMessage("Revisa tu conexion de internet")
                 }
             }
-        })
+        }
     }
 
     private fun observerGoogleLoginStatus() {
-        viewModel.loginGoogleStatus.observe(viewLifecycleOwner, {
+        viewModel.loginGoogleStatus.observe(viewLifecycleOwner) {
             when (it) {
                 is SessionStatus.LOADING -> {
 
@@ -161,12 +163,12 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
                     showAlertMessage("Revisa tu conexion")
                 }
             }
-        })
+        }
     }
 
 
     private fun observerLoginStatus() {
-        viewModel.loginStatus.observe(viewLifecycleOwner, {
+        viewModel.loginStatus.observe(viewLifecycleOwner) {
             when (it) {
                 is SessionStatus.LOADING -> {
                     binding.progress.visibility = View.VISIBLE
@@ -189,7 +191,7 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
                     showAlertMessage("Error de internet")
                 }
             }
-        })
+        }
     }
 
 

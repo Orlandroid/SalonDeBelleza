@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.citassalon.data.preferences.LoginPeferences
 import com.example.citassalon.data.repository.Repository
-import com.example.citassalon.util.SessionStatus
+import com.example.citassalon.data.state.SessionStatus
 import com.example.citassalon.util.NetworkHelper
 import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel

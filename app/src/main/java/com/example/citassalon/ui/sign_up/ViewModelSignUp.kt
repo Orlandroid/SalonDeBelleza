@@ -7,7 +7,7 @@ import androidx.lifecycle.ViewModel
 import com.example.citassalon.data.models.User
 import com.example.citassalon.data.repository.Repository
 import com.example.citassalon.util.NetworkHelper
-import com.example.citassalon.util.SessionStatus
+import com.example.citassalon.data.state.SessionStatus
 import com.google.firebase.database.FirebaseDatabase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

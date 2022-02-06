@@ -23,10 +23,12 @@ class Establecimiento : Fragment() {
         _binding = FragmentEstablecimientoBinding.inflate(inflater, container, false)
         setMenuName()
         binding.sucursales.cardMenu.setOnClickListener {
-            it.navigate(ESTABLECIMIENTO_TO_SUCURSALES)
+            val action = EstablecimientoDirections.actionEstablecimientoToSucursales2()
+            navigate(action)
         }
         binding.productos.cardMenu.setOnClickListener {
-            it.navigate(R.id.action_establecimiento_to_sucursales2)
+            val action = EstablecimientoDirections.actionEstablecimientoToSucursales2()
+            navigate(action)
         }
         return binding.root
     }

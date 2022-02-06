@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Sucursal
+import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.databinding.FragmentAgendarSucursalBinding
 import com.example.citassalon.ui.share_beetwen_sucursales.AdaptadorSucursal
 import com.example.citassalon.ui.share_beetwen_sucursales.ClickOnSucursal
@@ -56,7 +57,7 @@ class AgendarSucursal : Fragment(), ClickOnSucursal {
     }
 
     private fun setUpObserves() {
-        viewModel.sucursal.observe(viewLifecycleOwner, {
+        viewModel.sucursal.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiState.Success -> {
                     if (it.data != null) {
@@ -76,7 +77,7 @@ class AgendarSucursal : Fragment(), ClickOnSucursal {
                     snackErrorConection()
                 }
             }
-        })
+        }
     }
 
     private fun snackErrorConection() {
