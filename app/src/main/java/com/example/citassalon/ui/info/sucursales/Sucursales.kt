@@ -27,7 +27,7 @@ class Sucursales : Fragment(), ClickOnSucursal {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentSucursalesBinding.inflate(layoutInflater, container, false)
         setUpObserves()
         return binding.root
@@ -38,6 +38,7 @@ class Sucursales : Fragment(), ClickOnSucursal {
             when (it) {
                 is ApiState.Success -> {
                     if (it.data != null) {
+                        binding.shimmerSucursal.visibility = View.GONE
                         binding.recyclerView.adapter =
                             AdaptadorSucursal(it.data, getListener())
                     }

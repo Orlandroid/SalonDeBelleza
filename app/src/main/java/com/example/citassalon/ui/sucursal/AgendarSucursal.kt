@@ -40,7 +40,7 @@ class AgendarSucursal : Fragment(), ClickOnSucursal {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentAgendarSucursalBinding.inflate(inflater)
         setUpUi()
         return binding.root
