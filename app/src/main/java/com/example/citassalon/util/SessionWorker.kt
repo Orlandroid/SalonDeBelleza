@@ -9,12 +9,13 @@ import androidx.work.Worker
 import androidx.work.WorkerParameters
 import com.example.citassalon.data.preferences.LoginPeferences
 import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 
 @HiltWorker
-class SessionWorker(
-    private val context: Context,
-    workerParams: WorkerParameters,
-    private val loginPeferences: LoginPeferences,
+class SessionWorker @AssistedInject constructor(
+    @Assisted context: Context,
+    @Assisted workerParams: WorkerParameters,
+    private val loginPeferences: LoginPeferences
 ) :
     Worker(context, workerParams) {
 
@@ -25,11 +26,10 @@ class SessionWorker(
     }
 
     private fun deleteSessionUser() {
-        Log.w("ADNROID", "Eliminado session")
+        Log.w("ANDROID", "Eliminado session")
         loginPeferences.destroyUserSession()
-        val message =
-            "Has estado mucho tiempo en inactividad tu session se eliminara por seguridad"
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+        Log.w("ANDROID", loginPeferences.getUserSession().toString())
+
     }
 
 }
