@@ -10,6 +10,7 @@ import androidx.work.WorkerParameters
 import com.example.citassalon.data.preferences.LoginPeferences
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
+import java.lang.Exception
 
 @HiltWorker
 class SessionWorker @AssistedInject constructor(
@@ -21,9 +22,15 @@ class SessionWorker @AssistedInject constructor(
 
 
     override fun doWork(): Result {
-        deleteSessionUser()
-        return Result.success()
+        return try {
+            deleteSessionUser()
+            Result.success()
+        } catch (e: Exception) {
+            Log.w("ANDROID", "Error al hacer la tarea")
+            Result.failure()
+        }
     }
+
 
     private fun deleteSessionUser() {
         Log.w("ANDROID", "Eliminado session")

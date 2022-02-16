@@ -9,6 +9,8 @@ const val SERVICIOS = "servicios/"
 const val SUCURSALES = "sucursales/"
 const val STAFFS = "staffs/"
 const val SHARE_PREFERENCES = "Skeduly"
+const val TASK_SESSION_MANAGER = "taskSessionManager"
+const val REQUEST_SESSION_MANAGER="requestSessionManager"
 
 /****/
 
