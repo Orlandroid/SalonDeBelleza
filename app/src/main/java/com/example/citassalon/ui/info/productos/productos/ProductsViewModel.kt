@@ -1,7 +1,5 @@
-package com.example.citassalon.ui.info.productos
+package com.example.citassalon.ui.info.productos.productos
 
-import android.os.Build
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -16,16 +14,16 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class ListOfCategoriesViewModel @Inject constructor(
+class ProductsViewModel @Inject constructor(
     private val repository: Repository,
     private val networkHelper: NetworkHelper
 ) : ViewModel() {
 
-    private val _productos = MutableLiveData<ApiState<List<String>>>()
-    val products: MutableLiveData<ApiState<List<String>>>
+    private val _productos = MutableLiveData<ApiState<List<Products>>>()
+    val products: MutableLiveData<ApiState<List<Products>>>
         get() = _productos
 
-    fun getProducts() {
+    fun getProducts(categoria: String) {
         viewModelScope.launch(Dispatchers.IO) {
             if (!networkHelper.isNetworkConnected()) {
                 withContext(Dispatchers.Main) {
@@ -34,7 +32,7 @@ class ListOfCategoriesViewModel @Inject constructor(
                 return@launch
             }
             try {
-                val response = repository.getCategories()
+                val response = repository.getProducts(categoria)
                 withContext(Dispatchers.Main) {
                     _productos.value = ApiState.Success(response)
                 }
@@ -45,6 +43,5 @@ class ListOfCategoriesViewModel @Inject constructor(
             }
         }
     }
-
 
 }

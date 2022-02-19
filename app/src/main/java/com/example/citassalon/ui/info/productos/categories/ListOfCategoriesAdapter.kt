@@ -1,4 +1,4 @@
-package com.example.citassalon.ui.info.productos
+package com.example.citassalon.ui.info.productos.categories
 
 import android.view.LayoutInflater
 import android.view.ViewGroup

@@ -58,7 +58,20 @@
         tools:layout="@layout/fragment_ubicacion" />
     <fragment
         android:id="@+id/listOfProductsFragment"
-        android:name="com.example.citassalon.ui.info.productos.ListOfCategoriesFragment"
+        android:name="com.example.citassalon.ui.info.productos.categories.ListOfCategoriesFragment"
         android:label="fragment_list_of_products"
-        tools:layout="@layout/fragment_list_of_products" />
+        tools:layout="@layout/fragment_list_of_products" >
+        <action
+            android:id="@+id/action_listOfProductsFragment_to_productsFragment"
+            app:destination="@id/productsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productsFragment"
+        android:name="com.example.citassalon.ui.info.productos.productos.ProductsFragment"
+        android:label="fragment_products"
+        tools:layout="@layout/fragment_products" >
+        <argument
+            android:name="categoria"
+            app:argType="string" />
+    </fragment>
 </navigation>

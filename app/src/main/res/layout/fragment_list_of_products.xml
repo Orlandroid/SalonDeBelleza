@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.info.productos.ListOfCategoriesFragment">
+    tools:context=".ui.info.productos.categories.ListOfCategoriesFragment">
 
     <include
         android:id="@+id/toolbar_layout"
@@ -13,15 +13,26 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_products"
+    <com.faltenreich.skeletonlayout.SkeletonLayout
+        android:id="@+id/skeleton_recycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView7" />
+        app:layout_constraintTop_toBottomOf="@+id/imageView7">
+
+        <androidx.recyclerview.widget.RecyclerView
+            tools:listitem="@layout/row_elemento_info"
+            android:id="@+id/recycler_view_categorias"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView7" />
+    </com.faltenreich.skeletonlayout.SkeletonLayout>
 
     <ImageView
         android:id="@+id/imageView7"
@@ -30,7 +41,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:src="@drawable/estar"
-        app:layout_constraintBottom_toTopOf="@+id/recycler_view_products"
+        app:layout_constraintBottom_toTopOf="@+id/skeleton_recycler"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_layout" />

@@ -1,7 +1,6 @@
-package com.example.citassalon.ui.info.productos
+package com.example.citassalon.ui.info.productos.productos
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -9,23 +8,28 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
+import androidx.recyclerview.widget.GridLayoutManager
+import com.example.citassalon.data.models.Products
 import com.example.citassalon.data.state.ApiState
-import com.example.citassalon.databinding.FragmentListOfProductsBinding
+import com.example.citassalon.databinding.FragmentProductsBinding
 import com.example.citassalon.util.AlertDialogs
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ListOfCategoriesFragment : Fragment(), ListOfCategoriesAdapter.ListOfcategoriesListener {
+class ProductsFragment : Fragment(), ProductsAdapter.ProductsListener {
 
-    private var _binding: FragmentListOfProductsBinding? = null
+    private var _binding: FragmentProductsBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: ListOfCategoriesViewModel by viewModels()
-    private val adapter = ListOfCategoriesAdapter(this)
+    private val viewModel: ProductsViewModel by viewModels()
+    private val adapter = ProductsAdapter(this)
+    private val args: ProductsFragmentArgs by navArgs()
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentListOfProductsBinding.inflate(inflater, container, false)
+        _binding = FragmentProductsBinding.inflate(layoutInflater, container, false)
         setUpUi()
         setUpObservers()
         return binding.root
@@ -33,26 +37,27 @@ class ListOfCategoriesFragment : Fragment(), ListOfCategoriesAdapter.ListOfcateg
 
     private fun setUpUi() {
         with(binding) {
-            toolbarLayout.toolbarTitle.text = "Categorias"
+            toolbarLayout.toolbarTitle.text = "Productos"
             toolbarLayout.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
         }
-        viewModel.getProducts()
+        viewModel.getProducts(args.categoria)
     }
 
     private fun setUpObservers() {
         viewModel.products.observe(viewLifecycleOwner) { apiState ->
             when (apiState) {
                 is ApiState.Loading -> {
-                    Log.w("ANDROID", "Loading")
+
                 }
                 is ApiState.Success -> {
                     if (apiState.data != null) {
                         binding.recyclerViewProducts.adapter = adapter
+                        binding.recyclerViewProducts.layoutManager =
+                            GridLayoutManager(requireContext(), 2)
                         adapter.setData(apiState.data)
                     }
-                    Log.w("ANDROID", "Succes")
                 }
                 is ApiState.Error -> {
                     val dialog = AlertDialogs(2, "Error al obtener datos")
@@ -72,8 +77,8 @@ class ListOfCategoriesFragment : Fragment(), ListOfCategoriesAdapter.ListOfcateg
         _binding = null
     }
 
-    override fun clikcOnCategorie(categoria: String) {
-        Toast.makeText(requireContext(), "$categoria", Toast.LENGTH_SHORT).show()
+    override fun clikcOnProduct(products: Products) {
+        Toast.makeText(requireContext(), "Detalle del producto", Toast.LENGTH_SHORT).show()
     }
 
 

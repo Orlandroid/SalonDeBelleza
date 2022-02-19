@@ -39,7 +39,7 @@ class Repository @Inject constructor(
         db.deleteAll()
     }
 
-    suspend fun getProducts() = fakeStoreService.getProducts()
+    suspend fun getProducts(categoria: String) = fakeStoreService.getProducts(categoria)
 
     suspend fun getCategories() = fakeStoreService.getCategories()
 
