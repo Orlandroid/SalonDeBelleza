@@ -4,6 +4,7 @@ package com.example.citassalon.util
  * y en room
  * ***/
 const val BASE_URL = "https://skeduly.herokuapp.com/api/"
+const val BASE_URL_FAKE_STORE = "https://fakestoreapi.com/"
 const val DATABASE_NAME = "Skeduly"
 const val SERVICIOS = "servicios/"
 const val SUCURSALES = "sucursales/"

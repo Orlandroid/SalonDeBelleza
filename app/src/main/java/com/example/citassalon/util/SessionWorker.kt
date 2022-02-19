@@ -3,7 +3,6 @@ package com.example.citassalon.util
 
 import android.content.Context
 import android.util.Log
-import android.widget.Toast
 import androidx.hilt.work.HiltWorker
 import androidx.work.Worker
 import androidx.work.WorkerParameters
@@ -20,7 +19,6 @@ class SessionWorker @AssistedInject constructor(
 ) :
     Worker(context, workerParams) {
 
-
     override fun doWork(): Result {
         return try {
             deleteSessionUser()
@@ -30,7 +28,6 @@ class SessionWorker @AssistedInject constructor(
             Result.failure()
         }
     }
-
 
     private fun deleteSessionUser() {
         Log.w("ANDROID", "Eliminado session")

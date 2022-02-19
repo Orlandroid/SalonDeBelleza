@@ -4,9 +4,7 @@ package com.example.citassalon.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import androidx.navigation.NavController
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
 import com.example.citassalon.R
@@ -35,7 +33,6 @@ class MainActivity : AppCompatActivity(), AlertsDialogMessages.ClickOnAccepSimpl
 
 
     private lateinit var binding: ActivityMainBinding
-    lateinit var navController: NavController
     private var firstTimeOnView = true
 
 
@@ -43,13 +40,6 @@ class MainActivity : AppCompatActivity(), AlertsDialogMessages.ClickOnAccepSimpl
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        getNav()
-    }
-
-    private fun getNav() {
-        val navHostFragment =
-            supportFragmentManager.findFragmentById(R.id.fragment) as NavHostFragment
-        navController = navHostFragment.navController
     }
 
     override fun onPause() {
