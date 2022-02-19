@@ -9,6 +9,7 @@ import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.util.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -25,6 +26,9 @@ class ProductsViewModel @Inject constructor(
 
     fun getProducts(categoria: String) {
         viewModelScope.launch(Dispatchers.IO) {
+            withContext(Dispatchers.Main) {
+                _productos.value = ApiState.Loading()
+            }
             if (!networkHelper.isNetworkConnected()) {
                 withContext(Dispatchers.Main) {
                     _productos.value = ApiState.ErrorNetwork()

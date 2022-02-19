@@ -10,10 +10,13 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.citassalon.R
 import com.example.citassalon.data.models.Products
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.databinding.FragmentProductsBinding
 import com.example.citassalon.util.AlertDialogs
+import com.faltenreich.skeletonlayout.Skeleton
+import com.faltenreich.skeletonlayout.applySkeleton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -24,6 +27,7 @@ class ProductsFragment : Fragment(), ProductsAdapter.ProductsListener {
     private val viewModel: ProductsViewModel by viewModels()
     private val adapter = ProductsAdapter(this)
     private val args: ProductsFragmentArgs by navArgs()
+    private lateinit var skeleton: Skeleton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -41,21 +45,24 @@ class ProductsFragment : Fragment(), ProductsAdapter.ProductsListener {
             toolbarLayout.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
+            skeleton = recyclerProducts.applySkeleton(R.layout.item_product, 8)
+            recyclerProducts.layoutManager =
+                GridLayoutManager(requireContext(), 2)
         }
         viewModel.getProducts(args.categoria)
     }
+
 
     private fun setUpObservers() {
         viewModel.products.observe(viewLifecycleOwner) { apiState ->
             when (apiState) {
                 is ApiState.Loading -> {
-
+                    skeleton.showSkeleton()
                 }
                 is ApiState.Success -> {
+                    skeleton.showOriginal()
                     if (apiState.data != null) {
-                        binding.recyclerViewProducts.adapter = adapter
-                        binding.recyclerViewProducts.layoutManager =
-                            GridLayoutManager(requireContext(), 2)
+                        binding.recyclerProducts.adapter = adapter
                         adapter.setData(apiState.data)
                     }
                 }

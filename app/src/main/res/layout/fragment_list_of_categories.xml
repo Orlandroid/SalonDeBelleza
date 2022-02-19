@@ -13,26 +13,45 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.faltenreich.skeletonlayout.SkeletonLayout
-        android:id="@+id/skeleton_recycler"
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view_categorias"
         android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView7"
+        tools:listitem="@layout/row_elemento_info" />
+
+    <com.facebook.shimmer.ShimmerFrameLayout
+        android:id="@+id/shimmer_categorias"
+        android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView7">
+        app:layout_constraintTop_toTopOf="@+id/recycler_view_categorias">
 
-        <androidx.recyclerview.widget.RecyclerView
-            tools:listitem="@layout/row_elemento_info"
-            android:id="@+id/recycler_view_categorias"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView7" />
-    </com.faltenreich.skeletonlayout.SkeletonLayout>
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <include layout="@layout/shimmer" />
+
+            <include layout="@layout/shimmer" />
+
+            <include layout="@layout/shimmer" />
+
+            <include layout="@layout/shimmer" />
+
+            <include layout="@layout/shimmer" />
+
+            <include layout="@layout/shimmer" />
+        </LinearLayout>
+    </com.facebook.shimmer.ShimmerFrameLayout>
 
     <ImageView
         android:id="@+id/imageView7"
@@ -41,7 +60,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:src="@drawable/estar"
-        app:layout_constraintBottom_toTopOf="@+id/skeleton_recycler"
+        app:layout_constraintBottom_toTopOf="@+id/recycler_view_categorias"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_layout" />

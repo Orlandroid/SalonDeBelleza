@@ -13,8 +13,8 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recycler_view_products"
+    <com.faltenreich.skeletonlayout.SkeletonLayout
+        android:id="@+id/skeleton_recycler"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         tools:listitem="@layout/item_product"
@@ -22,6 +22,17 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar_layout" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_layout" >
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_products"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            tools:listitem="@layout/item_product"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_layout" />
+    </com.faltenreich.skeletonlayout.SkeletonLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

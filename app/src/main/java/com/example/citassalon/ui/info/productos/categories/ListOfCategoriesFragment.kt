@@ -8,19 +8,17 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.citassalon.R
 import com.example.citassalon.data.state.ApiState
-import com.example.citassalon.databinding.FragmentListOfProductsBinding
+import com.example.citassalon.databinding.FragmentListOfCategoriesBinding
 import com.example.citassalon.util.AlertDialogs
 import com.example.citassalon.util.navigate
 import com.faltenreich.skeletonlayout.Skeleton
-import com.faltenreich.skeletonlayout.applySkeleton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class ListOfCategoriesFragment : Fragment(), ListOfCategoriesAdapter.ListOfcategoriesListener {
 
-    private var _binding: FragmentListOfProductsBinding? = null
+    private var _binding: FragmentListOfCategoriesBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ListOfCategoriesViewModel by viewModels()
     private val adapter = ListOfCategoriesAdapter(this)
@@ -30,7 +28,7 @@ class ListOfCategoriesFragment : Fragment(), ListOfCategoriesAdapter.ListOfcateg
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        _binding = FragmentListOfProductsBinding.inflate(inflater, container, false)
+        _binding = FragmentListOfCategoriesBinding.inflate(inflater, container, false)
         setUpUi()
         setUpObservers()
         return binding.root
@@ -57,15 +55,17 @@ class ListOfCategoriesFragment : Fragment(), ListOfCategoriesAdapter.ListOfcateg
                         binding.recyclerViewCategorias.adapter = adapter
                         adapter.setData(apiState.data)
                     }
-                    Log.w("ANDROID", "Succes")
+                    binding.shimmerCategorias.visibility=View.GONE
                 }
                 is ApiState.Error -> {
                     val dialog = AlertDialogs(2, "Error al obtener datos")
                     activity?.let { dialog.show(it.supportFragmentManager, "alertMessage") }
+                    binding.shimmerCategorias.visibility=View.GONE
                 }
                 is ApiState.ErrorNetwork -> {
                     val dialog = AlertDialogs(2, "Verifica tu conexion de internet")
                     activity?.let { dialog.show(it.supportFragmentManager, "alertMessage") }
+                    binding.shimmerCategorias.visibility=View.GONE
                 }
             }
 
