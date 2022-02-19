@@ -7,7 +7,6 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentEstablecimientoBinding
-import com.example.citassalon.util.ESTABLECIMIENTO_TO_SUCURSALES
 import com.example.citassalon.util.navigate
 
 
@@ -27,7 +26,7 @@ class Establecimiento : Fragment() {
             navigate(action)
         }
         binding.productos.cardMenu.setOnClickListener {
-            val action = EstablecimientoDirections.actionEstablecimientoToSucursales2()
+            val action = EstablecimientoDirections.actionEstablecimientoToListOfProductsFragment()
             navigate(action)
         }
         return binding.root

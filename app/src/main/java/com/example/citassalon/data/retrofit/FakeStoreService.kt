@@ -7,4 +7,7 @@ interface FakeStoreService {
 
     @GET("products/")
     suspend fun getProducts(): List<Products>
+
+    @GET("products/categories/")
+    suspend fun getCategories(): List<String>
 }
