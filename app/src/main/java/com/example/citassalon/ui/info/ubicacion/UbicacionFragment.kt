@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentUbicacionBinding
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -25,8 +26,18 @@ class UbicacionFragment : Fragment(), OnMapReadyCallback {
         savedInstanceState: Bundle?
     ): View? {
         _binding = FragmentUbicacionBinding.inflate(layoutInflater, container, false)
+        setUpUi()
         initMap()
         return binding.root
+    }
+
+    private fun setUpUi() {
+        with(binding) {
+            toolbarLayout.toolbarTitle.text = "Ubicacion"
+            toolbarLayout.toolbarBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
+        }
     }
 
     private fun initMap() {

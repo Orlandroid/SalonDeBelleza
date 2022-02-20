@@ -14,7 +14,9 @@ import com.example.citassalon.R
 import com.example.citassalon.data.models.Products
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.databinding.FragmentProductsBinding
+import com.example.citassalon.ui.info.productos.categories.ListOfCategoriesFragmentDirections
 import com.example.citassalon.util.AlertDialogs
+import com.example.citassalon.util.navigate
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
 import dagger.hilt.android.AndroidEntryPoint
@@ -84,8 +86,9 @@ class ProductsFragment : Fragment(), ProductsAdapter.ProductsListener {
         _binding = null
     }
 
-    override fun clikcOnProduct(products: Products) {
-        Toast.makeText(requireContext(), "Detalle del producto", Toast.LENGTH_SHORT).show()
+    override fun clikcOnProduct(product: Products) {
+        val action = ProductsFragmentDirections.actionProductsFragmentToDetalleProductoFragment(product)
+        navigate(action)
     }
 
 

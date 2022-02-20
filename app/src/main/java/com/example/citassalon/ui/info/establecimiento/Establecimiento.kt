@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentEstablecimientoBinding
 import com.example.citassalon.util.navigate
@@ -18,18 +19,29 @@ class Establecimiento : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentEstablecimientoBinding.inflate(inflater, container, false)
-        setMenuName()
-        binding.sucursales.cardMenu.setOnClickListener {
-            val action = EstablecimientoDirections.actionEstablecimientoToSucursales2()
-            navigate(action)
-        }
-        binding.productos.cardMenu.setOnClickListener {
-            val action = EstablecimientoDirections.actionEstablecimientoToListOfProductsFragment()
-            navigate(action)
-        }
+        setUpUi()
         return binding.root
+    }
+
+    private fun setUpUi() {
+        with(binding) {
+            toolbarLayout.toolbarTitle.text = "Nombre establecimeinto"
+            toolbarLayout.toolbarBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
+            sucursales.cardMenu.setOnClickListener {
+                val action = EstablecimientoDirections.actionEstablecimientoToSucursales2()
+                navigate(action)
+            }
+            productos.cardMenu.setOnClickListener {
+                val action =
+                    EstablecimientoDirections.actionEstablecimientoToListOfProductsFragment()
+                navigate(action)
+            }
+        }
+        setMenuName()
     }
 
     private fun setMenuName() {

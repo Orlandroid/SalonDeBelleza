@@ -73,5 +73,17 @@
         <argument
             android:name="categoria"
             app:argType="string" />
+        <action
+            android:id="@+id/action_productsFragment_to_detalleProductoFragment"
+            app:destination="@id/detalleProductoFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/detalleProductoFragment"
+        android:name="com.example.citassalon.ui.info.productos.detalleproducto.DetalleProductoFragment"
+        android:label="fragment_detalle_producto"
+        tools:layout="@layout/fragment_detalle_producto" >
+        <argument
+            android:name="producto"
+            app:argType="com.example.citassalon.data.models.Products" />
     </fragment>
 </navigation>

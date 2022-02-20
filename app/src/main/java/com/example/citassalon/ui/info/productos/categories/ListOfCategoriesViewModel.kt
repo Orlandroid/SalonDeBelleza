@@ -24,6 +24,9 @@ class ListOfCategoriesViewModel @Inject constructor(
 
     fun getCategories() {
         viewModelScope.launch(Dispatchers.IO) {
+            withContext(Dispatchers.Main) {
+                _categories.value = ApiState.Loading()
+            }
             if (!networkHelper.isNetworkConnected()) {
                 withContext(Dispatchers.Main) {
                     _categories.value = ApiState.ErrorNetwork()

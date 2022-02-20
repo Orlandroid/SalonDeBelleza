@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentNegocioInfoBinding
 import com.example.citassalon.ui.info.establecimiento.EstablecimientoDirections
@@ -22,22 +23,32 @@ class NegocioInfoFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentNegocioInfoBinding.inflate(layoutInflater, container, false)
-        setMenuName()
-        binding.menuSttaf.cardMenu.setOnClickListener {
-            val action = NegocioInfoFragmentDirections.actionNegocioInfoToNuestroStaff()
-            navigate(action)
-        }
-        binding.menuServicios.cardMenu.setOnClickListener {
-            val action = NegocioInfoFragmentDirections.actionNegocioInfoToInfoServicios()
-            navigate(action)
-        }
-        binding.menuUbicacion.cardMenu.setOnClickListener {
-            val action = NegocioInfoFragmentDirections.actionNegocioInfoToUbicacion()
-            navigate(action)
-        }
+        setUpUi()
         return binding.root
+    }
+
+    private fun setUpUi() {
+        with(binding) {
+            toolbarLayout.toolbarTitle.text = "Sucursal"
+            toolbarLayout.toolbarBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
+            menuSttaf.cardMenu.setOnClickListener {
+                val action = NegocioInfoFragmentDirections.actionNegocioInfoToNuestroStaff()
+                navigate(action)
+            }
+            menuServicios.cardMenu.setOnClickListener {
+                val action = NegocioInfoFragmentDirections.actionNegocioInfoToInfoServicios()
+                navigate(action)
+            }
+            menuUbicacion.cardMenu.setOnClickListener {
+                val action = NegocioInfoFragmentDirections.actionNegocioInfoToUbicacion()
+                navigate(action)
+            }
+        }
+        setMenuName()
     }
 
     private fun setMenuName() {

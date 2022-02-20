@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.citassalon.data.models.Sucursal
 import com.example.citassalon.databinding.FragmentSucursalesBinding
 import com.example.citassalon.ui.share_beetwen_sucursales.AdaptadorSucursal
@@ -28,8 +29,19 @@ class Sucursales : Fragment(), ClickOnSucursal {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentSucursalesBinding.inflate(layoutInflater, container, false)
+        setUpUi()
         setUpObserves()
         return binding.root
+    }
+
+
+    private fun setUpUi(){
+        with(binding){
+            toolbarLayout.toolbarTitle.text = "Sucursales"
+            toolbarLayout.toolbarBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
+        }
     }
 
     private fun setUpObserves() {

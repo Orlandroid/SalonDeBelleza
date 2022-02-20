@@ -23,7 +23,7 @@ class ProductsAdapter(private val listener: ProductsListener) :
         fun bind(products: Products) {
             Glide.with(itemView.context).load(products.image).into(binding.imageProduct)
             binding.productoName.text = products.title
-            binding.productoPrice.text = products.price.toString()
+            binding.productoPrice.text = "$ ${products.price}"
         }
     }
 
