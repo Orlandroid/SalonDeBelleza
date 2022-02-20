@@ -2,7 +2,6 @@ package com.example.citassalon.ui.staff
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,7 +13,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Staff
 import com.example.citassalon.databinding.FragmentAgendarStaffBinding
-import com.example.citassalon.util.ApiState
+import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.util.action
 import com.example.citassalon.util.displaySnack
 import com.example.citassalon.util.navigate
@@ -52,6 +51,11 @@ class AgendarStaff : Fragment(), ClickOnStaff {
             toolbar.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
+            binding.buttonEtilistaAletorio.setOnClickListener {
+                val estilitaAleatorio = (adaptador.getData().indices).random()
+                val estilista = adaptador.getData()[estilitaAleatorio]
+                navigateToAngendarService(estilista)
+            }
         }
         setUpRecyclerView()
         getArgs()
@@ -85,7 +89,7 @@ class AgendarStaff : Fragment(), ClickOnStaff {
 
 
     private fun setUpObservers() {
-        viewModelStaff.staff.observe(viewLifecycleOwner, {
+        viewModelStaff.staff.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiState.Loading -> {
                     showSkeleton()
@@ -104,7 +108,7 @@ class AgendarStaff : Fragment(), ClickOnStaff {
                     snackErrorConection()
                 }
             }
-        })
+        }
     }
 
     private fun snackErrorConection() {
@@ -119,6 +123,10 @@ class AgendarStaff : Fragment(), ClickOnStaff {
     }
 
     override fun clickOnStaff(staff: Staff) {
+        navigateToAngendarService(staff)
+    }
+
+    private fun navigateToAngendarService(staff: Staff){
         binding.tvEmpleado.text = staff.nombre
         val action = AgendarStaffDirections.actionAgendarStaffToAgendarServicio(
             staff,

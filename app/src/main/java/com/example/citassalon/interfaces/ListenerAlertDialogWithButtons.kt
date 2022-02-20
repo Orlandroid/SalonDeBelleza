@@ -5,8 +5,6 @@ package com.example.citassalon.interfaces
  * on alerts with two options
  * **/
 interface ListenerAlertDialogWithButtons {
-
     fun clickOnConfirmar()
     fun clickOnCancel()
-
 }

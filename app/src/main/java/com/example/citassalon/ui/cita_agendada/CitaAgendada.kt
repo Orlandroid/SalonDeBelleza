@@ -13,6 +13,7 @@ import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import androidx.core.app.NotificationManagerCompat
+import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentCitaAgendadaBinding
 import com.example.citassalon.util.CITA_AGENDADA_TO_HOME
@@ -37,7 +38,7 @@ class CitaAgendada : Fragment(), Animator.AnimatorListener {
     private fun setUpUi() {
         loadAnimation()
         binding.buttonAceptar.setOnClickListener {
-            it.navigate(CITA_AGENDADA_TO_HOME)
+            findNavController().popBackStack(R.id.home3,false)
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             setNotificationChannel()

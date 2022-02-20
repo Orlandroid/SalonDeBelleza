@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.data.models.User
+import com.example.citassalon.data.state.SessionStatus
 import com.example.citassalon.databinding.SignInBinding
 import com.example.citassalon.util.*
 import dagger.hilt.android.AndroidEntryPoint
@@ -60,7 +61,7 @@ class SignUp : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun setUpObservers() {
-        viewModel.singUp.observe(viewLifecycleOwner, {
+        viewModel.singUp.observe(viewLifecycleOwner) {
             when (it) {
                 is SessionStatus.LOADING -> {
                     binding.buttonRegistarse.isEnabled = false
@@ -83,7 +84,7 @@ class SignUp : Fragment(), DatePickerDialog.OnDateSetListener {
                     showAlertMessage("Error de red verifica que tengas conexion a internet")
                 }
             }
-        })
+        }
     }
 
     private fun isValidPassword(): Boolean =
@@ -92,7 +93,7 @@ class SignUp : Fragment(), DatePickerDialog.OnDateSetListener {
     private fun getEmail(): String = binding.correo.editText?.text.toString()
 
     private fun isValidTheData(): Boolean =
-        !areEmptyFields() and isValidPassword() and isValidEmail(getEmail())
+        !areEmptyFields() and isValidPassword() and isTheEmailValidEmail(getEmail())
 
     private fun doOnTextChange() {
         with(binding) {
@@ -117,6 +118,16 @@ class SignUp : Fragment(), DatePickerDialog.OnDateSetListener {
             }
         }
     }
+
+
+    private fun isTheEmailValidEmail(email:String):Boolean{
+        if (isValidEmail(email)){
+            return true
+        }
+        binding.correo.editText?.error = "Debes de ingresar un correo valido"
+        return false
+    }
+
 
     private fun areEmptyFields(): Boolean {
         val nombreIsEmpty = binding.nombre.editText?.text.toString().trim().isEmpty()

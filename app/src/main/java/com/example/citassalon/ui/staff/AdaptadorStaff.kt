@@ -5,7 +5,6 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Staff
@@ -20,6 +19,8 @@ class AdaptadorStaff(private val listener: ClickOnStaff) :
         listaStaff = lista
         notifyDataSetChanged()
     }
+
+    fun getData(): List<Staff> = listaStaff
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val image: ImageView = itemView.findViewById(R.id.staff_picture)

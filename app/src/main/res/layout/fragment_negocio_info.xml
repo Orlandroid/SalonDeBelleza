@@ -6,7 +6,12 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     tools:context=".ui.info.sucursal.NegocioInfoFragment">
-
+    <include
+        android:id="@+id/toolbar_layout"
+        layout="@layout/toolbar_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline32"
         android:layout_width="wrap_content"
@@ -44,15 +49,4 @@
 
     </LinearLayout>
 
-    <TextView
-        android:textSize="24sp"
-        android:textColor="@color/black"
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/sucursal"
-        app:layout_constraintBottom_toTopOf="@+id/guideline32"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

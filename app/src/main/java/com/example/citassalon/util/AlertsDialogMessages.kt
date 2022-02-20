@@ -89,14 +89,23 @@ class AlertsDialogMessages(private val context: Context) {
     }
 
 
-    fun showSimpleMessage(title: String, message: String) {
+    fun showSimpleMessage(
+        title: String,
+        message: String,
+        listener: ClickOnAccepSimpleDialog? = null
+    ) {
         MaterialAlertDialogBuilder(context)
             .setTitle(title)
             .setMessage(message)
             .setCancelable(false)
-            .setPositiveButton(R.string.aceptar) { dialog, which ->
+            .setPositiveButton(R.string.aceptar) { _, _ ->
+                listener?.clikOnPositiveButton()
             }
             .show()
+    }
+
+    interface ClickOnAccepSimpleDialog {
+        fun clikOnPositiveButton()
     }
 
     fun showTermAndConditions() {

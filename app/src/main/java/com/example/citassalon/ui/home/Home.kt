@@ -3,24 +3,22 @@ package com.example.citassalon.ui.home
 import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.navigation.fragment.findNavController
 import com.example.citassalon.databinding.FragmentHomeBinding
-import com.example.citassalon.util.HOME_TO_NOMBRE_ESTABLECIMEINTO
-import com.example.citassalon.util.HOME_TO_PERFIL
-import com.example.citassalon.util.HOME_TO_SUCURSALES
-import com.example.citassalon.util.navigate
+import com.example.citassalon.util.*
+import dagger.hilt.android.AndroidEntryPoint
 
-
+@AndroidEntryPoint
 class Home : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
 
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentHomeBinding.inflate(inflater, container, false)
         setUpUi()
         return binding.root
@@ -29,10 +27,12 @@ class Home : Fragment() {
     private fun setUpUi() {
         with(binding) {
             buttonAgendar.setOnClickListener {
-                navigate(HOME_TO_SUCURSALES)
+                val action = HomeDirections.actionHome3ToAgendarSucursal()
+                navigate(action)
             }
             btnFloatingPerfil.setOnClickListener {
-                navigate(HOME_TO_PERFIL)
+                val action = HomeDirections.actionHome3ToPerfil()
+                navigate(action)
             }
             btnFloatingList.setOnClickListener {
                 navigate(HOME_TO_NOMBRE_ESTABLECIMEINTO)

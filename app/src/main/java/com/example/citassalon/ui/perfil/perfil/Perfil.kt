@@ -78,7 +78,7 @@ class Perfil : Fragment(), ListenerAlertDialogWithButtons, ListenerClickOnElemen
     }
 
     private fun setUpObserver() {
-        viewModelPerfil.firebaseUser.observe(viewLifecycleOwner, {
+        viewModelPerfil.firebaseUser.observe(viewLifecycleOwner) {
             if (it.email != null) {
                 binding.nombreUsuario.text = it.email
             }
@@ -86,7 +86,7 @@ class Perfil : Fragment(), ListenerAlertDialogWithButtons, ListenerClickOnElemen
             Log.w("USER", it.uid.toString())
             Log.w("USER", it.displayName.toString())
             Log.w("USER", it.email.toString())
-        })
+        }
     }
 
     private fun logout() {

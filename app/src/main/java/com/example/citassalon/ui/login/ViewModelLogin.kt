@@ -1,15 +1,18 @@
 package com.example.citassalon.ui.login
 
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.citassalon.data.preferences.LoginPeferences
 import com.example.citassalon.data.repository.Repository
-import com.example.citassalon.util.SessionStatus
+import com.example.citassalon.data.state.SessionStatus
 import com.example.citassalon.util.NetworkHelper
 import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -17,7 +20,7 @@ class ViewModelLogin
 @Inject constructor(
     private val networkHelper: NetworkHelper,
     private val repository: Repository,
-    private val loginPeferences: LoginPeferences
+    private val loginPeferences: LoginPeferences,
 ) : ViewModel() {
 
     private val _loginStatus = MutableLiveData<SessionStatus>()

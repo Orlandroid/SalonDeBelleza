@@ -11,7 +11,7 @@ import androidx.navigation.fragment.navArgs
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Servicio
 import com.example.citassalon.databinding.FragmentAgendarServicioBinding
-import com.example.citassalon.util.ApiState
+import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.util.action
 import com.example.citassalon.util.displaySnack
 import com.example.citassalon.util.navigate
@@ -59,7 +59,7 @@ class AgendarServicio : Fragment(), ListernerClickOnService {
     }
 
     private fun setUpObservers() {
-        viewModelAgendarServicio.services.observe(viewLifecycleOwner, {
+        viewModelAgendarServicio.services.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiState.Loading -> {
 
@@ -77,7 +77,7 @@ class AgendarServicio : Fragment(), ListernerClickOnService {
                     snackErrorConection()
                 }
             }
-        })
+        }
     }
 
     private fun snackErrorConection() {

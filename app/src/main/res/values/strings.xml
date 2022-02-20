@@ -125,4 +125,5 @@
     <string name="iniciar_session">Iniciar session</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="example_email_com">example@email.com</string>
 </resources>

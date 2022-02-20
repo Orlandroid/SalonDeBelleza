@@ -2,6 +2,7 @@ package com.example.citassalon.data.repository
 
 import com.example.citassalon.data.firebase.FireBaseSource
 import com.example.citassalon.data.models.Appointment
+import com.example.citassalon.data.retrofit.FakeStoreService
 import com.example.citassalon.data.retrofit.WebServices
 import com.example.citassalon.data.room.AppointmentDao
 import com.google.firebase.auth.AuthCredential
@@ -10,6 +11,7 @@ import javax.inject.Inject
 class Repository @Inject constructor(
     private val db: AppointmentDao,
     private val webServices: WebServices,
+    private val fakeStoreService: FakeStoreService,
     private val fireBaseSource: FireBaseSource
 ) {
 
@@ -37,6 +39,9 @@ class Repository @Inject constructor(
         db.deleteAll()
     }
 
+    suspend fun getProducts(categoria: String) = fakeStoreService.getProducts(categoria)
+
+    suspend fun getCategories() = fakeStoreService.getCategories()
 
     suspend fun getSucursales() = webServices.getSucursales()
 

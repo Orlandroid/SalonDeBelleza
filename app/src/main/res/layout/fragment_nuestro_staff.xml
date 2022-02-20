@@ -7,17 +7,25 @@
     android:background="@color/background"
     tools:context=".ui.info.nuestro_staff.NuestroStaffFragment">
 
+    <include
+        android:id="@+id/toolbar_layout"
+        layout="@layout/toolbar_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <TextView
-        android:textColor="@color/black"
+        android:layout_marginTop="16dp"
         android:id="@+id/tv_nuestro_staff"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/nustro_staff"
+        android:textColor="@color/black"
         android:textSize="24sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline34"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_layout" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline34"

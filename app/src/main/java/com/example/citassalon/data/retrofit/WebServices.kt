@@ -20,4 +20,6 @@ interface WebServices {
     @GET(STAFFS)
     suspend fun getStaff(): Response<List<Staff>>
 
+
+
 }

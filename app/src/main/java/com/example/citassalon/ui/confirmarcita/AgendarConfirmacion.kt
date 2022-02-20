@@ -69,7 +69,8 @@ class AgendarConfirmacion : Fragment(), ListenerAlertDialogWithButtons {
 
     override fun clickOnConfirmar() {
         saveToDatabaseAppointMent()
-        navigate(COMFIRMAR_CITA_TO_CITA_AGENDADA)
+        val action = AgendarConfirmacionDirections.actionAgendarConfirmacionToCitaAgendada()
+        navigate(action)
     }
 
     private fun saveToDatabaseAppointMent() {
