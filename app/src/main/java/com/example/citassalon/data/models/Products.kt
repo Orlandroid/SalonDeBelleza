@@ -11,5 +11,12 @@ data class Products(
     val description: String,
     val category: String,
     val image: String,
+    val rating: Rating
+) : Parcelable
+
+@Parcelize
+data class Rating(
+    val rate: Double,
+    val count: Int
 ) : Parcelable
 

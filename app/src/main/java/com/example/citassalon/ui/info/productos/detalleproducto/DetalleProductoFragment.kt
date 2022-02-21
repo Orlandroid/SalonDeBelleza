@@ -30,11 +30,19 @@ class DetalleProductoFragment : Fragment() {
             toolbarLayout.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
+            initRating()
             tvTitle.text = args.producto.title
             Glide.with(this@DetalleProductoFragment).load(args.producto.image).into(image)
-            tvCategoria.text = args.producto.category
+            rating.rating = args.producto.rating.rate.toFloat()
             tvPrecio.text = "$ ${args.producto.price}"
             tvDescripcion.text = args.producto.description
+        }
+    }
+
+    private fun initRating() {
+        with(binding) {
+            rating.setIsIndicator(true)
+            rating.numStars = 5
         }
     }
 
