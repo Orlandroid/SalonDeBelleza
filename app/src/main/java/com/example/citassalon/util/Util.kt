@@ -11,3 +11,7 @@ fun isValidEmail(target: CharSequence?): Boolean {
         Patterns.EMAIL_ADDRESS.matcher(target).matches()
     }
 }
+
+fun getRandomPage(startPage: Int, endPage: Int): String {
+    return (startPage..endPage).random().toString()
+}

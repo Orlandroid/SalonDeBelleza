@@ -16,8 +16,8 @@
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/image"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:layout_marginTop="32dp"
         android:contentDescription="@string/staff"
         app:layout_constraintEnd_toEndOf="parent"
@@ -39,12 +39,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/image" />
 
-    <RatingBar
-        android:id="@+id/rating_bar_evaluation"
+    <TextView
+        android:id="@+id/tv_last_location"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:isIndicator="true"
+        android:text="Location"
+        android:textSize="24sp"
+        android:textColor="@color/textcard"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
@@ -55,10 +57,33 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="@string/evaluacion"
+        android:text="@string/last_location"
         android:textColor="@color/textcard"
         android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/name" />
+
+    <ImageView
+        android:id="@+id/image_status"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/image_circular"
+        app:layout_constraintEnd_toEndOf="@+id/tv_last_location"
+        app:layout_constraintStart_toEndOf="@+id/tv_alive"
+        app:layout_constraintTop_toBottomOf="@+id/tv_last_location" />
+
+    <TextView
+        android:id="@+id/tv_alive"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:text="IsAlive"
+        android:textColor="@color/textcard"
+        android:textSize="24sp"
+        app:layout_constraintBottom_toBottomOf="@+id/image_status"
+        app:layout_constraintEnd_toStartOf="@+id/image_status"
+        app:layout_constraintStart_toStartOf="@+id/tv_last_location"
+        app:layout_constraintTop_toTopOf="@+id/image_status" />
 </androidx.constraintlayout.widget.ConstraintLayout>

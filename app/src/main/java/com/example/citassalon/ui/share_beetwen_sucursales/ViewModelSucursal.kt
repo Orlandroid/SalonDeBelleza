@@ -6,10 +6,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.data.models.Sucursal
+import com.example.citassalon.data.models.rickandmorty.ResultsLocations
 import com.example.citassalon.data.repository.Repository
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.util.NetworkHelper
+import com.example.citassalon.util.getRandomPage
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -28,8 +29,8 @@ class ViewModelSucursal @Inject constructor(
 ) :
     ViewModel() {
 
-    private var _sucursal = MutableLiveData<ApiState<List<Sucursal>>>()
-    val sucursal: LiveData<ApiState<List<Sucursal>>>
+    private var _sucursal = MutableLiveData<ApiState<List<ResultsLocations>>>()
+    val sucursal: LiveData<ApiState<List<ResultsLocations>>>
         get() = _sucursal
 
     init {
@@ -39,15 +40,12 @@ class ViewModelSucursal @Inject constructor(
     fun getSucursales() {
         viewModelScope.launch(Dispatchers.IO) {
             _sucursal.postValue(ApiState.Loading(null))
-            if (networkHelper.isNetworkConnected()) {
-                val response = repository.getSucursales()
-                if (response.isSuccessful) {
-                    _sucursal.postValue(ApiState.Success(response.body()!!))
-                    Log.w("SUCURSALES", response.body().toString())
-                }
-            } else {
+            if (!networkHelper.isNetworkConnected()) {
                 _sucursal.postValue(ApiState.ErrorNetwork())
+                return@launch
             }
+            val response = repository.getLocation(page = getRandomPage(1,7))
+            _sucursal.postValue(ApiState.Success(response.results))
         }
     }
 

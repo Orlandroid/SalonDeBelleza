@@ -2,7 +2,10 @@ package com.example.citassalon.data.repository
 
 import com.example.citassalon.data.firebase.FireBaseSource
 import com.example.citassalon.data.models.Appointment
+import com.example.citassalon.data.models.rickandmorty.CharacterResponse
+import com.example.citassalon.data.models.rickandmorty.LocationResponse
 import com.example.citassalon.data.retrofit.FakeStoreService
+import com.example.citassalon.data.retrofit.RickAndMortyService
 import com.example.citassalon.data.retrofit.WebServices
 import com.example.citassalon.data.room.AppointmentDao
 import com.google.firebase.auth.AuthCredential
@@ -12,7 +15,8 @@ class Repository @Inject constructor(
     private val db: AppointmentDao,
     private val webServices: WebServices,
     private val fakeStoreService: FakeStoreService,
-    private val fireBaseSource: FireBaseSource
+    private val fireBaseSource: FireBaseSource,
+    private val rickAndMortyService: RickAndMortyService
 ) {
 
     suspend fun addAppointment(appointment: Appointment) {
@@ -48,6 +52,12 @@ class Repository @Inject constructor(
     suspend fun getStaffs() = webServices.getStaff()
 
     suspend fun getServices() = webServices.getServicios()
+
+    suspend fun getCharacters(page: String): CharacterResponse =
+        rickAndMortyService.getCharacters(page)
+
+    suspend fun getLocation(page: String): LocationResponse = rickAndMortyService.getLocations(page)
+
 
     fun getUser() = fireBaseSource.getUser()
 

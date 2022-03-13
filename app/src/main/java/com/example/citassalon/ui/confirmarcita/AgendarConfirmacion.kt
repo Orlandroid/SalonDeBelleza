@@ -12,7 +12,6 @@ import com.example.citassalon.data.models.Appointment
 import com.example.citassalon.databinding.FragmentAgendarConfirmacionBinding
 import com.example.citassalon.interfaces.ListenerAlertDialogWithButtons
 import com.example.citassalon.util.AlertsDialogMessages
-import com.example.citassalon.util.COMFIRMAR_CITA_TO_CITA_AGENDADA
 import com.example.citassalon.util.navigate
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -55,7 +54,7 @@ class AgendarConfirmacion : Fragment(), ListenerAlertDialogWithButtons {
 
     private fun setValuesToView(args: AgendarConfirmacionArgs) {
         binding.cSucursal.text = args.sucursal
-        binding.cSatff.text = args.staff.nombre
+        binding.cSatff.text = args.staff.name
         binding.cServicio.text = args.servicio.name
         binding.cFecha.text = args.fecha
         binding.cHora.text = args.hora
@@ -78,7 +77,7 @@ class AgendarConfirmacion : Fragment(), ListenerAlertDialogWithButtons {
             Appointment(
                 0,
                 args.sucursal,
-                args.staff.nombre,
+                args.staff.name,
                 args.servicio.name,
                 args.fecha,
                 args.hora,

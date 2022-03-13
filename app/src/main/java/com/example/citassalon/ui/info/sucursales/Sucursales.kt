@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.data.models.Sucursal
+import com.example.citassalon.data.models.rickandmorty.ResultsLocations
 import com.example.citassalon.databinding.FragmentSucursalesBinding
 import com.example.citassalon.ui.share_beetwen_sucursales.AdaptadorSucursal
 import com.example.citassalon.ui.share_beetwen_sucursales.ClickOnSucursal
@@ -74,9 +75,11 @@ class Sucursales : Fragment(), ClickOnSucursal {
         _binding = null
     }
 
-    override fun clickOnSucursal(sucursal: Sucursal) {
+
+    override fun clickOnSucursal(locations: ResultsLocations) {
         val action = SucursalesDirections.actionSucursales2ToNegocioInfo()
         navigate(action)
     }
+
 
 }

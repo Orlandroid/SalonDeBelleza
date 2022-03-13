@@ -11,6 +11,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Sucursal
+import com.example.citassalon.data.models.rickandmorty.ResultsLocations
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.databinding.FragmentAgendarSucursalBinding
 import com.example.citassalon.ui.share_beetwen_sucursales.AdaptadorSucursal
@@ -90,19 +91,19 @@ class AgendarSucursal : Fragment(), ClickOnSucursal {
             }
         }
     }
-
-
-    override fun clickOnSucursal(sucursal: Sucursal) {
-        binding.textAgendarSucursal.text = sucursal.name
-        val action = AgendarSucursalDirections.actionAgendarSucursalToAgendarStaff(
-            binding.textAgendarSucursal.text.toString()
-        )
-        navigate(action)
-    }
+    
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun clickOnSucursal(locations: ResultsLocations) {
+        binding.textAgendarSucursal.text = locations.name
+        val action = AgendarSucursalDirections.actionAgendarSucursalToAgendarStaff(
+            binding.textAgendarSucursal.text.toString()
+        )
+        navigate(action)
     }
 
 }

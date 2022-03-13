@@ -81,7 +81,7 @@
             app:popExitAnim="@anim/to_right" />
         <argument
             android:name="staff"
-            app:argType="com.example.citassalon.data.models.Staff" />
+            app:argType="com.example.citassalon.data.models.rickandmorty.Character" />
         <argument
             android:name="sucursal"
             app:argType="string" />
@@ -103,7 +103,7 @@
             app:argType="string" />
         <argument
             android:name="staff"
-            app:argType="com.example.citassalon.data.models.Staff" />
+            app:argType="com.example.citassalon.data.models.rickandmorty.Character" />
         <argument
             android:name="servicio"
             app:argType="com.example.citassalon.data.models.Servicio" />
@@ -132,7 +132,7 @@
             app:argType="string" />
         <argument
             android:name="staff"
-            app:argType="com.example.citassalon.data.models.Staff" />
+            app:argType="com.example.citassalon.data.models.rickandmorty.Character" />
         <argument
             android:name="servicio"
             app:argType="com.example.citassalon.data.models.Servicio" />
@@ -178,7 +178,7 @@
         tools:layout="@layout/fragment_detalle_staff">
         <argument
             android:name="currentStaff"
-            app:argType="com.example.citassalon.data.models.Staff" />
+            app:argType="com.example.citassalon.data.models.rickandmorty.Character" />
     </fragment>
     <fragment
         android:id="@+id/sucursales"

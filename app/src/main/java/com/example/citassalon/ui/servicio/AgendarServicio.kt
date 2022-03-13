@@ -8,6 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Servicio
 import com.example.citassalon.databinding.FragmentAgendarServicioBinding
@@ -35,7 +37,7 @@ class AgendarServicio : Fragment(), ListernerClickOnService {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentAgendarServicioBinding.inflate(inflater, container, false)
         setUpUi()
         return binding.root
@@ -54,8 +56,9 @@ class AgendarServicio : Fragment(), ListernerClickOnService {
 
     private fun setValuesToView(args: AgendarServicioArgs) {
         binding.sucursal.text = args.sucursal
-        binding.staffImage.setImageResource(args.staff.getResourceImage())
-        binding.nombreStaff.text = args.staff.nombre
+        val options = RequestOptions().override(300,300).placeholder(R.drawable.rick)
+        Glide.with(requireContext()).load(args.staff.image).apply(options).into(binding.staffImage)
+        binding.nombreStaff.text = args.staff.name
     }
 
     private fun setUpObservers() {

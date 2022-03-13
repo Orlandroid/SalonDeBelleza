@@ -9,6 +9,9 @@ import android.widget.DatePicker
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentAgendarFechaBinding
 import com.example.citassalon.util.hideKeyboard
 import com.example.citassalon.util.navigate
@@ -53,8 +56,9 @@ class AgendarFecha : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun setValuesToView(args: AgendarFechaArgs) {
-        binding.imgStaff.setImageResource(args.staff.getResourceImage())
-        binding.tvStaffName.text = args.staff.nombre
+        val options = RequestOptions().override(300,300).placeholder(R.drawable.rick)
+        Glide.with(requireContext()).load(args.staff.image).apply(options).into(binding.imgStaff)
+        binding.tvStaffName.text = args.staff.name
         binding.txtServicio.text = args.servicio.name
         binding.tvServicioPrecio.text = args.servicio.precio.toString()
         binding.textSucursal.text = args.sucursal

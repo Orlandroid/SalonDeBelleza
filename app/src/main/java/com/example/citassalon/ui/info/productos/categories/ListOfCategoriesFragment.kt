@@ -14,6 +14,7 @@ import com.example.citassalon.util.AlertDialogs
 import com.example.citassalon.util.navigate
 import com.faltenreich.skeletonlayout.Skeleton
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class ListOfCategoriesFragment : Fragment(), ListOfCategoriesAdapter.ListOfcategoriesListener {
@@ -71,6 +72,7 @@ class ListOfCategoriesFragment : Fragment(), ListOfCategoriesAdapter.ListOfcateg
 
         }
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()

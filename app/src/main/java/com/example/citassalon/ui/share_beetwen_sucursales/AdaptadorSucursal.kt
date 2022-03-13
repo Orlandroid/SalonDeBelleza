@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Sucursal
+import com.example.citassalon.data.models.rickandmorty.ResultsLocations
 
 /** Este adpatador es usado por 2 Fragments
  *  los cuales son los siguientes
@@ -15,7 +16,7 @@ import com.example.citassalon.data.models.Sucursal
 **/
 
 class AdaptadorSucursal(
-    private val sucursales: List<Sucursal>,
+    private val sucursales: List<ResultsLocations>,
     private val listener: ClickOnSucursal
 ) :
     RecyclerView.Adapter<AdaptadorSucursal.ViewHolder>() {

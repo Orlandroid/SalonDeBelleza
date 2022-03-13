@@ -12,6 +12,7 @@ import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Staff
+import com.example.citassalon.data.models.rickandmorty.Character
 import com.example.citassalon.databinding.FragmentAgendarStaffBinding
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.util.action
@@ -38,7 +39,7 @@ class AgendarStaff : Fragment(), ClickOnStaff {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentAgendarStaffBinding.inflate(layoutInflater, container, false)
         setUpUi()
         return binding.root
@@ -46,7 +47,7 @@ class AgendarStaff : Fragment(), ClickOnStaff {
 
     private fun setUpUi() {
         with(binding) {
-            skeletonRecyclerView = recyclerStaff.applySkeleton(R.layout.item_staff, 4)
+            skeletonRecyclerView = recyclerStaff.applySkeleton(R.layout.item_staff, 10)
             toolbar.toolbarTitle.text = "Agendar Staff"
             toolbar.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
@@ -54,7 +55,7 @@ class AgendarStaff : Fragment(), ClickOnStaff {
             binding.buttonEtilistaAletorio.setOnClickListener {
                 val estilitaAleatorio = (adaptador.getData().indices).random()
                 val estilista = adaptador.getData()[estilitaAleatorio]
-                navigateToAngendarService(estilista)
+                //navigateToAngendarService(estilista)
             }
         }
         setUpRecyclerView()
@@ -122,12 +123,10 @@ class AgendarStaff : Fragment(), ClickOnStaff {
         }
     }
 
-    override fun clickOnStaff(staff: Staff) {
-        navigateToAngendarService(staff)
-    }
 
-    private fun navigateToAngendarService(staff: Staff){
-        binding.tvEmpleado.text = staff.nombre
+
+    private fun navigateToAngendarService(staff: Character){
+        binding.tvEmpleado.text = staff.name
         val action = AgendarStaffDirections.actionAgendarStaffToAgendarServicio(
             staff,
             args.sucursal
@@ -138,6 +137,10 @@ class AgendarStaff : Fragment(), ClickOnStaff {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun clickOnStaff(staff: Character) {
+        navigateToAngendarService(staff)
     }
 
 
