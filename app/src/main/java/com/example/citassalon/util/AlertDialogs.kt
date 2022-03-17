@@ -20,6 +20,9 @@ class AlertDialogs(
         const val SUCCES_MESSAGE = R.color.succes
         const val WARNING_MESSAGE = R.color.waring
         const val ERROR_MESSAGE = R.color.danger
+        const val SUCCES = 0
+        const val WARNING = 1
+        const val ERROR = 2
     }
 
     override fun onCreateView(

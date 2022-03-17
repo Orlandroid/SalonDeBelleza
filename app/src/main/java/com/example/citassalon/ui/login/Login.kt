@@ -140,7 +140,8 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
 
                 }
                 is SessionStatus.NETWORKERROR -> {
-                    showAlertMessage("Revisa tu conexion de internet")
+                    val alert = AlertDialogs(2,"Revisa tu conexion de internet")
+                    activity?.let { it1 -> alert.show(it1.supportFragmentManager,"dialog") }
                 }
             }
         }
@@ -183,12 +184,14 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
                 is SessionStatus.ERROR -> {
                     binding.progress.visibility = View.GONE
                     binding.buttonGetIn.isEnabled = true
-                    showAlertMessage("Error al iniciar session con el usuario")
+                    val alert = AlertDialogs(2,"Error usuario o contraseña incorrecto")
+                    activity?.let { it1 -> alert.show(it1.supportFragmentManager,"dialog") }
                 }
                 is SessionStatus.NETWORKERROR -> {
                     binding.buttonGetIn.isEnabled = true
                     binding.progress.visibility = View.GONE
-                    showAlertMessage("Error de internet")
+                    val alert = AlertDialogs(2,"Error de internet")
+                    activity?.let { it1 -> alert.show(it1.supportFragmentManager,"dialog") }
                 }
             }
         }
@@ -217,7 +220,10 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
         val password = binding.txtPassord.editText?.text.toString()
         if (user.isNotEmpty() && password.isNotEmpty())
             viewModel.login(user, password)
-        else showAlertMessage("Debes de llenar ambos campos")
+        else{
+            val alert = AlertDialogs(2,"Debes de llenar Ambos campos")
+            activity?.let { it1 -> alert.show(it1.supportFragmentManager,"dialog") }
+        }
     }
 
     override fun onDestroy() {
