@@ -31,6 +31,9 @@ El objetivo principal de la app es la gestión de citas enfocado a establecimien
 - Corutinas
 - Dark theme
 
+Si quieres pudes probar la aplicacion Aqui
+#### https://mega.nz/file/su5BTDRT#-GNkophmeBNrFV0mf-Q5VWMJ-AjaQOv2nwX1KmUrtSc
+#### https://mega.nz/file/ZupkRDYT#BUIKJ7j2yNAdlhrBs14IBzh-uKXvEu1wB8nCgX-OGxo (Rick and morty version )
 
   [Video](https://www.youtube.com/watch?v=NiYT53pavk4)
 
