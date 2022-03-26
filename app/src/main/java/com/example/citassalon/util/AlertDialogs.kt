@@ -9,7 +9,7 @@ import com.example.citassalon.databinding.AlertDialogMessagesBinding
 
 
 class AlertDialogs(
-    private val kindOfMessage: Int = 0,
+    private val kindOfMessage: Int = SUCCES_MESSAGE,
     private val messageBody: String
 ) :
     DialogFragment() {
@@ -17,12 +17,12 @@ class AlertDialogs(
     private lateinit var binding: AlertDialogMessagesBinding
 
     companion object {
-        const val SUCCES_MESSAGE = R.color.succes
-        const val WARNING_MESSAGE = R.color.waring
-        const val ERROR_MESSAGE = R.color.danger
-        const val SUCCES = 0
-        const val WARNING = 1
-        const val ERROR = 2
+        const val SUCCES_MESSAGE_COLOR = R.color.succes
+        const val WARNING_MESSAGE_COLOR = R.color.waring
+        const val ERROR_MESSAGE_COLOR = R.color.danger
+        const val SUCCES_MESSAGE = 0
+        const val WARNING_MESSAGE = 1
+        const val ERROR_MESSAGE = 2
     }
 
     override fun onCreateView(
@@ -64,15 +64,15 @@ class AlertDialogs(
     private fun setKindOfMessage() {
         when (kindOfMessage) {
             0 -> {
-                binding.headerDialog.setCardBackgroundColor(resources.getColor(SUCCES_MESSAGE))
+                binding.headerDialog.setCardBackgroundColor(resources.getColor(SUCCES_MESSAGE_COLOR))
                 binding.titleHeader.text = "Succes"
             }
             1 -> {
-                binding.headerDialog.setCardBackgroundColor(resources.getColor(WARNING_MESSAGE))
+                binding.headerDialog.setCardBackgroundColor(resources.getColor(WARNING_MESSAGE_COLOR))
                 binding.titleHeader.text = "Warning"
             }
             2 -> {
-                binding.headerDialog.setCardBackgroundColor(resources.getColor(ERROR_MESSAGE))
+                binding.headerDialog.setCardBackgroundColor(resources.getColor(ERROR_MESSAGE_COLOR))
                 binding.titleHeader.text = "Error"
             }
         }

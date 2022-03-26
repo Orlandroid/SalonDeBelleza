@@ -9,25 +9,17 @@ import com.example.citassalon.R
 import com.example.citassalon.data.models.Appointment
 
 
-class AdaptadorHistorialCitas(private val listAppointment: List<Appointment>) :
-    RecyclerView.Adapter<AdaptadorHistorialCitas.ViewHolder>() {
+class HistorialCitasAdapter(private val listAppointment: List<Appointment>) :
+    RecyclerView.Adapter<HistorialCitasAdapter.ViewHolder>() {
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
         val sucursal: TextView = view.findViewById(R.id.tv_sucursal)
-        val empleado: TextView = view.findViewById(R.id.tv_empleado)
         val servicio: TextView = view.findViewById(R.id.tv_servicio)
-        val fecha: TextView = view.findViewById(R.id.tv_fecha)
-        val hora: TextView = view.findViewById(R.id.tv_hora)
-        val total: TextView = view.findViewById(R.id.tv_total)
 
         fun bind(appointment: Appointment) {
             sucursal.text = appointment.establecimeinto
-            empleado.text = appointment.empleado
             servicio.text = appointment.servicio
-            fecha.text = appointment.fecha
-            hora.text = appointment.hora
-            total.text = "$ ${appointment.total}"
         }
     }
 

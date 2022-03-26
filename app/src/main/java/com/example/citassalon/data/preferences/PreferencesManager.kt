@@ -5,11 +5,6 @@ import javax.inject.Inject
 
 open class PreferencesManager @Inject constructor(protected val preferences: SharedPreferences) {
 
-    companion object {
-        const val USER_EMAIL = "email"
-        const val USER_LOEGED = "userLoged"
-    }
-
 
     open fun savePreferenceKey(key: String, value: Any) {
         when (value) {

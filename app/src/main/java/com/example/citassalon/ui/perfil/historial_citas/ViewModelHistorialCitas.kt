@@ -28,6 +28,12 @@ class ViewModelHistorialCitas @Inject constructor(private val appointmentReposit
         _appointment.value = ApiState.Loading(null)
         viewModelScope.launch(Dispatchers.IO) {
             val listaAppointments = appointmentRepository.getAllAppointment()
+            if (listaAppointments.isEmpty()){
+                withContext(Dispatchers.Main){
+                    _appointment.value=ApiState.NoData()
+                }
+                return@launch
+            }
             withContext(Dispatchers.Main) {
                 _appointment.postValue(ApiState.Success(listaAppointments))
             }

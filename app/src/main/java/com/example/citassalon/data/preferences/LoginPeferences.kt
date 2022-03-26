@@ -6,6 +6,10 @@ import javax.inject.Inject
 class LoginPeferences @Inject constructor(sharedPreferences: SharedPreferences) :
     PreferencesManager(sharedPreferences) {
 
+    companion object {
+        const val USER_EMAIL = "email"
+        const val USER_LOEGED = "userLoged"
+    }
 
     fun saveUserSession() {
         savePreferenceKey(USER_LOEGED, true)

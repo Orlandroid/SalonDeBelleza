@@ -14,6 +14,7 @@ import com.example.citassalon.data.models.Products
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.databinding.FragmentProductsBinding
 import com.example.citassalon.util.AlertDialogs
+import com.example.citassalon.util.AlertDialogs.Companion.ERROR_MESSAGE
 import com.example.citassalon.util.navigate
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
@@ -67,11 +68,11 @@ class ProductsFragment : Fragment(), ProductsAdapter.ProductsListener {
                     }
                 }
                 is ApiState.Error -> {
-                    val dialog = AlertDialogs(2, "Error al obtener datos")
+                    val dialog = AlertDialogs(ERROR_MESSAGE, "Error al obtener datos")
                     activity?.let { dialog.show(it.supportFragmentManager, "alertMessage") }
                 }
                 is ApiState.ErrorNetwork -> {
-                    val dialog = AlertDialogs(2, "Verifica tu conexion de internet")
+                    val dialog = AlertDialogs(ERROR_MESSAGE, "Verifica tu conexion de internet")
                     activity?.let { dialog.show(it.supportFragmentManager, "alertMessage") }
                 }
             }
