@@ -6,13 +6,16 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
+import com.example.citassalon.data.models.Appointment
 import com.example.citassalon.databinding.FragmentHistorialDeCitasBinding
 import com.example.citassalon.data.state.ApiState
+import com.example.citassalon.interfaces.ClickOnItem
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HistorialDeCitas : Fragment() {
+class HistorialDeCitas : Fragment(), ClickOnItem<Appointment> {
 
     private var _binding: FragmentHistorialDeCitasBinding? = null
     private val binding get() = _binding!!
@@ -23,10 +26,19 @@ class HistorialDeCitas : Fragment() {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentHistorialDeCitasBinding.inflate(layoutInflater, container, false)
+        setUpUi()
         setUpObservers()
         return binding.root
     }
 
+    private fun setUpUi() {
+        with(binding) {
+
+        }
+    }
+
+
+    private fun getListener(): ClickOnItem<Appointment> = this
 
     private fun setUpObservers() {
         viewModel.appointment.observe(viewLifecycleOwner) {
@@ -36,7 +48,7 @@ class HistorialDeCitas : Fragment() {
                 }
                 is ApiState.Success -> {
                     if (it.data != null) {
-                        binding.recyclerAppointment.adapter = HistorialCitasAdapter(it.data)
+                        binding.recyclerAppointment.adapter = HistorialCitasAdapter(it.data,getListener())
                     }
                 }
                 is ApiState.Error -> {
@@ -56,6 +68,7 @@ class HistorialDeCitas : Fragment() {
         }
     }
 
+
     private fun getRandomNoDataAnimation(): Int =
         when ((1..3).random()) {
             1 -> {
@@ -72,6 +85,12 @@ class HistorialDeCitas : Fragment() {
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null
+    }
+
+    override fun clikOnElement(element: Appointment, position: Int?) {
+        val action =
+            HistorialDeCitasDirections.actionHistorialDeCitasToHistorialDetailFragment(element)
+        findNavController().navigate(action)
     }
 
 }

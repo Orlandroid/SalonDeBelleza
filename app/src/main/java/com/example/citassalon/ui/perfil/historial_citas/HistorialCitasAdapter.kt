@@ -7,9 +7,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Appointment
+import com.example.citassalon.interfaces.ClickOnItem
 
 
-class HistorialCitasAdapter(private val listAppointment: List<Appointment>) :
+class HistorialCitasAdapter(private val listAppointment: List<Appointment>,private val listener:ClickOnItem<Appointment>) :
     RecyclerView.Adapter<HistorialCitasAdapter.ViewHolder>() {
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
@@ -31,6 +32,9 @@ class HistorialCitasAdapter(private val listAppointment: List<Appointment>) :
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val appointment = listAppointment[position]
+        viewHolder.itemView.setOnClickListener {
+            listener.clikOnElement(appointment)
+        }
         viewHolder.bind(appointment)
     }
 
