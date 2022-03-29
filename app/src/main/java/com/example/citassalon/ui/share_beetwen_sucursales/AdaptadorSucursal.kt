@@ -7,6 +7,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Sucursal
+import com.example.citassalon.interfaces.ClickOnItem
 
 /** Este adpatador es usado por 2 Fragments
  *  los cuales son los siguientes
@@ -16,7 +17,7 @@ import com.example.citassalon.data.models.Sucursal
 
 class AdaptadorSucursal(
     private val sucursales: List<Sucursal>,
-    private val listener: ClickOnSucursal
+    private val listener: ClickOnItem<Sucursal>
 ) :
     RecyclerView.Adapter<AdaptadorSucursal.ViewHolder>() {
 
@@ -34,7 +35,7 @@ class AdaptadorSucursal(
         val currentSucursal = sucursales[position]
         holder.cartaTexto.text = currentSucursal.name
         holder.itemView.setOnClickListener {
-            listener.clickOnSucursal(currentSucursal)
+            listener.clikOnElement(currentSucursal)
         }
     }
 

@@ -13,8 +13,8 @@ import com.example.citassalon.R
 import com.example.citassalon.data.models.Sucursal
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.databinding.FragmentAgendarSucursalBinding
+import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.ui.share_beetwen_sucursales.AdaptadorSucursal
-import com.example.citassalon.ui.share_beetwen_sucursales.ClickOnSucursal
 import com.example.citassalon.ui.share_beetwen_sucursales.ViewModelSucursal
 import com.example.citassalon.util.*
 import com.google.android.material.snackbar.Snackbar
@@ -27,7 +27,7 @@ import dagger.hilt.android.AndroidEntryPoint
  * **/
 
 @AndroidEntryPoint
-class AgendarSucursal : Fragment(), ClickOnSucursal {
+class AgendarSucursal : Fragment(),ClickOnItem<Sucursal> {
 
 
     private var _binding: FragmentAgendarSucursalBinding? = null
@@ -56,6 +56,8 @@ class AgendarSucursal : Fragment(), ClickOnSucursal {
         setUpObserves()
     }
 
+    private fun getListener():ClickOnItem<Sucursal> = this
+
     private fun setUpObserves() {
         viewModel.sucursal.observe(viewLifecycleOwner) {
             when (it) {
@@ -63,10 +65,13 @@ class AgendarSucursal : Fragment(), ClickOnSucursal {
                     if (it.data != null) {
                         binding.shimmerSucursal.visibility = View.GONE
                         binding.recyclerSucursal.adapter =
-                            AdaptadorSucursal(it.data, this)
+                            AdaptadorSucursal(it.data, getListener())
                     }
                 }
                 is ApiState.Loading -> {
+
+                }
+                is ApiState.NoData ->{
 
                 }
                 is ApiState.Error -> {
@@ -91,18 +96,17 @@ class AgendarSucursal : Fragment(), ClickOnSucursal {
         }
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 
-    override fun clickOnSucursal(sucursal: Sucursal) {
-        binding.textAgendarSucursal.text = sucursal.name
+    override fun clikOnElement(element: Sucursal, position: Int?) {
+        binding.textAgendarSucursal.text = element.name
         val action = AgendarSucursalDirections.actionAgendarSucursalToAgendarStaff(
             binding.textAgendarSucursal.text.toString()
         )
         navigate(action)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 
 }

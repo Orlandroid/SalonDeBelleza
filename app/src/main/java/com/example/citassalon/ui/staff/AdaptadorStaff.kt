@@ -8,9 +8,10 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Staff
+import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.util.navigate
 
-class AdaptadorStaff(private val listener: ClickOnStaff) :
+class AdaptadorStaff(private val listener: ClickOnItem<Staff>) :
     RecyclerView.Adapter<AdaptadorStaff.ViewHolder>() {
 
     private var listaStaff: List<Staff> = arrayListOf()
@@ -43,7 +44,7 @@ class AdaptadorStaff(private val listener: ClickOnStaff) :
             it.navigate(action)
         }
         holder.image.setOnClickListener {
-            listener.clickOnStaff(currentStaff)
+            listener.clikOnElement(currentStaff)
         }
     }
 

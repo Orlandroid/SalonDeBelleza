@@ -10,15 +10,15 @@ import androidx.navigation.fragment.findNavController
 import com.example.citassalon.data.models.Sucursal
 import com.example.citassalon.databinding.FragmentSucursalesBinding
 import com.example.citassalon.ui.share_beetwen_sucursales.AdaptadorSucursal
-import com.example.citassalon.ui.share_beetwen_sucursales.ClickOnSucursal
 import com.example.citassalon.ui.share_beetwen_sucursales.ViewModelSucursal
 import com.example.citassalon.data.state.ApiState
+import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.util.navigate
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class Sucursales : Fragment(), ClickOnSucursal {
+class Sucursales : Fragment(), ClickOnItem<Sucursal> {
 
     private var _binding: FragmentSucursalesBinding? = null
     private val binding get() = _binding!!
@@ -35,8 +35,8 @@ class Sucursales : Fragment(), ClickOnSucursal {
     }
 
 
-    private fun setUpUi(){
-        with(binding){
+    private fun setUpUi() {
+        with(binding) {
             toolbarLayout.toolbarTitle.text = "Sucursales"
             toolbarLayout.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
@@ -63,18 +63,21 @@ class Sucursales : Fragment(), ClickOnSucursal {
                 is ApiState.ErrorNetwork -> {
 
                 }
+                is ApiState.NoData->{
+
+                }
             }
         }
     }
 
-    private fun getListener(): ClickOnSucursal = this
+    private fun getListener(): ClickOnItem<Sucursal> = this
 
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
 
-    override fun clickOnSucursal(sucursal: Sucursal) {
+    override fun clikOnElement(element: Sucursal, position: Int?) {
         val action = SucursalesDirections.actionSucursales2ToNegocioInfo()
         navigate(action)
     }

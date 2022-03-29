@@ -1,7 +1,6 @@
 package com.example.citassalon.ui.info.productos.categories
 
 import android.os.Bundle
-import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -10,21 +9,19 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.databinding.FragmentListOfCategoriesBinding
+import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.util.AlertDialogs
 import com.example.citassalon.util.AlertDialogs.Companion.ERROR_MESSAGE
-import com.example.citassalon.util.AlertDialogs.Companion.SUCCES_MESSAGE
 import com.example.citassalon.util.navigate
-import com.faltenreich.skeletonlayout.Skeleton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ListOfCategoriesFragment : Fragment(), ListOfCategoriesAdapter.ListOfcategoriesListener {
+class ListOfCategoriesFragment : Fragment(), ClickOnItem<String> {
 
     private var _binding: FragmentListOfCategoriesBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ListOfCategoriesViewModel by viewModels()
     private val adapter = ListOfCategoriesAdapter(this)
-    private lateinit var skeleton: Skeleton
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -69,6 +66,9 @@ class ListOfCategoriesFragment : Fragment(), ListOfCategoriesAdapter.ListOfcateg
                     activity?.let { dialog.show(it.supportFragmentManager, "alertMessage") }
                     binding.shimmerCategorias.visibility=View.GONE
                 }
+                is ApiState.NoData ->{
+
+                }
             }
 
         }
@@ -79,10 +79,10 @@ class ListOfCategoriesFragment : Fragment(), ListOfCategoriesAdapter.ListOfcateg
         _binding = null
     }
 
-    override fun clikcOnCategorie(categoria: String) {
+    override fun clikOnElement(element: String, position: Int?) {
         val action =
             ListOfCategoriesFragmentDirections.actionListOfProductsFragmentToProductsFragment(
-                categoria
+                element
             )
         navigate(action)
     }

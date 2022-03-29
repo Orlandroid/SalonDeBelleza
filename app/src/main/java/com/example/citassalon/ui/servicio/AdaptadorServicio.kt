@@ -7,10 +7,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Servicio
+import com.example.citassalon.interfaces.ClickOnItem
 
 class AdaptadorServicio(
     private val servicios: List<Servicio>,
-    private val listener: ListernerClickOnService
+    private val listener: ClickOnItem<Servicio>
 ) :
     RecyclerView.Adapter<AdaptadorServicio.ViewHolder>() {
 
@@ -29,7 +30,7 @@ class AdaptadorServicio(
         val item = servicios[position]
         holder.servicio.text = item.name
         holder.itemView.setOnClickListener {
-            listener.clickOnServicio(item)
+            listener.clikOnElement(item)
         }
 
     }
