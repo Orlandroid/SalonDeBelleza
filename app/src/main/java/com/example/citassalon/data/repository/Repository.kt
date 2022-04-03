@@ -41,7 +41,13 @@ class Repository @Inject constructor(
 
     suspend fun getProducts(categoria: String) = fakeStoreService.getProducts(categoria)
 
+    suspend fun getSingleProduct(id: Int) = fakeStoreService.getSingleProduct(id)
+
     suspend fun getCategories() = fakeStoreService.getCategories()
+
+    suspend fun getAllCarts()=fakeStoreService.getAllCarts()
+
+    suspend fun getSingleCart(id:Int)=fakeStoreService.getSingleCart(id)
 
     suspend fun getSucursales() = webServices.getSucursales()
 

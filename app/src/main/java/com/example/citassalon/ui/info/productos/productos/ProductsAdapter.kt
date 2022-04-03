@@ -4,23 +4,24 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.citassalon.data.models.Products
+import com.example.citassalon.data.models.Product
 import com.example.citassalon.databinding.ItemProductBinding
+import com.example.citassalon.interfaces.ClickOnItem
 
 
-class ProductsAdapter(private val listener: ProductsListener) :
+class ProductsAdapter(private val listener: ClickOnItem<Product>) :
     RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
 
-    private var listOfProducts: List<Products> = arrayListOf()
+    private var listOfProducts: List<Product> = arrayListOf()
 
-    fun setData(lista: List<Products>) {
+    fun setData(lista: List<Product>) {
         listOfProducts = lista
         notifyDataSetChanged()
     }
 
 
     class ViewHolder(val binding: ItemProductBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(products: Products) {
+        fun bind(products: Product) {
             Glide.with(itemView.context).load(products.image).into(binding.imageProduct)
             binding.productoName.text = products.title
             binding.productoPrice.text = "$ ${products.price}"
@@ -36,7 +37,7 @@ class ProductsAdapter(private val listener: ProductsListener) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(listOfProducts[position])
         holder.itemView.setOnClickListener {
-            listener.clikcOnProduct(listOfProducts[position])
+            listener.clikOnElement(listOfProducts[position])
         }
     }
 
@@ -45,7 +46,7 @@ class ProductsAdapter(private val listener: ProductsListener) :
     }
 
     interface ProductsListener {
-        fun clikcOnProduct(products: Products)
+        fun clikcOnProduct(products: Product)
     }
 
 }

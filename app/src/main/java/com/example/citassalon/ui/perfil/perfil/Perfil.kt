@@ -8,13 +8,14 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentPerfilBinding
+import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.interfaces.ListenerAlertDialogWithButtons
 import com.example.citassalon.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class Perfil : Fragment(), ListenerAlertDialogWithButtons, ListenerClickOnElementsRecycler {
+class Perfil : Fragment(), ListenerAlertDialogWithButtons, ClickOnItem<String> {
 
 
     private var _binding: FragmentPerfilBinding? = null
@@ -26,7 +27,7 @@ class Perfil : Fragment(), ListenerAlertDialogWithButtons, ListenerClickOnElemen
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentPerfilBinding.inflate(inflater, container, false)
         setUpUi()
         setUpObserver()
@@ -44,7 +45,7 @@ class Perfil : Fragment(), ListenerAlertDialogWithButtons, ListenerClickOnElemen
         }
     }
 
-    private fun getListener(): ListenerClickOnElementsRecycler {
+    private fun getListener(): ClickOnItem<String> {
         return this
     }
 
@@ -67,7 +68,8 @@ class Perfil : Fragment(), ListenerAlertDialogWithButtons, ListenerClickOnElemen
         return elementsMenu
     }
 
-    override fun clickOnElement(position: Int) {
+
+    override fun clikOnElement(element: String, position: Int?) {
         when (position) {
             1 -> Log.w("uno", "unos")
             2 -> navigate(PERFIL_TO_HISTORIAL_DE_CITAS)
@@ -117,6 +119,5 @@ class Perfil : Fragment(), ListenerAlertDialogWithButtons, ListenerClickOnElemen
     override fun clickOnCancel() {
 
     }
-
 
 }

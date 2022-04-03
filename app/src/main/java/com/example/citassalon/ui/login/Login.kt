@@ -76,7 +76,7 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
                 viewModel.firebaseAuthWithGoogle(account.idToken!!)
                 Log.w("TAG", "Entramos")
             } catch (e: ApiException) {
-                Log.w("TAG", e.localizedMessage)
+                Log.w("TAG ERROR", e.localizedMessage)
             }
         }
     }
@@ -157,9 +157,11 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
                 is SessionStatus.SUCESS -> {
                     val action = LoginDirections.actionLoginToHome32()
                     navigate(action)
+                    Log.w("LOG","Iniciando session correctamente")
                 }
                 is SessionStatus.ERROR -> {
                     showAlertMessage("Error al iniciar con google intenta otro metodo")
+                    Log.w("LOG","Error al iniciar session")
                 }
                 is SessionStatus.NETWORKERROR -> {
                     showAlertMessage("Revisa tu conexion")

@@ -15,7 +15,7 @@ class ForgetPasswordDialog(private val listener: ListeneClickOnRecoverPassword) 
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = AlertDialogForgetPasswordBinding.inflate(layoutInflater, container, false)
         setUpUi()
         return binding.root
