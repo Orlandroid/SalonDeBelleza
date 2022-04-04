@@ -14,6 +14,7 @@ import com.example.citassalon.R
 import com.example.citassalon.data.models.Staff
 import com.example.citassalon.databinding.FragmentAgendarStaffBinding
 import com.example.citassalon.data.state.ApiState
+import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.util.action
 import com.example.citassalon.util.displaySnack
 import com.example.citassalon.util.navigate
@@ -23,7 +24,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AgendarStaff : Fragment(), ClickOnStaff {
+class AgendarStaff : Fragment(), ClickOnItem<Staff> {
 
 
     private var _binding: FragmentAgendarStaffBinding? = null
@@ -38,7 +39,7 @@ class AgendarStaff : Fragment(), ClickOnStaff {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentAgendarStaffBinding.inflate(layoutInflater, container, false)
         setUpUi()
         return binding.root
@@ -62,7 +63,7 @@ class AgendarStaff : Fragment(), ClickOnStaff {
         setUpObservers()
     }
 
-    private fun getListener(): ClickOnStaff {
+    private fun getListener(): ClickOnItem<Staff> {
         return this
     }
 
@@ -104,6 +105,9 @@ class AgendarStaff : Fragment(), ClickOnStaff {
                 is ApiState.Error -> {
 
                 }
+                is ApiState.NoData->{
+
+                }
                 is ApiState.ErrorNetwork -> {
                     snackErrorConection()
                 }
@@ -122,9 +126,6 @@ class AgendarStaff : Fragment(), ClickOnStaff {
         }
     }
 
-    override fun clickOnStaff(staff: Staff) {
-        navigateToAngendarService(staff)
-    }
 
     private fun navigateToAngendarService(staff: Staff){
         binding.tvEmpleado.text = staff.nombre
@@ -138,6 +139,10 @@ class AgendarStaff : Fragment(), ClickOnStaff {
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun clikOnElement(element: Staff, position: Int?) {
+        navigateToAngendarService(element)
     }
 
 

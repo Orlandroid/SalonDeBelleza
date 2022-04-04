@@ -12,6 +12,7 @@ import com.example.citassalon.R
 import com.example.citassalon.data.models.Servicio
 import com.example.citassalon.databinding.FragmentAgendarServicioBinding
 import com.example.citassalon.data.state.ApiState
+import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.util.action
 import com.example.citassalon.util.displaySnack
 import com.example.citassalon.util.navigate
@@ -19,7 +20,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AgendarServicio : Fragment(), ListernerClickOnService {
+class AgendarServicio : Fragment(), ClickOnItem<Servicio> {
 
 
     private var _binding: FragmentAgendarServicioBinding? = null
@@ -35,7 +36,7 @@ class AgendarServicio : Fragment(), ListernerClickOnService {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentAgendarServicioBinding.inflate(inflater, container, false)
         setUpUi()
         return binding.root
@@ -58,6 +59,8 @@ class AgendarServicio : Fragment(), ListernerClickOnService {
         binding.nombreStaff.text = args.staff.nombre
     }
 
+    private fun getListener():ClickOnItem<Servicio> = this
+
     private fun setUpObservers() {
         viewModelAgendarServicio.services.observe(viewLifecycleOwner) {
             when (it) {
@@ -67,7 +70,7 @@ class AgendarServicio : Fragment(), ListernerClickOnService {
                 is ApiState.Success -> {
                     if (it.data != null) {
                         binding.shimmerServicio.visibility = View.GONE
-                        binding.recyclerAgendarServicio.adapter = AdaptadorServicio(it.data, this)
+                        binding.recyclerAgendarServicio.adapter = AdaptadorServicio(it.data, getListener())
                     }
                 }
                 is ApiState.Error -> {
@@ -91,20 +94,20 @@ class AgendarServicio : Fragment(), ListernerClickOnService {
         }
     }
 
-    override fun clickOnServicio(servicio: Servicio) {
-        binding.tvServicio.text = servicio.name
-        currentServicio = servicio
-        val acction = AgendarServicioDirections.actionAgendarServicioToAgendarFecha(
-            args.sucursal,
-            args.staff,
-            servicio
-        )
-        navigate(acction)
-    }
-
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
+    }
+
+    override fun clikOnElement(element: Servicio, position: Int?) {
+        binding.tvServicio.text = element.name
+        currentServicio = element
+        val acction = AgendarServicioDirections.actionAgendarServicioToAgendarFecha(
+            args.sucursal,
+            args.staff,
+            element
+        )
+        navigate(acction)
     }
 
 }

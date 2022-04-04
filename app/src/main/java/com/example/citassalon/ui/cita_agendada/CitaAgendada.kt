@@ -29,7 +29,7 @@ class CitaAgendada : Fragment(), Animator.AnimatorListener {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentCitaAgendadaBinding.inflate(inflater, container, false)
         setUpUi()
         return binding.root

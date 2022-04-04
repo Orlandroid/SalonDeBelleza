@@ -198,7 +198,11 @@
         android:id="@+id/historialDeCitas"
         android:name="com.example.citassalon.ui.perfil.historial_citas.HistorialDeCitas"
         android:label="fragment_historial_de_citas"
-        tools:layout="@layout/fragment_historial_de_citas" />
+        tools:layout="@layout/fragment_historial_de_citas" >
+        <action
+            android:id="@+id/action_historialDeCitas_to_historialDetailFragment"
+            app:destination="@id/historialDetailFragment" />
+    </fragment>
     <fragment
         android:id="@+id/splashScreenFragment"
         android:name="com.example.citassalon.ui.splashscreen.SplashScreenFragment"
@@ -207,5 +211,14 @@
         <action
             android:id="@+id/action_splashScreenFragment_to_login"
             app:destination="@id/login" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_historial_detail"
+        android:id="@+id/historialDetailFragment"
+        android:name="com.example.citassalon.ui.perfil.historial_detail.HistorialDetailFragment"
+        android:label="HistorialDetailFragment" >
+        <argument
+            android:name="appointment"
+            app:argType="com.example.citassalon.data.models.Appointment" />
     </fragment>
 </navigation>

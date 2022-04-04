@@ -8,10 +8,6 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentNegocioInfoBinding
-import com.example.citassalon.ui.info.establecimiento.EstablecimientoDirections
-import com.example.citassalon.util.INFO_NEGOCIO_TO_INFO_SERVICIOS
-import com.example.citassalon.util.INFO_NEGOCIO_TO_NUESTRO_STAFF
-import com.example.citassalon.util.INFO_NEGOCIO_TO_UBICACION
 import com.example.citassalon.util.navigate
 
 

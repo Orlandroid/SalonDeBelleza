@@ -8,10 +8,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.example.citassalon.data.state.SessionStatus
 import com.example.citassalon.databinding.FragmentLoginBinding
 import com.example.citassalon.util.*
+import com.example.citassalon.util.AlertDialogs.Companion.ERROR_MESSAGE
+import com.example.citassalon.util.AlertDialogs.Companion.WARNING_MESSAGE
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -75,7 +76,7 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
                 viewModel.firebaseAuthWithGoogle(account.idToken!!)
                 Log.w("TAG", "Entramos")
             } catch (e: ApiException) {
-                Log.w("TAG", e.localizedMessage)
+                Log.w("TAG ERROR", e.localizedMessage)
             }
         }
     }
@@ -140,7 +141,7 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
 
                 }
                 is SessionStatus.NETWORKERROR -> {
-                    val alert = AlertDialogs(2,"Revisa tu conexion de internet")
+                    val alert = AlertDialogs(ERROR_MESSAGE,"Revisa tu conexion de internet")
                     activity?.let { it1 -> alert.show(it1.supportFragmentManager,"dialog") }
                 }
             }
@@ -156,9 +157,11 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
                 is SessionStatus.SUCESS -> {
                     val action = LoginDirections.actionLoginToHome32()
                     navigate(action)
+                    Log.w("LOG","Iniciando session correctamente")
                 }
                 is SessionStatus.ERROR -> {
                     showAlertMessage("Error al iniciar con google intenta otro metodo")
+                    Log.w("LOG","Error al iniciar session")
                 }
                 is SessionStatus.NETWORKERROR -> {
                     showAlertMessage("Revisa tu conexion")
@@ -184,13 +187,13 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
                 is SessionStatus.ERROR -> {
                     binding.progress.visibility = View.GONE
                     binding.buttonGetIn.isEnabled = true
-                    val alert = AlertDialogs(2,"Error usuario o contraseña incorrecto")
+                    val alert = AlertDialogs(ERROR_MESSAGE,"Error usuario o contraseña incorrecto")
                     activity?.let { it1 -> alert.show(it1.supportFragmentManager,"dialog") }
                 }
                 is SessionStatus.NETWORKERROR -> {
                     binding.buttonGetIn.isEnabled = true
                     binding.progress.visibility = View.GONE
-                    val alert = AlertDialogs(2,"Error de internet")
+                    val alert = AlertDialogs(ERROR_MESSAGE,"Error de internet")
                     activity?.let { it1 -> alert.show(it1.supportFragmentManager,"dialog") }
                 }
             }
@@ -221,7 +224,7 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
         if (user.isNotEmpty() && password.isNotEmpty())
             viewModel.login(user, password)
         else{
-            val alert = AlertDialogs(2,"Debes de llenar Ambos campos")
+            val alert = AlertDialogs(WARNING_MESSAGE,"Debes de llenar Ambos campos")
             activity?.let { it1 -> alert.show(it1.supportFragmentManager,"dialog") }
         }
     }

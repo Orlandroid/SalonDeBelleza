@@ -1,15 +1,15 @@
 package com.example.citassalon.ui.info.productos.productos
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.data.models.Products
+import com.example.citassalon.data.models.Product
 import com.example.citassalon.data.repository.Repository
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.util.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -20,8 +20,8 @@ class ProductsViewModel @Inject constructor(
     private val networkHelper: NetworkHelper
 ) : ViewModel() {
 
-    private val _productos = MutableLiveData<ApiState<List<Products>>>()
-    val products: MutableLiveData<ApiState<List<Products>>>
+    private val _productos = MutableLiveData<ApiState<List<Product>>>()
+    val products: LiveData<ApiState<List<Product>>>
         get() = _productos
 
     fun getProducts(categoria: String) {

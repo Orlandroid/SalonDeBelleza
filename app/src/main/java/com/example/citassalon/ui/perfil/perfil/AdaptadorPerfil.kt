@@ -4,10 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.databinding.ItemPerfilBinding
+import com.example.citassalon.interfaces.ClickOnItem
 
 class AdaptadorPerfil(
     private val menuElements: List<PerfilItem>,
-    private val listener: ListenerClickOnElementsRecycler
+    private val listener: ClickOnItem<String>
 ) :
     RecyclerView.Adapter<AdaptadorPerfil.ViewHolder>() {
 
@@ -28,7 +29,7 @@ class AdaptadorPerfil(
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.bind(menuElements[position])
         viewHolder.itemView.setOnClickListener {
-            listener.clickOnElement(position + 1)
+            listener.clikOnElement("",position + 1)
         }
     }
 

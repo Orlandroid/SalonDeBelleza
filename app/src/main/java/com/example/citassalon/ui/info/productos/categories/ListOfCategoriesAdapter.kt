@@ -4,8 +4,9 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.databinding.RowElementoInfoBinding
+import com.example.citassalon.interfaces.ClickOnItem
 
-class ListOfCategoriesAdapter(private val listener: ListOfcategoriesListener) :
+class ListOfCategoriesAdapter(private val listener: ClickOnItem<String>) :
     RecyclerView.Adapter<ListOfCategoriesAdapter.ViewHolder>() {
 
     private var listOfCategories: List<String> = arrayListOf()
@@ -31,7 +32,7 @@ class ListOfCategoriesAdapter(private val listener: ListOfcategoriesListener) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(listOfCategories[position])
         holder.itemView.setOnClickListener {
-            listener.clikcOnCategorie(listOfCategories[position])
+            listener.clikOnElement(listOfCategories[position])
         }
     }
 
@@ -39,8 +40,5 @@ class ListOfCategoriesAdapter(private val listener: ListOfcategoriesListener) :
         return listOfCategories.size
     }
 
-    interface ListOfcategoriesListener {
-        fun clikcOnCategorie(categoria: String)
-    }
 
 }

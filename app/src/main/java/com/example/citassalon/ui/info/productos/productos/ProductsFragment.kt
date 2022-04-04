@@ -10,17 +10,19 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.citassalon.R
-import com.example.citassalon.data.models.Products
+import com.example.citassalon.data.models.Product
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.databinding.FragmentProductsBinding
+import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.util.AlertDialogs
+import com.example.citassalon.util.AlertDialogs.Companion.ERROR_MESSAGE
 import com.example.citassalon.util.navigate
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProductsFragment : Fragment(), ProductsAdapter.ProductsListener {
+class ProductsFragment : Fragment(), ClickOnItem<Product> {
 
     private var _binding: FragmentProductsBinding? = null
     private val binding get() = _binding!!
@@ -45,6 +47,10 @@ class ProductsFragment : Fragment(), ProductsAdapter.ProductsListener {
             toolbarLayout.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
+            imageCart.setOnClickListener {
+                val action = ProductsFragmentDirections.actionProductsFragmentToCartFragment()
+                navigate(action)
+            }
             skeleton = recyclerProducts.applySkeleton(R.layout.item_product, 8)
             recyclerProducts.layoutManager =
                 GridLayoutManager(requireContext(), 2)
@@ -67,11 +73,11 @@ class ProductsFragment : Fragment(), ProductsAdapter.ProductsListener {
                     }
                 }
                 is ApiState.Error -> {
-                    val dialog = AlertDialogs(2, "Error al obtener datos")
+                    val dialog = AlertDialogs(ERROR_MESSAGE, "Error al obtener datos")
                     activity?.let { dialog.show(it.supportFragmentManager, "alertMessage") }
                 }
                 is ApiState.ErrorNetwork -> {
-                    val dialog = AlertDialogs(2, "Verifica tu conexion de internet")
+                    val dialog = AlertDialogs(ERROR_MESSAGE, "Verifica tu conexion de internet")
                     activity?.let { dialog.show(it.supportFragmentManager, "alertMessage") }
                 }
             }
@@ -84,8 +90,9 @@ class ProductsFragment : Fragment(), ProductsAdapter.ProductsListener {
         _binding = null
     }
 
-    override fun clikcOnProduct(product: Products) {
-        val action = ProductsFragmentDirections.actionProductsFragmentToDetalleProductoFragment(product)
+
+    override fun clikOnElement(element: Product, position: Int?) {
+        val action = ProductsFragmentDirections.actionProductsFragmentToDetalleProductoFragment(element)
         navigate(action)
     }
 

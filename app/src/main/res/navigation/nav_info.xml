@@ -76,6 +76,9 @@
         <action
             android:id="@+id/action_productsFragment_to_detalleProductoFragment"
             app:destination="@id/detalleProductoFragment" />
+        <action
+            android:id="@+id/action_productsFragment_to_cartFragment"
+            app:destination="@id/cartFragment" />
     </fragment>
     <fragment
         android:id="@+id/detalleProductoFragment"
@@ -84,6 +87,11 @@
         tools:layout="@layout/fragment_detalle_producto" >
         <argument
             android:name="producto"
-            app:argType="com.example.citassalon.data.models.Products" />
+            app:argType="com.example.citassalon.data.models.Product" />
     </fragment>
+    <fragment
+        tools:layout="@layout/fragment_cart"
+        android:id="@+id/cartFragment"
+        android:name="com.example.citassalon.ui.info.cart.CartFragment"
+        android:label="CartFragment" />
 </navigation>

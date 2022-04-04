@@ -35,6 +35,10 @@ class ListOfCategoriesViewModel @Inject constructor(
             }
             try {
                 val response = repository.getCategories()
+                if (response.isEmpty()){
+                    _categories.value=ApiState.NoData()
+                    return@launch
+                }
                 withContext(Dispatchers.Main) {
                     _categories.value = ApiState.Success(response)
                 }
