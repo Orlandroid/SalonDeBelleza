@@ -43,7 +43,31 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),C
                 }
                 is ApiState.Success -> {
                     if (it.data != null){
+                        it.data.products.forEach {product ->
+                            viewModel.getSingleProduct(product.productId)
+                        }
+                    }
+                }
+                is ApiState.Error -> {
+
+                }
+                is ApiState.ErrorNetwork -> {
+
+                }
+                is ApiState.NoData -> {
+
+                }
+            }
+        }
+        viewModel.product.observe(viewLifecycleOwner){
+            when (it) {
+                is ApiState.Loading -> {
+
+                }
+                is ApiState.Success -> {
+                    if (it.data != null){
                         binding.recyclerCart.adapter=cartAdapter
+                        cartAdapter.setElement(it.data)
                     }
                 }
                 is ApiState.Error -> {

@@ -14,7 +14,7 @@ interface FakeStoreService {
     suspend fun getCategories(): List<String>
 
     @GET("products/{id}")
-    suspend fun getSingleProduct(@Path("id")id: Int)
+    suspend fun getSingleProduct(@Path("id")id: Int):Product
 
     @GET("/carts")
     suspend fun getAllCarts():List<Cart>

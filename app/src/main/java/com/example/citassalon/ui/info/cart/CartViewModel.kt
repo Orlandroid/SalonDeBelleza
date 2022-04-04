@@ -1,11 +1,11 @@
 package com.example.citassalon.ui.info.cart
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.data.models.Cart
+import com.example.citassalon.data.models.Product
 import com.example.citassalon.data.repository.Repository
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.util.NetworkHelper
@@ -25,6 +25,9 @@ class CartViewModel @Inject constructor(
     private val _cart = MutableLiveData<ApiState<Cart>>()
     val cart: LiveData<ApiState<Cart>>
         get() = _cart
+    private val _product = MutableLiveData<ApiState<Product>>()
+    val product: LiveData<ApiState<Product>>
+        get() = _product
 
 
     fun getCart(id: Int) {
@@ -37,7 +40,6 @@ class CartViewModel @Inject constructor(
                 return@launch
             }
             val response = repository.getSingleCart(id)
-            Log.w("RESPONSE", response.products.toString())
             try {
                 if (response.products.isEmpty()) {
                     withContext(Dispatchers.Main) {
@@ -45,16 +47,34 @@ class CartViewModel @Inject constructor(
                     }
                     return@launch
                 }
-                withContext(Dispatchers.Main){
+                withContext(Dispatchers.Main) {
                     _cart.value = ApiState.Success(response)
                 }
             } catch (e: Throwable) {
-                _cart.value=ApiState.Error(e)
+                _cart.value = ApiState.Error(e)
             }
         }
     }
 
-
+    fun getSingleProduct(id: Int) {
+        viewModelScope.launch(Dispatchers.IO) {
+            withContext(Dispatchers.Main) {
+                _product.value = ApiState.Loading()
+            }
+            if (!networkHelper.isNetworkConnected()) {
+                _product.value = ApiState.ErrorNetwork()
+                return@launch
+            }
+            try {
+                val response = repository.getSingleProduct(id)
+                withContext(Dispatchers.Main) {
+                    _product.value = ApiState.Success(response)
+                }
+            } catch (e: Throwable) {
+                _product.value = ApiState.Error(e)
+            }
+        }
+    }
 
 
 }
