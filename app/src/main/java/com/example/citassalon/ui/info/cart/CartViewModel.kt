@@ -71,7 +71,9 @@ class CartViewModel @Inject constructor(
                     _product.value = ApiState.Success(response)
                 }
             } catch (e: Throwable) {
-                _product.value = ApiState.Error(e)
+                withContext(Dispatchers.Main) {
+                    _product.value = ApiState.Error(e)
+                }
             }
         }
     }
