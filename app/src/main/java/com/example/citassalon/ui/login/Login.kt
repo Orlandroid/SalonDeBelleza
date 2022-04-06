@@ -131,18 +131,22 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
         viewModel.forgetPasswordStatus.observe(viewLifecycleOwner) {
             when (it) {
                 is SessionStatus.LOADING -> {
+                    binding.buttonGetIn.isEnabled=false
                     binding.progress.visibility = View.VISIBLE
                 }
                 is SessionStatus.SUCESS -> {
                     binding.progress.visibility = View.INVISIBLE
+                    binding.buttonGetIn.isEnabled=true
                     showSendPasswordCorrect()
                 }
                 is SessionStatus.ERROR -> {
-
+                    binding.buttonGetIn.isEnabled=true
+                    binding.progress.visibility = View.INVISIBLE
                 }
                 is SessionStatus.NETWORKERROR -> {
-                    val alert = AlertDialogs(ERROR_MESSAGE,"Revisa tu conexion de internet")
-                    activity?.let { it1 -> alert.show(it1.supportFragmentManager,"dialog") }
+                    showAlertMessage(ERROR_MESSAGE,"Revisa tu conexion de internet")
+                    binding.buttonGetIn.isEnabled=true
+                    binding.progress.visibility = View.INVISIBLE
                 }
             }
         }
@@ -157,14 +161,15 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
                 is SessionStatus.SUCESS -> {
                     val action = LoginDirections.actionLoginToHome32()
                     navigate(action)
-                    Log.w("LOG","Iniciando session correctamente")
                 }
                 is SessionStatus.ERROR -> {
-                    showAlertMessage("Error al iniciar con google intenta otro metodo")
-                    Log.w("LOG","Error al iniciar session")
+                    showAlertMessage(
+                        ERROR_MESSAGE,
+                        "Error al iniciar con google intenta otro metodo"
+                    )
                 }
                 is SessionStatus.NETWORKERROR -> {
-                    showAlertMessage("Revisa tu conexion")
+                    showAlertMessage(ERROR_MESSAGE, "Revisa tu conexion de internet")
                 }
             }
         }
@@ -187,14 +192,12 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
                 is SessionStatus.ERROR -> {
                     binding.progress.visibility = View.GONE
                     binding.buttonGetIn.isEnabled = true
-                    val alert = AlertDialogs(ERROR_MESSAGE,"Error usuario o contraseña incorrecto")
-                    activity?.let { it1 -> alert.show(it1.supportFragmentManager,"dialog") }
+                    showAlertMessage(ERROR_MESSAGE, "Error usuario o contraseña incorrecto")
                 }
                 is SessionStatus.NETWORKERROR -> {
                     binding.buttonGetIn.isEnabled = true
                     binding.progress.visibility = View.GONE
-                    val alert = AlertDialogs(ERROR_MESSAGE,"Error de internet")
-                    activity?.let { it1 -> alert.show(it1.supportFragmentManager,"dialog") }
+                    showAlertMessage(ERROR_MESSAGE, "Error de internet")
                 }
             }
         }
@@ -205,9 +208,9 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
         return this
     }
 
-    private fun showAlertMessage(message: String) {
-        val alert = AlertsDialogMessages(requireContext())
-        alert.showCustomAlert(message)
+    private fun showAlertMessage(kindOfMessage: Int, message: String) {
+        val alert = AlertDialogs(kindOfMessage, message)
+        activity?.let { it1 -> alert.show(it1.supportFragmentManager, "dialog") }
     }
 
     private fun showSendPasswordCorrect() {
@@ -223,9 +226,9 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
         val password = binding.txtPassord.editText?.text.toString()
         if (user.isNotEmpty() && password.isNotEmpty())
             viewModel.login(user, password)
-        else{
-            val alert = AlertDialogs(WARNING_MESSAGE,"Debes de llenar Ambos campos")
-            activity?.let { it1 -> alert.show(it1.supportFragmentManager,"dialog") }
+        else {
+            val alert = AlertDialogs(WARNING_MESSAGE, "Debes de llenar Ambos campos")
+            activity?.let { it1 -> alert.show(it1.supportFragmentManager, "dialog") }
         }
     }
 

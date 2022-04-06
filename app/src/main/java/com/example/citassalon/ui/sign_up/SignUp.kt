@@ -29,7 +29,7 @@ class SignUp : Fragment(), DatePickerDialog.OnDateSetListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = SignInBinding.inflate(layoutInflater, container, false)
         setUpObservers()
         setUpUi()
@@ -70,21 +70,26 @@ class SignUp : Fragment(), DatePickerDialog.OnDateSetListener {
                 is SessionStatus.SUCESS -> {
                     binding.buttonRegistarse.isEnabled = true
                     binding.progress.visibility = View.GONE
-                    showAlertMessage("Usuario registraro correctamente")
-                    navigate(SING_UP_TO_LOGIN)
+                    showDialogMessage(AlertDialogs.SUCCES_MESSAGE,"Usuario registraro correctament")
+                    findNavController().popBackStack()
                 }
                 is SessionStatus.ERROR -> {
                     binding.buttonRegistarse.isEnabled = true
                     binding.progress.visibility = View.GONE
-                    showAlertMessage("Error al registar al usuario")
+                    showDialogMessage(AlertDialogs.ERROR_MESSAGE,"Error al registrar al usuario")
                 }
                 is SessionStatus.NETWORKERROR -> {
                     binding.buttonRegistarse.isEnabled = true
                     binding.progress.visibility = View.GONE
-                    showAlertMessage("Error de red verifica que tengas conexion a internet")
+                    showDialogMessage(AlertDialogs.ERROR_MESSAGE,"Error de red verifica que tengas conexion a internet")
                 }
             }
         }
+    }
+
+    private fun showDialogMessage(kindOfMessage:Int,messageBody:String){
+        val alert = AlertDialogs(kindOfMessage,messageBody)
+        activity?.let { it1 -> alert.show(it1.supportFragmentManager,"dialog") }
     }
 
     private fun isValidPassword(): Boolean =
@@ -99,12 +104,15 @@ class SignUp : Fragment(), DatePickerDialog.OnDateSetListener {
         with(binding) {
             nombre.editText?.doOnTextChanged { _, _, _, _ ->
                 buttonRegistarse.isEnabled = isValidTheData()
+                changeColorTextButton()
             }
             telefono.editText?.doOnTextChanged { _, _, _, _ ->
                 buttonRegistarse.isEnabled = isValidTheData()
+                changeColorTextButton()
             }
             correo.editText?.doOnTextChanged { _, _, _, _ ->
                 buttonRegistarse.isEnabled = isValidTheData()
+                changeColorTextButton()
             }
             password.editText?.doOnTextChanged { _, _, _, _ ->
                 buttonRegistarse.isEnabled = isValidTheData()
@@ -112,10 +120,18 @@ class SignUp : Fragment(), DatePickerDialog.OnDateSetListener {
                     binding.password.editText?.error =
                         "La contraseña debe ser de minimo de 6 digitos"
                 }
+                changeColorTextButton()
             }
             birtday.editText?.doOnTextChanged { _, _, _, _ ->
                 buttonRegistarse.isEnabled = isValidTheData()
+                changeColorTextButton()
             }
+        }
+    }
+
+    private fun changeColorTextButton(){
+        if (isValidTheData()){
+            binding.buttonRegistarse.setTextColor(android.graphics.Color.WHITE)
         }
     }
 
