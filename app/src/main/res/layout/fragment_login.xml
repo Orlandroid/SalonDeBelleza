@@ -69,6 +69,7 @@
 
 
         <Button
+            android:enabled="false"
             android:textColor="#FFFFFF"
             android:id="@+id/button_get_in"
             android:layout_width="match_parent"

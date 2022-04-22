@@ -6,6 +6,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.citassalon.data.state.SessionStatus
@@ -83,23 +84,37 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
 
 
     private fun setUpUi() {
-        binding.buttonGetIn.setOnClickListener {
-            login()
+        with(binding){
+            buttonGetIn.setOnClickListener {
+                login()
+            }
+            buttonSignUp.setOnClickListener {
+                val action = LoginDirections.actionLoginToSignUp()
+                navigate(action)
+            }
+            txtUser.editText?.setText(viewModel.getUserEmailFromPreferences())
+            tvForgetPassword.setOnClickListener {
+                showForgetPassword()
+            }
+            container.setOnClickListener {
+                hideKeyboard()
+            }
+            buttonLoginGoogle.setOnClickListener {
+                signIn()
+            }
+            txtPassord.editText?.doOnTextChanged { text, start, before, count ->
+                buttonGetIn.isEnabled=areNotEmptyFields()
+            }
         }
-        binding.buttonSignUp.setOnClickListener {
-            val action = LoginDirections.actionLoginToSignUp()
-            navigate(action)
+    }
+
+    private fun areNotEmptyFields():Boolean{
+        val user = binding.txtUser.editText?.text.toString().trim()
+        val password = binding.txtPassord.editText?.text.toString().trim()
+        if (user.isNotEmpty() && password.isNotEmpty()){
+            return password.length > 8
         }
-        binding.txtUser.editText?.setText(viewModel.getUserEmailFromPreferences())
-        binding.tvForgetPassword.setOnClickListener {
-            showForgetPassword()
-        }
-        binding.container.setOnClickListener {
-            hideKeyboard()
-        }
-        binding.buttonLoginGoogle.setOnClickListener {
-            signIn()
-        }
+        return false
     }
 
     private fun showForgetPassword() {
