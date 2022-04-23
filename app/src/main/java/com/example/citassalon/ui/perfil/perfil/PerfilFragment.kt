@@ -14,8 +14,8 @@ import com.example.citassalon.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
 
-@AndroidEntryPoint
-class Perfil : Fragment(), ListenerAlertDialogWithButtons, ClickOnItem<String> {
+
+class PerfilFragment : Fragment(), ListenerAlertDialogWithButtons, ClickOnItem<String> {
 
 
     private var _binding: FragmentPerfilBinding? = null
@@ -50,7 +50,7 @@ class Perfil : Fragment(), ListenerAlertDialogWithButtons, ClickOnItem<String> {
     }
 
     private fun setUpRecyclerView() {
-        binding.recyclerProfile.adapter = AdaptadorPerfil(setElementsMenu(), getListener())
+        binding.recyclerProfile.adapter = PerfilAdapter(setElementsMenu(), getListener())
     }
 
     private fun setElementsMenu(): List<PerfilItem> {

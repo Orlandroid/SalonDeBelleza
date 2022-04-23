@@ -15,6 +15,7 @@ import com.example.citassalon.data.models.Staff
 import com.example.citassalon.databinding.FragmentAgendarStaffBinding
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.interfaces.ClickOnItem
+import com.example.citassalon.main.AlertDialogs
 import com.example.citassalon.util.action
 import com.example.citassalon.util.displaySnack
 import com.example.citassalon.util.navigate
@@ -103,7 +104,8 @@ class AgendarStaff : Fragment(), ClickOnItem<Staff> {
                     }
                 }
                 is ApiState.Error -> {
-
+                    val alert= AlertDialogs(messageBody = it.message.toString())
+                    activity?.let { it1 -> alert.show(it1.supportFragmentManager, "dialog") }
                 }
                 is ApiState.NoData->{
 

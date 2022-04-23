@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:orientation="vertical"
-    tools:context=".ui.fecha.AgendarFecha">
+    tools:context=".ui.fecha.AgendarFechaFragment">
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar_view"

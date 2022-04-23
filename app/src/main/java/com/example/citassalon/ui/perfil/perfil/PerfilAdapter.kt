@@ -6,11 +6,11 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.databinding.ItemPerfilBinding
 import com.example.citassalon.interfaces.ClickOnItem
 
-class AdaptadorPerfil(
+class PerfilAdapter(
     private val menuElements: List<PerfilItem>,
     private val listener: ClickOnItem<String>
 ) :
-    RecyclerView.Adapter<AdaptadorPerfil.ViewHolder>() {
+    RecyclerView.Adapter<PerfilAdapter.ViewHolder>() {
 
     class ViewHolder(val binding: ItemPerfilBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(menu: PerfilItem) {

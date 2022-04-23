@@ -6,7 +6,7 @@
     app:startDestination="@id/splashScreenFragment">
     <fragment
         android:id="@+id/login"
-        android:name="com.example.citassalon.ui.login.Login"
+        android:name="com.example.citassalon.ui.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login">
         <action
@@ -18,7 +18,7 @@
     </fragment>
     <fragment
         android:id="@+id/home3"
-        android:name="com.example.citassalon.ui.home.Home"
+        android:name="com.example.citassalon.ui.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home">
         <action
@@ -37,7 +37,7 @@
     </fragment>
     <fragment
         android:id="@+id/agendarSucursal"
-        android:name="com.example.citassalon.ui.sucursal.AgendarSucursal"
+        android:name="com.example.citassalon.ui.sucursal.AgendarSucursalFragment"
         android:label="fragment_agendar_sucursal"
         tools:layout="@layout/fragment_agendar_sucursal">
         <action
@@ -69,7 +69,7 @@
     </fragment>
     <fragment
         android:id="@+id/agendarServicio"
-        android:name="com.example.citassalon.ui.servicio.AgendarServicio"
+        android:name="com.example.citassalon.ui.servicio.AgendarServicioFragment"
         android:label="fragment_agendar_servicio"
         tools:layout="@layout/fragment_agendar_servicio">
         <action
@@ -88,7 +88,7 @@
     </fragment>
     <fragment
         android:id="@+id/agendarFecha"
-        android:name="com.example.citassalon.ui.fecha.AgendarFecha"
+        android:name="com.example.citassalon.ui.fecha.AgendarFechaFragment"
         android:label="fragment_agendar_fecha"
         tools:layout="@layout/fragment_agendar_fecha">
         <action
@@ -110,7 +110,7 @@
     </fragment>
     <fragment
         android:id="@+id/agendarConfirmacion"
-        android:name="com.example.citassalon.ui.confirmarcita.AgendarConfirmacion"
+        android:name="com.example.citassalon.ui.confirmarcita.AgendarConfirmacionFragment"
         android:label="fragment_agendar_confirmacion"
         tools:layout="@layout/fragment_agendar_confirmacion">
         <action
@@ -145,7 +145,7 @@
     </fragment>
     <fragment
         android:id="@+id/citaAgendada"
-        android:name="com.example.citassalon.ui.cita_agendada.CitaAgendada"
+        android:name="com.example.citassalon.ui.cita_agendada.CitaAgendadaFragment"
         android:label="fragment_cita_agendada"
         tools:layout="@layout/fragment_cita_agendada">
         <action
@@ -156,7 +156,7 @@
     </fragment>
     <fragment
         android:id="@+id/perfil"
-        android:name="com.example.citassalon.ui.perfil.perfil.Perfil"
+        android:name="com.example.citassalon.ui.perfil.perfil.PerfilFragment"
         android:label="fragment_perfil"
         tools:layout="@layout/fragment_perfil">
         <action
@@ -173,7 +173,7 @@
     </fragment>
     <fragment
         android:id="@+id/detalleStaff"
-        android:name="com.example.citassalon.ui.detalle_staff.DetalleStaff"
+        android:name="com.example.citassalon.ui.detalle_staff.DetalleStaffFragment"
         android:label="fragment_detalle_staff"
         tools:layout="@layout/fragment_detalle_staff">
         <argument
@@ -187,7 +187,7 @@
         tools:layout="@layout/fragment_sucursales" />
     <fragment
         android:id="@+id/signUp"
-        android:name="com.example.citassalon.ui.sign_up.SignUp"
+        android:name="com.example.citassalon.ui.sign_up.SignUpFragment"
         android:label="sign_in"
         tools:layout="@layout/sign_in" >
         <action

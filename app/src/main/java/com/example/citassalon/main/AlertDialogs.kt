@@ -1,4 +1,4 @@
-package com.example.citassalon.util
+package com.example.citassalon.main
 
 import android.app.Dialog
 import android.os.Bundle

@@ -14,12 +14,12 @@ import com.example.citassalon.util.hideKeyboard
 import com.example.citassalon.util.navigate
 import com.example.citassalon.util.showDatePickerDialog
 
-class AgendarFecha : Fragment(), DatePickerDialog.OnDateSetListener {
+class AgendarFechaFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private var _binding: FragmentAgendarFechaBinding? = null
     private val binding get() = _binding!!
 
-    private val args: AgendarFechaArgs by navArgs()
+    private val args: AgendarFechaFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -45,14 +45,14 @@ class AgendarFecha : Fragment(), DatePickerDialog.OnDateSetListener {
                 hideKeyboard()
             }
             etFecha.setEndIconOnClickListener {
-                showDatePickerDialog(getListenerOnDataSet(), this@AgendarFecha, true)
+                showDatePickerDialog(getListenerOnDataSet(), this@AgendarFechaFragment, true)
             }
         }
         setValuesToView(args)
 
     }
 
-    private fun setValuesToView(args: AgendarFechaArgs) {
+    private fun setValuesToView(args: AgendarFechaFragmentArgs) {
         binding.imgStaff.setImageResource(args.staff.getResourceImage())
         binding.tvStaffName.text = args.staff.nombre
         binding.txtServicio.text = args.servicio.name
@@ -87,7 +87,7 @@ class AgendarFecha : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private fun goToComfirm() {
         if (areNotEmptyTimeOrDate()) {
-            val action = AgendarFechaDirections.actionAgendarFechaToAgendarConfirmacion(
+            val action = AgendarFechaFragmentDirections.actionAgendarFechaToAgendarConfirmacion(
                 args.sucursal,
                 args.staff,
                 args.servicio,

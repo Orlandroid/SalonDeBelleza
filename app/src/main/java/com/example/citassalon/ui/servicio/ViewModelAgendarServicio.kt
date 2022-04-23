@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.citassalon.data.models.Servicio
 import com.example.citassalon.data.repository.Repository
 import com.example.citassalon.data.state.ApiState
-import com.example.citassalon.util.NetworkHelper
+import com.example.citassalon.main.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -30,14 +30,18 @@ class ViewModelAgendarServicio @Inject constructor(
 
     fun getServices() {
         viewModelScope.launch(Dispatchers.IO) {
-            _services.postValue(ApiState.Loading(null))
-            if (networkHelper.isNetworkConnected()) {
-                val response = repository.getServices()
-                if (response.isSuccessful) {
-                    _services.postValue(ApiState.Success(response.body()!!))
-                }
-            } else {
+            _services.postValue(ApiState.Loading())
+            if (!networkHelper.isNetworkConnected()) {
                 _services.postValue(ApiState.ErrorNetwork())
+            }
+            val response = repository.getServices()
+            if (response.isEmpty()) {
+                _services.postValue(ApiState.NoData())
+            }
+            try {
+                _services.postValue(ApiState.Success(response))
+            } catch (e: Exception) {
+                _services.postValue(ApiState.Error(e))
             }
         }
     }

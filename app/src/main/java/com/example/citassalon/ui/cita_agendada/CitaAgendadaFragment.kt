@@ -16,11 +16,10 @@ import androidx.core.app.NotificationManagerCompat
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentCitaAgendadaBinding
-import com.example.citassalon.util.CITA_AGENDADA_TO_HOME
-import com.example.citassalon.util.navigate
 
 
-class CitaAgendada : Fragment(), Animator.AnimatorListener {
+
+class CitaAgendadaFragment : Fragment(), Animator.AnimatorListener {
 
     private var _binding: FragmentCitaAgendadaBinding? = null
     private val binding get() = _binding!!

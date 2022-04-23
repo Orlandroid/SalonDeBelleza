@@ -11,9 +11,10 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.citassalon.data.state.SessionStatus
 import com.example.citassalon.databinding.FragmentLoginBinding
+import com.example.citassalon.main.AlertDialogs
 import com.example.citassalon.util.*
-import com.example.citassalon.util.AlertDialogs.Companion.ERROR_MESSAGE
-import com.example.citassalon.util.AlertDialogs.Companion.WARNING_MESSAGE
+import com.example.citassalon.main.AlertDialogs.Companion.ERROR_MESSAGE
+import com.example.citassalon.main.AlertDialogs.Companion.WARNING_MESSAGE
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -22,7 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class Login : Fragment(), ListeneClickOnRecoverPassword {
+class LoginFragment : Fragment(), ListeneClickOnRecoverPassword {
 
 
     private var _binding: FragmentLoginBinding? = null
@@ -49,7 +50,7 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
     private fun isSessionActive() {
         Log.w("ANDROID", viewModel.getUserSession().toString())
         if (viewModel.getUserSession()) {
-            val action = LoginDirections.actionLoginToHome32()
+            val action = LoginFragmentDirections.actionLoginToHome32()
             navigate(action)
         }
     }
@@ -85,11 +86,13 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
 
     private fun setUpUi() {
         with(binding){
+            txtUser.editText?.setText("admin@gmail.com")
+            txtPassord.editText?.setText("admin1234")
             buttonGetIn.setOnClickListener {
                 login()
             }
             buttonSignUp.setOnClickListener {
-                val action = LoginDirections.actionLoginToSignUp()
+                val action = LoginFragmentDirections.actionLoginToSignUp()
                 navigate(action)
             }
             txtUser.editText?.setText(viewModel.getUserEmailFromPreferences())
@@ -174,7 +177,7 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
 
                 }
                 is SessionStatus.SUCESS -> {
-                    val action = LoginDirections.actionLoginToHome32()
+                    val action = LoginFragmentDirections.actionLoginToHome32()
                     navigate(action)
                 }
                 is SessionStatus.ERROR -> {

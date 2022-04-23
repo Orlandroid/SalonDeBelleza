@@ -11,7 +11,7 @@ import com.example.citassalon.databinding.FragmentEstablecimientoBinding
 import com.example.citassalon.util.navigate
 
 
-class Establecimiento : Fragment() {
+class EstablecimientoFragment : Fragment() {
 
     private var _binding: FragmentEstablecimientoBinding? = null
     private val binding get() = _binding!!
@@ -32,12 +32,12 @@ class Establecimiento : Fragment() {
                 findNavController().popBackStack()
             }
             sucursales.cardMenu.setOnClickListener {
-                val action = EstablecimientoDirections.actionEstablecimientoToSucursales2()
+                val action = EstablecimientoFragmentDirections.actionEstablecimientoToSucursales2()
                 navigate(action)
             }
             productos.cardMenu.setOnClickListener {
                 val action =
-                    EstablecimientoDirections.actionEstablecimientoToListOfProductsFragment()
+                    EstablecimientoFragmentDirections.actionEstablecimientoToListOfProductsFragment()
                 navigate(action)
             }
         }

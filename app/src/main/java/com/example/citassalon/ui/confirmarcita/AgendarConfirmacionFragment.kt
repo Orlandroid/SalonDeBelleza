@@ -16,19 +16,19 @@ import com.example.citassalon.util.navigate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AgendarConfirmacion : Fragment(), ListenerAlertDialogWithButtons {
+class AgendarConfirmacionFragment : Fragment(), ListenerAlertDialogWithButtons {
 
     private var _binding: FragmentAgendarConfirmacionBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ViewModelAgendarConfirmacion by viewModels()
 
-    private val args: AgendarConfirmacionArgs by navArgs()
+    private val args: AgendarConfirmacionFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentAgendarConfirmacionBinding.inflate(inflater, container, false)
         setUpUi()
         return binding.root
@@ -52,7 +52,7 @@ class AgendarConfirmacion : Fragment(), ListenerAlertDialogWithButtons {
         alert.showComfirmationAppoinment(this)
     }
 
-    private fun setValuesToView(args: AgendarConfirmacionArgs) {
+    private fun setValuesToView(args: AgendarConfirmacionFragmentArgs) {
         binding.cSucursal.text = args.sucursal
         binding.cSatff.text = args.staff.nombre
         binding.cServicio.text = args.servicio.name
@@ -68,7 +68,7 @@ class AgendarConfirmacion : Fragment(), ListenerAlertDialogWithButtons {
 
     override fun clickOnConfirmar() {
         saveToDatabaseAppointMent()
-        val action = AgendarConfirmacionDirections.actionAgendarConfirmacionToCitaAgendada()
+        val action = AgendarConfirmacionFragmentDirections.actionAgendarConfirmacionToCitaAgendada()
         navigate(action)
     }
 

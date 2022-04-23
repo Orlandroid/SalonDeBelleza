@@ -13,12 +13,12 @@ import androidx.navigation.fragment.findNavController
 import com.example.citassalon.data.models.User
 import com.example.citassalon.data.state.SessionStatus
 import com.example.citassalon.databinding.SignInBinding
+import com.example.citassalon.main.AlertDialogs
 import com.example.citassalon.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
-
 @AndroidEntryPoint
-class SignUp : Fragment(), DatePickerDialog.OnDateSetListener {
+class SignUpFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private var _binding: SignInBinding? = null
     private val binding get() = _binding!!
@@ -50,7 +50,7 @@ class SignUp : Fragment(), DatePickerDialog.OnDateSetListener {
                 hideKeyboard()
             }
             birtday.setEndIconOnClickListener {
-                showDatePickerDialog(getListenerOnDataSet(), this@SignUp)
+                showDatePickerDialog(getListenerOnDataSet(), this@SignUpFragment)
             }
         }
         doOnTextChange()

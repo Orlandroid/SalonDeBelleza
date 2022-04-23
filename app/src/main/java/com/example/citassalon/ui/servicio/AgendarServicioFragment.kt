@@ -20,7 +20,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AgendarServicio : Fragment(), ClickOnItem<Servicio> {
+class AgendarServicioFragment : Fragment(), ClickOnItem<Servicio> {
 
 
     private var _binding: FragmentAgendarServicioBinding? = null
@@ -28,7 +28,7 @@ class AgendarServicio : Fragment(), ClickOnItem<Servicio> {
     private val viewModelAgendarServicio: ViewModelAgendarServicio by viewModels()
 
 
-    private val args: AgendarServicioArgs by navArgs()
+    private val args: AgendarServicioFragmentArgs by navArgs()
     private var currentServicio: Servicio? = null
 
 
@@ -53,7 +53,7 @@ class AgendarServicio : Fragment(), ClickOnItem<Servicio> {
         setValuesToView(args)
     }
 
-    private fun setValuesToView(args: AgendarServicioArgs) {
+    private fun setValuesToView(args: AgendarServicioFragmentArgs) {
         binding.sucursal.text = args.sucursal
         binding.staffImage.setImageResource(args.staff.getResourceImage())
         binding.nombreStaff.text = args.staff.nombre
@@ -65,7 +65,7 @@ class AgendarServicio : Fragment(), ClickOnItem<Servicio> {
         viewModelAgendarServicio.services.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiState.Loading -> {
-
+                    binding.shimmerServicio.visibility=View.VISIBLE
                 }
                 is ApiState.Success -> {
                     if (it.data != null) {
@@ -102,7 +102,7 @@ class AgendarServicio : Fragment(), ClickOnItem<Servicio> {
     override fun clikOnElement(element: Servicio, position: Int?) {
         binding.tvServicio.text = element.name
         currentServicio = element
-        val acction = AgendarServicioDirections.actionAgendarServicioToAgendarFecha(
+        val acction = AgendarServicioFragmentDirections.actionAgendarServicioToAgendarFecha(
             args.sucursal,
             args.staff,
             element

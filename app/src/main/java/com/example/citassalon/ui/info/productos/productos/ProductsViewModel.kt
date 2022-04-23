@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.citassalon.data.models.Product
 import com.example.citassalon.data.repository.Repository
 import com.example.citassalon.data.state.ApiState
-import com.example.citassalon.util.NetworkHelper
+import com.example.citassalon.main.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
