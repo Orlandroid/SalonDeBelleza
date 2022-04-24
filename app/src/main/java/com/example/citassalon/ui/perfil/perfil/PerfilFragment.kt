@@ -14,7 +14,7 @@ import com.example.citassalon.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
 
-
+@AndroidEntryPoint
 class PerfilFragment : Fragment(), ListenerAlertDialogWithButtons, ClickOnItem<String> {
 
 
