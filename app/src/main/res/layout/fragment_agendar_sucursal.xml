@@ -15,6 +15,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <include
+        android:id="@+id/item_no_data_no_network"
+        layout="@layout/item_no_data_no_nettwork"
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_sucursal"
         android:layout_width="0dp"
@@ -31,6 +41,7 @@
         android:id="@+id/shimmer_sucursal"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/recycler_sucursal"
@@ -52,15 +63,16 @@
             <include layout="@layout/shimmer" />
 
             <include layout="@layout/shimmer" />
+
         </LinearLayout>
 
     </com.facebook.shimmer.ShimmerFrameLayout>
 
     <TextView
-        android:textColor="@color/black"
         android:id="@+id/text_agendar_sucursal"
         style="@style/TextosAccion"
         android:layout_marginBottom="16dp"
+        android:textColor="@color/black"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
         app:layout_constraintEnd_toStartOf="@+id/guideline12"
@@ -79,5 +91,6 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         app:layout_constraintGuide_percent="0.5" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

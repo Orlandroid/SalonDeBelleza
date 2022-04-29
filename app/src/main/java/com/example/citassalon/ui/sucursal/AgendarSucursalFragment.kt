@@ -1,6 +1,7 @@
 package com.example.citassalon.ui.sucursal
 
 
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -20,14 +21,9 @@ import com.example.citassalon.util.*
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
-/**
- * This fragments have one viewModel wich is
- * ViewModelSucursal and is on this path
- * ui/share_beetwen_sucursales/ViewModelSucursal
- * **/
 
 @AndroidEntryPoint
-class AgendarSucursalFragment : Fragment(),ClickOnItem<Sucursal> {
+class AgendarSucursalFragment : Fragment(), ClickOnItem<Sucursal> {
 
 
     private var _binding: FragmentAgendarSucursalBinding? = null
@@ -46,9 +42,9 @@ class AgendarSucursalFragment : Fragment(),ClickOnItem<Sucursal> {
         return binding.root
     }
 
-    private fun setUpUi(){
-        with(binding){
-            toolbar.toolbarTitle.text="Agendar Sucursal"
+    private fun setUpUi() {
+        with(binding) {
+            toolbar.toolbarTitle.text = "Agendar Sucursal"
             toolbar.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
@@ -56,7 +52,7 @@ class AgendarSucursalFragment : Fragment(),ClickOnItem<Sucursal> {
         setUpObserves()
     }
 
-    private fun getListener():ClickOnItem<Sucursal> = this
+    private fun getListener(): ClickOnItem<Sucursal> = this
 
     private fun setUpObserves() {
         viewModel.sucursal.observe(viewLifecycleOwner) {
@@ -69,16 +65,32 @@ class AgendarSucursalFragment : Fragment(),ClickOnItem<Sucursal> {
                     }
                 }
                 is ApiState.Loading -> {
-
+                    with(binding) {
+                        binding.itemNoDataNoNetwork.itemNoDataNoNetworkContainer.visibility=View.GONE
+                        binding.recyclerSucursal.visibility=View.VISIBLE
+                        shimmerSucursal.visibility = View.VISIBLE
+                    }
                 }
-                is ApiState.NoData ->{
-
+                is ApiState.NoData -> {
+                    binding.itemNoDataNoNetwork.imageNoDataNoNetwork.setImageResource(
+                        getRandomNoDataImage()
+                    )
                 }
                 is ApiState.Error -> {
                     binding.shimmerSucursal.visibility = View.GONE
-                    Log.w(TAG, it.message.toString())
+                    binding.itemNoDataNoNetwork.imageNoDataNoNetwork.setImageResource(
+                        getRandomErrorNetworkImage()
+                    )
                 }
                 is ApiState.ErrorNetwork -> {
+                    with(binding){
+                        recyclerSucursal.visibility=View.GONE
+                        shimmerSucursal.visibility = View.GONE
+                        itemNoDataNoNetwork.message.text="Error de conexion"
+                        itemNoDataNoNetwork.imageNoDataNoNetwork.setImageResource(
+                            getRandomErrorNetworkImage()
+                        )
+                    }
                     snackErrorConection()
                 }
             }

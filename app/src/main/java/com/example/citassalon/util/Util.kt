@@ -22,26 +22,22 @@ fun getTotalPrice(products: List<Product>): Double {
     return price
 }
 
-fun getRandomNoDataAnimation(): Int =
-    when ((1..3).random()) {
+fun getRandomNoDataImage(): Int =
+    when ((1..2).random()) {
         1 -> {
-            R.raw.no_data_animation
+            R.drawable.file
         }
-        2 -> {
-            R.raw.no_data_available
-        }
-
-        else -> R.raw.no_data_found
+        else -> R.drawable.data_error
     }
 
-fun getRandomErrorNetworkAnimation(): Int =
+fun getRandomErrorNetworkImage(): Int =
     when ((1..3).random()) {
         1 -> {
-            R.raw.no_internet_connection
+            R.drawable.network_error
         }
         2 -> {
-            R.raw.connection_error
+            R.drawable.network
         }
 
-        else -> R.raw.no_wifi_connection_error
+        else ->  R.drawable.error
     }
