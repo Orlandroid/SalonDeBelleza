@@ -13,6 +13,8 @@ import com.example.citassalon.data.models.Servicio
 import com.example.citassalon.databinding.FragmentAgendarServicioBinding
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.interfaces.ClickOnItem
+import com.example.citassalon.main.AlertDialogs
+import com.example.citassalon.util.ERROR_SERVIDOR
 import com.example.citassalon.util.action
 import com.example.citassalon.util.displaySnack
 import com.example.citassalon.util.navigate
@@ -20,7 +22,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AgendarServicio : Fragment(), ClickOnItem<Servicio> {
+class AgendarServicioFragment : Fragment(), ClickOnItem<Servicio> ,AlertDialogs.ClickOnAccept{
 
 
     private var _binding: FragmentAgendarServicioBinding? = null
@@ -28,7 +30,7 @@ class AgendarServicio : Fragment(), ClickOnItem<Servicio> {
     private val viewModelAgendarServicio: ViewModelAgendarServicio by viewModels()
 
 
-    private val args: AgendarServicioArgs by navArgs()
+    private val args: AgendarServicioFragmentArgs by navArgs()
     private var currentServicio: Servicio? = null
 
 
@@ -53,7 +55,7 @@ class AgendarServicio : Fragment(), ClickOnItem<Servicio> {
         setValuesToView(args)
     }
 
-    private fun setValuesToView(args: AgendarServicioArgs) {
+    private fun setValuesToView(args: AgendarServicioFragmentArgs) {
         binding.sucursal.text = args.sucursal
         binding.staffImage.setImageResource(args.staff.getResourceImage())
         binding.nombreStaff.text = args.staff.nombre
@@ -61,11 +63,13 @@ class AgendarServicio : Fragment(), ClickOnItem<Servicio> {
 
     private fun getListener():ClickOnItem<Servicio> = this
 
+    private fun getListenerDialog(): AlertDialogs.ClickOnAccept = this
+
     private fun setUpObservers() {
         viewModelAgendarServicio.services.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiState.Loading -> {
-
+                    binding.shimmerServicio.visibility=View.VISIBLE
                 }
                 is ApiState.Success -> {
                     if (it.data != null) {
@@ -74,7 +78,12 @@ class AgendarServicio : Fragment(), ClickOnItem<Servicio> {
                     }
                 }
                 is ApiState.Error -> {
-                    binding.shimmerServicio.visibility = View.GONE
+                    val alert = AlertDialogs(
+                        messageBody = ERROR_SERVIDOR,
+                        kindOfMessage = AlertDialogs.ERROR_MESSAGE,
+                        clikOnAccept = getListenerDialog()
+                    )
+                    activity?.let { it1 -> alert.show(it1.supportFragmentManager, "dialog") }
                 }
                 is ApiState.ErrorNetwork -> {
                     snackErrorConection()
@@ -102,12 +111,16 @@ class AgendarServicio : Fragment(), ClickOnItem<Servicio> {
     override fun clikOnElement(element: Servicio, position: Int?) {
         binding.tvServicio.text = element.name
         currentServicio = element
-        val acction = AgendarServicioDirections.actionAgendarServicioToAgendarFecha(
+        val acction = AgendarServicioFragmentDirections.actionAgendarServicioToAgendarFecha(
             args.sucursal,
             args.staff,
             element
         )
         navigate(acction)
+    }
+
+    override fun clikOnAccept() {
+        findNavController().popBackStack()
     }
 
 }

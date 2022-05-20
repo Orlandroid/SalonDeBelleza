@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
 import com.example.citassalon.util.REQUEST_SESSION_MANAGER
-import com.example.citassalon.util.SessionWorker
+import com.example.citassalon.main.SessionWorker
 import com.example.citassalon.util.TASK_SESSION_MANAGER
 import dagger.Module
 import dagger.Provides

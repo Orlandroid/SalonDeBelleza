@@ -2,7 +2,6 @@ package com.example.citassalon.ui.sucursal
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -14,26 +13,22 @@ import com.example.citassalon.data.models.Sucursal
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.databinding.FragmentAgendarSucursalBinding
 import com.example.citassalon.interfaces.ClickOnItem
+import com.example.citassalon.main.AlertDialogs
 import com.example.citassalon.ui.share_beetwen_sucursales.AdaptadorSucursal
 import com.example.citassalon.ui.share_beetwen_sucursales.ViewModelSucursal
 import com.example.citassalon.util.*
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
-/**
- * This fragments have one viewModel wich is
- * ViewModelSucursal and is on this path
- * ui/share_beetwen_sucursales/ViewModelSucursal
- * **/
 
 @AndroidEntryPoint
-class AgendarSucursal : Fragment(),ClickOnItem<Sucursal> {
+class AgendarSucursalFragment : Fragment(), ClickOnItem<Sucursal>, AlertDialogs.ClickOnAccept {
 
 
     private var _binding: FragmentAgendarSucursalBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ViewModelSucursal by viewModels()
-    private val TAG = AgendarSucursal::class.java.simpleName
+    private val TAG = AgendarSucursalFragment::class.java.simpleName
 
     override
     fun onCreateView(
@@ -46,9 +41,9 @@ class AgendarSucursal : Fragment(),ClickOnItem<Sucursal> {
         return binding.root
     }
 
-    private fun setUpUi(){
-        with(binding){
-            toolbar.toolbarTitle.text="Agendar Sucursal"
+    private fun setUpUi() {
+        with(binding) {
+            toolbar.toolbarTitle.text = "Agendar Sucursal"
             toolbar.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
@@ -56,7 +51,10 @@ class AgendarSucursal : Fragment(),ClickOnItem<Sucursal> {
         setUpObserves()
     }
 
-    private fun getListener():ClickOnItem<Sucursal> = this
+    private fun getListener(): ClickOnItem<Sucursal> = this
+
+    private fun getListenerDialog(): AlertDialogs.ClickOnAccept = this
+
 
     private fun setUpObserves() {
         viewModel.sucursal.observe(viewLifecycleOwner) {
@@ -69,16 +67,35 @@ class AgendarSucursal : Fragment(),ClickOnItem<Sucursal> {
                     }
                 }
                 is ApiState.Loading -> {
-
+                    with(binding) {
+                        binding.itemNoDataNoNetwork.itemNoDataNoNetworkContainer.visibility =
+                            View.GONE
+                        binding.recyclerSucursal.visibility = View.VISIBLE
+                        shimmerSucursal.visibility = View.VISIBLE
+                    }
                 }
-                is ApiState.NoData ->{
-
+                is ApiState.NoData -> {
+                    binding.itemNoDataNoNetwork.imageNoDataNoNetwork.setImageResource(
+                        getRandomNoDataImage()
+                    )
                 }
                 is ApiState.Error -> {
-                    binding.shimmerSucursal.visibility = View.GONE
-                    Log.w(TAG, it.message.toString())
+                    val alert = AlertDialogs(
+                        messageBody = ERROR_SERVIDOR,
+                        kindOfMessage = AlertDialogs.ERROR_MESSAGE,
+                        clikOnAccept = getListenerDialog()
+                    )
+                    activity?.let { it1 -> alert.show(it1.supportFragmentManager, "dialog") }
                 }
                 is ApiState.ErrorNetwork -> {
+                    with(binding) {
+                        recyclerSucursal.visibility = View.GONE
+                        shimmerSucursal.visibility = View.GONE
+                        itemNoDataNoNetwork.message.text = "Error de conexion"
+                        itemNoDataNoNetwork.imageNoDataNoNetwork.setImageResource(
+                            getRandomErrorNetworkImage()
+                        )
+                    }
                     snackErrorConection()
                 }
             }
@@ -103,10 +120,15 @@ class AgendarSucursal : Fragment(),ClickOnItem<Sucursal> {
 
     override fun clikOnElement(element: Sucursal, position: Int?) {
         binding.textAgendarSucursal.text = element.name
-        val action = AgendarSucursalDirections.actionAgendarSucursalToAgendarStaff(
+        val action = AgendarSucursalFragmentDirections.actionAgendarSucursalToAgendarStaff(
             binding.textAgendarSucursal.text.toString()
         )
         navigate(action)
     }
+
+    override fun clikOnAccept() {
+        findNavController().popBackStack()
+    }
+
 
 }

@@ -8,7 +8,7 @@ import com.example.citassalon.data.models.Cart
 import com.example.citassalon.data.models.Product
 import com.example.citassalon.data.repository.Repository
 import com.example.citassalon.data.state.ApiState
-import com.example.citassalon.util.NetworkHelper
+import com.example.citassalon.main.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -39,8 +39,8 @@ class CartViewModel @Inject constructor(
                 _cart.value = ApiState.ErrorNetwork()
                 return@launch
             }
-            val response = repository.getSingleCart(id)
             try {
+                val response = repository.getSingleCart(id)
                 if (response.products.isEmpty()) {
                     withContext(Dispatchers.Main) {
                         _cart.value = ApiState.NoData()
@@ -71,7 +71,9 @@ class CartViewModel @Inject constructor(
                     _product.value = ApiState.Success(response)
                 }
             } catch (e: Throwable) {
-                _product.value = ApiState.Error(e)
+                withContext(Dispatchers.Main) {
+                    _product.value = ApiState.Error(e)
+                }
             }
         }
     }

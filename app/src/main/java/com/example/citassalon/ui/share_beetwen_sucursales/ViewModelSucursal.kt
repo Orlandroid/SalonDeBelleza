@@ -9,17 +9,12 @@ import androidx.lifecycle.viewModelScope
 import com.example.citassalon.data.models.Sucursal
 import com.example.citassalon.data.repository.Repository
 import com.example.citassalon.data.state.ApiState
-import com.example.citassalon.util.NetworkHelper
+import com.example.citassalon.main.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-/**
- * Este ViewModel es usado por 2 fragments los cuales son
- * /ui/AgendarSucursal
- * /ui/info/InfoSucursal
- * ***/
 
 @HiltViewModel
 class ViewModelSucursal @Inject constructor(
@@ -38,15 +33,21 @@ class ViewModelSucursal @Inject constructor(
 
     fun getSucursales() {
         viewModelScope.launch(Dispatchers.IO) {
-            _sucursal.postValue(ApiState.Loading(null))
-            if (networkHelper.isNetworkConnected()) {
-                val response = repository.getSucursales()
-                if (response.isSuccessful) {
-                    _sucursal.postValue(ApiState.Success(response.body()!!))
-                    Log.w("SUCURSALES", response.body().toString())
-                }
-            } else {
+            _sucursal.postValue(ApiState.Loading())
+            if (!networkHelper.isNetworkConnected()) {
                 _sucursal.postValue(ApiState.ErrorNetwork())
+                return@launch
+            }
+            try {
+                val response = repository.getSucursales()
+                if (response.isEmpty()) {
+                    _sucursal.postValue(ApiState.NoData())
+                    return@launch
+                }
+                _sucursal.postValue(ApiState.Success(response))
+            } catch (e: Exception) {
+                _sucursal.postValue(ApiState.Error(e))
+                Log.w("ERROR",e.message.toString())
             }
         }
     }

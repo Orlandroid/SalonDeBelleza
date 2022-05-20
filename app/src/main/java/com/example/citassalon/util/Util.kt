@@ -2,6 +2,7 @@ package com.example.citassalon.util
 
 import android.text.TextUtils
 import android.util.Patterns
+import com.example.citassalon.R
 import com.example.citassalon.data.models.Product
 
 
@@ -16,7 +17,27 @@ fun isValidEmail(target: CharSequence?): Boolean {
 fun getTotalPrice(products: List<Product>): Double {
     var price = 0.0
     products.forEach {
-        price+=it.price
+        price += it.price
     }
     return price
 }
+
+fun getRandomNoDataImage(): Int =
+    when ((1..2).random()) {
+        1 -> {
+            R.drawable.file
+        }
+        else -> R.drawable.data_error
+    }
+
+fun getRandomErrorNetworkImage(): Int =
+    when ((1..3).random()) {
+        1 -> {
+            R.drawable.network_error
+        }
+        2 -> {
+            R.drawable.network
+        }
+
+        else ->  R.drawable.error
+    }

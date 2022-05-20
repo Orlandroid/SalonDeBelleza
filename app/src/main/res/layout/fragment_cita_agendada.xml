@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".ui.cita_agendada.CitaAgendada">
+    tools:context=".ui.cita_agendada.CitaAgendadaFragment">
     <TextView
         android:textColor="@color/black"
         android:id="@+id/tv_head"

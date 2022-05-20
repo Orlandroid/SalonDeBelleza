@@ -15,6 +15,9 @@ import com.example.citassalon.data.models.Staff
 import com.example.citassalon.databinding.FragmentAgendarStaffBinding
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.interfaces.ClickOnItem
+import com.example.citassalon.main.AlertDialogs
+import com.example.citassalon.main.AlertDialogs.Companion.ERROR_MESSAGE
+import com.example.citassalon.util.ERROR_SERVIDOR
 import com.example.citassalon.util.action
 import com.example.citassalon.util.displaySnack
 import com.example.citassalon.util.navigate
@@ -24,7 +27,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AgendarStaff : Fragment(), ClickOnItem<Staff> {
+class AgendarStaff : Fragment(), ClickOnItem<Staff>, AlertDialogs.ClickOnAccept {
 
 
     private var _binding: FragmentAgendarStaffBinding? = null
@@ -67,6 +70,8 @@ class AgendarStaff : Fragment(), ClickOnItem<Staff> {
         return this
     }
 
+    private fun getListenerDialog(): AlertDialogs.ClickOnAccept = this
+
     private fun getArgs() {
         setValueToView(args.sucursal)
     }
@@ -103,9 +108,14 @@ class AgendarStaff : Fragment(), ClickOnItem<Staff> {
                     }
                 }
                 is ApiState.Error -> {
-
+                    val alert = AlertDialogs(
+                        messageBody = ERROR_SERVIDOR,
+                        kindOfMessage = ERROR_MESSAGE,
+                        clikOnAccept = getListenerDialog()
+                    )
+                    activity?.let { it1 -> alert.show(it1.supportFragmentManager, "dialog") }
                 }
-                is ApiState.NoData->{
+                is ApiState.NoData -> {
 
                 }
                 is ApiState.ErrorNetwork -> {
@@ -127,7 +137,7 @@ class AgendarStaff : Fragment(), ClickOnItem<Staff> {
     }
 
 
-    private fun navigateToAngendarService(staff: Staff){
+    private fun navigateToAngendarService(staff: Staff) {
         binding.tvEmpleado.text = staff.nombre
         val action = AgendarStaffDirections.actionAgendarStaffToAgendarServicio(
             staff,
@@ -143,6 +153,10 @@ class AgendarStaff : Fragment(), ClickOnItem<Staff> {
 
     override fun clikOnElement(element: Staff, position: Int?) {
         navigateToAngendarService(element)
+    }
+
+    override fun clikOnAccept() {
+        findNavController().popBackStack()
     }
 
 

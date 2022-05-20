@@ -1,4 +1,4 @@
-package com.example.citassalon.util
+package com.example.citassalon.main
 
 import android.content.Context
 import android.net.ConnectivityManager

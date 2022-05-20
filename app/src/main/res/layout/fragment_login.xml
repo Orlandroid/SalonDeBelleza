@@ -10,7 +10,7 @@
         android:id="@+id/container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        tools:context=".ui.login.Login">
+        tools:context=".ui.login.LoginFragment">
 
         <com.airbnb.lottie.LottieAnimationView
             app:lottie_rawRes="@raw/login_icon"
@@ -69,6 +69,7 @@
 
 
         <Button
+            android:enabled="false"
             android:textColor="#FFFFFF"
             android:id="@+id/button_get_in"
             android:layout_width="match_parent"

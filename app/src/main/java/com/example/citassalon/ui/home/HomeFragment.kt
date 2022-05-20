@@ -8,7 +8,7 @@ import com.example.citassalon.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class Home : Fragment() {
+class HomeFragment : Fragment() {
 
     private var _binding: FragmentHomeBinding? = null
     private val binding get() = _binding!!
@@ -27,11 +27,11 @@ class Home : Fragment() {
     private fun setUpUi() {
         with(binding) {
             buttonAgendar.setOnClickListener {
-                val action = HomeDirections.actionHome3ToAgendarSucursal()
+                val action = HomeFragmentDirections.actionHome3ToAgendarSucursal()
                 navigate(action)
             }
             btnFloatingPerfil.setOnClickListener {
-                val action = HomeDirections.actionHome3ToPerfil()
+                val action = HomeFragmentDirections.actionHome3ToPerfil()
                 navigate(action)
             }
             btnFloatingList.setOnClickListener {

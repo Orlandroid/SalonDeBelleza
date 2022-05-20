@@ -11,12 +11,12 @@ import com.example.citassalon.data.models.Staff
 import com.example.citassalon.databinding.FragmentDetalleStaffBinding
 
 
-class DetalleStaff : Fragment() {
+class DetalleStaffFragment : Fragment() {
 
 
     private var _binding: FragmentDetalleStaffBinding? = null
     private val binding get() = _binding!!
-    private val args by navArgs<DetalleStaffArgs>()
+    private val args by navArgs<DetalleStaffFragmentArgs>()
 
     override fun onCreateView(
         inflater: LayoutInflater,

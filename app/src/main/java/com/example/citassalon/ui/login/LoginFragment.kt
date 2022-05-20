@@ -6,13 +6,15 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import com.example.citassalon.data.state.SessionStatus
 import com.example.citassalon.databinding.FragmentLoginBinding
+import com.example.citassalon.main.AlertDialogs
 import com.example.citassalon.util.*
-import com.example.citassalon.util.AlertDialogs.Companion.ERROR_MESSAGE
-import com.example.citassalon.util.AlertDialogs.Companion.WARNING_MESSAGE
+import com.example.citassalon.main.AlertDialogs.Companion.ERROR_MESSAGE
+import com.example.citassalon.main.AlertDialogs.Companion.WARNING_MESSAGE
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -21,7 +23,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class Login : Fragment(), ListeneClickOnRecoverPassword {
+class LoginFragment : Fragment(), ListeneClickOnRecoverPassword {
 
 
     private var _binding: FragmentLoginBinding? = null
@@ -48,7 +50,7 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
     private fun isSessionActive() {
         Log.w("ANDROID", viewModel.getUserSession().toString())
         if (viewModel.getUserSession()) {
-            val action = LoginDirections.actionLoginToHome32()
+            val action = LoginFragmentDirections.actionLoginToHome32()
             navigate(action)
         }
     }
@@ -83,23 +85,39 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
 
 
     private fun setUpUi() {
-        binding.buttonGetIn.setOnClickListener {
-            login()
+        with(binding){
+            txtUser.editText?.setText("admin@gmail.com")
+            txtPassord.editText?.setText("admin1234")
+            buttonGetIn.setOnClickListener {
+                login()
+            }
+            buttonSignUp.setOnClickListener {
+                val action = LoginFragmentDirections.actionLoginToSignUp()
+                navigate(action)
+            }
+            txtUser.editText?.setText(viewModel.getUserEmailFromPreferences())
+            tvForgetPassword.setOnClickListener {
+                showForgetPassword()
+            }
+            container.setOnClickListener {
+                hideKeyboard()
+            }
+            buttonLoginGoogle.setOnClickListener {
+                signIn()
+            }
+            txtPassord.editText?.doOnTextChanged { text, start, before, count ->
+                buttonGetIn.isEnabled=areNotEmptyFields()
+            }
         }
-        binding.buttonSignUp.setOnClickListener {
-            val action = LoginDirections.actionLoginToSignUp()
-            navigate(action)
+    }
+
+    private fun areNotEmptyFields():Boolean{
+        val user = binding.txtUser.editText?.text.toString().trim()
+        val password = binding.txtPassord.editText?.text.toString().trim()
+        if (user.isNotEmpty() && password.isNotEmpty()){
+            return password.length > 8
         }
-        binding.txtUser.editText?.setText(viewModel.getUserEmailFromPreferences())
-        binding.tvForgetPassword.setOnClickListener {
-            showForgetPassword()
-        }
-        binding.container.setOnClickListener {
-            hideKeyboard()
-        }
-        binding.buttonLoginGoogle.setOnClickListener {
-            signIn()
-        }
+        return false
     }
 
     private fun showForgetPassword() {
@@ -131,18 +149,22 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
         viewModel.forgetPasswordStatus.observe(viewLifecycleOwner) {
             when (it) {
                 is SessionStatus.LOADING -> {
+                    binding.buttonGetIn.isEnabled=false
                     binding.progress.visibility = View.VISIBLE
                 }
                 is SessionStatus.SUCESS -> {
                     binding.progress.visibility = View.INVISIBLE
+                    binding.buttonGetIn.isEnabled=true
                     showSendPasswordCorrect()
                 }
                 is SessionStatus.ERROR -> {
-
+                    binding.buttonGetIn.isEnabled=true
+                    binding.progress.visibility = View.INVISIBLE
                 }
                 is SessionStatus.NETWORKERROR -> {
-                    val alert = AlertDialogs(ERROR_MESSAGE,"Revisa tu conexion de internet")
-                    activity?.let { it1 -> alert.show(it1.supportFragmentManager,"dialog") }
+                    showAlertMessage(ERROR_MESSAGE,"Revisa tu conexion de internet")
+                    binding.buttonGetIn.isEnabled=true
+                    binding.progress.visibility = View.INVISIBLE
                 }
             }
         }
@@ -155,16 +177,17 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
 
                 }
                 is SessionStatus.SUCESS -> {
-                    val action = LoginDirections.actionLoginToHome32()
+                    val action = LoginFragmentDirections.actionLoginToHome32()
                     navigate(action)
-                    Log.w("LOG","Iniciando session correctamente")
                 }
                 is SessionStatus.ERROR -> {
-                    showAlertMessage("Error al iniciar con google intenta otro metodo")
-                    Log.w("LOG","Error al iniciar session")
+                    showAlertMessage(
+                        ERROR_MESSAGE,
+                        "Error al iniciar con google intenta otro metodo"
+                    )
                 }
                 is SessionStatus.NETWORKERROR -> {
-                    showAlertMessage("Revisa tu conexion")
+                    showAlertMessage(ERROR_MESSAGE, "Revisa tu conexion de internet")
                 }
             }
         }
@@ -187,14 +210,12 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
                 is SessionStatus.ERROR -> {
                     binding.progress.visibility = View.GONE
                     binding.buttonGetIn.isEnabled = true
-                    val alert = AlertDialogs(ERROR_MESSAGE,"Error usuario o contraseña incorrecto")
-                    activity?.let { it1 -> alert.show(it1.supportFragmentManager,"dialog") }
+                    showAlertMessage(ERROR_MESSAGE, "Error usuario o contraseña incorrecto")
                 }
                 is SessionStatus.NETWORKERROR -> {
                     binding.buttonGetIn.isEnabled = true
                     binding.progress.visibility = View.GONE
-                    val alert = AlertDialogs(ERROR_MESSAGE,"Error de internet")
-                    activity?.let { it1 -> alert.show(it1.supportFragmentManager,"dialog") }
+                    showAlertMessage(ERROR_MESSAGE, "Error de internet")
                 }
             }
         }
@@ -205,9 +226,9 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
         return this
     }
 
-    private fun showAlertMessage(message: String) {
-        val alert = AlertsDialogMessages(requireContext())
-        alert.showCustomAlert(message)
+    private fun showAlertMessage(kindOfMessage: Int, message: String) {
+        val alert = AlertDialogs(kindOfMessage, message)
+        activity?.let { it1 -> alert.show(it1.supportFragmentManager, "dialog") }
     }
 
     private fun showSendPasswordCorrect() {
@@ -223,9 +244,9 @@ class Login : Fragment(), ListeneClickOnRecoverPassword {
         val password = binding.txtPassord.editText?.text.toString()
         if (user.isNotEmpty() && password.isNotEmpty())
             viewModel.login(user, password)
-        else{
-            val alert = AlertDialogs(WARNING_MESSAGE,"Debes de llenar Ambos campos")
-            activity?.let { it1 -> alert.show(it1.supportFragmentManager,"dialog") }
+        else {
+            val alert = AlertDialogs(WARNING_MESSAGE, "Debes de llenar Ambos campos")
+            activity?.let { it1 -> alert.show(it1.supportFragmentManager, "dialog") }
         }
     }
 

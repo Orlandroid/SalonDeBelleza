@@ -18,6 +18,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),C
 
     private val viewModel: CartViewModel by viewModels()
     private val cartAdapter = CartAdapter()
+    private var total=0.0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -68,6 +69,8 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),C
                     if (it.data != null){
                         binding.recyclerCart.adapter=cartAdapter
                         cartAdapter.setElement(it.data)
+                        total+=it.data.price
+                        binding.textView7.text="$ $total"
                     }
                 }
                 is ApiState.Error -> {

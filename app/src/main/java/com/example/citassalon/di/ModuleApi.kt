@@ -11,8 +11,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
 
@@ -20,19 +23,35 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object ModuleApi {
 
+
     @Singleton
     @Provides
-    fun provideRetrofit(): Retrofit = Retrofit.Builder()
+    fun provideOkHttpClient(): OkHttpClient {
+        val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
+            level = HttpLoggingInterceptor.Level.BODY
+        }
+        return OkHttpClient.Builder()
+            .connectTimeout(60L, TimeUnit.SECONDS)
+            .readTimeout(60L, TimeUnit.SECONDS)
+            .addInterceptor(httpLoggingInterceptor)
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL)
         .addConverterFactory(GsonConverterFactory.create())
+        .client(okHttpClient)
         .build()
 
     @Singleton
     @Provides
     @Named("retrofit_store")
-    fun provideRetrofitFakeStore(): Retrofit = Retrofit.Builder()
+    fun provideRetrofitFakeStore(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .baseUrl(BASE_URL_FAKE_STORE)
         .addConverterFactory(GsonConverterFactory.create())
+        .client(okHttpClient)
         .build()
 
     @Singleton
@@ -42,7 +61,7 @@ object ModuleApi {
 
     @Singleton
     @Provides
-    fun provideFakeStoreService( @Named("retrofit_store")retrofit: Retrofit): FakeStoreService =
+    fun provideFakeStoreService(@Named("retrofit_store") retrofit: Retrofit): FakeStoreService =
         retrofit.create(FakeStoreService::class.java)
 
     @Singleton
@@ -53,6 +72,6 @@ object ModuleApi {
         fakeStoreService: FakeStoreService,
         fireBaseSource: FireBaseSource
     ): Repository =
-        Repository(dao, webServices,fakeStoreService, fireBaseSource)
+        Repository(dao, webServices, fakeStoreService, fireBaseSource)
 
 }

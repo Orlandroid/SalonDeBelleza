@@ -32,10 +32,6 @@ fun Snackbar.action(message: String, listener: (View) -> Unit) {
     setAction(message, listener)
 }
 
-/** This extension function is to use to navigate
- * is like do the next
- *  findNavController().navigate(R.id.action_establecimiento_to_sucursales2)
- * */
 fun View.navigate(accion: Int) {
     findNavController().navigate(accion)
 }
@@ -43,14 +39,6 @@ fun View.navigate(accion: Int) {
 fun Fragment.navigate(accion: Int) {
     findNavController().navigate(accion)
 }
-
-
-/***
- *  this is like do the next
- *  findNavController().navigate(acction)
- *  but accion is NavDirections and this mean what
- *   the acction have args
- *  */
 
 fun Fragment.navigate(accion: NavDirections) {
     findNavController().navigate(accion)

@@ -3,8 +3,10 @@ package com.example.citassalon.ui.login
 import android.app.Dialog
 import android.os.Bundle
 import android.view.*
+import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
 import com.example.citassalon.databinding.AlertDialogForgetPasswordBinding
+import com.example.citassalon.util.isValidEmail
 
 class ForgetPasswordDialog(private val listener: ListeneClickOnRecoverPassword) :
     DialogFragment() {
@@ -36,20 +38,25 @@ class ForgetPasswordDialog(private val listener: ListeneClickOnRecoverPassword) 
     }
 
     private fun getUser(): String {
-        return binding.forgetPassword.text.toString()
+        return binding.correo.text.toString()
     }
 
 
     private fun setUpUi() {
         isCancelable = false
-        binding.buttonClose.setOnClickListener {
-            dialog?.dismiss()
-        }
-        binding.buttonForgetPasword.setOnClickListener {
-            val userEmail = getUser()
-            if (userEmail.isNotEmpty()) {
-                listener.clickOnResetPassword(userEmail)
+        with(binding) {
+            buttonClose.setOnClickListener {
                 dialog?.dismiss()
+            }
+            buttonForgetPasword.setOnClickListener {
+                val userEmail = getUser()
+                if (userEmail.isNotEmpty()) {
+                    listener.clickOnResetPassword(userEmail)
+                    dialog?.dismiss()
+                }
+            }
+            correo.doOnTextChanged { text, _, _, _ ->
+                buttonForgetPasword.isEnabled = isValidEmail(text)
             }
         }
     }

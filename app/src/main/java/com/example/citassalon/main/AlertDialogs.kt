@@ -1,4 +1,4 @@
-package com.example.citassalon.util
+package com.example.citassalon.main
 
 import android.app.Dialog
 import android.os.Bundle
@@ -10,7 +10,8 @@ import com.example.citassalon.databinding.AlertDialogMessagesBinding
 
 class AlertDialogs(
     private val kindOfMessage: Int = SUCCES_MESSAGE,
-    private val messageBody: String
+    private val messageBody: String,
+    private val clikOnAccept: ClickOnAccept? = null
 ) :
     DialogFragment() {
 
@@ -23,6 +24,10 @@ class AlertDialogs(
         const val SUCCES_MESSAGE = 0
         const val WARNING_MESSAGE = 1
         const val ERROR_MESSAGE = 2
+    }
+
+    interface ClickOnAccept {
+        fun clikOnAccept()
     }
 
     override fun onCreateView(
@@ -54,6 +59,7 @@ class AlertDialogs(
     private fun setUpUi() {
         with(binding) {
             buttonAceptar.setOnClickListener {
+                clikOnAccept?.clikOnAccept()
                 dialog?.dismiss()
             }
             binding.bodyMessage.text = messageBody
