@@ -75,6 +75,7 @@ class ProductsFragment : Fragment(), ClickOnItem<Product> {
                 is ApiState.Error -> {
                     val dialog = AlertDialogs(ERROR_MESSAGE, "Error al obtener datos")
                     activity?.let { dialog.show(it.supportFragmentManager, "alertMessage") }
+                    findNavController().popBackStack()
                 }
                 is ApiState.ErrorNetwork -> {
                     val dialog = AlertDialogs(ERROR_MESSAGE, "Verifica tu conexion de internet")

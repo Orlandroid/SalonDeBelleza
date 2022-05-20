@@ -13,6 +13,8 @@ import com.example.citassalon.data.models.Servicio
 import com.example.citassalon.databinding.FragmentAgendarServicioBinding
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.interfaces.ClickOnItem
+import com.example.citassalon.main.AlertDialogs
+import com.example.citassalon.util.ERROR_SERVIDOR
 import com.example.citassalon.util.action
 import com.example.citassalon.util.displaySnack
 import com.example.citassalon.util.navigate
@@ -20,7 +22,7 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AgendarServicioFragment : Fragment(), ClickOnItem<Servicio> {
+class AgendarServicioFragment : Fragment(), ClickOnItem<Servicio> ,AlertDialogs.ClickOnAccept{
 
 
     private var _binding: FragmentAgendarServicioBinding? = null
@@ -61,6 +63,8 @@ class AgendarServicioFragment : Fragment(), ClickOnItem<Servicio> {
 
     private fun getListener():ClickOnItem<Servicio> = this
 
+    private fun getListenerDialog(): AlertDialogs.ClickOnAccept = this
+
     private fun setUpObservers() {
         viewModelAgendarServicio.services.observe(viewLifecycleOwner) {
             when (it) {
@@ -74,7 +78,12 @@ class AgendarServicioFragment : Fragment(), ClickOnItem<Servicio> {
                     }
                 }
                 is ApiState.Error -> {
-                    binding.shimmerServicio.visibility = View.GONE
+                    val alert = AlertDialogs(
+                        messageBody = ERROR_SERVIDOR,
+                        kindOfMessage = AlertDialogs.ERROR_MESSAGE,
+                        clikOnAccept = getListenerDialog()
+                    )
+                    activity?.let { it1 -> alert.show(it1.supportFragmentManager, "dialog") }
                 }
                 is ApiState.ErrorNetwork -> {
                     snackErrorConection()
@@ -108,6 +117,10 @@ class AgendarServicioFragment : Fragment(), ClickOnItem<Servicio> {
             element
         )
         navigate(acction)
+    }
+
+    override fun clikOnAccept() {
+        findNavController().popBackStack()
     }
 
 }

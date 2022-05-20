@@ -39,8 +39,8 @@ class CartViewModel @Inject constructor(
                 _cart.value = ApiState.ErrorNetwork()
                 return@launch
             }
-            val response = repository.getSingleCart(id)
             try {
+                val response = repository.getSingleCart(id)
                 if (response.products.isEmpty()) {
                     withContext(Dispatchers.Main) {
                         _cart.value = ApiState.NoData()

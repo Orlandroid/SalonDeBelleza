@@ -34,12 +34,12 @@ class ViewModelStaff @Inject constructor(
             if (!networkHelper.isNetworkConnected()) {
                 _staff.postValue(ApiState.ErrorNetwork())
             }
-            val response = repository.getStaffs()
-            if (response.isEmpty()) {
-                _staff.postValue(ApiState.NoData())
-                return@launch
-            }
             try {
+                val response = repository.getStaffs()
+                if (response.isEmpty()) {
+                    _staff.postValue(ApiState.NoData())
+                    return@launch
+                }
                 _staff.postValue(ApiState.Success(response))
             } catch (e: Exception) {
                 _staff.postValue(ApiState.Error(e))

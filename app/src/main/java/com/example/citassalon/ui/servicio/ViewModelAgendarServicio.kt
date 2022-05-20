@@ -34,11 +34,11 @@ class ViewModelAgendarServicio @Inject constructor(
             if (!networkHelper.isNetworkConnected()) {
                 _services.postValue(ApiState.ErrorNetwork())
             }
-            val response = repository.getServices()
-            if (response.isEmpty()) {
-                _services.postValue(ApiState.NoData())
-            }
             try {
+                val response = repository.getServices()
+                if (response.isEmpty()) {
+                    _services.postValue(ApiState.NoData())
+                }
                 _services.postValue(ApiState.Success(response))
             } catch (e: Exception) {
                 _services.postValue(ApiState.Error(e))

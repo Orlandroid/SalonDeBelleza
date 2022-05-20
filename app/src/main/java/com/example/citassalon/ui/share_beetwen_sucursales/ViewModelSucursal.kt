@@ -1,6 +1,7 @@
 package com.example.citassalon.ui.share_beetwen_sucursales
 
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -37,15 +38,16 @@ class ViewModelSucursal @Inject constructor(
                 _sucursal.postValue(ApiState.ErrorNetwork())
                 return@launch
             }
-            val response = repository.getSucursales()
-            if (response.isEmpty()) {
-                _sucursal.postValue(ApiState.NoData())
-                return@launch
-            }
             try {
+                val response = repository.getSucursales()
+                if (response.isEmpty()) {
+                    _sucursal.postValue(ApiState.NoData())
+                    return@launch
+                }
                 _sucursal.postValue(ApiState.Success(response))
             } catch (e: Exception) {
                 _sucursal.postValue(ApiState.Error(e))
+                Log.w("ERROR",e.message.toString())
             }
         }
     }

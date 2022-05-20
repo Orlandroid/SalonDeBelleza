@@ -68,21 +68,27 @@ class AgendarConfirmacionFragment : Fragment(), ListenerAlertDialogWithButtons {
 
     override fun clickOnConfirmar() {
         saveToDatabaseAppointMent()
-        val action = AgendarConfirmacionFragmentDirections.actionAgendarConfirmacionToCitaAgendada()
+        val action = AgendarConfirmacionFragmentDirections.actionAgendarConfirmacionToCitaAgendada(
+            createAppointment()
+        )
         navigate(action)
+    }
+
+    private fun createAppointment(): Appointment {
+        return Appointment(
+            0,
+            args.sucursal,
+            args.staff.nombre,
+            args.servicio.name,
+            args.fecha,
+            args.hora,
+            args.servicio.precio.toString()
+        )
     }
 
     private fun saveToDatabaseAppointMent() {
         viewModel.saveAppointMent(
-            Appointment(
-                0,
-                args.sucursal,
-                args.staff.nombre,
-                args.servicio.name,
-                args.fecha,
-                args.hora,
-                args.servicio.precio.toString()
-            )
+            createAppointment()
         )
     }
 

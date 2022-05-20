@@ -3,6 +3,7 @@ package com.example.citassalon.main
 import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
+import android.app.PendingIntent
 import android.content.Context
 import android.content.Context.NOTIFICATION_SERVICE
 import android.graphics.Color
@@ -40,12 +41,14 @@ class NotificationHelper(
     fun sendNotification(
         title: String,
         contentText: String,
+        pendingIntent: PendingIntent
     ) {
         val builder = NotificationCompat.Builder(context, "MY_CHANNEL_ID")
             .setSmallIcon(R.drawable.watch_later_24px)
             .setContentText(contentText)
             .setSubText(title)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+            .setContentIntent(pendingIntent)
         with(NotificationManagerCompat.from(context)) {
             notify(1, builder.build())
         }

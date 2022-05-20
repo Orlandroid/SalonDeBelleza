@@ -153,6 +153,9 @@
             app:destination="@id/home3"
             app:enterAnim="@anim/from_left"
             app:exitAnim="@anim/to_right" />
+        <argument
+            android:name="apponitment"
+            app:argType="com.example.citassalon.data.models.Appointment" />
     </fragment>
     <fragment
         android:id="@+id/perfil"
@@ -219,6 +222,8 @@
         android:label="HistorialDetailFragment" >
         <argument
             android:name="appointment"
-            app:argType="com.example.citassalon.data.models.Appointment" />
+            app:argType="com.example.citassalon.data.models.Appointment"
+            app:nullable="true"
+            android:defaultValue="@null" />
     </fragment>
 </navigation>
