@@ -10,6 +10,7 @@ import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentPerfilBinding
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.interfaces.ListenerAlertDialogWithButtons
+import com.example.citassalon.ui.perfil.userprofile.UserProfileViewModel
 import com.example.citassalon.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -37,8 +38,8 @@ class PerfilFragment : Fragment(), ListenerAlertDialogWithButtons, ClickOnItem<S
 
     private fun setUpUi() {
         setUpRecyclerView()
-        with(binding){
-            toolbar.toolbarTitle.text="Perfil"
+        with(binding) {
+            toolbar.toolbarTitle.text = "Perfil"
             toolbar.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
@@ -71,7 +72,10 @@ class PerfilFragment : Fragment(), ListenerAlertDialogWithButtons, ClickOnItem<S
 
     override fun clikOnElement(element: String, position: Int?) {
         when (position) {
-            1 -> Log.w("uno", "unos")
+            1 -> {
+                val action = PerfilFragmentDirections.actionPerfilToUserProfileFragment()
+                navigate(action)
+            }
             2 -> navigate(PERFIL_TO_HISTORIAL_DE_CITAS)
             3 -> Log.w("uno", "unos")
             4 -> showTermAndCondition()

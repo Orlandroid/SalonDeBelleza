@@ -45,9 +45,9 @@ class Repository @Inject constructor(
 
     suspend fun getCategories() = fakeStoreService.getCategories()
 
-    suspend fun getAllCarts()=fakeStoreService.getAllCarts()
+    suspend fun getAllCarts() = fakeStoreService.getAllCarts()
 
-    suspend fun getSingleCart(id:Int)=fakeStoreService.getSingleCart(id)
+    suspend fun getSingleCart(id: Int) = fakeStoreService.getSingleCart(id)
 
     suspend fun getSucursales() = webServices.getSucursales()
 
@@ -65,6 +65,8 @@ class Repository @Inject constructor(
 
     fun signInWithCredential(credential: AuthCredential) =
         fireBaseSource.signInWithCredential(credential)
+
+    fun logout() = fireBaseSource.logout()
 
 
 }
