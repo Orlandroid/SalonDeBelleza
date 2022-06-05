@@ -1,6 +1,7 @@
 package com.example.citassalon.ui.perfil.userprofile
 
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -9,6 +10,7 @@ import com.example.citassalon.data.repository.Repository
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.main.NetworkHelper
 import com.example.citassalon.ui.perfil.userprofile.UserProfileFragment.Companion.USER_EMAIL
+import com.example.citassalon.ui.perfil.userprofile.UserProfileFragment.Companion.USER_SESSION
 import com.example.citassalon.ui.perfil.userprofile.UserProfileFragment.Companion.USER_UID
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -43,6 +45,7 @@ class UserProfileViewModel @Inject constructor(
                 val userInfo = HashMap<String, String>()
                 userInfo[USER_EMAIL] = user.email!!
                 userInfo[USER_UID] = user.uid
+                userInfo[USER_SESSION]= (repository.getUser()!= null).toString()
                 withContext(Dispatchers.Main) {
                     _infoUser.value = ApiState.Success(userInfo)
                 }
