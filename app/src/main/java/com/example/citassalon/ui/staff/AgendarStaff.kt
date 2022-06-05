@@ -50,7 +50,7 @@ class AgendarStaff : Fragment(), ClickOnItem<Staff>, AlertDialogs.ClickOnAccept 
 
     private fun setUpUi() {
         with(binding) {
-            skeletonRecyclerView = recyclerStaff.applySkeleton(R.layout.item_staff, 4)
+            skeletonRecyclerView = recyclerStaff.applySkeleton(R.layout.item_staff, 8)
             toolbar.toolbarTitle.text = "Agendar Staff"
             toolbar.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()

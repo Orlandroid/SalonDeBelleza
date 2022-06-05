@@ -1,20 +1,16 @@
 package com.example.citassalon.ui.perfil.userprofile
 
-import android.annotation.SuppressLint
-import android.os.Build
+
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import com.example.citassalon.R
+import androidx.navigation.fragment.findNavController
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.databinding.FragmentUserProfileBinding
 import com.example.citassalon.util.parseColor
-import com.example.citassalon.util.setColorFilterImage
-import com.example.citassalon.util.tint
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -44,7 +40,10 @@ class UserProfileFragment : Fragment() {
     private fun setUpUi() {
         viewModel.getUserInfo()
         with(binding) {
-
+            toolbarLayout.toolbarTitle.text = "Perfil"
+            toolbarLayout.toolbarBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
         }
     }
 

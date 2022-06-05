@@ -33,7 +33,10 @@ class HistorialDeCitas : Fragment(), ClickOnItem<Appointment> {
 
     private fun setUpUi() {
         with(binding) {
-
+            toolbarLayout.toolbarTitle.text = "Historial de citas"
+            toolbarLayout.toolbarBack.setOnClickListener {
+                findNavController().popBackStack()
+            }
         }
     }
 
@@ -48,7 +51,8 @@ class HistorialDeCitas : Fragment(), ClickOnItem<Appointment> {
                 }
                 is ApiState.Success -> {
                     if (it.data != null) {
-                        binding.recyclerAppointment.adapter = HistorialCitasAdapter(it.data,getListener())
+                        binding.recyclerAppointment.adapter =
+                            HistorialCitasAdapter(it.data, getListener())
                     }
                 }
                 is ApiState.Error -> {
