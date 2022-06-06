@@ -37,16 +37,16 @@
             app:layout_constraintTop_toTopOf="@+id/guideline39" />
 
         <TextView
-            android:textSize="18sp"
-            android:gravity="center"
             android:id="@+id/tv_sucursal"
             android:layout_width="0dp"
             android:layout_height="0dp"
+            android:gravity="center"
             android:text="@string/sucursal"
             android:textColor="@color/black"
+            android:textSize="18sp"
             app:layout_constraintBottom_toTopOf="@+id/imageView4"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/guideline11"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView

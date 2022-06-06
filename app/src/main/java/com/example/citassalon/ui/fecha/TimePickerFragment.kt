@@ -8,7 +8,10 @@ import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
 import java.util.*
 
-class TimePickerFragment(val listener: (String) -> Unit) : DialogFragment(),
+class TimePickerFragment(
+    val listener: (String, Boolean) -> Unit,
+    private val is24HoursView: Boolean = false
+) : DialogFragment(),
     TimePickerDialog.OnTimeSetListener {
 
 
@@ -16,11 +19,16 @@ class TimePickerFragment(val listener: (String) -> Unit) : DialogFragment(),
         val c = Calendar.getInstance()
         val hour = c.get(Calendar.HOUR_OF_DAY)
         val minute = c.get(Calendar.MINUTE)
-        return TimePickerDialog(activity as Context, this, hour, minute, true)
+        val timePicker = TimePickerDialog(activity as Context, this, hour, minute, is24HoursView)
+        return timePicker
     }
 
     override fun onTimeSet(view: TimePicker?, hourOfDay: Int, minute: Int) {
-        listener("$hourOfDay:$minute hrs")
+        var isValidTime = false
+        if (hourOfDay in 9..18) {
+            isValidTime = true
+        }
+        listener("$hourOfDay:$minute hrs", isValidTime)
     }
 
 }

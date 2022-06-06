@@ -2,6 +2,7 @@ package com.example.citassalon.ui.fecha
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.text.format.Time
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,9 +11,13 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.citassalon.databinding.FragmentAgendarFechaBinding
+import com.example.citassalon.main.AlertDialogs
+import com.example.citassalon.main.AlertDialogs.Companion.WARNING_MESSAGE
+import com.example.citassalon.main.AlertDialogs.Companion.WARNING_MESSAGE_COLOR
 import com.example.citassalon.util.hideKeyboard
 import com.example.citassalon.util.navigate
 import com.example.citassalon.util.showDatePickerDialog
+import kotlin.concurrent.fixedRateTimer
 
 class AgendarFechaFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
@@ -25,7 +30,7 @@ class AgendarFechaFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentAgendarFechaBinding.inflate(inflater, container, false)
         setUpUi()
         return binding.root
@@ -34,7 +39,7 @@ class AgendarFechaFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private fun setUpUi() {
         with(binding) {
-            toolbar.toolbarTitle.text="Agendar Hora"
+            toolbar.toolbarTitle.text = "Agendar Hora"
             toolbar.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
@@ -73,11 +78,23 @@ class AgendarFechaFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
 
     private fun showTimePickerDialog() {
-        val timePicker = TimePickerFragment {
-            onTimeSelected(it)
-            goToComfirm()
-        }
+        val timePicker = TimePickerFragment({ time, validTime ->
+            if (validTime) {
+                onTimeSelected(time)
+                goToComfirm()
+                return@TimePickerFragment
+            }
+            showDialogRangeOfTime()
+        })
         activity?.let { timePicker.show(it.supportFragmentManager, "timePicker") }
+    }
+
+    private fun showDialogRangeOfTime() {
+        val alert = AlertDialogs(
+            kindOfMessage = WARNING_MESSAGE,
+            messageBody = "Debes de selecionar un horario entre 9am y 6pm"
+        )
+        activity?.let { alert.show(it.supportFragmentManager, "Dialog") }
     }
 
     private fun onTimeSelected(time: String) {

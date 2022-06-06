@@ -1,5 +1,6 @@
 package com.example.citassalon.util
 
+import android.graphics.Color
 import android.text.TextUtils
 import android.util.Patterns
 import com.example.citassalon.R
@@ -13,6 +14,9 @@ fun isValidEmail(target: CharSequence?): Boolean {
         Patterns.EMAIL_ADDRESS.matcher(target).matches()
     }
 }
+
+fun parseColor(color: String): Int =
+    Color.parseColor(color)
 
 fun getTotalPrice(products: List<Product>): Double {
     var price = 0.0

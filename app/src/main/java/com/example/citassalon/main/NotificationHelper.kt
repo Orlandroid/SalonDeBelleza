@@ -47,6 +47,7 @@ class NotificationHelper(
             .setSmallIcon(R.drawable.watch_later_24px)
             .setContentText(contentText)
             .setSubText(title)
+            .setAutoCancel(true)
             .setPriority(NotificationCompat.PRIORITY_DEFAULT)
             .setContentIntent(pendingIntent)
         with(NotificationManagerCompat.from(context)) {
