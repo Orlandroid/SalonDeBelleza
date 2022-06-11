@@ -10,8 +10,26 @@ import com.example.citassalon.data.models.Appointment
 import com.example.citassalon.interfaces.ClickOnItem
 
 
-class HistorialCitasAdapter(private val listAppointment: List<Appointment>,private val listener:ClickOnItem<Appointment>) :
+class HistorialCitasAdapter(private val listener: ClickOnItem<Appointment>) :
     RecyclerView.Adapter<HistorialCitasAdapter.ViewHolder>() {
+
+
+    private var listAppointment = arrayListOf<Appointment>()
+
+
+    fun setData(lista: List<Appointment>) {
+        listAppointment = lista as ArrayList<Appointment>
+        notifyDataSetChanged()
+    }
+
+    fun removeElement(position: Int) {
+        listAppointment.removeAt(position)
+        notifyDataSetChanged()
+    }
+
+    fun getElement(position: Int):Appointment{
+        return listAppointment[position]
+    }
 
     class ViewHolder(val view: View) : RecyclerView.ViewHolder(view) {
 
@@ -23,6 +41,7 @@ class HistorialCitasAdapter(private val listAppointment: List<Appointment>,priva
             servicio.text = appointment.servicio
         }
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val inflater = LayoutInflater.from(parent.context)

@@ -159,5 +159,9 @@ class AgendarStaff : Fragment(), ClickOnItem<Staff>, AlertDialogs.ClickOnAccept 
         findNavController().popBackStack()
     }
 
+    override fun clikOnCancel() {
+
+    }
+
 
 }

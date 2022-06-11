@@ -22,7 +22,7 @@ class DetalleStaffFragment : Fragment() {
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentDetalleStaffBinding.inflate(layoutInflater)
         setUpUi()
         return binding.root

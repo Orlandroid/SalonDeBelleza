@@ -39,6 +39,7 @@
     <string name="cita_agendada">Tu cita ha sido \n agendada con exito.</string>
     <string name="muy_bien">!MUY BIEN¡</string>
     <string name="aceptar">Aceptar</string>
+    <string name="cancelar_dialog">Cancelar</string>
     <string name="perfil">Perfil</string>
     <string name="historial">Historial de citas</string>
     <string name="contactanos">Contáctanos</string>

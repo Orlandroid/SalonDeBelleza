@@ -12,14 +12,18 @@ import com.example.citassalon.data.models.Appointment
 import com.example.citassalon.databinding.FragmentHistorialDeCitasBinding
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.interfaces.ClickOnItem
+import com.example.citassalon.main.AlertDialogs
+import com.example.citassalon.util.SwipeRecycler
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HistorialDeCitas : Fragment(), ClickOnItem<Appointment> {
+class HistorialDeCitas : Fragment(), ClickOnItem<Appointment>, SwipeRecycler.SwipeRecyclerListenr {
 
     private var _binding: FragmentHistorialDeCitasBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ViewModelHistorialCitas by viewModels()
+    private val swipeRecycler = SwipeRecycler()
+    private val historialCitasAdapter = HistorialCitasAdapter(getListener())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,11 +41,14 @@ class HistorialDeCitas : Fragment(), ClickOnItem<Appointment> {
             toolbarLayout.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
+            swipeRecycler.swipe(binding.recyclerAppointment, getListenerSwipeRecyclerListenr())
         }
     }
 
 
     private fun getListener(): ClickOnItem<Appointment> = this
+
+    private fun getListenerSwipeRecyclerListenr() = this
 
     private fun setUpObservers() {
         viewModel.appointment.observe(viewLifecycleOwner) {
@@ -51,8 +58,8 @@ class HistorialDeCitas : Fragment(), ClickOnItem<Appointment> {
                 }
                 is ApiState.Success -> {
                     if (it.data != null) {
-                        binding.recyclerAppointment.adapter =
-                            HistorialCitasAdapter(it.data, getListener())
+                        binding.recyclerAppointment.adapter = historialCitasAdapter
+                        historialCitasAdapter.setData(it.data)
                     }
                 }
                 is ApiState.Error -> {
@@ -95,6 +102,26 @@ class HistorialDeCitas : Fragment(), ClickOnItem<Appointment> {
         val action =
             HistorialDeCitasDirections.actionHistorialDeCitasToHistorialDetailFragment(element)
         findNavController().navigate(action)
+    }
+
+    override fun onMove() {
+
+    }
+
+    override fun onSwipe(position: Int) {
+        val alert = AlertDialogs(
+            AlertDialogs.WARNING_MESSAGE,
+            "Estas seguro que deseas eliminar el registro",
+            object : AlertDialogs.ClickOnAccept {
+                override fun clikOnAccept() {
+                    val appointment = historialCitasAdapter.getElement(position)
+                }
+
+                override fun clikOnCancel() {
+                    historialCitasAdapter.notifyDataSetChanged()
+                }
+            }, isTwoButtonDialog = true)
+        activity?.let { it1 -> alert.show(it1.supportFragmentManager, "dialog") }
     }
 
 }

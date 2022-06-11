@@ -40,4 +40,8 @@ class ViewModelHistorialCitas @Inject constructor(private val appointmentReposit
         }
     }
 
+    fun removeAponintment(){
+
+    }
+
 }
