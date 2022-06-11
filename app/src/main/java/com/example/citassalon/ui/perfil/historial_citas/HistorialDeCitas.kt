@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Appointment
@@ -15,6 +16,8 @@ import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.main.AlertDialogs
 import com.example.citassalon.util.SwipeRecycler
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
 class HistorialDeCitas : Fragment(), ClickOnItem<Appointment>, SwipeRecycler.SwipeRecyclerListenr {
@@ -41,6 +44,7 @@ class HistorialDeCitas : Fragment(), ClickOnItem<Appointment>, SwipeRecycler.Swi
             toolbarLayout.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
+            progressBar2.visibility=View.GONE
             swipeRecycler.swipe(binding.recyclerAppointment, getListenerSwipeRecyclerListenr())
         }
     }
@@ -54,22 +58,24 @@ class HistorialDeCitas : Fragment(), ClickOnItem<Appointment>, SwipeRecycler.Swi
         viewModel.appointment.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiState.Loading -> {
-
+                    binding.progressBar2.visibility=View.VISIBLE
                 }
                 is ApiState.Success -> {
                     if (it.data != null) {
+                        binding.progressBar2.visibility=View.INVISIBLE
                         binding.recyclerAppointment.adapter = historialCitasAdapter
                         historialCitasAdapter.setData(it.data)
                     }
                 }
                 is ApiState.Error -> {
-
+                    binding.progressBar2.visibility=View.INVISIBLE
                 }
                 is ApiState.ErrorNetwork -> {
-
+                    binding.progressBar2.visibility=View.INVISIBLE
                 }
                 is ApiState.NoData -> {
                     with(binding) {
+                        binding.progressBar2.visibility=View.INVISIBLE
                         imageNoData.visibility = View.VISIBLE
                         imageNoData.setAnimation(getRandomNoDataAnimation())
                         imageNoData.playAnimation()
@@ -115,6 +121,11 @@ class HistorialDeCitas : Fragment(), ClickOnItem<Appointment>, SwipeRecycler.Swi
             object : AlertDialogs.ClickOnAccept {
                 override fun clikOnAccept() {
                     val appointment = historialCitasAdapter.getElement(position)
+                    binding.progressBar2.visibility=View.VISIBLE
+                    lifecycleScope.launch{
+                        viewModel.removeAponintment(appointment)
+                        viewModel.getAllAppointMents()
+                    }
                 }
 
                 override fun clikOnCancel() {

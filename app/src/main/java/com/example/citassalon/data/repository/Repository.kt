@@ -31,8 +31,8 @@ class Repository @Inject constructor(
         db.updateAppointment(appointment)
     }
 
-    suspend fun deleteAppointment(appointment: Appointment) {
-        db.deleteAppointment(appointment)
+    suspend fun deleteAppointment(appointment: Appointment):Int {
+        return db.deleteAppointment(appointment)
     }
 
     suspend fun deleteAllAppointment() {

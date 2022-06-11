@@ -25,8 +25,7 @@ class SwipeRecycler() {
 
         }).attachToRecyclerView(recycler)
     }
-
-
+    
      interface SwipeRecyclerListenr{
          fun onMove()
          fun onSwipe(position: Int)
