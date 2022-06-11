@@ -88,6 +88,12 @@ class AlertDialogs(
                 buttonAceptar.visibility = View.VISIBLE
                 buttonCancelar.visibility = View.VISIBLE
             }
+        }else{
+            with(binding) {
+                buttonAceptarOneButton.visibility = View.VISIBLE
+                buttonAceptar.visibility = View.GONE
+                buttonCancelar.visibility = View.GONE
+            }
         }
     }
 
