@@ -6,8 +6,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.fragment.navArgs
 import com.example.citassalon.R
+import com.example.citassalon.data.models.Sucursal
 import com.example.citassalon.databinding.FragmentUbicacionBinding
+import com.example.citassalon.ui.info.sucursales.Sucursales
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -20,11 +23,12 @@ class UbicacionFragment : Fragment(), OnMapReadyCallback {
 
     private var _binding: FragmentUbicacionBinding? = null
     private val binding get() = _binding!!
+    private val args:UbicacionFragmentArgs by navArgs()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         _binding = FragmentUbicacionBinding.inflate(layoutInflater, container, false)
         setUpUi()
         initMap()
@@ -34,6 +38,7 @@ class UbicacionFragment : Fragment(), OnMapReadyCallback {
     private fun setUpUi() {
         with(binding) {
             toolbarLayout.toolbarTitle.text = "Ubicacion"
+            textView10.text=args.currentSucursal.name
             toolbarLayout.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
@@ -51,9 +56,9 @@ class UbicacionFragment : Fragment(), OnMapReadyCallback {
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
-        val sydney = LatLng(-34.0, 151.0)
+        val sydney = LatLng(args.currentSucursal.lat.toDouble(), args.currentSucursal.long.toDouble())
         googleMap.addMarker(MarkerOptions().position(sydney).title("Marker in Sydney"))
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,5.5f))
     }
 
 }
