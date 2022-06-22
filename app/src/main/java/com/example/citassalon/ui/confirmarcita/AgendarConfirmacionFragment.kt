@@ -92,6 +92,7 @@ class AgendarConfirmacionFragment : Fragment(), ListenerAlertDialogWithButtons {
         )
     }
 
+
     override fun clickOnCancel() {
 
     }

@@ -5,8 +5,10 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.data.models.Appointment
+import com.example.citassalon.data.models.AppointmentResponse
 import com.example.citassalon.data.repository.Repository
 import com.example.citassalon.data.state.ApiState
+import com.example.citassalon.main.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -14,12 +16,19 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
-class ViewModelHistorialCitas @Inject constructor(private val appointmentRepository: Repository) :
+class ViewModelHistorialCitas @Inject constructor(
+    private val appointmentRepository: Repository,
+    private val networkHelper: NetworkHelper
+) :
     ViewModel() {
 
-    private val _appointment = MutableLiveData<ApiState<List<Appointment>>>()
-    val appointment: MutableLiveData<ApiState<List<Appointment>>>
+    private val _appointment = MutableLiveData<ApiState<List<AppointmentResponse>>>()
+    val appointment: MutableLiveData<ApiState<List<AppointmentResponse>>>
         get() = _appointment
+
+    private val _appointmentsLocal = MutableLiveData<ApiState<List<Appointment>>>()
+    val appointmentLocal: MutableLiveData<ApiState<List<Appointment>>>
+        get() = _appointmentsLocal
 
     init {
         getAllAppointMents()
@@ -27,16 +36,38 @@ class ViewModelHistorialCitas @Inject constructor(private val appointmentReposit
 
     fun getAllAppointMents() {
         _appointment.value = ApiState.Loading()
+        viewModelScope.launch {
+            if (!networkHelper.isNetworkConnected()){
+                withContext(Dispatchers.Main){
+                    _appointment.value=ApiState.ErrorNetwork()
+                }
+                return@launch
+            }
+            try {
+                val appointmens = appointmentRepository.getAppointMents()
+                if (appointmens.isEmpty()){
+                    _appointment.value=ApiState.NoData()
+                    return@launch
+                }
+                _appointment.value=ApiState.Success(appointmens)
+            }catch (e:Exception){
+                _appointment.value=ApiState.Error(e)
+            }
+        }
+    }
+
+    fun getAllAppointMentsLocal() {
+        _appointmentsLocal.value = ApiState.Loading()
         viewModelScope.launch(Dispatchers.IO) {
             val listaAppointments = appointmentRepository.getAllAppointment()
             if (listaAppointments.isEmpty()) {
                 withContext(Dispatchers.Main) {
-                    _appointment.value = ApiState.NoData()
+                    _appointmentsLocal.value = ApiState.NoData()
                 }
                 return@launch
             }
             withContext(Dispatchers.Main) {
-                _appointment.postValue(ApiState.Success(listaAppointments))
+                _appointmentsLocal.postValue(ApiState.Success(listaAppointments))
             }
         }
     }
@@ -47,7 +78,7 @@ class ViewModelHistorialCitas @Inject constructor(private val appointmentReposit
             isDeleted = appointmentRepository.deleteAppointment(appointment)
         }.join()
         if (isDeleted > 0) {
-            Log.w("ANDROID","Se ha eliminado el registro")
+            Log.w("ANDROID", "Se ha eliminado el registro")
             return true
         }
         return false

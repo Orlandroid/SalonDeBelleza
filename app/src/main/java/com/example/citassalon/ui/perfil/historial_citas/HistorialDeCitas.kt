@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Appointment
+import com.example.citassalon.data.models.AppointmentResponse
 import com.example.citassalon.databinding.FragmentHistorialDeCitasBinding
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.interfaces.ClickOnItem
@@ -20,7 +21,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HistorialDeCitas : Fragment(), ClickOnItem<Appointment>, SwipeRecycler.SwipeRecyclerListenr {
+class HistorialDeCitas : Fragment(), ClickOnItem<AppointmentResponse>, SwipeRecycler.SwipeRecyclerListenr {
 
     private var _binding: FragmentHistorialDeCitasBinding? = null
     private val binding get() = _binding!!
@@ -50,7 +51,7 @@ class HistorialDeCitas : Fragment(), ClickOnItem<Appointment>, SwipeRecycler.Swi
     }
 
 
-    private fun getListener(): ClickOnItem<Appointment> = this
+    private fun getListener(): ClickOnItem<AppointmentResponse> = this
 
     private fun getListenerSwipeRecyclerListenr() = this
 
@@ -104,10 +105,11 @@ class HistorialDeCitas : Fragment(), ClickOnItem<Appointment>, SwipeRecycler.Swi
         _binding = null
     }
 
-    override fun clikOnElement(element: Appointment, position: Int?) {
+    override fun clikOnElement(element: AppointmentResponse, position: Int?) {
+        /*
         val action =
             HistorialDeCitasDirections.actionHistorialDeCitasToHistorialDetailFragment(element)
-        findNavController().navigate(action)
+        findNavController().navigate(action)*/
     }
 
     override fun onMove() {
@@ -123,7 +125,7 @@ class HistorialDeCitas : Fragment(), ClickOnItem<Appointment>, SwipeRecycler.Swi
                     val appointment = historialCitasAdapter.getElement(position)
                     binding.progressBar2.visibility=View.VISIBLE
                     lifecycleScope.launch{
-                        viewModel.removeAponintment(appointment)
+                        //viewModel.removeAponintment(appointment) se cambiara a servicio
                         viewModel.getAllAppointMents()
                     }
                 }

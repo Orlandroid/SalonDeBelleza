@@ -53,6 +53,8 @@ class Repository @Inject constructor(
 
     suspend fun getStaffs() = webServices.getStaff()
 
+    suspend fun getAppointMents() = webServices.getAppointMents()
+
     suspend fun getServices() = webServices.getServicios()
 
     fun getUser() = fireBaseSource.getUser()
