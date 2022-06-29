@@ -6,20 +6,28 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Appointment
+import com.example.citassalon.data.models.AppointmentResponse
 import com.example.citassalon.databinding.FragmentHistorialDeCitasBinding
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.interfaces.ClickOnItem
+import com.example.citassalon.main.AlertDialogs
+import com.example.citassalon.util.SwipeRecycler
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HistorialDeCitas : Fragment(), ClickOnItem<Appointment> {
+class HistorialDeCitas : Fragment(), ClickOnItem<AppointmentResponse>, SwipeRecycler.SwipeRecyclerListenr {
 
     private var _binding: FragmentHistorialDeCitasBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ViewModelHistorialCitas by viewModels()
+    private val swipeRecycler = SwipeRecycler()
+    private val historialCitasAdapter = HistorialCitasAdapter(getListener())
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -37,32 +45,38 @@ class HistorialDeCitas : Fragment(), ClickOnItem<Appointment> {
             toolbarLayout.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
+            progressBar2.visibility=View.GONE
+            swipeRecycler.swipe(binding.recyclerAppointment, getListenerSwipeRecyclerListenr())
         }
     }
 
 
-    private fun getListener(): ClickOnItem<Appointment> = this
+    private fun getListener(): ClickOnItem<AppointmentResponse> = this
+
+    private fun getListenerSwipeRecyclerListenr() = this
 
     private fun setUpObservers() {
         viewModel.appointment.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiState.Loading -> {
-
+                    binding.progressBar2.visibility=View.VISIBLE
                 }
                 is ApiState.Success -> {
                     if (it.data != null) {
-                        binding.recyclerAppointment.adapter =
-                            HistorialCitasAdapter(it.data, getListener())
+                        binding.progressBar2.visibility=View.INVISIBLE
+                        binding.recyclerAppointment.adapter = historialCitasAdapter
+                        historialCitasAdapter.setData(it.data)
                     }
                 }
                 is ApiState.Error -> {
-
+                    binding.progressBar2.visibility=View.INVISIBLE
                 }
                 is ApiState.ErrorNetwork -> {
-
+                    binding.progressBar2.visibility=View.INVISIBLE
                 }
                 is ApiState.NoData -> {
                     with(binding) {
+                        binding.progressBar2.visibility=View.INVISIBLE
                         imageNoData.visibility = View.VISIBLE
                         imageNoData.setAnimation(getRandomNoDataAnimation())
                         imageNoData.playAnimation()
@@ -91,10 +105,35 @@ class HistorialDeCitas : Fragment(), ClickOnItem<Appointment> {
         _binding = null
     }
 
-    override fun clikOnElement(element: Appointment, position: Int?) {
+    override fun clikOnElement(element: AppointmentResponse, position: Int?) {
         val action =
             HistorialDeCitasDirections.actionHistorialDeCitasToHistorialDetailFragment(element)
         findNavController().navigate(action)
+    }
+
+    override fun onMove() {
+
+    }
+
+    override fun onSwipe(position: Int) {
+        val alert = AlertDialogs(
+            AlertDialogs.WARNING_MESSAGE,
+            "Estas seguro que deseas eliminar el registro",
+            object : AlertDialogs.ClickOnAccept {
+                override fun clikOnAccept() {
+                    val appointment = historialCitasAdapter.getElement(position)
+                    binding.progressBar2.visibility=View.VISIBLE
+                    lifecycleScope.launch{
+                        //viewModel.removeAponintment(appointment) se cambiara a servicio
+                        viewModel.getAllAppointMents()
+                    }
+                }
+
+                override fun clikOnCancel() {
+                    historialCitasAdapter.notifyDataSetChanged()
+                }
+            }, isTwoButtonDialog = true)
+        activity?.let { it1 -> alert.show(it1.supportFragmentManager, "dialog") }
     }
 
 }

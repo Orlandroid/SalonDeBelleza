@@ -6,11 +6,9 @@ import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.citassalon.R
-import com.example.citassalon.data.models.Appointment
+import com.example.citassalon.data.models.AppointmentResponse
 import com.example.citassalon.databinding.FragmentHistorialDetailBinding
 import com.example.citassalon.ui.base.BaseFragment
-import com.example.citassalon.ui.cita_agendada.CitaAgendadaFragment
-import com.example.citassalon.ui.cita_agendada.CitaAgendadaFragment.Companion.HISTORIAL
 
 
 class HistorialDetailFragment :
@@ -25,28 +23,19 @@ class HistorialDetailFragment :
 
     @SuppressLint("SetTextI18n")
     private fun setUpUi() {
-        val appointment: Appointment? = if (args.appointment != null){
-            args.appointment
-        }else{
-            activity?.intent?.getParcelableExtra(HISTORIAL)
-        }
+        val appointment: AppointmentResponse = args.appointment
         with(binding) {
             toolbarLayout.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
             toolbarLayout.toolbarTitle.text="Historial"
-            with(appointment){
-                tvEstablecimiento.text="Establecimiento: ${this?.establecimeinto}"
-                tvEmpleado.text="Empleado: ${this?.empleado}"
-                tvServicio.text="Servicio: ${this?.servicio}"
-                tvHora.text= this?.hora ?: ""
-                tvFecha.text = this?.fecha
-            }
+            tvEstablecimiento.text="Establecimiento: ${appointment.establecimiento}"
+            tvEmpleado.text="Empleado: ${appointment.empleado}"
+            tvServicio.text="Servicio: ${appointment.servicio}"
+            tvHora.text= "Hora: ${appointment.time}"
+            tvFecha.text = "Fecha: ${appointment.fecha}"
         }
     }
 
-    fun getApponitmentByBundle(){
-
-    }
 
 }

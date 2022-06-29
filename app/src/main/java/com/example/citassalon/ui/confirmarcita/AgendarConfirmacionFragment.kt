@@ -9,6 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.citassalon.data.models.Appointment
+import com.example.citassalon.data.models.AppointmentResponse
 import com.example.citassalon.databinding.FragmentAgendarConfirmacionBinding
 import com.example.citassalon.interfaces.ListenerAlertDialogWithButtons
 import com.example.citassalon.util.AlertsDialogMessages
@@ -74,9 +75,8 @@ class AgendarConfirmacionFragment : Fragment(), ListenerAlertDialogWithButtons {
         navigate(action)
     }
 
-    private fun createAppointment(): Appointment {
-        return Appointment(
-            0,
+    private fun createAppointment(): AppointmentResponse {
+        return AppointmentResponse(
             args.sucursal,
             args.staff.nombre,
             args.servicio.name,
@@ -87,10 +87,11 @@ class AgendarConfirmacionFragment : Fragment(), ListenerAlertDialogWithButtons {
     }
 
     private fun saveToDatabaseAppointMent() {
-        viewModel.saveAppointMent(
+        /*viewModel.saveAppointMent(
             createAppointment()
-        )
+        )*/
     }
+
 
     override fun clickOnCancel() {
 

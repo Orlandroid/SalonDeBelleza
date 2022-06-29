@@ -123,4 +123,8 @@ class AgendarServicioFragment : Fragment(), ClickOnItem<Servicio> ,AlertDialogs.
         findNavController().popBackStack()
     }
 
+    override fun clikOnCancel() {
+
+    }
+
 }

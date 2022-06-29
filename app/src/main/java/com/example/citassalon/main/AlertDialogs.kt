@@ -11,7 +11,8 @@ import com.example.citassalon.databinding.AlertDialogMessagesBinding
 class AlertDialogs(
     private val kindOfMessage: Int = SUCCES_MESSAGE,
     private val messageBody: String,
-    private val clikOnAccept: ClickOnAccept? = null
+    private val clikOnAccept: ClickOnAccept? = null,
+    private val isTwoButtonDialog: Boolean = false
 ) :
     DialogFragment() {
 
@@ -21,13 +22,17 @@ class AlertDialogs(
         const val SUCCES_MESSAGE_COLOR = R.color.succes
         const val WARNING_MESSAGE_COLOR = R.color.waring
         const val ERROR_MESSAGE_COLOR = R.color.danger
+        const val INFO_MESSAGE_COLOR = R.color.info
         const val SUCCES_MESSAGE = 0
         const val WARNING_MESSAGE = 1
         const val ERROR_MESSAGE = 2
+        const val INFO_MESSAGE = 3
+
     }
 
     interface ClickOnAccept {
         fun clikOnAccept()
+        fun clikOnCancel()
     }
 
     override fun onCreateView(
@@ -58,13 +63,38 @@ class AlertDialogs(
 
     private fun setUpUi() {
         with(binding) {
+            buttonAceptarOneButton.setOnClickListener {
+                clikOnAccept?.clikOnAccept()
+                dialog?.dismiss()
+            }
             buttonAceptar.setOnClickListener {
                 clikOnAccept?.clikOnAccept()
+                dialog?.dismiss()
+            }
+            buttonCancelar.setOnClickListener {
+                clikOnAccept?.clikOnCancel()
                 dialog?.dismiss()
             }
             binding.bodyMessage.text = messageBody
         }
         setKindOfMessage()
+        setKindOfView(isTwoButtonDialog)
+    }
+
+    private fun setKindOfView(isTwoButtonDialog: Boolean) {
+        if (isTwoButtonDialog) {
+            with(binding) {
+                buttonAceptarOneButton.visibility = View.GONE
+                buttonAceptar.visibility = View.VISIBLE
+                buttonCancelar.visibility = View.VISIBLE
+            }
+        }else{
+            with(binding) {
+                buttonAceptarOneButton.visibility = View.VISIBLE
+                buttonAceptar.visibility = View.GONE
+                buttonCancelar.visibility = View.GONE
+            }
+        }
     }
 
     private fun setKindOfMessage() {
@@ -80,6 +110,10 @@ class AlertDialogs(
             2 -> {
                 binding.headerDialog.setCardBackgroundColor(resources.getColor(ERROR_MESSAGE_COLOR))
                 binding.titleHeader.text = "Error"
+            }
+            3 -> {
+                binding.headerDialog.setCardBackgroundColor(resources.getColor(INFO_MESSAGE))
+                binding.titleHeader.text = "Info"
             }
         }
     }

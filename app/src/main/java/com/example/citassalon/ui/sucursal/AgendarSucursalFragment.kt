@@ -130,5 +130,9 @@ class AgendarSucursalFragment : Fragment(), ClickOnItem<Sucursal>, AlertDialogs.
         findNavController().popBackStack()
     }
 
+    override fun clikOnCancel() {
+
+    }
+
 
 }

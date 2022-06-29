@@ -78,7 +78,7 @@ class Sucursales : Fragment(), ClickOnItem<Sucursal> {
     }
 
     override fun clikOnElement(element: Sucursal, position: Int?) {
-        val action = SucursalesDirections.actionSucursales2ToNegocioInfo()
+        val action = SucursalesDirections.actionSucursales2ToNegocioInfo(element)
         navigate(action)
     }
 

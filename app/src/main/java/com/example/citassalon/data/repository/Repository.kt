@@ -31,8 +31,8 @@ class Repository @Inject constructor(
         db.updateAppointment(appointment)
     }
 
-    suspend fun deleteAppointment(appointment: Appointment) {
-        db.deleteAppointment(appointment)
+    suspend fun deleteAppointment(appointment: Appointment):Int {
+        return db.deleteAppointment(appointment)
     }
 
     suspend fun deleteAllAppointment() {
@@ -52,6 +52,8 @@ class Repository @Inject constructor(
     suspend fun getSucursales() = webServices.getSucursales()
 
     suspend fun getStaffs() = webServices.getStaff()
+
+    suspend fun getAppointMents() = webServices.getAppointMents()
 
     suspend fun getServices() = webServices.getServicios()
 

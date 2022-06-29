@@ -16,7 +16,7 @@ interface AppointmentDao {
     suspend fun updateAppointment(appointment: Appointment)
 
     @Delete
-    suspend fun deleteAppointment(appointment: Appointment)
+    suspend fun deleteAppointment(appointment: Appointment):Int
 
     @Query("SELECT * FROM appointment")
     fun getAllAppointment(): List<Appointment>
