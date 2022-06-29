@@ -106,10 +106,9 @@ class HistorialDeCitas : Fragment(), ClickOnItem<AppointmentResponse>, SwipeRecy
     }
 
     override fun clikOnElement(element: AppointmentResponse, position: Int?) {
-        /*
         val action =
             HistorialDeCitasDirections.actionHistorialDeCitasToHistorialDetailFragment(element)
-        findNavController().navigate(action)*/
+        findNavController().navigate(action)
     }
 
     override fun onMove() {

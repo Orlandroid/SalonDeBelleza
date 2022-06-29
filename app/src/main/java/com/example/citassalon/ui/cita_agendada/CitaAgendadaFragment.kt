@@ -6,7 +6,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.navigation.NavDeepLinkBuilder
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.citassalon.R
@@ -34,13 +33,6 @@ class CitaAgendadaFragment : Fragment(), Animator.AnimatorListener {
         _binding = FragmentCitaAgendadaBinding.inflate(inflater, container, false)
         setUpUi()
         return binding.root
-    }
-
-
-    private fun getBundle(): Bundle {
-        val bundle = Bundle()
-        bundle.putParcelable(HISTORIAL, args.apponitment)
-        return bundle
     }
 
     private fun setUpUi() {
