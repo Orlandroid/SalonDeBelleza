@@ -78,6 +78,10 @@ class ViewModelLogin
         }
     }
 
+    fun isUserActive():Boolean{
+        return repository.getUser()!= null
+    }
+
     fun firebaseAuthWithGoogle(idToken: String) {
         _loginGoogleStatus.value = SessionStatus.LOADING
         if (!networkHelper.isNetworkConnected()) {
