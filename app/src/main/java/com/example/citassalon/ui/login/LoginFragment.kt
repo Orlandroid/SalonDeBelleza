@@ -48,8 +48,7 @@ class LoginFragment : Fragment(), ListeneClickOnRecoverPassword {
 
 
     private fun isSessionActive() {
-        Log.w("ANDROID", viewModel.getUserSession().toString())
-        if (viewModel.getUserSession()) {
+        if (viewModel.isUserActive()) {
             val action = LoginFragmentDirections.actionLoginToHome32()
             navigate(action)
         }

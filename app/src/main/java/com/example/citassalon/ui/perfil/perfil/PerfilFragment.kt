@@ -116,7 +116,7 @@ class PerfilFragment : Fragment(), ListenerAlertDialogWithButtons, ClickOnItem<S
     }
 
     override fun clickOnConfirmar() {
-        viewModelPerfil.destroyUserSession()
+        viewModelPerfil.logout()
         navigate(PERFIL_TO_HOME)
     }
 

@@ -23,6 +23,10 @@ class ViewModelPerfil @Inject constructor(
         loginPeferences.destroyUserSession()
     }
 
+    fun logout() {
+        repository.logout()
+    }
+
     init {
         _firebaseUser.value = repository.getUser()
     }
