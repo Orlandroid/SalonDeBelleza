@@ -24,16 +24,12 @@ class SessionWorker @AssistedInject constructor(
             deleteSessionUser()
             Result.success()
         } catch (e: Exception) {
-            Log.w("ANDROID", "Error al hacer la tarea")
             Result.failure()
         }
     }
 
     private fun deleteSessionUser() {
-        Log.w("ANDROID", "Eliminado session")
         loginPeferences.destroyUserSession()
-        Log.w("ANDROID", loginPeferences.getUserSession().toString())
-
     }
 
 }

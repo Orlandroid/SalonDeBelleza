@@ -69,7 +69,8 @@ dependencies {
     implementation "androidx.navigation:navigation-ui-ktx:$navigation_version"
     //Room Dependecies
     implementation "androidx.room:room-runtime:$room_version"
-    implementation "androidx.room:room-ktx:$room_version" // nos servirá para usar corrutinas con room
+    implementation "androidx.room:room-ktx:$room_version"
+    // nos servirá para usar corrutinas con room
     kapt "androidx.room:room-compiler:$room_version"
     //Retrofit Dependecies
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
@@ -94,12 +95,12 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:28.0.1')
     implementation 'com.google.firebase:firebase-auth-ktx'
     implementation 'com.google.firebase:firebase-analytics-ktx'
-    implementation 'com.google.firebase:firebase-auth-ktx:21.0.5'
+    implementation 'com.google.firebase:firebase-auth-ktx:21.0.6'
     implementation 'com.google.android.gms:play-services-auth:20.2.0'
     implementation 'com.google.firebase:firebase-database-ktx'
     //Rounded ImageView
     implementation 'de.hdodenhof:circleimageview:3.1.0'
-    implementation 'com.google.android.gms:play-services-maps:18.0.2'
+    implementation 'com.google.android.gms:play-services-maps:18.1.0'
     //Skeleton
     implementation 'com.faltenreich:skeletonlayout:4.0.0'
     //lottie
@@ -111,7 +112,5 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.12.0'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
     implementation 'com.squareup.picasso:picasso:2.71828'
-
-
 
 }

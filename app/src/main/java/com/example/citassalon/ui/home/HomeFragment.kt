@@ -1,6 +1,7 @@
 package com.example.citassalon.ui.home
 
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
 import com.example.citassalon.databinding.FragmentHomeBinding
@@ -38,8 +39,9 @@ class HomeFragment : Fragment() {
                 navigate(HOME_TO_NOMBRE_ESTABLECIMEINTO)
             }
         }
+        Log.i("INFO","ANDROID")
+        Log.w("INFO","ANDROID")
     }
-
 
     override fun onDestroy() {
         super.onDestroy()
