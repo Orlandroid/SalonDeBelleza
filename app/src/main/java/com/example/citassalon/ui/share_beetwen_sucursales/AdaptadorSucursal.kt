@@ -9,11 +9,6 @@ import com.example.citassalon.R
 import com.example.citassalon.data.models.Sucursal
 import com.example.citassalon.interfaces.ClickOnItem
 
-/** Este adpatador es usado por 2 Fragments
- *  los cuales son los siguientes
-* /ui/AgendarSucursal
-* /ui/info/InfoSucursal
-**/
 
 class AdaptadorSucursal(
     private val sucursales: List<Sucursal>,

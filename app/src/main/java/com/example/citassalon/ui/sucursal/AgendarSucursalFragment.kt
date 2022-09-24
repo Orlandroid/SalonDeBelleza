@@ -28,7 +28,7 @@ class AgendarSucursalFragment : Fragment(), ClickOnItem<Sucursal>, AlertDialogs.
     private var _binding: FragmentAgendarSucursalBinding? = null
     private val binding get() = _binding!!
     private val viewModel: ViewModelSucursal by viewModels()
-    private val TAG = AgendarSucursalFragment::class.java.simpleName
+
 
     override
     fun onCreateView(

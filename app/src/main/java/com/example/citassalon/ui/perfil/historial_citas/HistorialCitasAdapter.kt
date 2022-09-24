@@ -6,7 +6,6 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.R
-import com.example.citassalon.data.models.Appointment
 import com.example.citassalon.data.models.AppointmentResponse
 import com.example.citassalon.interfaces.ClickOnItem
 

@@ -8,9 +8,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.citassalon.R
-import com.example.citassalon.data.models.Sucursal
 import com.example.citassalon.databinding.FragmentUbicacionBinding
-import com.example.citassalon.ui.info.sucursales.Sucursales
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback

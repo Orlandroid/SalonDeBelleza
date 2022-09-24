@@ -1,5 +1,6 @@
 package com.example.citassalon.ui.perfil.historial_citas
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -9,7 +10,6 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
-import com.example.citassalon.data.models.Appointment
 import com.example.citassalon.data.models.AppointmentResponse
 import com.example.citassalon.databinding.FragmentHistorialDeCitasBinding
 import com.example.citassalon.data.state.ApiState
@@ -17,7 +17,6 @@ import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.main.AlertDialogs
 import com.example.citassalon.util.SwipeRecycler
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -39,6 +38,7 @@ class HistorialDeCitas : Fragment(), ClickOnItem<AppointmentResponse>, SwipeRecy
         return binding.root
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setUpUi() {
         with(binding) {
             toolbarLayout.toolbarTitle.text = "Historial de citas"

@@ -9,7 +9,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.citassalon.R
 import com.example.citassalon.data.models.Product
-import com.example.citassalon.util.getTotalPrice
 import com.squareup.picasso.Picasso
 
 class CartAdapter :

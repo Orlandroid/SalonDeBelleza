@@ -7,7 +7,6 @@ import com.example.citassalon.data.models.Sucursal
 import com.example.citassalon.util.SERVICIOS
 import com.example.citassalon.util.STAFFS
 import com.example.citassalon.util.SUCURSALES
-import okhttp3.Response
 import retrofit2.http.GET
 
 interface WebServices {

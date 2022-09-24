@@ -10,7 +10,6 @@ import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentPerfilBinding
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.interfaces.ListenerAlertDialogWithButtons
-import com.example.citassalon.ui.perfil.userprofile.UserProfileViewModel
 import com.example.citassalon.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -76,7 +75,10 @@ class PerfilFragment : Fragment(), ListenerAlertDialogWithButtons, ClickOnItem<S
                 val action = PerfilFragmentDirections.actionPerfilToUserProfileFragment()
                 navigate(action)
             }
-            2 -> navigate(PERFIL_TO_HISTORIAL_DE_CITAS)
+            2 -> {
+                val action = PerfilFragmentDirections.actionPerfilToHistorialDeCitas()
+                navigate(action)
+            }
             3 -> Log.w("uno", "unos")
             4 -> showTermAndCondition()
             5 -> logout()
@@ -84,14 +86,10 @@ class PerfilFragment : Fragment(), ListenerAlertDialogWithButtons, ClickOnItem<S
     }
 
     private fun setUpObserver() {
-        viewModelPerfil.firebaseUser.observe(viewLifecycleOwner) {
-            if (it.email != null) {
-                binding.nombreUsuario.text = it.email
+        viewModelPerfil.firebaseUser.observe(viewLifecycleOwner) {firebaseUser->
+            firebaseUser?.let {
+                binding.nombreUsuario.text=it.email
             }
-            Log.w("USER", it.tenantId.toString())
-            Log.w("USER", it.uid.toString())
-            Log.w("USER", it.displayName.toString())
-            Log.w("USER", it.email.toString())
         }
     }
 
@@ -117,7 +115,7 @@ class PerfilFragment : Fragment(), ListenerAlertDialogWithButtons, ClickOnItem<S
 
     override fun clickOnConfirmar() {
         viewModelPerfil.logout()
-        navigate(PERFIL_TO_HOME)
+        findNavController().popBackStack(R.id.login,true)
     }
 
     override fun clickOnCancel() {

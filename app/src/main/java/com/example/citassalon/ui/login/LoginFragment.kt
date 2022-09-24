@@ -204,7 +204,8 @@ class LoginFragment : Fragment(), ListeneClickOnRecoverPassword {
                     binding.progress.visibility = View.GONE
                     binding.buttonGetIn.isEnabled = true
                     saveUserEmailToPreferences()
-                    navigate(LOGIN_TO_HOME)
+                    val action = LoginFragmentDirections.actionLoginToHome32()
+                    navigate(action)
                 }
                 is SessionStatus.ERROR -> {
                     binding.progress.visibility = View.GONE

@@ -45,8 +45,4 @@ class ProductsAdapter(private val listener: ClickOnItem<Product>) :
         return listOfProducts.size
     }
 
-    interface ProductsListener {
-        fun clikcOnProduct(products: Product)
-    }
-
 }

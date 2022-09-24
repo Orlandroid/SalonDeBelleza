@@ -6,10 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import androidx.lifecycle.lifecycleScope
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentSplashScreenBinding
 import com.example.citassalon.util.navigate
-import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
@@ -29,12 +29,12 @@ class SplashScreenFragment : Fragment() {
         return binding.root
     }
 
-    private fun setUpUi(){
+    private fun setUpUi() {
         launchSplash()
     }
 
-    private fun launchSplash(){
-        CoroutineScope(Dispatchers.Main).launch{
+    private fun launchSplash() {
+        lifecycleScope.launch {
             startAnimation()
             delay(4000)
             val action = SplashScreenFragmentDirections.actionSplashScreenFragmentToLogin()
@@ -42,7 +42,7 @@ class SplashScreenFragment : Fragment() {
         }
     }
 
-    private fun startAnimation(){
+    private fun startAnimation() {
         val animation = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
         binding.imageView8.startAnimation(animation)
     }
