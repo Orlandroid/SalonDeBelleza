@@ -1,4 +1,4 @@
-package com.example.citassalon.data.models
+package com.example.citassalon.data.models.remote
 
 data class User(
     val name: String,

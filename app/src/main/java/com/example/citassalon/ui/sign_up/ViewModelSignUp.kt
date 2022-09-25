@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.citassalon.data.models.User
+import com.example.citassalon.data.models.remote.User
 import com.example.citassalon.data.repository.Repository
 import com.example.citassalon.main.NetworkHelper
 import com.example.citassalon.data.state.SessionStatus

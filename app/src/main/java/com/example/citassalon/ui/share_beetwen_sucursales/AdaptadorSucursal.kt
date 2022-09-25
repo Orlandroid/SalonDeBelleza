@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.R
-import com.example.citassalon.data.models.Sucursal
+import com.example.citassalon.data.models.remote.Sucursal
 import com.example.citassalon.interfaces.ClickOnItem
 
 

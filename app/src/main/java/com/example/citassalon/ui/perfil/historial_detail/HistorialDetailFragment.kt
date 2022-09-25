@@ -6,7 +6,7 @@ import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.citassalon.R
-import com.example.citassalon.data.models.AppointmentResponse
+import com.example.citassalon.data.models.remote.AppointmentResponse
 import com.example.citassalon.databinding.FragmentHistorialDetailBinding
 import com.example.citassalon.ui.base.BaseFragment
 

@@ -1,4 +1,4 @@
-package com.example.citassalon.data.models
+package com.example.citassalon.data.models.remote
 
 import android.os.Parcelable
 import com.example.citassalon.R

@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.citassalon.data.models.Sucursal
+import com.example.citassalon.data.models.remote.Sucursal
 import com.example.citassalon.databinding.FragmentSucursalesBinding
 import com.example.citassalon.ui.share_beetwen_sucursales.AdaptadorSucursal
 import com.example.citassalon.ui.share_beetwen_sucursales.ViewModelSucursal

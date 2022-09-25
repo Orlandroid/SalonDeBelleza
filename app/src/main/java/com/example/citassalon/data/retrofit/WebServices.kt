@@ -1,9 +1,9 @@
 package com.example.citassalon.data.retrofit
 
-import com.example.citassalon.data.models.AppointmentResponse
-import com.example.citassalon.data.models.Servicio
-import com.example.citassalon.data.models.Staff
-import com.example.citassalon.data.models.Sucursal
+import com.example.citassalon.data.models.remote.AppointmentResponse
+import com.example.citassalon.data.models.remote.Servicio
+import com.example.citassalon.data.models.remote.Staff
+import com.example.citassalon.data.models.remote.Sucursal
 import com.example.citassalon.util.SERVICIOS
 import com.example.citassalon.util.STAFFS
 import com.example.citassalon.util.SUCURSALES

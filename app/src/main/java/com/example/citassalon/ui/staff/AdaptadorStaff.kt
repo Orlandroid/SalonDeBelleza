@@ -7,7 +7,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.R
-import com.example.citassalon.data.models.Staff
+import com.example.citassalon.data.models.remote.Staff
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.util.navigate
 

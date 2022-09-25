@@ -1,4 +1,4 @@
-package com.example.citassalon.data.models
+package com.example.citassalon.data.models.local
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

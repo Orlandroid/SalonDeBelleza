@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.citassalon.R
-import com.example.citassalon.data.models.Servicio
+import com.example.citassalon.data.models.remote.Servicio
 import com.example.citassalon.databinding.FragmentAgendarServicioBinding
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.interfaces.ClickOnItem

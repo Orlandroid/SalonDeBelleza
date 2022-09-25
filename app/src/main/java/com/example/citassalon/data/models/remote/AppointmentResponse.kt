@@ -1,4 +1,4 @@
-package com.example.citassalon.data.models
+package com.example.citassalon.data.models.remote
 
 import android.os.Parcelable
 import kotlinx.parcelize.Parcelize
@@ -11,4 +11,4 @@ data class AppointmentResponse(
     val time: String,
     val fecha: String,
     val idUser: String
-):Parcelable
+) : Parcelable

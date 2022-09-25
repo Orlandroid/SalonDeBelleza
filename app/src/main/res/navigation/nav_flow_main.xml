@@ -81,7 +81,7 @@
             app:popExitAnim="@anim/to_right" />
         <argument
             android:name="staff"
-            app:argType="com.example.citassalon.data.models.Staff" />
+            app:argType="com.example.citassalon.data.models.remote.Staff" />
         <argument
             android:name="sucursal"
             app:argType="string" />
@@ -103,10 +103,10 @@
             app:argType="string" />
         <argument
             android:name="staff"
-            app:argType="com.example.citassalon.data.models.Staff" />
+            app:argType="com.example.citassalon.data.models.remote.Staff" />
         <argument
             android:name="servicio"
-            app:argType="com.example.citassalon.data.models.Servicio" />
+            app:argType="com.example.citassalon.data.models.remote.Servicio" />
     </fragment>
     <fragment
         android:id="@+id/agendarConfirmacion"
@@ -132,10 +132,10 @@
             app:argType="string" />
         <argument
             android:name="staff"
-            app:argType="com.example.citassalon.data.models.Staff" />
+            app:argType="com.example.citassalon.data.models.remote.Staff" />
         <argument
             android:name="servicio"
-            app:argType="com.example.citassalon.data.models.Servicio" />
+            app:argType="com.example.citassalon.data.models.remote.Servicio" />
         <argument
             android:name="fecha"
             app:argType="string" />
@@ -155,7 +155,7 @@
             app:exitAnim="@anim/to_right" />
         <argument
             android:name="apponitment"
-            app:argType="com.example.citassalon.data.models.AppointmentResponse" />
+            app:argType="com.example.citassalon.data.models.remote.AppointmentResponse" />
     </fragment>
     <fragment
         android:id="@+id/perfil"
@@ -184,7 +184,7 @@
         tools:layout="@layout/fragment_detalle_staff">
         <argument
             android:name="currentStaff"
-            app:argType="com.example.citassalon.data.models.Staff" />
+            app:argType="com.example.citassalon.data.models.remote.Staff" />
     </fragment>
     <fragment
         android:id="@+id/sucursales"
@@ -225,7 +225,7 @@
         android:label="HistorialDetailFragment" >
         <argument
             android:name="appointment"
-            app:argType="com.example.citassalon.data.models.AppointmentResponse" />
+            app:argType="com.example.citassalon.data.models.remote.AppointmentResponse" />
     </fragment>
     <fragment
         android:id="@+id/userProfileFragment"

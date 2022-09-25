@@ -4,8 +4,8 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.data.models.Cart
-import com.example.citassalon.data.models.Product
+import com.example.citassalon.data.models.remote.Cart
+import com.example.citassalon.data.models.remote.Product
 import com.example.citassalon.data.repository.Repository
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.main.NetworkHelper

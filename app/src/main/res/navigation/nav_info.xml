@@ -42,7 +42,7 @@
             app:destination="@id/ubicacion" />
         <argument
             android:name="currentSucursal"
-            app:argType="com.example.citassalon.data.models.Sucursal" />
+            app:argType="com.example.citassalon.data.models.remote.Sucursal" />
     </fragment>
     <fragment
         android:id="@+id/nuestroStaff"
@@ -61,7 +61,7 @@
         tools:layout="@layout/fragment_ubicacion" >
         <argument
             android:name="currentSucursal"
-            app:argType="com.example.citassalon.data.models.Sucursal" />
+            app:argType="com.example.citassalon.data.models.remote.Sucursal" />
     </fragment>
     <fragment
         android:id="@+id/listOfProductsFragment"
@@ -94,7 +94,7 @@
         tools:layout="@layout/fragment_detalle_producto" >
         <argument
             android:name="producto"
-            app:argType="com.example.citassalon.data.models.Product" />
+            app:argType="com.example.citassalon.data.models.remote.Product" />
     </fragment>
     <fragment
         tools:layout="@layout/fragment_cart"
