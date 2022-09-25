@@ -11,4 +11,4 @@ data class AppointmentResponse(
     val time: String,
     val fecha: String,
     val idUser: String
-):Parcelable
+) : Parcelable

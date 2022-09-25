@@ -2,30 +2,43 @@ package com.example.citassalon.ui.confirmarcita
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.citassalon.data.models.Appointment
-import com.example.citassalon.data.repository.Repository
+import com.example.citassalon.data.models.remote.Appointment as RemoteAppointment
+import com.google.firebase.database.*
+import com.google.firebase.database.ktx.getValue
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
+import java.util.*
 import javax.inject.Inject
 
 @HiltViewModel
-class ViewModelAgendarConfirmacion @Inject constructor(private val repository: Repository) :
+class ViewModelAgendarConfirmacion @Inject constructor(
+    private val databaseReference: DatabaseReference
+) :
     ViewModel() {
 
-    fun saveAppointMent(appointment: Appointment) {
-        viewModelScope.launch(Dispatchers.IO) {
-            repository.addAppointment(appointment)
-        }
+
+    fun saveAppointMent(appointment: RemoteAppointment) {
+        databaseReference.child(UUID.randomUUID().toString()).setValue(appointment)
+            .addOnSuccessListener {
+                Log.w("SAVE", "SAVE")
+            }.addOnFailureListener {
+                Log.w("ERROR", "ERROR AL GUARDAR")
+            }
     }
 
+    fun getAppointments() {
+        databaseReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                snapshot.children.forEach {
+                    val post = it.getValue<RemoteAppointment>()
+                    Log.w("POST", post.toString())
+                }
+            }
 
-    fun getApp() {
-        viewModelScope.launch(Dispatchers.IO) {
-            val citas = repository.getAllAppointment()
-            Log.w("CITAS", citas.toString())
-        }
+            override fun onCancelled(error: DatabaseError) {
+                Log.i("ERROR", error.message)
+            }
+        })
     }
+
 
 }
