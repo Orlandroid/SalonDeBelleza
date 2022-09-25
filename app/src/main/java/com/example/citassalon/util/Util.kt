@@ -4,7 +4,7 @@ import android.graphics.Color
 import android.text.TextUtils
 import android.util.Patterns
 import com.example.citassalon.R
-import com.example.citassalon.data.models.Product
+import com.example.citassalon.data.models.remote.Product
 
 
 fun isValidEmail(target: CharSequence?): Boolean {

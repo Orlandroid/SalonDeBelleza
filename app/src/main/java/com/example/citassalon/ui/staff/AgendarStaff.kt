@@ -11,7 +11,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.citassalon.R
-import com.example.citassalon.data.models.Staff
+import com.example.citassalon.data.models.remote.Staff
 import com.example.citassalon.databinding.FragmentAgendarStaffBinding
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.interfaces.ClickOnItem

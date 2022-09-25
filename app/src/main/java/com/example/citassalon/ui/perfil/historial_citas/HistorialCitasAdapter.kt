@@ -6,7 +6,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.R
-import com.example.citassalon.data.models.AppointmentResponse
+import com.example.citassalon.data.models.remote.AppointmentResponse
 import com.example.citassalon.interfaces.ClickOnItem
 
 
@@ -27,7 +27,7 @@ class HistorialCitasAdapter(private val listener: ClickOnItem<AppointmentRespons
         notifyDataSetChanged()
     }
 
-    fun getElement(position: Int):AppointmentResponse{
+    fun getElement(position: Int): AppointmentResponse {
         return listAppointment[position]
     }
 

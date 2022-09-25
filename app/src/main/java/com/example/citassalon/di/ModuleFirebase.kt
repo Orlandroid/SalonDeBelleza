@@ -15,9 +15,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object ModuleFirebase {
 
-
     private const val APPOINTMENT_REFERENCE = "Appointment"
-
 
     @Singleton
     @Provides
@@ -39,7 +37,6 @@ object ModuleFirebase {
     fun provideFirebaseRealtimeDatabaseReference(firebaseDatabase: FirebaseDatabase,firebaseAuth: FirebaseAuth): DatabaseReference {
         val uuidUser = firebaseAuth.uid
         return firebaseDatabase.reference.child(APPOINTMENT_REFERENCE).child(uuidUser!!)
-
     }
 
 

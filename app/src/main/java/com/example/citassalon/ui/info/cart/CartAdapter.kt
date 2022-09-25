@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.citassalon.R
-import com.example.citassalon.data.models.Product
+import com.example.citassalon.data.models.remote.Product
 import com.squareup.picasso.Picasso
 
 class CartAdapter :

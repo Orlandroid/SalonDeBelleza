@@ -1,6 +1,6 @@
 package com.example.citassalon.data.mappers
 
-import com.example.citassalon.data.models.AppointmentResponse
+import com.example.citassalon.data.models.remote.AppointmentResponse
 import com.example.citassalon.data.models.remote.Appointment as AppointmentRemote
 
 fun AppointmentResponse.toAppointmentRemote(): AppointmentRemote {

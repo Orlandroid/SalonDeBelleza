@@ -1,7 +1,7 @@
 package com.example.citassalon.data.room
 
 import androidx.room.*
-import com.example.citassalon.data.models.Appointment
+import com.example.citassalon.data.models.local.Appointment
 
 @Dao
 interface AppointmentDao {

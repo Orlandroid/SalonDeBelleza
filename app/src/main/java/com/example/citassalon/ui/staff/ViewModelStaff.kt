@@ -4,7 +4,7 @@ package com.example.citassalon.ui.staff
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.data.models.Staff
+import com.example.citassalon.data.models.remote.Staff
 import com.example.citassalon.data.repository.Repository
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.main.NetworkHelper

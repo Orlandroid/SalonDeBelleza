@@ -10,7 +10,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.citassalon.R
-import com.example.citassalon.data.models.Product
+import com.example.citassalon.data.models.remote.Product
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.databinding.FragmentProductsBinding
 import com.example.citassalon.interfaces.ClickOnItem

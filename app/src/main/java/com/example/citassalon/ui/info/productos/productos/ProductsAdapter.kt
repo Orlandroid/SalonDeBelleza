@@ -4,7 +4,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.citassalon.data.models.Product
+import com.example.citassalon.data.models.remote.Product
 import com.example.citassalon.databinding.ItemProductBinding
 import com.example.citassalon.interfaces.ClickOnItem
 

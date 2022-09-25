@@ -9,7 +9,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.citassalon.data.mappers.toAppointmentRemote
-import com.example.citassalon.data.models.AppointmentResponse
+import com.example.citassalon.data.models.remote.AppointmentResponse
 import com.example.citassalon.databinding.FragmentAgendarConfirmacionBinding
 import com.example.citassalon.interfaces.ListenerAlertDialogWithButtons
 import com.example.citassalon.util.AlertsDialogMessages

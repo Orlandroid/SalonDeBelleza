@@ -2,6 +2,7 @@ package com.example.citassalon.ui.confirmarcita
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
+import com.example.citassalon.util.DATABASE_NAME
 import com.example.citassalon.data.models.remote.Appointment as RemoteAppointment
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
@@ -29,8 +30,8 @@ class ViewModelAgendarConfirmacion @Inject constructor(
         databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 snapshot.children.forEach {
-                    val post = it.getValue<RemoteAppointment>()
-                    Log.w("POST", post.toString())
+                    val appointment = it.getValue<RemoteAppointment>()
+                    Log.w("POST", appointment.toString())
                 }
             }
 

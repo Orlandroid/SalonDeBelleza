@@ -1,7 +1,7 @@
 package com.example.citassalon.data.repository
 
 import com.example.citassalon.data.firebase.FireBaseSource
-import com.example.citassalon.data.models.Appointment
+import com.example.citassalon.data.models.local.Appointment
 import com.example.citassalon.data.retrofit.FakeStoreService
 import com.example.citassalon.data.retrofit.WebServices
 import com.example.citassalon.data.room.AppointmentDao

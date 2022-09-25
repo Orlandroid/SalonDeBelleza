@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.citassalon.data.models.Staff
+import com.example.citassalon.data.models.remote.Staff
 import com.example.citassalon.databinding.FragmentDetalleStaffBinding
 
 
