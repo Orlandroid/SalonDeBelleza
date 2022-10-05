@@ -28,9 +28,9 @@ class DetalleStaffFragment : Fragment() {
         return binding.root
     }
 
-    private fun setUpUi(){
-        with(binding){
-            toolbar.toolbarTitle.text="Detalle Staff"
+    private fun setUpUi() {
+        with(binding) {
+            toolbar.toolbarTitle.text = "Detalle Staff"
             toolbar.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
@@ -43,9 +43,11 @@ class DetalleStaffFragment : Fragment() {
     }
 
     private fun setValueToView(staff: Staff) {
-        binding.image.setImageResource(staff.getResourceImage())
-        binding.name.text = staff.nombre
-        binding.ratingBarEvaluation.rating = staff.valoracion
+        binding.apply {
+            image.setImageResource(staff.getResourceImage())
+            name.text = staff.nombre
+            ratingBarEvaluation.rating = staff.valoracion
+        }
     }
 
     override fun onDestroy() {
