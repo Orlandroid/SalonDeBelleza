@@ -9,11 +9,11 @@ import com.example.citassalon.R
 import com.example.citassalon.data.models.remote.Servicio
 import com.example.citassalon.interfaces.ClickOnItem
 
-class AdaptadorServicio(
+class AgendarServicioAdapter(
     private val servicios: List<Servicio>,
     private val listener: ClickOnItem<Servicio>
 ) :
-    RecyclerView.Adapter<AdaptadorServicio.ViewHolder>() {
+    RecyclerView.Adapter<AgendarServicioAdapter.ViewHolder>() {
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         val servicio: TextView = itemView.findViewById(R.id.NombreServicio)

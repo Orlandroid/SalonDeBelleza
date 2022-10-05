@@ -6,8 +6,8 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.R
 
-class AdaptadorNuestroStaff(private val dataSet: Array<String>) :
-    RecyclerView.Adapter<AdaptadorNuestroStaff.ViewHolder>() {
+class NuestroStaffAdapter(private val dataSet: Array<String>) :
+    RecyclerView.Adapter<NuestroStaffAdapter.ViewHolder>() {
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
 

@@ -9,7 +9,7 @@ import androidx.navigation.fragment.findNavController
 import com.example.citassalon.databinding.FragmentInfoServiciosBinding
 
 
-class InfoServiciosFragment : Fragment() {
+class InfoServicesFragment : Fragment() {
 
     private var _binding: FragmentInfoServiciosBinding? = null
     private val binding get() = _binding!!

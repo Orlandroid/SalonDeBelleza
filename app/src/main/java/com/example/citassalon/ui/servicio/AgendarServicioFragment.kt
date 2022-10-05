@@ -27,7 +27,7 @@ class AgendarServicioFragment : Fragment(), ClickOnItem<Servicio> ,AlertDialogs.
 
     private var _binding: FragmentAgendarServicioBinding? = null
     private val binding get() = _binding!!
-    private val viewModelAgendarServicio: ViewModelAgendarServicio by viewModels()
+    private val viewModelAgendarServicio: AgendarServicioViewModel by viewModels()
 
 
     private val args: AgendarServicioFragmentArgs by navArgs()
@@ -74,7 +74,7 @@ class AgendarServicioFragment : Fragment(), ClickOnItem<Servicio> ,AlertDialogs.
                 is ApiState.Success -> {
                     if (it.data != null) {
                         binding.shimmerServicio.visibility = View.GONE
-                        binding.recyclerAgendarServicio.adapter = AdaptadorServicio(it.data, getListener())
+                        binding.recyclerAgendarServicio.adapter = AgendarServicioAdapter(it.data, getListener())
                     }
                 }
                 is ApiState.Error -> {

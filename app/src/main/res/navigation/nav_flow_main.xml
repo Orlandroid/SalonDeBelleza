@@ -50,7 +50,7 @@
     </fragment>
     <fragment
         android:id="@+id/agendarStaff"
-        android:name="com.example.citassalon.ui.staff.AgendarStaff"
+        android:name="com.example.citassalon.ui.staff.AgendarStaffFragment"
         android:label="fragment_agendar_staff"
         tools:layout="@layout/fragment_agendar_staff">
         <action
@@ -188,7 +188,7 @@
     </fragment>
     <fragment
         android:id="@+id/sucursales"
-        android:name="com.example.citassalon.ui.info.sucursales.Sucursales"
+        android:name="com.example.citassalon.ui.info.sucursales.SucursalesFragment"
         android:label="fragment_sucursales"
         tools:layout="@layout/fragment_sucursales" />
     <fragment

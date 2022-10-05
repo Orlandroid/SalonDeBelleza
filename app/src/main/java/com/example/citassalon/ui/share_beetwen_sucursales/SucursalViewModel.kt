@@ -10,7 +10,6 @@ import com.example.citassalon.data.models.remote.Sucursal
 import com.example.citassalon.data.repository.Repository
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.main.NetworkHelper
-import com.google.firebase.database.DatabaseReference
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -18,7 +17,7 @@ import javax.inject.Inject
 
 
 @HiltViewModel
-class ViewModelSucursal @Inject constructor(
+class SucursalViewModel @Inject constructor(
     private val repository: Repository,
     private val networkHelper: NetworkHelper
 ) :
@@ -48,7 +47,7 @@ class ViewModelSucursal @Inject constructor(
                 _sucursal.postValue(ApiState.Success(response))
             } catch (e: Exception) {
                 _sucursal.postValue(ApiState.Error(e))
-                Log.w("ERROR",e.message.toString())
+                Log.w("ERROR", e.message.toString())
             }
         }
     }

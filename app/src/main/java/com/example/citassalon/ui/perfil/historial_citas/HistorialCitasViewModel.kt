@@ -15,8 +15,9 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+
 @HiltViewModel
-class ViewModelHistorialCitas @Inject constructor(
+class HistorialCitasViewModel @Inject constructor(
     private val appointmentRepository: Repository,
     private val networkHelper: NetworkHelper
 ) :
@@ -37,21 +38,21 @@ class ViewModelHistorialCitas @Inject constructor(
     fun getAllAppointMents() {
         _appointment.value = ApiState.Loading()
         viewModelScope.launch {
-            if (!networkHelper.isNetworkConnected()){
-                withContext(Dispatchers.Main){
-                    _appointment.value=ApiState.ErrorNetwork()
+            if (!networkHelper.isNetworkConnected()) {
+                withContext(Dispatchers.Main) {
+                    _appointment.value = ApiState.ErrorNetwork()
                 }
                 return@launch
             }
             try {
                 val appointmens = appointmentRepository.getAppointMents()
-                if (appointmens.isEmpty()){
-                    _appointment.value=ApiState.NoData()
+                if (appointmens.isEmpty()) {
+                    _appointment.value = ApiState.NoData()
                     return@launch
                 }
-                _appointment.value=ApiState.Success(appointmens)
-            }catch (e:Exception){
-                _appointment.value=ApiState.Error(e)
+                _appointment.value = ApiState.Success(appointmens)
+            } catch (e: Exception) {
+                _appointment.value = ApiState.Error(e)
             }
         }
     }

@@ -35,4 +35,9 @@ class PerfilAdapter(
 
     override fun getItemCount() = menuElements.size
 
+    data class PerfilItem(
+        val name: String,
+        val image: Int
+    )
+
 }

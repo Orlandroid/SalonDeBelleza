@@ -10,11 +10,11 @@ import com.example.citassalon.data.models.remote.Sucursal
 import com.example.citassalon.interfaces.ClickOnItem
 
 
-class AdaptadorSucursal(
+class SucursalAdapter(
     private val sucursales: List<Sucursal>,
     private val listener: ClickOnItem<Sucursal>
 ) :
-    RecyclerView.Adapter<AdaptadorSucursal.ViewHolder>() {
+    RecyclerView.Adapter<SucursalAdapter.ViewHolder>() {
 
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

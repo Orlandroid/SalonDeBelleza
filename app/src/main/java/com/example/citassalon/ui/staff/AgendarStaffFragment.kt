@@ -27,14 +27,14 @@ import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AgendarStaff : Fragment(), ClickOnItem<Staff>, AlertDialogs.ClickOnAccept {
+class AgendarStaffFragment : Fragment(), ClickOnItem<Staff>, AlertDialogs.ClickOnAccept {
 
 
     private var _binding: FragmentAgendarStaffBinding? = null
     private val binding get() = _binding!!
-    private val viewModelStaff: ViewModelStaff by viewModels()
-    private val args: AgendarStaffArgs by navArgs()
-    private val adaptador = AdaptadorStaff(getListener())
+    private val viewModelStaff: StaffViewModel by viewModels()
+    private val args: AgendarStaffFragmentArgs by navArgs()
+    private val adaptador = StaffAdapter(getListener())
     private lateinit var skeletonRecyclerView: Skeleton
 
 
@@ -139,7 +139,7 @@ class AgendarStaff : Fragment(), ClickOnItem<Staff>, AlertDialogs.ClickOnAccept 
 
     private fun navigateToAngendarService(staff: Staff) {
         binding.tvEmpleado.text = staff.nombre
-        val action = AgendarStaffDirections.actionAgendarStaffToAgendarServicio(
+        val action = AgendarStaffFragmentDirections.actionAgendarStaffToAgendarServicio(
             staff,
             args.sucursal
         )
