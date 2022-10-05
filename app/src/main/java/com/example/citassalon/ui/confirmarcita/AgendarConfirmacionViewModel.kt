@@ -2,7 +2,6 @@ package com.example.citassalon.ui.confirmarcita
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.example.citassalon.util.DATABASE_NAME
 import com.example.citassalon.data.models.remote.Appointment as RemoteAppointment
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
@@ -10,8 +9,9 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import java.util.*
 import javax.inject.Inject
 
+
 @HiltViewModel
-class ViewModelAgendarConfirmacion @Inject constructor(
+class AgendarConfirmacionViewModel @Inject constructor(
     private val databaseReference: DatabaseReference
 ) :
     ViewModel() {

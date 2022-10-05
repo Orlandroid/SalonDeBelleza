@@ -9,8 +9,9 @@ import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
+
 @HiltViewModel
-class ViewModelPerfil @Inject constructor(
+class PerfilViewModel @Inject constructor(
     private val repository: Repository,
     private val loginPeferences: LoginPeferences
 ) :

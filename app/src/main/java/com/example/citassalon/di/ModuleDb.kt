@@ -2,8 +2,7 @@ package com.example.citassalon.di
 
 import android.content.Context
 import androidx.room.Room
-import com.example.citassalon.data.room.SkedulyDatabase
-import com.example.citassalon.util.DATABASE_NAME
+import com.example.citassalon.data.db.SkedulyDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -16,6 +15,8 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 
 object ModuleDb {
+
+    private const val DATABASE_NAME = "Skeduly"
 
     @Provides
     @Singleton

@@ -28,7 +28,7 @@ class LoginFragment : Fragment(), ListeneClickOnRecoverPassword {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: ViewModelLogin by viewModels()
+    private val viewModel: LoginViewModel by viewModels()
     private lateinit var googleSignInClient: GoogleSignInClient
     private val RC_SIGN_IN = 200
 

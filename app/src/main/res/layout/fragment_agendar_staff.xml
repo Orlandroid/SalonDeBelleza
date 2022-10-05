@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    tools:context=".ui.staff.AgendarStaff">
+    tools:context=".ui.staff.AgendarStaffFragment">
 
     <include
         android:id="@+id/toolbar"

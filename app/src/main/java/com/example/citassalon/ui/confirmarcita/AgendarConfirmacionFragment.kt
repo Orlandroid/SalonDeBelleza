@@ -21,7 +21,7 @@ class AgendarConfirmacionFragment : Fragment(), ListenerAlertDialogWithButtons {
 
     private var _binding: FragmentAgendarConfirmacionBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: ViewModelAgendarConfirmacion by viewModels()
+    private val viewModel: AgendarConfirmacionViewModel by viewModels()
 
     private val args: AgendarConfirmacionFragmentArgs by navArgs()
 

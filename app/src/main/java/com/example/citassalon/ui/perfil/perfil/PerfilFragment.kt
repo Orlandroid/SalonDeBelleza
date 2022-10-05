@@ -20,7 +20,7 @@ class PerfilFragment : Fragment(), ListenerAlertDialogWithButtons, ClickOnItem<S
 
     private var _binding: FragmentPerfilBinding? = null
     private val binding get() = _binding!!
-    private val viewModelPerfil: ViewModelPerfil by viewModels()
+    private val viewModelPerfil: PerfilViewModel by viewModels()
 
 
     override fun onCreateView(
@@ -53,13 +53,13 @@ class PerfilFragment : Fragment(), ListenerAlertDialogWithButtons, ClickOnItem<S
         binding.recyclerProfile.adapter = PerfilAdapter(setElementsMenu(), getListener())
     }
 
-    private fun setElementsMenu(): List<PerfilItem> {
-        val elementsMenu = arrayListOf<PerfilItem>()
-        val perfil = PerfilItem("Perfil", R.drawable.perfil)
-        val historial = PerfilItem("Historial de citas", R.drawable.historial_menu)
-        val contactanos = PerfilItem("Contactanos", R.drawable.contactos)
-        val terminos = PerfilItem("Terminos y condiciones", R.drawable.terminos)
-        val cerrarSesion = PerfilItem("Cerrar sesion", R.drawable.cerrar)
+    private fun setElementsMenu(): List<PerfilAdapter.PerfilItem> {
+        val elementsMenu = arrayListOf<PerfilAdapter.PerfilItem>()
+        val perfil = PerfilAdapter.PerfilItem("Perfil", R.drawable.perfil)
+        val historial = PerfilAdapter.PerfilItem("Historial de citas", R.drawable.historial_menu)
+        val contactanos = PerfilAdapter.PerfilItem("Contactanos", R.drawable.contactos)
+        val terminos = PerfilAdapter.PerfilItem("Terminos y condiciones", R.drawable.terminos)
+        val cerrarSesion = PerfilAdapter.PerfilItem("Cerrar sesion", R.drawable.cerrar)
         elementsMenu.add(perfil)
         elementsMenu.add(historial)
         elementsMenu.add(contactanos)

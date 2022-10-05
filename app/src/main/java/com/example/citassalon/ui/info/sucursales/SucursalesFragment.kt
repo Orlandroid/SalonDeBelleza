@@ -9,8 +9,8 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.data.models.remote.Sucursal
 import com.example.citassalon.databinding.FragmentSucursalesBinding
-import com.example.citassalon.ui.share_beetwen_sucursales.AdaptadorSucursal
-import com.example.citassalon.ui.share_beetwen_sucursales.ViewModelSucursal
+import com.example.citassalon.ui.share_beetwen_sucursales.SucursalAdapter
+import com.example.citassalon.ui.share_beetwen_sucursales.SucursalViewModel
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.util.navigate
@@ -18,11 +18,11 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class Sucursales : Fragment(), ClickOnItem<Sucursal> {
+class SucursalesFragment : Fragment(), ClickOnItem<Sucursal> {
 
     private var _binding: FragmentSucursalesBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: ViewModelSucursal by viewModels()
+    private val viewModel: SucursalViewModel by viewModels()
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -51,7 +51,7 @@ class Sucursales : Fragment(), ClickOnItem<Sucursal> {
                     if (it.data != null) {
                         binding.shimmerSucursal.visibility = View.GONE
                         binding.recyclerView.adapter =
-                            AdaptadorSucursal(it.data, getListener())
+                            SucursalAdapter(it.data, getListener())
                     }
                 }
                 is ApiState.Loading -> {
@@ -78,7 +78,7 @@ class Sucursales : Fragment(), ClickOnItem<Sucursal> {
     }
 
     override fun clikOnElement(element: Sucursal, position: Int?) {
-        val action = SucursalesDirections.actionSucursales2ToNegocioInfo(element)
+        val action = SucursalesFragmentDirections.actionSucursales2ToNegocioInfo(element)
         navigate(action)
     }
 

@@ -1,10 +1,10 @@
-package com.example.citassalon.ui.servicio
+package com.example.citassalon.ui.staff
 
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.data.models.remote.Servicio
+import com.example.citassalon.data.models.remote.Staff
 import com.example.citassalon.data.repository.Repository
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.main.NetworkHelper
@@ -13,35 +13,37 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
 @HiltViewModel
-class ViewModelAgendarServicio @Inject constructor(
+class StaffViewModel @Inject constructor(
     private val repository: Repository,
     private val networkHelper: NetworkHelper
 ) :
     ViewModel() {
 
-    private val _services = MutableLiveData<ApiState<List<Servicio>>>()
-    val services: MutableLiveData<ApiState<List<Servicio>>>
-        get() = _services
+    private val _staff = MutableLiveData<ApiState<List<Staff>>>()
+    val staff: MutableLiveData<ApiState<List<Staff>>>
+        get() = _staff
 
     init {
-        getServices()
+        getSttafs()
     }
 
-    fun getServices() {
+    fun getSttafs() {
         viewModelScope.launch(Dispatchers.IO) {
-            _services.postValue(ApiState.Loading())
+            _staff.postValue(ApiState.Loading())
             if (!networkHelper.isNetworkConnected()) {
-                _services.postValue(ApiState.ErrorNetwork())
+                _staff.postValue(ApiState.ErrorNetwork())
             }
             try {
-                val response = repository.getServices()
+                val response = repository.getStaffs()
                 if (response.isEmpty()) {
-                    _services.postValue(ApiState.NoData())
+                    _staff.postValue(ApiState.NoData())
+                    return@launch
                 }
-                _services.postValue(ApiState.Success(response))
+                _staff.postValue(ApiState.Success(response))
             } catch (e: Exception) {
-                _services.postValue(ApiState.Error(e))
+                _staff.postValue(ApiState.Error(e))
             }
         }
     }

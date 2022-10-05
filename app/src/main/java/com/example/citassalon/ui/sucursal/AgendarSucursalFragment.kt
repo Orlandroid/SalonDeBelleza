@@ -14,8 +14,8 @@ import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.databinding.FragmentAgendarSucursalBinding
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.main.AlertDialogs
-import com.example.citassalon.ui.share_beetwen_sucursales.AdaptadorSucursal
-import com.example.citassalon.ui.share_beetwen_sucursales.ViewModelSucursal
+import com.example.citassalon.ui.share_beetwen_sucursales.SucursalAdapter
+import com.example.citassalon.ui.share_beetwen_sucursales.SucursalViewModel
 import com.example.citassalon.util.*
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,7 +27,7 @@ class AgendarSucursalFragment : Fragment(), ClickOnItem<Sucursal>, AlertDialogs.
 
     private var _binding: FragmentAgendarSucursalBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: ViewModelSucursal by viewModels()
+    private val viewModel: SucursalViewModel by viewModels()
 
 
     override
@@ -63,7 +63,7 @@ class AgendarSucursalFragment : Fragment(), ClickOnItem<Sucursal>, AlertDialogs.
                     if (it.data != null) {
                         binding.shimmerSucursal.visibility = View.GONE
                         binding.recyclerSucursal.adapter =
-                            AdaptadorSucursal(it.data, getListener())
+                            SucursalAdapter(it.data, getListener())
                     }
                 }
                 is ApiState.Loading -> {

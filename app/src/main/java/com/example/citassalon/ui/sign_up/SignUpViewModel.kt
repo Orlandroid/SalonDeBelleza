@@ -13,7 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ViewModelSignUp @Inject constructor(
+class SignUpViewModel @Inject constructor(
     private val repository: Repository,
     private val firebaseDatabase: FirebaseDatabase,
     private val networkHelper: NetworkHelper

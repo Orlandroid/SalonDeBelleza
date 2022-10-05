@@ -22,7 +22,7 @@ class SignUpFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private var _binding: SignInBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: ViewModelSignUp by viewModels()
+    private val viewModel: SignUpViewModel by viewModels()
 
 
     override fun onCreateView(

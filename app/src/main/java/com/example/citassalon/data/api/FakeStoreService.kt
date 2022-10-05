@@ -1,4 +1,4 @@
-package com.example.citassalon.data.retrofit
+package com.example.citassalon.data.api
 
 import com.example.citassalon.data.models.remote.Cart
 import com.example.citassalon.data.models.remote.Product

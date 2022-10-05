@@ -13,7 +13,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ViewModelLogin
+class LoginViewModel
 @Inject constructor(
     private val networkHelper: NetworkHelper,
     private val repository: Repository,
@@ -78,8 +78,8 @@ class ViewModelLogin
         }
     }
 
-    fun isUserActive():Boolean{
-        return repository.getUser()!= null
+    fun isUserActive(): Boolean {
+        return repository.getUser() != null
     }
 
     fun firebaseAuthWithGoogle(idToken: String) {

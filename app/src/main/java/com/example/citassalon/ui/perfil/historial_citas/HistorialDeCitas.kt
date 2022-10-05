@@ -24,7 +24,7 @@ class HistorialDeCitas : Fragment(), ClickOnItem<AppointmentResponse>, SwipeRecy
 
     private var _binding: FragmentHistorialDeCitasBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: ViewModelHistorialCitas by viewModels()
+    private val viewModel: HistorialCitasViewModel by viewModels()
     private val swipeRecycler = SwipeRecycler()
     private val historialCitasAdapter = HistorialCitasAdapter(getListener())
 
