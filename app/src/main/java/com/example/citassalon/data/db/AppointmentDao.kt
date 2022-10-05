@@ -1,4 +1,4 @@
-package com.example.citassalon.data.room
+package com.example.citassalon.data.db
 
 import androidx.room.*
 import com.example.citassalon.data.models.local.Appointment

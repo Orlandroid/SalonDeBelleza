@@ -1,4 +1,4 @@
-package com.example.citassalon.data.retrofit
+package com.example.citassalon.data.api
 
 import com.example.citassalon.data.models.remote.AppointmentResponse
 import com.example.citassalon.data.models.remote.Servicio
