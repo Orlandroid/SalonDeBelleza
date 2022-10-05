@@ -1,12 +1,11 @@
 package com.example.citassalon.ui.info.cart
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
-import com.example.citassalon.data.models.Product
+import com.example.citassalon.data.models.remote.Product
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.databinding.FragmentCartBinding
 import com.example.citassalon.interfaces.ClickOnItem

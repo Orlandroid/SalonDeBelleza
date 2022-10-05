@@ -10,7 +10,7 @@ import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import com.example.citassalon.data.models.User
+import com.example.citassalon.data.models.remote.User
 import com.example.citassalon.data.state.SessionStatus
 import com.example.citassalon.databinding.SignInBinding
 import com.example.citassalon.main.AlertDialogs
@@ -22,7 +22,7 @@ class SignUpFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
     private var _binding: SignInBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: ViewModelSignUp by viewModels()
+    private val viewModel: SignUpViewModel by viewModels()
 
 
     override fun onCreateView(

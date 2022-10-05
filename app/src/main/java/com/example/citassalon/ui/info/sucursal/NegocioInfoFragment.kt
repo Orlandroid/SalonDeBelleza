@@ -9,7 +9,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentNegocioInfoBinding
-import com.example.citassalon.ui.staff.AgendarStaffArgs
 import com.example.citassalon.util.navigate
 
 

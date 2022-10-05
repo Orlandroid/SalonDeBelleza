@@ -2,7 +2,6 @@ package com.example.citassalon.ui.fecha
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.text.format.Time
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -13,11 +12,9 @@ import androidx.navigation.fragment.navArgs
 import com.example.citassalon.databinding.FragmentAgendarFechaBinding
 import com.example.citassalon.main.AlertDialogs
 import com.example.citassalon.main.AlertDialogs.Companion.WARNING_MESSAGE
-import com.example.citassalon.main.AlertDialogs.Companion.WARNING_MESSAGE_COLOR
 import com.example.citassalon.util.hideKeyboard
 import com.example.citassalon.util.navigate
 import com.example.citassalon.util.showDatePickerDialog
-import kotlin.concurrent.fixedRateTimer
 
 class AgendarFechaFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 

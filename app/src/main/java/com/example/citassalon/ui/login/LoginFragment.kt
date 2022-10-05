@@ -28,7 +28,7 @@ class LoginFragment : Fragment(), ListeneClickOnRecoverPassword {
 
     private var _binding: FragmentLoginBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: ViewModelLogin by viewModels()
+    private val viewModel: LoginViewModel by viewModels()
     private lateinit var googleSignInClient: GoogleSignInClient
     private val RC_SIGN_IN = 200
 
@@ -204,7 +204,8 @@ class LoginFragment : Fragment(), ListeneClickOnRecoverPassword {
                     binding.progress.visibility = View.GONE
                     binding.buttonGetIn.isEnabled = true
                     saveUserEmailToPreferences()
-                    navigate(LOGIN_TO_HOME)
+                    val action = LoginFragmentDirections.actionLoginToHome32()
+                    navigate(action)
                 }
                 is SessionStatus.ERROR -> {
                     binding.progress.visibility = View.GONE

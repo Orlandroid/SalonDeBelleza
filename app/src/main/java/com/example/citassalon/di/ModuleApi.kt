@@ -2,11 +2,9 @@ package com.example.citassalon.di
 
 import com.example.citassalon.data.firebase.FireBaseSource
 import com.example.citassalon.data.repository.Repository
-import com.example.citassalon.data.retrofit.FakeStoreService
-import com.example.citassalon.data.retrofit.WebServices
-import com.example.citassalon.data.room.AppointmentDao
-import com.example.citassalon.util.BASE_URL
-import com.example.citassalon.util.BASE_URL_FAKE_STORE
+import com.example.citassalon.data.api.FakeStoreService
+import com.example.citassalon.data.api.WebServices
+import com.example.citassalon.data.db.AppointmentDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,6 +21,9 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object ModuleApi {
 
+
+    private const val BASE_URL_FAKE_STORE = "https://fakestoreapi.com/"
+    private const val BASE_URL = "https://skeduly.herokuapp.com/api/"
 
     @Singleton
     @Provides

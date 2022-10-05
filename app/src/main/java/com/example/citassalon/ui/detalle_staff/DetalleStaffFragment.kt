@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.citassalon.data.models.Staff
+import com.example.citassalon.data.models.remote.Staff
 import com.example.citassalon.databinding.FragmentDetalleStaffBinding
 
 
@@ -28,9 +28,9 @@ class DetalleStaffFragment : Fragment() {
         return binding.root
     }
 
-    private fun setUpUi(){
-        with(binding){
-            toolbar.toolbarTitle.text="Detalle Staff"
+    private fun setUpUi() {
+        with(binding) {
+            toolbar.toolbarTitle.text = "Detalle Staff"
             toolbar.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
@@ -43,9 +43,11 @@ class DetalleStaffFragment : Fragment() {
     }
 
     private fun setValueToView(staff: Staff) {
-        binding.image.setImageResource(staff.getResourceImage())
-        binding.name.text = staff.nombre
-        binding.ratingBarEvaluation.rating = staff.valoracion
+        binding.apply {
+            image.setImageResource(staff.getResourceImage())
+            name.text = staff.nombre
+            ratingBarEvaluation.rating = staff.valoracion
+        }
     }
 
     override fun onDestroy() {

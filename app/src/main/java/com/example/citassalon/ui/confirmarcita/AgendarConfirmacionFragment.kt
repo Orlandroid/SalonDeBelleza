@@ -8,8 +8,8 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.citassalon.data.models.Appointment
-import com.example.citassalon.data.models.AppointmentResponse
+import com.example.citassalon.data.mappers.toAppointmentRemote
+import com.example.citassalon.data.models.remote.AppointmentResponse
 import com.example.citassalon.databinding.FragmentAgendarConfirmacionBinding
 import com.example.citassalon.interfaces.ListenerAlertDialogWithButtons
 import com.example.citassalon.util.AlertsDialogMessages
@@ -21,7 +21,7 @@ class AgendarConfirmacionFragment : Fragment(), ListenerAlertDialogWithButtons {
 
     private var _binding: FragmentAgendarConfirmacionBinding? = null
     private val binding get() = _binding!!
-    private val viewModel: ViewModelAgendarConfirmacion by viewModels()
+    private val viewModel: AgendarConfirmacionViewModel by viewModels()
 
     private val args: AgendarConfirmacionFragmentArgs by navArgs()
 
@@ -32,6 +32,7 @@ class AgendarConfirmacionFragment : Fragment(), ListenerAlertDialogWithButtons {
     ): View {
         _binding = FragmentAgendarConfirmacionBinding.inflate(inflater, container, false)
         setUpUi()
+        viewModel.getAppointments()
         return binding.root
     }
 
@@ -87,9 +88,7 @@ class AgendarConfirmacionFragment : Fragment(), ListenerAlertDialogWithButtons {
     }
 
     private fun saveToDatabaseAppointMent() {
-        /*viewModel.saveAppointMent(
-            createAppointment()
-        )*/
+       viewModel.saveAppointMent(createAppointment().toAppointmentRemote())
     }
 
 

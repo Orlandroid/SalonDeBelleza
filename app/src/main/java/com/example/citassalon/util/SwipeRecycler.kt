@@ -3,7 +3,7 @@ package com.example.citassalon.util
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 
-class SwipeRecycler() {
+class SwipeRecycler {
 
 
     fun swipe(recycler: RecyclerView,listenr: SwipeRecyclerListenr) {

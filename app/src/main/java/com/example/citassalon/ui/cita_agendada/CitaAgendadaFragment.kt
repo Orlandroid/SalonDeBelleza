@@ -22,10 +22,6 @@ class CitaAgendadaFragment : Fragment(), Animator.AnimatorListener {
     private val args: CitaAgendadaFragmentArgs by navArgs()
 
 
-    companion object {
-        const val HISTORIAL = "historial"
-    }
-
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?

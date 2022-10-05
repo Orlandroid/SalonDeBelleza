@@ -2,7 +2,6 @@ package com.example.citassalon.main
 
 
 import android.content.Context
-import android.util.Log
 import androidx.hilt.work.HiltWorker
 import androidx.work.Worker
 import androidx.work.WorkerParameters
@@ -24,16 +23,12 @@ class SessionWorker @AssistedInject constructor(
             deleteSessionUser()
             Result.success()
         } catch (e: Exception) {
-            Log.w("ANDROID", "Error al hacer la tarea")
             Result.failure()
         }
     }
 
     private fun deleteSessionUser() {
-        Log.w("ANDROID", "Eliminado session")
         loginPeferences.destroyUserSession()
-        Log.w("ANDROID", loginPeferences.getUserSession().toString())
-
     }
 
 }

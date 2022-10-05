@@ -1,10 +1,10 @@
 package com.example.citassalon.data.repository
 
 import com.example.citassalon.data.firebase.FireBaseSource
-import com.example.citassalon.data.models.Appointment
-import com.example.citassalon.data.retrofit.FakeStoreService
-import com.example.citassalon.data.retrofit.WebServices
-import com.example.citassalon.data.room.AppointmentDao
+import com.example.citassalon.data.models.local.Appointment
+import com.example.citassalon.data.api.FakeStoreService
+import com.example.citassalon.data.api.WebServices
+import com.example.citassalon.data.db.AppointmentDao
 import com.google.firebase.auth.AuthCredential
 import javax.inject.Inject
 
