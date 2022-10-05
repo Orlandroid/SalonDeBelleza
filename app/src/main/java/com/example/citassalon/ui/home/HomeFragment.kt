@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.*
 import androidx.fragment.app.Fragment
 import com.example.citassalon.databinding.FragmentHomeBinding
+import com.example.citassalon.ui.extensions.navigate
 import com.example.citassalon.util.*
 import dagger.hilt.android.AndroidEntryPoint
 

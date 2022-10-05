@@ -10,6 +10,7 @@ import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentPerfilBinding
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.interfaces.ListenerAlertDialogWithButtons
+import com.example.citassalon.ui.extensions.navigate
 import com.example.citassalon.util.*
 import dagger.hilt.android.AndroidEntryPoint
 

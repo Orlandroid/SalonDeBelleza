@@ -15,6 +15,8 @@ import com.example.citassalon.main.AlertDialogs
 import com.example.citassalon.util.*
 import com.example.citassalon.main.AlertDialogs.Companion.ERROR_MESSAGE
 import com.example.citassalon.main.AlertDialogs.Companion.WARNING_MESSAGE
+import com.example.citassalon.ui.extensions.hideKeyboard
+import com.example.citassalon.ui.extensions.navigate
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions

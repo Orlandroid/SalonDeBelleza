@@ -18,9 +18,9 @@ import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.main.AlertDialogs
 import com.example.citassalon.main.AlertDialogs.Companion.ERROR_MESSAGE
 import com.example.citassalon.util.ERROR_SERVIDOR
-import com.example.citassalon.util.action
-import com.example.citassalon.util.displaySnack
-import com.example.citassalon.util.navigate
+import com.example.citassalon.ui.extensions.action
+import com.example.citassalon.ui.extensions.displaySnack
+import com.example.citassalon.ui.extensions.navigate
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
 import com.google.android.material.snackbar.Snackbar

@@ -12,9 +12,9 @@ import androidx.navigation.fragment.navArgs
 import com.example.citassalon.databinding.FragmentAgendarFechaBinding
 import com.example.citassalon.main.AlertDialogs
 import com.example.citassalon.main.AlertDialogs.Companion.WARNING_MESSAGE
-import com.example.citassalon.util.hideKeyboard
-import com.example.citassalon.util.navigate
-import com.example.citassalon.util.showDatePickerDialog
+import com.example.citassalon.ui.extensions.hideKeyboard
+import com.example.citassalon.ui.extensions.navigate
+import com.example.citassalon.ui.extensions.showDatePickerDialog
 
 class AgendarFechaFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 

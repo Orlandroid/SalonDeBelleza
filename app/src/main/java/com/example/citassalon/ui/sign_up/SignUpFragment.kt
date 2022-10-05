@@ -14,6 +14,8 @@ import com.example.citassalon.data.models.remote.User
 import com.example.citassalon.data.state.SessionStatus
 import com.example.citassalon.databinding.SignInBinding
 import com.example.citassalon.main.AlertDialogs
+import com.example.citassalon.ui.extensions.hideKeyboard
+import com.example.citassalon.ui.extensions.showDatePickerDialog
 import com.example.citassalon.util.*
 import dagger.hilt.android.AndroidEntryPoint
 

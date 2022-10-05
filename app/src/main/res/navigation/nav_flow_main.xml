@@ -202,7 +202,7 @@
     </fragment>
     <fragment
         android:id="@+id/historialDeCitas"
-        android:name="com.example.citassalon.ui.perfil.historial_citas.HistorialDeCitas"
+        android:name="com.example.citassalon.ui.perfil.historial_citas.HistorialDeCitasFragment"
         android:label="fragment_historial_de_citas"
         tools:layout="@layout/fragment_historial_de_citas" >
         <action

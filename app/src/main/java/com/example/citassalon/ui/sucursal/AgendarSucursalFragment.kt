@@ -14,6 +14,9 @@ import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.databinding.FragmentAgendarSucursalBinding
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.main.AlertDialogs
+import com.example.citassalon.ui.extensions.action
+import com.example.citassalon.ui.extensions.displaySnack
+import com.example.citassalon.ui.extensions.navigate
 import com.example.citassalon.ui.share_beetwen_sucursales.SucursalAdapter
 import com.example.citassalon.ui.share_beetwen_sucursales.SucursalViewModel
 import com.example.citassalon.util.*

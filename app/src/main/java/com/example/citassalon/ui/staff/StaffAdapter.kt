@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.R
 import com.example.citassalon.data.models.remote.Staff
 import com.example.citassalon.interfaces.ClickOnItem
-import com.example.citassalon.util.navigate
+import com.example.citassalon.ui.extensions.navigate
 
 class StaffAdapter(private val listener: ClickOnItem<Staff>) :
     RecyclerView.Adapter<StaffAdapter.ViewHolder>() {

@@ -16,7 +16,7 @@ import com.example.citassalon.databinding.FragmentProductsBinding
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.main.AlertDialogs
 import com.example.citassalon.main.AlertDialogs.Companion.ERROR_MESSAGE
-import com.example.citassalon.util.navigate
+import com.example.citassalon.ui.extensions.navigate
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
 import dagger.hilt.android.AndroidEntryPoint

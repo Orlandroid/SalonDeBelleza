@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.perfil.historial_citas.HistorialDeCitas">
+    tools:context=".ui.perfil.historial_citas.HistorialDeCitasFragment">
 
     <include
         android:id="@+id/toolbar_layout"

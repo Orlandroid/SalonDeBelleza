@@ -1,4 +1,4 @@
-package com.example.citassalon.util
+package com.example.citassalon.ui.extensions
 
 import android.app.Activity
 import android.app.DatePickerDialog

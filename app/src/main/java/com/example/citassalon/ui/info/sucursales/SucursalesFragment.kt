@@ -13,7 +13,7 @@ import com.example.citassalon.ui.share_beetwen_sucursales.SucursalAdapter
 import com.example.citassalon.ui.share_beetwen_sucursales.SucursalViewModel
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.interfaces.ClickOnItem
-import com.example.citassalon.util.navigate
+import com.example.citassalon.ui.extensions.navigate
 import dagger.hilt.android.AndroidEntryPoint
 
 

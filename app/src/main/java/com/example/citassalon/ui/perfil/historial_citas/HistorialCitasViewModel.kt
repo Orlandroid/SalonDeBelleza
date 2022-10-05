@@ -9,22 +9,30 @@ import com.example.citassalon.data.models.remote.AppointmentResponse
 import com.example.citassalon.data.repository.Repository
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.main.NetworkHelper
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.getValue
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import com.example.citassalon.data.models.remote.Appointment as AppointmentRemote
 
 
 @HiltViewModel
 class HistorialCitasViewModel @Inject constructor(
     private val appointmentRepository: Repository,
-    private val networkHelper: NetworkHelper
+    private val networkHelper: NetworkHelper,
+    private val databaseReference: DatabaseReference
 ) :
     ViewModel() {
 
-    private val _appointment = MutableLiveData<ApiState<List<AppointmentResponse>>>()
-    val appointment: MutableLiveData<ApiState<List<AppointmentResponse>>>
+    private val _appointment =
+        MutableLiveData<ApiState<List<AppointmentRemote>>>()
+    val appointment: MutableLiveData<ApiState<List<AppointmentRemote>>>
         get() = _appointment
 
     private val _appointmentsLocal = MutableLiveData<ApiState<List<Appointment>>>()
@@ -32,7 +40,7 @@ class HistorialCitasViewModel @Inject constructor(
         get() = _appointmentsLocal
 
     init {
-        getAllAppointMents()
+        getAppointments()
     }
 
     fun getAllAppointMents() {
@@ -50,10 +58,46 @@ class HistorialCitasViewModel @Inject constructor(
                     _appointment.value = ApiState.NoData()
                     return@launch
                 }
-                _appointment.value = ApiState.Success(appointmens)
+                //_appointment.value = ApiState.Success(appointmens)
             } catch (e: Exception) {
                 _appointment.value = ApiState.Error(e)
             }
+        }
+    }
+
+
+    fun getAppointments() {
+        _appointment.value = ApiState.Loading()
+        viewModelScope.launch(Dispatchers.IO) {
+            if (!networkHelper.isNetworkConnected()) {
+                withContext(Dispatchers.Main) {
+                    _appointment.value = ApiState.ErrorNetwork()
+                }
+                return@launch
+            }
+            databaseReference.addValueEventListener(object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val listOfAppointments =
+                        arrayListOf<AppointmentRemote>()
+                    snapshot.children.forEach {
+                        val appointment = it.getValue<AppointmentRemote>()
+                        appointment?.let {
+                            listOfAppointments.add(appointment)
+                        }
+                        Log.w("POST", appointment.toString())
+                    }
+                    if (listOfAppointments.isEmpty()) {
+                        _appointment.value = ApiState.NoData()
+                    } else {
+                        _appointment.value = ApiState.Success(listOfAppointments)
+                    }
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    _appointment.value = ApiState.Error(Throwable(message = error.message))
+                    Log.i("ERROR", error.message)
+                }
+            })
         }
     }
 
@@ -84,5 +128,6 @@ class HistorialCitasViewModel @Inject constructor(
         }
         return false
     }
+
 
 }

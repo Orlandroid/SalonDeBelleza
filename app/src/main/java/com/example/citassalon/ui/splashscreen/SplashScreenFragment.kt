@@ -9,8 +9,7 @@ import android.view.animation.AnimationUtils
 import androidx.lifecycle.lifecycleScope
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentSplashScreenBinding
-import com.example.citassalon.util.navigate
-import kotlinx.coroutines.Dispatchers
+import com.example.citassalon.ui.extensions.navigate
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 

@@ -13,7 +13,7 @@ import com.example.citassalon.data.models.remote.AppointmentResponse
 import com.example.citassalon.databinding.FragmentAgendarConfirmacionBinding
 import com.example.citassalon.interfaces.ListenerAlertDialogWithButtons
 import com.example.citassalon.util.AlertsDialogMessages
-import com.example.citassalon.util.navigate
+import com.example.citassalon.ui.extensions.navigate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

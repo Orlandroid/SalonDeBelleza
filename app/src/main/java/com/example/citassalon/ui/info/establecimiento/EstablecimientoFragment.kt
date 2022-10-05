@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentEstablecimientoBinding
-import com.example.citassalon.util.navigate
+import com.example.citassalon.ui.extensions.navigate
 
 
 class EstablecimientoFragment : Fragment() {
