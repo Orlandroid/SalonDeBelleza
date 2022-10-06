@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.citassalon.R
+import com.example.citassalon.data.mappers.toAppointmentObject
 import com.example.citassalon.databinding.FragmentCitaAgendadaBinding
 import com.example.citassalon.main.NotificationHelper
 import com.example.citassalon.ui.perfil.historial_detail.HistorialDetailFragmentArgs
@@ -32,7 +33,6 @@ class CitaAgendadaFragment : Fragment(), Animator.AnimatorListener {
     }
 
     private fun setUpUi() {
-
         val arg = HistorialDetailFragmentArgs(args.apponitment).toBundle()
         val pendingIntent = findNavController()
             .createDeepLink()

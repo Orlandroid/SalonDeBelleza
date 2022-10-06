@@ -155,7 +155,7 @@
             app:exitAnim="@anim/to_right" />
         <argument
             android:name="apponitment"
-            app:argType="com.example.citassalon.data.models.remote.AppointmentResponse" />
+            app:argType="com.example.citassalon.data.models.local.AppointmentObject" />
     </fragment>
     <fragment
         android:id="@+id/perfil"
@@ -225,7 +225,7 @@
         android:label="HistorialDetailFragment" >
         <argument
             android:name="appointment"
-            app:argType="com.example.citassalon.data.models.remote.AppointmentResponse" />
+            app:argType="com.example.citassalon.data.models.local.AppointmentObject" />
     </fragment>
     <fragment
         android:id="@+id/userProfileFragment"

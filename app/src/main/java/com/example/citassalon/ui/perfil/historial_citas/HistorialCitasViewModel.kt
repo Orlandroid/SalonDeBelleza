@@ -5,7 +5,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.data.models.local.Appointment
-import com.example.citassalon.data.models.remote.AppointmentResponse
 import com.example.citassalon.data.repository.Repository
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.main.NetworkHelper
@@ -39,6 +38,10 @@ class HistorialCitasViewModel @Inject constructor(
     val appointmentLocal: MutableLiveData<ApiState<List<Appointment>>>
         get() = _appointmentsLocal
 
+    private val _removeAppointment = MutableLiveData<ApiState<List<Appointment>>>()
+    val removeAppointment: MutableLiveData<ApiState<List<Appointment>>>
+        get() = _removeAppointment
+
     init {
         getAppointments()
     }
@@ -66,7 +69,7 @@ class HistorialCitasViewModel @Inject constructor(
     }
 
 
-    fun getAppointments() {
+    private fun getAppointments() {
         _appointment.value = ApiState.Loading()
         viewModelScope.launch(Dispatchers.IO) {
             if (!networkHelper.isNetworkConnected()) {
@@ -100,6 +103,31 @@ class HistorialCitasViewModel @Inject constructor(
             })
         }
     }
+
+    fun removeAppointment(idAppointment: String) {
+        _removeAppointment.value = ApiState.Loading()
+        viewModelScope.launch(Dispatchers.IO) {
+            if (!networkHelper.isNetworkConnected()) {
+                withContext(Dispatchers.Main) {
+                    _removeAppointment.value = ApiState.ErrorNetwork()
+                }
+                return@launch
+            }
+            try {
+                val task =
+                    databaseReference.child(idAppointment).removeValue().addOnSuccessListener {
+                        _removeAppointment.value=ApiState.Success(listOf())
+                        Log.i("SUCCES", "Appointment Eliminado")
+                    }.addOnCanceledListener {
+                        _removeAppointment.value=ApiState.Error(Throwable(message = "Error al elimnar"))
+                        Log.i("ERROR", "Error al eliminar el appointment")
+                    }
+            } catch (e: Exception) {
+                _removeAppointment.value = ApiState.Error(e)
+            }
+        }
+    }
+
 
     fun getAllAppointMentsLocal() {
         _appointmentsLocal.value = ApiState.Loading()

@@ -6,23 +6,27 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
+import com.example.citassalon.data.mappers.toAppointmentObject
 import com.example.citassalon.data.mappers.toAppointmentResponse
+import com.example.citassalon.data.models.remote.Appointment
 import com.example.citassalon.data.models.remote.AppointmentResponse
 import com.example.citassalon.databinding.FragmentHistorialDeCitasBinding
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.main.AlertDialogs
 import com.example.citassalon.ui.extensions.visible
+import com.example.citassalon.util.AlertsDialogMessages
 import com.example.citassalon.util.SwipeRecycler
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HistorialDeCitasFragment : Fragment(), ClickOnItem<AppointmentResponse>,
+class HistorialDeCitasFragment : Fragment(), ClickOnItem<Appointment>,
     SwipeRecycler.SwipeRecyclerListenr {
 
     private var _binding: FragmentHistorialDeCitasBinding? = null
@@ -54,7 +58,7 @@ class HistorialDeCitasFragment : Fragment(), ClickOnItem<AppointmentResponse>,
     }
 
 
-    private fun getListener(): ClickOnItem<AppointmentResponse> = this
+    private fun getListener(): ClickOnItem<Appointment> = this
 
     private fun getListenerSwipeRecyclerListenr() = this
 
@@ -68,12 +72,7 @@ class HistorialDeCitasFragment : Fragment(), ClickOnItem<AppointmentResponse>,
                     if (it.data != null) {
                         binding.progressBar2.visibility = View.INVISIBLE
                         binding.recyclerAppointment.adapter = historialCitasAdapter
-                        val listOfAppointMensts = arrayListOf<AppointmentResponse>()
-                        it.data.forEach { myAppointment ->
-                            val appointment = myAppointment.toAppointmentResponse()
-                            listOfAppointMensts.add(appointment)
-                        }
-                        historialCitasAdapter.setData(listOfAppointMensts)
+                        historialCitasAdapter.setData(it.data)
                     }
                 }
                 is ApiState.Error -> {
@@ -90,6 +89,36 @@ class HistorialDeCitasFragment : Fragment(), ClickOnItem<AppointmentResponse>,
                         imageNoData.playAnimation()
                     }
                 }
+            }
+        }
+        viewModel.removeAppointment.observe(viewLifecycleOwner) {
+            binding.progressBar2.isVisible = it is ApiState.Loading
+            when (it) {
+                is ApiState.Success -> {
+                    val alert = AlertDialogs(
+                        kindOfMessage = AlertDialogs.SUCCES_MESSAGE,
+                        "Appointment eliminado"
+                    )
+                    activity?.supportFragmentManager?.let { it1 -> alert.show(it1, "Dialog") }
+                }
+                is ApiState.Error -> {
+                    val alert = AlertDialogs(
+                        kindOfMessage = AlertDialogs.SUCCES_MESSAGE,
+                        "Error al Eliminar el appointment"
+                    )
+                    activity?.supportFragmentManager?.let { it1 -> alert.show(it1, "Dialog") }
+                }
+                is ApiState.ErrorNetwork -> {
+                    val alert = AlertDialogs(
+                        kindOfMessage = AlertDialogs.SUCCES_MESSAGE,
+                        "Verifica tu conexion de internet"
+                    )
+                    activity?.supportFragmentManager?.let { it1 -> alert.show(it1, "Dialog") }
+                }
+                is ApiState.NoData -> {
+
+                }
+                else -> {}
             }
         }
     }
@@ -113,11 +142,9 @@ class HistorialDeCitasFragment : Fragment(), ClickOnItem<AppointmentResponse>,
         _binding = null
     }
 
-    override fun clikOnElement(element: AppointmentResponse, position: Int?) {
-        val action =
-            HistorialDeCitasFragmentDirections.actionHistorialDeCitasToHistorialDetailFragment(
-                element
-            )
+    override fun clikOnElement(element: Appointment, position: Int?) {
+        val appointment = element.toAppointmentObject()
+        val action = HistorialDeCitasFragmentDirections.actionHistorialDeCitasToHistorialDetailFragment(appointment)
         findNavController().navigate(action)
     }
 
@@ -133,10 +160,7 @@ class HistorialDeCitasFragment : Fragment(), ClickOnItem<AppointmentResponse>,
                 override fun clikOnAccept() {
                     val appointment = historialCitasAdapter.getElement(position)
                     binding.progressBar2.visible()
-                    lifecycleScope.launch {
-                        //viewModel.removeAponintment(appointment) se cambiara a servicio
-                        viewModel.getAllAppointMents()
-                    }
+                    viewModel.removeAppointment(appointment.idAppointment)
                 }
 
                 override fun clikOnCancel() {

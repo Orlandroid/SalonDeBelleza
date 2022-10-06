@@ -8,13 +8,16 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.citassalon.data.mappers.toAppointmentObject
 import com.example.citassalon.data.mappers.toAppointmentRemote
+import com.example.citassalon.data.models.remote.Appointment
 import com.example.citassalon.data.models.remote.AppointmentResponse
 import com.example.citassalon.databinding.FragmentAgendarConfirmacionBinding
 import com.example.citassalon.interfaces.ListenerAlertDialogWithButtons
 import com.example.citassalon.util.AlertsDialogMessages
 import com.example.citassalon.ui.extensions.navigate
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
 class AgendarConfirmacionFragment : Fragment(), ListenerAlertDialogWithButtons {
@@ -70,14 +73,14 @@ class AgendarConfirmacionFragment : Fragment(), ListenerAlertDialogWithButtons {
 
     override fun clickOnConfirmar() {
         saveToDatabaseAppointMent()
-        val action = AgendarConfirmacionFragmentDirections.actionAgendarConfirmacionToCitaAgendada(
-            createAppointment()
-        )
+        val action = AgendarConfirmacionFragmentDirections.actionAgendarConfirmacionToCitaAgendada(createAppointment().toAppointmentObject())
         navigate(action)
     }
 
-    private fun createAppointment(): AppointmentResponse {
-        return AppointmentResponse(
+    private fun createAppointment(): Appointment {
+        val uniqueID = UUID.randomUUID().toString()
+        return Appointment(
+            uniqueID,
             args.sucursal,
             args.staff.nombre,
             args.servicio.name,
@@ -88,7 +91,8 @@ class AgendarConfirmacionFragment : Fragment(), ListenerAlertDialogWithButtons {
     }
 
     private fun saveToDatabaseAppointMent() {
-       viewModel.saveAppointMent(createAppointment().toAppointmentRemote())
+        val uniqueID = UUID.randomUUID().toString()
+        viewModel.saveAppointMent(createAppointment())
     }
 
 
