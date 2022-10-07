@@ -50,9 +50,11 @@ class NegocioInfoFragment : Fragment() {
     }
 
     private fun setMenuName() {
-        binding.menuSttaf.textElement.text = context?.getString(R.string.staff)
-        binding.menuServicios.textElement.text = context?.getString(R.string.servicios)
-        binding.menuUbicacion.textElement.text = context?.getString(R.string.ubicacion)
+        with(binding){
+            menuSttaf.textElement.text = context?.getString(R.string.staff)
+            menuServicios.textElement.text = context?.getString(R.string.servicios)
+            menuUbicacion.textElement.text = context?.getString(R.string.ubicacion)
+        }
     }
 
     override fun onDestroy() {

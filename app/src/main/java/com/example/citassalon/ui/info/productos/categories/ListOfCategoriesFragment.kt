@@ -12,6 +12,7 @@ import com.example.citassalon.databinding.FragmentListOfCategoriesBinding
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.main.AlertDialogs
 import com.example.citassalon.main.AlertDialogs.Companion.ERROR_MESSAGE
+import com.example.citassalon.ui.extensions.gone
 import com.example.citassalon.ui.extensions.navigate
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -54,19 +55,19 @@ class ListOfCategoriesFragment : Fragment(), ClickOnItem<String> {
                         binding.recyclerViewCategorias.adapter = adapter
                         adapter.setData(apiState.data)
                     }
-                    binding.shimmerCategorias.visibility=View.GONE
+                    binding.shimmerCategorias.gone()
                 }
                 is ApiState.Error -> {
                     val dialog = AlertDialogs(ERROR_MESSAGE, "Error al obtener datos")
                     activity?.let { dialog.show(it.supportFragmentManager, "alertMessage") }
-                    binding.shimmerCategorias.visibility=View.GONE
+                    binding.shimmerCategorias.gone()
                 }
                 is ApiState.ErrorNetwork -> {
                     val dialog = AlertDialogs(ERROR_MESSAGE, "Verifica tu conexion de internet")
                     activity?.let { dialog.show(it.supportFragmentManager, "alertMessage") }
-                    binding.shimmerCategorias.visibility=View.GONE
+                    binding.shimmerCategorias.gone()
                 }
-                is ApiState.NoData ->{
+                is ApiState.NoData -> {
 
                 }
             }

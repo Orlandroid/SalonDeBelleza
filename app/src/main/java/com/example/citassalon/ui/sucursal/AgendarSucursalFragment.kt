@@ -14,9 +14,7 @@ import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.databinding.FragmentAgendarSucursalBinding
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.main.AlertDialogs
-import com.example.citassalon.ui.extensions.action
-import com.example.citassalon.ui.extensions.displaySnack
-import com.example.citassalon.ui.extensions.navigate
+import com.example.citassalon.ui.extensions.*
 import com.example.citassalon.ui.share_beetwen_sucursales.SucursalAdapter
 import com.example.citassalon.ui.share_beetwen_sucursales.SucursalViewModel
 import com.example.citassalon.util.*
@@ -64,17 +62,17 @@ class AgendarSucursalFragment : Fragment(), ClickOnItem<Sucursal>, AlertDialogs.
             when (it) {
                 is ApiState.Success -> {
                     if (it.data != null) {
-                        binding.shimmerSucursal.visibility = View.GONE
-                        binding.recyclerSucursal.adapter =
-                            SucursalAdapter(it.data, getListener())
+                        with(binding) {
+                            shimmerSucursal.gone()
+                            recyclerSucursal.adapter = SucursalAdapter(it.data, getListener())
+                        }
                     }
                 }
                 is ApiState.Loading -> {
                     with(binding) {
-                        binding.itemNoDataNoNetwork.itemNoDataNoNetworkContainer.visibility =
-                            View.GONE
-                        binding.recyclerSucursal.visibility = View.VISIBLE
-                        shimmerSucursal.visibility = View.VISIBLE
+                        itemNoDataNoNetwork.itemNoDataNoNetworkContainer.gone()
+                        recyclerSucursal.visible()
+                        shimmerSucursal.visible()
                     }
                 }
                 is ApiState.NoData -> {
@@ -92,8 +90,8 @@ class AgendarSucursalFragment : Fragment(), ClickOnItem<Sucursal>, AlertDialogs.
                 }
                 is ApiState.ErrorNetwork -> {
                     with(binding) {
-                        recyclerSucursal.visibility = View.GONE
-                        shimmerSucursal.visibility = View.GONE
+                        recyclerSucursal.gone()
+                        shimmerSucursal.gone()
                         itemNoDataNoNetwork.message.text = "Error de conexion"
                         itemNoDataNoNetwork.imageNoDataNoNetwork.setImageResource(
                             getRandomErrorNetworkImage()
@@ -122,11 +120,13 @@ class AgendarSucursalFragment : Fragment(), ClickOnItem<Sucursal>, AlertDialogs.
     }
 
     override fun clikOnElement(element: Sucursal, position: Int?) {
-        binding.textAgendarSucursal.text = element.name
-        val action = AgendarSucursalFragmentDirections.actionAgendarSucursalToAgendarStaff(
-            binding.textAgendarSucursal.text.toString()
-        )
-        navigate(action)
+        with(binding) {
+            textAgendarSucursal.text = element.name
+            val action = AgendarSucursalFragmentDirections.actionAgendarSucursalToAgendarStaff(
+                textAgendarSucursal.text.toString()
+            )
+            navigate(action)
+        }
     }
 
     override fun clikOnAccept() {

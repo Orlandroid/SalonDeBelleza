@@ -43,7 +43,7 @@ class SplashScreenFragment : Fragment() {
 
     private fun startAnimation() {
         val animation = AnimationUtils.loadAnimation(requireContext(), R.anim.fade_in)
-        binding.imageView8.startAnimation(animation)
+        binding.imageSplash.startAnimation(animation)
     }
 
     override fun onDestroyView() {

@@ -15,8 +15,7 @@ import com.example.citassalon.main.AlertDialogs
 import com.example.citassalon.util.*
 import com.example.citassalon.main.AlertDialogs.Companion.ERROR_MESSAGE
 import com.example.citassalon.main.AlertDialogs.Companion.WARNING_MESSAGE
-import com.example.citassalon.ui.extensions.hideKeyboard
-import com.example.citassalon.ui.extensions.navigate
+import com.example.citassalon.ui.extensions.*
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -151,21 +150,21 @@ class LoginFragment : Fragment(), ListeneClickOnRecoverPassword {
             when (it) {
                 is SessionStatus.LOADING -> {
                     binding.buttonGetIn.isEnabled=false
-                    binding.progress.visibility = View.VISIBLE
+                    binding.progress.visible()
                 }
                 is SessionStatus.SUCESS -> {
-                    binding.progress.visibility = View.INVISIBLE
+                    binding.progress.invisible()
                     binding.buttonGetIn.isEnabled=true
                     showSendPasswordCorrect()
                 }
                 is SessionStatus.ERROR -> {
                     binding.buttonGetIn.isEnabled=true
-                    binding.progress.visibility = View.INVISIBLE
+                    binding.progress.invisible()
                 }
                 is SessionStatus.NETWORKERROR -> {
                     showAlertMessage(ERROR_MESSAGE,"Revisa tu conexion de internet")
                     binding.buttonGetIn.isEnabled=true
-                    binding.progress.visibility = View.INVISIBLE
+                    binding.progress.invisible()
                 }
             }
         }
@@ -199,24 +198,26 @@ class LoginFragment : Fragment(), ListeneClickOnRecoverPassword {
         viewModel.loginStatus.observe(viewLifecycleOwner) {
             when (it) {
                 is SessionStatus.LOADING -> {
-                    binding.progress.visibility = View.VISIBLE
-                    binding.buttonGetIn.isEnabled = false
+                    with(binding){
+                        progress.visible()
+                        buttonGetIn.isEnabled = false
+                    }
                 }
                 is SessionStatus.SUCESS -> {
-                    binding.progress.visibility = View.GONE
+                    binding.progress.gone()
                     binding.buttonGetIn.isEnabled = true
                     saveUserEmailToPreferences()
                     val action = LoginFragmentDirections.actionLoginToHome32()
                     navigate(action)
                 }
                 is SessionStatus.ERROR -> {
-                    binding.progress.visibility = View.GONE
+                    binding.progress.gone()
                     binding.buttonGetIn.isEnabled = true
                     showAlertMessage(ERROR_MESSAGE, "Error usuario o contraseña incorrecto")
                 }
                 is SessionStatus.NETWORKERROR -> {
                     binding.buttonGetIn.isEnabled = true
-                    binding.progress.visibility = View.GONE
+                    binding.progress.gone()
                     showAlertMessage(ERROR_MESSAGE, "Error de internet")
                 }
             }

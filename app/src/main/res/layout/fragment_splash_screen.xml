@@ -9,7 +9,7 @@
 
 
     <ImageView
-        android:id="@+id/imageView8"
+        android:id="@+id/image_splash"
         android:layout_width="0dp"
         android:layout_height="300dp"
         android:src="@drawable/logo"
@@ -25,7 +25,7 @@
         android:text="Skeduly"
         android:textSize="40sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/imageView8"
+        app:layout_constraintBottom_toTopOf="@+id/image_splash"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

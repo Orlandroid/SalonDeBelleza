@@ -14,10 +14,8 @@ import com.example.citassalon.databinding.FragmentAgendarServicioBinding
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.main.AlertDialogs
+import com.example.citassalon.ui.extensions.*
 import com.example.citassalon.util.ERROR_SERVIDOR
-import com.example.citassalon.ui.extensions.action
-import com.example.citassalon.ui.extensions.displaySnack
-import com.example.citassalon.ui.extensions.navigate
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -56,9 +54,11 @@ class AgendarServicioFragment : Fragment(), ClickOnItem<Servicio> ,AlertDialogs.
     }
 
     private fun setValuesToView(args: AgendarServicioFragmentArgs) {
-        binding.sucursal.text = args.sucursal
-        binding.staffImage.setImageResource(args.staff.getResourceImage())
-        binding.nombreStaff.text = args.staff.nombre
+        with(binding){
+            sucursal.text = args.sucursal
+            staffImage.setImageResource(args.staff.getResourceImage())
+            nombreStaff.text = args.staff.nombre
+        }
     }
 
     private fun getListener():ClickOnItem<Servicio> = this
@@ -69,11 +69,11 @@ class AgendarServicioFragment : Fragment(), ClickOnItem<Servicio> ,AlertDialogs.
         viewModelAgendarServicio.services.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiState.Loading -> {
-                    binding.shimmerServicio.visibility=View.VISIBLE
+                    binding.shimmerServicio.visible()
                 }
                 is ApiState.Success -> {
                     if (it.data != null) {
-                        binding.shimmerServicio.visibility = View.GONE
+                        binding.shimmerServicio.gone()
                         binding.recyclerAgendarServicio.adapter = AgendarServicioAdapter(it.data, getListener())
                     }
                 }
@@ -88,6 +88,7 @@ class AgendarServicioFragment : Fragment(), ClickOnItem<Servicio> ,AlertDialogs.
                 is ApiState.ErrorNetwork -> {
                     snackErrorConection()
                 }
+                else -> {}
             }
         }
     }

@@ -45,8 +45,10 @@ class EstablecimientoFragment : Fragment() {
     }
 
     private fun setMenuName() {
-        binding.sucursales.textElement.text = context?.getString(R.string.sucursales)
-        binding.productos.textElement.text = context?.getString(R.string.productos)
+        with(binding) {
+            sucursales.textElement.text = context?.getString(R.string.sucursales)
+            productos.textElement.text = context?.getString(R.string.productos)
+        }
     }
 
     override fun onDestroy() {

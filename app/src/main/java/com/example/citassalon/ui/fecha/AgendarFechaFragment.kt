@@ -55,11 +55,13 @@ class AgendarFechaFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun setValuesToView(args: AgendarFechaFragmentArgs) {
-        binding.imgStaff.setImageResource(args.staff.getResourceImage())
-        binding.tvStaffName.text = args.staff.nombre
-        binding.txtServicio.text = args.servicio.name
-        binding.tvServicioPrecio.text = args.servicio.precio.toString()
-        binding.textSucursal.text = args.sucursal
+        with(binding) {
+            imgStaff.setImageResource(args.staff.getResourceImage())
+            tvStaffName.text = args.staff.nombre
+            txtServicio.text = args.servicio.name
+            tvServicioPrecio.text = args.servicio.precio.toString()
+            textSucursal.text = args.sucursal
+        }
     }
 
 

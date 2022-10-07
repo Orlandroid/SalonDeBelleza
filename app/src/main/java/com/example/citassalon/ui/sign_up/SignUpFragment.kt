@@ -14,8 +14,10 @@ import com.example.citassalon.data.models.remote.User
 import com.example.citassalon.data.state.SessionStatus
 import com.example.citassalon.databinding.SignInBinding
 import com.example.citassalon.main.AlertDialogs
+import com.example.citassalon.ui.extensions.gone
 import com.example.citassalon.ui.extensions.hideKeyboard
 import com.example.citassalon.ui.extensions.showDatePickerDialog
+import com.example.citassalon.ui.extensions.visible
 import com.example.citassalon.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -66,24 +68,32 @@ class SignUpFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         viewModel.singUp.observe(viewLifecycleOwner) {
             when (it) {
                 is SessionStatus.LOADING -> {
-                    binding.buttonRegistarse.isEnabled = false
-                    binding.progress.visibility = View.VISIBLE
+                    with(binding){
+                        buttonRegistarse.isEnabled = false
+                        progress.visible()
+                    }
                 }
                 is SessionStatus.SUCESS -> {
-                    binding.buttonRegistarse.isEnabled = true
-                    binding.progress.visibility = View.GONE
-                    showDialogMessage(AlertDialogs.SUCCES_MESSAGE,"Usuario registraro correctament")
-                    findNavController().popBackStack()
+                    with(binding){
+                        buttonRegistarse.isEnabled = true
+                        progress.gone()
+                        showDialogMessage(AlertDialogs.SUCCES_MESSAGE,"Usuario registraro correctament")
+                        findNavController().popBackStack()
+                    }
                 }
                 is SessionStatus.ERROR -> {
-                    binding.buttonRegistarse.isEnabled = true
-                    binding.progress.visibility = View.GONE
-                    showDialogMessage(AlertDialogs.ERROR_MESSAGE,"Error al registrar al usuario")
+                    with(binding){
+                        buttonRegistarse.isEnabled = true
+                        progress.gone()
+                        showDialogMessage(AlertDialogs.ERROR_MESSAGE,"Error al registrar al usuario")
+                    }
                 }
                 is SessionStatus.NETWORKERROR -> {
-                    binding.buttonRegistarse.isEnabled = true
-                    binding.progress.visibility = View.GONE
-                    showDialogMessage(AlertDialogs.ERROR_MESSAGE,"Error de red verifica que tengas conexion a internet")
+                    with(binding){
+                        buttonRegistarse.isEnabled = true
+                        progress.gone()
+                        showDialogMessage(AlertDialogs.ERROR_MESSAGE,"Error de red verifica que tengas conexion a internet")
+                    }
                 }
             }
         }
@@ -148,12 +158,14 @@ class SignUpFragment : Fragment(), DatePickerDialog.OnDateSetListener {
 
 
     private fun areEmptyFields(): Boolean {
-        val nombreIsEmpty = binding.nombre.editText?.text.toString().trim().isEmpty()
-        val telefonoIsEmpty = binding.telefono.editText?.text.toString().trim().isEmpty()
-        val correoIsEmpty = binding.correo.editText?.text.toString().trim().isEmpty()
-        val passwordIsEmpty = binding.password.editText?.text.toString().trim().isEmpty()
-        val birthDayIsEmpty = binding.birtday.editText?.text.toString().trim().isEmpty()
-        return nombreIsEmpty or telefonoIsEmpty or correoIsEmpty or passwordIsEmpty or birthDayIsEmpty
+        with(binding){
+            val nombreIsEmpty = nombre.editText?.text.toString().trim().isEmpty()
+            val telefonoIsEmpty = telefono.editText?.text.toString().trim().isEmpty()
+            val correoIsEmpty = correo.editText?.text.toString().trim().isEmpty()
+            val passwordIsEmpty = password.editText?.text.toString().trim().isEmpty()
+            val birthDayIsEmpty = birtday.editText?.text.toString().trim().isEmpty()
+            return nombreIsEmpty or telefonoIsEmpty or correoIsEmpty or passwordIsEmpty or birthDayIsEmpty
+        }
     }
 
     private fun singUp() {
@@ -163,12 +175,14 @@ class SignUpFragment : Fragment(), DatePickerDialog.OnDateSetListener {
     }
 
     private fun getUser(): User {
-        val nombre = binding.nombre.editText?.text.toString()
-        val telefono = binding.telefono.editText?.text.toString()
-        val correo = binding.correo.editText?.text.toString()
-        val password = binding.password.editText?.text.toString()
-        val birthDay = binding.birtday.editText?.text.toString()
-        return User(nombre, telefono, correo, password, birthDay)
+        with(binding){
+            val nombre = nombre.editText?.text.toString()
+            val telefono = telefono.editText?.text.toString()
+            val correo = correo.editText?.text.toString()
+            val password = password.editText?.text.toString()
+            val birthDay = birtday.editText?.text.toString()
+            return User(nombre, telefono, correo, password, birthDay)
+        }
     }
 
     private fun saveUserImformation() {

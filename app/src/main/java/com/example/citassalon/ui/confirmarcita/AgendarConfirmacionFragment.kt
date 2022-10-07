@@ -58,12 +58,14 @@ class AgendarConfirmacionFragment : Fragment(), ListenerAlertDialogWithButtons {
     }
 
     private fun setValuesToView(args: AgendarConfirmacionFragmentArgs) {
-        binding.cSucursal.text = args.sucursal
-        binding.cSatff.text = args.staff.nombre
-        binding.cServicio.text = args.servicio.name
-        binding.cFecha.text = args.fecha
-        binding.cHora.text = args.hora
-        binding.cPrecio.text = args.servicio.precio.toString()
+        with(binding){
+            cSucursal.text = args.sucursal
+            cSatff.text = args.staff.nombre
+            cServicio.text = args.servicio.name
+            cFecha.text = args.fecha
+            cHora.text = args.hora
+            cPrecio.text = args.servicio.precio.toString()
+        }
     }
 
     override fun onDestroy() {

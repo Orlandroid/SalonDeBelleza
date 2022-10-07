@@ -19,6 +19,8 @@ import com.example.citassalon.databinding.FragmentHistorialDeCitasBinding
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.main.AlertDialogs
+import com.example.citassalon.ui.extensions.gone
+import com.example.citassalon.ui.extensions.invisible
 import com.example.citassalon.ui.extensions.visible
 import com.example.citassalon.util.AlertsDialogMessages
 import com.example.citassalon.util.SwipeRecycler
@@ -52,7 +54,7 @@ class HistorialDeCitasFragment : Fragment(), ClickOnItem<Appointment>,
             toolbarLayout.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
-            progressBar2.visibility = View.GONE
+            progressBar2.gone()
             swipeRecycler.swipe(binding.recyclerAppointment, getListenerSwipeRecyclerListenr())
         }
     }
@@ -66,25 +68,25 @@ class HistorialDeCitasFragment : Fragment(), ClickOnItem<Appointment>,
         viewModel.appointment.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiState.Loading -> {
-                    binding.progressBar2.visibility = View.VISIBLE
+                    binding.progressBar2.visible()
                 }
                 is ApiState.Success -> {
                     if (it.data != null) {
-                        binding.progressBar2.visibility = View.INVISIBLE
+                        binding.progressBar2.invisible()
                         binding.recyclerAppointment.adapter = historialCitasAdapter
                         historialCitasAdapter.setData(it.data)
                     }
                 }
                 is ApiState.Error -> {
-                    binding.progressBar2.visibility = View.INVISIBLE
+                    binding.progressBar2.invisible()
                 }
                 is ApiState.ErrorNetwork -> {
-                    binding.progressBar2.visibility = View.INVISIBLE
+                    binding.progressBar2.invisible()
                 }
                 is ApiState.NoData -> {
                     with(binding) {
-                        binding.progressBar2.visibility = View.INVISIBLE
-                        imageNoData.visibility = View.VISIBLE
+                        progressBar2.invisible()
+                        imageNoData.visible()
                         imageNoData.setAnimation(getRandomNoDataAnimation())
                         imageNoData.playAnimation()
                     }
