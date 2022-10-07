@@ -8,6 +8,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Named
 import javax.inject.Singleton
 
 
@@ -38,6 +39,15 @@ object ModuleFirebase {
         val uuidUser = firebaseAuth.uid
         return firebaseDatabase.reference.child(APPOINTMENT_REFERENCE).child(uuidUser!!)
     }
+
+    @Singleton
+    @Provides
+    @Named("firebase_url_user")
+    fun provideUrlDatabaseUserFromFirebase(firebaseDatabase: FirebaseDatabase,firebaseAuth: FirebaseAuth): String{
+        val uuidUser = firebaseAuth.uid
+        return firebaseDatabase.reference.child(APPOINTMENT_REFERENCE).child(uuidUser!!).toString()
+    }
+
 
 
 }

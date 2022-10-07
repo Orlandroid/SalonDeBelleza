@@ -91,7 +91,6 @@ class AgendarConfirmacionFragment : Fragment(), ListenerAlertDialogWithButtons {
     }
 
     private fun saveToDatabaseAppointMent() {
-        val uniqueID = UUID.randomUUID().toString()
         viewModel.saveAppointMent(createAppointment())
     }
 

@@ -18,7 +18,7 @@ class AgendarConfirmacionViewModel @Inject constructor(
 
 
     fun saveAppointMent(appointment: RemoteAppointment) {
-        databaseReference.child(UUID.randomUUID().toString()).setValue(appointment)
+        databaseReference.child(appointment.idAppointment).setValue(appointment)
             .addOnSuccessListener {
                 Log.w("SAVE", "SAVE")
             }.addOnFailureListener {

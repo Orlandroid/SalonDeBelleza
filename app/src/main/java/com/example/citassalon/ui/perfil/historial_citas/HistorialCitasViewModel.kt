@@ -18,6 +18,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
+import javax.inject.Named
 import com.example.citassalon.data.models.remote.Appointment as AppointmentRemote
 
 
@@ -25,9 +26,13 @@ import com.example.citassalon.data.models.remote.Appointment as AppointmentRemot
 class HistorialCitasViewModel @Inject constructor(
     private val appointmentRepository: Repository,
     private val networkHelper: NetworkHelper,
-    private val databaseReference: DatabaseReference
+    private val databaseReference: DatabaseReference,
 ) :
     ViewModel() {
+
+    @Inject
+    @Named("firebase_url_user")
+    lateinit var urlDatabaseFirebase:String
 
     private val _appointment =
         MutableLiveData<ApiState<List<AppointmentRemote>>>()
@@ -114,16 +119,19 @@ class HistorialCitasViewModel @Inject constructor(
                 return@launch
             }
             try {
-                val task =
-                    databaseReference.child(idAppointment).removeValue().addOnSuccessListener {
-                        _removeAppointment.value=ApiState.Success(listOf())
-                        Log.i("SUCCES", "Appointment Eliminado")
-                    }.addOnCanceledListener {
-                        _removeAppointment.value=ApiState.Error(Throwable(message = "Error al elimnar"))
-                        Log.i("ERROR", "Error al eliminar el appointment")
-                    }
+                Log.i("ULR",urlDatabaseFirebase)
+                databaseReference.child(idAppointment).removeValue().addOnSuccessListener {
+                    _removeAppointment.value = ApiState.Success(listOf())
+                    Log.i("SUCCES", "Appointment Eliminado")
+                }.addOnCanceledListener {
+                    _removeAppointment.value =
+                        ApiState.Error(Throwable(message = "Error al elimnar"))
+                    Log.i("ERROR", "Error al eliminar el appointment")
+                }
             } catch (e: Exception) {
-                _removeAppointment.value = ApiState.Error(e)
+                withContext(Dispatchers.Main){
+                    _removeAppointment.value = ApiState.Error(e)
+                }
             }
         }
     }
