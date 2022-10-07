@@ -4,7 +4,6 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.example.citassalon.data.preferences.LoginPeferences
 import com.example.citassalon.data.preferences.PreferencesManager
-import com.example.citassalon.util.SHARE_PREFERENCES
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,6 +14,8 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object ModuleApp {
+
+    private const val SHARE_PREFERENCES = "Skeduly"
 
     @Singleton
     @Provides

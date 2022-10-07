@@ -10,6 +10,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.databinding.FragmentUserProfileBinding
+import com.example.citassalon.ui.extensions.invisible
 import com.example.citassalon.ui.extensions.visible
 import com.example.citassalon.util.parseColor
 import dagger.hilt.android.AndroidEntryPoint
@@ -57,7 +58,7 @@ class UserProfileFragment : Fragment() {
                 is ApiState.Success -> {
                     if (it.data != null) {
                         with(binding) {
-                            progressBar.visible()
+                            progressBar.invisible()
                             tvCorreo.text = it.data[USER_EMAIL]
                             tvUid.text = it.data[USER_UID]
                             if (it.data[USER_SESSION].equals("true")) {
