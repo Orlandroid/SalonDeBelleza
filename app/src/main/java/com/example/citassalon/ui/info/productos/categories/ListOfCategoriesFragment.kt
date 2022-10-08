@@ -1,40 +1,36 @@
 package com.example.citassalon.ui.info.productos.categories
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.citassalon.R
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.databinding.FragmentListOfCategoriesBinding
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.main.AlertDialogs
 import com.example.citassalon.main.AlertDialogs.Companion.ERROR_MESSAGE
+import com.example.citassalon.ui.base.BaseFragment
 import com.example.citassalon.ui.extensions.gone
 import com.example.citassalon.ui.extensions.navigate
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ListOfCategoriesFragment : Fragment(), ClickOnItem<String> {
+class ListOfCategoriesFragment :
+    BaseFragment<FragmentListOfCategoriesBinding>(R.layout.fragment_list_of_categories),
+    ClickOnItem<String> {
 
-    private var _binding: FragmentListOfCategoriesBinding? = null
-    private val binding get() = _binding!!
     private val viewModel: ListOfCategoriesViewModel by viewModels()
     private val adapter = ListOfCategoriesAdapter(this)
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentListOfCategoriesBinding.inflate(inflater, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setUpUi()
-        setUpObservers()
-        return binding.root
+        observerViewModel()
     }
 
-    private fun setUpUi() {
+    override fun setUpUi() {
         with(binding) {
             toolbarLayout.toolbarTitle.text = "Categorias"
             toolbarLayout.toolbarBack.setOnClickListener {
@@ -44,7 +40,8 @@ class ListOfCategoriesFragment : Fragment(), ClickOnItem<String> {
         viewModel.getCategories()
     }
 
-    private fun setUpObservers() {
+    override fun observerViewModel() {
+        super.observerViewModel()
         viewModel.categories.observe(viewLifecycleOwner) { apiState ->
             when (apiState) {
                 is ApiState.Loading -> {
@@ -73,11 +70,6 @@ class ListOfCategoriesFragment : Fragment(), ClickOnItem<String> {
             }
 
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
     override fun clikOnElement(element: String, position: Int?) {

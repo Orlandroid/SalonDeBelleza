@@ -6,7 +6,6 @@ import com.example.citassalon.data.models.remote.Appointment as RemoteAppointmen
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
 import dagger.hilt.android.lifecycle.HiltViewModel
-import java.util.*
 import javax.inject.Inject
 
 

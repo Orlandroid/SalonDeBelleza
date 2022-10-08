@@ -1,40 +1,28 @@
 package com.example.citassalon.ui.info.nuestro_staff
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
+import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentNuestroStaffBinding
+import com.example.citassalon.ui.base.BaseFragment
 
 
-class NuestroStaffFragment : Fragment() {
+class NuestroStaffFragment :
+    BaseFragment<FragmentNuestroStaffBinding>(R.layout.fragment_nuestro_staff) {
 
-    private var _binding: FragmentNuestroStaffBinding? = null
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentNuestroStaffBinding.inflate(layoutInflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setUpUi()
-        return binding.root
     }
 
-    private fun setUpUi(){
-        with(binding){
-            toolbarLayout.toolbarTitle.text="Nuestro Staff"
+    override fun setUpUi() {
+        with(binding) {
+            toolbarLayout.toolbarTitle.text = "Nuestro Staff"
             toolbarLayout.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 
 

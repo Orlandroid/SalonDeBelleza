@@ -3,40 +3,30 @@ package com.example.citassalon.ui.perfil.perfil
 import android.os.Bundle
 import android.util.Log
 import android.view.*
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentPerfilBinding
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.interfaces.ListenerAlertDialogWithButtons
+import com.example.citassalon.ui.base.BaseFragment
 import com.example.citassalon.ui.extensions.navigate
 import com.example.citassalon.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class PerfilFragment : Fragment(), ListenerAlertDialogWithButtons, ClickOnItem<String> {
+class PerfilFragment : BaseFragment<FragmentPerfilBinding>(R.layout.fragment_perfil),
+    ListenerAlertDialogWithButtons, ClickOnItem<String> {
 
-
-    private var _binding: FragmentPerfilBinding? = null
-    private val binding get() = _binding!!
     private val viewModelPerfil: PerfilViewModel by viewModels()
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentPerfilBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setUpUi()
-        setUpObserver()
-        return binding.root
     }
 
-
-    private fun setUpUi() {
+    override fun setUpUi() {
         setUpRecyclerView()
         with(binding) {
             toolbar.toolbarTitle.text = "Perfil"
@@ -86,10 +76,11 @@ class PerfilFragment : Fragment(), ListenerAlertDialogWithButtons, ClickOnItem<S
         }
     }
 
-    private fun setUpObserver() {
-        viewModelPerfil.firebaseUser.observe(viewLifecycleOwner) {firebaseUser->
+    override fun observerViewModel() {
+        super.observerViewModel()
+        viewModelPerfil.firebaseUser.observe(viewLifecycleOwner) { firebaseUser ->
             firebaseUser?.let {
-                binding.nombreUsuario.text=it.email
+                binding.nombreUsuario.text = it.email
             }
         }
     }
@@ -109,14 +100,9 @@ class PerfilFragment : Fragment(), ListenerAlertDialogWithButtons, ClickOnItem<S
     }
 
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
-
     override fun clickOnConfirmar() {
         viewModelPerfil.logout()
-        findNavController().popBackStack(R.id.login,true)
+        findNavController().popBackStack(R.id.login, true)
     }
 
     override fun clickOnCancel() {

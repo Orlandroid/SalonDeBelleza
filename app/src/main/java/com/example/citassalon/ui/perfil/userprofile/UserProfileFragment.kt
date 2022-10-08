@@ -2,14 +2,13 @@ package com.example.citassalon.ui.perfil.userprofile
 
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.example.citassalon.R
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.databinding.FragmentUserProfileBinding
+import com.example.citassalon.ui.base.BaseFragment
 import com.example.citassalon.ui.extensions.invisible
 import com.example.citassalon.ui.extensions.visible
 import com.example.citassalon.util.parseColor
@@ -17,10 +16,9 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class UserProfileFragment : Fragment() {
+class UserProfileFragment :
+    BaseFragment<FragmentUserProfileBinding>(R.layout.fragment_user_profile) {
 
-    private var _binding: FragmentUserProfileBinding? = null
-    private val binding get() = _binding!!
     private val viewModel: UserProfileViewModel by viewModels()
 
     companion object {
@@ -29,17 +27,13 @@ class UserProfileFragment : Fragment() {
         const val USER_SESSION = "userSession"
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentUserProfileBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setUpUi()
-        setUpObservers()
-        return binding.root
+        observerViewModel()
     }
 
-    private fun setUpUi() {
+    override fun setUpUi() {
         viewModel.getUserInfo()
         with(binding) {
             toolbarLayout.toolbarTitle.text = "Perfil"
@@ -49,7 +43,8 @@ class UserProfileFragment : Fragment() {
         }
     }
 
-    private fun setUpObservers() {
+    override fun observerViewModel() {
+        super.observerViewModel()
         viewModel.infoUser.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiState.Loading -> {
@@ -82,9 +77,5 @@ class UserProfileFragment : Fragment() {
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
 
 }

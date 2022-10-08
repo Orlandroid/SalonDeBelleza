@@ -2,10 +2,7 @@ package com.example.citassalon.ui.sucursal
 
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
@@ -14,6 +11,7 @@ import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.databinding.FragmentAgendarSucursalBinding
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.main.AlertDialogs
+import com.example.citassalon.ui.base.BaseFragment
 import com.example.citassalon.ui.extensions.*
 import com.example.citassalon.ui.share_beetwen_sucursales.SucursalAdapter
 import com.example.citassalon.ui.share_beetwen_sucursales.SucursalViewModel
@@ -23,41 +21,29 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class AgendarSucursalFragment : Fragment(), ClickOnItem<Sucursal>, AlertDialogs.ClickOnAccept {
+class AgendarSucursalFragment :
+    BaseFragment<FragmentAgendarSucursalBinding>(R.layout.fragment_agendar_sucursal),
+    ClickOnItem<Sucursal>, AlertDialogs.ClickOnAccept {
 
-
-    private var _binding: FragmentAgendarSucursalBinding? = null
-    private val binding get() = _binding!!
     private val viewModel: SucursalViewModel by viewModels()
 
-
-    override
-    fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentAgendarSucursalBinding.inflate(inflater)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setUpUi()
-        return binding.root
+        observerViewModel()
     }
 
-    private fun setUpUi() {
+    override fun setUpUi() {
         with(binding) {
             toolbar.toolbarTitle.text = "Agendar Sucursal"
             toolbar.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
         }
-        setUpObserves()
     }
 
-    private fun getListener(): ClickOnItem<Sucursal> = this
-
-    private fun getListenerDialog(): AlertDialogs.ClickOnAccept = this
-
-
-    private fun setUpObserves() {
+    override fun observerViewModel() {
+        super.observerViewModel()
         viewModel.sucursal.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiState.Success -> {
@@ -103,6 +89,11 @@ class AgendarSucursalFragment : Fragment(), ClickOnItem<Sucursal>, AlertDialogs.
         }
     }
 
+    private fun getListener(): ClickOnItem<Sucursal> = this
+
+    private fun getListenerDialog(): AlertDialogs.ClickOnAccept = this
+
+
     private fun snackErrorConection() {
         binding.root.displaySnack(
             getString(R.string.network_error),
@@ -114,10 +105,6 @@ class AgendarSucursalFragment : Fragment(), ClickOnItem<Sucursal>, AlertDialogs.
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
 
     override fun clikOnElement(element: Sucursal, position: Int?) {
         with(binding) {

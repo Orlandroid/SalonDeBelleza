@@ -2,37 +2,29 @@ package com.example.citassalon.ui.cita_agendada
 
 import android.animation.Animator
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.citassalon.R
-import com.example.citassalon.data.mappers.toAppointmentObject
 import com.example.citassalon.databinding.FragmentCitaAgendadaBinding
 import com.example.citassalon.main.NotificationHelper
+import com.example.citassalon.ui.base.BaseFragment
 import com.example.citassalon.ui.perfil.historial_detail.HistorialDetailFragmentArgs
 
 
-class CitaAgendadaFragment : Fragment(), Animator.AnimatorListener {
+class CitaAgendadaFragment :
+    BaseFragment<FragmentCitaAgendadaBinding>(R.layout.fragment_cita_agendada),
+    Animator.AnimatorListener {
 
-    private var _binding: FragmentCitaAgendadaBinding? = null
-    private val binding get() = _binding!!
     private var notificationHelper: NotificationHelper? = null
     private val args: CitaAgendadaFragmentArgs by navArgs()
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentCitaAgendadaBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setUpUi()
-        return binding.root
     }
 
-    private fun setUpUi() {
+    override fun setUpUi() {
         val arg = HistorialDetailFragmentArgs(args.apponitment).toBundle()
         val pendingIntent = findNavController()
             .createDeepLink()
@@ -62,11 +54,6 @@ class CitaAgendadaFragment : Fragment(), Animator.AnimatorListener {
         return this
     }
 
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
 
     override fun onAnimationStart(animation: Animator?) {
 
