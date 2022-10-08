@@ -10,7 +10,8 @@ import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
 
-abstract class BaseFragment<ViewBinding:ViewDataBinding>(@LayoutRes protected val contentLayoutId : Int) : Fragment() {
+abstract class BaseFragment<ViewBinding : ViewDataBinding>(@LayoutRes protected val contentLayoutId: Int) :
+    Fragment() {
 
     protected lateinit var binding: ViewBinding
 
@@ -22,5 +23,19 @@ abstract class BaseFragment<ViewBinding:ViewDataBinding>(@LayoutRes protected va
         binding = DataBindingUtil.inflate(inflater, contentLayoutId, container, false)
         return binding.root
     }
+
+    protected abstract fun setUpUi()
+
+    open fun observerViewModel() {
+
+    }
+
+    /*
+    try this way to noll create this in each fragment
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        setUpUi()
+        observerViewModel()
+    }*/
 
 }

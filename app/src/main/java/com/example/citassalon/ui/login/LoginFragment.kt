@@ -3,18 +3,17 @@ package com.example.citassalon.ui.login
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.widget.doOnTextChanged
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import com.example.citassalon.R
 import com.example.citassalon.data.state.SessionStatus
 import com.example.citassalon.databinding.FragmentLoginBinding
 import com.example.citassalon.main.AlertDialogs
 import com.example.citassalon.util.*
 import com.example.citassalon.main.AlertDialogs.Companion.ERROR_MESSAGE
 import com.example.citassalon.main.AlertDialogs.Companion.WARNING_MESSAGE
+import com.example.citassalon.ui.base.BaseFragment
 import com.example.citassalon.ui.extensions.*
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
@@ -24,27 +23,20 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class LoginFragment : Fragment(), ListeneClickOnRecoverPassword {
+class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login),
+    ListeneClickOnRecoverPassword {
 
-
-    private var _binding: FragmentLoginBinding? = null
-    private val binding get() = _binding!!
     private val viewModel: LoginViewModel by viewModels()
     private lateinit var googleSignInClient: GoogleSignInClient
     private val RC_SIGN_IN = 200
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentLoginBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setUpUi()
-        setUpObserves()
+        observerViewModel()
         configureGoogleSignIn()
         isSessionActive()
-        return binding.root
     }
 
 
@@ -84,8 +76,8 @@ class LoginFragment : Fragment(), ListeneClickOnRecoverPassword {
     }
 
 
-    private fun setUpUi() {
-        with(binding){
+    override fun setUpUi() {
+        with(binding) {
             txtUser.editText?.setText("admin@gmail.com")
             txtPassord.editText?.setText("admin1234")
             buttonGetIn.setOnClickListener {
@@ -106,15 +98,15 @@ class LoginFragment : Fragment(), ListeneClickOnRecoverPassword {
                 signIn()
             }
             txtPassord.editText?.doOnTextChanged { text, start, before, count ->
-                buttonGetIn.isEnabled=areNotEmptyFields()
+                buttonGetIn.isEnabled = areNotEmptyFields()
             }
         }
     }
 
-    private fun areNotEmptyFields():Boolean{
+    private fun areNotEmptyFields(): Boolean {
         val user = binding.txtUser.editText?.text.toString().trim()
         val password = binding.txtPassord.editText?.text.toString().trim()
-        if (user.isNotEmpty() && password.isNotEmpty()){
+        if (user.isNotEmpty() && password.isNotEmpty()) {
             return password.length > 8
         }
         return false
@@ -138,32 +130,32 @@ class LoginFragment : Fragment(), ListeneClickOnRecoverPassword {
     }
 
 
-    private fun setUpObserves() {
+    override fun observerViewModel() {
+        super.observerViewModel()
         observerLoginStatus()
         observerforgetPasswordStatus()
         observerGoogleLoginStatus()
     }
 
-
     private fun observerforgetPasswordStatus() {
         viewModel.forgetPasswordStatus.observe(viewLifecycleOwner) {
             when (it) {
                 is SessionStatus.LOADING -> {
-                    binding.buttonGetIn.isEnabled=false
+                    binding.buttonGetIn.isEnabled = false
                     binding.progress.visible()
                 }
                 is SessionStatus.SUCESS -> {
                     binding.progress.invisible()
-                    binding.buttonGetIn.isEnabled=true
+                    binding.buttonGetIn.isEnabled = true
                     showSendPasswordCorrect()
                 }
                 is SessionStatus.ERROR -> {
-                    binding.buttonGetIn.isEnabled=true
+                    binding.buttonGetIn.isEnabled = true
                     binding.progress.invisible()
                 }
                 is SessionStatus.NETWORKERROR -> {
-                    showAlertMessage(ERROR_MESSAGE,"Revisa tu conexion de internet")
-                    binding.buttonGetIn.isEnabled=true
+                    showAlertMessage(ERROR_MESSAGE, "Revisa tu conexion de internet")
+                    binding.buttonGetIn.isEnabled = true
                     binding.progress.invisible()
                 }
             }
@@ -198,7 +190,7 @@ class LoginFragment : Fragment(), ListeneClickOnRecoverPassword {
         viewModel.loginStatus.observe(viewLifecycleOwner) {
             when (it) {
                 is SessionStatus.LOADING -> {
-                    with(binding){
+                    with(binding) {
                         progress.visible()
                         buttonGetIn.isEnabled = false
                     }
@@ -253,10 +245,6 @@ class LoginFragment : Fragment(), ListeneClickOnRecoverPassword {
         }
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
 
     override fun clickOnResetPassword(email: String) {
         viewModel.forgetPassword(email)

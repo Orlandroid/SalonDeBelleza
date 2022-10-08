@@ -1,10 +1,7 @@
 package com.example.citassalon.ui.servicio
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -14,58 +11,52 @@ import com.example.citassalon.databinding.FragmentAgendarServicioBinding
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.main.AlertDialogs
+import com.example.citassalon.ui.base.BaseFragment
 import com.example.citassalon.ui.extensions.*
 import com.example.citassalon.util.ERROR_SERVIDOR
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AgendarServicioFragment : Fragment(), ClickOnItem<Servicio> ,AlertDialogs.ClickOnAccept{
+class AgendarServicioFragment :
+    BaseFragment<FragmentAgendarServicioBinding>(R.layout.fragment_agendar_servicio),
+    ClickOnItem<Servicio>, AlertDialogs.ClickOnAccept {
 
-
-    private var _binding: FragmentAgendarServicioBinding? = null
-    private val binding get() = _binding!!
     private val viewModelAgendarServicio: AgendarServicioViewModel by viewModels()
-
-
     private val args: AgendarServicioFragmentArgs by navArgs()
     private var currentServicio: Servicio? = null
 
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentAgendarServicioBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setUpUi()
-        return binding.root
+        observerViewModel()
     }
 
-    private fun setUpUi() {
+
+    override fun setUpUi() {
         with(binding) {
             toolbar.toolbarTitle.text = "Agendar Servicio"
             toolbar.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
         }
-        setUpObservers()
         setValuesToView(args)
     }
 
     private fun setValuesToView(args: AgendarServicioFragmentArgs) {
-        with(binding){
+        with(binding) {
             sucursal.text = args.sucursal
             staffImage.setImageResource(args.staff.getResourceImage())
             nombreStaff.text = args.staff.nombre
         }
     }
 
-    private fun getListener():ClickOnItem<Servicio> = this
+    private fun getListener(): ClickOnItem<Servicio> = this
 
     private fun getListenerDialog(): AlertDialogs.ClickOnAccept = this
 
-    private fun setUpObservers() {
+    override fun observerViewModel() {
+        super.observerViewModel()
         viewModelAgendarServicio.services.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiState.Loading -> {
@@ -74,7 +65,8 @@ class AgendarServicioFragment : Fragment(), ClickOnItem<Servicio> ,AlertDialogs.
                 is ApiState.Success -> {
                     if (it.data != null) {
                         binding.shimmerServicio.gone()
-                        binding.recyclerAgendarServicio.adapter = AgendarServicioAdapter(it.data, getListener())
+                        binding.recyclerAgendarServicio.adapter =
+                            AgendarServicioAdapter(it.data, getListener())
                     }
                 }
                 is ApiState.Error -> {
@@ -102,11 +94,6 @@ class AgendarServicioFragment : Fragment(), ClickOnItem<Servicio> ,AlertDialogs.
                 viewModelAgendarServicio.getServices()
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 
     override fun clikOnElement(element: Servicio, position: Int?) {

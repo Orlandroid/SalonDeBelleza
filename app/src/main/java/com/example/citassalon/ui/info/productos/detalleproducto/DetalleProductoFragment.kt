@@ -1,30 +1,25 @@
 package com.example.citassalon.ui.info.productos.detalleproducto
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.bumptech.glide.Glide
+import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentDetalleProductoBinding
+import com.example.citassalon.ui.base.BaseFragment
 
-class DetalleProductoFragment : Fragment() {
+class DetalleProductoFragment :
+    BaseFragment<FragmentDetalleProductoBinding>(R.layout.fragment_detalle_producto) {
 
-    private var _binding: FragmentDetalleProductoBinding? = null
-    private val binding get() = _binding!!
     private val args: DetalleProductoFragmentArgs by navArgs()
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentDetalleProductoBinding.inflate(layoutInflater, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setUpUi()
-        return binding.root
     }
 
-    private fun setUpUi() {
+    override fun setUpUi() {
         with(binding) {
             toolbarLayout.toolbarTitle.text = "Detalle producto"
             toolbarLayout.toolbarBack.setOnClickListener {
@@ -44,11 +39,6 @@ class DetalleProductoFragment : Fragment() {
             rating.setIsIndicator(true)
             rating.numStars = 5
         }
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
     }
 
 }

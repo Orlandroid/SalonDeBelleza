@@ -2,39 +2,31 @@ package com.example.citassalon.ui.fecha
 
 import android.app.DatePickerDialog
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import android.widget.DatePicker
-import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
+import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentAgendarFechaBinding
 import com.example.citassalon.main.AlertDialogs
 import com.example.citassalon.main.AlertDialogs.Companion.WARNING_MESSAGE
+import com.example.citassalon.ui.base.BaseFragment
 import com.example.citassalon.ui.extensions.hideKeyboard
 import com.example.citassalon.ui.extensions.navigate
 import com.example.citassalon.ui.extensions.showDatePickerDialog
 
-class AgendarFechaFragment : Fragment(), DatePickerDialog.OnDateSetListener {
-
-    private var _binding: FragmentAgendarFechaBinding? = null
-    private val binding get() = _binding!!
+class AgendarFechaFragment :
+    BaseFragment<FragmentAgendarFechaBinding>(R.layout.fragment_agendar_fecha),
+    DatePickerDialog.OnDateSetListener {
 
     private val args: AgendarFechaFragmentArgs by navArgs()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentAgendarFechaBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setUpUi()
-        return binding.root
-
     }
 
-    private fun setUpUi() {
+    override fun setUpUi() {
         with(binding) {
             toolbar.toolbarTitle.text = "Agendar Hora"
             toolbar.toolbarBack.setOnClickListener {
@@ -114,17 +106,10 @@ class AgendarFechaFragment : Fragment(), DatePickerDialog.OnDateSetListener {
         }
     }
 
-
     private fun areNotEmptyTimeOrDate(): Boolean {
         val date = binding.etFecha.editText?.text.toString().trim()
         val time = binding.edHora.editText?.text.toString().trim()
         return date.isNotEmpty() and time.isNotEmpty()
     }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
-
 
 }

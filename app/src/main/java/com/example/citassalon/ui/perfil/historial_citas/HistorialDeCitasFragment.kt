@@ -2,53 +2,43 @@ package com.example.citassalon.ui.perfil.historial_citas
 
 import android.annotation.SuppressLint
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.data.mappers.toAppointmentObject
-import com.example.citassalon.data.mappers.toAppointmentResponse
 import com.example.citassalon.data.models.remote.Appointment
-import com.example.citassalon.data.models.remote.AppointmentResponse
 import com.example.citassalon.databinding.FragmentHistorialDeCitasBinding
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.main.AlertDialogs
+import com.example.citassalon.ui.base.BaseFragment
 import com.example.citassalon.ui.extensions.gone
 import com.example.citassalon.ui.extensions.invisible
 import com.example.citassalon.ui.extensions.visible
-import com.example.citassalon.util.AlertsDialogMessages
 import com.example.citassalon.util.SwipeRecycler
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
-class HistorialDeCitasFragment : Fragment(), ClickOnItem<Appointment>,
+class HistorialDeCitasFragment :
+    BaseFragment<FragmentHistorialDeCitasBinding>(R.layout.fragment_historial_de_citas),
+    ClickOnItem<Appointment>,
     SwipeRecycler.SwipeRecyclerListenr {
 
-    private var _binding: FragmentHistorialDeCitasBinding? = null
-    private val binding get() = _binding!!
     private val viewModel: HistorialCitasViewModel by viewModels()
     private val swipeRecycler = SwipeRecycler()
     private val historialCitasAdapter = HistorialCitasAdapter(getListener())
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentHistorialDeCitasBinding.inflate(layoutInflater, container, false)
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setUpUi()
-        setUpObservers()
-        return binding.root
+        observerViewModel()
     }
 
     @SuppressLint("SetTextI18n")
-    private fun setUpUi() {
+    override fun setUpUi() {
         with(binding) {
             toolbarLayout.toolbarTitle.text = "Historial de citas"
             toolbarLayout.toolbarBack.setOnClickListener {
@@ -64,7 +54,9 @@ class HistorialDeCitasFragment : Fragment(), ClickOnItem<Appointment>,
 
     private fun getListenerSwipeRecyclerListenr() = this
 
-    private fun setUpObservers() {
+
+    override fun observerViewModel() {
+        super.observerViewModel()
         viewModel.appointment.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiState.Loading -> {
@@ -139,14 +131,12 @@ class HistorialDeCitasFragment : Fragment(), ClickOnItem<Appointment>,
         }
 
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
     override fun clikOnElement(element: Appointment, position: Int?) {
         val appointment = element.toAppointmentObject()
-        val action = HistorialDeCitasFragmentDirections.actionHistorialDeCitasToHistorialDetailFragment(appointment)
+        val action =
+            HistorialDeCitasFragmentDirections.actionHistorialDeCitasToHistorialDetailFragment(
+                appointment
+            )
         findNavController().navigate(action)
     }
 
