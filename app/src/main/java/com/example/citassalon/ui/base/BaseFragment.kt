@@ -30,12 +30,4 @@ abstract class BaseFragment<ViewBinding : ViewDataBinding>(@LayoutRes protected 
 
     }
 
-    /*
-    try this way to noll create this in each fragment
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setUpUi()
-        observerViewModel()
-    }*/
-
 }

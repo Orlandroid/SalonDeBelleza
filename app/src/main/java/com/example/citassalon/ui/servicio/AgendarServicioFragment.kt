@@ -25,6 +25,7 @@ class AgendarServicioFragment :
     private val viewModelAgendarServicio: AgendarServicioViewModel by viewModels()
     private val args: AgendarServicioFragmentArgs by navArgs()
     private var currentServicio: Servicio? = null
+    private lateinit var agendarServicioAdapter: AgendarServicioAdapter
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -38,6 +39,21 @@ class AgendarServicioFragment :
             toolbar.toolbarTitle.text = "Agendar Servicio"
             toolbar.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
+            }
+            btnNext.click {
+                if (!agendarServicioAdapter.isOneItemOrMoreSelect()) {
+                    requireContext().showToast("Debes de seleccionar almenos 1 servicio")
+                    return@click
+                }
+                currentServicio?.let {
+                    val acction =
+                        AgendarServicioFragmentDirections.actionAgendarServicioToAgendarFecha(
+                            args.sucursal,
+                            args.staff,
+                            currentServicio!!
+                        )
+                    navigate(acction)
+                }
             }
         }
         setValuesToView(args)
@@ -65,8 +81,8 @@ class AgendarServicioFragment :
                 is ApiState.Success -> {
                     if (it.data != null) {
                         binding.shimmerServicio.gone()
-                        binding.recyclerAgendarServicio.adapter =
-                            AgendarServicioAdapter(it.data, getListener())
+                        agendarServicioAdapter = AgendarServicioAdapter(it.data, getListener())
+                        binding.recyclerAgendarServicio.adapter = agendarServicioAdapter
                     }
                 }
                 is ApiState.Error -> {
@@ -99,12 +115,6 @@ class AgendarServicioFragment :
     override fun clikOnElement(element: Servicio, position: Int?) {
         binding.tvServicio.text = element.name
         currentServicio = element
-        val acction = AgendarServicioFragmentDirections.actionAgendarServicioToAgendarFecha(
-            args.sucursal,
-            args.staff,
-            element
-        )
-        navigate(acction)
     }
 
     override fun clikOnAccept() {

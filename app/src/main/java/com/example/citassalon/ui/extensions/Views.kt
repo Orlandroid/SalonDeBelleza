@@ -2,6 +2,7 @@ package com.example.citassalon.ui.extensions
 
 import android.view.View
 import android.widget.ImageView
+import androidx.annotation.ColorRes
 
 
 fun View.visible() {
@@ -23,3 +24,8 @@ fun ImageView.changeDrawableColor(color: Int) {
 fun View.click(click: () -> Unit) {
     setOnClickListener { click() }
 }
+
+fun View.getColor(@ColorRes color: Int) :Int{
+    return this.context.resources.getColor(color)
+}
+
