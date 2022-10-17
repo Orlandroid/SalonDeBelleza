@@ -50,7 +50,7 @@ dependencies {
     def navigation_version = "2.3.5"
     def lifecycle_version = "2.3.1"
     def dagger_hilt_version = "2.38.1"
-    def lottieVersion = "3.4.0"
+    def lottieVersion = "5.2.0"
     def work_version = "2.7.1"
 
 
@@ -75,9 +75,9 @@ dependencies {
     //Retrofit Dependecies
     implementation "com.squareup.retrofit2:retrofit:$retrofit_version"
     implementation "com.squareup.retrofit2:converter-gson:$retrofit_version"
-    implementation "com.squareup.okhttp3:logging-interceptor:4.9.1"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.2"
     //GSON
-    implementation 'com.google.code.gson:gson:2.8.9'
+    implementation 'com.google.code.gson:gson:2.9.0'
     // ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
     // LiveData
@@ -109,8 +109,8 @@ dependencies {
     implementation("androidx.work:work-runtime-ktx:$work_version")
     implementation "androidx.startup:startup-runtime:1.1.1"
     //Image
-    implementation 'com.github.bumptech.glide:glide:4.12.0'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.12.0'
+    implementation 'com.github.bumptech.glide:glide:4.13.2'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.13.2'
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation 'com.github.ome450901:SimpleRatingBar:1.5.1'
 

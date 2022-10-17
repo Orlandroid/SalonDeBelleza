@@ -2,10 +2,7 @@ package com.example.citassalon.ui.staff
 
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -17,38 +14,35 @@ import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.main.AlertDialogs
 import com.example.citassalon.main.AlertDialogs.Companion.ERROR_MESSAGE
+import com.example.citassalon.ui.base.BaseFragment
 import com.example.citassalon.util.ERROR_SERVIDOR
-import com.example.citassalon.util.action
-import com.example.citassalon.util.displaySnack
-import com.example.citassalon.util.navigate
+import com.example.citassalon.ui.extensions.action
+import com.example.citassalon.ui.extensions.displaySnack
+import com.example.citassalon.ui.extensions.navigate
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
 import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class AgendarStaffFragment : Fragment(), ClickOnItem<Staff>, AlertDialogs.ClickOnAccept {
+class AgendarStaffFragment :
+    BaseFragment<FragmentAgendarStaffBinding>(R.layout.fragment_agendar_staff), ClickOnItem<Staff>,
+    AlertDialogs.ClickOnAccept {
 
 
-    private var _binding: FragmentAgendarStaffBinding? = null
-    private val binding get() = _binding!!
     private val viewModelStaff: StaffViewModel by viewModels()
     private val args: AgendarStaffFragmentArgs by navArgs()
     private val adaptador = StaffAdapter(getListener())
     private lateinit var skeletonRecyclerView: Skeleton
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentAgendarStaffBinding.inflate(layoutInflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setUpUi()
-        return binding.root
+        observerViewModel()
     }
 
-    private fun setUpUi() {
+    override fun setUpUi() {
         with(binding) {
             skeletonRecyclerView = recyclerStaff.applySkeleton(R.layout.item_staff, 8)
             toolbar.toolbarTitle.text = "Agendar Staff"
@@ -63,38 +57,10 @@ class AgendarStaffFragment : Fragment(), ClickOnItem<Staff>, AlertDialogs.ClickO
         }
         setUpRecyclerView()
         getArgs()
-        setUpObservers()
     }
 
-    private fun getListener(): ClickOnItem<Staff> {
-        return this
-    }
-
-    private fun getListenerDialog(): AlertDialogs.ClickOnAccept = this
-
-    private fun getArgs() {
-        setValueToView(args.sucursal)
-    }
-
-    private fun setValueToView(sucursal: String) {
-        binding.tvSucursal.text = sucursal
-    }
-
-    private fun setUpRecyclerView() {
-        binding.recyclerStaff.layoutManager = GridLayoutManager(requireContext(), 2)
-        binding.recyclerStaff.adapter = adaptador
-    }
-
-    private fun showSkeleton() {
-        skeletonRecyclerView.showSkeleton()
-    }
-
-    private fun hideSkeleton() {
-        skeletonRecyclerView.showOriginal()
-    }
-
-
-    private fun setUpObservers() {
+    override fun observerViewModel() {
+        super.observerViewModel()
         viewModelStaff.staff.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiState.Loading -> {
@@ -125,6 +91,34 @@ class AgendarStaffFragment : Fragment(), ClickOnItem<Staff>, AlertDialogs.ClickO
         }
     }
 
+    private fun getListener(): ClickOnItem<Staff> {
+        return this
+    }
+
+    private fun getListenerDialog(): AlertDialogs.ClickOnAccept = this
+
+    private fun getArgs() {
+        setValueToView(args.sucursal)
+    }
+
+    private fun setValueToView(sucursal: String) {
+        binding.tvSucursal.text = sucursal
+    }
+
+    private fun setUpRecyclerView() {
+        binding.recyclerStaff.layoutManager = GridLayoutManager(requireContext(), 2)
+        binding.recyclerStaff.adapter = adaptador
+    }
+
+    private fun showSkeleton() {
+        skeletonRecyclerView.showSkeleton()
+    }
+
+    private fun hideSkeleton() {
+        skeletonRecyclerView.showOriginal()
+    }
+
+
     private fun snackErrorConection() {
         binding.root.displaySnack(
             getString(R.string.network_error),
@@ -146,10 +140,6 @@ class AgendarStaffFragment : Fragment(), ClickOnItem<Staff>, AlertDialogs.ClickO
         navigate(action)
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
-    }
 
     override fun clikOnElement(element: Staff, position: Int?) {
         navigateToAngendarService(element)

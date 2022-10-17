@@ -2,29 +2,23 @@ package com.example.citassalon.ui.home
 
 import android.os.Bundle
 import android.view.*
-import androidx.fragment.app.Fragment
+import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentHomeBinding
+import com.example.citassalon.ui.base.BaseFragment
+import com.example.citassalon.ui.extensions.navigate
 import com.example.citassalon.util.*
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class HomeFragment : Fragment() {
-
-    private var _binding: FragmentHomeBinding? = null
-    private val binding get() = _binding!!
+class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentHomeBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setUpUi()
-        return binding.root
     }
 
-    private fun setUpUi() {
+    override fun setUpUi() {
         with(binding) {
             buttonAgendar.setOnClickListener {
                 val action = HomeFragmentDirections.actionHome3ToAgendarSucursal()
@@ -38,11 +32,6 @@ class HomeFragment : Fragment() {
                 navigate(HOME_TO_NOMBRE_ESTABLECIMEINTO)
             }
         }
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
     }
 
 }

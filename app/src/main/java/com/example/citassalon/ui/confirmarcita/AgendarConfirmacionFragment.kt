@@ -1,42 +1,36 @@
 package com.example.citassalon.ui.confirmarcita
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import com.example.citassalon.data.mappers.toAppointmentRemote
-import com.example.citassalon.data.models.remote.AppointmentResponse
+import com.example.citassalon.R
+import com.example.citassalon.data.mappers.toAppointmentObject
+import com.example.citassalon.data.models.remote.Appointment
 import com.example.citassalon.databinding.FragmentAgendarConfirmacionBinding
 import com.example.citassalon.interfaces.ListenerAlertDialogWithButtons
+import com.example.citassalon.ui.base.BaseFragment
 import com.example.citassalon.util.AlertsDialogMessages
-import com.example.citassalon.util.navigate
+import com.example.citassalon.ui.extensions.navigate
 import dagger.hilt.android.AndroidEntryPoint
+import java.util.*
 
 @AndroidEntryPoint
-class AgendarConfirmacionFragment : Fragment(), ListenerAlertDialogWithButtons {
+class AgendarConfirmacionFragment :
+    BaseFragment<FragmentAgendarConfirmacionBinding>(R.layout.fragment_agendar_confirmacion),
+    ListenerAlertDialogWithButtons {
 
-    private var _binding: FragmentAgendarConfirmacionBinding? = null
-    private val binding get() = _binding!!
     private val viewModel: AgendarConfirmacionViewModel by viewModels()
-
     private val args: AgendarConfirmacionFragmentArgs by navArgs()
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentAgendarConfirmacionBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setUpUi()
-        viewModel.getAppointments()
-        return binding.root
     }
 
-    private fun setUpUi() {
+    override fun setUpUi() {
+        viewModel.getAppointments()
         with(binding) {
             buttonConfirmar.setOnClickListener {
                 showAlertComfirmAppointment()
@@ -55,29 +49,28 @@ class AgendarConfirmacionFragment : Fragment(), ListenerAlertDialogWithButtons {
     }
 
     private fun setValuesToView(args: AgendarConfirmacionFragmentArgs) {
-        binding.cSucursal.text = args.sucursal
-        binding.cSatff.text = args.staff.nombre
-        binding.cServicio.text = args.servicio.name
-        binding.cFecha.text = args.fecha
-        binding.cHora.text = args.hora
-        binding.cPrecio.text = args.servicio.precio.toString()
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
+        with(binding) {
+            cSucursal.text = args.sucursal
+            cSatff.text = args.staff.nombre
+            cServicio.text = args.servicio.name
+            cFecha.text = args.fecha
+            cHora.text = args.hora
+            cPrecio.text = args.servicio.precio.toString()
+        }
     }
 
     override fun clickOnConfirmar() {
-        saveToDatabaseAppointMent()
+        saveToDatabaseAppointment()
         val action = AgendarConfirmacionFragmentDirections.actionAgendarConfirmacionToCitaAgendada(
-            createAppointment()
+            createAppointment().toAppointmentObject()
         )
         navigate(action)
     }
 
-    private fun createAppointment(): AppointmentResponse {
-        return AppointmentResponse(
+    private fun createAppointment(): Appointment {
+        val uniqueID = UUID.randomUUID().toString()
+        return Appointment(
+            uniqueID,
             args.sucursal,
             args.staff.nombre,
             args.servicio.name,
@@ -87,10 +80,9 @@ class AgendarConfirmacionFragment : Fragment(), ListenerAlertDialogWithButtons {
         )
     }
 
-    private fun saveToDatabaseAppointMent() {
-       viewModel.saveAppointMent(createAppointment().toAppointmentRemote())
+    private fun saveToDatabaseAppointment() {
+        viewModel.saveAppointMent(createAppointment())
     }
-
 
     override fun clickOnCancel() {
 

@@ -13,37 +13,39 @@ import com.example.citassalon.ui.base.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),ClickOnItem<Product> {
+class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),
+    ClickOnItem<Product> {
 
     private val viewModel: CartViewModel by viewModels()
     private val cartAdapter = CartAdapter()
-    private var total=0.0
+    private var total = 0.0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpUi()
-        setUpObservers()
+        observerViewModel()
     }
 
-    private fun setUpUi() {
+    override fun setUpUi() {
         viewModel.getCart(generateRandomId())
         with(binding) {
-            toolbarLayout.toolbarTitle.text="Carrito"
+            toolbarLayout.toolbarTitle.text = "Carrito"
             toolbarLayout.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
         }
     }
 
-    private fun setUpObservers() {
+    override fun observerViewModel() {
+        super.observerViewModel()
         viewModel.cart.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiState.Loading -> {
 
                 }
                 is ApiState.Success -> {
-                    if (it.data != null){
-                        it.data.products.forEach {product ->
+                    if (it.data != null) {
+                        it.data.products.forEach { product ->
                             viewModel.getSingleProduct(product.productId)
                         }
                     }
@@ -59,17 +61,17 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),C
                 }
             }
         }
-        viewModel.product.observe(viewLifecycleOwner){
+        viewModel.product.observe(viewLifecycleOwner) {
             when (it) {
                 is ApiState.Loading -> {
 
                 }
                 is ApiState.Success -> {
-                    if (it.data != null){
-                        binding.recyclerCart.adapter=cartAdapter
+                    if (it.data != null) {
+                        binding.recyclerCart.adapter = cartAdapter
                         cartAdapter.setElement(it.data)
-                        total+=it.data.price
-                        binding.textView7.text="$ $total"
+                        total += it.data.price
+                        binding.textView7.text = "$ $total"
                     }
                 }
                 is ApiState.Error -> {
@@ -84,6 +86,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),C
             }
         }
     }
+
 
     private fun generateRandomId() = (1..6).random()
 

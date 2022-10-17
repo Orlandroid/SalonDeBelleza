@@ -1,38 +1,56 @@
 package com.example.citassalon.ui.servicio
 
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.R
 import com.example.citassalon.data.models.remote.Servicio
+import com.example.citassalon.databinding.ItemServicioBinding
 import com.example.citassalon.interfaces.ClickOnItem
+import com.example.citassalon.ui.extensions.getColor
 
 class AgendarServicioAdapter(
-    private val servicios: List<Servicio>,
+    private var servicios: List<Servicio>,
     private val listener: ClickOnItem<Servicio>
 ) :
     RecyclerView.Adapter<AgendarServicioAdapter.ViewHolder>() {
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val servicio: TextView = itemView.findViewById(R.id.NombreServicio)
+    private fun setData(servicios: List<Servicio>) {
+        this.servicios = servicios
+        notifyDataSetChanged()
+    }
 
+    fun isOneItemOrMoreSelect():Boolean = servicios.any { it.isSelect }
+
+    class ViewHolder(val binding: ItemServicioBinding) : RecyclerView.ViewHolder(binding.root) {
+        fun bind(servicio: Servicio) {
+            with(binding) {
+                NombreServicio.text = servicio.name
+                if (servicio.isSelect) {
+                    cardView.setCardBackgroundColor(itemView.getColor(R.color.cafe3))
+                    NombreServicio.setTextColor(itemView.getColor(R.color.white))
+                } else {
+                    cardView.setCardBackgroundColor(itemView.getColor(R.color.cafe4))
+                    NombreServicio.setTextColor(itemView.getColor(R.color.textcard))
+                }
+            }
+        }
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view =
-            LayoutInflater.from(parent.context).inflate(R.layout.item_servicio, parent, false)
-        return ViewHolder(view)
+        val layoutInflater = LayoutInflater.from(parent.context)
+        val binding = ItemServicioBinding.inflate(layoutInflater, parent, false)
+        return ViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val item = servicios[position]
-        holder.servicio.text = item.name
+        holder.bind(item)
         holder.itemView.setOnClickListener {
-            listener.clikOnElement(item)
+            listener.clikOnElement(element = item)
+            servicios[position].isSelect = !item.isSelect
+            notifyDataSetChanged()
         }
-
     }
 
     override fun getItemCount(): Int = servicios.size

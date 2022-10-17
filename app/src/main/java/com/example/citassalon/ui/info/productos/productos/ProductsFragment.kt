@@ -1,10 +1,7 @@
 package com.example.citassalon.ui.info.productos.productos
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -16,32 +13,28 @@ import com.example.citassalon.databinding.FragmentProductsBinding
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.main.AlertDialogs
 import com.example.citassalon.main.AlertDialogs.Companion.ERROR_MESSAGE
-import com.example.citassalon.util.navigate
+import com.example.citassalon.ui.base.BaseFragment
+import com.example.citassalon.ui.extensions.navigate
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProductsFragment : Fragment(), ClickOnItem<Product> {
+class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment_products),
+    ClickOnItem<Product> {
 
-    private var _binding: FragmentProductsBinding? = null
-    private val binding get() = _binding!!
     private val viewModel: ProductsViewModel by viewModels()
     private val adapter = ProductsAdapter(this)
     private val args: ProductsFragmentArgs by navArgs()
     private lateinit var skeleton: Skeleton
 
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentProductsBinding.inflate(layoutInflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setUpUi()
-        setUpObservers()
-        return binding.root
+        observerViewModel()
     }
 
-    private fun setUpUi() {
+    override fun setUpUi() {
         with(binding) {
             toolbarLayout.toolbarTitle.text = "Productos"
             toolbarLayout.toolbarBack.setOnClickListener {
@@ -59,7 +52,8 @@ class ProductsFragment : Fragment(), ClickOnItem<Product> {
     }
 
 
-    private fun setUpObservers() {
+    override fun observerViewModel() {
+        super.observerViewModel()
         viewModel.products.observe(viewLifecycleOwner) { apiState ->
             when (apiState) {
                 is ApiState.Loading -> {
@@ -81,19 +75,15 @@ class ProductsFragment : Fragment(), ClickOnItem<Product> {
                     val dialog = AlertDialogs(ERROR_MESSAGE, "Verifica tu conexion de internet")
                     activity?.let { dialog.show(it.supportFragmentManager, "alertMessage") }
                 }
+                else -> {}
             }
 
         }
     }
 
-    override fun onDestroyView() {
-        super.onDestroyView()
-        _binding = null
-    }
-
-
     override fun clikOnElement(element: Product, position: Int?) {
-        val action = ProductsFragmentDirections.actionProductsFragmentToDetalleProductoFragment(element)
+        val action =
+            ProductsFragmentDirections.actionProductsFragmentToDetalleProductoFragment(element)
         navigate(action)
     }
 

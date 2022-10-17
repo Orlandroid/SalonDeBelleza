@@ -1,7 +1,9 @@
 package com.example.citassalon.data.models.remote
 
+
 class Appointment {
 
+    var idAppointment: String = ""
     var establishment: String = ""
     var employee: String = ""
     var service: String = ""
@@ -16,6 +18,7 @@ class Appointment {
     }
 
     constructor(
+        idAppointment: String,
         establishment: String,
         employee: String,
         service: String,
@@ -23,6 +26,7 @@ class Appointment {
         hour: String,
         total: String
     ) {
+        this.idAppointment = idAppointment
         this.establishment = establishment
         this.employee = employee
         this.service = service

@@ -2,7 +2,6 @@ package com.example.citassalon.di
 
 import com.example.citassalon.data.firebase.FireBaseSource
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import dagger.Module
 import dagger.Provides
@@ -15,7 +14,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object ModuleFirebase {
 
-    private const val APPOINTMENT_REFERENCE = "Appointment"
 
     @Singleton
     @Provides
@@ -31,13 +29,5 @@ object ModuleFirebase {
     @Singleton
     @Provides
     fun provideFirebaseRealtimeInstance(): FirebaseDatabase = FirebaseDatabase.getInstance()
-
-    @Singleton
-    @Provides
-    fun provideFirebaseRealtimeDatabaseReference(firebaseDatabase: FirebaseDatabase,firebaseAuth: FirebaseAuth): DatabaseReference {
-        val uuidUser = firebaseAuth.uid
-        return firebaseDatabase.reference.child(APPOINTMENT_REFERENCE).child(uuidUser!!)
-    }
-
 
 }

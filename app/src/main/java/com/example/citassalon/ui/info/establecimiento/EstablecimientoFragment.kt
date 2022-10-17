@@ -1,31 +1,23 @@
 package com.example.citassalon.ui.info.establecimiento
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentEstablecimientoBinding
-import com.example.citassalon.util.navigate
+import com.example.citassalon.ui.base.BaseFragment
+import com.example.citassalon.ui.extensions.navigate
 
 
-class EstablecimientoFragment : Fragment() {
+class EstablecimientoFragment :
+    BaseFragment<FragmentEstablecimientoBinding>(R.layout.fragment_establecimiento) {
 
-    private var _binding: FragmentEstablecimientoBinding? = null
-    private val binding get() = _binding!!
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentEstablecimientoBinding.inflate(inflater, container, false)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         setUpUi()
-        return binding.root
     }
 
-    private fun setUpUi() {
+    override fun setUpUi() {
         with(binding) {
             toolbarLayout.toolbarTitle.text = "Nombre establecimeinto"
             toolbarLayout.toolbarBack.setOnClickListener {
@@ -45,13 +37,10 @@ class EstablecimientoFragment : Fragment() {
     }
 
     private fun setMenuName() {
-        binding.sucursales.textElement.text = context?.getString(R.string.sucursales)
-        binding.productos.textElement.text = context?.getString(R.string.productos)
-    }
-
-    override fun onDestroy() {
-        super.onDestroy()
-        _binding = null
+        with(binding) {
+            sucursales.textElement.text = context?.getString(R.string.sucursales)
+            productos.textElement.text = context?.getString(R.string.productos)
+        }
     }
 
 }
