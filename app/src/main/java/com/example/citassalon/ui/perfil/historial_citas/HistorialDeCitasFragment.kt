@@ -55,6 +55,7 @@ class HistorialDeCitasFragment :
     private fun getListenerSwipeRecyclerListenr() = this
 
 
+    @SuppressLint("SetTextI18n")
     override fun observerViewModel() {
         super.observerViewModel()
         viewModel.appointment.observe(viewLifecycleOwner) {
@@ -64,6 +65,10 @@ class HistorialDeCitasFragment :
                 }
                 is ApiState.Success -> {
                     if (it.data != null) {
+                        binding.toolbarLayout.tvInfo.apply {
+                            visible()
+                            text="Total: ${it.data.size}"
+                        }
                         binding.progressBar2.invisible()
                         binding.recyclerAppointment.adapter = historialCitasAdapter
                         historialCitasAdapter.setData(it.data)
@@ -155,6 +160,7 @@ class HistorialDeCitasFragment :
                     viewModel.removeAppointment(appointment.idAppointment)
                 }
 
+                @SuppressLint("NotifyDataSetChanged")
                 override fun clikOnCancel() {
                     historialCitasAdapter.notifyDataSetChanged()
                 }
