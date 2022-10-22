@@ -33,7 +33,7 @@
             android:fontFamily="@font/poppins_medium"
             android:gravity="center"
             android:text="@string/nombre_staff"
-            android:textColor="@color/cafe3"
+            android:textColor="@color/black"
             android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"

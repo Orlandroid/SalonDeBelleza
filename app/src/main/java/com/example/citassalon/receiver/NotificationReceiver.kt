@@ -25,7 +25,7 @@ class NotificationReceiver : BroadcastReceiver() {
 
     private fun pendingIntent(context: Context): PendingIntent {
         return NavDeepLinkBuilder(context)
-            .setGraph(R.navigation.nav_info)
+            .setGraph(R.navigation.main_navigation)
             .setDestination(R.id.historialDetailFragment)
             .createPendingIntent()
     }
