@@ -1,5 +1,6 @@
 package com.example.citassalon.ui.perfil.perfil
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -9,6 +10,7 @@ import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentPerfilBinding
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.interfaces.ListenerAlertDialogWithButtons
+import com.example.citassalon.ui.MainActivity
 import com.example.citassalon.ui.base.BaseFragment
 import com.example.citassalon.ui.extensions.navigate
 import com.example.citassalon.util.*
@@ -102,7 +104,9 @@ class PerfilFragment : BaseFragment<FragmentPerfilBinding>(R.layout.fragment_per
 
     override fun clickOnConfirmar() {
         viewModelPerfil.logout()
-        findNavController().popBackStack(R.id.login, true)
+        val intent = Intent(requireContext(), MainActivity::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
     }
 
     override fun clickOnCancel() {
