@@ -45,10 +45,10 @@ Si quieres pudes probar la aplicacion Aqui
     <td><strong>Sucursal</strong></td>
   </tr>
   <tr>
-    <td><img src="screenshots/login.png" width="100%"></td>
-    <td><img src="screenshots/sign_up_alert.png" width="100%"></td>
-    <td><img src="screenshots/home.png" width="100%"></td>
-    <td><img src="screenshots/sucursales.png" width="100%"></td>
+    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/login.png" width="100%"></td>
+    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/sign_up_alert.png" width="100%"></td>
+    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/home.png" width="100%"></td>
+    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/sucursales.png" width="100%"></td>
   </tr>
   <tr>
     <td><strong>Servicio</strong></td>
@@ -57,10 +57,10 @@ Si quieres pudes probar la aplicacion Aqui
     <td><strong>Staff</strong></td>
   </tr>
   <tr>
-    <td><img src="screenshots/servicio.png" width="100%"></td>
-    <td><img src="screenshots/fecha.png" width="100%"></td>
-    <td><img src="screenshots/detalle.png" width="100%"></td>
-    <td><img src="screenshots/staff.png" width="100%"></td>
+    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/servicio.png" width="100%"></td>
+    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/fecha.png" width="100%"></td>
+    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/detalle.png" width="100%"></td>
+    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/staff.png" width="100%"></td>
   </tr>
  <tr>
     <td><strong>perfil</strong></td>
@@ -68,9 +68,9 @@ Si quieres pudes probar la aplicacion Aqui
   <td><strong>Cita Agendada</strong></td>
   </tr>
   <tr>
-    <td><img src="screenshots/perfil.png" width="100%"></td>
-    <td><img src="screenshots/sing_up.png" width="100%"></td>
-   <td><img src="screenshots/cita agendada.png" width="100%"></td>
+    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/perfil.png" width="100%"></td>
+    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/sing_up.png" width="100%"></td>
+   <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/cita%20agendada.png" width="100%"></td>
   </tr>
 </table>
 
@@ -85,10 +85,10 @@ Si quieres pudes probar la aplicacion Aqui
     <td><strong>Sucursal</strong></td>
   </tr>
   <tr>
-    <td><img src="screenshots/login_dark.png" width="100%"></td>
-    <td><img src="screenshots/sign_up_alert_dark.png" width="100%"></td>
-    <td><img src="screenshots/home_dark.png" width="100%"></td>
-    <td><img src="screenshots/sucursales_dark.png" width="100%"></td>
+    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/login_dark.png" width="100%"></td>
+    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/sign_up_alert_dark.png" width="100%"></td>
+    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/home_dark.png" width="100%"></td>
+    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/sucursales_dark.png" width="100%"></td>
   </tr>
   <tr>
     <td><strong>Servicio</strong></td>
@@ -97,10 +97,10 @@ Si quieres pudes probar la aplicacion Aqui
     <td><strong>Staff</strong></td>
   </tr>
   <tr>
-    <td><img src="screenshots/servicio_dark.png" width="100%"></td>
-    <td><img src="screenshots/fecha_dark.png" width="100%"></td>
-    <td><img src="screenshots/detalle_dark.png" width="100%"></td>
-    <td><img src="screenshots/staff_dark.png" width="100%"></td>
+    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/servicio_dark.png" width="100%"></td>
+    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/fecha_dark.png" width="100%"></td>
+    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/detalle_dark.png" width="100%"></td>
+    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/staff_dark.png" width="100%"></td>
   </tr>
  <tr>
     <td><strong>perfil</strong></td>
@@ -108,9 +108,9 @@ Si quieres pudes probar la aplicacion Aqui
   <td><strong>Cita Agendada</strong></td>
   </tr>
   <tr>
-    <td><img src="screenshots/perfil_dark.png" width="100%"></td>
-    <td><img src="screenshots/sing_up_dark.png" width="100%"></td>
-   <td><img src="screenshots/cita agendada_dark.png" width="100%"></td>
+    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/perfil_dark.png" width="100%"></td>
+    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/sing_up_dark.png" width="100%"></td>
+   <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/cita%20agendada_dark.png" width="100%"></td>
   </tr>
 </table>
 
