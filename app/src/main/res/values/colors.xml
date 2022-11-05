@@ -34,5 +34,7 @@
     <color name="inverse">#292b2c</color>
     <color name="faded">#f7f7f7</color>
     <color name="azul">#3949AB</color>
+    <color name="always_black">#FF000000</color>
+    <color name="always_white">#FFFFFFFF</color>
 
 </resources>

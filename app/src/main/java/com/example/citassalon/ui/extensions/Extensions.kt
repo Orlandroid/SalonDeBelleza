@@ -3,9 +3,11 @@ package com.example.citassalon.ui.extensions
 import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
+import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.util.Base64
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
@@ -20,6 +22,8 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.ui.fecha.DatePickerFragment
 import com.google.android.material.snackbar.Snackbar
+import java.io.ByteArrayOutputStream
+import java.io.IOException
 
 
 fun View.displaySnack(
@@ -93,6 +97,31 @@ fun ImageView.setColorFilterImage(context: Context, @ColorRes colorInt: Int) {
 @RequiresApi(Build.VERSION_CODES.M)
 fun Drawable.tint(context: Context, @ColorRes color: Int) {
     DrawableCompat.setTint(this, context.resources.getColor(color, context.theme))
+}
+
+/**
+ * Extension method to get base64 string for Bitmap.
+ */
+fun Bitmap.toBase64(): String {
+    var result = ""
+    val baos = ByteArrayOutputStream()
+    try {
+        compress(Bitmap.CompressFormat.JPEG, 100, baos)
+        baos.flush()
+        baos.close()
+        val bitmapBytes = baos.toByteArray()
+        result = Base64.encodeToString(bitmapBytes, Base64.DEFAULT)
+    } catch (e: IOException) {
+        e.printStackTrace()
+    } finally {
+        try {
+            baos.flush()
+            baos.close()
+        } catch (e: IOException) {
+            e.printStackTrace()
+        }
+    }
+    return result
 }
 
 
