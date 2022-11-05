@@ -1,6 +1,5 @@
 package com.example.citassalon.data.mappers
 
-import com.example.citassalon.data.models.local.Appointment
 import com.example.citassalon.data.models.local.AppointmentObject
 import com.example.citassalon.data.models.remote.AppointmentResponse
 import com.example.citassalon.data.models.remote.Appointment as AppointmentRemote
