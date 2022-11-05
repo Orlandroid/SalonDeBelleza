@@ -6,15 +6,15 @@ import androidx.annotation.ColorRes
 
 
 fun View.visible() {
-    this.visibility = View.VISIBLE
+    visibility = View.VISIBLE
 }
 
 fun View.gone() {
-    this.visibility = View.GONE
+    visibility = View.GONE
 }
 
 fun View.invisible() {
-    this.visibility = View.INVISIBLE
+    visibility = View.INVISIBLE
 }
 
 fun ImageView.changeDrawableColor(color: Int) {
@@ -25,7 +25,7 @@ fun View.click(click: () -> Unit) {
     setOnClickListener { click() }
 }
 
-fun View.getColor(@ColorRes color: Int) :Int{
+fun View.getColor(@ColorRes color: Int): Int {
     return this.context.resources.getColor(color)
 }
 

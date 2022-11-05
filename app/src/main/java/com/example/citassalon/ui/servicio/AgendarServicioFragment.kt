@@ -74,13 +74,14 @@ class AgendarServicioFragment :
     override fun observerViewModel() {
         super.observerViewModel()
         viewModelAgendarServicio.services.observe(viewLifecycleOwner) {
+            if (it is ApiState.Loading) {
+                binding.shimmerServicio.visible()
+            } else {
+                binding.shimmerServicio.gone()
+            }
             when (it) {
-                is ApiState.Loading -> {
-                    binding.shimmerServicio.visible()
-                }
                 is ApiState.Success -> {
                     if (it.data != null) {
-                        binding.shimmerServicio.gone()
                         agendarServicioAdapter = AgendarServicioAdapter(it.data, getListener())
                         binding.recyclerAgendarServicio.adapter = agendarServicioAdapter
                     }

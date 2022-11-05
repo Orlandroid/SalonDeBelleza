@@ -3,6 +3,7 @@ package com.example.citassalon.ui.sucursal
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
@@ -45,20 +46,19 @@ class AgendarSucursalFragment :
     override fun observerViewModel() {
         super.observerViewModel()
         viewModel.sucursal.observe(viewLifecycleOwner) {
+            if (it is ApiState.Loading) {
+                binding.itemNoDataNoNetwork.itemNoDataNoNetworkContainer.gone()
+                binding.shimmerSucursal.visible()
+                binding.recyclerSucursal.visible()
+            } else {
+                binding.shimmerSucursal.gone()
+            }
             when (it) {
                 is ApiState.Success -> {
                     if (it.data != null) {
                         with(binding) {
-                            shimmerSucursal.gone()
                             recyclerSucursal.adapter = SucursalAdapter(it.data, getListener())
                         }
-                    }
-                }
-                is ApiState.Loading -> {
-                    with(binding) {
-                        itemNoDataNoNetwork.itemNoDataNoNetworkContainer.gone()
-                        recyclerSucursal.visible()
-                        shimmerSucursal.visible()
                     }
                 }
                 is ApiState.NoData -> {
@@ -76,8 +76,6 @@ class AgendarSucursalFragment :
                 }
                 is ApiState.ErrorNetwork -> {
                     with(binding) {
-                        recyclerSucursal.gone()
-                        shimmerSucursal.gone()
                         itemNoDataNoNetwork.message.text = "Error de conexion"
                         itemNoDataNoNetwork.imageNoDataNoNetwork.setImageResource(
                             getRandomErrorNetworkImage()
@@ -85,6 +83,7 @@ class AgendarSucursalFragment :
                     }
                     snackErrorConection()
                 }
+                else -> {}
             }
         }
     }
