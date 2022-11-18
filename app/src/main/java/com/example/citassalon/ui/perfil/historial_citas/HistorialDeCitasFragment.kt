@@ -59,30 +59,26 @@ class HistorialDeCitasFragment :
     override fun observerViewModel() {
         super.observerViewModel()
         viewModel.appointment.observe(viewLifecycleOwner) {
+            binding.progressBar2.isVisible = it is ApiState.Loading
             when (it) {
-                is ApiState.Loading -> {
-                    binding.progressBar2.visible()
-                }
                 is ApiState.Success -> {
                     if (it.data != null) {
                         binding.toolbarLayout.tvInfo.apply {
                             visible()
-                            text="Total: ${it.data.size}"
+                            text = "Total: ${it.data.size}"
                         }
-                        binding.progressBar2.invisible()
                         binding.recyclerAppointment.adapter = historialCitasAdapter
                         historialCitasAdapter.setData(it.data)
                     }
                 }
                 is ApiState.Error -> {
-                    binding.progressBar2.invisible()
+
                 }
                 is ApiState.ErrorNetwork -> {
-                    binding.progressBar2.invisible()
+
                 }
                 is ApiState.NoData -> {
                     with(binding) {
-                        progressBar2.invisible()
                         imageNoData.visible()
                         imageNoData.setAnimation(getRandomNoDataAnimation())
                         imageNoData.playAnimation()

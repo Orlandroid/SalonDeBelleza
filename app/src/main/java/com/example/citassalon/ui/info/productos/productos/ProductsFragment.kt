@@ -55,12 +55,13 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
     override fun observerViewModel() {
         super.observerViewModel()
         viewModel.products.observe(viewLifecycleOwner) { apiState ->
+            if (apiState is ApiState.Loading) {
+                skeleton.showSkeleton()
+            } else {
+                skeleton.showOriginal()
+            }
             when (apiState) {
-                is ApiState.Loading -> {
-                    skeleton.showSkeleton()
-                }
                 is ApiState.Success -> {
-                    skeleton.showOriginal()
                     if (apiState.data != null) {
                         binding.recyclerProducts.adapter = adapter
                         adapter.setData(apiState.data)

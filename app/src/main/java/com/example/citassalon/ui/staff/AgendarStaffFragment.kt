@@ -62,12 +62,13 @@ class AgendarStaffFragment :
     override fun observerViewModel() {
         super.observerViewModel()
         viewModelStaff.staff.observe(viewLifecycleOwner) {
+            if (it is ApiState.Loading) {
+                showSkeleton()
+            } else {
+                hideSkeleton()
+            }
             when (it) {
-                is ApiState.Loading -> {
-                    showSkeleton()
-                }
                 is ApiState.Success -> {
-                    hideSkeleton()
                     if (it.data != null) {
                         setUpRecyclerView()
                         adaptador.setData(it.data)
@@ -87,6 +88,7 @@ class AgendarStaffFragment :
                 is ApiState.ErrorNetwork -> {
                     snackErrorConection()
                 }
+                else -> {}
             }
         }
     }

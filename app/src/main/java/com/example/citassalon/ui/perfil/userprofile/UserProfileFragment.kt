@@ -3,6 +3,7 @@ package com.example.citassalon.ui.perfil.userprofile
 
 import android.os.Bundle
 import android.view.View
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
@@ -46,14 +47,11 @@ class UserProfileFragment :
     override fun observerViewModel() {
         super.observerViewModel()
         viewModel.infoUser.observe(viewLifecycleOwner) {
+            binding.progressBar.isVisible = it is ApiState.Loading
             when (it) {
-                is ApiState.Loading -> {
-                    binding.progressBar.visible()
-                }
                 is ApiState.Success -> {
                     if (it.data != null) {
                         with(binding) {
-                            progressBar.invisible()
                             tvCorreo.text = it.data[USER_EMAIL]
                             tvUid.text = it.data[USER_UID]
                             if (it.data[USER_SESSION].equals("true")) {
@@ -73,6 +71,7 @@ class UserProfileFragment :
                 is ApiState.NoData -> {
 
                 }
+                else -> {}
             }
         }
     }
