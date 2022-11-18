@@ -17,6 +17,9 @@ El objetivo principal de la app es la gestión de citas enfocado a establecimien
 - root1234
 
 
+https://user-images.githubusercontent.com/39423969/202614750-e09df647-88f1-4201-9f61-dd95c2445005.mp4
+
+
 ## Features
 - Single-Activity Arquitecture
 - Android Jetpack (MVVM Arquitecture ,Navigation Component,DataBinding,ViewBinding,Fragments,Dagger Hilt,Room Database,Componentes Material Design) 
@@ -113,6 +116,5 @@ Si quieres pudes probar la aplicacion Aqui
    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/cita%20agendada_dark.png" width="100%"></td>
   </tr>
 </table>
-
 
 <img src="screenshots/Flujos.png">
