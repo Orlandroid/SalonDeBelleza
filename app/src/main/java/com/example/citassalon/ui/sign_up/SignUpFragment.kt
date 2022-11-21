@@ -4,6 +4,7 @@ import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.DatePicker
+import androidx.compose.ui.res.colorResource
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -25,6 +26,11 @@ class SignUpFragment : BaseFragment<SignInBinding>(R.layout.sign_in),
     DatePickerDialog.OnDateSetListener {
 
     private val viewModel: SignUpViewModel by viewModels()
+
+    companion object {
+        private const val MINIMAL_CHARACTERS_PASSWORD = 5
+        private const val PHONE_NUMBER_CHARACTERS = 10
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -107,58 +113,19 @@ class SignUpFragment : BaseFragment<SignInBinding>(R.layout.sign_in),
         activity?.let { it1 -> alert.show(it1.supportFragmentManager, "dialog") }
     }
 
-    private fun isValidPassword(): Boolean =
-        binding.password.editText?.text.toString().trim().length > 5
+    private fun isValidPassword(): Boolean {
+        val password = binding.password.editText?.text.toString()
+        return password.trim().length > MINIMAL_CHARACTERS_PASSWORD
+    }
 
     private fun getEmail(): String = binding.correo.editText?.text.toString()
 
-    private fun isValidTheData(): Boolean =
-        !areEmptyFields() and isValidPassword() and isTheEmailValidEmail(getEmail())
-
-    private fun doOnTextChange() {
-        with(binding) {
-            nombre.editText?.doOnTextChanged { _, _, _, _ ->
-                buttonRegistarse.isEnabled = isValidTheData()
-                changeColorTextButton()
-            }
-            telefono.editText?.doOnTextChanged { _, _, _, _ ->
-                buttonRegistarse.isEnabled = isValidTheData()
-                changeColorTextButton()
-            }
-            correo.editText?.doOnTextChanged { _, _, _, _ ->
-                buttonRegistarse.isEnabled = isValidTheData()
-                changeColorTextButton()
-            }
-            password.editText?.doOnTextChanged { _, _, _, _ ->
-                buttonRegistarse.isEnabled = isValidTheData()
-                if (!isValidPassword()) {
-                    binding.password.editText?.error =
-                        "La contraseña debe ser de minimo de 6 digitos"
-                }
-                changeColorTextButton()
-            }
-            birtday.editText?.doOnTextChanged { _, _, _, _ ->
-                buttonRegistarse.isEnabled = isValidTheData()
-                changeColorTextButton()
-            }
-        }
-    }
-
-    private fun changeColorTextButton() {
-        if (isValidTheData()) {
-            binding.buttonRegistarse.setTextColor(android.graphics.Color.WHITE)
-        }
-    }
-
+    private fun isValidNumber(): Boolean =
+        binding.telefono.editText?.text.toString().trim().length == PHONE_NUMBER_CHARACTERS
 
     private fun isTheEmailValidEmail(email: String): Boolean {
-        if (isValidEmail(email)) {
-            return true
-        }
-        binding.correo.editText?.error = "Debes de ingresar un correo valido"
-        return false
+        return isValidEmail(email)
     }
-
 
     private fun areEmptyFields(): Boolean {
         with(binding) {
@@ -168,6 +135,87 @@ class SignUpFragment : BaseFragment<SignInBinding>(R.layout.sign_in),
             val passwordIsEmpty = password.editText?.text.toString().trim().isEmpty()
             val birthDayIsEmpty = birtday.editText?.text.toString().trim().isEmpty()
             return nombreIsEmpty or telefonoIsEmpty or correoIsEmpty or passwordIsEmpty or birthDayIsEmpty
+        }
+    }
+
+    private fun resetErrorsInputs() {
+        with(binding) {
+            password.apply {
+                errorIconDrawable = null
+                error = null
+            }
+            telefono.apply {
+                errorIconDrawable = null
+                error = null
+            }
+            correo.apply {
+                errorIconDrawable = null
+                error = null
+            }
+        }
+    }
+
+    private fun validateForm(): Boolean {
+        with(binding) {
+            resetErrorsInputs()
+            val passwordText = password.editText?.text.toString().trim()
+            val email = correo.editText?.text.toString().trim()
+            val phone = telefono.editText?.text.toString().trim()
+            var isValidPhone = true
+            var isValidEmail = true
+            var isValidPassword = true
+            var areEmptyFields = false
+            if (!isValidNumber()) {
+                if (phone.isNotEmpty()) {
+                    telefono.error = "Debes de ingresar un telefono valido"
+                }
+                isValidPhone = false
+            }
+            if (areEmptyFields()) areEmptyFields = true
+            if (!isValidPassword()) {
+                if (passwordText.isNotEmpty()) {
+                    password.error = "La contraseña debe ser de minimo de 6 digitos"
+                }
+                isValidPassword = false
+            }
+            if (!isTheEmailValidEmail(getEmail())) {
+                if (email.isNotEmpty()) {
+                    correo.error = "Ingresa un correo electronico valido"
+                }
+                isValidEmail = false
+            }
+            return isValidPhone && isValidEmail && isValidPassword && !areEmptyFields
+        }
+    }
+
+    private fun doOnTextChange() {
+        with(binding) {
+            nombre.editText?.doOnTextChanged { _, _, _, _ ->
+                buttonRegistarse.isEnabled = validateForm()
+                changeColorTextButton()
+            }
+            telefono.editText?.doOnTextChanged { _, _, _, _ ->
+                buttonRegistarse.isEnabled = validateForm()
+                changeColorTextButton()
+            }
+            correo.editText?.doOnTextChanged { _, _, _, _ ->
+                buttonRegistarse.isEnabled = validateForm()
+                changeColorTextButton()
+            }
+            password.editText?.doOnTextChanged { _, _, _, _ ->
+                buttonRegistarse.isEnabled = validateForm()
+                changeColorTextButton()
+            }
+            birtday.editText?.doOnTextChanged { _, _, _, _ ->
+                buttonRegistarse.isEnabled = validateForm()
+                changeColorTextButton()
+            }
+        }
+    }
+
+    private fun changeColorTextButton() {
+        if (validateForm()) {
+            binding.buttonRegistarse.setTextColor(android.graphics.Color.WHITE)
         }
     }
 
