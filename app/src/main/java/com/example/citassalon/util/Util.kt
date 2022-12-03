@@ -25,23 +25,3 @@ fun getTotalPrice(products: List<Product>): Double {
     }
     return price
 }
-
-fun getRandomNoDataImage(): Int =
-    when ((1..2).random()) {
-        1 -> {
-            R.drawable.file
-        }
-        else -> R.drawable.data_error
-    }
-
-fun getRandomErrorNetworkImage(): Int =
-    when ((1..3).random()) {
-        1 -> {
-            R.drawable.network_error
-        }
-        2 -> {
-            R.drawable.network
-        }
-
-        else ->  R.drawable.error
-    }

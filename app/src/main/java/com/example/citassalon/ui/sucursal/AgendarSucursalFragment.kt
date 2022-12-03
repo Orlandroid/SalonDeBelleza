@@ -2,6 +2,7 @@ package com.example.citassalon.ui.sucursal
 
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
@@ -45,26 +46,23 @@ class AgendarSucursalFragment :
 
     override fun observerViewModel() {
         super.observerViewModel()
-        viewModel.sucursal.observe(viewLifecycleOwner) {
-            if (it is ApiState.Loading) {
-                binding.itemNoDataNoNetwork.itemNoDataNoNetworkContainer.gone()
+        viewModel.sucursal.observe(viewLifecycleOwner) { apiState ->
+            if (apiState is ApiState.Loading) {
                 binding.shimmerSucursal.visible()
                 binding.recyclerSucursal.visible()
             } else {
                 binding.shimmerSucursal.gone()
             }
-            when (it) {
+            when (apiState) {
                 is ApiState.Success -> {
-                    if (it.data != null) {
+                    if (apiState.data != null) {
                         with(binding) {
-                            recyclerSucursal.adapter = SucursalAdapter(it.data, getListener())
+                            recyclerSucursal.adapter = SucursalAdapter(apiState.data, getListener())
                         }
                     }
                 }
                 is ApiState.NoData -> {
-                    binding.itemNoDataNoNetwork.imageNoDataNoNetwork.setImageResource(
-                        getRandomNoDataImage()
-                    )
+                    binding.noData.visible()
                 }
                 is ApiState.Error -> {
                     val alert = AlertDialogs(
@@ -75,13 +73,22 @@ class AgendarSucursalFragment :
                     activity?.let { it1 -> alert.show(it1.supportFragmentManager, "dialog") }
                 }
                 is ApiState.ErrorNetwork -> {
-                    with(binding) {
-                        itemNoDataNoNetwork.message.text = "Error de conexion"
-                        itemNoDataNoNetwork.imageNoDataNoNetwork.setImageResource(
-                            getRandomErrorNetworkImage()
-                        )
-                    }
-                    snackErrorConection()
+                    Log.w("ERROR",apiState.message.toString())
+                    val dialog =
+                        AlertDialogs(
+                            AlertDialogs.ERROR_MESSAGE,
+                            "Verifica tu conexion de internet",
+                            clikOnAccept = object : AlertDialogs.ClickOnAccept {
+                                override fun clickOnAccept() {
+                                    findNavController().popBackStack()
+                                }
+
+                                override fun clickOnCancel() {
+
+                                }
+
+                            })
+                    activity?.let { dialog.show(it.supportFragmentManager, "alertMessage") }
                 }
                 else -> {}
             }
@@ -91,18 +98,6 @@ class AgendarSucursalFragment :
     private fun getListener(): ClickOnItem<Sucursal> = this
 
     private fun getListenerDialog(): AlertDialogs.ClickOnAccept = this
-
-
-    private fun snackErrorConection() {
-        binding.root.displaySnack(
-            getString(R.string.network_error),
-            Snackbar.LENGTH_INDEFINITE
-        ) {
-            action(getString(R.string.retry)) {
-                viewModel.getSucursales()
-            }
-        }
-    }
 
 
     override fun clikOnElement(element: Sucursal, position: Int?) {
@@ -115,11 +110,11 @@ class AgendarSucursalFragment :
         }
     }
 
-    override fun clikOnAccept() {
+    override fun clickOnAccept() {
         findNavController().popBackStack()
     }
 
-    override fun clikOnCancel() {
+    override fun clickOnCancel() {
 
     }
 

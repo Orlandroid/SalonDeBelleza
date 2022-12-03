@@ -31,8 +31,8 @@ class AlertDialogs(
     }
 
     interface ClickOnAccept {
-        fun clikOnAccept()
-        fun clikOnCancel()
+        fun clickOnAccept()
+        fun clickOnCancel()
     }
 
     override fun onCreateView(
@@ -64,15 +64,15 @@ class AlertDialogs(
     private fun setUpUi() {
         with(binding) {
             buttonAceptarOneButton.setOnClickListener {
-                clikOnAccept?.clikOnAccept()
+                clikOnAccept?.clickOnAccept()
                 dialog?.dismiss()
             }
             buttonAceptar.setOnClickListener {
-                clikOnAccept?.clikOnAccept()
+                clikOnAccept?.clickOnAccept()
                 dialog?.dismiss()
             }
             buttonCancelar.setOnClickListener {
-                clikOnAccept?.clikOnCancel()
+                clikOnAccept?.clickOnCancel()
                 dialog?.dismiss()
             }
             binding.bodyMessage.text = messageBody

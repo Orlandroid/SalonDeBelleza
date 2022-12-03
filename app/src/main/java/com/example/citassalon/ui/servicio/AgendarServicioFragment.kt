@@ -118,11 +118,11 @@ class AgendarServicioFragment :
         currentServicio = element
     }
 
-    override fun clikOnAccept() {
+    override fun clickOnAccept() {
         findNavController().popBackStack()
     }
 
-    override fun clikOnCancel() {
+    override fun clickOnCancel() {
 
     }
 
