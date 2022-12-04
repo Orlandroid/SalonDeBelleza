@@ -5,7 +5,7 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
-import com.example.citassalon.data.models.remote.Sucursal
+import com.example.citassalon.data.models.remote.migration.Sucursal
 import com.example.citassalon.databinding.FragmentSucursalesBinding
 import com.example.citassalon.ui.share_beetwen_sucursales.SucursalAdapter
 import com.example.citassalon.ui.share_beetwen_sucursales.SucursalViewModel
@@ -71,8 +71,8 @@ class SucursalesFragment : BaseFragment<FragmentSucursalesBinding>(R.layout.frag
 
 
     override fun clikOnElement(element: Sucursal, position: Int?) {
-        val action = SucursalesFragmentDirections.actionSucursales2ToNegocioInfo(element)
-        navigate(action)
+       /* val action = SucursalesFragmentDirections.actionSucursales2ToNegocioInfo(element)
+        navigate(action)*/
     }
 
 }

@@ -4,21 +4,21 @@ package com.example.citassalon.ui.sucursal
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
-import com.example.citassalon.data.models.remote.Sucursal
+import com.example.citassalon.data.models.remote.migration.Sucursal
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.databinding.FragmentAgendarSucursalBinding
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.main.AlertDialogs
 import com.example.citassalon.ui.base.BaseFragment
-import com.example.citassalon.ui.extensions.*
+import com.example.citassalon.ui.extensions.gone
+import com.example.citassalon.ui.extensions.navigate
+import com.example.citassalon.ui.extensions.visible
 import com.example.citassalon.ui.share_beetwen_sucursales.SucursalAdapter
 import com.example.citassalon.ui.share_beetwen_sucursales.SucursalViewModel
-import com.example.citassalon.util.*
-import com.google.android.material.snackbar.Snackbar
+import com.example.citassalon.util.ERROR_SERVIDOR
 import dagger.hilt.android.AndroidEntryPoint
 
 

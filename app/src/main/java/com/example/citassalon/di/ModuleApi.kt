@@ -23,7 +23,7 @@ object ModuleApi {
 
 
     private const val BASE_URL_FAKE_STORE = "https://fakestoreapi.com/"
-    private const val BASE_URL = "https://skeduly.herokuapp.com/api/"
+    private const val BASE_URL = "https://raw.githubusercontent.com/Orlandroid/Resources_Repos/main/fakesResponsesApis/"
 
     @Singleton
     @Provides
