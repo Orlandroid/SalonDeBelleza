@@ -5,20 +5,21 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
+import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.citassalon.R
-import com.example.citassalon.data.models.remote.Staff
-import com.example.citassalon.databinding.FragmentAgendarStaffBinding
+import com.example.citassalon.data.models.remote.migration.Staff
 import com.example.citassalon.data.state.ApiState
+import com.example.citassalon.databinding.FragmentAgendarStaffBinding
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.main.AlertDialogs
 import com.example.citassalon.main.AlertDialogs.Companion.ERROR_MESSAGE
 import com.example.citassalon.ui.base.BaseFragment
-import com.example.citassalon.util.ERROR_SERVIDOR
 import com.example.citassalon.ui.extensions.action
 import com.example.citassalon.ui.extensions.displaySnack
 import com.example.citassalon.ui.extensions.navigate
+import com.example.citassalon.ui.flow_main.FlowMainViewModel
+import com.example.citassalon.util.ERROR_SERVIDOR
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
 import com.google.android.material.snackbar.Snackbar
@@ -31,7 +32,9 @@ class AgendarStaffFragment :
 
 
     private val viewModelStaff: StaffViewModel by viewModels()
-    private val args: AgendarStaffFragmentArgs by navArgs()
+    private val flowMainViewModel by navGraphViewModels<FlowMainViewModel>(R.id.main_navigation) {
+        defaultViewModelProviderFactory
+    }
     private val adaptador = StaffAdapter(getListener())
     private lateinit var skeletonRecyclerView: Skeleton
 
@@ -71,7 +74,7 @@ class AgendarStaffFragment :
                 is ApiState.Success -> {
                     if (it.data != null) {
                         setUpRecyclerView()
-                        adaptador.setData(it.data)
+                        //adaptador.setData(it.data)
                     }
                 }
                 is ApiState.Error -> {
@@ -100,7 +103,7 @@ class AgendarStaffFragment :
     private fun getListenerDialog(): AlertDialogs.ClickOnAccept = this
 
     private fun getArgs() {
-        setValueToView(args.sucursal)
+        setValueToView(flowMainViewModel.sucursal.name)
     }
 
     private fun setValueToView(sucursal: String) {
@@ -110,6 +113,7 @@ class AgendarStaffFragment :
     private fun setUpRecyclerView() {
         binding.recyclerStaff.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.recyclerStaff.adapter = adaptador
+        adaptador.setData(flowMainViewModel.listOfStaffs)
     }
 
     private fun showSkeleton() {
@@ -135,15 +139,19 @@ class AgendarStaffFragment :
 
     private fun navigateToAngendarService(staff: Staff) {
         binding.tvEmpleado.text = staff.nombre
-        val action = AgendarStaffFragmentDirections.actionAgendarStaffToAgendarServicio(
-            staff,
-            args.sucursal
-        )
+        val action = AgendarStaffFragmentDirections.actionAgendarStaffToAgendarServicio()
         navigate(action)
     }
 
 
     override fun clikOnElement(element: Staff, position: Int?) {
+        flowMainViewModel.currentStaff = element
+        if (position == 0) {
+            val action =
+                AgendarStaffFragmentDirections.actionAgendarStaffToDetalleStaff()
+            navigate(action)
+            return
+        }
         navigateToAngendarService(element)
     }
 

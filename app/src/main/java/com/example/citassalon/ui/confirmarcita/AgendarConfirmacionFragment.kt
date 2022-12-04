@@ -4,15 +4,16 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
+import androidx.navigation.navGraphViewModels
 import com.example.citassalon.R
 import com.example.citassalon.data.mappers.toAppointmentObject
 import com.example.citassalon.data.models.remote.Appointment
 import com.example.citassalon.databinding.FragmentAgendarConfirmacionBinding
 import com.example.citassalon.interfaces.ListenerAlertDialogWithButtons
 import com.example.citassalon.ui.base.BaseFragment
-import com.example.citassalon.util.AlertsDialogMessages
 import com.example.citassalon.ui.extensions.navigate
+import com.example.citassalon.ui.flow_main.FlowMainViewModel
+import com.example.citassalon.util.AlertsDialogMessages
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -22,7 +23,9 @@ class AgendarConfirmacionFragment :
     ListenerAlertDialogWithButtons {
 
     private val viewModel: AgendarConfirmacionViewModel by viewModels()
-    private val args: AgendarConfirmacionFragmentArgs by navArgs()
+    private val flowMainViewModel by navGraphViewModels<FlowMainViewModel>(R.id.main_navigation) {
+        defaultViewModelProviderFactory
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -40,7 +43,7 @@ class AgendarConfirmacionFragment :
                 findNavController().popBackStack()
             }
         }
-        setValuesToView(args)
+        setValuesToView()
     }
 
     private fun showAlertComfirmAppointment() {
@@ -48,14 +51,16 @@ class AgendarConfirmacionFragment :
         alert.showComfirmationAppoinment(this)
     }
 
-    private fun setValuesToView(args: AgendarConfirmacionFragmentArgs) {
+    private fun setValuesToView() {
         with(binding) {
+            /*
             cSucursal.text = args.sucursal
             cSatff.text = args.staff.nombre
             cServicio.text = args.servicio.name
             cFecha.text = args.fecha
             cHora.text = args.hora
             cPrecio.text = args.servicio.precio.toString()
+            */
         }
     }
 
@@ -71,12 +76,12 @@ class AgendarConfirmacionFragment :
         val uniqueID = UUID.randomUUID().toString()
         return Appointment(
             uniqueID,
-            args.sucursal,
-            args.staff.nombre,
-            args.servicio.name,
-            args.fecha,
-            args.hora,
-            args.servicio.precio.toString()
+            "",
+            "",
+            "",
+            "",
+            "",
+            ""
         )
     }
 

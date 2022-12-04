@@ -5,7 +5,8 @@ import android.os.Bundle
 import android.view.View
 import android.widget.DatePicker
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
+import androidx.navigation.navGraphViewModels
+import com.bumptech.glide.Glide
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentAgendarFechaBinding
 import com.example.citassalon.main.AlertDialogs
@@ -14,12 +15,15 @@ import com.example.citassalon.ui.base.BaseFragment
 import com.example.citassalon.ui.extensions.hideKeyboard
 import com.example.citassalon.ui.extensions.navigate
 import com.example.citassalon.ui.extensions.showDatePickerDialog
+import com.example.citassalon.ui.flow_main.FlowMainViewModel
 
 class AgendarFechaFragment :
     BaseFragment<FragmentAgendarFechaBinding>(R.layout.fragment_agendar_fecha),
     DatePickerDialog.OnDateSetListener {
 
-    private val args: AgendarFechaFragmentArgs by navArgs()
+    private val flowMainViewModel by navGraphViewModels<FlowMainViewModel>(R.id.main_navigation) {
+        defaultViewModelProviderFactory
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -42,17 +46,21 @@ class AgendarFechaFragment :
                 showDatePickerDialog(getListenerOnDataSet(), this@AgendarFechaFragment, true)
             }
         }
-        setValuesToView(args)
+        setValuesToView()
 
     }
 
-    private fun setValuesToView(args: AgendarFechaFragmentArgs) {
+    private fun setValuesToView() {
         with(binding) {
-            imgStaff.setImageResource(args.staff.getResourceImage())
-            tvStaffName.text = args.staff.nombre
-            txtServicio.text = args.servicio.name
-            tvServicioPrecio.text = args.servicio.precio.toString()
-            textSucursal.text = args.sucursal
+            flowMainViewModel.currentStaff.let {
+                Glide.with(requireActivity()).load(it.image_url).into(imgStaff)
+                tvStaffName.text = it.nombre
+            }
+            flowMainViewModel.let {
+                textSucursal.text = it.sucursal.name
+                txtServicio.text = it.currentService.name
+                tvServicioPrecio.text = it.currentService.precio.toString()
+            }
         }
     }
 
@@ -95,13 +103,7 @@ class AgendarFechaFragment :
 
     private fun goToComfirm() {
         if (areNotEmptyTimeOrDate()) {
-            val action = AgendarFechaFragmentDirections.actionAgendarFechaToAgendarConfirmacion(
-                args.sucursal,
-                args.staff,
-                args.servicio,
-                binding.etFecha.editText?.text.toString(),
-                binding.edHora.editText?.text.toString()
-            )
+            val action = AgendarFechaFragmentDirections.actionAgendarFechaToAgendarConfirmacion()
             navigate(action)
         }
     }

@@ -5,21 +5,20 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
-import com.example.citassalon.data.models.remote.migration.Sucursal
-import com.example.citassalon.databinding.FragmentSucursalesBinding
-import com.example.citassalon.ui.share_beetwen_sucursales.SucursalAdapter
-import com.example.citassalon.ui.share_beetwen_sucursales.SucursalViewModel
+import com.example.citassalon.data.models.remote.migration.NegoInfo
 import com.example.citassalon.data.state.ApiState
+import com.example.citassalon.databinding.FragmentSucursalesBinding
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.ui.base.BaseFragment
 import com.example.citassalon.ui.extensions.gone
-import com.example.citassalon.ui.extensions.navigate
+import com.example.citassalon.ui.share_beetwen_sucursales.SucursalAdapter
+import com.example.citassalon.ui.share_beetwen_sucursales.SucursalViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
 class SucursalesFragment : BaseFragment<FragmentSucursalesBinding>(R.layout.fragment_sucursales),
-    ClickOnItem<Sucursal> {
+    ClickOnItem<NegoInfo> {
 
     private val viewModel: SucursalViewModel by viewModels()
 
@@ -67,10 +66,10 @@ class SucursalesFragment : BaseFragment<FragmentSucursalesBinding>(R.layout.frag
     }
 
 
-    private fun getListener(): ClickOnItem<Sucursal> = this
+    private fun getListener(): ClickOnItem<NegoInfo> = this
 
 
-    override fun clikOnElement(element: Sucursal, position: Int?) {
+    override fun clikOnElement(element: NegoInfo, position: Int?) {
        /* val action = SucursalesFragmentDirections.actionSucursales2ToNegocioInfo(element)
         navigate(action)*/
     }

@@ -4,33 +4,34 @@ import android.os.Bundle
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
+import androidx.navigation.navGraphViewModels
+import com.bumptech.glide.Glide
 import com.example.citassalon.R
-import com.example.citassalon.data.models.remote.Servicio
+import com.example.citassalon.data.models.remote.migration.Service
 import com.example.citassalon.databinding.FragmentAgendarServicioBinding
-import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.main.AlertDialogs
 import com.example.citassalon.ui.base.BaseFragment
-import com.example.citassalon.ui.extensions.*
-import com.example.citassalon.util.ERROR_SERVIDOR
-import com.google.android.material.snackbar.Snackbar
+import com.example.citassalon.ui.extensions.click
+import com.example.citassalon.ui.extensions.navigate
+import com.example.citassalon.ui.extensions.showToast
+import com.example.citassalon.ui.flow_main.FlowMainViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AgendarServicioFragment :
     BaseFragment<FragmentAgendarServicioBinding>(R.layout.fragment_agendar_servicio),
-    ClickOnItem<Servicio>, AlertDialogs.ClickOnAccept {
+    ClickOnItem<Service>, AlertDialogs.ClickOnAccept {
 
-    private val viewModelAgendarServicio: AgendarServicioViewModel by viewModels()
-    private val args: AgendarServicioFragmentArgs by navArgs()
-    private var currentServicio: Servicio? = null
+    private val flowMainViewModel by navGraphViewModels<FlowMainViewModel>(R.id.main_navigation) {
+        defaultViewModelProviderFactory
+    }
     private lateinit var agendarServicioAdapter: AgendarServicioAdapter
+    private var currentServicio: Service? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpUi()
-        observerViewModel()
     }
 
 
@@ -45,75 +46,31 @@ class AgendarServicioFragment :
                     requireContext().showToast("Debes de seleccionar almenos 1 servicio")
                     return@click
                 }
-                currentServicio?.let {
+                flowMainViewModel.currentService.let {
                     val acction =
-                        AgendarServicioFragmentDirections.actionAgendarServicioToAgendarFecha(
-                            args.sucursal,
-                            args.staff,
-                            currentServicio!!
-                        )
+                        AgendarServicioFragmentDirections.actionAgendarServicioToAgendarFecha()
                     navigate(acction)
                 }
             }
+            agendarServicioAdapter =
+                AgendarServicioAdapter(flowMainViewModel.listOfServices, getListener())
+            binding.recyclerAgendarServicio.adapter = agendarServicioAdapter
         }
-        setValuesToView(args)
+        setValuesToView()
     }
 
-    private fun setValuesToView(args: AgendarServicioFragmentArgs) {
+    private fun setValuesToView() {
         with(binding) {
-            sucursal.text = args.sucursal
-            staffImage.setImageResource(args.staff.getResourceImage())
-            nombreStaff.text = args.staff.nombre
-        }
-    }
-
-    private fun getListener(): ClickOnItem<Servicio> = this
-
-    private fun getListenerDialog(): AlertDialogs.ClickOnAccept = this
-
-    override fun observerViewModel() {
-        super.observerViewModel()
-        viewModelAgendarServicio.services.observe(viewLifecycleOwner) {
-            if (it is ApiState.Loading) {
-                binding.shimmerServicio.visible()
-            } else {
-                binding.shimmerServicio.gone()
-            }
-            when (it) {
-                is ApiState.Success -> {
-                    if (it.data != null) {
-                        agendarServicioAdapter = AgendarServicioAdapter(it.data, getListener())
-                        binding.recyclerAgendarServicio.adapter = agendarServicioAdapter
-                    }
-                }
-                is ApiState.Error -> {
-                    val alert = AlertDialogs(
-                        messageBody = ERROR_SERVIDOR,
-                        kindOfMessage = AlertDialogs.ERROR_MESSAGE,
-                        clikOnAccept = getListenerDialog()
-                    )
-                    activity?.let { it1 -> alert.show(it1.supportFragmentManager, "dialog") }
-                }
-                is ApiState.ErrorNetwork -> {
-                    snackErrorConection()
-                }
-                else -> {}
+            flowMainViewModel.currentStaff.let {
+                Glide.with(requireActivity()).load(it.image_url).into(staffImage)
+                nombreStaff.text = it.nombre
             }
         }
     }
 
-    private fun snackErrorConection() {
-        binding.root.displaySnack(
-            getString(R.string.network_error),
-            Snackbar.LENGTH_INDEFINITE
-        ) {
-            action(getString(R.string.retry)) {
-                viewModelAgendarServicio.getServices()
-            }
-        }
-    }
+    private fun getListener(): ClickOnItem<Service> = this
 
-    override fun clikOnElement(element: Servicio, position: Int?) {
+    override fun clikOnElement(element: Service, position: Int?) {
         binding.tvServicio.text = element.name
         currentServicio = element
     }

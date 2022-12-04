@@ -3,17 +3,21 @@ package com.example.citassalon.ui.detalle_staff
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
+import androidx.navigation.navGraphViewModels
+import com.bumptech.glide.Glide
 import com.example.citassalon.R
-import com.example.citassalon.data.models.remote.Staff
+import com.example.citassalon.data.models.remote.migration.Staff
 import com.example.citassalon.databinding.FragmentDetalleStaffBinding
 import com.example.citassalon.ui.base.BaseFragment
+import com.example.citassalon.ui.flow_main.FlowMainViewModel
 
 
 class DetalleStaffFragment :
     BaseFragment<FragmentDetalleStaffBinding>(R.layout.fragment_detalle_staff) {
 
-    private val args by navArgs<DetalleStaffFragmentArgs>()
+    private val flowMainViewModel by navGraphViewModels<FlowMainViewModel>(R.id.main_navigation) {
+        defaultViewModelProviderFactory
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -31,14 +35,14 @@ class DetalleStaffFragment :
     }
 
     private fun getFromArgs() {
-        setValueToView(args.currentStaff)
+        setValueToView(flowMainViewModel.currentStaff)
     }
 
     private fun setValueToView(staff: Staff) {
         binding.apply {
-            image.setImageResource(staff.getResourceImage())
+            Glide.with(requireContext()).load(staff.image_url).into(image)
             name.text = staff.nombre
-            ratingBarEvaluation.rating = staff.valoracion
+            ratingBarEvaluation.rating = staff.valoracion.toFloat()
         }
     }
 

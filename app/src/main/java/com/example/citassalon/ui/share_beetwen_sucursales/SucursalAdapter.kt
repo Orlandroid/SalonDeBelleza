@@ -7,13 +7,12 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.R
 import com.example.citassalon.data.models.remote.migration.NegoInfo
-import com.example.citassalon.data.models.remote.migration.Sucursal
 import com.example.citassalon.interfaces.ClickOnItem
 
 
 class SucursalAdapter(
     private val sucursales: List<NegoInfo>,
-    private val listener: ClickOnItem<Sucursal>
+    private val listener: ClickOnItem<NegoInfo>
 ) :
     RecyclerView.Adapter<SucursalAdapter.ViewHolder>() {
 
@@ -28,10 +27,10 @@ class SucursalAdapter(
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val currentSucursal = sucursales[position]
-        holder.cartaTexto.text = currentSucursal.sucursal.name
+        val negocioInfo = sucursales[position]
+        holder.cartaTexto.text = negocioInfo.sucursal.name
         holder.itemView.setOnClickListener {
-            listener.clikOnElement(currentSucursal.sucursal)
+            listener.clikOnElement(negocioInfo)
         }
     }
 

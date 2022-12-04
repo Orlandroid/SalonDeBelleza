@@ -15,14 +15,15 @@ data class Sucursal(
     val id: String,
     val lat: String,
     val long: String,
-    val name: String
+    var name: String
 )
 
 
 data class Service(
     val id: String,
     val name: String,
-    val precio: Int
+    val precio: Int,
+    var isSelect: Boolean = false
 )
 
 data class Staff(
