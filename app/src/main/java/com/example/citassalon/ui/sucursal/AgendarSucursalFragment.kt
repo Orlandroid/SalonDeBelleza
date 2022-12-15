@@ -2,32 +2,37 @@ package com.example.citassalon.ui.sucursal
 
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.navGraphViewModels
 import com.example.citassalon.R
-import com.example.citassalon.data.models.remote.Sucursal
+import com.example.citassalon.data.models.remote.migration.NegoInfo
+import com.example.citassalon.data.models.remote.migration.Sucursal
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.databinding.FragmentAgendarSucursalBinding
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.main.AlertDialogs
 import com.example.citassalon.ui.base.BaseFragment
-import com.example.citassalon.ui.extensions.*
+import com.example.citassalon.ui.extensions.gone
+import com.example.citassalon.ui.extensions.navigate
+import com.example.citassalon.ui.extensions.visible
+import com.example.citassalon.ui.flow_main.FlowMainViewModel
 import com.example.citassalon.ui.share_beetwen_sucursales.SucursalAdapter
 import com.example.citassalon.ui.share_beetwen_sucursales.SucursalViewModel
-import com.example.citassalon.util.*
-import com.google.android.material.snackbar.Snackbar
+import com.example.citassalon.util.ERROR_SERVIDOR
 import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
 class AgendarSucursalFragment :
     BaseFragment<FragmentAgendarSucursalBinding>(R.layout.fragment_agendar_sucursal),
-    ClickOnItem<Sucursal>, AlertDialogs.ClickOnAccept {
+    ClickOnItem<NegoInfo>, AlertDialogs.ClickOnAccept {
 
     private val viewModel: SucursalViewModel by viewModels()
+    private val flowMainViewModel by navGraphViewModels<FlowMainViewModel>(R.id.main_navigation) {
+        defaultViewModelProviderFactory
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -73,7 +78,6 @@ class AgendarSucursalFragment :
                     activity?.let { it1 -> alert.show(it1.supportFragmentManager, "dialog") }
                 }
                 is ApiState.ErrorNetwork -> {
-                    Log.w("ERROR",apiState.message.toString())
                     val dialog =
                         AlertDialogs(
                             AlertDialogs.ERROR_MESSAGE,
@@ -95,17 +99,20 @@ class AgendarSucursalFragment :
         }
     }
 
-    private fun getListener(): ClickOnItem<Sucursal> = this
+    private fun getListener(): ClickOnItem<NegoInfo> = this
 
     private fun getListenerDialog(): AlertDialogs.ClickOnAccept = this
 
 
-    override fun clikOnElement(element: Sucursal, position: Int?) {
+    override fun clikOnElement(element: NegoInfo, position: Int?) {
         with(binding) {
-            textAgendarSucursal.text = element.name
-            val action = AgendarSucursalFragmentDirections.actionAgendarSucursalToAgendarStaff(
-                textAgendarSucursal.text.toString()
-            )
+            flowMainViewModel.let {
+                it.sucursal = element.sucursal
+                it.listOfStaffs = element.staffs
+                it.listOfServices = element.services
+            }
+            textAgendarSucursal.text = element.sucursal.name
+            val action = AgendarSucursalFragmentDirections.actionAgendarSucursalToAgendarStaff()
             navigate(action)
         }
     }

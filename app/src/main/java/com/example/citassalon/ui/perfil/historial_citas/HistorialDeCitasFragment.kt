@@ -150,14 +150,14 @@ class HistorialDeCitasFragment :
             AlertDialogs.WARNING_MESSAGE,
             "Estas seguro que deseas eliminar el registro",
             object : AlertDialogs.ClickOnAccept {
-                override fun clikOnAccept() {
+                override fun clickOnAccept() {
                     val appointment = historialCitasAdapter.getElement(position)
                     binding.progressBar2.visible()
                     viewModel.removeAppointment(appointment.idAppointment)
                 }
 
                 @SuppressLint("NotifyDataSetChanged")
-                override fun clikOnCancel() {
+                override fun clickOnCancel() {
                     historialCitasAdapter.notifyDataSetChanged()
                 }
             }, isTwoButtonDialog = true

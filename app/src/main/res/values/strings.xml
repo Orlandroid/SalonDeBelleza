@@ -129,4 +129,5 @@
     <string name="example_email_com">example@email.com</string>
     <string name="next">Next</string>
     <string name="aun_no_tienes_registros">Aun no tienes registros</string>
+    <string name="agendar_hora">Agendar Hora</string>
 </resources>

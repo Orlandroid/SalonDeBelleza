@@ -4,18 +4,18 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.R
-import com.example.citassalon.data.models.remote.Servicio
+import com.example.citassalon.data.models.remote.migration.Service
 import com.example.citassalon.databinding.ItemServicioBinding
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.ui.extensions.getColor
 
 class AgendarServicioAdapter(
-    private var servicios: List<Servicio>,
-    private val listener: ClickOnItem<Servicio>
+    private var servicios: List<Service>,
+    private val listener: ClickOnItem<Service>
 ) :
     RecyclerView.Adapter<AgendarServicioAdapter.ViewHolder>() {
 
-    private fun setData(servicios: List<Servicio>) {
+    private fun setData(servicios: List<Service>) {
         this.servicios = servicios
         notifyDataSetChanged()
     }
@@ -23,7 +23,7 @@ class AgendarServicioAdapter(
     fun isOneItemOrMoreSelect():Boolean = servicios.any { it.isSelect }
 
     class ViewHolder(val binding: ItemServicioBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(servicio: Servicio) {
+        fun bind(servicio: Service) {
             with(binding) {
                 NombreServicio.text = servicio.name
                 if (servicio.isSelect) {

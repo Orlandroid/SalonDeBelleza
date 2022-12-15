@@ -26,7 +26,7 @@ class StaffViewModel @Inject constructor(
         get() = _staff
 
     init {
-        getSttafs()
+        //getSttafs()
     }
 
     fun getSttafs() {
