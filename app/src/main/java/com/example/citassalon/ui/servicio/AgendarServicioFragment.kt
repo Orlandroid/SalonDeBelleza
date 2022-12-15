@@ -2,7 +2,6 @@ package com.example.citassalon.ui.servicio
 
 import android.os.Bundle
 import android.view.View
-import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.bumptech.glide.Glide
@@ -27,7 +26,7 @@ class AgendarServicioFragment :
         defaultViewModelProviderFactory
     }
     private lateinit var agendarServicioAdapter: AgendarServicioAdapter
-    private var currentServicio: Service? = null
+    private var listOfServices = arrayListOf<Service>()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -46,11 +45,11 @@ class AgendarServicioFragment :
                     requireContext().showToast("Debes de seleccionar almenos 1 servicio")
                     return@click
                 }
-                flowMainViewModel.currentService.let {
-                    val acction =
-                        AgendarServicioFragmentDirections.actionAgendarServicioToAgendarFecha()
-                    navigate(acction)
-                }
+                flowMainViewModel.listOfServices = getServicesSelect()
+                flowMainViewModel
+                val acction =
+                    AgendarServicioFragmentDirections.actionAgendarServicioToAgendarFecha()
+                navigate(acction)
             }
             agendarServicioAdapter =
                 AgendarServicioAdapter(flowMainViewModel.listOfServices, getListener())
@@ -68,11 +67,15 @@ class AgendarServicioFragment :
         }
     }
 
+    private fun getServicesSelect(): List<Service> {
+        return listOfServices.distinct()
+    }
+
     private fun getListener(): ClickOnItem<Service> = this
 
     override fun clikOnElement(element: Service, position: Int?) {
         binding.tvServicio.text = element.name
-        currentServicio = element
+        listOfServices.add(element)
     }
 
     override fun clickOnAccept() {

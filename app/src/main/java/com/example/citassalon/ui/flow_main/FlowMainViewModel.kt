@@ -10,5 +10,6 @@ class FlowMainViewModel : ViewModel() {
     var listOfServices: List<Service> = arrayListOf()
     var sucursal: Sucursal = Sucursal(id = "", lat = "", long = "", name = "")
     var currentStaff = Staff("", "", "", "", 0)
-    var currentService = Service("", "", 0)
+    var dateAppointment = ""
+    var hourAppointment = ""
 }

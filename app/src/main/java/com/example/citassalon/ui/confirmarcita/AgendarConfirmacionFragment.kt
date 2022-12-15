@@ -53,14 +53,14 @@ class AgendarConfirmacionFragment :
 
     private fun setValuesToView() {
         with(binding) {
-            /*
-            cSucursal.text = args.sucursal
-            cSatff.text = args.staff.nombre
-            cServicio.text = args.servicio.name
-            cFecha.text = args.fecha
-            cHora.text = args.hora
-            cPrecio.text = args.servicio.precio.toString()
-            */
+            flowMainViewModel.let {
+                cSucursal.text = it.sucursal.name
+                cSatff.text = it.currentStaff.nombre
+                cServicio.text = it.listOfServices[0].name
+                cFecha.text = it.dateAppointment
+                cHora.text = it.hourAppointment
+                cPrecio.text = it.listOfServices[0].precio.toString()
+            }
         }
     }
 
@@ -74,15 +74,17 @@ class AgendarConfirmacionFragment :
 
     private fun createAppointment(): Appointment {
         val uniqueID = UUID.randomUUID().toString()
-        return Appointment(
-            uniqueID,
-            "",
-            "",
-            "",
-            "",
-            "",
-            ""
-        )
+        flowMainViewModel.let {
+            return Appointment(
+                uniqueID,
+                it.sucursal.name,
+                it.currentStaff.nombre,
+                it.listOfServices[0].name,
+                it.dateAppointment,
+                it.hourAppointment,
+                it.listOfServices[0].precio.toString()
+            )
+        }
     }
 
     private fun saveToDatabaseAppointment() {

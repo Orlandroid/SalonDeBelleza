@@ -2,6 +2,7 @@ package com.example.citassalon.ui.fecha
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.DatePicker
 import androidx.navigation.fragment.findNavController
@@ -32,7 +33,7 @@ class AgendarFechaFragment :
 
     override fun setUpUi() {
         with(binding) {
-            toolbar.toolbarTitle.text = "Agendar Hora"
+            toolbar.toolbarTitle.text = getString(R.string.agendar_hora)
             toolbar.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
@@ -58,8 +59,9 @@ class AgendarFechaFragment :
             }
             flowMainViewModel.let {
                 textSucursal.text = it.sucursal.name
-                txtServicio.text = it.currentService.name
-                tvServicioPrecio.text = it.currentService.precio.toString()
+                val service = it.listOfServices[0]
+                txtServicio.text = service.name
+                tvServicioPrecio.text = service.precio.toString()
             }
         }
     }
@@ -68,6 +70,7 @@ class AgendarFechaFragment :
     override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
         val selectedDate = day.toString() + " / " + (month + 1) + " / " + year
         binding.etFecha.editText?.setText(selectedDate)
+        flowMainViewModel.dateAppointment = selectedDate
         goToComfirm()
     }
 
@@ -98,6 +101,7 @@ class AgendarFechaFragment :
 
     private fun onTimeSelected(time: String) {
         binding.edHora.editText?.setText(time)
+        flowMainViewModel.hourAppointment = time
     }
 
 
