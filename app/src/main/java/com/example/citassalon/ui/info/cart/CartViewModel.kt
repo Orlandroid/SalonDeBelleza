@@ -1,9 +1,7 @@
 package com.example.citassalon.ui.info.cart
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
+import com.example.citassalon.data.db.entities.ProductDb
 import com.example.citassalon.data.models.remote.Cart
 import com.example.citassalon.data.models.remote.Product
 import com.example.citassalon.data.repository.Repository
@@ -29,6 +27,7 @@ class CartViewModel @Inject constructor(
     val product: LiveData<ApiState<Product>>
         get() = _product
 
+    val allIProducts: LiveData<List<ProductDb>> = repository.getAllProducts().asLiveData()
 
     fun getCart(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {

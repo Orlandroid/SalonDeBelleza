@@ -33,5 +33,7 @@ object ModuleDb {
     @Provides
     fun provideAppointmentDao(db: SkedulyDatabase) = db.appointmentDao()
 
-
+    @Singleton
+    @Provides
+    fun provideProductsDao(db: SkedulyDatabase) = db.productDao()
 }

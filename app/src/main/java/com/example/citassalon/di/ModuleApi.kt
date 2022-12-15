@@ -5,6 +5,7 @@ import com.example.citassalon.data.repository.Repository
 import com.example.citassalon.data.api.FakeStoreService
 import com.example.citassalon.data.api.WebServices
 import com.example.citassalon.data.db.AppointmentDao
+import com.example.citassalon.data.db.ProductDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -23,7 +24,8 @@ object ModuleApi {
 
 
     private const val BASE_URL_FAKE_STORE = "https://fakestoreapi.com/"
-    private const val BASE_URL = "https://raw.githubusercontent.com/Orlandroid/Resources_Repos/main/fakesResponsesApis/"
+    private const val BASE_URL =
+        "https://raw.githubusercontent.com/Orlandroid/Resources_Repos/main/fakesResponsesApis/"
 
     @Singleton
     @Provides
@@ -70,11 +72,12 @@ object ModuleApi {
     @Singleton
     @Provides
     fun provideRepository(
-        dao: AppointmentDao,
+        appointmentDao: AppointmentDao,
+        productDao: ProductDao,
         webServices: WebServices,
         fakeStoreService: FakeStoreService,
         fireBaseSource: FireBaseSource
     ): Repository =
-        Repository(dao, webServices, fakeStoreService, fireBaseSource)
+        Repository(appointmentDao, productDao, webServices, fakeStoreService, fireBaseSource)
 
 }

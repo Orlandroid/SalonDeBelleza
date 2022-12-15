@@ -2,24 +2,39 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:layout_margin="8dp"
-    app:cardUseCompatPadding="true"
     app:cardCornerRadius="8dp"
-    android:layout_height="wrap_content">
+    app:cardUseCompatPadding="true">
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
-        android:layout_margin="8dp"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="8dp">
+
+        <Button
+            android:id="@+id/add"
+            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:text="@string/agregar"
+            app:icon="@drawable/ic_baseline_add_24"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
             android:id="@+id/image_product"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="8dp"
             android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/add"
             app:srcCompat="@drawable/producto" />
 
         <TextView
@@ -27,7 +42,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="14dp"
-            android:text="Producto"
+            android:text="@string/producto"
             android:textColor="@color/black"
             android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="@+id/image_product"
@@ -35,11 +50,11 @@
             app:layout_constraintTop_toBottomOf="@+id/image_product" />
 
         <TextView
-            android:layout_marginTop="16dp"
             android:id="@+id/producto_price"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="$ 000.00"
+            android:layout_marginTop="16dp"
+            android:text="@string/_000_00"
             android:textColor="@color/black"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="@+id/producto_name"

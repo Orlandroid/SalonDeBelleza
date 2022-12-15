@@ -1,6 +1,7 @@
 package com.example.citassalon.ui.info.cart
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -83,6 +84,11 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),
                 is ApiState.NoData -> {
 
                 }
+            }
+        }
+        viewModel.allIProducts.observe(this.viewLifecycleOwner) { items ->
+            items.forEach {
+                Log.w("PRODUCT", it.toString())
             }
         }
     }

@@ -130,4 +130,7 @@
     <string name="next">Next</string>
     <string name="aun_no_tienes_registros">Aun no tienes registros</string>
     <string name="agendar_hora">Agendar Hora</string>
+    <string name="agregar">Agregar</string>
+    <string name="producto">Producto</string>
+    <string name="_000_00">$ 000.00</string>
 </resources>

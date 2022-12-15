@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.citassalon.data.db.entities.ProductDb
 import com.example.citassalon.data.models.remote.Product
 import com.example.citassalon.data.repository.Repository
 import com.example.citassalon.data.state.ApiState
@@ -45,6 +46,12 @@ class ProductsViewModel @Inject constructor(
                     _productos.value = ApiState.Error(e)
                 }
             }
+        }
+    }
+
+    fun insertProduct(item: ProductDb) {
+        viewModelScope.launch(Dispatchers.IO) {
+            repository.addProduct(item)
         }
     }
 

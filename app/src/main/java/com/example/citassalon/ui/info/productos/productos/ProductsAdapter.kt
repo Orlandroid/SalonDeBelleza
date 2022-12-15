@@ -6,10 +6,10 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.citassalon.data.models.remote.Product
 import com.example.citassalon.databinding.ItemProductBinding
-import com.example.citassalon.interfaces.ClickOnItem
+import com.example.citassalon.ui.extensions.click
 
 
-class ProductsAdapter(private val listener: ClickOnItem<Product>) :
+class ProductsAdapter(private val listener: ClickOnItems) :
     RecyclerView.Adapter<ProductsAdapter.ViewHolder>() {
 
     private var listOfProducts: List<Product> = arrayListOf()
@@ -19,12 +19,26 @@ class ProductsAdapter(private val listener: ClickOnItem<Product>) :
         notifyDataSetChanged()
     }
 
+    interface ClickOnItems {
+        fun clickOnElement(product: Product)
+        fun clickOnAddToCard(product: Product)
+    }
 
-    class ViewHolder(val binding: ItemProductBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(products: Product) {
-            Glide.with(itemView.context).load(products.image).into(binding.imageProduct)
-            binding.productoName.text = products.title
-            binding.productoPrice.text = "$ ${products.price}"
+
+    class ViewHolder(val binding: ItemProductBinding) :
+        RecyclerView.ViewHolder(binding.root) {
+        fun bind(product: Product, listener: ClickOnItems) {
+            with(binding) {
+                Glide.with(itemView.context).load(product.image).into(imageProduct)
+                productoName.text = product.title
+                productoPrice.text = "$ ${product.price}"
+                root.click {
+                    listener.clickOnElement(product)
+                }
+                add.click {
+                    listener.clickOnAddToCard(product)
+                }
+            }
         }
     }
 
@@ -35,10 +49,7 @@ class ProductsAdapter(private val listener: ClickOnItem<Product>) :
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        holder.bind(listOfProducts[position])
-        holder.itemView.setOnClickListener {
-            listener.clikOnElement(listOfProducts[position])
-        }
+        holder.bind(listOfProducts[position], listener)
     }
 
     override fun getItemCount(): Int {
