@@ -46,15 +46,15 @@
             android:layout_marginBottom="8dp"
             android:background="@color/black"
             app:layout_constraintBottom_toTopOf="@+id/tv_total"
-            app:layout_constraintEnd_toEndOf="@+id/textView7"
+            app:layout_constraintEnd_toEndOf="@+id/tv_total_products"
             app:layout_constraintStart_toStartOf="@+id/tv_total" />
 
         <TextView
-            android:id="@+id/textView7"
+            android:id="@+id/tv_total_products"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
-            android:text="$000.00"
+            android:text="@string/_000_00"
             android:textColor="@color/black"
             android:textSize="20sp"
             app:layout_constraintBottom_toBottomOf="@+id/tv_total"

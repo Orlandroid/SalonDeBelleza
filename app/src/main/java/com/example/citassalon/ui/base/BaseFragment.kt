@@ -23,7 +23,7 @@ abstract class BaseFragment<ViewBinding : ViewDataBinding>(@LayoutRes protected 
         binding = DataBindingUtil.inflate(inflater, contentLayoutId, container, false)
         return binding.root
     }
-
+    
     protected abstract fun setUpUi()
 
     open fun observerViewModel() {

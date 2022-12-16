@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.example.citassalon.ui.MainActivity
 import com.example.citassalon.ui.fecha.DatePickerFragment
 import com.google.android.material.snackbar.Snackbar
 import java.io.ByteArrayOutputStream
@@ -128,6 +129,14 @@ fun String.base64StringToBitmap(): Bitmap {
     var imageBytes: ByteArray = baos.toByteArray()
     imageBytes = Base64.decode(this, Base64.DEFAULT)
     return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+}
+
+fun Fragment.showProgress() {
+    (requireActivity() as MainActivity).showProgress()
+}
+
+fun Fragment.hideProgress() {
+    (requireActivity() as MainActivity).hideProgress()
 }
 
 
