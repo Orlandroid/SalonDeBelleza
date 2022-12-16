@@ -6,8 +6,8 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
+import com.example.citassalon.data.mappers.toProduct
 import com.example.citassalon.data.models.remote.Product
-import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.databinding.FragmentCartBinding
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.ui.base.BaseFragment
@@ -28,73 +28,27 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),
     }
 
     override fun setUpUi() {
-        viewModel.getCart(generateRandomId())
         with(binding) {
             toolbarLayout.toolbarTitle.text = "Carrito"
             toolbarLayout.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
+            recyclerCart.adapter = cartAdapter
         }
     }
 
     override fun observerViewModel() {
         super.observerViewModel()
-        viewModel.cart.observe(viewLifecycleOwner) {
-            when (it) {
-                is ApiState.Loading -> {
-
-                }
-                is ApiState.Success -> {
-                    if (it.data != null) {
-                        it.data.products.forEach { product ->
-                            viewModel.getSingleProduct(product.productId)
-                        }
-                    }
-                }
-                is ApiState.Error -> {
-
-                }
-                is ApiState.ErrorNetwork -> {
-
-                }
-                is ApiState.NoData -> {
-
-                }
-            }
-        }
-        viewModel.product.observe(viewLifecycleOwner) {
-            when (it) {
-                is ApiState.Loading -> {
-
-                }
-                is ApiState.Success -> {
-                    if (it.data != null) {
-                        binding.recyclerCart.adapter = cartAdapter
-                        cartAdapter.setElement(it.data)
-                        total += it.data.price
-                        binding.textView7.text = "$ $total"
-                    }
-                }
-                is ApiState.Error -> {
-
-                }
-                is ApiState.ErrorNetwork -> {
-
-                }
-                is ApiState.NoData -> {
-
-                }
-            }
-        }
         viewModel.allIProducts.observe(this.viewLifecycleOwner) { items ->
+            val listProducts = arrayListOf<Product>()
             items.forEach {
-                Log.w("PRODUCT", it.toString())
+                listProducts.add(it.toProduct())
             }
+            cartAdapter.setData(listProducts)
+            Log.w("ANDORID", "ANDROID")
         }
     }
 
-
-    private fun generateRandomId() = (1..6).random()
 
     override fun clikOnElement(element: Product, position: Int?) {
 

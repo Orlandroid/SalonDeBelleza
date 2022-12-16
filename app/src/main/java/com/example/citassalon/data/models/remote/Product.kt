@@ -11,7 +11,8 @@ data class Product(
     val description: String,
     val category: String,
     val image: String,
-    val rating: Rating
+    val rating: Rating,
+    var imageBase64:String
 ) : Parcelable
 
 @Parcelize

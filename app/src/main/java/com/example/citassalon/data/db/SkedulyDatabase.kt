@@ -7,7 +7,7 @@ import com.example.citassalon.data.db.entities.ProductDb
 import com.example.citassalon.data.models.local.Appointment
 
 
-@Database(entities = [Appointment::class, ProductDb::class], version = 1, exportSchema = false)
+@Database(entities = [Appointment::class, ProductDb::class], version = 2, exportSchema = false)
 
 abstract class SkedulyDatabase : RoomDatabase() {
 

@@ -72,6 +72,7 @@ class ListOfCategoriesFragment :
         }
     }
 
+    //gives one error somethings
     override fun clikOnElement(element: String, position: Int?) {
         val action =
             ListOfCategoriesFragmentDirections.actionListOfProductsFragmentToProductsFragment(

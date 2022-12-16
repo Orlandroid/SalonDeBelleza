@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.citassalon.R
 import com.example.citassalon.data.models.remote.Product
+import com.example.citassalon.ui.extensions.base64StringToBitmap
 import com.squareup.picasso.Picasso
 
 class CartAdapter :
@@ -32,7 +33,7 @@ class CartAdapter :
         private val productName: TextView = view.findViewById(R.id.tv_product_name)
         private val productPrice: TextView = view.findViewById(R.id.tv_price)
         fun bind(product: Product) {
-            Glide.with(itemView.context).load(product.image).into(imageProduct)
+            Glide.with(itemView.context).load(product.imageBase64.base64StringToBitmap()).into(imageProduct)
             Picasso.get().load(product.image).into(imageProduct)
             productName.text = product.title
             productPrice.text = "$ ${product.price}"

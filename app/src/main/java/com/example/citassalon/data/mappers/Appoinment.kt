@@ -37,14 +37,4 @@ fun AppointmentRemote.toAppointmentObject(): AppointmentObject {
     return AppointmentObject(idAppointment, establishment, employee, service, date, hour, total)
 }
 
-fun Product.toProductDb(): ProductDb = ProductDb(
-    id = id,
-    title = title,
-    price = price,
-    description = description,
-    category = category,
-    image = image,
-    rate = rating.rate,
-    count = rating.count
-)
 
