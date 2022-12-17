@@ -1,9 +1,11 @@
 package com.example.citassalon.ui.info.productos.productos
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.citassalon.data.db.entities.ProductDb
 import com.example.citassalon.data.models.remote.Product
 import com.example.citassalon.data.repository.Repository
 import com.example.citassalon.data.state.ApiState
@@ -23,6 +25,10 @@ class ProductsViewModel @Inject constructor(
     private val _productos = MutableLiveData<ApiState<List<Product>>>()
     val products: LiveData<ApiState<List<Product>>>
         get() = _productos
+
+    companion object {
+        private const val NOT_SAVE = -1
+    }
 
     fun getProducts(categoria: String) {
         viewModelScope.launch(Dispatchers.IO) {
@@ -45,6 +51,21 @@ class ProductsViewModel @Inject constructor(
                     _productos.value = ApiState.Error(e)
                 }
             }
+        }
+    }
+
+    fun insertProduct(item: ProductDb, theProductWasSave: () -> Unit) {
+        viewModelScope.launch(Dispatchers.IO) {
+            val id = repository.addProduct(item).toInt()
+            if (id != NOT_SAVE) {
+                theProductWasSave()
+            }
+        }
+    }
+
+    fun deleteAllProducts() {
+        viewModelScope.launch {
+            repository.deleteAllProducts()
         }
     }
 

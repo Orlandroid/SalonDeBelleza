@@ -4,6 +4,7 @@ import android.app.Activity
 import android.app.DatePickerDialog
 import android.content.Context
 import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.os.Build
@@ -20,6 +21,8 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.example.citassalon.data.state.ApiState
+import com.example.citassalon.ui.MainActivity
 import com.example.citassalon.ui.fecha.DatePickerFragment
 import com.google.android.material.snackbar.Snackbar
 import java.io.ByteArrayOutputStream
@@ -73,8 +76,8 @@ fun Context.hideKeyboard(view: View) {
     inputMethodManager.hideSoftInputFromWindow(view.windowToken, 0)
 }
 
-fun Context.showToast(message: String){
-    Toast.makeText(this,message,Toast.LENGTH_SHORT).show()
+fun Context.showToast(message: String) {
+    Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
 }
 
 fun showDatePickerDialog(
@@ -99,9 +102,7 @@ fun Drawable.tint(context: Context, @ColorRes color: Int) {
     DrawableCompat.setTint(this, context.resources.getColor(color, context.theme))
 }
 
-/**
- * Extension method to get base64 string for Bitmap.
- */
+
 fun Bitmap.toBase64(): String {
     var result = ""
     val baos = ByteArrayOutputStream()
@@ -123,6 +124,24 @@ fun Bitmap.toBase64(): String {
     }
     return result
 }
+
+fun String.base64StringToBitmap(): Bitmap {
+    val baos = ByteArrayOutputStream()
+    var imageBytes: ByteArray = baos.toByteArray()
+    imageBytes = Base64.decode(this, Base64.DEFAULT)
+    return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+}
+
+fun Fragment.showProgress() {
+    (requireActivity() as MainActivity).showProgress()
+}
+
+fun Fragment.hideProgress() {
+    (requireActivity() as MainActivity).hideProgress()
+}
+
+
+
 
 
 

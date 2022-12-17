@@ -1,15 +1,18 @@
 package com.example.citassalon.data.repository
 
-import com.example.citassalon.data.firebase.FireBaseSource
-import com.example.citassalon.data.models.local.Appointment
 import com.example.citassalon.data.api.FakeStoreService
 import com.example.citassalon.data.api.WebServices
 import com.example.citassalon.data.db.AppointmentDao
+import com.example.citassalon.data.db.ProductDao
+import com.example.citassalon.data.db.entities.ProductDb
+import com.example.citassalon.data.firebase.FireBaseSource
+import com.example.citassalon.data.models.local.Appointment
 import com.google.firebase.auth.AuthCredential
 import javax.inject.Inject
 
 class Repository @Inject constructor(
     private val db: AppointmentDao,
+    private val productDao: ProductDao,
     private val webServices: WebServices,
     private val fakeStoreService: FakeStoreService,
     private val fireBaseSource: FireBaseSource
@@ -31,13 +34,19 @@ class Repository @Inject constructor(
         db.updateAppointment(appointment)
     }
 
-    suspend fun deleteAppointment(appointment: Appointment):Int {
+    suspend fun deleteAppointment(appointment: Appointment): Int {
         return db.deleteAppointment(appointment)
     }
 
     suspend fun deleteAllAppointment() {
         db.deleteAll()
     }
+
+    suspend fun addProduct(productDb: ProductDb) = productDao.addProductDb(productDb)
+
+    suspend fun deleteAllProducts() = productDao.deleteAll()
+
+    fun getAllProducts() = productDao.getAllProductDb()
 
     suspend fun getProducts(categoria: String) = fakeStoreService.getProducts(categoria)
 

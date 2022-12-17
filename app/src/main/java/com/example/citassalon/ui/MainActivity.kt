@@ -10,6 +10,8 @@ import androidx.work.WorkManager
 import com.example.citassalon.R
 import com.example.citassalon.data.preferences.LoginPeferences
 import com.example.citassalon.databinding.ActivityMainBinding
+import com.example.citassalon.ui.extensions.gone
+import com.example.citassalon.ui.extensions.visible
 import com.example.citassalon.util.AlertsDialogMessages
 import com.example.citassalon.util.REQUEST_SESSION_MANAGER
 import com.example.citassalon.util.TASK_SESSION_MANAGER
@@ -40,6 +42,14 @@ class MainActivity : AppCompatActivity(), AlertsDialogMessages.ClickOnAccepSimpl
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+    }
+
+    fun showProgress() {
+        binding.progressBar.visible()
+    }
+
+    fun hideProgress() {
+        binding.progressBar.gone()
     }
 
     override fun onPause() {

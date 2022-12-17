@@ -8,7 +8,6 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.example.citassalon.R
 import com.example.citassalon.data.models.remote.migration.NegoInfo
-import com.example.citassalon.data.models.remote.migration.Sucursal
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.databinding.FragmentAgendarSucursalBinding
 import com.example.citassalon.interfaces.ClickOnItem
@@ -73,7 +72,7 @@ class AgendarSucursalFragment :
                     val alert = AlertDialogs(
                         messageBody = ERROR_SERVIDOR,
                         kindOfMessage = AlertDialogs.ERROR_MESSAGE,
-                        clikOnAccept = getListenerDialog()
+                        clickOnAccept = getListenerDialog()
                     )
                     activity?.let { it1 -> alert.show(it1.supportFragmentManager, "dialog") }
                 }
@@ -82,7 +81,7 @@ class AgendarSucursalFragment :
                         AlertDialogs(
                             AlertDialogs.ERROR_MESSAGE,
                             "Verifica tu conexion de internet",
-                            clikOnAccept = object : AlertDialogs.ClickOnAccept {
+                            clickOnAccept = object : AlertDialogs.ClickOnAccept {
                                 override fun clickOnAccept() {
                                     findNavController().popBackStack()
                                 }

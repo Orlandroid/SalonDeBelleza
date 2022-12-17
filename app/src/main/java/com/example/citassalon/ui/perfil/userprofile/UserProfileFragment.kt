@@ -10,7 +10,9 @@ import com.example.citassalon.R
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.databinding.FragmentUserProfileBinding
 import com.example.citassalon.ui.base.BaseFragment
+import com.example.citassalon.ui.extensions.hideProgress
 import com.example.citassalon.ui.extensions.invisible
+import com.example.citassalon.ui.extensions.showProgress
 import com.example.citassalon.ui.extensions.visible
 import com.example.citassalon.util.parseColor
 import dagger.hilt.android.AndroidEntryPoint
@@ -47,7 +49,7 @@ class UserProfileFragment :
     override fun observerViewModel() {
         super.observerViewModel()
         viewModel.infoUser.observe(viewLifecycleOwner) {
-            binding.progressBar.isVisible = it is ApiState.Loading
+            showAndHideProgress(it)
             when (it) {
                 is ApiState.Success -> {
                     if (it.data != null) {

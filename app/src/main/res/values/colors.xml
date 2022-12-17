@@ -36,5 +36,6 @@
     <color name="azul">#3949AB</color>
     <color name="always_black">#FF000000</color>
     <color name="always_white">#FFFFFFFF</color>
+    <color name="amarillo">#FFFF00</color>
 
 </resources>

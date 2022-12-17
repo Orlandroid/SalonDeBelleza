@@ -7,12 +7,14 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.citassalon.R
+import com.example.citassalon.data.mappers.toProductDb
 import com.example.citassalon.data.models.remote.Product
 import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.databinding.FragmentProductsBinding
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.main.AlertDialogs
 import com.example.citassalon.main.AlertDialogs.Companion.ERROR_MESSAGE
+import com.example.citassalon.main.AlertDialogs.Companion.INFO_MESSAGE
 import com.example.citassalon.ui.base.BaseFragment
 import com.example.citassalon.ui.extensions.navigate
 import com.faltenreich.skeletonlayout.Skeleton
@@ -24,7 +26,7 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
     ClickOnItem<Product> {
 
     private val viewModel: ProductsViewModel by viewModels()
-    private val adapter = ProductsAdapter(this)
+    private var adapter: ProductsAdapter? = null
     private val args: ProductsFragmentArgs by navArgs()
     private lateinit var skeleton: Skeleton
 
@@ -40,17 +42,40 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
             toolbarLayout.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
+            adapter = ProductsAdapter(object : ProductsAdapter.ClickOnItems {
+                override fun clickOnElement(product: Product) {
+                    val action =
+                        ProductsFragmentDirections.actionProductsFragmentToDetalleProductoFragment(
+                            product
+                        )
+                    findNavController().navigate(action)
+                }
+
+                override fun clickOnAddToCard(product: Product) {
+                    viewModel.insertProduct(product.toProductDb()) {
+                        showDialogConfirmationAddProduct()
+                    }
+                }
+
+            })
             imageCart.setOnClickListener {
                 val action = ProductsFragmentDirections.actionProductsFragmentToCartFragment()
                 navigate(action)
             }
             skeleton = recyclerProducts.applySkeleton(R.layout.item_product, 8)
-            recyclerProducts.layoutManager =
-                GridLayoutManager(requireContext(), 2)
+            recyclerProducts.layoutManager = GridLayoutManager(requireContext(), 2)
         }
         viewModel.getProducts(args.categoria)
     }
 
+
+    private fun showDialogConfirmationAddProduct() {
+        val dialog = AlertDialogs(
+            kindOfMessage = INFO_MESSAGE,
+            messageBody = getString(R.string.product_add)
+        )
+        activity?.let { dialog.show(it.supportFragmentManager, "alertMessage") }
+    }
 
     override fun observerViewModel() {
         super.observerViewModel()
@@ -64,7 +89,8 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
                 is ApiState.Success -> {
                     if (apiState.data != null) {
                         binding.recyclerProducts.adapter = adapter
-                        adapter.setData(apiState.data)
+                        adapter?.setData(apiState.data)
+                        binding.root.setBackgroundColor(R.color.background)
                     }
                 }
                 is ApiState.Error -> {
