@@ -44,6 +44,8 @@ class Repository @Inject constructor(
 
     suspend fun addProduct(productDb: ProductDb) = productDao.addProductDb(productDb)
 
+    suspend fun deleteAllProducts() = productDao.deleteAll()
+
     fun getAllProducts() = productDao.getAllProductDb()
 
     suspend fun getProducts(categoria: String) = fakeStoreService.getProducts(categoria)

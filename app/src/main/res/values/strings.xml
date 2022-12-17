@@ -140,4 +140,6 @@
     <string name="message_add_product">¿Estás seguro que deseas agregar el producto?</string>
     <string name="product_add">El producto se agregó correctamente</string>
     <string name="cantidad">Cantidad %d</string>
+    <string name="delete_all_products">¿Estás seguro que deseas eliminar todos los productos?</string>
+    <string name="carrito">Carrito</string>
 </resources>

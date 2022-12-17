@@ -9,11 +9,12 @@ import com.example.citassalon.data.mappers.toProduct
 import com.example.citassalon.data.models.remote.Product
 import com.example.citassalon.databinding.FragmentCartBinding
 import com.example.citassalon.interfaces.ClickOnItem
+import com.example.citassalon.main.AlertDialogs
+import com.example.citassalon.main.AlertDialogs.Companion.INFO_MESSAGE
+import com.example.citassalon.main.AlertDialogs.Companion.WARNING_MESSAGE
 import com.example.citassalon.ui.base.BaseFragment
-import com.example.citassalon.ui.extensions.gone
-import com.example.citassalon.ui.extensions.hideProgress
-import com.example.citassalon.ui.extensions.showProgress
-import com.example.citassalon.ui.extensions.visible
+import com.example.citassalon.ui.extensions.*
+import com.example.citassalon.ui.info.productos.productos.ProductsViewModel
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -21,6 +22,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),
     ClickOnItem<Product> {
 
     private val viewModel: CartViewModel by viewModels()
+    private val productsViewModel: ProductsViewModel by viewModels()
     private val cartAdapter = CartAdapter()
     private var total = 0.0
 
@@ -33,12 +35,36 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),
     override fun setUpUi() {
         with(binding) {
             showProgress()
-            toolbarLayout.toolbarTitle.text = "Carrito"
+            toolbarLayout.toolbarTitle.text = getString(R.string.carrito)
+            toolbarLayout.delete.visible()
+            toolbarLayout.delete.click {
+                showDialogDeleteAllProducts {
+                    productsViewModel.deleteAllProducts()
+                }
+            }
             toolbarLayout.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
             recyclerCart.adapter = cartAdapter
         }
+    }
+
+    private fun showDialogDeleteAllProducts(deleteAllProducts: () -> Unit) {
+        val alert = AlertDialogs(
+            kindOfMessage = WARNING_MESSAGE,
+            messageBody = getString(R.string.delete_all_products),
+            isTwoButtonDialog = true,
+            clickOnAccept = object : AlertDialogs.ClickOnAccept {
+                override fun clickOnAccept() {
+                    deleteAllProducts()
+                }
+
+                override fun clickOnCancel() {
+
+                }
+            }
+        )
+        activity?.let { alert.show(it.supportFragmentManager, "alertMessage") }
     }
 
     override fun observerViewModel() {
@@ -47,8 +73,9 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),
             if (items.isEmpty()) {
                 binding.containerInfoPago.gone()
                 binding.noData.visible()
+                cartAdapter.setData(listOf())
             } else {
-                binding.containerInfoPago.gone()
+                binding.containerInfoPago.visible()
                 binding.noData.gone()
                 val listProducts = arrayListOf<Product>()
                 items.forEach {
