@@ -81,7 +81,7 @@ class AgendarStaffFragment :
                     val alert = AlertDialogs(
                         messageBody = ERROR_SERVIDOR,
                         kindOfMessage = ERROR_MESSAGE,
-                        clikOnAccept = getListenerDialog()
+                        clickOnAccept = getListenerDialog()
                     )
                     activity?.let { it1 -> alert.show(it1.supportFragmentManager, "dialog") }
                 }

@@ -32,7 +32,7 @@ class ListOfCategoriesFragment :
 
     override fun setUpUi() {
         with(binding) {
-            toolbarLayout.toolbarTitle.text = "Categorias"
+            toolbarLayout.toolbarTitle.text = getString(R.string.categorias)
             toolbarLayout.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
@@ -55,14 +55,39 @@ class ListOfCategoriesFragment :
                     binding.shimmerCategorias.gone()
                 }
                 is ApiState.Error -> {
-                    val dialog = AlertDialogs(ERROR_MESSAGE, "Error al obtener datos")
+                    val dialog = AlertDialogs(
+                        kindOfMessage = ERROR_MESSAGE,
+                        messageBody = "Error al obtener datos",
+                        clickOnAccept = object : AlertDialogs.ClickOnAccept {
+                            override fun clickOnAccept() {
+                                findNavController().popBackStack()
+                            }
+
+                            override fun clickOnCancel() {
+
+                            }
+                        }
+                    )
                     activity?.let { dialog.show(it.supportFragmentManager, "alertMessage") }
                     binding.shimmerCategorias.gone()
                 }
                 is ApiState.ErrorNetwork -> {
-                    val dialog = AlertDialogs(ERROR_MESSAGE, "Verifica tu conexion de internet")
+                    val dialog = AlertDialogs(
+                        kindOfMessage = ERROR_MESSAGE,
+                        messageBody = "Verifica tu conexion de internet",
+                        clickOnAccept = object : AlertDialogs.ClickOnAccept {
+                            override fun clickOnAccept() {
+                                findNavController().popBackStack()
+                            }
+
+                            override fun clickOnCancel() {
+
+                            }
+                        }
+                    )
                     activity?.let { dialog.show(it.supportFragmentManager, "alertMessage") }
                     binding.shimmerCategorias.gone()
+                    findNavController().popBackStack()
                 }
                 is ApiState.NoData -> {
 

@@ -11,7 +11,7 @@ import com.example.citassalon.databinding.AlertDialogMessagesBinding
 class AlertDialogs(
     private val kindOfMessage: Int = SUCCES_MESSAGE,
     private val messageBody: String,
-    private val clikOnAccept: ClickOnAccept? = null,
+    private val clickOnAccept: ClickOnAccept? = null,
     private val isTwoButtonDialog: Boolean = false
 ) :
     DialogFragment() {
@@ -64,15 +64,15 @@ class AlertDialogs(
     private fun setUpUi() {
         with(binding) {
             buttonAceptarOneButton.setOnClickListener {
-                clikOnAccept?.clickOnAccept()
+                clickOnAccept?.clickOnAccept()
                 dialog?.dismiss()
             }
             buttonAceptar.setOnClickListener {
-                clikOnAccept?.clickOnAccept()
+                clickOnAccept?.clickOnAccept()
                 dialog?.dismiss()
             }
             buttonCancelar.setOnClickListener {
-                clikOnAccept?.clickOnCancel()
+                clickOnAccept?.clickOnCancel()
                 dialog?.dismiss()
             }
             binding.bodyMessage.text = messageBody
@@ -112,7 +112,7 @@ class AlertDialogs(
                 binding.titleHeader.text = "Error"
             }
             3 -> {
-                binding.headerDialog.setCardBackgroundColor(resources.getColor(INFO_MESSAGE))
+                binding.headerDialog.setCardBackgroundColor(resources.getColor(INFO_MESSAGE_COLOR))
                 binding.titleHeader.text = "Info"
             }
         }

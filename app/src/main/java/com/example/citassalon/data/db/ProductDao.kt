@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 interface ProductDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun addProductDb(productDb: ProductDb)
+    suspend fun addProductDb(productDb: ProductDb):Long
 
     @Insert
     suspend fun insertManyProductDb(productDb: List<ProductDb>)

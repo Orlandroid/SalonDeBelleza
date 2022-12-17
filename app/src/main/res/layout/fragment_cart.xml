@@ -9,6 +9,23 @@
         android:background="@color/background"
         tools:context=".ui.info.cart.CartFragment">
 
+        <TextView
+            android:id="@+id/no_data"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginEnd="8dp"
+            android:gravity="center"
+            android:text="@string/a_n_no_has_agregado_productos"
+            android:textColor="@color/black"
+            android:textSize="20sp"
+            android:visibility="gone"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_layout"
+            tools:visibility="gone" />
+
         <include
             android:id="@+id/toolbar_layout"
             layout="@layout/toolbar_view"
@@ -16,60 +33,72 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/button_pagar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="Pagar"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_total"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginBottom="32dp"
-            android:text="Total"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@+id/button_pagar"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <View
-            android:id="@+id/view6"
-            android:layout_width="0dp"
-            android:layout_height="1dp"
-            android:layout_marginBottom="8dp"
-            android:background="@color/black"
-            app:layout_constraintBottom_toTopOf="@+id/tv_total"
-            app:layout_constraintEnd_toEndOf="@+id/tv_total_products"
-            app:layout_constraintStart_toStartOf="@+id/tv_total" />
-
-        <TextView
-            android:id="@+id/tv_total_products"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="16dp"
-            android:text="@string/_000_00"
-            android:textColor="@color/black"
-            android:textSize="20sp"
-            app:layout_constraintBottom_toBottomOf="@+id/tv_total"
-            app:layout_constraintEnd_toEndOf="parent" />
-
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_cart"
             android:layout_width="0dp"
             android:layout_height="0dp"
-            android:layout_marginBottom="8dp"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            app:layout_constraintBottom_toTopOf="@+id/view6"
+            app:layout_constraintBottom_toTopOf="@+id/container_info_pago"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/toolbar_layout"
+            app:layout_constraintVertical_bias="0.0"
             tools:listitem="@layout/item_cart" />
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/container_info_pago"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <View
+                android:id="@+id/view6"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:background="@color/black"
+                app:layout_constraintBottom_toTopOf="@+id/tv_total"
+                app:layout_constraintEnd_toEndOf="@+id/tv_total_products"
+                app:layout_constraintStart_toStartOf="@+id/tv_total"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/tv_total_products"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/_000_00"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toBottomOf="@+id/tv_total"
+                app:layout_constraintEnd_toEndOf="@+id/button_pagar"
+                app:layout_constraintTop_toTopOf="@+id/tv_total" />
+
+            <TextView
+                android:id="@+id/tv_total"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="32dp"
+                android:text="Total"
+                android:textColor="@color/black"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@+id/button_pagar"
+                app:layout_constraintStart_toStartOf="@+id/button_pagar" />
+
+            <Button
+                android:id="@+id/button_pagar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="16dp"
+                android:text="Pagar"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

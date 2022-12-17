@@ -10,8 +10,10 @@ import com.example.citassalon.data.models.remote.Product
 import com.example.citassalon.databinding.FragmentCartBinding
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.ui.base.BaseFragment
+import com.example.citassalon.ui.extensions.gone
 import com.example.citassalon.ui.extensions.hideProgress
 import com.example.citassalon.ui.extensions.showProgress
+import com.example.citassalon.ui.extensions.visible
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -42,12 +44,19 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),
     override fun observerViewModel() {
         super.observerViewModel()
         viewModel.allIProducts.observe(this.viewLifecycleOwner) { items ->
-            val listProducts = arrayListOf<Product>()
-            items.forEach {
-                listProducts.add(it.toProduct())
+            if (items.isEmpty()) {
+                binding.containerInfoPago.gone()
+                binding.noData.visible()
+            } else {
+                binding.containerInfoPago.gone()
+                binding.noData.gone()
+                val listProducts = arrayListOf<Product>()
+                items.forEach {
+                    listProducts.add(it.toProduct())
+                }
+                binding.tvTotalProducts.text = getTotalPriceByProducts(listProducts)
+                cartAdapter.setData(listProducts)
             }
-            binding.tvTotalProducts.text = getTotalPriceByProducts(listProducts)
-            cartAdapter.setData(listProducts)
             hideProgress()
         }
     }

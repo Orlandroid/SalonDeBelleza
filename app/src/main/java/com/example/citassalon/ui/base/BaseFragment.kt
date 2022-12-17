@@ -9,6 +9,9 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
+import com.example.citassalon.data.state.ApiState
+import com.example.citassalon.ui.extensions.hideProgress
+import com.example.citassalon.ui.extensions.showProgress
 
 abstract class BaseFragment<ViewBinding : ViewDataBinding>(@LayoutRes protected val contentLayoutId: Int) :
     Fragment() {
@@ -23,11 +26,19 @@ abstract class BaseFragment<ViewBinding : ViewDataBinding>(@LayoutRes protected 
         binding = DataBindingUtil.inflate(inflater, contentLayoutId, container, false)
         return binding.root
     }
-    
+
     protected abstract fun setUpUi()
 
     open fun observerViewModel() {
 
+    }
+
+    fun <T> showAndHideProgress(it: ApiState<T>) {
+        if (it is ApiState.Loading) {
+            showProgress()
+        } else {
+            hideProgress()
+        }
     }
 
 }

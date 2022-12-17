@@ -14,16 +14,17 @@
 
         <Button
             android:id="@+id/add"
-            style="@style/Widget.MaterialComponents.Button.TextButton.Icon"
+            style="?attr/materialButtonOutlinedStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
+            android:layout_marginTop="8dp"
             android:text="@string/agregar"
             app:icon="@drawable/ic_baseline_add_24"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:strokeColor="@color/primaryColor" />
+
 
         <ImageView
             android:id="@+id/image_product"

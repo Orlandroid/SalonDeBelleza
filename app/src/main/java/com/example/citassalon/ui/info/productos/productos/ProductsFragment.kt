@@ -14,6 +14,7 @@ import com.example.citassalon.databinding.FragmentProductsBinding
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.main.AlertDialogs
 import com.example.citassalon.main.AlertDialogs.Companion.ERROR_MESSAGE
+import com.example.citassalon.main.AlertDialogs.Companion.INFO_MESSAGE
 import com.example.citassalon.ui.base.BaseFragment
 import com.example.citassalon.ui.extensions.navigate
 import com.faltenreich.skeletonlayout.Skeleton
@@ -43,12 +44,17 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
             }
             adapter = ProductsAdapter(object : ProductsAdapter.ClickOnItems {
                 override fun clickOnElement(product: Product) {
-                    val action = ProductsFragmentDirections.actionProductsFragmentToDetalleProductoFragment(product)
+                    val action =
+                        ProductsFragmentDirections.actionProductsFragmentToDetalleProductoFragment(
+                            product
+                        )
                     findNavController().navigate(action)
                 }
 
                 override fun clickOnAddToCard(product: Product) {
-                    viewModel.insertProduct(product.toProductDb())
+                    viewModel.insertProduct(product.toProductDb()) {
+                        showDialogConfirmationAddProduct()
+                    }
                 }
 
             })
@@ -62,6 +68,14 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
         viewModel.getProducts(args.categoria)
     }
 
+
+    private fun showDialogConfirmationAddProduct() {
+        val dialog = AlertDialogs(
+            kindOfMessage = INFO_MESSAGE,
+            messageBody = getString(R.string.product_add)
+        )
+        activity?.let { dialog.show(it.supportFragmentManager, "alertMessage") }
+    }
 
     override fun observerViewModel() {
         super.observerViewModel()

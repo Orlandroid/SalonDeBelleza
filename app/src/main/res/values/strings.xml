@@ -133,4 +133,11 @@
     <string name="agregar">Agregar</string>
     <string name="producto">Producto</string>
     <string name="_000_00">$ 000.00</string>
+    <string name="pagar">Pagar</string>
+    <string name="total">Total</string>
+    <string name="a_n_no_has_agregado_productos">Aún no has agregado productos</string>
+    <string name="categorias">Categorías</string>
+    <string name="message_add_product">¿Estás seguro que deseas agregar el producto?</string>
+    <string name="product_add">El producto se agregó correctamente</string>
+    <string name="cantidad">Cantidad %d</string>
 </resources>

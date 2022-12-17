@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import com.example.citassalon.data.state.ApiState
 import com.example.citassalon.ui.MainActivity
 import com.example.citassalon.ui.fecha.DatePickerFragment
 import com.google.android.material.snackbar.Snackbar
@@ -138,6 +139,8 @@ fun Fragment.showProgress() {
 fun Fragment.hideProgress() {
     (requireActivity() as MainActivity).hideProgress()
 }
+
+
 
 
 

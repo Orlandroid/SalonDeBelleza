@@ -44,7 +44,6 @@ class HistorialDeCitasFragment :
             toolbarLayout.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
-            progressBar2.gone()
             swipeRecycler.swipe(binding.recyclerAppointment, getListenerSwipeRecyclerListenr())
         }
     }
@@ -59,7 +58,7 @@ class HistorialDeCitasFragment :
     override fun observerViewModel() {
         super.observerViewModel()
         viewModel.appointment.observe(viewLifecycleOwner) {
-            binding.progressBar2.isVisible = it is ApiState.Loading
+            showAndHideProgress(it)
             when (it) {
                 is ApiState.Success -> {
                     if (it.data != null) {
@@ -87,7 +86,7 @@ class HistorialDeCitasFragment :
             }
         }
         viewModel.removeAppointment.observe(viewLifecycleOwner) {
-            binding.progressBar2.isVisible = it is ApiState.Loading
+            showAndHideProgress(it)
             when (it) {
                 is ApiState.Success -> {
                     val alert = AlertDialogs(
@@ -152,7 +151,6 @@ class HistorialDeCitasFragment :
             object : AlertDialogs.ClickOnAccept {
                 override fun clickOnAccept() {
                     val appointment = historialCitasAdapter.getElement(position)
-                    binding.progressBar2.visible()
                     viewModel.removeAppointment(appointment.idAppointment)
                 }
 
