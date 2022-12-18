@@ -3,9 +3,9 @@ package com.example.citassalon.di
 import android.content.Context
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.example.citassalon.util.REQUEST_SESSION_MANAGER
-import com.example.citassalon.main.SessionWorker
-import com.example.citassalon.util.TASK_SESSION_MANAGER
+import com.example.citassalon.presentacion.util.REQUEST_SESSION_MANAGER
+import com.example.citassalon.presentacion.main.SessionWorker
+import com.example.citassalon.presentacion.util.TASK_SESSION_MANAGER
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

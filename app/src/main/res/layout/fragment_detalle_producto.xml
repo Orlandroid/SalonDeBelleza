@@ -9,7 +9,7 @@
         android:background="@color/background"
         app:cardCornerRadius="16dp"
         app:cardUseCompatPadding="true"
-        tools:context=".ui.info.productos.detalleproducto.DetalleProductoFragment">
+        tools:context=".presentacion.ui.info.productos.detalleproducto.DetalleProductoFragment">
 
         <include
             android:id="@+id/toolbar_layout"
@@ -35,12 +35,12 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/toolbar_layout"
-                tools:context=".ui.info.productos.detalleproducto.DetalleProductoFragment">
+                tools:context=".presentacion.ui.info.productos.detalleproducto.DetalleProductoFragment">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    tools:context=".ui.info.productos.detalleproducto.DetalleProductoFragment">
+                    tools:context=".presentacion.ui.info.productos.detalleproducto.DetalleProductoFragment">
 
 
                     <androidx.constraintlayout.widget.Guideline

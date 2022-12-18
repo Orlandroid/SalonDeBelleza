@@ -6,7 +6,7 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".ui.info.productos.categories.ListOfCategoriesFragment">
+        tools:context=".presentacion.ui.info.productos.categories.ListOfCategoriesFragment">
 
         <include
             android:id="@+id/toolbar_layout"

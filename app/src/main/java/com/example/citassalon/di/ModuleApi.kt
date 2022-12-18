@@ -1,11 +1,16 @@
 package com.example.citassalon.di
 
 import com.example.citassalon.data.firebase.FireBaseSource
-import com.example.citassalon.data.repository.Repository
+import com.example.citassalon.data.remote.Repository
 import com.example.citassalon.data.api.FakeStoreService
 import com.example.citassalon.data.api.WebServices
 import com.example.citassalon.data.db.AppointmentDao
 import com.example.citassalon.data.db.ProductDao
+import com.example.citassalon.data.local.LocalDataSourceImpl
+import com.example.citassalon.data.remote.RemoteDataSourceImpl
+import com.example.citassalon.domain.LocalDataSource
+import com.example.citassalon.domain.RemoteDataSource
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,6 +22,19 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
+
+
+@Module
+@InstallIn(SingletonComponent::class)
+abstract class DataModule {
+
+    @Binds
+    abstract fun bindRemoteDataSource(impl: RemoteDataSourceImpl): RemoteDataSource
+
+    @Binds
+    abstract fun bindLocalDataSource(impl: LocalDataSourceImpl): LocalDataSource
+
+}
 
 @Module
 @InstallIn(SingletonComponent::class)
@@ -72,12 +90,9 @@ object ModuleApi {
     @Singleton
     @Provides
     fun provideRepository(
-        appointmentDao: AppointmentDao,
-        productDao: ProductDao,
-        webServices: WebServices,
-        fakeStoreService: FakeStoreService,
-        fireBaseSource: FireBaseSource
-    ): Repository =
-        Repository(appointmentDao, productDao, webServices, fakeStoreService, fireBaseSource)
+        localDataSource: LocalDataSource,
+        remoteDataSource: RemoteDataSource
+    ): Repository = Repository(localDataSource, remoteDataSource)
+
 
 }
