@@ -4,13 +4,12 @@ import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.DatePicker
-import androidx.compose.ui.res.colorResource
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.data.models.remote.User
-import com.example.citassalon.data.state.SessionStatus
+import com.example.citassalon.domain.state.SessionStatus
 import com.example.citassalon.databinding.SignInBinding
 import com.example.citassalon.main.AlertDialogs
 import com.example.citassalon.ui.base.BaseFragment

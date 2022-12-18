@@ -1,15 +1,13 @@
 package com.example.citassalon.ui.share_beetwen_sucursales
 
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.data.models.remote.Sucursal
 import com.example.citassalon.data.models.remote.migration.NegoInfo
-import com.example.citassalon.data.repository.Repository
-import com.example.citassalon.data.state.ApiState
+import com.example.citassalon.data.remote.Repository
+import com.example.citassalon.domain.state.ApiState
 import com.example.citassalon.main.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

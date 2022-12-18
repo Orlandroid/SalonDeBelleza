@@ -6,7 +6,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.data.models.remote.migration.NegoInfo
-import com.example.citassalon.data.state.ApiState
+import com.example.citassalon.domain.state.ApiState
 import com.example.citassalon.databinding.FragmentSucursalesBinding
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.ui.base.BaseFragment

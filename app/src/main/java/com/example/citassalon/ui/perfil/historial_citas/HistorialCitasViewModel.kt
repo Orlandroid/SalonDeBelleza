@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.data.models.local.Appointment
-import com.example.citassalon.data.state.ApiState
+import com.example.citassalon.domain.state.ApiState
 import com.example.citassalon.main.NetworkHelper
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*

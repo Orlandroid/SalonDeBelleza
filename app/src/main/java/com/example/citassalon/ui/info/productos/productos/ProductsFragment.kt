@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.citassalon.R
 import com.example.citassalon.data.mappers.toProductDb
 import com.example.citassalon.data.models.remote.Product
-import com.example.citassalon.data.state.ApiState
+import com.example.citassalon.domain.state.ApiState
 import com.example.citassalon.databinding.FragmentProductsBinding
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.main.AlertDialogs

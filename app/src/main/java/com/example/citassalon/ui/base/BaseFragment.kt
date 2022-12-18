@@ -9,7 +9,7 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import com.example.citassalon.data.state.ApiState
+import com.example.citassalon.domain.state.ApiState
 import com.example.citassalon.ui.extensions.hideProgress
 import com.example.citassalon.ui.extensions.showProgress
 

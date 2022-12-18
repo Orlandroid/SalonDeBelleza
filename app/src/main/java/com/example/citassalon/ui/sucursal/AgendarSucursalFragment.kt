@@ -8,7 +8,7 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.example.citassalon.R
 import com.example.citassalon.data.models.remote.migration.NegoInfo
-import com.example.citassalon.data.state.ApiState
+import com.example.citassalon.domain.state.ApiState
 import com.example.citassalon.databinding.FragmentAgendarSucursalBinding
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.main.AlertDialogs

@@ -1,4 +1,4 @@
-package com.example.citassalon.data.state
+package com.example.citassalon.domain.state
 
 sealed class ApiState<T>(val data: T? = null, val message: String? = null) {
 

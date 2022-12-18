@@ -9,7 +9,7 @@ import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.citassalon.R
 import com.example.citassalon.data.models.remote.migration.Staff
-import com.example.citassalon.data.state.ApiState
+import com.example.citassalon.domain.state.ApiState
 import com.example.citassalon.databinding.FragmentAgendarStaffBinding
 import com.example.citassalon.interfaces.ClickOnItem
 import com.example.citassalon.main.AlertDialogs

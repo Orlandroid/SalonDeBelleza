@@ -7,7 +7,7 @@ import android.view.View
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import com.example.citassalon.R
-import com.example.citassalon.data.state.SessionStatus
+import com.example.citassalon.domain.state.SessionStatus
 import com.example.citassalon.databinding.FragmentLoginBinding
 import com.example.citassalon.main.AlertDialogs
 import com.example.citassalon.util.*

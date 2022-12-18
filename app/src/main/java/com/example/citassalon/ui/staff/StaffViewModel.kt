@@ -5,8 +5,8 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.data.models.remote.Staff
-import com.example.citassalon.data.repository.Repository
-import com.example.citassalon.data.state.ApiState
+import com.example.citassalon.data.remote.Repository
+import com.example.citassalon.domain.state.ApiState
 import com.example.citassalon.main.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers

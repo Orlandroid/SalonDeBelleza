@@ -3,17 +3,12 @@ package com.example.citassalon.ui.perfil.userprofile
 
 import android.os.Bundle
 import android.view.View
-import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
-import com.example.citassalon.data.state.ApiState
+import com.example.citassalon.domain.state.ApiState
 import com.example.citassalon.databinding.FragmentUserProfileBinding
 import com.example.citassalon.ui.base.BaseFragment
-import com.example.citassalon.ui.extensions.hideProgress
-import com.example.citassalon.ui.extensions.invisible
-import com.example.citassalon.ui.extensions.showProgress
-import com.example.citassalon.ui.extensions.visible
 import com.example.citassalon.util.parseColor
 import dagger.hilt.android.AndroidEntryPoint
 
