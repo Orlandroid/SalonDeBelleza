@@ -12,8 +12,9 @@ fun Product.toProductDb(): ProductDb = ProductDb(
     category = category,
     image = imageBase64,
     rate = rating.rate,
-    count = rating.count
-)
+    count = rating.count,
+    userUi = ""
+ )
 
 fun ProductDb.toProduct(): Product = Product(
     id = id,

@@ -1,5 +1,6 @@
 package com.example.citassalon.data.db.entities
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -13,5 +14,7 @@ data class ProductDb(
     val category: String,
     val image: String,
     val rate: Double,
-    val count: Int
+    val count: Int,
+    @ColumnInfo(defaultValue = "")
+    val userUi: String
 )

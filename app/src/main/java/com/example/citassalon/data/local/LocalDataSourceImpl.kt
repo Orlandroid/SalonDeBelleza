@@ -16,9 +16,13 @@ class LocalDataSourceImpl @Inject constructor(
 
     override suspend fun addProduct(productDb: ProductDb): Long = productDao.addProductDb(productDb)
 
+    override suspend fun insertManyProductDb(productDb: List<ProductDb>) = productDao.insertManyProductDb(productDb)
+
     override suspend fun deleteAllProducts() = productDao.deleteAll()
 
     override fun getAllProducts() = productDao.getAllProductDb()
+
+    override fun getAllProductDbCache(): List<ProductDb> = productDao.getAllProductDbCache()
 
     override suspend fun addAppointment(appointment: Appointment) = appointmentDao.insertAppointment(appointment)
 

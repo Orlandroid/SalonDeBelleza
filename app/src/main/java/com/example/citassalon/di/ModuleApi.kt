@@ -1,11 +1,8 @@
 package com.example.citassalon.di
 
-import com.example.citassalon.data.firebase.FireBaseSource
-import com.example.citassalon.data.remote.Repository
+import com.example.citassalon.data.Repository
 import com.example.citassalon.data.api.FakeStoreService
 import com.example.citassalon.data.api.WebServices
-import com.example.citassalon.data.db.AppointmentDao
-import com.example.citassalon.data.db.ProductDao
 import com.example.citassalon.data.local.LocalDataSourceImpl
 import com.example.citassalon.data.remote.RemoteDataSourceImpl
 import com.example.citassalon.domain.LocalDataSource

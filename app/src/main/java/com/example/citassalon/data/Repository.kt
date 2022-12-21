@@ -1,7 +1,11 @@
-package com.example.citassalon.data.remote
+package com.example.citassalon.data
 
+import androidx.lifecycle.asLiveData
 import com.example.citassalon.data.db.entities.ProductDb
+import com.example.citassalon.data.mappers.toProductDbtList
+import com.example.citassalon.data.mappers.toProductList
 import com.example.citassalon.data.models.local.Appointment
+import com.example.citassalon.data.models.remote.Product
 import com.example.citassalon.domain.LocalDataSource
 import com.example.citassalon.domain.RemoteDataSource
 import com.google.firebase.auth.AuthCredential
@@ -31,7 +35,18 @@ class Repository @Inject constructor(
 
     fun getAllProducts() = localDataSource.getAllProducts()
 
-    suspend fun getProducts(category: String) = remoteDataSource.getProducts(category)
+    suspend fun getProducts(category: String): List<Product>  {
+        /*
+        val localProducts = localDataSource.getAllProductDbCache()
+        val remoteProducts: List<Product>
+        if (localProducts.isEmpty()){
+             remoteProducts = remoteDataSource.getProducts(category)
+            localDataSource.insertManyProductDb(remoteProducts.toProductDbtList())
+            return remoteProducts
+        }
+        return localProducts.toProductList()*/
+        return remoteDataSource.getProducts(category)
+    }
 
     suspend fun getSingleProduct(id: Int) = remoteDataSource.getSingleProduct(id)
 

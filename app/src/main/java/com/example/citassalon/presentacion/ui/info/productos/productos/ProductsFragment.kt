@@ -1,6 +1,7 @@
 package com.example.citassalon.presentacion.ui.info.productos.productos
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -94,6 +95,7 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
                     }
                 }
                 is ApiState.Error -> {
+                    Log.w("ERROR",apiState.message.toString())
                     val dialog = AlertDialogs(ERROR_MESSAGE, "Error al obtener datos")
                     activity?.let { dialog.show(it.supportFragmentManager, "alertMessage") }
                     findNavController().popBackStack()

@@ -38,6 +38,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),
             toolbarLayout.delete.visible()
             toolbarLayout.delete.click {
                 showDialogDeleteAllProducts {
+                    showProgress()
                     productsViewModel.deleteAllProducts()
                 }
             }

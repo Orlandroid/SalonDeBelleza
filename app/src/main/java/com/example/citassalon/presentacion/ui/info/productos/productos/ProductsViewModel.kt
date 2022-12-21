@@ -6,7 +6,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.data.db.entities.ProductDb
 import com.example.citassalon.data.models.remote.Product
-import com.example.citassalon.data.remote.Repository
+import com.example.citassalon.data.Repository
 import com.example.citassalon.domain.state.ApiState
 import com.example.citassalon.presentacion.main.NetworkHelper
 import dagger.hilt.android.lifecycle.HiltViewModel

@@ -9,9 +9,13 @@ interface LocalDataSource {
 
     suspend fun addProduct(productDb: ProductDb): Long
 
+    suspend fun insertManyProductDb(productDb: List<ProductDb>)
+
     suspend fun deleteAllProducts()
 
     fun getAllProducts(): Flow<List<ProductDb>>
+
+    fun getAllProductDbCache(): List<ProductDb>
 
     suspend fun addAppointment(appointment: Appointment)
 
