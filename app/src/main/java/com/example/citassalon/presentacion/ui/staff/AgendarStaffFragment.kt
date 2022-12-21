@@ -74,7 +74,6 @@ class AgendarStaffFragment :
                 is ApiState.Success -> {
                     if (it.data != null) {
                         setUpRecyclerView()
-                        //adaptador.setData(it.data)
                     }
                 }
                 is ApiState.Error -> {

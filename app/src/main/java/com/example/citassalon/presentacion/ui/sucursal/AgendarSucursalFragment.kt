@@ -41,7 +41,7 @@ class AgendarSucursalFragment :
 
     override fun setUpUi() {
         with(binding) {
-            toolbar.toolbarTitle.text = "Agendar Sucursal"
+            toolbar.toolbarTitle.text = getString(R.string.agendar_sucursal)
             toolbar.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }

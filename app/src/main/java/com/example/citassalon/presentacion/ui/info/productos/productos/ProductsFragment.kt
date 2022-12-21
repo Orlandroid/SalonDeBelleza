@@ -39,7 +39,7 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
 
     override fun setUpUi() {
         with(binding) {
-            toolbarLayout.toolbarTitle.text = "Productos"
+            toolbarLayout.toolbarTitle.text = getString(R.string.productos)
             toolbarLayout.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
@@ -80,35 +80,18 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
 
     override fun observerViewModel() {
         super.observerViewModel()
-        viewModel.products.observe(viewLifecycleOwner) { apiState ->
-            if (apiState is ApiState.Loading) {
-                skeleton.showSkeleton()
-            } else {
-                skeleton.showOriginal()
-            }
-            when (apiState) {
-                is ApiState.Success -> {
-                    if (apiState.data != null) {
-                        binding.recyclerProducts.adapter = adapter
-                        adapter?.setData(apiState.data)
-                        binding.root.setBackgroundColor(R.color.background)
-                    }
-                }
-                is ApiState.Error -> {
-                    Log.w("ERROR",apiState.message.toString())
-                    val dialog = AlertDialogs(ERROR_MESSAGE, "Error al obtener datos")
-                    activity?.let { dialog.show(it.supportFragmentManager, "alertMessage") }
-                    findNavController().popBackStack()
-                }
-                is ApiState.ErrorNetwork -> {
-                    val dialog = AlertDialogs(ERROR_MESSAGE, "Verifica tu conexion de internet")
-                    activity?.let { dialog.show(it.supportFragmentManager, "alertMessage") }
-                }
-                else -> {}
-            }
-
+        observeApiResultGeneric(
+            liveData = viewModel.products,
+            onLoading = { skeleton.showSkeleton() },
+            onFinishLoading = { skeleton.showSkeleton() },
+            haveTheViewProgress = false
+        ) {
+            binding.recyclerProducts.adapter = adapter
+            adapter?.setData(it)
+            binding.root.setBackgroundColor(R.color.background)
         }
     }
+
 
     override fun clikOnElement(element: Product, position: Int?) {
         val action =

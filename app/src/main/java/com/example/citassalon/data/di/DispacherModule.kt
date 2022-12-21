@@ -1,4 +1,4 @@
-package com.example.citassalon.di
+package com.example.citassalon.data.di
 
 import dagger.Module
 import dagger.Provides

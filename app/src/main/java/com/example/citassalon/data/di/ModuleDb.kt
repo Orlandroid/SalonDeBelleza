@@ -1,4 +1,4 @@
-package com.example.citassalon.di
+package com.example.citassalon.data.di
 
 import android.content.Context
 import androidx.room.Room

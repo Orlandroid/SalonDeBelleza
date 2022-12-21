@@ -142,4 +142,6 @@
     <string name="cantidad">Cantidad %d</string>
     <string name="delete_all_products">¿Estás seguro que deseas eliminar todos los productos?</string>
     <string name="carrito">Carrito</string>
+    <string name="nombre_establecimeinto">Nombre Establecimiento</string>
+    <string name="agendar_sucursal">Agendar Sucursal</string>
 </resources>

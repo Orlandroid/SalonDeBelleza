@@ -19,7 +19,7 @@ class EstablecimientoFragment :
 
     override fun setUpUi() {
         with(binding) {
-            toolbarLayout.toolbarTitle.text = "Nombre establecimeinto"
+            toolbarLayout.toolbarTitle.text = getString(R.string.nombre_establecimiento)
             toolbarLayout.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }

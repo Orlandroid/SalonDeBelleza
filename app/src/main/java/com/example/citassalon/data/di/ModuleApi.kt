@@ -1,4 +1,4 @@
-package com.example.citassalon.di
+package com.example.citassalon.data.di
 
 import com.example.citassalon.data.Repository
 import com.example.citassalon.data.api.FakeStoreService
