@@ -13,6 +13,7 @@ import com.example.citassalon.presentacion.main.AlertDialogs.Companion.ERROR_MES
 import com.example.citassalon.presentacion.ui.base.BaseFragment
 import com.example.citassalon.presentacion.ui.extensions.gone
 import com.example.citassalon.presentacion.ui.extensions.navigate
+import com.example.citassalon.presentacion.ui.extensions.observeApiResultGeneric
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -42,58 +43,15 @@ class ListOfCategoriesFragment :
 
     override fun observerViewModel() {
         super.observerViewModel()
-        viewModel.categories.observe(viewLifecycleOwner) { apiState ->
-            when (apiState) {
-                is ApiState.Loading -> {
-
-                }
-                is ApiState.Success -> {
-                    if (apiState.data != null) {
-                        binding.recyclerViewCategorias.adapter = adapter
-                        adapter.setData(apiState.data)
-                    }
-                    binding.shimmerCategorias.gone()
-                }
-                is ApiState.Error -> {
-                    val dialog = AlertDialogs(
-                        kindOfMessage = ERROR_MESSAGE,
-                        messageBody = "Error al obtener datos",
-                        clickOnAccept = object : AlertDialogs.ClickOnAccept {
-                            override fun clickOnAccept() {
-                                findNavController().popBackStack()
-                            }
-
-                            override fun clickOnCancel() {
-
-                            }
-                        }
-                    )
-                    activity?.let { dialog.show(it.supportFragmentManager, "alertMessage") }
-                    binding.shimmerCategorias.gone()
-                }
-                is ApiState.ErrorNetwork -> {
-                    val dialog = AlertDialogs(
-                        kindOfMessage = ERROR_MESSAGE,
-                        messageBody = "Verifica tu conexion de internet",
-                        clickOnAccept = object : AlertDialogs.ClickOnAccept {
-                            override fun clickOnAccept() {
-                                findNavController().popBackStack()
-                            }
-
-                            override fun clickOnCancel() {
-
-                            }
-                        }
-                    )
-                    activity?.let { dialog.show(it.supportFragmentManager, "alertMessage") }
-                    binding.shimmerCategorias.gone()
-                    findNavController().popBackStack()
-                }
-                is ApiState.NoData -> {
-
-                }
-            }
-
+        observeApiResultGeneric(
+            liveData = viewModel.categories,
+            haveTheViewProgress = false,
+            onLoading = {},
+            onFinishLoading = { binding.shimmerCategorias.gone() },
+            shouldCloseTheViewOnApiError = true
+        ) {
+            binding.recyclerViewCategorias.adapter = adapter
+            adapter.setData(it)
         }
     }
 

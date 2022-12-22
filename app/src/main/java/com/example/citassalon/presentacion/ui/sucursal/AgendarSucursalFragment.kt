@@ -8,18 +8,17 @@ import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.example.citassalon.R
 import com.example.citassalon.data.models.remote.migration.NegoInfo
-import com.example.citassalon.domain.state.ApiState
 import com.example.citassalon.databinding.FragmentAgendarSucursalBinding
 import com.example.citassalon.presentacion.interfaces.ClickOnItem
 import com.example.citassalon.presentacion.main.AlertDialogs
 import com.example.citassalon.presentacion.ui.base.BaseFragment
 import com.example.citassalon.presentacion.ui.extensions.gone
 import com.example.citassalon.presentacion.ui.extensions.navigate
+import com.example.citassalon.presentacion.ui.extensions.observeApiResultGeneric
 import com.example.citassalon.presentacion.ui.extensions.visible
 import com.example.citassalon.presentacion.ui.flow_main.FlowMainViewModel
 import com.example.citassalon.presentacion.ui.share_beetwen_sucursales.SucursalAdapter
 import com.example.citassalon.presentacion.ui.share_beetwen_sucursales.SucursalViewModel
-import com.example.citassalon.presentacion.util.ERROR_SERVIDOR
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -50,51 +49,19 @@ class AgendarSucursalFragment :
 
     override fun observerViewModel() {
         super.observerViewModel()
-        viewModel.sucursal.observe(viewLifecycleOwner) { apiState ->
-            if (apiState is ApiState.Loading) {
+        observeApiResultGeneric(
+            liveData = viewModel.sucursal,
+            onLoading = {
                 binding.shimmerSucursal.visible()
                 binding.recyclerSucursal.visible()
-            } else {
+            },
+            onFinishLoading = {
                 binding.shimmerSucursal.gone()
-            }
-            when (apiState) {
-                is ApiState.Success -> {
-                    if (apiState.data != null) {
-                        with(binding) {
-                            recyclerSucursal.adapter = SucursalAdapter(apiState.data, getListener())
-                        }
-                    }
-                }
-                is ApiState.NoData -> {
-                    binding.noData.visible()
-                }
-                is ApiState.Error -> {
-                    val alert = AlertDialogs(
-                        messageBody = ERROR_SERVIDOR,
-                        kindOfMessage = AlertDialogs.ERROR_MESSAGE,
-                        clickOnAccept = getListenerDialog()
-                    )
-                    activity?.let { it1 -> alert.show(it1.supportFragmentManager, "dialog") }
-                }
-                is ApiState.ErrorNetwork -> {
-                    val dialog =
-                        AlertDialogs(
-                            AlertDialogs.ERROR_MESSAGE,
-                            "Verifica tu conexion de internet",
-                            clickOnAccept = object : AlertDialogs.ClickOnAccept {
-                                override fun clickOnAccept() {
-                                    findNavController().popBackStack()
-                                }
-
-                                override fun clickOnCancel() {
-
-                                }
-
-                            })
-                    activity?.let { dialog.show(it.supportFragmentManager, "alertMessage") }
-                }
-                else -> {}
-            }
+            },
+            haveTheViewProgress = false,
+            shouldCloseTheViewOnApiError = true
+        ) {
+            binding.recyclerSucursal.adapter = SucursalAdapter(it, getListener())
         }
     }
 

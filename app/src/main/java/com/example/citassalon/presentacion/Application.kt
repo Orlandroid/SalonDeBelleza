@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.util
+package com.example.citassalon.presentacion
 
 import android.app.Application
 import androidx.hilt.work.HiltWorkerFactory

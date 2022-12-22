@@ -144,4 +144,7 @@
     <string name="carrito">Carrito</string>
     <string name="nombre_establecimeinto">Nombre Establecimiento</string>
     <string name="agendar_sucursal">Agendar Sucursal</string>
+    <string name="error_al_obtener_datos">Error al obtener los datos</string>
+    <string name="error_internet">Verifica tu conexión de internet</string>
+
 </resources>

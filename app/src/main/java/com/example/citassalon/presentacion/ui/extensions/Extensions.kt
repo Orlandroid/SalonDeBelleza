@@ -20,8 +20,6 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
-import androidx.navigation.fragment.findNavController
-import com.example.citassalon.presentacion.ui.MainActivity
 import com.example.citassalon.presentacion.ui.fecha.DatePickerFragment
 import com.google.android.material.snackbar.Snackbar
 import java.io.ByteArrayOutputStream
@@ -50,20 +48,9 @@ fun View.navigate(accion: Int) {
     findNavController().navigate(accion)
 }
 
-fun Fragment.navigate(accion: Int) {
-    findNavController().navigate(accion)
-}
-
-fun Fragment.navigate(accion: NavDirections) {
-    findNavController().navigate(accion)
-}
 
 fun View.navigate(accion: NavDirections) {
     findNavController().navigate(accion)
-}
-
-fun Fragment.hideKeyboard() {
-    view?.let { activity?.hideKeyboard(it) }
 }
 
 fun Activity.hideKeyboard() {
@@ -131,13 +118,7 @@ fun String.base64StringToBitmap(): Bitmap {
     return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
 }
 
-fun Fragment.showProgress() {
-    (requireActivity() as MainActivity).showProgress()
-}
 
-fun Fragment.hideProgress() {
-    (requireActivity() as MainActivity).hideProgress()
-}
 
 
 

@@ -31,7 +31,7 @@ class PerfilFragment : BaseFragment<FragmentPerfilBinding>(R.layout.fragment_per
     override fun setUpUi() {
         setUpRecyclerView()
         with(binding) {
-            toolbar.toolbarTitle.text = "Perfil"
+            toolbar.toolbarTitle.text = getString(R.string.perfil)
             toolbar.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }

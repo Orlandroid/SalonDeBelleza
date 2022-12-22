@@ -9,10 +9,10 @@ import com.example.citassalon.R
 import com.example.citassalon.data.mappers.toAppointmentObject
 import com.example.citassalon.data.models.remote.Appointment
 import com.example.citassalon.databinding.FragmentHistorialDeCitasBinding
-import com.example.citassalon.domain.state.ApiState
 import com.example.citassalon.presentacion.interfaces.ClickOnItem
 import com.example.citassalon.presentacion.main.AlertDialogs
 import com.example.citassalon.presentacion.ui.base.BaseFragment
+import com.example.citassalon.presentacion.ui.extensions.observeApiResultGeneric
 import com.example.citassalon.presentacion.ui.extensions.visible
 import com.example.citassalon.presentacion.util.SwipeRecycler
 import dagger.hilt.android.AndroidEntryPoint
@@ -54,63 +54,31 @@ class HistorialDeCitasFragment :
     @SuppressLint("SetTextI18n")
     override fun observerViewModel() {
         super.observerViewModel()
-        viewModel.appointment.observe(viewLifecycleOwner) {
-            showAndHideProgress(it)
-            when (it) {
-                is ApiState.Success -> {
-                    if (it.data != null) {
-                        binding.toolbarLayout.tvInfo.apply {
-                            visible()
-                            text = "Total: ${it.data.size}"
-                        }
-                        binding.recyclerAppointment.adapter = historialCitasAdapter
-                        historialCitasAdapter.setData(it.data)
-                    }
-                }
-                is ApiState.Error -> {
-
-                }
-                is ApiState.ErrorNetwork -> {
-
-                }
-                is ApiState.NoData -> {
-                    with(binding) {
-                        imageNoData.visible()
-                        imageNoData.setAnimation(getRandomNoDataAnimation())
-                        imageNoData.playAnimation()
-                    }
+        observeApiResultGeneric(
+            liveData = viewModel.appointment,
+            noData = {
+                with(binding) {
+                    imageNoData.visible()
+                    imageNoData.setAnimation(getRandomNoDataAnimation())
+                    imageNoData.playAnimation()
                 }
             }
+        ) {
+            binding.toolbarLayout.tvInfo.apply {
+                visible()
+                text = "Total: ${it.size}"
+            }
+            binding.recyclerAppointment.adapter = historialCitasAdapter
+            historialCitasAdapter.setData(it)
         }
-        viewModel.removeAppointment.observe(viewLifecycleOwner) {
-            showAndHideProgress(it)
-            when (it) {
-                is ApiState.Success -> {
-                    val alert = AlertDialogs(
-                        kindOfMessage = AlertDialogs.SUCCES_MESSAGE,
-                        "Appointment eliminado"
-                    )
-                    activity?.supportFragmentManager?.let { it1 -> alert.show(it1, "Dialog") }
-                }
-                is ApiState.Error -> {
-                    val alert = AlertDialogs(
-                        kindOfMessage = AlertDialogs.SUCCES_MESSAGE,
-                        "Error al Eliminar el appointment"
-                    )
-                    activity?.supportFragmentManager?.let { it1 -> alert.show(it1, "Dialog") }
-                }
-                is ApiState.ErrorNetwork -> {
-                    val alert = AlertDialogs(
-                        kindOfMessage = AlertDialogs.SUCCES_MESSAGE,
-                        "Verifica tu conexion de internet"
-                    )
-                    activity?.supportFragmentManager?.let { it1 -> alert.show(it1, "Dialog") }
-                }
-                is ApiState.NoData -> {
-
-                }
-                else -> {}
-            }
+        observeApiResultGeneric(
+            liveData = viewModel.removeAppointment
+        ) {
+            val alert = AlertDialogs(
+                kindOfMessage = AlertDialogs.SUCCES_MESSAGE,
+                "Appointment eliminado"
+            )
+            activity?.supportFragmentManager?.let { it1 -> alert.show(it1, "Dialog") }
         }
     }
 

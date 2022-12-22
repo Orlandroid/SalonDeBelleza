@@ -6,9 +6,9 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
-import com.example.citassalon.domain.state.ApiState
 import com.example.citassalon.databinding.FragmentUserProfileBinding
 import com.example.citassalon.presentacion.ui.base.BaseFragment
+import com.example.citassalon.presentacion.ui.extensions.observeApiResultGeneric
 import com.example.citassalon.presentacion.util.parseColor
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -34,7 +34,7 @@ class UserProfileFragment :
     override fun setUpUi() {
         viewModel.getUserInfo()
         with(binding) {
-            toolbarLayout.toolbarTitle.text = "Perfil"
+            toolbarLayout.toolbarTitle.text = getString(R.string.perfil)
             toolbarLayout.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
@@ -43,32 +43,18 @@ class UserProfileFragment :
 
     override fun observerViewModel() {
         super.observerViewModel()
-        viewModel.infoUser.observe(viewLifecycleOwner) {
-            showAndHideProgress(it)
-            when (it) {
-                is ApiState.Success -> {
-                    if (it.data != null) {
-                        with(binding) {
-                            tvCorreo.text = it.data[USER_EMAIL]
-                            tvUid.text = it.data[USER_UID]
-                            if (it.data[USER_SESSION].equals("true")) {
-                                imageStatusSession.setColorFilter(parseColor("#239b56"))//verde
-                            } else {
-                                imageStatusSession.setColorFilter(parseColor("#aab7b8"))//gris
-                            }
-                        }
-                    }
+        observeApiResultGeneric(
+            liveData = viewModel.infoUser,
+            shouldCloseTheViewOnApiError = true,
+        ) {
+            with(binding) {
+                tvCorreo.text = it[USER_EMAIL]
+                tvUid.text = it[USER_UID]
+                if (it[USER_SESSION].equals("true")) {
+                    imageStatusSession.setColorFilter(parseColor("#239b56"))//verde
+                } else {
+                    imageStatusSession.setColorFilter(parseColor("#aab7b8"))//gris
                 }
-                is ApiState.Error -> {
-
-                }
-                is ApiState.ErrorNetwork -> {
-
-                }
-                is ApiState.NoData -> {
-
-                }
-                else -> {}
             }
         }
     }

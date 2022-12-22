@@ -9,17 +9,15 @@ import androidx.navigation.navGraphViewModels
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.citassalon.R
 import com.example.citassalon.data.models.remote.migration.Staff
-import com.example.citassalon.domain.state.ApiState
 import com.example.citassalon.databinding.FragmentAgendarStaffBinding
 import com.example.citassalon.presentacion.interfaces.ClickOnItem
 import com.example.citassalon.presentacion.main.AlertDialogs
-import com.example.citassalon.presentacion.main.AlertDialogs.Companion.ERROR_MESSAGE
 import com.example.citassalon.presentacion.ui.base.BaseFragment
 import com.example.citassalon.presentacion.ui.extensions.action
 import com.example.citassalon.presentacion.ui.extensions.displaySnack
 import com.example.citassalon.presentacion.ui.extensions.navigate
+import com.example.citassalon.presentacion.ui.extensions.observeApiResultGeneric
 import com.example.citassalon.presentacion.ui.flow_main.FlowMainViewModel
-import com.example.citassalon.presentacion.util.ERROR_SERVIDOR
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
 import com.google.android.material.snackbar.Snackbar
@@ -64,34 +62,19 @@ class AgendarStaffFragment :
 
     override fun observerViewModel() {
         super.observerViewModel()
-        viewModelStaff.staff.observe(viewLifecycleOwner) {
-            if (it is ApiState.Loading) {
+        observeApiResultGeneric(
+            liveData = viewModelStaff.staff,
+            onLoading = {
                 showSkeleton()
-            } else {
+            },
+            onFinishLoading = {
                 hideSkeleton()
-            }
-            when (it) {
-                is ApiState.Success -> {
-                    if (it.data != null) {
-                        setUpRecyclerView()
-                    }
-                }
-                is ApiState.Error -> {
-                    val alert = AlertDialogs(
-                        messageBody = ERROR_SERVIDOR,
-                        kindOfMessage = ERROR_MESSAGE,
-                        clickOnAccept = getListenerDialog()
-                    )
-                    activity?.let { it1 -> alert.show(it1.supportFragmentManager, "dialog") }
-                }
-                is ApiState.NoData -> {
-
-                }
-                is ApiState.ErrorNetwork -> {
-                    snackErrorConection()
-                }
-                else -> {}
-            }
+            },
+            haveTheViewProgress = false,
+            shouldCloseTheViewOnApiError = true,
+            onError = { snackErrorConection() }
+        ) {
+            setUpRecyclerView()
         }
     }
 

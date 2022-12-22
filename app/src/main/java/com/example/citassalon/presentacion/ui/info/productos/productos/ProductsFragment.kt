@@ -1,7 +1,6 @@
 package com.example.citassalon.presentacion.ui.info.productos.productos
 
 import android.os.Bundle
-import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
@@ -10,14 +9,13 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.citassalon.R
 import com.example.citassalon.data.mappers.toProductDb
 import com.example.citassalon.data.models.remote.Product
-import com.example.citassalon.domain.state.ApiState
 import com.example.citassalon.databinding.FragmentProductsBinding
 import com.example.citassalon.presentacion.interfaces.ClickOnItem
 import com.example.citassalon.presentacion.main.AlertDialogs
-import com.example.citassalon.presentacion.main.AlertDialogs.Companion.ERROR_MESSAGE
 import com.example.citassalon.presentacion.main.AlertDialogs.Companion.INFO_MESSAGE
 import com.example.citassalon.presentacion.ui.base.BaseFragment
 import com.example.citassalon.presentacion.ui.extensions.navigate
+import com.example.citassalon.presentacion.ui.extensions.observeApiResultGeneric
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
 import dagger.hilt.android.AndroidEntryPoint

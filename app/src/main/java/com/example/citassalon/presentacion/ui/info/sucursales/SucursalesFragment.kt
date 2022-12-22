@@ -6,11 +6,11 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.data.models.remote.migration.NegoInfo
-import com.example.citassalon.domain.state.ApiState
 import com.example.citassalon.databinding.FragmentSucursalesBinding
 import com.example.citassalon.presentacion.interfaces.ClickOnItem
 import com.example.citassalon.presentacion.ui.base.BaseFragment
 import com.example.citassalon.presentacion.ui.extensions.gone
+import com.example.citassalon.presentacion.ui.extensions.observeApiResultGeneric
 import com.example.citassalon.presentacion.ui.share_beetwen_sucursales.SucursalAdapter
 import com.example.citassalon.presentacion.ui.share_beetwen_sucursales.SucursalViewModel
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,7 +31,7 @@ class SucursalesFragment : BaseFragment<FragmentSucursalesBinding>(R.layout.frag
 
     override fun setUpUi() {
         with(binding) {
-            toolbarLayout.toolbarTitle.text = "Sucursales"
+            toolbarLayout.toolbarTitle.text = getString(R.string.sucursal)
             toolbarLayout.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
@@ -40,28 +40,12 @@ class SucursalesFragment : BaseFragment<FragmentSucursalesBinding>(R.layout.frag
 
     override fun observerViewModel() {
         super.observerViewModel()
-        viewModel.sucursal.observe(viewLifecycleOwner) {
-            when (it) {
-                is ApiState.Success -> {
-                    if (it.data != null) {
-                        binding.shimmerSucursal.gone()
-                        binding.recyclerView.adapter =
-                            SucursalAdapter(it.data, getListener())
-                    }
-                }
-                is ApiState.Loading -> {
-
-                }
-                is ApiState.Error -> {
-
-                }
-                is ApiState.ErrorNetwork -> {
-
-                }
-                is ApiState.NoData -> {
-
-                }
-            }
+        observeApiResultGeneric(
+            liveData = viewModel.sucursal
+        ) {
+            binding.shimmerSucursal.gone()
+            binding.recyclerView.adapter =
+                SucursalAdapter(it, getListener())
         }
     }
 
@@ -70,8 +54,8 @@ class SucursalesFragment : BaseFragment<FragmentSucursalesBinding>(R.layout.frag
 
 
     override fun clikOnElement(element: NegoInfo, position: Int?) {
-       /* val action = SucursalesFragmentDirections.actionSucursales2ToNegocioInfo(element)
-        navigate(action)*/
+        /* val action = SucursalesFragmentDirections.actionSucursales2ToNegocioInfo(element)
+         navigate(action)*/
     }
 
 }
