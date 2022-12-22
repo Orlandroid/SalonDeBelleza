@@ -1,7 +1,9 @@
 package com.example.citassalon.data.mappers
 
+import com.example.citassalon.data.db.entities.ProductDb
 import com.example.citassalon.data.models.local.AppointmentObject
 import com.example.citassalon.data.models.remote.AppointmentResponse
+import com.example.citassalon.data.models.remote.Product
 import com.example.citassalon.data.models.remote.Appointment as AppointmentRemote
 
 fun AppointmentResponse.toAppointmentRemote(idAppointment: String): AppointmentRemote {
@@ -32,6 +34,7 @@ fun AppointmentRemote.toAppointmentObject(): AppointmentObject {
     val date = this.date
     val hour = this.hour
     val total = this.total
-    return AppointmentObject(idAppointment,establishment,employee, service, date, hour, total)
+    return AppointmentObject(idAppointment, establishment, employee, service, date, hour, total)
 }
+
 
