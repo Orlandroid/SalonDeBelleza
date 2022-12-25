@@ -17,6 +17,14 @@ fun Fragment.hideProgress() {
     (requireActivity() as MainActivity).hideProgress()
 }
 
+fun Fragment.showSuccessMessage(messageSuccess:String=getString(R.string.message_succes)) {
+    val dialog = AlertDialogs(
+        kindOfMessage = AlertDialogs.SUCCES_MESSAGE,
+        messageBody = messageSuccess
+    )
+    activity?.let { dialog.show(it.supportFragmentManager, "alertMessage") }
+}
+
 fun Fragment.showErrorApi(
     shouldCloseTheViewOnApiError: Boolean = false,
     messageBody: String = getString(R.string.error_al_obtener_datos)

@@ -1,14 +1,28 @@
 package com.example.citassalon.presentacion.ui.perfil.userprofile
 
 
+import android.app.Activity
+import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
 import android.view.View
+import androidx.activity.result.ActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.target.CustomTarget
+import com.bumptech.glide.request.transition.Transition
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentUserProfileBinding
 import com.example.citassalon.presentacion.ui.base.BaseFragment
-import com.example.citassalon.presentacion.ui.extensions.observeApiResultGeneric
+import com.example.citassalon.presentacion.ui.extensions.*
 import com.example.citassalon.presentacion.util.parseColor
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,13 +45,42 @@ class UserProfileFragment :
         observerViewModel()
     }
 
-    override fun setUpUi() {
+    override fun setUpUi() = with(binding) {
         viewModel.getUserInfo()
-        with(binding) {
-            toolbarLayout.toolbarTitle.text = getString(R.string.perfil)
-            toolbarLayout.toolbarBack.setOnClickListener {
-                findNavController().popBackStack()
-            }
+        viewModel.getUserImage()
+        toolbarLayout.toolbarTitle.text = getString(R.string.perfil)
+        toolbarLayout.toolbarBack.setOnClickListener {
+            findNavController().popBackStack()
+        }
+        imageUser.click {
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            launcher.launch(intent)
+        }
+    }
+
+    private val launcher = registerForActivityResult(
+        ActivityResultContracts.StartActivityForResult()
+    ) { result: ActivityResult ->
+        if (result.resultCode == Activity.RESULT_OK
+            && result.data != null
+        ) {
+            val photoUri: Uri? = result.data!!.data
+            Glide.with(requireContext())
+                .asBitmap()
+                .load(photoUri)
+                .into(object : CustomTarget<Bitmap>() {
+                    override fun onLoadCleared(placeholder: Drawable?) {
+                        binding.imageUser.setImageResource(R.drawable.ic_baseline_broken_image_24)
+                    }
+
+                    override fun onResourceReady(
+                        resource: Bitmap,
+                        transition: Transition<in Bitmap>?
+                    ) {
+                        binding.imageUser.setImageBitmap(resource)
+                        viewModel.saveImageUser(resource.toBase64())
+                    }
+                })
         }
     }
 
@@ -56,6 +99,12 @@ class UserProfileFragment :
                     imageStatusSession.setColorFilter(parseColor("#aab7b8"))//gris
                 }
             }
+        }
+        observeApiResultGeneric(liveData = viewModel.imageUser) {
+            showSuccessMessage()
+        }
+        observeApiResultGeneric(liveData = viewModel.imageUserProfile) {
+            Glide.with(requireContext()).load(it.base64StringToBitmap()).circleCrop().into(binding.imageUser)
         }
     }
 

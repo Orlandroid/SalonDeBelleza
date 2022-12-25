@@ -34,10 +34,9 @@ class HistorialDeCitasFragment :
         observerViewModel()
     }
 
-    @SuppressLint("SetTextI18n")
     override fun setUpUi() {
         with(binding) {
-            toolbarLayout.toolbarTitle.text = "Historial de citas"
+            toolbarLayout.toolbarTitle.text = getString(R.string.historiasl_de_citas)
             toolbarLayout.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }

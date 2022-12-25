@@ -4,6 +4,7 @@ package com.example.citassalon.presentacion.ui
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import androidx.core.view.isVisible
 import androidx.navigation.findNavController
 import androidx.work.OneTimeWorkRequest
 import androidx.work.WorkManager
@@ -45,12 +46,17 @@ class MainActivity : AppCompatActivity(), AlertsDialogMessages.ClickOnAccepSimpl
     }
 
     fun showProgress() {
-        binding.progressBar.visible()
+        if (!binding.progressBar.isVisible) {
+            binding.progressBar.visible()
+        }
     }
 
     fun hideProgress() {
-        binding.progressBar.gone()
+        if (binding.progressBar.isVisible) {
+            binding.progressBar.gone()
+        }
     }
+
 
     override fun onPause() {
         super.onPause()

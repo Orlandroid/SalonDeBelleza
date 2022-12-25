@@ -27,8 +27,7 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
     private val viewModel: ProductsViewModel by viewModels()
     private var adapter: ProductsAdapter? = null
     private val args: ProductsFragmentArgs by navArgs()
-    private lateinit var skeleton: Skeleton
-
+    private var skeleton: Skeleton? = null
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpUi()
@@ -80,20 +79,19 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
         super.observerViewModel()
         observeApiResultGeneric(
             liveData = viewModel.products,
-            onLoading = { skeleton.showSkeleton() },
-            onFinishLoading = { skeleton.showSkeleton() },
+            onLoading = { skeleton?.showSkeleton() },
+            onFinishLoading = { skeleton?.showOriginal() },
             haveTheViewProgress = false
         ) {
             binding.recyclerProducts.adapter = adapter
             adapter?.setData(it)
-            binding.root.setBackgroundColor(R.color.background)
+            binding.root.setBackgroundColor(resources.getColor(R.color.background))
         }
     }
 
 
     override fun clikOnElement(element: Product, position: Int?) {
-        val action =
-            ProductsFragmentDirections.actionProductsFragmentToDetalleProductoFragment(element)
+        val action = ProductsFragmentDirections.actionProductsFragmentToDetalleProductoFragment(element)
         navigate(action)
     }
 

@@ -29,7 +29,7 @@
                 app:layout_constraintGuide_percent="0.35" />
 
             <ImageView
-                android:id="@+id/imageView6"
+                android:id="@+id/image_user"
                 android:layout_width="0dp"
                 android:layout_height="0dp"
                 android:layout_marginStart="32dp"
@@ -50,8 +50,8 @@
                 android:text="Nombre del usuario"
                 android:textColor="@color/black"
                 android:textSize="25sp"
-                app:layout_constraintStart_toStartOf="@+id/imageView6"
-                app:layout_constraintTop_toBottomOf="@+id/imageView6" />
+                app:layout_constraintStart_toStartOf="@+id/image_user"
+                app:layout_constraintTop_toBottomOf="@+id/image_user" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/materialCardView"
@@ -275,7 +275,7 @@
                 android:layout_height="16dp"
                 android:src="@drawable/border_image"
                 app:layout_constraintBottom_toBottomOf="@+id/tv_nombre_usuario"
-                app:layout_constraintEnd_toEndOf="@+id/imageView6"
+                app:layout_constraintEnd_toEndOf="@+id/image_user"
                 app:layout_constraintStart_toEndOf="@+id/tv_nombre_usuario"
                 app:layout_constraintTop_toTopOf="@+id/tv_nombre_usuario" />
 
