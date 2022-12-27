@@ -1,69 +1,68 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layout>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
-    <com.faltenreich.skeletonlayout.SkeletonLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        xmlns:tools="http://schemas.android.com/tools"
-        android:id="@+id/mainSkeleton"
+
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background"
-        app:showShimmer="true"
         tools:context=".presentacion.ui.perfil.userprofile.UserProfileFragment">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
+        <include
+            android:id="@+id/toolbar_layout"
+            layout="@layout/toolbar_view" />
+
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline41"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_percent="0.35" />
+
+        <ImageView
+            android:id="@+id/image_user"
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="32dp"
+            android:src="@drawable/userprofile"
+            app:layout_constraintBottom_toTopOf="@+id/guideline41"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar_layout"
+            tools:src="@tools:sample/avatars" />
+
+        <TextView
+            android:id="@+id/tv_nombre_usuario"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Nombre del usuario"
+            android:textColor="@color/black"
+            android:textSize="25sp"
+            app:layout_constraintStart_toStartOf="@+id/image_user"
+            app:layout_constraintTop_toBottomOf="@+id/image_user" />
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/materialCardView"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@color/background"
-            tools:context=".presentacion.ui.perfil.userprofile.UserProfileFragment">
+            android:layout_height="0dp"
+            android:layout_marginTop="32dp"
+            app:cardCornerRadius="16dp"
+            app:cardUseCompatPadding="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_nombre_usuario">
 
-            <include
-                android:id="@+id/toolbar_layout"
-                layout="@layout/toolbar_view" />
-
-            <androidx.constraintlayout.widget.Guideline
-                android:id="@+id/guideline41"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.35" />
-
-            <ImageView
-                android:id="@+id/image_user"
-                android:layout_width="0dp"
-                android:layout_height="0dp"
-                android:layout_marginStart="32dp"
-                android:layout_marginTop="32dp"
-                android:layout_marginEnd="32dp"
-                android:src="@drawable/userprofile"
-                app:layout_constraintBottom_toTopOf="@+id/guideline41"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/toolbar_layout"
-                tools:src="@tools:sample/avatars" />
-
-            <TextView
-                android:id="@+id/tv_nombre_usuario"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:text="Nombre del usuario"
-                android:textColor="@color/black"
-                android:textSize="25sp"
-                app:layout_constraintStart_toStartOf="@+id/image_user"
-                app:layout_constraintTop_toBottomOf="@+id/image_user" />
-
-            <com.google.android.material.card.MaterialCardView
-                android:id="@+id/materialCardView"
+            <com.faltenreich.skeletonlayout.SkeletonLayout
+                android:id="@+id/skeleton_info"
                 android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_marginTop="32dp"
-                app:cardCornerRadius="16dp"
-                app:cardUseCompatPadding="true"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/tv_nombre_usuario">
+                android:layout_height="match_parent">
+
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -76,6 +75,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
+
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -98,13 +98,15 @@
 
                                     <TextView
                                         android:id="@+id/textView"
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginStart="32dp"
+                                        android:layout_marginStart="16dp"
                                         android:layout_marginTop="32dp"
-                                        android:text="Nombre"
+                                        android:layout_marginEnd="16dp"
+                                        android:text="@string/nombre"
                                         android:textColor="@color/black"
                                         android:textSize="20sp"
+                                        app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintStart_toStartOf="parent"
                                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -143,13 +145,15 @@
 
                                     <TextView
                                         android:id="@+id/textView6"
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginStart="32dp"
+                                        android:layout_marginStart="16dp"
                                         android:layout_marginTop="24dp"
+                                        android:layout_marginEnd="16dp"
                                         android:text="Telefono"
                                         android:textColor="@color/black"
                                         android:textSize="20sp"
+                                        app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintStart_toStartOf="parent"
                                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -188,13 +192,15 @@
 
                                     <TextView
                                         android:id="@+id/textView9"
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginStart="32dp"
+                                        android:layout_marginStart="16dp"
                                         android:layout_marginTop="24dp"
+                                        android:layout_marginEnd="16dp"
                                         android:text="Correo"
                                         android:textColor="@color/black"
                                         android:textSize="20sp"
+                                        app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintStart_toStartOf="parent"
                                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -232,13 +238,15 @@
 
                                     <TextView
                                         android:id="@+id/textView14"
-                                        android:layout_width="wrap_content"
+                                        android:layout_width="0dp"
                                         android:layout_height="wrap_content"
-                                        android:layout_marginStart="32dp"
+                                        android:layout_marginStart="16dp"
                                         android:layout_marginTop="24dp"
+                                        android:layout_marginEnd="16dp"
                                         android:text="Uid"
                                         android:textColor="@color/black"
                                         android:textSize="20sp"
+                                        app:layout_constraintEnd_toEndOf="parent"
                                         app:layout_constraintStart_toStartOf="parent"
                                         app:layout_constraintTop_toTopOf="parent" />
 
@@ -265,20 +273,23 @@
                                 </androidx.constraintlayout.widget.ConstraintLayout>
                             </LinearLayout>
                         </LinearLayout>
+
                     </ScrollView>
                 </androidx.constraintlayout.widget.ConstraintLayout>
-            </com.google.android.material.card.MaterialCardView>
+            </com.faltenreich.skeletonlayout.SkeletonLayout>
+        </com.google.android.material.card.MaterialCardView>
 
-            <ImageView
-                android:id="@+id/image_status_session"
-                android:layout_width="16dp"
-                android:layout_height="16dp"
-                android:src="@drawable/border_image"
-                app:layout_constraintBottom_toBottomOf="@+id/tv_nombre_usuario"
-                app:layout_constraintEnd_toEndOf="@+id/image_user"
-                app:layout_constraintStart_toEndOf="@+id/tv_nombre_usuario"
-                app:layout_constraintTop_toTopOf="@+id/tv_nombre_usuario" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
-    </com.faltenreich.skeletonlayout.SkeletonLayout>
+        <ImageView
+            android:id="@+id/image_status_session"
+            android:layout_width="16dp"
+            android:layout_height="16dp"
+            android:src="@drawable/border_image"
+            app:layout_constraintBottom_toBottomOf="@+id/tv_nombre_usuario"
+            app:layout_constraintEnd_toEndOf="@+id/image_user"
+            app:layout_constraintStart_toEndOf="@+id/tv_nombre_usuario"
+            app:layout_constraintTop_toTopOf="@+id/tv_nombre_usuario" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </layout>

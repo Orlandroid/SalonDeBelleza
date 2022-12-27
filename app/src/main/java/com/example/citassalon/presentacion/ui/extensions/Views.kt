@@ -9,6 +9,7 @@ import android.view.View
 import android.widget.ImageView
 import androidx.annotation.ColorRes
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.example.citassalon.R
@@ -34,11 +35,16 @@ fun ImageView.getImageLikeBitmap(): Bitmap {
     return (this.drawable as BitmapDrawable).bitmap
 }
 
-/*
-fun ImageView.getBitmap(onSuccess: (image: Bitmap) -> Unit) {
+fun ImageView.loadImage(urlImage: String) {
+    Glide.with(context).load(urlImage).placeholder(R.drawable.loading_animation)
+        .transition(DrawableTransitionOptions.withCrossFade()).circleCrop().into(this)
+}
+
+
+fun <T> ImageView.getBitmap(onSuccess: (image: Bitmap) -> Unit, image: T) {
     Glide.with(context)
         .asBitmap()
-        .load()
+        .load(image)
         .into(object : CustomTarget<Bitmap>() {
             override fun onLoadCleared(placeholder: Drawable?) {
                 this@getBitmap.setImageResource(R.drawable.ic_baseline_broken_image_24)
@@ -48,7 +54,8 @@ fun ImageView.getBitmap(onSuccess: (image: Bitmap) -> Unit) {
                 onSuccess(resource)
             }
         })
-}*/
+}
+
 
 // Todo make function for detect kind of images
 

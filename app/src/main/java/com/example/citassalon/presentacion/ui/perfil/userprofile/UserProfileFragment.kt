@@ -4,19 +4,17 @@ package com.example.citassalon.presentacion.ui.perfil.userprofile
 import android.app.Activity
 import android.content.Intent
 import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.graphics.drawable.toBitmap
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.example.citassalon.R
@@ -89,6 +87,9 @@ class UserProfileFragment :
         observeApiResultGeneric(
             liveData = viewModel.infoUser,
             shouldCloseTheViewOnApiError = true,
+            haveTheViewProgress = false,
+            onLoading = { binding.skeletonInfo.showSkeleton() },
+            onFinishLoading = { binding.skeletonInfo.showOriginal() }
         ) {
             with(binding) {
                 tvCorreo.text = it[USER_EMAIL]
@@ -103,10 +104,16 @@ class UserProfileFragment :
         observeApiResultGeneric(liveData = viewModel.imageUser) {
             showSuccessMessage()
         }
-        observeApiResultGeneric(liveData = viewModel.imageUserProfile) {
-            Glide.with(requireContext()).load(it.base64StringToBitmap()).circleCrop().into(binding.imageUser)
+        observeApiResultGeneric(
+            liveData = viewModel.imageUserProfile,
+            shouldCloseTheViewOnApiError = true,
+            haveTheViewProgress = false
+        ) {
+            Glide.with(requireContext()).load(it.base64StringToBitmap())
+                .placeholder(R.drawable.loading_animation)
+                .transition(DrawableTransitionOptions.withCrossFade()).circleCrop()
+                .into(binding.imageUser)
         }
     }
-
 
 }
