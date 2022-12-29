@@ -1,13 +1,11 @@
 package com.example.citassalon.presentacion.ui.perfil.userprofile
 
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.data.Repository
-import com.example.citassalon.data.models.remote.Appointment
 import com.example.citassalon.domain.state.ApiState
 import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.citassalon.presentacion.ui.perfil.userprofile.UserProfileFragment.Companion.USER_EMAIL
@@ -15,7 +13,6 @@ import com.example.citassalon.presentacion.ui.perfil.userprofile.UserProfileFrag
 import com.example.citassalon.presentacion.ui.perfil.userprofile.UserProfileFragment.Companion.USER_UID
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.google.firebase.database.ktx.getValue
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -37,8 +34,8 @@ class UserProfileViewModel @Inject constructor(
     private val _imageUser = MutableLiveData<ApiState<String>>()
     val imageUser: LiveData<ApiState<String>> get() = _imageUser
 
-    private val _imageUserProfile = MutableLiveData<ApiState<String>>()
-    val imageUserProfile: LiveData<ApiState<String>> get() = _imageUserProfile
+    private val _imageUserProfile = MutableLiveData<ApiState<String?>>()
+    val imageUserProfile: LiveData<ApiState<String?>> get() = _imageUserProfile
 
     companion object {
         private const val IMAGE_USER = "imageUser"

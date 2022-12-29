@@ -8,6 +8,7 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
+import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -109,10 +110,12 @@ class UserProfileFragment :
             shouldCloseTheViewOnApiError = true,
             haveTheViewProgress = false
         ) {
-            Glide.with(requireContext()).load(it.base64StringToBitmap())
-                .placeholder(R.drawable.loading_animation)
-                .transition(DrawableTransitionOptions.withCrossFade()).circleCrop()
-                .into(binding.imageUser)
+            it.makeSaveAction {
+                Glide.with(requireContext()).load(it!!.base64StringToBitmap())
+                    .placeholder(R.drawable.loading_animation)
+                    .transition(DrawableTransitionOptions.withCrossFade()).circleCrop()
+                    .into(binding.imageUser)
+            }
         }
     }
 

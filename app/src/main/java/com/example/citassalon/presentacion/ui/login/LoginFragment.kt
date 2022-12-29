@@ -70,7 +70,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                 viewModel.firebaseAuthWithGoogle(account.idToken!!)
                 Log.w("TAG", "Entramos")
             } catch (e: ApiException) {
-                Log.w("TAG ERROR", e.localizedMessage)
+                e.localizedMessage?.let { Log.w("TAG ERROR", it) }
             }
         }
     }

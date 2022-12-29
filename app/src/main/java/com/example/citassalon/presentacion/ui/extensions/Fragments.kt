@@ -1,5 +1,6 @@
 package com.example.citassalon.presentacion.ui.extensions
 
+import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.LiveData
 import androidx.navigation.NavDirections
@@ -17,7 +18,7 @@ fun Fragment.hideProgress() {
     (requireActivity() as MainActivity).hideProgress()
 }
 
-fun Fragment.showSuccessMessage(messageSuccess:String=getString(R.string.message_succes)) {
+fun Fragment.showSuccessMessage(messageSuccess: String = getString(R.string.message_succes)) {
     val dialog = AlertDialogs(
         kindOfMessage = AlertDialogs.SUCCES_MESSAGE,
         messageBody = messageSuccess
@@ -77,6 +78,23 @@ fun Fragment.navigate(accion: Int) {
 
 fun Fragment.navigate(accion: NavDirections) {
     findNavController().navigate(accion)
+}
+
+fun Fragment.getPackageName(): String {
+    return context?.applicationContext?.packageName.toString()
+}
+
+fun Any?.makeSaveAction(action: () -> Unit) {
+    if (this == null) {
+        Log.w("ERROR", "Can,t make action")
+        return
+    }
+    if (this is String) {
+        if (this == "null") {
+            return
+        }
+    }
+    action()
 }
 
 
