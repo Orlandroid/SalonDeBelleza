@@ -70,7 +70,7 @@ class AgendarStaffFragment :
             onFinishLoading = {
                 hideSkeleton()
             },
-            haveTheViewProgress = false,
+            hasProgressTheView = false,
             shouldCloseTheViewOnApiError = true,
             onError = { snackErrorConection() }
         ) {

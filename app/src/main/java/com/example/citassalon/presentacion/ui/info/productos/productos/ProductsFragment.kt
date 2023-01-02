@@ -11,11 +11,10 @@ import com.example.citassalon.data.mappers.toProductDb
 import com.example.citassalon.data.models.remote.Product
 import com.example.citassalon.databinding.FragmentProductsBinding
 import com.example.citassalon.presentacion.interfaces.ClickOnItem
-import com.example.citassalon.presentacion.main.AlertDialogs
-import com.example.citassalon.presentacion.main.AlertDialogs.Companion.INFO_MESSAGE
 import com.example.citassalon.presentacion.ui.base.BaseFragment
 import com.example.citassalon.presentacion.ui.extensions.navigate
 import com.example.citassalon.presentacion.ui.extensions.observeApiResultGeneric
+import com.example.citassalon.presentacion.ui.extensions.showSuccessMessage
 import com.faltenreich.skeletonlayout.Skeleton
 import com.faltenreich.skeletonlayout.applySkeleton
 import dagger.hilt.android.AndroidEntryPoint
@@ -28,6 +27,8 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
     private var adapter: ProductsAdapter? = null
     private val args: ProductsFragmentArgs by navArgs()
     private var skeleton: Skeleton? = null
+    private var isFirstTimeOnTheView = true
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpUi()
@@ -35,6 +36,10 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
     }
 
     override fun setUpUi() {
+        if (isFirstTimeOnTheView) {
+            viewModel.getProducts(args.categoria)
+            isFirstTimeOnTheView = false
+        }
         with(binding) {
             toolbarLayout.toolbarTitle.text = getString(R.string.productos)
             toolbarLayout.toolbarBack.setOnClickListener {
@@ -63,16 +68,11 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
             skeleton = recyclerProducts.applySkeleton(R.layout.item_product, 8)
             recyclerProducts.layoutManager = GridLayoutManager(requireContext(), 2)
         }
-        viewModel.getProducts(args.categoria)
     }
 
 
     private fun showDialogConfirmationAddProduct() {
-        val dialog = AlertDialogs(
-            kindOfMessage = INFO_MESSAGE,
-            messageBody = getString(R.string.product_add)
-        )
-        activity?.let { dialog.show(it.supportFragmentManager, "alertMessage") }
+        showSuccessMessage(getString(R.string.product_add))
     }
 
     override fun observerViewModel() {
@@ -80,8 +80,7 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
         observeApiResultGeneric(
             liveData = viewModel.products,
             onLoading = { skeleton?.showSkeleton() },
-            onFinishLoading = { skeleton?.showOriginal() },
-            haveTheViewProgress = false
+            onFinishLoading = { skeleton?.showOriginal() }
         ) {
             binding.recyclerProducts.adapter = adapter
             adapter?.setData(it)
@@ -91,7 +90,8 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
 
 
     override fun clikOnElement(element: Product, position: Int?) {
-        val action = ProductsFragmentDirections.actionProductsFragmentToDetalleProductoFragment(element)
+        val action =
+            ProductsFragmentDirections.actionProductsFragmentToDetalleProductoFragment(element)
         navigate(action)
     }
 

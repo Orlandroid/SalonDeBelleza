@@ -1,5 +1,6 @@
 package com.example.citassalon.domain
 
+import com.example.citassalon.data.db.entities.CategoryDb
 import com.example.citassalon.data.db.entities.ProductDb
 import com.example.citassalon.data.models.local.Appointment
 import kotlinx.coroutines.flow.Flow
@@ -29,5 +30,7 @@ interface LocalDataSource {
 
     suspend fun deleteAllAppointment()
 
+    suspend fun getCategoriesFromDb(): List<CategoryDb>
 
+    suspend fun addManyCategories(categories: List<CategoryDb>)
 }

@@ -6,12 +6,14 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.example.citassalon.R
 import com.example.citassalon.data.models.remote.Product
 import com.example.citassalon.databinding.ItemProductBinding
 import com.example.citassalon.presentacion.ui.extensions.click
+import com.example.citassalon.presentacion.ui.extensions.loadImage
 import com.example.citassalon.presentacion.ui.extensions.toBase64
 
 
@@ -38,13 +40,20 @@ class ProductsAdapter(private val listener: ClickOnItems) :
                 Glide.with(itemView.context)
                     .asBitmap()
                     .load(product.image)
-                    .into(object: CustomTarget<Bitmap>() {
+                    .into(object : CustomTarget<Bitmap>() {
                         override fun onLoadCleared(placeholder: Drawable?) {
 
                         }
-                        override fun onResourceReady(resource: Bitmap, transition: Transition<in Bitmap>?) {
-                            product.imageBase64=resource.toBase64()
-                            Glide.with(itemView.context).load(resource).into(imageProduct)
+
+                        override fun onResourceReady(
+                            resource: Bitmap,
+                            transition: Transition<in Bitmap>?
+                        ) {
+                            product.imageBase64 = resource.toBase64()
+                            Glide.with(itemView.context).load(resource)
+                                .placeholder(R.drawable.loading_animation)
+                                .transition(DrawableTransitionOptions.withCrossFade())
+                                .into(imageProduct)
                         }
 
                         override fun onLoadFailed(errorDrawable: Drawable?) {

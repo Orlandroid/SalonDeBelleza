@@ -1,4 +1,4 @@
-package com.example.citassalon.data.db
+package com.example.citassalon.data.db.daos
 
 import androidx.room.*
 import com.example.citassalon.data.db.entities.ProductDb
@@ -10,7 +10,7 @@ interface ProductDao {
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun addProductDb(productDb: ProductDb):Long
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertManyProductDb(productDb: List<ProductDb>)
 
     @Update

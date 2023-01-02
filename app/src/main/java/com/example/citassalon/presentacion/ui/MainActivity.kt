@@ -57,6 +57,10 @@ class MainActivity : AppCompatActivity(), AlertsDialogMessages.ClickOnAccepSimpl
         }
     }
 
+    fun shouldShowProgress(isLoading: Boolean) {
+        binding.progressBar.isVisible = isLoading
+    }
+
 
     override fun onPause() {
         super.onPause()

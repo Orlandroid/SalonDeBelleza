@@ -148,4 +148,5 @@
     <string name="error_internet">Verifica tu conexión de internet</string>
     <string name="message_succes">La operación se realizó con éxito</string>
     <string name="historiasl_de_citas">Historial de citas</string>
+    <string name="skeduly">Skeduly</string>
 </resources>

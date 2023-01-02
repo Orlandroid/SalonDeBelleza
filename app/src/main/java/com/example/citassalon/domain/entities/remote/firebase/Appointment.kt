@@ -1,4 +1,4 @@
-package com.example.citassalon.domain.entities.local.remote.firebase
+package com.example.citassalon.domain.entities.remote.firebase
 
 
 class Appointment {

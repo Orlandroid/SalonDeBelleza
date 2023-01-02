@@ -5,11 +5,8 @@ import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
-import com.example.citassalon.domain.state.ApiState
 import com.example.citassalon.databinding.FragmentListOfCategoriesBinding
 import com.example.citassalon.presentacion.interfaces.ClickOnItem
-import com.example.citassalon.presentacion.main.AlertDialogs
-import com.example.citassalon.presentacion.main.AlertDialogs.Companion.ERROR_MESSAGE
 import com.example.citassalon.presentacion.ui.base.BaseFragment
 import com.example.citassalon.presentacion.ui.extensions.gone
 import com.example.citassalon.presentacion.ui.extensions.navigate
@@ -45,7 +42,6 @@ class ListOfCategoriesFragment :
         super.observerViewModel()
         observeApiResultGeneric(
             liveData = viewModel.categories,
-            haveTheViewProgress = false,
             onLoading = {},
             onFinishLoading = { binding.shimmerCategorias.gone() },
             shouldCloseTheViewOnApiError = true

@@ -1,7 +1,9 @@
 package com.example.citassalon.data.local
 
-import com.example.citassalon.data.db.AppointmentDao
-import com.example.citassalon.data.db.ProductDao
+import com.example.citassalon.data.db.daos.AppointmentDao
+import com.example.citassalon.data.db.daos.CategoriesDao
+import com.example.citassalon.data.db.daos.ProductDao
+import com.example.citassalon.data.db.entities.CategoryDb
 import com.example.citassalon.data.db.entities.ProductDb
 import com.example.citassalon.data.models.local.Appointment
 import com.example.citassalon.domain.LocalDataSource
@@ -11,7 +13,8 @@ import javax.inject.Singleton
 @Singleton
 class LocalDataSourceImpl @Inject constructor(
     private val appointmentDao: AppointmentDao,
-    private val productDao: ProductDao
+    private val productDao: ProductDao,
+    private val categoriesDao: CategoriesDao
 ) : LocalDataSource {
 
     override suspend fun addProduct(productDb: ProductDb): Long = productDao.addProductDb(productDb)
@@ -35,6 +38,10 @@ class LocalDataSourceImpl @Inject constructor(
     override suspend fun deleteAppointment(appointment: Appointment): Int  = appointmentDao.deleteAppointment(appointment)
 
     override suspend fun deleteAllAppointment() = appointmentDao.deleteAll()
+
+    override suspend fun getCategoriesFromDb() = categoriesDao.getCategories()
+
+    override suspend fun addManyCategories(categories: List<CategoryDb>) = categoriesDao.addManyCategories(categories)
 
 
 }

@@ -75,5 +75,9 @@ fun View.changeDrawableColor(@ColorRes drawableColor: Int) {
     background.setColorFilter(resources.getColor(drawableColor), PorterDuff.Mode.SRC_IN)
 }
 
+fun View.getPackageName(): String {
+    return context?.applicationContext?.packageName.toString()
+}
+
 
 

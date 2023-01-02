@@ -88,7 +88,7 @@ class UserProfileFragment :
         observeApiResultGeneric(
             liveData = viewModel.infoUser,
             shouldCloseTheViewOnApiError = true,
-            haveTheViewProgress = false,
+            hasProgressTheView = false,
             onLoading = { binding.skeletonInfo.showSkeleton() },
             onFinishLoading = { binding.skeletonInfo.showOriginal() }
         ) {
@@ -108,7 +108,7 @@ class UserProfileFragment :
         observeApiResultGeneric(
             liveData = viewModel.imageUserProfile,
             shouldCloseTheViewOnApiError = true,
-            haveTheViewProgress = false
+            hasProgressTheView = false
         ) {
             it.makeSaveAction {
                 Glide.with(requireContext()).load(it!!.base64StringToBitmap())

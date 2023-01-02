@@ -1,9 +1,9 @@
 package com.example.citassalon.data
 
-import androidx.lifecycle.asLiveData
+import android.util.Log
 import com.example.citassalon.data.db.entities.ProductDb
-import com.example.citassalon.data.mappers.toProductDbtList
-import com.example.citassalon.data.mappers.toProductList
+import com.example.citassalon.data.mappers.toListCategoriesString
+import com.example.citassalon.data.mappers.toStringList
 import com.example.citassalon.data.models.local.Appointment
 import com.example.citassalon.data.models.remote.Product
 import com.example.citassalon.domain.LocalDataSource
@@ -16,16 +16,20 @@ class Repository @Inject constructor(
     private val remoteDataSource: RemoteDataSource
 ) {
 
-    suspend fun addAppointment(appointment: Appointment) = localDataSource.addAppointment(appointment)
+    suspend fun addAppointment(appointment: Appointment) =
+        localDataSource.addAppointment(appointment)
 
-    suspend fun addManyAppointment(appointment: List<Appointment>) = localDataSource.addManyAppointment(appointment)
+    suspend fun addManyAppointment(appointment: List<Appointment>) =
+        localDataSource.addManyAppointment(appointment)
 
     suspend fun getAllAppointment(): List<Appointment> = localDataSource.getAllAppointment()
 
 
-    suspend fun updateAppointment(appointment: Appointment) = localDataSource.updateAppointment(appointment)
+    suspend fun updateAppointment(appointment: Appointment) =
+        localDataSource.updateAppointment(appointment)
 
-    suspend fun deleteAppointment(appointment: Appointment): Int = localDataSource.deleteAppointment(appointment)
+    suspend fun deleteAppointment(appointment: Appointment): Int =
+        localDataSource.deleteAppointment(appointment)
 
     suspend fun deleteAllAppointment() = localDataSource.deleteAllAppointment()
 
@@ -35,7 +39,7 @@ class Repository @Inject constructor(
 
     fun getAllProducts() = localDataSource.getAllProducts()
 
-    suspend fun getProducts(category: String): List<Product>  {
+    suspend fun getProducts(category: String): List<Product> {
         /*
         val localProducts = localDataSource.getAllProductDbCache()
         val remoteProducts: List<Product>
@@ -50,7 +54,18 @@ class Repository @Inject constructor(
 
     suspend fun getSingleProduct(id: Int) = remoteDataSource.getSingleProduct(id)
 
-    suspend fun getCategories() = remoteDataSource.getCategories()
+    suspend fun getCategories(): List<String> {
+        return remoteDataSource.getCategories()
+        /* cache 
+        val listOfCategoriesFromLocalSource = localDataSource.getCategoriesFromDb()
+        return if (listOfCategoriesFromLocalSource.isEmpty()) {
+            val categories = remoteDataSource.getCategories()
+            localDataSource.addManyCategories(categories.toListCategoriesString())
+            remoteDataSource.getCategories()
+        } else {
+            localDataSource.getCategoriesFromDb().toStringList()
+        }*/
+    }
 
     suspend fun getSingleCart(id: Int) = remoteDataSource.getSingleCart(id)
 
@@ -68,7 +83,8 @@ class Repository @Inject constructor(
 
     fun forgetPassword(email: String) = remoteDataSource.forgetPassword(email)
 
-    fun signInWithCredential(credential: AuthCredential) = remoteDataSource.signInWithCredential(credential)
+    fun signInWithCredential(credential: AuthCredential) =
+        remoteDataSource.signInWithCredential(credential)
 
     fun logout() = remoteDataSource.logout()
 

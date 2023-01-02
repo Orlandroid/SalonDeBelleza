@@ -3,7 +3,6 @@ package com.example.citassalon.presentacion.ui.extensions
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
-import android.util.Log
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.IOException

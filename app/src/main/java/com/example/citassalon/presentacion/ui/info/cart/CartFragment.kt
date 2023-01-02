@@ -23,7 +23,6 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),
     private val viewModel: CartViewModel by viewModels()
     private val productsViewModel: ProductsViewModel by viewModels()
     private val cartAdapter = CartAdapter()
-    private var total = 0.0
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -33,12 +32,12 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),
 
     override fun setUpUi() {
         with(binding) {
-            showProgress()
+            progressBar.visible()
             toolbarLayout.toolbarTitle.text = getString(R.string.carrito)
             toolbarLayout.delete.visible()
             toolbarLayout.delete.click {
                 showDialogDeleteAllProducts {
-                    showProgress()
+                    progressBar.visible()
                     productsViewModel.deleteAllProducts()
                 }
             }
@@ -84,7 +83,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),
                 binding.tvTotalProducts.text = getTotalPriceByProducts(listProducts)
                 cartAdapter.setData(listProducts)
             }
-            hideProgress()
+            binding.progressBar.gone()
         }
     }
 

@@ -23,4 +23,5 @@
     <color name="azul_btn_sigiente">#3F51B5</color>
     <color name="gris">#9F9F9F</color>
     <color name="background">#424949</color>
+    <color name="status_bar_color">#34495e</color>
 </resources>

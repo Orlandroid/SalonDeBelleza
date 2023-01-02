@@ -18,9 +18,14 @@ fun Fragment.hideProgress() {
     (requireActivity() as MainActivity).hideProgress()
 }
 
+fun Fragment.shouldShowProgress(isLoading: Boolean) {
+    (requireActivity() as MainActivity).shouldShowProgress(isLoading)
+}
+
+
 fun Fragment.showSuccessMessage(messageSuccess: String = getString(R.string.message_succes)) {
     val dialog = AlertDialogs(
-        kindOfMessage = AlertDialogs.SUCCES_MESSAGE,
+        kindOfMessage = AlertDialogs.SUCCESS_MESSAGE,
         messageBody = messageSuccess
     )
     activity?.let { dialog.show(it.supportFragmentManager, "alertMessage") }
@@ -80,10 +85,6 @@ fun Fragment.navigate(accion: NavDirections) {
     findNavController().navigate(accion)
 }
 
-fun Fragment.getPackageName(): String {
-    return context?.applicationContext?.packageName.toString()
-}
-
 fun Any?.makeSaveAction(action: () -> Unit) {
     if (this == null) {
         Log.w("ERROR", "Can,t make action")
@@ -98,35 +99,30 @@ fun Any?.makeSaveAction(action: () -> Unit) {
 }
 
 
-/**
-@Param  haveTheViewProgress: Boolean
-use true for show a  generic progress or
-false for make another action pass for you on onLoading(),and
-onFinishLoading() like show Simmers,Skeletons
- */
 fun <T> Fragment.observeApiResultGeneric(
     liveData: LiveData<ApiState<T>>,
     onLoading: () -> Unit = { },
     onFinishLoading: () -> Unit = { },
-    haveTheViewProgress: Boolean = true,
+    hasProgressTheView: Boolean = false,
     shouldCloseTheViewOnApiError: Boolean = false,
     onError: (() -> Unit)? = null,
     noData: () -> Unit = {},
     onSuccess: (data: T) -> Unit,
 ) {
     liveData.observe(viewLifecycleOwner) { apiState ->
-        if (apiState is ApiState.Loading) {
-            if (haveTheViewProgress) {
-                showProgress()
-            } else {
+        fun handleStatusOnLoading(isLoading: Boolean) {
+            if (isLoading) {
                 onLoading()
-            }
-        } else {
-            if (haveTheViewProgress) {
-                hideProgress()
             } else {
                 onFinishLoading()
             }
+        }
+
+        val isLoading = apiState is ApiState.Loading
+        if (hasProgressTheView) {
+            shouldShowProgress(isLoading)
+        } else {
+            handleStatusOnLoading(isLoading)
         }
         when (apiState) {
             is ApiState.Success -> {
