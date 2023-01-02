@@ -47,6 +47,4 @@ class StaffViewModel @Inject constructor(
             }
         }
     }
-
-
 }

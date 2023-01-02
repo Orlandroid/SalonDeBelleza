@@ -9,7 +9,7 @@ import com.example.citassalon.databinding.AlertDialogMessagesBinding
 
 
 class AlertDialogs(
-    private val kindOfMessage: Int = SUCCES_MESSAGE,
+    private val kindOfMessage: Int = SUCCESS_MESSAGE,
     private val messageBody: String,
     private val clickOnAccept: ClickOnAccept? = null,
     private val isTwoButtonDialog: Boolean = false
@@ -19,11 +19,11 @@ class AlertDialogs(
     private lateinit var binding: AlertDialogMessagesBinding
 
     companion object {
-        const val SUCCES_MESSAGE_COLOR = R.color.succes
+        const val SUCCESS_MESSAGE_COLOR = R.color.succes
         const val WARNING_MESSAGE_COLOR = R.color.waring
         const val ERROR_MESSAGE_COLOR = R.color.danger
         const val INFO_MESSAGE_COLOR = R.color.info
-        const val SUCCES_MESSAGE = 0
+        const val SUCCESS_MESSAGE = 0
         const val WARNING_MESSAGE = 1
         const val ERROR_MESSAGE = 2
         const val INFO_MESSAGE = 3
@@ -81,39 +81,35 @@ class AlertDialogs(
         setKindOfView(isTwoButtonDialog)
     }
 
-    private fun setKindOfView(isTwoButtonDialog: Boolean) {
+    private fun setKindOfView(isTwoButtonDialog: Boolean) = with(binding) {
         if (isTwoButtonDialog) {
-            with(binding) {
-                buttonAceptarOneButton.visibility = View.GONE
-                buttonAceptar.visibility = View.VISIBLE
-                buttonCancelar.visibility = View.VISIBLE
-            }
-        }else{
-            with(binding) {
-                buttonAceptarOneButton.visibility = View.VISIBLE
-                buttonAceptar.visibility = View.GONE
-                buttonCancelar.visibility = View.GONE
-            }
+            buttonAceptarOneButton.visibility = View.GONE
+            buttonAceptar.visibility = View.VISIBLE
+            buttonCancelar.visibility = View.VISIBLE
+        } else {
+            buttonAceptarOneButton.visibility = View.VISIBLE
+            buttonAceptar.visibility = View.GONE
+            buttonCancelar.visibility = View.GONE
         }
     }
 
-    private fun setKindOfMessage() {
+    private fun setKindOfMessage() = with(binding) {
         when (kindOfMessage) {
             0 -> {
-                binding.headerDialog.setCardBackgroundColor(resources.getColor(SUCCES_MESSAGE_COLOR))
-                binding.titleHeader.text = "Succes"
+                headerDialog.setCardBackgroundColor(resources.getColor(SUCCESS_MESSAGE_COLOR))
+                titleHeader.text = "Succes"
             }
             1 -> {
-                binding.headerDialog.setCardBackgroundColor(resources.getColor(WARNING_MESSAGE_COLOR))
-                binding.titleHeader.text = "Warning"
+                headerDialog.setCardBackgroundColor(resources.getColor(WARNING_MESSAGE_COLOR))
+                titleHeader.text = "Warning"
             }
             2 -> {
-                binding.headerDialog.setCardBackgroundColor(resources.getColor(ERROR_MESSAGE_COLOR))
-                binding.titleHeader.text = "Error"
+                headerDialog.setCardBackgroundColor(resources.getColor(ERROR_MESSAGE_COLOR))
+                titleHeader.text = "Error"
             }
             3 -> {
-                binding.headerDialog.setCardBackgroundColor(resources.getColor(INFO_MESSAGE_COLOR))
-                binding.titleHeader.text = "Info"
+                headerDialog.setCardBackgroundColor(resources.getColor(INFO_MESSAGE_COLOR))
+                titleHeader.text = "Info"
             }
         }
     }

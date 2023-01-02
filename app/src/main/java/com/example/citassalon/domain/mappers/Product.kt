@@ -1,8 +1,8 @@
 package com.example.citassalon.domain.mappers
 
 import com.example.citassalon.data.db.entities.ProductDb
-import com.example.citassalon.domain.entities.local.remote.Product
-import com.example.citassalon.domain.entities.local.remote.Rating
+import com.example.citassalon.domain.entities.remote.Product
+import com.example.citassalon.domain.entities.remote.Rating
 
 fun Product.toProductDb(): ProductDb = ProductDb(
     id = id,

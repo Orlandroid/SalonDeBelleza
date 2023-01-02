@@ -1,4 +1,4 @@
-package com.example.citassalon.domain.entities.local.remote
+package com.example.citassalon.domain.entities.remote
 
 import android.os.Parcelable
 import com.example.citassalon.R

@@ -1,4 +1,4 @@
-package com.example.citassalon.domain.entities.local.remote
+package com.example.citassalon.domain.entities.remote
 
 
 class Appointment {

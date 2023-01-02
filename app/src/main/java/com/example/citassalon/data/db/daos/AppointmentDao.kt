@@ -1,4 +1,4 @@
-package com.example.citassalon.data.db
+package com.example.citassalon.data.db.daos
 
 import androidx.room.*
 import com.example.citassalon.data.models.local.Appointment

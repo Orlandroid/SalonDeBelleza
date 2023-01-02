@@ -1,4 +1,4 @@
-package com.example.citassalon.domain.entities.local.remote.migration
+package com.example.citassalon.domain.entities.remote.migration
 
 data class SucursalesResponse(
     val sucursales: List<NegoInfo>

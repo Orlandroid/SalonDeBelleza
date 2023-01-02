@@ -1,11 +1,13 @@
 package com.example.citassalon.presentacion.ui.info.productos.categories
 
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.data.Repository
 import com.example.citassalon.domain.state.ApiState
 import com.example.citassalon.presentacion.main.NetworkHelper
+import com.example.citassalon.presentacion.util.PACKAGE_NAME
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -35,8 +37,8 @@ class ListOfCategoriesViewModel @Inject constructor(
             }
             try {
                 val response = repository.getCategories()
-                if (response.isEmpty()){
-                    _categories.value=ApiState.NoData()
+                if (response.isEmpty()) {
+                    _categories.value = ApiState.NoData()
                     return@launch
                 }
                 withContext(Dispatchers.Main) {

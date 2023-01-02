@@ -76,7 +76,7 @@ class SignUpFragment : BaseFragment<SignInBinding>(R.layout.sign_in),
                         buttonRegistarse.isEnabled = true
                         progress.gone()
                         showDialogMessage(
-                            AlertDialogs.SUCCES_MESSAGE,
+                            AlertDialogs.SUCCESS_MESSAGE,
                             "Usuario registraro correctament"
                         )
                         findNavController().popBackStack()

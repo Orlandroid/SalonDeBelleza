@@ -12,7 +12,9 @@ import com.example.citassalon.databinding.FragmentHistorialDeCitasBinding
 import com.example.citassalon.presentacion.interfaces.ClickOnItem
 import com.example.citassalon.presentacion.main.AlertDialogs
 import com.example.citassalon.presentacion.ui.base.BaseFragment
+import com.example.citassalon.presentacion.ui.extensions.gone
 import com.example.citassalon.presentacion.ui.extensions.observeApiResultGeneric
+import com.example.citassalon.presentacion.ui.extensions.showSuccessMessage
 import com.example.citassalon.presentacion.ui.extensions.visible
 import com.example.citassalon.presentacion.util.SwipeRecycler
 import dagger.hilt.android.AndroidEntryPoint
@@ -20,8 +22,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class HistorialDeCitasFragment :
     BaseFragment<FragmentHistorialDeCitasBinding>(R.layout.fragment_historial_de_citas),
-    ClickOnItem<Appointment>,
-    SwipeRecycler.SwipeRecyclerListenr {
+    ClickOnItem<Appointment>, SwipeRecycler.SwipeRecyclerListenr {
 
     private val viewModel: HistorialCitasViewModel by viewModels()
     private val swipeRecycler = SwipeRecycler()
@@ -34,10 +35,9 @@ class HistorialDeCitasFragment :
         observerViewModel()
     }
 
-    @SuppressLint("SetTextI18n")
     override fun setUpUi() {
         with(binding) {
-            toolbarLayout.toolbarTitle.text = "Historial de citas"
+            toolbarLayout.toolbarTitle.text = getString(R.string.historiasl_de_citas)
             toolbarLayout.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
@@ -54,16 +54,16 @@ class HistorialDeCitasFragment :
     @SuppressLint("SetTextI18n")
     override fun observerViewModel() {
         super.observerViewModel()
-        observeApiResultGeneric(
-            liveData = viewModel.appointment,
+        observeApiResultGeneric(liveData = viewModel.appointment,
+            onLoading = { binding.progressBar.visible() },
+            onFinishLoading = { binding.progressBar.gone() },
             noData = {
                 with(binding) {
                     imageNoData.visible()
                     imageNoData.setAnimation(getRandomNoDataAnimation())
                     imageNoData.playAnimation()
                 }
-            }
-        ) {
+            }) {
             binding.toolbarLayout.tvInfo.apply {
                 visible()
                 text = "Total: ${it.size}"
@@ -72,28 +72,24 @@ class HistorialDeCitasFragment :
             historialCitasAdapter.setData(it)
         }
         observeApiResultGeneric(
-            liveData = viewModel.removeAppointment
+            liveData = viewModel.removeAppointment,
+            hasProgressTheView = true,
         ) {
-            val alert = AlertDialogs(
-                kindOfMessage = AlertDialogs.SUCCES_MESSAGE,
-                "Appointment eliminado"
-            )
-            activity?.supportFragmentManager?.let { it1 -> alert.show(it1, "Dialog") }
+            showSuccessMessage("Appointment eliminado")
         }
     }
 
 
-    private fun getRandomNoDataAnimation(): Int =
-        when ((1..3).random()) {
-            1 -> {
-                R.raw.no_data_animation
-            }
-            2 -> {
-                R.raw.no_data_available
-            }
-
-            else -> R.raw.no_data_found
+    private fun getRandomNoDataAnimation(): Int = when ((1..3).random()) {
+        1 -> {
+            R.raw.no_data_animation
         }
+        2 -> {
+            R.raw.no_data_available
+        }
+
+        else -> R.raw.no_data_found
+    }
 
 
     override fun clikOnElement(element: Appointment, position: Int?) {
@@ -123,7 +119,8 @@ class HistorialDeCitasFragment :
                 override fun clickOnCancel() {
                     historialCitasAdapter.notifyDataSetChanged()
                 }
-            }, isTwoButtonDialog = true
+            },
+            isTwoButtonDialog = true
         )
         activity?.let { it1 -> alert.show(it1.supportFragmentManager, "dialog") }
     }

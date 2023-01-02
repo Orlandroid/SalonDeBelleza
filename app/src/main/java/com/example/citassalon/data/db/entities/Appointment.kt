@@ -1,4 +1,4 @@
-package com.example.citassalon.domain.entities.local
+package com.example.citassalon.data.db.entities
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

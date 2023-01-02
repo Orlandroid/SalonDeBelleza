@@ -58,7 +58,7 @@ class AgendarSucursalFragment :
             onFinishLoading = {
                 binding.shimmerSucursal.gone()
             },
-            haveTheViewProgress = false,
+            hasProgressTheView = false,
             shouldCloseTheViewOnApiError = true
         ) {
             binding.recyclerSucursal.adapter = SucursalAdapter(it, getListener())

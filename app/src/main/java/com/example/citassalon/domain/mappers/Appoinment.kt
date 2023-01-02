@@ -1,8 +1,8 @@
 package com.example.citassalon.domain.mappers
 
 import com.example.citassalon.domain.entities.local.AppointmentObject
-import com.example.citassalon.domain.entities.local.remote.AppointmentResponse
-import com.example.citassalon.domain.entities.local.remote.Appointment as AppointmentRemote
+import com.example.citassalon.domain.entities.remote.AppointmentResponse
+import com.example.citassalon.domain.entities.remote.Appointment as AppointmentRemote
 
 fun AppointmentResponse.toAppointmentRemote(idAppointment: String): AppointmentRemote {
     val establishment = this.establecimiento
