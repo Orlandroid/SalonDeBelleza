@@ -55,8 +55,6 @@ class Repository @Inject constructor(
     suspend fun getSingleProduct(id: Int) = remoteDataSource.getSingleProduct(id)
 
     suspend fun getCategories(): List<String> {
-        return remoteDataSource.getCategories()
-        /* cache 
         val listOfCategoriesFromLocalSource = localDataSource.getCategoriesFromDb()
         return if (listOfCategoriesFromLocalSource.isEmpty()) {
             val categories = remoteDataSource.getCategories()
@@ -64,7 +62,7 @@ class Repository @Inject constructor(
             remoteDataSource.getCategories()
         } else {
             localDataSource.getCategoriesFromDb().toStringList()
-        }*/
+        }
     }
 
     suspend fun getSingleCart(id: Int) = remoteDataSource.getSingleCart(id)
