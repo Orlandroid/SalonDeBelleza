@@ -247,7 +247,7 @@
                 app:destination="@id/ubicacion" />
             <argument
                 android:name="currentSucursal"
-                app:argType="com.example.citassalon.data.models.remote.Sucursal" />
+                app:argType="string" />
         </fragment>
         <fragment
             android:id="@+id/nuestroStaff"
@@ -266,7 +266,7 @@
             tools:layout="@layout/fragment_ubicacion">
             <argument
                 android:name="currentSucursal"
-                app:argType="com.example.citassalon.data.models.remote.Sucursal" />
+                app:argType="string" />
         </fragment>
         <fragment
             android:id="@+id/listOfProductsFragment"

@@ -1,6 +1,5 @@
 package com.example.citassalon.data
 
-import android.util.Log
 import com.example.citassalon.data.db.entities.ProductDb
 import com.example.citassalon.data.mappers.toListCategoriesString
 import com.example.citassalon.data.mappers.toStringList

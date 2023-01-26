@@ -10,9 +10,11 @@ import com.example.citassalon.databinding.FragmentSucursalesBinding
 import com.example.citassalon.presentacion.interfaces.ClickOnItem
 import com.example.citassalon.presentacion.ui.base.BaseFragment
 import com.example.citassalon.presentacion.ui.extensions.gone
+import com.example.citassalon.presentacion.ui.extensions.navigate
 import com.example.citassalon.presentacion.ui.extensions.observeApiResultGeneric
 import com.example.citassalon.presentacion.ui.share_beetwen_sucursales.SucursalAdapter
 import com.example.citassalon.presentacion.ui.share_beetwen_sucursales.SucursalViewModel
+import com.google.gson.Gson
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -44,8 +46,7 @@ class SucursalesFragment : BaseFragment<FragmentSucursalesBinding>(R.layout.frag
             liveData = viewModel.sucursal
         ) {
             binding.shimmerSucursal.gone()
-            binding.recyclerView.adapter =
-                SucursalAdapter(it, getListener())
+            binding.recyclerView.adapter = SucursalAdapter(it, getListener())
         }
     }
 
@@ -54,8 +55,10 @@ class SucursalesFragment : BaseFragment<FragmentSucursalesBinding>(R.layout.frag
 
 
     override fun clikOnElement(element: NegoInfo, position: Int?) {
-        /* val action = SucursalesFragmentDirections.actionSucursales2ToNegocioInfo(element)
-         navigate(action)*/
+        val gson = Gson()
+        val bussnicesInfo = gson.toJson(element)
+        val action = SucursalesFragmentDirections.actionSucursales2ToNegocioInfo(bussnicesInfo)
+         navigate(action)
     }
 
 }
