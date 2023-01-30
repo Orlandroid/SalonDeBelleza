@@ -6,8 +6,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.data.Repository
+import com.example.citassalon.data.di.CoroutineDispatchers
+import com.example.citassalon.data.models.remote.ramdomuser.RandomUserResponse
 import com.example.citassalon.domain.state.ApiState
 import com.example.citassalon.presentacion.main.NetworkHelper
+import com.example.citassalon.presentacion.ui.base.BaseViewModel
 import com.example.citassalon.presentacion.ui.perfil.userprofile.UserProfileFragment.Companion.USER_EMAIL
 import com.example.citassalon.presentacion.ui.perfil.userprofile.UserProfileFragment.Companion.USER_SESSION
 import com.example.citassalon.presentacion.ui.perfil.userprofile.UserProfileFragment.Companion.USER_UID
@@ -22,11 +25,12 @@ import javax.inject.Inject
 
 @HiltViewModel
 class UserProfileViewModel @Inject constructor(
-    private val networkHelper: NetworkHelper,
+    coroutineDispatchers: CoroutineDispatchers,
+    networkHelper: NetworkHelper,
     private val repository: Repository,
     private val firebaseDatabase: FirebaseDatabase,
     private val firebaseAuth: FirebaseAuth
-) : ViewModel() {
+) : BaseViewModel(coroutineDispatchers, networkHelper) {
 
     private val _infoUser = MutableLiveData<ApiState<HashMap<String, String>>>()
     val infoUser: LiveData<ApiState<HashMap<String, String>>> get() = _infoUser
@@ -37,8 +41,23 @@ class UserProfileViewModel @Inject constructor(
     private val _imageUserProfile = MutableLiveData<ApiState<String?>>()
     val imageUserProfile: LiveData<ApiState<String?>> get() = _imageUserProfile
 
+
+    private val _randomUserResponse = MutableLiveData<ApiState<RandomUserResponse>>()
+    val randomUserResponse: LiveData<ApiState<RandomUserResponse>> get() = _randomUserResponse
+
     companion object {
         private const val IMAGE_USER = "imageUser"
+    }
+
+    fun randomUser() {
+        viewModelScope.launch {
+            safeApiCall(_randomUserResponse, coroutineDispatchers) {
+                val response = repository.randomUser()
+                withContext(Dispatchers.Main) {
+                    _randomUserResponse.value = ApiState.Success(response)
+                }
+            }
+        }
     }
 
 

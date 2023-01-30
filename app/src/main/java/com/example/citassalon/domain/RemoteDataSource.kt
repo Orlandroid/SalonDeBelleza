@@ -5,10 +5,12 @@ import com.example.citassalon.data.models.remote.Product
 import com.example.citassalon.data.models.remote.Servicio
 import com.example.citassalon.data.models.remote.Staff
 import com.example.citassalon.data.models.remote.migration.SucursalesResponse
+import com.example.citassalon.data.models.remote.ramdomuser.RandomUserResponse
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseUser
+import retrofit2.http.Url
 
 
 interface RemoteDataSource {
@@ -38,4 +40,6 @@ interface RemoteDataSource {
     fun signInWithCredential(credential: AuthCredential): Task<AuthResult>
 
     fun logout()
+
+    suspend fun randomUser(): RandomUserResponse
 }
