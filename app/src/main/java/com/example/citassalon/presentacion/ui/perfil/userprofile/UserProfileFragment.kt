@@ -8,7 +8,6 @@ import android.graphics.drawable.Drawable
 import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
-import android.util.Log
 import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
@@ -19,18 +18,26 @@ import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.example.citassalon.R
+import com.example.citassalon.data.preferences.LoginPeferences
 import com.example.citassalon.databinding.FragmentUserProfileBinding
 import com.example.citassalon.presentacion.ui.base.BaseFragment
 import com.example.citassalon.presentacion.ui.extensions.*
+import com.example.citassalon.presentacion.ui.info.productos.categories.ListOfCategoriesAdapter
 import com.example.citassalon.presentacion.util.parseColor
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 
 @AndroidEntryPoint
 class UserProfileFragment :
     BaseFragment<FragmentUserProfileBinding>(R.layout.fragment_user_profile) {
 
+    @Inject
+    lateinit var loginPeferences: LoginPeferences
+
     private val viewModel: UserProfileViewModel by viewModels()
+    private var listOfUserInfo: ArrayList<UserProfileAdapter.UserInfo> = arrayListOf()
+    private val adapter = UserProfileAdapter()
 
     companion object {
         const val USER_EMAIL = "email"
@@ -55,6 +62,7 @@ class UserProfileFragment :
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             launcher.launch(intent)
         }
+        recycler.adapter = adapter
     }
 
     private val launcher = registerForActivityResult(
@@ -83,18 +91,31 @@ class UserProfileFragment :
         }
     }
 
+    private fun setListUserInfo() {
+        listOfUserInfo.add(UserProfileAdapter.UserInfo("Nombre"))
+        listOfUserInfo.add(UserProfileAdapter.UserInfo("Telefono"))
+    }
+
     override fun observerViewModel() {
         super.observerViewModel()
         observeApiResultGeneric(
             liveData = viewModel.infoUser,
             shouldCloseTheViewOnApiError = true,
-            hasProgressTheView = false,
+            hasProgressTheView = true,
             onLoading = { binding.skeletonInfo.showSkeleton() },
             onFinishLoading = { binding.skeletonInfo.showOriginal() }
         ) {
             with(binding) {
-                tvCorreo.text = it[USER_EMAIL]
-                tvUid.text = it[USER_UID]
+                setListUserInfo()
+                listOfUserInfo.add(UserProfileAdapter.UserInfo("correo", it[USER_EMAIL] ?: ""))
+                listOfUserInfo.add(UserProfileAdapter.UserInfo("uid", it[USER_UID] ?: ""))
+                listOfUserInfo.add(
+                    UserProfileAdapter.UserInfo(
+                        "Money",
+                        "$ " + loginPeferences.getUserMoney().toString()
+                    )
+                )
+                adapter.setData(listOfUserInfo)
                 if (it[USER_SESSION].equals("true")) {
                     imageStatusSession.setColorFilter(parseColor("#239b56"))//verde
                 } else {

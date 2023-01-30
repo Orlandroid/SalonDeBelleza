@@ -9,6 +9,7 @@ import com.example.citassalon.data.models.remote.Product
 import com.example.citassalon.data.models.remote.Servicio
 import com.example.citassalon.data.models.remote.Staff
 import com.example.citassalon.data.models.remote.migration.SucursalesResponse
+import com.example.citassalon.data.models.remote.ramdomuser.RandomUserResponse
 import com.example.citassalon.domain.RemoteDataSource
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseUser
@@ -30,7 +31,7 @@ class RemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getSingleCart(id: Int): Cart = fakeStoreService.getSingleCart(id)
 
-    override suspend fun getSucursales(): SucursalesResponse  = webServices.getSucursales()
+    override suspend fun getSucursales(): SucursalesResponse = webServices.getSucursales()
 
     override suspend fun getStaffs(): List<Staff> = webServices.getStaff()
 
@@ -40,12 +41,16 @@ class RemoteDataSourceImpl @Inject constructor(
 
     override fun login(email: String, password: String) = fireBaseSource.login(email, password)
 
-    override fun register(email: String, password: String) = fireBaseSource.registrer(email, password)
+    override fun register(email: String, password: String) =
+        fireBaseSource.registrer(email, password)
 
     override fun forgetPassword(email: String) = fireBaseSource.forgetPassword(email)
 
-    override fun signInWithCredential(credential: AuthCredential) = fireBaseSource.signInWithCredential(credential)
+    override fun signInWithCredential(credential: AuthCredential) =
+        fireBaseSource.signInWithCredential(credential)
 
     override fun logout() = fireBaseSource.logout()
+    override suspend fun randomUser(): RandomUserResponse =
+        webServices.randomUser("https://randomuser.me/api/")
 
 }

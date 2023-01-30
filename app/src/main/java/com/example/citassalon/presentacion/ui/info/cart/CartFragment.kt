@@ -1,12 +1,14 @@
 package com.example.citassalon.presentacion.ui.info.cart
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.data.mappers.toProduct
 import com.example.citassalon.data.models.remote.Product
+import com.example.citassalon.data.preferences.LoginPeferences
 import com.example.citassalon.databinding.FragmentCartBinding
 import com.example.citassalon.presentacion.interfaces.ClickOnItem
 import com.example.citassalon.presentacion.main.AlertDialogs
@@ -15,10 +17,14 @@ import com.example.citassalon.presentacion.ui.base.BaseFragment
 import com.example.citassalon.presentacion.ui.extensions.*
 import com.example.citassalon.presentacion.ui.info.productos.productos.ProductsViewModel
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
 class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),
     ClickOnItem<Product> {
+
+    @Inject
+    lateinit var loginPreferences: LoginPeferences
 
     private val viewModel: CartViewModel by viewModels()
     private val productsViewModel: ProductsViewModel by viewModels()
@@ -28,6 +34,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),
         super.onViewCreated(view, savedInstanceState)
         setUpUi()
         observerViewModel()
+        Log.w(packageName(),loginPreferences.getUserMoney().toString())
     }
 
     override fun setUpUi() {
@@ -49,8 +56,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),
     }
 
     private fun showDialogDeleteAllProducts(deleteAllProducts: () -> Unit) {
-        val alert = AlertDialogs(
-            kindOfMessage = WARNING_MESSAGE,
+        val alert = AlertDialogs(kindOfMessage = WARNING_MESSAGE,
             messageBody = getString(R.string.delete_all_products),
             isTwoButtonDialog = true,
             clickOnAccept = object : AlertDialogs.ClickOnAccept {
@@ -61,8 +67,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),
                 override fun clickOnCancel() {
 
                 }
-            }
-        )
+            })
         activity?.let { alert.show(it.supportFragmentManager, "alertMessage") }
     }
 

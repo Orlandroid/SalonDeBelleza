@@ -79,6 +79,8 @@ fun Fragment.hideKeyboard() {
     view?.let { activity?.hideKeyboard(it) }
 }
 
+fun Fragment.packageName() = context?.packageName.toString()
+
 fun Fragment.navigate(accion: Int) {
     findNavController().navigate(accion)
 }

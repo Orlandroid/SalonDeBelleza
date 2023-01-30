@@ -13,7 +13,6 @@ import com.example.citassalon.R
 import com.example.citassalon.data.models.remote.Product
 import com.example.citassalon.databinding.ItemProductBinding
 import com.example.citassalon.presentacion.ui.extensions.click
-import com.example.citassalon.presentacion.ui.extensions.loadImage
 import com.example.citassalon.presentacion.ui.extensions.toBase64
 
 
