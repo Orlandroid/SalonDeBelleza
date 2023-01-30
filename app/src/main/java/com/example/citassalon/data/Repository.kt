@@ -1,11 +1,11 @@
 package com.example.citassalon.data
 
-import android.util.Log
 import com.example.citassalon.data.db.entities.ProductDb
 import com.example.citassalon.data.mappers.toListCategoriesString
 import com.example.citassalon.data.mappers.toStringList
 import com.example.citassalon.data.models.local.Appointment
 import com.example.citassalon.data.models.remote.Product
+import com.example.citassalon.data.models.remote.ramdomuser.RandomUserResponse
 import com.example.citassalon.domain.LocalDataSource
 import com.example.citassalon.domain.RemoteDataSource
 import com.google.firebase.auth.AuthCredential
@@ -55,8 +55,6 @@ class Repository @Inject constructor(
     suspend fun getSingleProduct(id: Int) = remoteDataSource.getSingleProduct(id)
 
     suspend fun getCategories(): List<String> {
-        return remoteDataSource.getCategories()
-        /* cache 
         val listOfCategoriesFromLocalSource = localDataSource.getCategoriesFromDb()
         return if (listOfCategoriesFromLocalSource.isEmpty()) {
             val categories = remoteDataSource.getCategories()
@@ -64,7 +62,7 @@ class Repository @Inject constructor(
             remoteDataSource.getCategories()
         } else {
             localDataSource.getCategoriesFromDb().toStringList()
-        }*/
+        }
     }
 
     suspend fun getSingleCart(id: Int) = remoteDataSource.getSingleCart(id)
@@ -88,5 +86,6 @@ class Repository @Inject constructor(
 
     fun logout() = remoteDataSource.logout()
 
+     suspend fun randomUser(): RandomUserResponse = remoteDataSource.randomUser()
 
 }
