@@ -4,6 +4,7 @@ import com.example.citassalon.data.models.remote.Servicio
 import com.example.citassalon.data.models.remote.Staff
 import com.example.citassalon.data.models.remote.migration.SucursalesResponse
 import com.example.citassalon.data.models.remote.ramdomuser.RandomUserResponse
+import com.example.citassalon.domain.entities.remote.dummyUsers.DummyUsersResponse
 import retrofit2.http.GET
 import retrofit2.http.Url
 
@@ -22,6 +23,11 @@ interface WebServices {
     suspend fun randomUser(
         @Url url: String
     ): RandomUserResponse
+
+    @GET
+    suspend fun getStaffUsers(
+        @Url url: String
+    ): DummyUsersResponse
 
 
 }

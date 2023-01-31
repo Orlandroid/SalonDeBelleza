@@ -3,7 +3,6 @@ package com.example.citassalon.presentacion.ui.perfil.userprofile
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.data.Repository
 import com.example.citassalon.data.di.CoroutineDispatchers

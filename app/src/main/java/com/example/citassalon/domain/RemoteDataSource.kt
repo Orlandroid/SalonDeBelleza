@@ -6,10 +6,12 @@ import com.example.citassalon.data.models.remote.Servicio
 import com.example.citassalon.data.models.remote.Staff
 import com.example.citassalon.data.models.remote.migration.SucursalesResponse
 import com.example.citassalon.data.models.remote.ramdomuser.RandomUserResponse
+import com.example.citassalon.domain.entities.remote.dummyUsers.DummyUsersResponse
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseUser
+import retrofit2.http.GET
 import retrofit2.http.Url
 
 
@@ -42,4 +44,6 @@ interface RemoteDataSource {
     fun logout()
 
     suspend fun randomUser(): RandomUserResponse
+
+    suspend fun getStaffUsers(): DummyUsersResponse
 }

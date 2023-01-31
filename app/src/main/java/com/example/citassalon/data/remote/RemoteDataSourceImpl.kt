@@ -11,6 +11,7 @@ import com.example.citassalon.data.models.remote.Staff
 import com.example.citassalon.data.models.remote.migration.SucursalesResponse
 import com.example.citassalon.data.models.remote.ramdomuser.RandomUserResponse
 import com.example.citassalon.domain.RemoteDataSource
+import com.example.citassalon.domain.entities.remote.dummyUsers.DummyUsersResponse
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseUser
 import javax.inject.Inject
@@ -52,5 +53,8 @@ class RemoteDataSourceImpl @Inject constructor(
     override fun logout() = fireBaseSource.logout()
     override suspend fun randomUser(): RandomUserResponse =
         webServices.randomUser("https://randomuser.me/api/")
+
+    override suspend fun getStaffUsers(): DummyUsersResponse =
+        webServices.getStaffUsers("https://dummyjson.com/users")
 
 }

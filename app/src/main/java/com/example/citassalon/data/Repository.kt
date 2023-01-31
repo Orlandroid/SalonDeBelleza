@@ -86,6 +86,8 @@ class Repository @Inject constructor(
 
     fun logout() = remoteDataSource.logout()
 
-     suspend fun randomUser(): RandomUserResponse = remoteDataSource.randomUser()
+    suspend fun randomUser(): RandomUserResponse = remoteDataSource.randomUser()
+
+    suspend fun getStaffUsers() = remoteDataSource.getStaffUsers()
 
 }
