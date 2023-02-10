@@ -81,6 +81,8 @@ fun Fragment.hideKeyboard() {
 
 fun Fragment.packageName() = context?.packageName.toString()
 
+fun Fragment.getUserMoneyFormat(money: Int) = "$ $money"
+
 fun Fragment.navigate(accion: Int) {
     findNavController().navigate(accion)
 }

@@ -34,13 +34,13 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),
         super.onViewCreated(view, savedInstanceState)
         setUpUi()
         observerViewModel()
-        Log.w(packageName(),loginPreferences.getUserMoney().toString())
+        Log.w(packageName(), loginPreferences.getUserMoney().toString())
     }
 
     override fun setUpUi() {
         with(binding) {
             progressBar.visible()
-            toolbarLayout.toolbarTitle.text = getString(R.string.carrito)
+            toolbarLayout.toolbarTitle.text = getUserMoneyFormat(loginPreferences.getUserMoney())
             toolbarLayout.delete.visible()
             toolbarLayout.delete.click {
                 showDialogDeleteAllProducts {
