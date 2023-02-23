@@ -42,7 +42,7 @@ class SignUpFragment : BaseFragment<SignInBinding>(R.layout.sign_in),
             toolbarLayout.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
-            toolbarLayout.toolbarTitle.text = "SignUp"
+            toolbarLayout.toolbarTitle.text = getString(R.string.signUp)
             buttonRegistarse.setOnClickListener {
                 saveUserImformation()
                 singUp()

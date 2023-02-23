@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "691057184844",
-    "project_id": "skedulyapplication",
-    "storage_bucket": "skedulyapplication.appspot.com"
+    "project_number": "619340747074",
+    "project_id": "skedulyv2",
+    "storage_bucket": "skedulyv2.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:691057184844:android:67e0916c8d9198c1b7e4e9",
+        "mobilesdk_app_id": "1:619340747074:android:153a89fdad11ef7f2a78db",
         "android_client_info": {
           "package_name": "com.example.citassalon"
         }
       },
       "oauth_client": [
         {
-          "client_id": "691057184844-0qj57lspkfavo5cckmmhib5725dg8jgl.apps.googleusercontent.com",
+          "client_id": "619340747074-8ijf2aj1hournh8hsjud1k16mv1csg31.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.citassalon",
+            "certificate_hash": "81aa5cf6c6959ee41f4511a47b8f2758c2e950c4"
+          }
+        },
+        {
+          "client_id": "619340747074-gbnirf34km79f5l784pn3nh8h9ti41un.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAaF94qcz-FPR9ydEf1ZGh3MstlD0zfyjQ"
+          "current_key": "AIzaSyDft02DDIJR65BAdWEXQ3Lmm_GNOBDbvec"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "691057184844-0qj57lspkfavo5cckmmhib5725dg8jgl.apps.googleusercontent.com",
+              "client_id": "619340747074-gbnirf34km79f5l784pn3nh8h9ti41un.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
