@@ -102,19 +102,11 @@
         android:label="fragment_agendar_confirmacion"
         tools:layout="@layout/fragment_agendar_confirmacion">
         <action
-            android:id="@+id/action_agendarConfirmacion_to_citaAgendada"
-            app:destination="@id/citaAgendada"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
-            app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right" />
-        <action
             android:id="@+id/action_agendarConfirmacion_to_home3"
-            app:destination="@id/home3"
-            app:enterAnim="@anim/from_left"
-            app:exitAnim="@anim/to_right"
-            app:popEnterAnim="@anim/from_right"
-            app:popExitAnim="@anim/to_left" />
+            app:destination="@id/home3" />
+        <action
+            android:id="@+id/action_agendarConfirmacion_to_citaAgendada"
+            app:destination="@id/citaAgendada" />
     </fragment>
     <fragment
         android:id="@+id/citaAgendada"
