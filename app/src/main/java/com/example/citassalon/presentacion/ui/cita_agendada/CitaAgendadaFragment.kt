@@ -54,12 +54,12 @@ class CitaAgendadaFragment :
         return this
     }
 
-
-    override fun onAnimationStart(animation: Animator?) {
+    
+    override fun onAnimationStart(p0: Animator) {
 
     }
 
-    override fun onAnimationEnd(animitation: Animator?) {
+    override fun onAnimationEnd(p0: Animator) {
         with(binding) {
             tvHead.text = resources.getString(R.string.muy_bien)
             tvBody.text = resources.getString(R.string.cita_agendada)
@@ -67,11 +67,11 @@ class CitaAgendadaFragment :
         }
     }
 
-    override fun onAnimationCancel(animitation: Animator?) {
+    override fun onAnimationCancel(p0: Animator) {
 
     }
 
-    override fun onAnimationRepeat(animitation: Animator?) {
+    override fun onAnimationRepeat(p0: Animator) {
 
     }
 
