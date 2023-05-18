@@ -1,2 +1,4 @@
 rootProject.name = "CitasSalon"
-include ':app'
+include ':presentation'
+include ':domain'
+include ':data'
