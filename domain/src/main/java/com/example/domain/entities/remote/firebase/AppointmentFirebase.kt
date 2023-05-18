@@ -1,7 +1,7 @@
 package com.example.domain.entities.remote.firebase
 
 
-class Appointment {
+class AppointmentFirebase {
 
     var idAppointment: String = ""
     var establishment: String = ""

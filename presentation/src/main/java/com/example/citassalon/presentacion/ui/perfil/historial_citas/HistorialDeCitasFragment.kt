@@ -15,14 +15,14 @@ import com.example.citassalon.presentacion.ui.extensions.observeApiResultGeneric
 import com.example.citassalon.presentacion.ui.extensions.showSuccessMessage
 import com.example.citassalon.presentacion.ui.extensions.visible
 import com.example.citassalon.presentacion.util.SwipeRecycler
-import com.example.domain.entities.remote.Appointment
+import com.example.domain.entities.remote.firebase.AppointmentFirebase
 import com.example.domain.mappers.toAppointmentObject
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HistorialDeCitasFragment :
     BaseFragment<FragmentHistorialDeCitasBinding>(R.layout.fragment_historial_de_citas),
-    ClickOnItem<Appointment>, SwipeRecycler.SwipeRecyclerListenr {
+    ClickOnItem<AppointmentFirebase>, SwipeRecycler.SwipeRecyclerListenr {
 
     private val viewModel: HistorialCitasViewModel by viewModels()
     private val swipeRecycler = SwipeRecycler()
@@ -46,7 +46,7 @@ class HistorialDeCitasFragment :
     }
 
 
-    private fun getListener(): ClickOnItem<Appointment> = this
+    private fun getListener(): ClickOnItem<AppointmentFirebase> = this
 
     private fun getListenerSwipeRecyclerListenr() = this
 
@@ -92,7 +92,7 @@ class HistorialDeCitasFragment :
     }
 
 
-    override fun clikOnElement(element: Appointment, position: Int?) {
+    override fun clikOnElement(element: AppointmentFirebase, position: Int?) {
         val appointment = element.toAppointmentObject()
         val action =
             HistorialDeCitasFragmentDirections.actionHistorialDeCitasToHistorialDetailFragment(

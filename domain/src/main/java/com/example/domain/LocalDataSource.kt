@@ -2,7 +2,7 @@ package com.example.domain
 
 
 
-import com.example.domain.entities.db.Appointment
+import com.example.domain.entities.db.AppointmentDb
 import com.example.domain.entities.db.CategoryDb
 import com.example.domain.entities.db.ProductDb
 import kotlinx.coroutines.flow.Flow
@@ -20,15 +20,15 @@ interface LocalDataSource {
 
     fun getAllProductDbCache(): List<ProductDb>
 
-    suspend fun addAppointment(appointment: Appointment)
+    suspend fun addAppointment(appointment: AppointmentDb)
 
-    suspend fun addManyAppointment(appointment: List<Appointment>)
+    suspend fun addManyAppointment(appointment: List<AppointmentDb>)
 
-    suspend fun getAllAppointment(): List<Appointment>
+    suspend fun getAllAppointment(): List<AppointmentDb>
 
-    suspend fun updateAppointment(appointment: Appointment)
+    suspend fun updateAppointment(appointment: AppointmentDb)
 
-    suspend fun deleteAppointment(appointment: Appointment): Int
+    suspend fun deleteAppointment(appointment: AppointmentDb): Int
 
     suspend fun deleteAllAppointment()
 

@@ -2,19 +2,19 @@ package com.example.domain.mappers
 
 import com.example.domain.entities.local.AppointmentObject
 import com.example.domain.entities.remote.AppointmentResponse
-import com.example.domain.entities.remote.Appointment as AppointmentRemote
+import com.example.domain.entities.remote.firebase.AppointmentFirebase
 
-fun AppointmentResponse.toAppointmentRemote(idAppointment: String): AppointmentRemote {
+fun AppointmentResponse.toAppointmentRemote(idAppointment: String): AppointmentFirebase {
     val establishment = this.establecimiento
     val employee = this.empleado
     val service = this.servicio
     val date = this.fecha
     val hour = this.time
     val total = this.idUser
-    return AppointmentRemote(idAppointment, establishment, employee, service, date, hour, total)
+    return AppointmentFirebase(idAppointment, establishment, employee, service, date, hour, total)
 }
 
-fun AppointmentRemote.toAppointmentResponse(): AppointmentResponse {
+fun AppointmentFirebase.toAppointmentResponse(): AppointmentResponse {
     val establishment = this.establishment
     val employee = this.employee
     val service = this.service
@@ -24,7 +24,7 @@ fun AppointmentRemote.toAppointmentResponse(): AppointmentResponse {
     return AppointmentResponse(establishment, employee, service, date, hour, total)
 }
 
-fun AppointmentRemote.toAppointmentObject(): AppointmentObject {
+fun AppointmentFirebase.toAppointmentObject(): AppointmentObject {
     val idAppointment = this.idAppointment
     val establishment = this.establishment
     val employee = this.employee

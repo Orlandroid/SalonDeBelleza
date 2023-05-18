@@ -12,7 +12,7 @@ import com.example.citassalon.presentacion.ui.base.BaseFragment
 import com.example.citassalon.presentacion.ui.extensions.navigate
 import com.example.citassalon.presentacion.ui.flow_main.FlowMainViewModel
 import com.example.citassalon.presentacion.util.AlertsDialogMessages
-import com.example.domain.entities.remote.Appointment
+import com.example.domain.entities.remote.firebase.AppointmentFirebase
 import com.example.domain.mappers.toAppointmentObject
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
@@ -72,10 +72,10 @@ class AgendarConfirmacionFragment :
         navigate(action)
     }
 
-    private fun createAppointment(): Appointment {
+    private fun createAppointment(): AppointmentFirebase {
         val uniqueID = UUID.randomUUID().toString()
         flowMainViewModel.let {
-            return Appointment(
+            return AppointmentFirebase(
                 uniqueID,
                 it.sucursal.name,
                 it.currentStaff.nombre,
