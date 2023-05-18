@@ -1,7 +1,7 @@
 package com.example.data
 
 
-import com.example.domain.entities.db.Appointment
+import com.example.domain.entities.db.AppointmentDb
 import com.example.domain.entities.db.ProductDb
 import com.example.domain.entities.remote.ramdomuser.RandomUserResponse
 import com.example.domain.LocalDataSource
@@ -17,19 +17,19 @@ class Repository @Inject constructor(
     private val remoteDataSource: RemoteDataSource
 ) {
 
-    suspend fun addAppointment(appointment: Appointment) =
+    suspend fun addAppointment(appointment: AppointmentDb) =
         localDataSource.addAppointment(appointment)
 
-    suspend fun addManyAppointment(appointment: List<Appointment>) =
+    suspend fun addManyAppointment(appointment: List<AppointmentDb>) =
         localDataSource.addManyAppointment(appointment)
 
-    suspend fun getAllAppointment(): List<Appointment> = localDataSource.getAllAppointment()
+    suspend fun getAllAppointment(): List<AppointmentDb> = localDataSource.getAllAppointment()
 
 
-    suspend fun updateAppointment(appointment: Appointment) =
+    suspend fun updateAppointment(appointment: AppointmentDb) =
         localDataSource.updateAppointment(appointment)
 
-    suspend fun deleteAppointment(appointment: Appointment): Int =
+    suspend fun deleteAppointment(appointment: AppointmentDb): Int =
         localDataSource.deleteAppointment(appointment)
 
     suspend fun deleteAllAppointment() = localDataSource.deleteAllAppointment()

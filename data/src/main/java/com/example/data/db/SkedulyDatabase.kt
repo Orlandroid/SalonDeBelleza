@@ -11,7 +11,7 @@ import com.example.domain.entities.db.ProductDb
 
 
 @Database(
-    entities = [com.example.domain.entities.db.Appointment::class, ProductDb::class, CategoryDb::class],
+    entities = [com.example.domain.entities.db.AppointmentDb::class, ProductDb::class, CategoryDb::class],
     version = 5,
     exportSchema = false
 )

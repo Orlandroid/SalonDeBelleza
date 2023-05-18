@@ -6,7 +6,7 @@ import android.os.Parcelable
 
 @kotlinx.parcelize.Parcelize
 @Entity
-data class Appointment(
+data class AppointmentDb(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val establecimeinto: String,

@@ -5,7 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.main.NetworkHelper
-import com.example.domain.entities.remote.firebase.Appointment
+import com.example.domain.entities.remote.firebase.AppointmentFirebase
 import com.example.domain.state.ApiState
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -19,7 +19,6 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
-import com.example.domain.entities.local.Appointment as AppointmentRemote
 
 
 @HiltViewModel
@@ -32,13 +31,13 @@ class HistorialCitasViewModel @Inject constructor(
 
 
     private val _appointment =
-        MutableLiveData<ApiState<List<AppointmentRemote>>>()
-    val appointment: MutableLiveData<ApiState<List<AppointmentRemote>>>
+        MutableLiveData<ApiState<List<AppointmentFirebase>>>()
+    val appointment: MutableLiveData<ApiState<List<AppointmentFirebase>>>
         get() = _appointment
 
 
-    private val _removeAppointment = MutableLiveData<ApiState<List<Appointment>>>()
-    val removeAppointment: MutableLiveData<ApiState<List<Appointment>>>
+    private val _removeAppointment = MutableLiveData<ApiState<List<AppointmentFirebase>>>()
+    val removeAppointment: MutableLiveData<ApiState<List<AppointmentFirebase>>>
         get() = _removeAppointment
 
     init {
@@ -72,9 +71,9 @@ class HistorialCitasViewModel @Inject constructor(
             databaseReference.addValueEventListener(object : ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
                     val listOfAppointments =
-                        arrayListOf<AppointmentRemote>()
+                        arrayListOf<AppointmentFirebase>()
                     snapshot.children.forEach {
-                        val appointment = it.getValue<AppointmentRemote>()
+                        val appointment = it.getValue<AppointmentFirebase>()
                         appointment?.let {
                             listOfAppointments.add(appointment)
                         }

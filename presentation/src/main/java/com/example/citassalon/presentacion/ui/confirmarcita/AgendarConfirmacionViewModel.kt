@@ -3,8 +3,8 @@ package com.example.citassalon.presentacion.ui.confirmarcita
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.example.citassalon.presentacion.main.NetworkHelper
+import com.example.domain.entities.remote.firebase.AppointmentFirebase
 import com.google.firebase.auth.FirebaseAuth
-import com.example.domain.entities.remote.Appointment as RemoteAppointment
 import com.google.firebase.database.*
 import com.google.firebase.database.ktx.getValue
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,7 +33,7 @@ class AgendarConfirmacionViewModel @Inject constructor(
             .child(uuidUser!!)
     }
 
-    fun saveAppointMent(appointment: RemoteAppointment) {
+    fun saveAppointMent(appointment: AppointmentFirebase) {
         val databaseReference =
             provideFirebaseRealtimeDatabaseReference(firebaseDatabase, firebaseAuth)
         databaseReference.child(appointment.idAppointment).setValue(appointment)
@@ -50,10 +50,11 @@ class AgendarConfirmacionViewModel @Inject constructor(
         databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 snapshot.children.forEach {
-                    val appointment = it.getValue<RemoteAppointment>()
+                    val appointment = it.getValue<AppointmentFirebase>()
                     Log.w("POST", appointment.toString())
                 }
             }
+
             override fun onCancelled(error: DatabaseError) {
                 Log.i("ERROR", error.message)
             }

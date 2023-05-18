@@ -7,18 +7,18 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.interfaces.ClickOnItem
-import com.example.domain.entities.remote.Appointment
+import com.example.domain.entities.remote.firebase.AppointmentFirebase
 
 
-class HistorialCitasAdapter(private val listener: ClickOnItem<Appointment>) :
+class HistorialCitasAdapter(private val listener: ClickOnItem<AppointmentFirebase>) :
     RecyclerView.Adapter<HistorialCitasAdapter.ViewHolder>() {
 
 
-    private var listAppointment = arrayListOf<Appointment>()
+    private var listAppointment = arrayListOf<AppointmentFirebase>()
 
 
-    fun setData(lista: List<Appointment>) {
-        listAppointment = lista as ArrayList<Appointment>
+    fun setData(lista: List<AppointmentFirebase>) {
+        listAppointment = lista as ArrayList<AppointmentFirebase>
         notifyDataSetChanged()
     }
 
@@ -27,7 +27,7 @@ class HistorialCitasAdapter(private val listener: ClickOnItem<Appointment>) :
         notifyDataSetChanged()
     }
 
-    fun getElement(position: Int): Appointment {
+    fun getElement(position: Int): AppointmentFirebase {
         return listAppointment[position]
     }
 
@@ -36,7 +36,7 @@ class HistorialCitasAdapter(private val listener: ClickOnItem<Appointment>) :
         val sucursal: TextView = view.findViewById(R.id.tv_sucursal)
         val servicio: TextView = view.findViewById(R.id.tv_servicio)
 
-        fun bind(appointment: Appointment) {
+        fun bind(appointment: AppointmentFirebase) {
             sucursal.text = appointment.establishment
             servicio.text = appointment.service
         }
