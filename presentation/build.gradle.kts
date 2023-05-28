@@ -1,3 +1,41 @@
+import com.example.androidbase.presentation.BuildModules.DATA
+import com.example.androidbase.presentation.BuildModules.DOMAIN
+import com.example.androidbase.presentation.ConfigData.COMPILE_SDK_VERSION
+import com.example.androidbase.presentation.ConfigData.MIN_SDK_VERSION
+import com.example.androidbase.presentation.ConfigData.TARGET_SDK_VERSION
+import com.example.androidbase.presentation.ConfigData.TEST_INSTRUMENTATION_RUNNER
+import com.example.androidbase.presentation.Dependencies.ANDROIDX_APPCOMPAT
+import com.example.androidbase.presentation.Dependencies.ANDROIDX_CONSTRAINT_LAYOUT
+import com.example.androidbase.presentation.Dependencies.ANDROIDX_CORE_KTX
+import com.example.androidbase.presentation.Dependencies.ANDROID_HILT_COMPILER
+import com.example.androidbase.presentation.Dependencies.ANDROID_HILT_WORK
+import com.example.androidbase.presentation.Dependencies.ANDROID_MATERIAL
+import com.example.androidbase.presentation.Dependencies.DAGGER_HILT
+import com.example.androidbase.presentation.Dependencies.DAGGER_HILT_COMPILER
+import com.example.androidbase.presentation.Dependencies.FIREBASE_ANALYTICS_KTX
+import com.example.androidbase.presentation.Dependencies.FIREBASE_AUTH_KTX
+import com.example.androidbase.presentation.Dependencies.FIREBASE_AUTH_V_KTX
+import com.example.androidbase.presentation.Dependencies.FIREBASE_BOM
+import com.example.androidbase.presentation.Dependencies.FIREBASE_DATABASE
+import com.example.androidbase.presentation.Dependencies.FIREBASE_PLAY_SERVICES
+import com.example.androidbase.presentation.Dependencies.FRAGMENT_KTS
+import com.example.androidbase.presentation.Dependencies.GLIDE
+import com.example.androidbase.presentation.Dependencies.GLIDE_COMPILER
+import com.example.androidbase.presentation.Dependencies.GOOGLE_GSON
+import com.example.androidbase.presentation.Dependencies.JUNIT
+import com.example.androidbase.presentation.Dependencies.LIVE_DATA
+import com.example.androidbase.presentation.Dependencies.NAVIGATION_FRAGMENT
+import com.example.androidbase.presentation.Dependencies.NAVIGATION_UI
+import com.example.androidbase.presentation.Dependencies.RETROFIT
+import com.example.androidbase.presentation.Dependencies.RETROFIT_CONVERTER_GSON
+import com.example.androidbase.presentation.Dependencies.RETROFIT_INTERCEPTOR
+import com.example.androidbase.presentation.Dependencies.ROOM_COMPILER
+import com.example.androidbase.presentation.Dependencies.ROOM_KTX
+import com.example.androidbase.presentation.Dependencies.ROOM_RUNTIME
+import com.example.androidbase.presentation.Dependencies.TEST_EXPRESO
+import com.example.androidbase.presentation.Dependencies.TEST_JUNIT
+import com.example.androidbase.presentation.Dependencies.VIEW_MODEL
+
 plugins {
     id("com.android.application")
     id("kotlin-android")
@@ -9,7 +47,7 @@ plugins {
 }
 
 android {
-    compileSdk = 33
+    compileSdk = COMPILE_SDK_VERSION
     buildToolsVersion = "30.0.3"
 
     buildFeatures {
@@ -19,12 +57,12 @@ android {
 
     defaultConfig {
         applicationId = "com.example.citassalon"
-        minSdk = 22
-        targetSdkVersion(31)
+        minSdk = MIN_SDK_VERSION
+        targetSdk = TARGET_SDK_VERSION
         versionCode = 1
         versionName = "1.0"
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = TEST_INSTRUMENTATION_RUNNER
     }
 
     buildTypes {
@@ -46,64 +84,58 @@ android {
 }
 
 dependencies {
-
-    val room_version = "2.3.0"
-    val retrofit_version = "2.9.0"
-    val navigation_version = "2.3.5"
-    val lifecycle_version = "2.3.1"
-    val dagger_hilt_version = "2.38.1"
     val lottieVersion = "5.2.0"
     val work_version = "2.7.1"
     val kotlin_version = "1.5.21"
-
-
-    implementation(project(":data"))
-    implementation(project(":domain"))
-
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version")
-    implementation("androidx.core:core-ktx:1.8.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.9.0")
-    implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation(project(DATA))
+    implementation(project(DOMAIN))
+    implementation(ANDROIDX_CORE_KTX)
+    implementation(ANDROIDX_APPCOMPAT)
+    implementation(ANDROID_MATERIAL)
+    implementation(ANDROIDX_CONSTRAINT_LAYOUT)
+    testImplementation(JUNIT)
+    androidTestImplementation(TEST_JUNIT)
+    androidTestImplementation(TEST_EXPRESO)
     //Navigation component
-    implementation("androidx.navigation:navigation-fragment-ktx:$navigation_version")
-    implementation("androidx.navigation:navigation-ui-ktx:$navigation_version")
+    implementation(NAVIGATION_FRAGMENT)
+    implementation(NAVIGATION_UI)
     //Room Dependecies
-    implementation("androidx.room:room-runtime:$room_version")
-    implementation("androidx.room:room-ktx:$room_version")
-    // nos servirá para usar corrutinas con room
-    kapt("androidx.room:room-compiler:$room_version")
+    implementation(ROOM_RUNTIME)
+    implementation(ROOM_KTX)
+    kapt(ROOM_COMPILER)
     //Retrofit Dependecies
-    implementation("com.squareup.retrofit2:retrofit:$retrofit_version")
-    implementation("com.squareup.retrofit2:converter-gson:$retrofit_version")
-    implementation("com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2")
+    implementation(RETROFIT)
+    implementation(RETROFIT_CONVERTER_GSON)
+    implementation(RETROFIT_INTERCEPTOR)
     //GSON
-    implementation("com.google.code.gson:gson:2.9.0")
+    implementation(GOOGLE_GSON)
     // ViewModel
-    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version")
+    implementation(VIEW_MODEL)
     // LiveData
-    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version")
+    implementation(LIVE_DATA)
     //Dagger - Hilt
-    implementation("com.google.dagger:hilt-android:$dagger_hilt_version")
-    kapt("com.google.dagger:hilt-android-compiler:$dagger_hilt_version")
-    kapt("androidx.hilt:hilt-compiler:1.0.0")
-    implementation("androidx.hilt:hilt-work:1.0.0")
-
+    implementation(DAGGER_HILT)
+    kapt(DAGGER_HILT_COMPILER)
+    kapt(ANDROID_HILT_COMPILER)
+    implementation(ANDROID_HILT_WORK)
+    //Firebases
+    implementation(platform(FIREBASE_BOM))
+    implementation(FIREBASE_AUTH_KTX)
+    implementation(FIREBASE_AUTH_V_KTX)
+    implementation(FIREBASE_ANALYTICS_KTX)
+    implementation(FIREBASE_PLAY_SERVICES)
+    implementation(FIREBASE_DATABASE)
+    implementation(GLIDE)
+    annotationProcessor(GLIDE_COMPILER)
+    implementation(FRAGMENT_KTS)
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version")
     //Shimmer
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
+    implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("com.facebook.shimmer:shimmer:0.5.0")
     implementation("com.github.skydoves:androidveil:1.1.1")
-    //Firebases
-    implementation(platform("com.google.firebase:firebase-bom:31.2.0"))
-    implementation("com.google.firebase:firebase-auth-ktx")
-    implementation("com.google.firebase:firebase-analytics-ktx")
-    implementation("com.google.firebase:firebase-auth-ktx:21.1.0")
-    implementation("com.google.android.gms:play-services-auth:20.5.0")
-    implementation("com.google.firebase:firebase-database-ktx")
+    implementation("com.squareup.picasso:picasso:2.71828")
+    implementation("com.github.ome450901:SimpleRatingBar:1.5.1")
     //Rounded ImageView
     implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("com.google.android.gms:play-services-maps:18.1.0")
@@ -114,10 +146,4 @@ dependencies {
     // Kotlin + coroutines(WorkManager)
     implementation("androidx.work:work-runtime-ktx:$work_version")
     implementation("androidx.startup:startup-runtime:1.1.1")
-    //Image
-    implementation("com.github.bumptech.glide:glide:4.14.2")
-    annotationProcessor("com.github.bumptech.glide:compiler:4.14.2")
-    implementation("com.squareup.picasso:picasso:2.71828")
-    implementation("com.github.ome450901:SimpleRatingBar:1.5.1")
-    implementation("androidx.fragment:fragment-ktx:1.5.7")
 }

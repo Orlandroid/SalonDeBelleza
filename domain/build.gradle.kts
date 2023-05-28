@@ -1,3 +1,23 @@
+import com.example.androidbase.presentation.ConfigData.COMPILE_SDK_VERSION
+import com.example.androidbase.presentation.ConfigData.MIN_SDK_VERSION
+import com.example.androidbase.presentation.ConfigData.TARGET_SDK_VERSION
+import com.example.androidbase.presentation.ConfigData.TEST_INSTRUMENTATION_RUNNER
+import com.example.androidbase.presentation.Dependencies.ANDROIDX_APPCOMPAT
+import com.example.androidbase.presentation.Dependencies.ANDROIDX_CORE_KTX
+import com.example.androidbase.presentation.Dependencies.ANDROID_MATERIAL
+import com.example.androidbase.presentation.Dependencies.FIREBASE_ANALYTICS_KTX
+import com.example.androidbase.presentation.Dependencies.FIREBASE_AUTH_KTX
+import com.example.androidbase.presentation.Dependencies.FIREBASE_AUTH_V_KTX
+import com.example.androidbase.presentation.Dependencies.FIREBASE_BOM
+import com.example.androidbase.presentation.Dependencies.FIREBASE_DATABASE
+import com.example.androidbase.presentation.Dependencies.FIREBASE_PLAY_SERVICES
+import com.example.androidbase.presentation.Dependencies.JUNIT
+import com.example.androidbase.presentation.Dependencies.ROOM_COMPILER
+import com.example.androidbase.presentation.Dependencies.ROOM_KTX
+import com.example.androidbase.presentation.Dependencies.ROOM_RUNTIME
+import com.example.androidbase.presentation.Dependencies.TEST_EXPRESO
+import com.example.androidbase.presentation.Dependencies.TEST_JUNIT
+
 plugins {
     id("com.android.library")
     id("org.jetbrains.kotlin.android")
@@ -7,13 +27,13 @@ plugins {
 
 android {
     namespace = "com.example.domain"
-    compileSdk = 33
+    compileSdk = COMPILE_SDK_VERSION
 
     defaultConfig {
-        minSdk = 22
-        targetSdk = 33
+        minSdk = MIN_SDK_VERSION
+        targetSdk = TARGET_SDK_VERSION
 
-        testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
+        testInstrumentationRunner = TEST_INSTRUMENTATION_RUNNER
         consumerProguardFiles("consumer-rules.pro")
     }
 
@@ -36,23 +56,21 @@ android {
 }
 
 dependencies {
-    val room_version = "2.3.0"
-    implementation("androidx.core:core-ktx:1.8.0")
-    implementation("androidx.appcompat:appcompat:1.6.1")
-    implementation("com.google.android.material:material:1.9.0")
-    testImplementation("junit:junit:4.13.2")
-    androidTestImplementation("androidx.test.ext:junit:1.1.5")
-    androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
+    implementation(ANDROIDX_CORE_KTX)
+    implementation(ANDROIDX_APPCOMPAT)
+    implementation(ANDROID_MATERIAL)
+    testImplementation(JUNIT)
+    androidTestImplementation(TEST_JUNIT)
+    androidTestImplementation(TEST_EXPRESO)
     //Firebases
-    implementation(platform("com.google.firebase:firebase-bom:31.2.0"))
-    implementation("com.google.firebase:firebase-auth-ktx")
-    implementation("com.google.firebase:firebase-analytics-ktx")
-    implementation("com.google.firebase:firebase-auth-ktx:21.1.0")
-    implementation("com.google.android.gms:play-services-auth:20.5.0")
-    implementation("com.google.firebase:firebase-database-ktx")
+    implementation(platform(FIREBASE_BOM))
+    implementation(FIREBASE_AUTH_KTX)
+    implementation(FIREBASE_AUTH_V_KTX)
+    implementation(FIREBASE_ANALYTICS_KTX)
+    implementation(FIREBASE_PLAY_SERVICES)
+    implementation(FIREBASE_DATABASE)
     //Room Dependecies
-    implementation("androidx.room:room-runtime:$room_version")
-    implementation("androidx.room:room-ktx:$room_version")
-    // nos servirá para usar corrutinas con room
-    kapt("androidx.room:room-compiler:$room_version")
+    implementation(ROOM_RUNTIME)
+    implementation(ROOM_KTX)
+    kapt(ROOM_COMPILER)
 }
