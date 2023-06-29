@@ -69,7 +69,7 @@ class HistorialDeCitasFragment :
                 text = "Total: ${it.size}"
             }
             binding.recyclerAppointment.adapter = historialCitasAdapter
-            //historialCitasAdapter.setData(it)
+            historialCitasAdapter.setData(it)
         }
         observeApiResultGeneric(
             liveData = viewModel.removeAppointment,
