@@ -1,6 +1,7 @@
 package com.example.data.preferences
 
 import android.content.SharedPreferences
+import android.util.Log
 import com.example.domain.entities.remote.ramdomuser.RandomUserResponse
 import com.google.gson.Gson
 import javax.inject.Inject
@@ -40,13 +41,13 @@ class LoginPeferences @Inject constructor(sharedPreferences: SharedPreferences) 
     fun saveUserRandomResponse(randomUser: RandomUserResponse) {
         Gson().toJson(randomUser)
         savePreferenceKey(RANDOM_USER_RESPONSE, randomUser)
-        val postCode = randomUser.results[0].location.postcode
-        val userMoney = postCode.toInt() / getLastNumberPostCode(postCode)
+        val userMoney = (100..7500).random()
         savePreferenceKey(USER_MONEY, userMoney)
+        Log.w("Android","USER MONEY $userMoney")
     }
 
     // 88742
-    private fun getLastNumberPostCode(postCode: String):Int {
+    private fun getLastNumberPostCode(postCode: String): Int {
         return postCode[4].code
     }
 

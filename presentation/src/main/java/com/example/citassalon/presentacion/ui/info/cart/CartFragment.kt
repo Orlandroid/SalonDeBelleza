@@ -51,6 +51,9 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),
             toolbarLayout.toolbarBack.setOnClickListener {
                 findNavController().popBackStack()
             }
+            buttonPagar.click {
+
+            }
             recyclerCart.adapter = cartAdapter
         }
     }

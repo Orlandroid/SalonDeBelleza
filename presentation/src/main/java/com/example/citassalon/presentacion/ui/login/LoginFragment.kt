@@ -78,8 +78,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
 
     override fun setUpUi() {
         with(binding) {
-            txtUser.editText?.setText("admin@gmail.com")
-            txtPassord.editText?.setText("admin1234")
             buttonGetIn.setOnClickListener {
                 login()
             }
