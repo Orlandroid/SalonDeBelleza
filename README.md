@@ -77,44 +77,5 @@ Si quieres pudes probar la aplicacion Aqui
   </tr>
 </table>
 
-### Dark 
-
-
-<table>
-  <tr>
-    <td><strong>Login</strong></td>
-   <td><strong>Login Forget</strong></td>
-    <td><strong>Home</strong></td>
-    <td><strong>Sucursal</strong></td>
-  </tr>
-  <tr>
-    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/login_dark.png" width="100%"></td>
-    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/sign_up_alert_dark.png" width="100%"></td>
-    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/home_dark.png" width="100%"></td>
-    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/sucursales_dark.png" width="100%"></td>
-  </tr>
-  <tr>
-    <td><strong>Servicio</strong></td>
-    <td><strong>Fecha</strong></td>
-    <td><strong>Detalle</strong></td>
-    <td><strong>Staff</strong></td>
-  </tr>
-  <tr>
-    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/servicio_dark.png" width="100%"></td>
-    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/fecha_dark.png" width="100%"></td>
-    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/detalle_dark.png" width="100%"></td>
-    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/staff_dark.png" width="100%"></td>
-  </tr>
- <tr>
-    <td><strong>perfil</strong></td>
-    <td><strong>Sign up</strong></td>
-  <td><strong>Cita Agendada</strong></td>
-  </tr>
-  <tr>
-    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/perfil_dark.png" width="100%"></td>
-    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/sing_up_dark.png" width="100%"></td>
-   <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/cita%20agendada_dark.png" width="100%"></td>
-  </tr>
-</table>
 
 <img src="screenshots/Flujos.png">
