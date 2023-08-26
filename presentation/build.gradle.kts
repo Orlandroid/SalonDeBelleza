@@ -75,11 +75,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "17"
     }
     namespace = "com.example.citassalon"
 }
@@ -127,7 +127,7 @@ dependencies {
     implementation(GLIDE)
     annotationProcessor(GLIDE_COMPILER)
     implementation(FRAGMENT_KTS)
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.20")
     //Shimmer
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")

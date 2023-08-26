@@ -21,7 +21,7 @@ object Versions {
     const val PAGING_VERSION = "3.0.0-beta02"
     const val RECYCLERVIEW_VERSION = "1.1.0"
     const val RETROFIT_VERSION = "2.9.0"
-    const val ROOM_VERSION = "2.3.0-beta03"
+    const val ROOM_VERSION = "2.5.0"
     const val NAVIGATION_VERSION = "2.5.0"
     const val DAGGER_HILT_VERSION = "2.38.1"
     const val LIFECYCLE_VERSION = "2.3.1"
