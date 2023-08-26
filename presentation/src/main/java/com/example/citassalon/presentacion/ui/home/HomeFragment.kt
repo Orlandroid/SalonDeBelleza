@@ -9,7 +9,6 @@ import com.example.citassalon.presentacion.ui.base.BaseFragment
 import com.example.citassalon.presentacion.ui.extensions.navigate
 import com.example.citassalon.presentacion.ui.extensions.observeApiResultGeneric
 import com.example.citassalon.presentacion.ui.perfil.userprofile.UserProfileViewModel
-import com.example.citassalon.presentacion.util.HOME_TO_NOMBRE_ESTABLECIMEINTO
 import com.example.data.preferences.LoginPeferences
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -39,7 +38,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
                 navigate(action)
             }
             btnFloatingList.setOnClickListener {
-                navigate(HOME_TO_NOMBRE_ESTABLECIMEINTO)
+                navigate(R.id.nav_info)
             }
             viewModel.randomUser()
         }

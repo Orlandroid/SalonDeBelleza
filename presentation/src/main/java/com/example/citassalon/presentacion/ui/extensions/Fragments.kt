@@ -163,6 +163,7 @@ fun <T> Fragment.observeApiResultGeneric(
                     onSuccess(apiState.data!!)
                 }
             }
+
             is ApiState.Error -> {
                 if (onError == null) {
                     showErrorApi(shouldCloseTheViewOnApiError)
@@ -170,12 +171,15 @@ fun <T> Fragment.observeApiResultGeneric(
                     onError()
                 }
             }
+
             is ApiState.ErrorNetwork -> {
                 showErrorNetwork(shouldCloseTheViewOnApiError)
             }
+
             is ApiState.NoData -> {
                 noData()
             }
+
             else -> {}
         }
     }

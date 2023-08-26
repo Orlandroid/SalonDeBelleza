@@ -28,7 +28,10 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
 
     private val viewModel: LoginViewModel by viewModels()
     private lateinit var googleSignInClient: GoogleSignInClient
-    private val RC_SIGN_IN = 200
+
+    companion object {
+        private const val RC_SIGN_IN = 200
+    }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -50,8 +53,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
     private fun configureGoogleSignIn() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken("619340747074-93lsb31bhcsp1nkptvkve9rlhecbclnd.apps.googleusercontent.com")
-            .requestEmail()
-            .build()
+            .requestEmail().build()
         googleSignInClient = GoogleSignIn.getClient(requireActivity(), gso)
     }
 
@@ -142,15 +144,18 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                     binding.buttonGetIn.isEnabled = false
                     binding.progress.visible()
                 }
+
                 is SessionStatus.SUCESS -> {
                     binding.progress.invisible()
                     binding.buttonGetIn.isEnabled = true
                     showSendPasswordCorrect()
                 }
+
                 is SessionStatus.ERROR -> {
                     binding.buttonGetIn.isEnabled = true
                     binding.progress.invisible()
                 }
+
                 is SessionStatus.NETWORKERROR -> {
                     showAlertMessage(ERROR_MESSAGE, "Revisa tu conexion de internet")
                     binding.buttonGetIn.isEnabled = true
@@ -166,16 +171,18 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                 is SessionStatus.LOADING -> {
 
                 }
+
                 is SessionStatus.SUCESS -> {
                     val action = LoginFragmentDirections.actionLoginToHome32()
                     navigate(action)
                 }
+
                 is SessionStatus.ERROR -> {
                     showAlertMessage(
-                        ERROR_MESSAGE,
-                        "Error al iniciar con google intenta otro metodo"
+                        ERROR_MESSAGE, "Error al iniciar con google intenta otro metodo"
                     )
                 }
+
                 is SessionStatus.NETWORKERROR -> {
                     showAlertMessage(ERROR_MESSAGE, "Revisa tu conexion de internet")
                 }
@@ -193,6 +200,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                         buttonGetIn.isEnabled = false
                     }
                 }
+
                 is SessionStatus.SUCESS -> {
                     binding.progress.gone()
                     binding.buttonGetIn.isEnabled = true
@@ -200,11 +208,13 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                     val action = LoginFragmentDirections.actionLoginToHome32()
                     navigate(action)
                 }
+
                 is SessionStatus.ERROR -> {
                     binding.progress.gone()
                     binding.buttonGetIn.isEnabled = true
                     showAlertMessage(ERROR_MESSAGE, "Error usuario o contraseña incorrecto")
                 }
+
                 is SessionStatus.NETWORKERROR -> {
                     binding.buttonGetIn.isEnabled = true
                     binding.progress.gone()
@@ -227,16 +237,14 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
     private fun showSendPasswordCorrect() {
         val alert = AlertsDialogMessages(requireContext())
         alert.showSimpleMessage(
-            "Informacion",
-            "Se ha enviado un correo a tu correo para restablecer tu contraseña"
+            "Informacion", "Se ha enviado un correo a tu correo para restablecer tu contraseña"
         )
     }
 
     private fun login() {
         val user = binding.txtUser.editText?.text.toString()
         val password = binding.txtPassord.editText?.text.toString()
-        if (user.isNotEmpty() && password.isNotEmpty())
-            viewModel.login(user, password)
+        if (user.isNotEmpty() && password.isNotEmpty()) viewModel.login(user, password)
         else {
             val alert = AlertDialogs(WARNING_MESSAGE, "Debes de llenar Ambos campos")
             activity?.let { it1 -> alert.show(it1.supportFragmentManager, "dialog") }

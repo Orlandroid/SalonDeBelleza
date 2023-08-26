@@ -1,5 +1,6 @@
 package com.example.citassalon.presentacion.ui.info.productos.categories
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +12,7 @@ class ListOfCategoriesAdapter(private val listener: ClickOnItem<String>) :
 
     private var listOfCategories: List<String> = arrayListOf()
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(lista: List<String>) {
         listOfCategories = lista
         notifyDataSetChanged()

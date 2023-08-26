@@ -1,5 +1,6 @@
 package com.example.citassalon.presentacion.ui.perfil.userprofile
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +12,7 @@ class UserProfileAdapter(private val listener: ClickOnItem<UserInfo>? = null) :
 
     private var listOfUserInfo: List<UserInfo> = arrayListOf()
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(lista: List<UserInfo>) {
         listOfUserInfo = lista
         notifyDataSetChanged()

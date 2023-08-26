@@ -13,6 +13,7 @@ class OurStaffAdapter :
 
     private var listOfCategories: List<User> = arrayListOf()
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(lista: List<User>) {
         listOfCategories = lista
         notifyDataSetChanged()

@@ -1,5 +1,6 @@
 package com.example.citassalon.presentacion.ui.info.productos.productos
 
+import android.annotation.SuppressLint
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
@@ -21,6 +22,7 @@ class ProductsAdapter(private val listener: ClickOnItems) :
 
     private var listOfProducts: List<Product> = arrayListOf()
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(lista: List<Product>) {
         listOfProducts = lista
         notifyDataSetChanged()

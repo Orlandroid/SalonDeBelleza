@@ -29,8 +29,7 @@ fun getTotalPrice(products: List<Product>): Double {
 }
 
 
-
-
+const val FILE_BROWSER_CACHE_DIR = "SalonDeBellezaCache"
 fun createFile(context: Context, suffix: String?): File? {
     val timeStamp = Calendar.getInstance().timeInMillis.toString()
     val storageDir: File? = context.getExternalFilesDir(FILE_BROWSER_CACHE_DIR)
