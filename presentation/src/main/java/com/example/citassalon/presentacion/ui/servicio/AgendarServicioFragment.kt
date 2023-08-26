@@ -9,6 +9,7 @@ import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentAgendarServicioBinding
 import com.example.citassalon.presentacion.interfaces.ClickOnItem
 import com.example.citassalon.presentacion.main.AlertDialogs
+import com.example.citassalon.presentacion.ui.MainActivity
 import com.example.citassalon.presentacion.ui.base.BaseFragment
 import com.example.citassalon.presentacion.ui.extensions.click
 import com.example.citassalon.presentacion.ui.extensions.navigate
@@ -28,6 +29,12 @@ class AgendarServicioFragment :
     private lateinit var agendarServicioAdapter: AgendarServicioAdapter
     private var listOfServices = arrayListOf<Service>()
 
+
+    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+        showToolbar = true,
+        toolbarTitle = "Agendar Servicio"
+    )
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpUi()
@@ -36,10 +43,6 @@ class AgendarServicioFragment :
 
     override fun setUpUi() {
         with(binding) {
-            toolbar.toolbarTitle.text = "Agendar Servicio"
-            toolbar.toolbarBack.setOnClickListener {
-                findNavController().popBackStack()
-            }
             btnNext.click {
                 if (!agendarServicioAdapter.isOneItemOrMoreSelect()) {
                     requireContext().showToast("Debes de seleccionar almenos 1 servicio")

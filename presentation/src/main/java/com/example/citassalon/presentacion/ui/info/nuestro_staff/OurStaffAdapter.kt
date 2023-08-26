@@ -5,8 +5,8 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.citassalon.databinding.ItemOurStaffBinding
-import com.example.domain.entities.remote.dummyUsers.User
 import com.example.citassalon.presentacion.ui.extensions.loadImage
+import com.example.domain.entities.remote.dummyUsers.User
 
 class OurStaffAdapter :
     RecyclerView.Adapter<OurStaffAdapter.ViewHolder>() {

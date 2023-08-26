@@ -1,12 +1,10 @@
 package com.example.citassalon.presentacion.ui.detalle_staff
 
-import android.os.Bundle
-import android.view.View
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.bumptech.glide.Glide
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentDetalleStaffBinding
+import com.example.citassalon.presentacion.ui.MainActivity
 import com.example.citassalon.presentacion.ui.base.BaseFragment
 import com.example.citassalon.presentacion.ui.flow_main.FlowMainViewModel
 import com.example.domain.entities.remote.migration.Staff
@@ -19,18 +17,13 @@ class DetalleStaffFragment :
         defaultViewModelProviderFactory
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setUpUi()
-    }
+    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+        showToolbar = true,
+        toolbarTitle = "Detalle Staff"
+    )
+
 
     override fun setUpUi() {
-        with(binding) {
-            toolbar.toolbarTitle.text = "Detalle Staff"
-            toolbar.toolbarBack.setOnClickListener {
-                findNavController().popBackStack()
-            }
-        }
         getFromArgs()
     }
 

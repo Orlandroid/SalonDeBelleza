@@ -4,7 +4,6 @@ package com.example.citassalon.presentacion.ui.perfil.userprofile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.domain.state.ApiState
 import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.citassalon.presentacion.ui.base.BaseViewModel
 import com.example.citassalon.presentacion.ui.perfil.userprofile.UserProfileFragment.Companion.USER_EMAIL
@@ -12,8 +11,13 @@ import com.example.citassalon.presentacion.ui.perfil.userprofile.UserProfileFrag
 import com.example.citassalon.presentacion.ui.perfil.userprofile.UserProfileFragment.Companion.USER_UID
 import com.example.data.di.CoroutineDispatchers
 import com.example.domain.entities.remote.ramdomuser.RandomUserResponse
+import com.example.domain.state.ApiState
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

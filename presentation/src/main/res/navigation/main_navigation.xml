@@ -146,8 +146,7 @@
         android:id="@+id/detalleStaff"
         android:name="com.example.citassalon.presentacion.ui.detalle_staff.DetalleStaffFragment"
         android:label="fragment_detalle_staff"
-        tools:layout="@layout/fragment_detalle_staff">
-    </fragment>
+        tools:layout="@layout/fragment_detalle_staff"></fragment>
     <fragment
         android:id="@+id/sucursales"
         android:name="com.example.citassalon.presentacion.ui.info.sucursales.SucursalesFragment"
@@ -197,7 +196,7 @@
         android:label="fragment_user_profile"
         tools:layout="@layout/fragment_user_profile" />
 
-    
+
     <navigation
         android:id="@+id/nav_info"
         app:startDestination="@id/establecimiento">

@@ -1,7 +1,5 @@
 package com.example.citassalon.presentacion.ui.home
 
-import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.viewModels
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentHomeBinding
@@ -20,12 +18,6 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
 
     @Inject
     lateinit var loginPreferences: LoginPeferences
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setUpUi()
-        observerViewModel()
-    }
 
     override fun setUpUi() {
         with(binding) {

@@ -4,14 +4,15 @@ import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.View
 import android.widget.DatePicker
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.bumptech.glide.Glide
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentAgendarFechaBinding
 import com.example.citassalon.presentacion.main.AlertDialogs
 import com.example.citassalon.presentacion.main.AlertDialogs.Companion.WARNING_MESSAGE
+import com.example.citassalon.presentacion.ui.MainActivity
 import com.example.citassalon.presentacion.ui.base.BaseFragment
+import com.example.citassalon.presentacion.ui.extensions.click
 import com.example.citassalon.presentacion.ui.extensions.hideKeyboard
 import com.example.citassalon.presentacion.ui.extensions.navigate
 import com.example.citassalon.presentacion.ui.extensions.showDatePickerDialog
@@ -25,6 +26,11 @@ class AgendarFechaFragment :
         defaultViewModelProviderFactory
     }
 
+    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+        showToolbar = true,
+        toolbarTitle = getString(R.string.agendar_hora)
+    )
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         setUpUi()
@@ -32,14 +38,10 @@ class AgendarFechaFragment :
 
     override fun setUpUi() {
         with(binding) {
-            toolbar.toolbarTitle.text = getString(R.string.agendar_hora)
-            toolbar.toolbarBack.setOnClickListener {
-                findNavController().popBackStack()
-            }
             edHora.setEndIconOnClickListener {
                 showTimePickerDialog()
             }
-            mainView.setOnClickListener {
+            mainView.click {
                 hideKeyboard()
             }
             etFecha.setEndIconOnClickListener {

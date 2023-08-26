@@ -1,21 +1,20 @@
 package com.example.citassalon.presentacion.ui.confirmarcita
 
-import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentAgendarConfirmacionBinding
 import com.example.citassalon.presentacion.interfaces.ListenerAlertDialogWithButtons
+import com.example.citassalon.presentacion.ui.MainActivity
 import com.example.citassalon.presentacion.ui.base.BaseFragment
+import com.example.citassalon.presentacion.ui.extensions.click
 import com.example.citassalon.presentacion.ui.extensions.navigate
 import com.example.citassalon.presentacion.ui.flow_main.FlowMainViewModel
 import com.example.citassalon.presentacion.util.AlertsDialogMessages
 import com.example.domain.entities.remote.firebase.AppointmentFirebase
 import com.example.domain.mappers.toAppointmentObject
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.*
+import java.util.UUID
 
 @AndroidEntryPoint
 class AgendarConfirmacionFragment :
@@ -27,20 +26,17 @@ class AgendarConfirmacionFragment :
         defaultViewModelProviderFactory
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setUpUi()
-    }
+    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+        showToolbar = true,
+        toolbarTitle = "Agendar Comfirmacion"
+    )
+
 
     override fun setUpUi() {
         viewModel.getAppointments()
         with(binding) {
-            buttonConfirmar.setOnClickListener {
+            buttonConfirmar.click {
                 showAlertComfirmAppointment()
-            }
-            toolbar.toolbarTitle.text = "Agendar Comfirmacion"
-            toolbar.toolbarBack.setOnClickListener {
-                findNavController().popBackStack()
             }
         }
         setValuesToView()

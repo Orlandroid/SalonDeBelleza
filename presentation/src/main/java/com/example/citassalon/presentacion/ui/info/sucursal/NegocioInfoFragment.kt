@@ -1,12 +1,11 @@
 package com.example.citassalon.presentacion.ui.info.sucursal
 
-import android.os.Bundle
-import android.view.View
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentNegocioInfoBinding
+import com.example.citassalon.presentacion.ui.MainActivity
 import com.example.citassalon.presentacion.ui.base.BaseFragment
+import com.example.citassalon.presentacion.ui.extensions.click
 import com.example.citassalon.presentacion.ui.extensions.navigate
 
 class NegocioInfoFragment :
@@ -14,26 +13,22 @@ class NegocioInfoFragment :
 
     private val args: NegocioInfoFragmentArgs by navArgs()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setUpUi()
-    }
+    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+        showToolbar = true,
+        toolbarTitle = "Sucursal"
+    )
 
     override fun setUpUi() {
         with(binding) {
-            toolbarLayout.toolbarTitle.text = "Sucursal"
-            toolbarLayout.toolbarBack.setOnClickListener {
-                findNavController().popBackStack()
-            }
-            menuSttaf.cardMenu.setOnClickListener {
+            menuSttaf.cardMenu.click {
                 val action = NegocioInfoFragmentDirections.actionNegocioInfoToNuestroStaff()
                 navigate(action)
             }
-            menuServicios.cardMenu.setOnClickListener {
+            menuServicios.cardMenu.click {
                 val action = NegocioInfoFragmentDirections.actionNegocioInfoToInfoServicios()
                 navigate(action)
             }
-            menuUbicacion.cardMenu.setOnClickListener {
+            menuUbicacion.cardMenu.click {
                 val action =
                     NegocioInfoFragmentDirections.actionNegocioInfoToUbicacion(args.currentSucursal)
                 navigate(action)

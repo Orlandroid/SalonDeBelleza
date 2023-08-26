@@ -1,20 +1,23 @@
 package com.example.citassalon.presentacion.ui.login
 
 import android.content.Intent
-import android.os.Bundle
 import android.util.Log
-import android.view.View
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import com.example.citassalon.R
-import com.example.domain.state.SessionStatus
 import com.example.citassalon.databinding.FragmentLoginBinding
 import com.example.citassalon.presentacion.main.AlertDialogs
-import com.example.citassalon.presentacion.util.*
 import com.example.citassalon.presentacion.main.AlertDialogs.Companion.ERROR_MESSAGE
 import com.example.citassalon.presentacion.main.AlertDialogs.Companion.WARNING_MESSAGE
 import com.example.citassalon.presentacion.ui.base.BaseFragment
-import com.example.citassalon.presentacion.ui.extensions.*
+import com.example.citassalon.presentacion.ui.extensions.click
+import com.example.citassalon.presentacion.ui.extensions.gone
+import com.example.citassalon.presentacion.ui.extensions.hideKeyboard
+import com.example.citassalon.presentacion.ui.extensions.invisible
+import com.example.citassalon.presentacion.ui.extensions.navigate
+import com.example.citassalon.presentacion.ui.extensions.visible
+import com.example.citassalon.presentacion.util.AlertsDialogMessages
+import com.example.domain.state.SessionStatus
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
@@ -33,13 +36,31 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
         private const val RC_SIGN_IN = 200
     }
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setUpUi()
-        observerViewModel()
-        configureGoogleSignIn()
-        isSessionActive()
+    override fun setUpUi() {
+        with(binding) {
+            buttonGetIn.click {
+                login()
+            }
+            buttonSignUp.click {
+                val action = LoginFragmentDirections.actionLoginToSignUp()
+                navigate(action)
+            }
+            txtUser.editText?.setText(viewModel.getUserEmailFromPreferences())
+            tvForgetPassword.setOnClickListener {
+                showForgetPassword()
+            }
+            container.click {
+                hideKeyboard()
+            }
+            buttonLoginGoogle.click {
+                signIn()
+            }
+            txtPassord.editText?.doOnTextChanged { text, start, before, count ->
+                buttonGetIn.isEnabled = areNotEmptyFields()
+            }
+            configureGoogleSignIn()
+            isSessionActive()
+        }
     }
 
 
@@ -77,31 +98,6 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
         }
     }
 
-
-    override fun setUpUi() {
-        with(binding) {
-            buttonGetIn.setOnClickListener {
-                login()
-            }
-            buttonSignUp.setOnClickListener {
-                val action = LoginFragmentDirections.actionLoginToSignUp()
-                navigate(action)
-            }
-            txtUser.editText?.setText(viewModel.getUserEmailFromPreferences())
-            tvForgetPassword.setOnClickListener {
-                showForgetPassword()
-            }
-            container.setOnClickListener {
-                hideKeyboard()
-            }
-            buttonLoginGoogle.setOnClickListener {
-                signIn()
-            }
-            txtPassord.editText?.doOnTextChanged { text, start, before, count ->
-                buttonGetIn.isEnabled = areNotEmptyFields()
-            }
-        }
-    }
 
     private fun areNotEmptyFields(): Boolean {
         val user = binding.txtUser.editText?.text.toString().trim()

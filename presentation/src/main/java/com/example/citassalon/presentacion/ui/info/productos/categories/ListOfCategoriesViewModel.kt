@@ -3,8 +3,8 @@ package com.example.citassalon.presentacion.ui.info.productos.categories
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.state.ApiState
 import com.example.citassalon.presentacion.main.NetworkHelper
+import com.example.domain.state.ApiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

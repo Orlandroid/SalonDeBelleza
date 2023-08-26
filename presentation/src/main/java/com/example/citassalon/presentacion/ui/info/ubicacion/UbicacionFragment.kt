@@ -1,11 +1,9 @@
 package com.example.citassalon.presentacion.ui.info.ubicacion
 
-import android.os.Bundle
-import android.view.View
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentUbicacionBinding
+import com.example.citassalon.presentacion.ui.MainActivity
 import com.example.citassalon.presentacion.ui.base.BaseFragment
 import com.example.domain.entities.remote.migration.NegoInfo
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -21,20 +19,17 @@ class UbicacionFragment : BaseFragment<FragmentUbicacionBinding>(R.layout.fragme
 
     private val args: UbicacionFragmentArgs by navArgs()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setUpUi()
-        initMap()
-    }
+    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+        showToolbar = true,
+        toolbarTitle = getString(R.string.ubicacion)
+    )
+
 
     override fun setUpUi() {
         with(binding) {
             val sucursal = Gson().fromJson(args.currentSucursal, NegoInfo::class.java)
-            toolbarLayout.toolbarTitle.text = getString(R.string.ubicacion)
             textView10.text = sucursal.sucursal.name
-            toolbarLayout.toolbarBack.setOnClickListener {
-                findNavController().popBackStack()
-            }
+            initMap()
         }
     }
 

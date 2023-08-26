@@ -6,7 +6,7 @@ import android.content.Context
 import android.os.Bundle
 import android.widget.TimePicker
 import androidx.fragment.app.DialogFragment
-import java.util.*
+import java.util.Calendar
 
 class TimePickerFragment(
     val listener: (String, Boolean) -> Unit,

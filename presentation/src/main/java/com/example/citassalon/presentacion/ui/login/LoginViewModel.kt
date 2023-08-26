@@ -4,10 +4,10 @@ package com.example.citassalon.presentacion.ui.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.domain.state.SessionStatus
 import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.data.Repository
 import com.example.data.preferences.LoginPeferences
+import com.example.domain.state.SessionStatus
 import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject

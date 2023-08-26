@@ -1,17 +1,17 @@
 package com.example.citassalon.presentacion.ui.info.cart
 
-import android.os.Bundle
-import android.util.Log
-import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentCartBinding
 import com.example.citassalon.presentacion.interfaces.ClickOnItem
 import com.example.citassalon.presentacion.main.AlertDialogs
 import com.example.citassalon.presentacion.main.AlertDialogs.Companion.WARNING_MESSAGE
+import com.example.citassalon.presentacion.ui.MainActivity
 import com.example.citassalon.presentacion.ui.base.BaseFragment
-import com.example.citassalon.presentacion.ui.extensions.*
+import com.example.citassalon.presentacion.ui.extensions.click
+import com.example.citassalon.presentacion.ui.extensions.getUserMoneyFormat
+import com.example.citassalon.presentacion.ui.extensions.gone
+import com.example.citassalon.presentacion.ui.extensions.visible
 import com.example.citassalon.presentacion.ui.info.productos.productos.ProductsViewModel
 import com.example.data.preferences.LoginPeferences
 import com.example.domain.entities.remote.Product
@@ -30,27 +30,24 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),
     private val productsViewModel: ProductsViewModel by viewModels()
     private val cartAdapter = CartAdapter()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setUpUi()
-        observerViewModel()
-        Log.w(packageName(), loginPreferences.getUserMoney().toString())
-    }
+    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+        showToolbar = true,
+        toolbarTitle = getUserMoneyFormat(loginPreferences.getUserMoney())
+    )
+
 
     override fun setUpUi() {
         with(binding) {
             progressBar.visible()
+            /*
             toolbarLayout.toolbarTitle.text = getUserMoneyFormat(loginPreferences.getUserMoney())
-            toolbarLayout.delete.visible()
+            //toolbarLayout.delete.visible()
             toolbarLayout.delete.click {
                 showDialogDeleteAllProducts {
                     progressBar.visible()
                     productsViewModel.deleteAllProducts()
                 }
-            }
-            toolbarLayout.toolbarBack.setOnClickListener {
-                findNavController().popBackStack()
-            }
+            }*/
             buttonPagar.click {
 
             }

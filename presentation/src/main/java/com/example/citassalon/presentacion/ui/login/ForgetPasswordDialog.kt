@@ -2,7 +2,11 @@ package com.example.citassalon.presentacion.ui.login
 
 import android.app.Dialog
 import android.os.Bundle
-import android.view.*
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.view.Window
+import android.view.WindowManager
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.DialogFragment
 import com.example.citassalon.databinding.AlertDialogForgetPasswordBinding

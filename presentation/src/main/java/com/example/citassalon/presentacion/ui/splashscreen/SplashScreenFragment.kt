@@ -1,5 +1,6 @@
 package com.example.citassalon.presentacion.ui.splashscreen
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import android.view.animation.AnimationUtils
@@ -7,11 +8,12 @@ import androidx.lifecycle.lifecycleScope
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentSplashScreenBinding
 import com.example.citassalon.presentacion.ui.base.BaseFragment
-import com.example.citassalon.presentacion.ui.extensions.navigate
+import com.example.citassalon.presentacion.ui.extensions.navigateAction
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 
+@SuppressLint("CustomSplashScreen")
 class SplashScreenFragment :
     BaseFragment<FragmentSplashScreenBinding>(R.layout.fragment_splash_screen) {
 
@@ -27,9 +29,8 @@ class SplashScreenFragment :
     private fun launchSplash() {
         lifecycleScope.launch {
             startAnimation()
-            delay(4000)
-            val action = SplashScreenFragmentDirections.actionSplashScreenFragmentToLogin()
-            navigate(action)
+            delay(2000)
+            navigateAction(SplashScreenFragmentDirections.actionSplashScreenFragmentToLogin())
         }
     }
 

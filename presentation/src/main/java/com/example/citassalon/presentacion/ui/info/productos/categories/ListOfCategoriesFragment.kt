@@ -1,12 +1,10 @@
 package com.example.citassalon.presentacion.ui.info.productos.categories
 
-import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentListOfCategoriesBinding
 import com.example.citassalon.presentacion.interfaces.ClickOnItem
+import com.example.citassalon.presentacion.ui.MainActivity
 import com.example.citassalon.presentacion.ui.base.BaseFragment
 import com.example.citassalon.presentacion.ui.extensions.gone
 import com.example.citassalon.presentacion.ui.extensions.navigate
@@ -21,20 +19,12 @@ class ListOfCategoriesFragment :
     private val viewModel: ListOfCategoriesViewModel by viewModels()
     private val adapter = ListOfCategoriesAdapter(this)
 
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setUpUi()
-        observerViewModel()
-    }
+    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+        showToolbar = true,
+        toolbarTitle = getString(R.string.categorias)
+    )
 
     override fun setUpUi() {
-        with(binding) {
-            toolbarLayout.toolbarTitle.text = getString(R.string.categorias)
-            toolbarLayout.toolbarBack.setOnClickListener {
-                findNavController().popBackStack()
-            }
-        }
         viewModel.getCategories()
     }
 
@@ -53,11 +43,11 @@ class ListOfCategoriesFragment :
 
 
     override fun clikOnElement(element: String, position: Int?) {
-        val action =
+        navigate(
             ListOfCategoriesFragmentDirections.actionListOfProductsFragmentToProductsFragment(
                 element
             )
-        navigate(action)
+        )
     }
 
 

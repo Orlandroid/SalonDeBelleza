@@ -1,8 +1,6 @@
 package com.example.citassalon.presentacion.ui.sucursal
 
 
-import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
@@ -10,6 +8,7 @@ import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentAgendarSucursalBinding
 import com.example.citassalon.presentacion.interfaces.ClickOnItem
 import com.example.citassalon.presentacion.main.AlertDialogs
+import com.example.citassalon.presentacion.ui.MainActivity
 import com.example.citassalon.presentacion.ui.base.BaseFragment
 import com.example.citassalon.presentacion.ui.extensions.gone
 import com.example.citassalon.presentacion.ui.extensions.navigate
@@ -32,19 +31,13 @@ class AgendarSucursalFragment :
         defaultViewModelProviderFactory
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setUpUi()
-        observerViewModel()
-    }
+    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+        showToolbar = true,
+        toolbarTitle = getString(R.string.agendar_sucursal)
+    )
 
     override fun setUpUi() {
-        with(binding) {
-            toolbar.toolbarTitle.text = getString(R.string.agendar_sucursal)
-            toolbar.toolbarBack.setOnClickListener {
-                findNavController().popBackStack()
-            }
-        }
+
     }
 
     override fun observerViewModel() {
@@ -66,8 +59,6 @@ class AgendarSucursalFragment :
     }
 
     private fun getListener(): ClickOnItem<NegoInfo> = this
-
-    private fun getListenerDialog(): AlertDialogs.ClickOnAccept = this
 
 
     override fun clikOnElement(element: NegoInfo, position: Int?) {

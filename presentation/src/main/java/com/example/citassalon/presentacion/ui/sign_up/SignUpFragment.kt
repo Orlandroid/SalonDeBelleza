@@ -1,8 +1,6 @@
 package com.example.citassalon.presentacion.ui.sign_up
 
 import android.app.DatePickerDialog
-import android.os.Bundle
-import android.view.View
 import android.widget.DatePicker
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
@@ -10,12 +8,13 @@ import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.SignInBinding
 import com.example.citassalon.presentacion.main.AlertDialogs
+import com.example.citassalon.presentacion.ui.MainActivity
 import com.example.citassalon.presentacion.ui.base.BaseFragment
+import com.example.citassalon.presentacion.ui.extensions.click
 import com.example.citassalon.presentacion.ui.extensions.gone
 import com.example.citassalon.presentacion.ui.extensions.hideKeyboard
 import com.example.citassalon.presentacion.ui.extensions.showDatePickerDialog
 import com.example.citassalon.presentacion.ui.extensions.visible
-import com.example.citassalon.presentacion.util.AlertsDialogMessages
 import com.example.citassalon.presentacion.util.isValidEmail
 import com.example.domain.entities.remote.User
 import com.example.domain.state.SessionStatus
@@ -32,23 +31,19 @@ class SignUpFragment : BaseFragment<SignInBinding>(R.layout.sign_in),
         private const val PHONE_NUMBER_CHARACTERS = 10
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setUpUi()
-        observerViewModel()
-    }
+    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+        showToolbar = true,
+        toolbarTitle = getString(R.string.signUp)
+    )
+
 
     override fun setUpUi() {
         with(binding) {
-            toolbarLayout.toolbarBack.setOnClickListener {
-                findNavController().popBackStack()
-            }
-            toolbarLayout.toolbarTitle.text = getString(R.string.signUp)
-            buttonRegistarse.setOnClickListener {
+            buttonRegistarse.click {
                 saveUserImformation()
                 singUp()
             }
-            container.setOnClickListener {
+            container.click {
                 hideKeyboard()
             }
             birtday.setEndIconOnClickListener {
@@ -72,6 +67,7 @@ class SignUpFragment : BaseFragment<SignInBinding>(R.layout.sign_in),
                         progress.visible()
                     }
                 }
+
                 is SessionStatus.SUCESS -> {
                     with(binding) {
                         buttonRegistarse.isEnabled = true
@@ -83,6 +79,7 @@ class SignUpFragment : BaseFragment<SignInBinding>(R.layout.sign_in),
                         findNavController().popBackStack()
                     }
                 }
+
                 is SessionStatus.ERROR -> {
                     with(binding) {
                         buttonRegistarse.isEnabled = true
@@ -93,6 +90,7 @@ class SignUpFragment : BaseFragment<SignInBinding>(R.layout.sign_in),
                         )
                     }
                 }
+
                 is SessionStatus.NETWORKERROR -> {
                     with(binding) {
                         buttonRegistarse.isEnabled = true
@@ -239,11 +237,6 @@ class SignUpFragment : BaseFragment<SignInBinding>(R.layout.sign_in),
     private fun saveUserImformation() {
         val user = getUser()
         viewModel.saveUserImformation(user)
-    }
-
-    private fun showAlertMessage(message: String) {
-        val alert = AlertsDialogMessages(requireContext())
-        alert.showCustomAlert(message)
     }
 
 

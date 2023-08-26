@@ -1,11 +1,8 @@
 package com.example.citassalon.presentacion.ui.perfil.perfil
 
 import android.content.Intent
-import android.os.Bundle
 import android.util.Log
-import android.view.*
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentPerfilBinding
 import com.example.citassalon.presentacion.interfaces.ClickOnItem
@@ -13,7 +10,7 @@ import com.example.citassalon.presentacion.interfaces.ListenerAlertDialogWithBut
 import com.example.citassalon.presentacion.ui.MainActivity
 import com.example.citassalon.presentacion.ui.base.BaseFragment
 import com.example.citassalon.presentacion.ui.extensions.navigate
-import com.example.citassalon.presentacion.util.*
+import com.example.citassalon.presentacion.util.AlertsDialogMessages
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -23,19 +20,14 @@ class PerfilFragment : BaseFragment<FragmentPerfilBinding>(R.layout.fragment_per
 
     private val viewModelPerfil: PerfilViewModel by viewModels()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setUpUi()
-    }
+
+    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+        showToolbar = true,
+        toolbarTitle = getString(R.string.perfil)
+    )
 
     override fun setUpUi() {
         setUpRecyclerView()
-        with(binding) {
-            toolbar.toolbarTitle.text = getString(R.string.perfil)
-            toolbar.toolbarBack.setOnClickListener {
-                findNavController().popBackStack()
-            }
-        }
     }
 
     private fun getListener(): ClickOnItem<String> {
@@ -68,10 +60,12 @@ class PerfilFragment : BaseFragment<FragmentPerfilBinding>(R.layout.fragment_per
                 val action = PerfilFragmentDirections.actionPerfilToUserProfileFragment()
                 navigate(action)
             }
+
             2 -> {
                 val action = PerfilFragmentDirections.actionPerfilToHistorialDeCitas()
                 navigate(action)
             }
+
             3 -> Log.w("uno", "unos")
             4 -> showTermAndCondition()
             5 -> logout()

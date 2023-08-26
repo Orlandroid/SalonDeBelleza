@@ -1,8 +1,6 @@
 package com.example.citassalon.presentacion.ui.staff
 
 
-import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
@@ -11,8 +9,10 @@ import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentAgendarStaffBinding
 import com.example.citassalon.presentacion.interfaces.ClickOnItem
 import com.example.citassalon.presentacion.main.AlertDialogs
+import com.example.citassalon.presentacion.ui.MainActivity
 import com.example.citassalon.presentacion.ui.base.BaseFragment
 import com.example.citassalon.presentacion.ui.extensions.action
+import com.example.citassalon.presentacion.ui.extensions.click
 import com.example.citassalon.presentacion.ui.extensions.displaySnack
 import com.example.citassalon.presentacion.ui.extensions.navigate
 import com.example.citassalon.presentacion.ui.extensions.observeApiResultGeneric
@@ -36,21 +36,16 @@ class AgendarStaffFragment :
     private val adaptador = StaffAdapter(getListener())
     private lateinit var skeletonRecyclerView: Skeleton
 
+    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+        showToolbar = true,
+        toolbarTitle = "Agendar Staff"
+    )
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setUpUi()
-        observerViewModel()
-    }
 
     override fun setUpUi() {
         with(binding) {
             skeletonRecyclerView = recyclerStaff.applySkeleton(R.layout.item_staff, 8)
-            toolbar.toolbarTitle.text = "Agendar Staff"
-            toolbar.toolbarBack.setOnClickListener {
-                findNavController().popBackStack()
-            }
-            binding.buttonEtilistaAletorio.setOnClickListener {
+            binding.buttonEtilistaAletorio.click {
                 val estilitaAleatorio = (adaptador.getData().indices).random()
                 val estilista = adaptador.getData()[estilitaAleatorio]
                 navigateToAngendarService(estilista)
@@ -82,7 +77,6 @@ class AgendarStaffFragment :
         return this
     }
 
-    private fun getListenerDialog(): AlertDialogs.ClickOnAccept = this
 
     private fun getArgs() {
         setValueToView(flowMainViewModel.sucursal.name)

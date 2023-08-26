@@ -9,12 +9,6 @@
         android:background="@color/background"
         tools:context=".presentacion.ui.staff.AgendarStaffFragment">
 
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <Button
             android:id="@+id/button_etilista_aletorio"

@@ -1,7 +1,6 @@
 package com.example.citassalon.presentacion.ui.cita_agendada
 
 import android.animation.Animator
-import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -19,10 +18,6 @@ class CitaAgendadaFragment :
     private var notificationHelper: NotificationHelper? = null
     private val args: CitaAgendadaFragmentArgs by navArgs()
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setUpUi()
-    }
 
     override fun setUpUi() {
         val arg = HistorialDetailFragmentArgs(args.apponitment).toBundle()
@@ -54,7 +49,7 @@ class CitaAgendadaFragment :
         return this
     }
 
-    
+
     override fun onAnimationStart(p0: Animator) {
 
     }

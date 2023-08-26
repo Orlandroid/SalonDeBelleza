@@ -6,19 +6,17 @@ import android.content.Intent
 import android.graphics.Bitmap
 import android.graphics.drawable.Drawable
 import android.net.Uri
-import android.os.Bundle
 import android.provider.MediaStore
-import android.view.View
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
 import com.bumptech.glide.request.target.CustomTarget
 import com.bumptech.glide.request.transition.Transition
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentUserProfileBinding
+import com.example.citassalon.presentacion.ui.MainActivity
 import com.example.citassalon.presentacion.ui.base.BaseFragment
 import com.example.citassalon.presentacion.ui.extensions.base64StringToBitmap
 import com.example.citassalon.presentacion.ui.extensions.click
@@ -43,25 +41,20 @@ class UserProfileFragment :
     private var listOfUserInfo: ArrayList<UserProfileAdapter.UserInfo> = arrayListOf()
     private val adapter = UserProfileAdapter()
 
+    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+        showToolbar = true,
+        toolbarTitle = getString(R.string.perfil)
+    )
+
     companion object {
         const val USER_EMAIL = "email"
         const val USER_UID = "uid"
         const val USER_SESSION = "userSession"
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setUpUi()
-        observerViewModel()
-    }
-
     override fun setUpUi() = with(binding) {
         viewModel.getUserInfo()
         viewModel.getUserImage()
-        toolbarLayout.toolbarTitle.text = getString(R.string.perfil)
-        toolbarLayout.toolbarBack.setOnClickListener {
-            findNavController().popBackStack()
-        }
         imageUser.click {
             val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
             launcher.launch(intent)

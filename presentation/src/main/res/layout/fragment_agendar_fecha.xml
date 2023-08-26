@@ -10,14 +10,7 @@
         android:background="@color/background"
         android:orientation="vertical"
         tools:context=".presentacion.ui.fecha.AgendarFechaFragment">
-
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
+        
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cardView3"
             android:layout_width="0dp"

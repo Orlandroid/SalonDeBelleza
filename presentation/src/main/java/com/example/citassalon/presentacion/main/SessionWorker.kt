@@ -8,7 +8,6 @@ import androidx.work.WorkerParameters
 import com.example.data.preferences.LoginPeferences
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
-import java.lang.Exception
 
 @HiltWorker
 class SessionWorker @AssistedInject constructor(

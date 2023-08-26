@@ -9,11 +9,6 @@
         android:background="@color/background"
         tools:context=".presentacion.ui.servicio.AgendarServicioFragment">
 
-        <include
-            android:id="@+id/toolbar"
-            layout="@layout/toolbar_view"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_agendar_servicio"

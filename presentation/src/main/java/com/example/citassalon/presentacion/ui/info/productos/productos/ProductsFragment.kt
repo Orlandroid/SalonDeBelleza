@@ -1,7 +1,5 @@
 package com.example.citassalon.presentacion.ui.info.productos.productos
 
-import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -9,6 +7,7 @@ import androidx.recyclerview.widget.GridLayoutManager
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentProductsBinding
 import com.example.citassalon.presentacion.interfaces.ClickOnItem
+import com.example.citassalon.presentacion.ui.MainActivity
 import com.example.citassalon.presentacion.ui.base.BaseFragment
 import com.example.citassalon.presentacion.ui.extensions.navigate
 import com.example.citassalon.presentacion.ui.extensions.observeApiResultGeneric
@@ -29,11 +28,11 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
     private var skeleton: Skeleton? = null
     private var isFirstTimeOnTheView = true
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setUpUi()
-        observerViewModel()
-    }
+    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+        showToolbar = true,
+        toolbarTitle = getString(R.string.productos)
+    )
+
 
     override fun setUpUi() {
         if (isFirstTimeOnTheView) {
@@ -41,10 +40,6 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
             isFirstTimeOnTheView = false
         }
         with(binding) {
-            toolbarLayout.toolbarTitle.text = getString(R.string.productos)
-            toolbarLayout.toolbarBack.setOnClickListener {
-                findNavController().popBackStack()
-            }
             adapter = ProductsAdapter(object : ProductsAdapter.ClickOnItems {
                 override fun clickOnElement(product: Product) {
                     val action =

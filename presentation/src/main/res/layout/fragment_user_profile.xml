@@ -10,9 +10,6 @@
         android:background="@color/background"
         tools:context=".presentacion.ui.perfil.userprofile.UserProfileFragment">
 
-        <include
-            android:id="@+id/toolbar_layout"
-            layout="@layout/toolbar_view" />
 
         <androidx.constraintlayout.widget.Guideline
             android:id="@+id/guideline41"
@@ -26,13 +23,12 @@
             android:layout_width="0dp"
             android:layout_height="0dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="32dp"
             android:layout_marginEnd="32dp"
             android:src="@drawable/userprofile"
             app:layout_constraintBottom_toTopOf="@+id/guideline41"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar_layout"
+            app:layout_constraintTop_toTopOf="parent"
             tools:src="@tools:sample/avatars" />
 
         <TextView

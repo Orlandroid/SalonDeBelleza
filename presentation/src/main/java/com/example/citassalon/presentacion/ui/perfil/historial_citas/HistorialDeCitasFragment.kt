@@ -1,14 +1,13 @@
 package com.example.citassalon.presentacion.ui.perfil.historial_citas
 
 import android.annotation.SuppressLint
-import android.os.Bundle
-import android.view.View
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentHistorialDeCitasBinding
 import com.example.citassalon.presentacion.interfaces.ClickOnItem
 import com.example.citassalon.presentacion.main.AlertDialogs
+import com.example.citassalon.presentacion.ui.MainActivity
 import com.example.citassalon.presentacion.ui.base.BaseFragment
 import com.example.citassalon.presentacion.ui.extensions.gone
 import com.example.citassalon.presentacion.ui.extensions.observeApiResultGeneric
@@ -28,21 +27,15 @@ class HistorialDeCitasFragment :
     private val swipeRecycler = SwipeRecycler()
     private val historialCitasAdapter = HistorialCitasAdapter(getListener())
 
+    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+        showToolbar = true,
+        toolbarTitle = getString(R.string.historiasl_de_citas)
+    )
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setUpUi()
-        observerViewModel()
-    }
 
     override fun setUpUi() {
-        with(binding) {
-            toolbarLayout.toolbarTitle.text = getString(R.string.historiasl_de_citas)
-            toolbarLayout.toolbarBack.setOnClickListener {
-                findNavController().popBackStack()
-            }
-            swipeRecycler.swipe(binding.recyclerAppointment, getListenerSwipeRecyclerListenr())
-        }
+        swipeRecycler.swipe(binding.recyclerAppointment, getListenerSwipeRecyclerListenr())
+
     }
 
 
@@ -64,10 +57,12 @@ class HistorialDeCitasFragment :
                     imageNoData.playAnimation()
                 }
             }) {
+            TODO() // Add this code with the generic toolbar
+            /*
             binding.toolbarLayout.tvInfo.apply {
                 visible()
                 text = "Total: ${it.size}"
-            }
+            }*/
             binding.recyclerAppointment.adapter = historialCitasAdapter
             historialCitasAdapter.setData(it)
         }
@@ -84,6 +79,7 @@ class HistorialDeCitasFragment :
         1 -> {
             R.raw.no_data_animation
         }
+
         2 -> {
             R.raw.no_data_available
         }

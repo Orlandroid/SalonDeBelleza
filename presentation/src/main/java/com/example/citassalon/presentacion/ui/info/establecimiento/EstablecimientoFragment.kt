@@ -1,36 +1,27 @@
 package com.example.citassalon.presentacion.ui.info.establecimiento
 
-import android.os.Bundle
-import android.view.View
-import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentEstablecimientoBinding
+import com.example.citassalon.presentacion.ui.MainActivity
 import com.example.citassalon.presentacion.ui.base.BaseFragment
+import com.example.citassalon.presentacion.ui.extensions.click
 import com.example.citassalon.presentacion.ui.extensions.navigate
 
 
 class EstablecimientoFragment :
     BaseFragment<FragmentEstablecimientoBinding>(R.layout.fragment_establecimiento) {
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        setUpUi()
-    }
+    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+        showToolbar = true,
+        toolbarTitle = getString(R.string.nombre_establecimiento)
+    )
 
     override fun setUpUi() {
         with(binding) {
-            toolbarLayout.toolbarTitle.text = getString(R.string.nombre_establecimiento)
-            toolbarLayout.toolbarBack.setOnClickListener {
-                findNavController().popBackStack()
+            sucursales.cardMenu.click {
+                navigate(EstablecimientoFragmentDirections.actionEstablecimientoToSucursales2())
             }
-            sucursales.cardMenu.setOnClickListener {
-                val action = EstablecimientoFragmentDirections.actionEstablecimientoToSucursales2()
-                navigate(action)
-            }
-            productos.cardMenu.setOnClickListener {
-                val action =
-                    EstablecimientoFragmentDirections.actionEstablecimientoToListOfProductsFragment()
-                navigate(action)
+            productos.cardMenu.click {
+                navigate(EstablecimientoFragmentDirections.actionEstablecimientoToListOfProductsFragment())
             }
         }
         setMenuName()
