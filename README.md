@@ -65,16 +65,41 @@ Si quieres pudes probar la aplicacion Aqui
     <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/detalle.png" width="100%"></td>
     <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/staff.png" width="100%"></td>
   </tr>
+   
  <tr>
     <td><strong>perfil</strong></td>
     <td><strong>Sign up</strong></td>
-  <td><strong>Cita Agendada</strong></td>
+    <td><strong>Cita Agendada</strong></td>
+    <td><strong>Categorias</strong></td>
   </tr>
   <tr>
     <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/perfil.png" width="100%"></td>
     <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/sing_up.png" width="100%"></td>
    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/cita%20agendada.png" width="100%"></td>
+    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/categorias.png" width="100%"></td>
   </tr>
+
+   <tr>
+    <td><strong>Productos</strong></td>
+    <td><strong>Carrito</strong></td>
+    <td><strong>Info perfil</strong></td>
+    <td><strong>Historial de citsas</strong></td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/productos.png" width="100%"></td>
+    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/carrito.png" width="100%"></td>
+   <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/info_perfil.png" width="100%"></td>
+    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/historial_de_citas.png" width="100%"></td>
+  </tr>
+  <tr>
+    <td><strong>Detalle Historial</strong></td>
+  </tr>
+  <tr>
+    <td><img src="https://github.com/Orlandroid/images_for_repos/blob/main/salondebelleza/detalle_historial.png" width="100%"></td>
+  </tr>
+
+
+   
 </table>
 
 
