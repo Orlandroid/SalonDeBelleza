@@ -30,7 +30,6 @@ class CartAdapter :
         fun bind(product: Product) {
             Glide.with(itemView.context).load(product.imageBase64.base64StringToBitmap())
                 .into(imageProduct)
-            Glide.with(itemView.context).load(product.image).into(imageProduct)
             productName.text = product.title
             productPrice.text = "$ ${product.price}"
         }

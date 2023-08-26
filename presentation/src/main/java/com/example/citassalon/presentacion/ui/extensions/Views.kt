@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.PorterDuff
 import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
+import android.util.Base64
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
@@ -56,8 +57,6 @@ fun <T> ImageView.getBitmap(onSuccess: (image: Bitmap) -> Unit, image: T) {
         })
 }
 
-
-// Todo make function for detect kind of images
 
 fun View.click(click: () -> Unit) {
     setOnClickListener { click() }
