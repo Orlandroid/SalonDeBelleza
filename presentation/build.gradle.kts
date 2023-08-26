@@ -85,8 +85,6 @@ android {
 }
 
 dependencies {
-    val lottieVersion = "5.2.0"
-    val work_version = "2.7.1"
     val kotlin_version = "1.5.21"
     implementation(project(DATA))
     implementation(project(DOMAIN))
@@ -129,13 +127,12 @@ dependencies {
     implementation(GLIDE)
     annotationProcessor(GLIDE_COMPILER)
     implementation(FRAGMENT_KTS)
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
     //Shimmer
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("com.facebook.shimmer:shimmer:0.5.0")
     implementation("com.github.skydoves:androidveil:1.1.1")
-    implementation("com.squareup.picasso:picasso:2.71828")
     implementation("com.github.ome450901:SimpleRatingBar:1.5.1")
     //Rounded ImageView
     implementation("de.hdodenhof:circleimageview:3.1.0")
@@ -143,8 +140,8 @@ dependencies {
     //Skeleton
     implementation("com.faltenreich:skeletonlayout:4.0.0")
     //lottie
-    implementation("com.airbnb.android:lottie:$lottieVersion")
+    implementation("com.airbnb.android:lottie:6.0.0")
     // Kotlin + coroutines(WorkManager)
-    implementation("androidx.work:work-runtime-ktx:$work_version")
+    implementation("androidx.work:work-runtime-ktx:2.8.1")
     implementation("androidx.startup:startup-runtime:1.1.1")
 }

@@ -1,5 +1,6 @@
 package com.example.citassalon.presentacion.ui.info.cart
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,13 +11,13 @@ import com.bumptech.glide.Glide
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.ui.extensions.base64StringToBitmap
 import com.example.domain.entities.remote.Product
-import com.squareup.picasso.Picasso
 
 class CartAdapter :
     RecyclerView.Adapter<CartAdapter.ViewHolder>() {
 
     private var listOfProducts: List<Product> = ArrayList()
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(lista: List<Product>) {
         listOfProducts = lista
         notifyDataSetChanged()
@@ -29,7 +30,7 @@ class CartAdapter :
         fun bind(product: Product) {
             Glide.with(itemView.context).load(product.imageBase64.base64StringToBitmap())
                 .into(imageProduct)
-            Picasso.get().load(product.image).into(imageProduct)
+            Glide.with(itemView.context).load(product.image).into(imageProduct)
             productName.text = product.title
             productPrice.text = "$ ${product.price}"
         }
