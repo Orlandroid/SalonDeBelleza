@@ -2,23 +2,27 @@ package com.example.citassalon.presentacion.ui.staff
 
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.main.NetworkHelper
+import com.example.citassalon.presentacion.ui.base.BaseViewModel
+import com.example.data.Repository
+import com.example.data.di.CoroutineDispatchers
 import com.example.domain.entities.remote.Staff
 import com.example.domain.state.ApiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
 @HiltViewModel
 class StaffViewModel @Inject constructor(
-    private val repository: com.example.data.Repository,
-    private val networkHelper: NetworkHelper
+    private val repository: Repository,
+    coroutineDispatchers: CoroutineDispatchers,
+    networkHelper: NetworkHelper,
 ) :
-    ViewModel() {
+    BaseViewModel(coroutineDispatchers, networkHelper) {
 
     private val _staff = MutableLiveData<ApiState<List<Staff>>>()
     val staff: MutableLiveData<ApiState<List<Staff>>>
@@ -29,20 +33,12 @@ class StaffViewModel @Inject constructor(
     }
 
     fun getSttafs() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _staff.postValue(ApiState.Loading())
-            if (!networkHelper.isNetworkConnected()) {
-                _staff.postValue(ApiState.ErrorNetwork())
-            }
-            try {
+        viewModelScope.launch {
+            safeApiCall(_staff, coroutineDispatchers) {
                 val response = repository.getStaffs()
-                if (response.isEmpty()) {
-                    _staff.postValue(ApiState.NoData())
-                    return@launch
+                withContext(Dispatchers.Main) {
+                    _staff.value = ApiState.Success(response)
                 }
-                _staff.postValue(ApiState.Success(response))
-            } catch (e: Exception) {
-                _staff.postValue(ApiState.Error(e))
             }
         }
     }

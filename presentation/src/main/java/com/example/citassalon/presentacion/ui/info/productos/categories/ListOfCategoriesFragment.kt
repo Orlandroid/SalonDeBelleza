@@ -38,7 +38,7 @@ class ListOfCategoriesFragment :
             shouldCloseTheViewOnApiError = true
         ) {
             categories.addAll(it)
-            viewModel.getCategoriesStore()
+            //viewModel.getCategoriesStore()
         }
         observeApiResultGeneric(viewModel.categoriesResponse, shouldCloseTheViewOnApiError = true) {
             categories.addAll(it)

@@ -3,23 +3,27 @@ package com.example.citassalon.presentacion.ui.share_beetwen_sucursales
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.main.NetworkHelper
+import com.example.citassalon.presentacion.ui.base.BaseViewModel
+import com.example.data.Repository
+import com.example.data.di.CoroutineDispatchers
 import com.example.domain.entities.remote.migration.NegoInfo
 import com.example.domain.state.ApiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 
 @HiltViewModel
 class SucursalViewModel @Inject constructor(
-    private val repository: com.example.data.Repository,
-    private val networkHelper: NetworkHelper
+    coroutineDispatchers: CoroutineDispatchers,
+    networkHelper: NetworkHelper,
+    private val repository: Repository,
 ) :
-    ViewModel() {
+    BaseViewModel(coroutineDispatchers, networkHelper) {
 
     private var _sucursal = MutableLiveData<ApiState<List<NegoInfo>>>()
     val sucursal: LiveData<ApiState<List<NegoInfo>>>
@@ -29,22 +33,13 @@ class SucursalViewModel @Inject constructor(
         getSucursales()
     }
 
-    fun getSucursales() {
-        viewModelScope.launch(Dispatchers.IO) {
-            _sucursal.postValue(ApiState.Loading())
-            if (!networkHelper.isNetworkConnected()) {
-                _sucursal.postValue(ApiState.ErrorNetwork())
-                return@launch
-            }
-            try {
+    private fun getSucursales() {
+        viewModelScope.launch {
+            safeApiCall(_sucursal, coroutineDispatchers) {
                 val response = repository.getSucursales()
-                if (response.sucursales.isEmpty()) {
-                    _sucursal.postValue(ApiState.NoData())
-                    return@launch
+                withContext(Dispatchers.Main) {
+                    _sucursal.value = ApiState.Success(response.sucursales)
                 }
-                _sucursal.postValue(ApiState.Success(response.sucursales))
-            } catch (e: Exception) {
-                _sucursal.postValue(ApiState.Error(e))
             }
         }
     }

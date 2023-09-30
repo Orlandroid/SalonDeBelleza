@@ -2,9 +2,11 @@ package com.example.citassalon.presentacion.ui.info.productos.productos
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.main.NetworkHelper
+import com.example.citassalon.presentacion.ui.base.BaseViewModel
+import com.example.data.Repository
+import com.example.data.di.CoroutineDispatchers
 import com.example.domain.entities.db.ProductDb
 import com.example.domain.entities.remote.Product
 import com.example.domain.state.ApiState
@@ -16,9 +18,10 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ProductsViewModel @Inject constructor(
-    private val repository: com.example.data.Repository,
-    private val networkHelper: NetworkHelper
-) : ViewModel() {
+    private val repository: Repository,
+    coroutineDispatchers: CoroutineDispatchers,
+    networkHelper: NetworkHelper,
+) : BaseViewModel(coroutineDispatchers, networkHelper) {
 
     private val _productos = MutableLiveData<ApiState<List<Product>>>()
     val products: LiveData<ApiState<List<Product>>>
@@ -29,24 +32,11 @@ class ProductsViewModel @Inject constructor(
     }
 
     fun getProducts(categoria: String) {
-        viewModelScope.launch(Dispatchers.IO) {
-            withContext(Dispatchers.Main) {
-                _productos.value = ApiState.Loading()
-            }
-            if (!networkHelper.isNetworkConnected()) {
-                withContext(Dispatchers.Main) {
-                    _productos.value = ApiState.ErrorNetwork()
-                }
-                return@launch
-            }
-            try {
+        viewModelScope.launch {
+            safeApiCall(_productos, coroutineDispatchers) {
                 val response = repository.getProducts(categoria)
                 withContext(Dispatchers.Main) {
                     _productos.value = ApiState.Success(response)
-                }
-            } catch (e: Throwable) {
-                withContext(Dispatchers.Main) {
-                    _productos.value = ApiState.Error(e)
                 }
             }
         }
