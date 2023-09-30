@@ -18,6 +18,7 @@ class ListOfCategoriesFragment :
 
     private val viewModel: ListOfCategoriesViewModel by viewModels()
     private val adapter = ListOfCategoriesAdapter(this)
+    private val categories = arrayListOf<String>()
 
     override fun configureToolbar() = MainActivity.ToolbarConfiguration(
         showToolbar = true,
@@ -25,7 +26,7 @@ class ListOfCategoriesFragment :
     )
 
     override fun setUpUi() {
-        viewModel.getCategories()
+        binding.recyclerViewCategorias.adapter = adapter
     }
 
     override fun observerViewModel() {
@@ -36,8 +37,12 @@ class ListOfCategoriesFragment :
             onFinishLoading = { binding.shimmerCategorias.gone() },
             shouldCloseTheViewOnApiError = true
         ) {
-            binding.recyclerViewCategorias.adapter = adapter
-            adapter.setData(it)
+            categories.addAll(it)
+            viewModel.getCategoriesStore()
+        }
+        observeApiResultGeneric(viewModel.categoriesResponse, shouldCloseTheViewOnApiError = true) {
+            categories.addAll(it)
+            adapter.setData(categories)
         }
     }
 

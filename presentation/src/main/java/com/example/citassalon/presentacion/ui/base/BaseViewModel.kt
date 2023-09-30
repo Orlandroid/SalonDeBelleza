@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.data.di.CoroutineDispatchers
 import com.example.domain.state.ApiState
+import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okio.IOException
@@ -25,12 +26,14 @@ abstract class BaseViewModel constructor(
         UNKNOWN
     }
 
+    var job: Job? = null
+
     suspend inline fun <T> safeApiCall(
         result: MutableLiveData<ApiState<T>>,
         coroutineDispatchers: CoroutineDispatchers,
         crossinline apiToCall: suspend () -> Unit,
     ) {
-        viewModelScope.launch(coroutineDispatchers.io) {
+        job = viewModelScope.launch(coroutineDispatchers.io) {
             try {
                 withContext(coroutineDispatchers.main) {
                     result.value = ApiState.Loading()
@@ -50,14 +53,21 @@ abstract class BaseViewModel constructor(
                             val errorCode = e.response()?.code()
                             result.value = ApiState.Error(e)
                         }
+
                         is SocketTimeoutException -> result.value =
                             ApiState.Error(e)
+
                         is IOException -> result.value = ApiState.Error(e)
                         else -> result.value = ApiState.Error(e)
                     }
                 }
             }
         }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        job?.cancel()
     }
 
 

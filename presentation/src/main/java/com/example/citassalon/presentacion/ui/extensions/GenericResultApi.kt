@@ -6,6 +6,7 @@ import com.example.domain.state.ApiState
 
 fun <T> Fragment.observeApiResultGeneric(
     liveData: LiveData<ApiState<T>>,
+    isLoadingState: (Boolean) -> Unit = {},
     onLoading: () -> Unit = { },
     onFinishLoading: () -> Unit = { },
     hasProgressTheView: Boolean = false,
@@ -24,6 +25,7 @@ fun <T> Fragment.observeApiResultGeneric(
         }
 
         val isLoading = apiState is ApiState.Loading
+        isLoadingState(isLoading)
         if (hasProgressTheView) {
             shouldShowProgress(isLoading)
         } else {

@@ -1,9 +1,13 @@
 package com.example.citassalon.presentacion.ui.info.productos.categories
 
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.main.NetworkHelper
+import com.example.citassalon.presentacion.ui.base.BaseViewModel
+import com.example.data.Repository
+import com.example.data.di.CoroutineDispatchers
+import com.example.data.remote.products.ProductsRepository
 import com.example.domain.state.ApiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -13,37 +17,43 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ListOfCategoriesViewModel @Inject constructor(
-    private val repository: com.example.data.Repository,
-    private val networkHelper: NetworkHelper
-) : ViewModel() {
+    coroutineDispatchers: CoroutineDispatchers,
+    private val repository: Repository,
+    private val productsRepository: ProductsRepository,
+    networkHelper: NetworkHelper
+) : BaseViewModel(coroutineDispatchers, networkHelper) {
+
 
     private val _categories = MutableLiveData<ApiState<List<String>>>()
     val categories: MutableLiveData<ApiState<List<String>>>
         get() = _categories
 
-    fun getCategories() {
+    private val _categoriesResponse = MutableLiveData<ApiState<List<String>>>()
+    val categoriesResponse: LiveData<ApiState<List<String>>> get() = _categoriesResponse
+
+
+    init {
+        getCategories()
+        getCategoriesStore()
+    }
+
+    private fun getCategories() {
         viewModelScope.launch(Dispatchers.IO) {
-            withContext(Dispatchers.Main) {
-                _categories.value = ApiState.Loading()
-            }
-            if (!networkHelper.isNetworkConnected()) {
-                withContext(Dispatchers.Main) {
-                    _categories.value = ApiState.ErrorNetwork()
-                }
-                return@launch
-            }
-            try {
+            safeApiCall(_categories, coroutineDispatchers) {
                 val response = repository.getCategories()
-                if (response.isEmpty()) {
-                    _categories.value = ApiState.NoData()
-                    return@launch
-                }
                 withContext(Dispatchers.Main) {
                     _categories.value = ApiState.Success(response)
                 }
-            } catch (e: Throwable) {
+            }
+        }
+    }
+
+    fun getCategoriesStore() {
+        viewModelScope.launch {
+            safeApiCall(_categoriesResponse, coroutineDispatchers) {
+                val response = productsRepository.getCategories()
                 withContext(Dispatchers.Main) {
-                    _categories.value = ApiState.Error(e)
+                    _categoriesResponse.value = ApiState.Success(response)
                 }
             }
         }

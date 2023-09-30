@@ -132,7 +132,6 @@ dependencies {
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("com.facebook.shimmer:shimmer:0.5.0")
-    implementation("com.github.skydoves:androidveil:1.1.1")
     implementation("com.github.ome450901:SimpleRatingBar:1.5.1")
     //Rounded ImageView
     implementation("de.hdodenhof:circleimageview:3.1.0")

@@ -1,7 +1,7 @@
 package com.example.data.di
 
 
-import com.example.data.Repository
+import com.example.data.api.DummyJsonApi
 import com.example.data.api.FakeStoreService
 import com.example.data.api.WebServices
 import com.example.data.local.LocalDataSourceImpl
@@ -40,8 +40,11 @@ object ModuleApi {
 
 
     private const val BASE_URL_FAKE_STORE = "https://fakestoreapi.com/"
+    private const val BASE_URL_DUMMY_JSON = "https://dummyjson.com/"
     private const val BASE_URL =
         "https://raw.githubusercontent.com/Orlandroid/Resources_Repos/main/fakesResponsesApis/"
+    private const val RETROFIT_FAKE_STORE = "FakeStore"
+    private const val RETROFIT_DUMMY_JSON = "DummyJson"
 
     @Singleton
     @Provides
@@ -58,39 +61,43 @@ object ModuleApi {
             .build()
     }
 
-    @Singleton
-    @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL)
-        .addConverterFactory(GsonConverterFactory.create())
-        .client(okHttpClient)
-        .build()
+    private fun createGenericRetrofit(okHttpClient: OkHttpClient, baseUrl: String = "") =
+        Retrofit.Builder()
+            .baseUrl(baseUrl)
+            .addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient)
+            .build()
 
     @Singleton
     @Provides
-    @Named("retrofit_store")
-    fun provideRetrofitFakeStore(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
-        .baseUrl(BASE_URL_FAKE_STORE)
-        .addConverterFactory(GsonConverterFactory.create())
-        .client(okHttpClient)
-        .build()
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
+        createGenericRetrofit(okHttpClient, BASE_URL)
 
     @Singleton
     @Provides
-    fun provideWebService(retrofit: Retrofit): WebServices =
-        retrofit.create(WebServices::class.java)
+    @Named(RETROFIT_FAKE_STORE)
+    fun provideRetrofitFakeStore(okHttpClient: OkHttpClient): Retrofit =
+        createGenericRetrofit(okHttpClient, BASE_URL_FAKE_STORE)
 
     @Singleton
     @Provides
-    fun provideFakeStoreService(@Named("retrofit_store") retrofit: Retrofit): FakeStoreService =
+    @Named(RETROFIT_DUMMY_JSON)
+    fun provideRetroDummyJson(okHttpClient: OkHttpClient): Retrofit =
+        createGenericRetrofit(okHttpClient, BASE_URL_DUMMY_JSON)
+
+    @Singleton
+    @Provides
+    fun provideWebService(retrofit: Retrofit) = retrofit.create(WebServices::class.java)
+
+    @Singleton
+    @Provides
+    fun provideDummyJsonApi(@Named(RETROFIT_DUMMY_JSON) retrofit: Retrofit) =
+        retrofit.create(DummyJsonApi::class.java)
+
+    @Singleton
+    @Provides
+    fun provideFakeStoreService(@Named(RETROFIT_FAKE_STORE) retrofit: Retrofit) =
         retrofit.create(FakeStoreService::class.java)
-
-    @Singleton
-    @Provides
-    fun provideRepository(
-        localDataSource: LocalDataSource,
-        remoteDataSource: RemoteDataSource
-    ): Repository = Repository(localDataSource, remoteDataSource)
 
 
 }

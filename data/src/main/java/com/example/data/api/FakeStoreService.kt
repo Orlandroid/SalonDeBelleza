@@ -11,7 +11,7 @@ interface FakeStoreService {
     @GET("/products/category/{categoria}")
     suspend fun getProducts(@Path("categoria") categoria: String): List<Product>
 
-    @GET("products/categories/")
+    @GET("products/categories")
     suspend fun getCategories(): List<String>
 
     @GET("products/{id}")

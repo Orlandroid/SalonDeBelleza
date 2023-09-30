@@ -57,7 +57,7 @@ class HistorialDeCitasFragment :
                     imageNoData.playAnimation()
                 }
             }) {
-            TODO() // Add this code with the generic toolbar
+            // Add this code with the generic toolbar
             /*
             binding.toolbarLayout.tvInfo.apply {
                 visible()
