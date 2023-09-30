@@ -120,7 +120,7 @@
             app:exitAnim="@anim/to_right" />
         <argument
             android:name="apponitment"
-            app:argType="com.example.domain.entities.local.AppointmentObject" />
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/perfil"
@@ -146,7 +146,7 @@
         android:id="@+id/detalleStaff"
         android:name="com.example.citassalon.presentacion.ui.detalle_staff.DetalleStaffFragment"
         android:label="fragment_detalle_staff"
-        tools:layout="@layout/fragment_detalle_staff"></fragment>
+        tools:layout="@layout/fragment_detalle_staff" />
     <fragment
         android:id="@+id/sucursales"
         android:name="com.example.citassalon.presentacion.ui.info.sucursales.SucursalesFragment"
@@ -188,7 +188,7 @@
         tools:layout="@layout/fragment_historial_detail">
         <argument
             android:name="appointment"
-            app:argType="com.example.domain.entities.local.AppointmentObject" />
+            app:argType="string" />
     </fragment>
     <fragment
         android:id="@+id/userProfileFragment"
@@ -290,7 +290,7 @@
             tools:layout="@layout/fragment_detalle_producto">
             <argument
                 android:name="producto"
-                app:argType="com.example.domain.entities.remote.Product" />
+                app:argType="string" />
         </fragment>
         <fragment
             android:id="@+id/cartFragment"

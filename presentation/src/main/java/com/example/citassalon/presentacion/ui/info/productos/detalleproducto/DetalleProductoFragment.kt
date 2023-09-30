@@ -1,5 +1,6 @@
 package com.example.citassalon.presentacion.ui.info.productos.detalleproducto
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.view.View
 import androidx.navigation.fragment.navArgs
@@ -8,11 +9,14 @@ import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentDetalleProductoBinding
 import com.example.citassalon.presentacion.ui.MainActivity
 import com.example.citassalon.presentacion.ui.base.BaseFragment
+import com.example.citassalon.presentacion.ui.extensions.fromJson
+import com.example.domain.entities.remote.Product
 
 class DetalleProductoFragment :
     BaseFragment<FragmentDetalleProductoBinding>(R.layout.fragment_detalle_producto) {
 
     private val args: DetalleProductoFragmentArgs by navArgs()
+    lateinit var product: Product
 
     override fun configureToolbar() = MainActivity.ToolbarConfiguration(
         showToolbar = true,
@@ -24,14 +28,16 @@ class DetalleProductoFragment :
         setUpUi()
     }
 
+    @SuppressLint("SetTextI18n")
     override fun setUpUi() {
         with(binding) {
             initRating()
-            tvTitle.text = args.producto.title
-            Glide.with(this@DetalleProductoFragment).load(args.producto.image).into(image)
-            rating.rating = args.producto.rating.rate.toFloat()
-            tvPrecio.text = "$ ${args.producto.price}"
-            tvDescripcion.text = args.producto.description
+            product = args.producto.fromJson()
+            tvTitle.text = product.title
+            Glide.with(this@DetalleProductoFragment).load(product.image).into(image)
+            rating.rating = product.rating.rate.toFloat()
+            tvPrecio.text = "$ ${product.price}"
+            tvDescripcion.text = product.description
         }
     }
 

@@ -9,6 +9,7 @@ import com.example.citassalon.presentacion.ui.MainActivity
 import com.example.citassalon.presentacion.ui.base.BaseFragment
 import com.example.citassalon.presentacion.ui.extensions.click
 import com.example.citassalon.presentacion.ui.extensions.navigate
+import com.example.citassalon.presentacion.ui.extensions.toJson
 import com.example.citassalon.presentacion.ui.flow_main.FlowMainViewModel
 import com.example.citassalon.presentacion.util.AlertsDialogMessages
 import com.example.domain.entities.remote.firebase.AppointmentFirebase
@@ -63,7 +64,7 @@ class AgendarConfirmacionFragment :
     override fun clickOnConfirmar() {
         saveToDatabaseAppointment()
         val action = AgendarConfirmacionFragmentDirections.actionAgendarConfirmacionToCitaAgendada(
-            createAppointment().toAppointmentObject()
+            createAppointment().toAppointmentObject().toJson()
         )
         navigate(action)
     }

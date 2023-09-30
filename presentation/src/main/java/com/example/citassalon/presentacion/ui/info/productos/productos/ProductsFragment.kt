@@ -12,6 +12,7 @@ import com.example.citassalon.presentacion.ui.base.BaseFragment
 import com.example.citassalon.presentacion.ui.extensions.navigate
 import com.example.citassalon.presentacion.ui.extensions.observeApiResultGeneric
 import com.example.citassalon.presentacion.ui.extensions.showSuccessMessage
+import com.example.citassalon.presentacion.ui.extensions.toJson
 import com.example.domain.entities.remote.Product
 import com.example.domain.mappers.toProductDb
 import com.faltenreich.skeletonlayout.Skeleton
@@ -44,7 +45,7 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
                 override fun clickOnElement(product: Product) {
                     val action =
                         ProductsFragmentDirections.actionProductsFragmentToDetalleProductoFragment(
-                            product
+                            product.toJson()
                         )
                     findNavController().navigate(action)
                 }
@@ -85,8 +86,7 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
 
 
     override fun clikOnElement(element: Product, position: Int?) {
-        val action =
-            ProductsFragmentDirections.actionProductsFragmentToDetalleProductoFragment(element)
+        val action = ProductsFragmentDirections.actionProductsFragmentToDetalleProductoFragment(element.toJson())
         navigate(action)
     }
 

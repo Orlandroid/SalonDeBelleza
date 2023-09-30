@@ -12,6 +12,7 @@ import com.example.citassalon.presentacion.ui.base.BaseFragment
 import com.example.citassalon.presentacion.ui.extensions.gone
 import com.example.citassalon.presentacion.ui.extensions.observeApiResultGeneric
 import com.example.citassalon.presentacion.ui.extensions.showSuccessMessage
+import com.example.citassalon.presentacion.ui.extensions.toJson
 import com.example.citassalon.presentacion.ui.extensions.visible
 import com.example.citassalon.presentacion.util.SwipeRecycler
 import com.example.domain.entities.remote.firebase.AppointmentFirebase
@@ -92,7 +93,7 @@ class HistorialDeCitasFragment :
         val appointment = element.toAppointmentObject()
         val action =
             HistorialDeCitasFragmentDirections.actionHistorialDeCitasToHistorialDetailFragment(
-                appointment
+                appointment.toJson()
             )
         findNavController().navigate(action)
     }
