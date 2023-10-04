@@ -210,8 +210,8 @@
                 android:id="@+id/action_establecimiento_to_sucursales2"
                 app:destination="@id/sucursales2" />
             <action
-                android:id="@+id/action_establecimiento_to_listOfProductsFragment"
-                app:destination="@id/listOfProductsFragment" />
+                android:id="@+id/action_establecimiento_to_storesFragment"
+                app:destination="@id/storesFragment" />
         </fragment>
         <fragment
             android:id="@+id/sucursales2"
@@ -267,6 +267,9 @@
             <action
                 android:id="@+id/action_listOfProductsFragment_to_productsFragment"
                 app:destination="@id/productsFragment" />
+            <argument
+                android:name="store"
+                app:argType="string" />
         </fragment>
         <fragment
             android:id="@+id/productsFragment"
@@ -297,5 +300,15 @@
             android:name="com.example.citassalon.presentacion.ui.info.cart.CartFragment"
             android:label="CartFragment"
             tools:layout="@layout/fragment_cart" />
+        <fragment
+            android:id="@+id/storesFragment"
+            android:name="com.example.citassalon.presentacion.ui.info.stores.StoresFragment"
+            android:label="StoresFragment"
+            tools:layout="@layout/fragment_stores" >
+            <action
+                android:id="@+id/action_storesFragment_to_listOfProductsFragment"
+                app:destination="@id/listOfProductsFragment" />
+        </fragment>
     </navigation>
+
 </navigation>

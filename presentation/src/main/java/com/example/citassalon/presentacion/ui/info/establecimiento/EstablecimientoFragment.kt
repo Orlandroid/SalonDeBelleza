@@ -20,8 +20,8 @@ class EstablecimientoFragment :
             sucursales.cardMenu.click {
                 navigate(EstablecimientoFragmentDirections.actionEstablecimientoToSucursales2())
             }
-            productos.cardMenu.click {
-                navigate(EstablecimientoFragmentDirections.actionEstablecimientoToListOfProductsFragment())
+            stores.cardMenu.click {
+                navigate(EstablecimientoFragmentDirections.actionEstablecimientoToStoresFragment())
             }
         }
         setMenuName()
@@ -29,8 +29,8 @@ class EstablecimientoFragment :
 
     private fun setMenuName() {
         with(binding) {
-            sucursales.textElement.text = context?.getString(R.string.sucursales)
-            productos.textElement.text = context?.getString(R.string.productos)
+            sucursales.textElement.text = getString(R.string.sucursales)
+            stores.textElement.text = getString(R.string.tiendas)
         }
     }
 

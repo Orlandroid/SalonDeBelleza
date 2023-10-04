@@ -43,8 +43,7 @@ object Dependencies {
     const val ANDROID_HILT_WORK = "androidx.hilt:hilt-work:1.0.0"
     const val GLIDE = "com.github.bumptech.glide:glide:4.14.2"
     const val GLIDE_COMPILER = "com.github.bumptech.glide:compiler:4.14.2"
-    const val VIEW_MODEL =
-        "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE_VERSION}"
+    const val VIEW_MODEL = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE_VERSION}"
     const val LIVE_DATA = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.LIFECYCLE_VERSION}"
     const val FRAGMENT_KTS = "androidx.fragment:fragment-ktx:1.5.7"
     const val TEST_JUNIT = "androidx.test.ext:junit:1.1.4"
@@ -57,10 +56,8 @@ object Dependencies {
     const val FIREBASE_PLAY_SERVICES = "com.google.android.gms:play-services-auth:20.5.0"
     const val FIREBASE_DATABASE = "com.google.firebase:firebase-database-ktx"
     const val GOOGLE_GSON = "com.google.code.gson:gson:2.9.0"
-    const val ANDROIDX_LIFECYCLE =
-        "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.ANDROIDX_LIFECYCLE_VERSION}"
-    const val ANDROIDX_LIFECYCLE_EXTENSIONS =
-        "androidx.lifecycle:lifecycle-extensions:${Versions.ANDROIDX_LIFECYCLE_VERSION}"
+    const val ANDROIDX_LIFECYCLE = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.ANDROIDX_LIFECYCLE_VERSION}"
+    const val ANDROIDX_LIFECYCLE_EXTENSIONS = "androidx.lifecycle:lifecycle-extensions:${Versions.ANDROIDX_LIFECYCLE_VERSION}"
     const val KOIN = "org.koin:koin-core:${Versions.KOIN_VERSION}"
     const val KOIN_ANDROID = "org.koin:koin-android:${Versions.KOIN_VERSION}"
     const val KOIN_ANDROIDX_SCOPE = "org.koin:koin-androidx-scope:${Versions.KOIN_VERSION}"

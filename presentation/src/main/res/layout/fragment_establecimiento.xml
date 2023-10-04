@@ -34,7 +34,7 @@
                 android:layout_height="wrap_content" />
 
             <include
-                android:id="@+id/productos"
+                android:id="@+id/stores"
                 layout="@layout/row_elemento_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
