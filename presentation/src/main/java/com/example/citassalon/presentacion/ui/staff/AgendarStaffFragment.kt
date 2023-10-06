@@ -120,7 +120,7 @@ class AgendarStaffFragment :
     }
 
 
-    override fun clikOnElement(element: Staff, position: Int?) {
+    override fun clickOnItem(element: Staff, position: Int?) {
         flowMainViewModel.currentStaff = element
         if (position == 0) {
             val action =

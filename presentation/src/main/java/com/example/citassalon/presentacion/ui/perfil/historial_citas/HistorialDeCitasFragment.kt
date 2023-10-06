@@ -89,7 +89,7 @@ class HistorialDeCitasFragment :
     }
 
 
-    override fun clikOnElement(element: AppointmentFirebase, position: Int?) {
+    override fun clickOnItem(element: AppointmentFirebase, position: Int?) {
         val appointment = element.toAppointmentObject()
         val action =
             HistorialDeCitasFragmentDirections.actionHistorialDeCitasToHistorialDetailFragment(

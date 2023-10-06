@@ -30,7 +30,7 @@ class SucursalAdapter(
         val negocioInfo = sucursales[position]
         holder.cartaTexto.text = negocioInfo.sucursal.name
         holder.itemView.setOnClickListener {
-            listener.clikOnElement(negocioInfo)
+            listener.clickOnItem(negocioInfo)
         }
     }
 

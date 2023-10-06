@@ -70,7 +70,7 @@ class ListOfCategoriesFragment :
     }
 
 
-    override fun clikOnElement(element: String, position: Int?) {
+    override fun clickOnItem(element: String, position: Int?) {
         navigate(
             ListOfCategoriesFragmentDirections.actionListOfProductsFragmentToProductsFragment(
                 element

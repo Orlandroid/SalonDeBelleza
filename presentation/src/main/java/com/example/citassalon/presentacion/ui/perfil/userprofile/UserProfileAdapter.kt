@@ -35,7 +35,7 @@ class UserProfileAdapter(private val listener: ClickOnItem<UserInfo>? = null) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(listOfUserInfo[position])
         holder.itemView.setOnClickListener {
-            listener?.clikOnElement(listOfUserInfo[position])
+            listener?.clickOnItem(listOfUserInfo[position])
         }
     }
 

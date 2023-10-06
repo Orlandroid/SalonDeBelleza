@@ -27,10 +27,10 @@ class StaffAdapter(private val listener: ClickOnItem<Staff>) :
                 Glide.with(itemView.context).load(staff.image_url).into(staffPicture)
                 staffName.text = staff.nombre
                 staffPicture.click {
-                    listener.clikOnElement(staff)
+                    listener.clickOnItem(staff)
                 }
                 binding.root.click {
-                    listener.clikOnElement(staff, 0)
+                    listener.clickOnItem(staff, 0)
                 }
             }
         }

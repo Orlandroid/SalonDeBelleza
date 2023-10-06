@@ -61,7 +61,7 @@ class AgendarSucursalFragment :
     private fun getListener(): ClickOnItem<NegoInfo> = this
 
 
-    override fun clikOnElement(element: NegoInfo, position: Int?) {
+    override fun clickOnItem(element: NegoInfo, position: Int?) {
         with(binding) {
             flowMainViewModel.let {
                 it.sucursal = element.sucursal

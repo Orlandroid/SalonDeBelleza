@@ -101,7 +101,7 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),
     }
 
 
-    override fun clikOnElement(element: Product, position: Int?) {
+    override fun clickOnItem(element: Product, position: Int?) {
 
     }
 

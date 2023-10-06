@@ -6,7 +6,6 @@
         android:id="@+id/card_menu"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:cardBackgroundColor="@color/cafe4"
         app:cardCornerRadius="16dp"
         app:cardElevation="6dp"
         app:cardUseCompatPadding="true"
@@ -28,7 +27,7 @@
                 android:layout_marginEnd="16dp"
                 android:layout_marginBottom="8dp"
                 android:text="@string/textview"
-                android:textColor="@color/textcard"
+                android:textColor="@color/black"
                 app:drawableEndCompat="@drawable/ic_baseline_arrow_forward_24"
                 app:drawableTint="@color/always_black" />
         </LinearLayout>

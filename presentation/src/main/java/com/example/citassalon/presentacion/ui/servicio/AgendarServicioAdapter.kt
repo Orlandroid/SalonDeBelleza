@@ -20,7 +20,7 @@ class AgendarServicioAdapter(
         notifyDataSetChanged()
     }
 
-    fun isOneItemOrMoreSelect():Boolean = servicios.any { it.isSelect }
+    fun isOneItemOrMoreSelect(): Boolean = servicios.any { it.isSelect }
 
     class ViewHolder(val binding: ItemServicioBinding) : RecyclerView.ViewHolder(binding.root) {
         fun bind(servicio: Service) {
@@ -47,13 +47,13 @@ class AgendarServicioAdapter(
         val item = servicios[position]
         holder.bind(item)
         holder.itemView.setOnClickListener {
-            listener.clikOnElement(element = item)
+            listener.clickOnItem(element = item)
             servicios[position].isSelect = !item.isSelect
             notifyDataSetChanged()
         }
     }
 
-    override fun getItemCount(): Int = servicios.size
+    override fun getItemCount() = servicios.size
 
 
 }

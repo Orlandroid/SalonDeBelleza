@@ -76,7 +76,7 @@ class AgendarServicioFragment :
 
     private fun getListener(): ClickOnItem<Service> = this
 
-    override fun clikOnElement(element: Service, position: Int?) {
+    override fun clickOnItem(element: Service, position: Int?) {
         binding.tvServicio.text = element.name
         listOfServices.add(element)
     }

@@ -54,7 +54,7 @@ class PerfilFragment : BaseFragment<FragmentPerfilBinding>(R.layout.fragment_per
     }
 
 
-    override fun clikOnElement(element: String, position: Int?) {
+    override fun clickOnItem(element: String, position: Int?) {
         when (position) {
             1 -> {
                 val action = PerfilFragmentDirections.actionPerfilToUserProfileFragment()

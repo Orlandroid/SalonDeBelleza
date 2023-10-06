@@ -52,7 +52,7 @@ class HistorialCitasAdapter(private val listener: ClickOnItem<AppointmentFirebas
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val appointment = listAppointment[position]
         viewHolder.itemView.setOnClickListener {
-            listener.clikOnElement(appointment)
+            listener.clickOnItem(appointment)
         }
         viewHolder.bind(appointment)
     }

@@ -34,7 +34,7 @@ class ListOfCategoriesAdapter(private val listener: ClickOnItem<String>) :
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(listOfCategories[position])
         holder.itemView.setOnClickListener {
-            listener.clikOnElement(listOfCategories[position])
+            listener.clickOnItem(listOfCategories[position])
         }
     }
 

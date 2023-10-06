@@ -85,7 +85,7 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
     }
 
 
-    override fun clikOnElement(element: Product, position: Int?) {
+    override fun clickOnItem(element: Product, position: Int?) {
         val action = ProductsFragmentDirections.actionProductsFragmentToDetalleProductoFragment(element.toJson())
         navigate(action)
     }

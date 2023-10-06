@@ -46,7 +46,7 @@ class SucursalesFragment : BaseFragment<FragmentSucursalesBinding>(R.layout.frag
     private fun getListener(): ClickOnItem<NegoInfo> = this
 
 
-    override fun clikOnElement(element: NegoInfo, position: Int?) {
+    override fun clickOnItem(element: NegoInfo, position: Int?) {
         val gson = Gson()
         val bussnicesInfo = gson.toJson(element)
         val action = SucursalesFragmentDirections.actionSucursales2ToNegocioInfo(bussnicesInfo)

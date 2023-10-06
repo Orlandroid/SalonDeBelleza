@@ -29,7 +29,7 @@ class PerfilAdapter(
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.bind(menuElements[position])
         viewHolder.itemView.setOnClickListener {
-            listener.clikOnElement("",position + 1)
+            listener.clickOnItem("",position + 1)
         }
     }
 
