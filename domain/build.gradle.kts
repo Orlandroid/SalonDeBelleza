@@ -17,6 +17,8 @@ import com.example.androidbase.presentation.Dependencies.ROOM_KTX
 import com.example.androidbase.presentation.Dependencies.ROOM_RUNTIME
 import com.example.androidbase.presentation.Dependencies.TEST_EXPRESO
 import com.example.androidbase.presentation.Dependencies.TEST_JUNIT
+import com.example.androidbase.presentation.Dependencies.firebase
+import com.example.androidbase.presentation.Dependencies.room
 
 plugins {
     id("com.android.library")
@@ -65,14 +67,8 @@ dependencies {
     androidTestImplementation(TEST_EXPRESO)
     //Firebases
     implementation(platform(FIREBASE_BOM))
-    implementation(FIREBASE_AUTH_KTX)
-    implementation(FIREBASE_AUTH_V_KTX)
-    implementation(FIREBASE_ANALYTICS_KTX)
-    implementation(FIREBASE_PLAY_SERVICES)
-    implementation(FIREBASE_DATABASE)
+    firebase()
     //Room Dependecies
-    implementation(ROOM_RUNTIME)
-    implementation(ROOM_KTX)
-    kapt(ROOM_COMPILER)
+    room()
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
 }

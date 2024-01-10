@@ -1,5 +1,7 @@
 package com.example.androidbase.presentation
 
+import org.gradle.api.artifacts.dsl.DependencyHandler
+
 object Versions {
     const val ANDROID_MATERIAL_VERSION = "1.9.0"
     const val ANDROIDX_ACTIVITY = "1.2.1"
@@ -22,7 +24,7 @@ object Versions {
     const val RECYCLERVIEW_VERSION = "1.1.0"
     const val RETROFIT_VERSION = "2.9.0"
     const val ROOM_VERSION = "2.6.1"
-    const val NAVIGATION_VERSION = "2.5.0"
+    const val NAVIGATION_VERSION = "2.7.6"
     const val DAGGER_HILT_VERSION = "2.38.1"
     const val LIFECYCLE_VERSION = "2.3.1"
 }
@@ -43,7 +45,8 @@ object Dependencies {
     const val ANDROID_HILT_WORK = "androidx.hilt:hilt-work:1.0.0"
     const val GLIDE = "com.github.bumptech.glide:glide:4.14.2"
     const val GLIDE_COMPILER = "com.github.bumptech.glide:compiler:4.14.2"
-    const val VIEW_MODEL = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE_VERSION}"
+    const val VIEW_MODEL =
+        "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE_VERSION}"
     const val LIVE_DATA = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.LIFECYCLE_VERSION}"
     const val FRAGMENT_KTS = "androidx.fragment:fragment-ktx:1.5.7"
     const val TEST_JUNIT = "androidx.test.ext:junit:1.1.4"
@@ -56,8 +59,10 @@ object Dependencies {
     const val FIREBASE_PLAY_SERVICES = "com.google.android.gms:play-services-auth:20.5.0"
     const val FIREBASE_DATABASE = "com.google.firebase:firebase-database-ktx"
     const val GOOGLE_GSON = "com.google.code.gson:gson:2.9.0"
-    const val ANDROIDX_LIFECYCLE = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.ANDROIDX_LIFECYCLE_VERSION}"
-    const val ANDROIDX_LIFECYCLE_EXTENSIONS = "androidx.lifecycle:lifecycle-extensions:${Versions.ANDROIDX_LIFECYCLE_VERSION}"
+    const val ANDROIDX_LIFECYCLE =
+        "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.ANDROIDX_LIFECYCLE_VERSION}"
+    const val ANDROIDX_LIFECYCLE_EXTENSIONS =
+        "androidx.lifecycle:lifecycle-extensions:${Versions.ANDROIDX_LIFECYCLE_VERSION}"
     const val KOIN = "org.koin:koin-core:${Versions.KOIN_VERSION}"
     const val KOIN_ANDROID = "org.koin:koin-android:${Versions.KOIN_VERSION}"
     const val KOIN_ANDROIDX_SCOPE = "org.koin:koin-androidx-scope:${Versions.KOIN_VERSION}"
@@ -72,7 +77,6 @@ object Dependencies {
     const val NAVIGATION_FRAGMENT =
         "androidx.navigation:navigation-fragment-ktx:${Versions.NAVIGATION_VERSION}"
     const val NAVIGATION_UI = "androidx.navigation:navigation-ui-ktx:${Versions.NAVIGATION_VERSION}"
-    const val OKHTTP_LOGGING_INTERCEPTOR = "com.squareup.okhttp3:logging-interceptor:4.0.1"
     const val PAGING = "androidx.paging:paging-runtime:3.0.0-beta02"
     const val RECYCLERVIEW = "androidx.recyclerview:recyclerview:1.1.0"
     const val RETROFIT_INTERCEPTOR = "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2"
@@ -84,4 +88,49 @@ object Dependencies {
     const val ROOM_RUNTIME = "androidx.room:room-runtime:${Versions.ROOM_VERSION}"
     const val ROOM_COMPILER = "androidx.room:room-compiler:${Versions.ROOM_VERSION}"
     const val ROOM_KTX = "androidx.room:room-ktx:${Versions.ROOM_VERSION}"
+
+    fun DependencyHandler.room() {
+        implementation(Dependencies.ROOM_KTX)
+        implementation(Dependencies.ROOM_RUNTIME)
+        kapt(Dependencies.ROOM_COMPILER)
+    }
+
+    fun DependencyHandler.lifecycle() {
+        implementation(Dependencies.VIEW_MODEL)
+        implementation(Dependencies.LIVE_DATA)
+        implementation(Dependencies.ANDROIDX_FRAGMENT)
+    }
+
+    fun DependencyHandler.retrofit() {
+        implementation(Dependencies.RETROFIT)
+        implementation(Dependencies.RETROFIT_CONVERTER_GSON)
+        implementation(Dependencies.RETROFIT_CONVERTER_MOSHI)
+        implementation(Dependencies.RETROFIT_INTERCEPTOR)
+    }
+
+    fun DependencyHandler.daggerHilt() {
+        implementation(Dependencies.DAGGER_HILT)
+        implementation(Dependencies.ANDROID_HILT_WORK)
+        kapt(Dependencies.ANDROID_HILT_COMPILER)
+        kapt(Dependencies.DAGGER_HILT_COMPILER)
+    }
+
+    fun DependencyHandler.navigationComponent() {
+        implementation(Dependencies.NAVIGATION_FRAGMENT)
+        implementation(Dependencies.NAVIGATION_UI)
+    }
+
+    fun DependencyHandler.glide() {
+        implementation(Dependencies.GLIDE)
+        annotationProcessor(Dependencies.GLIDE_COMPILER)
+    }
+
+    fun DependencyHandler.firebase() {
+        //implementation(Dependencies.FIREBASE_BOM)
+        implementation(Dependencies.FIREBASE_AUTH_KTX)
+        implementation(Dependencies.FIREBASE_AUTH_V_KTX)
+        implementation(Dependencies.FIREBASE_ANALYTICS_KTX)
+        implementation(Dependencies.FIREBASE_PLAY_SERVICES)
+        implementation(Dependencies.FIREBASE_DATABASE)
+    }
 }

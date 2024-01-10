@@ -24,6 +24,10 @@ import com.example.androidbase.presentation.Dependencies.ROOM_KTX
 import com.example.androidbase.presentation.Dependencies.ROOM_RUNTIME
 import com.example.androidbase.presentation.Dependencies.TEST_EXPRESO
 import com.example.androidbase.presentation.Dependencies.TEST_JUNIT
+import com.example.androidbase.presentation.Dependencies.daggerHilt
+import com.example.androidbase.presentation.Dependencies.firebase
+import com.example.androidbase.presentation.Dependencies.retrofit
+import com.example.androidbase.presentation.Dependencies.room
 
 plugins {
     id("com.android.library")
@@ -73,25 +77,14 @@ dependencies {
     androidTestImplementation(TEST_JUNIT)
     androidTestImplementation(TEST_EXPRESO)
     //Retrofit Dependecies
-    implementation(RETROFIT)
-    implementation(RETROFIT_CONVERTER_GSON)
-    implementation(RETROFIT_INTERCEPTOR)
+    retrofit()
     //Room Dependecies
-    implementation(ROOM_RUNTIME)
-    implementation(ROOM_KTX)
-    kapt(ROOM_COMPILER)
+    room()
     //Dagger - Hilt
-    implementation(DAGGER_HILT)
-    kapt(DAGGER_HILT_COMPILER)
-    kapt(ANDROID_HILT_COMPILER)
-    implementation(ANDROID_HILT_WORK)
+    daggerHilt()
     //Firebases
     implementation(platform(FIREBASE_BOM))
-    implementation(FIREBASE_AUTH_KTX)
-    implementation(FIREBASE_AUTH_V_KTX)
-    implementation(FIREBASE_ANALYTICS_KTX)
-    implementation(FIREBASE_PLAY_SERVICES)
-    implementation(FIREBASE_DATABASE)
+    firebase()
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
 }
