@@ -30,6 +30,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-kapt")
     id("kotlin-parcelize")
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -91,4 +92,6 @@ dependencies {
     implementation(FIREBASE_ANALYTICS_KTX)
     implementation(FIREBASE_PLAY_SERVICES)
     implementation(FIREBASE_DATABASE)
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
 }

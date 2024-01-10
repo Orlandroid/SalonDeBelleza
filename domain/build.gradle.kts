@@ -23,6 +23,7 @@ plugins {
     id("org.jetbrains.kotlin.android")
     id("kotlin-parcelize")
     id("kotlin-kapt")
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -73,4 +74,5 @@ dependencies {
     implementation(ROOM_RUNTIME)
     implementation(ROOM_KTX)
     kapt(ROOM_COMPILER)
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.2")
 }

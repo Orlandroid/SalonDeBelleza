@@ -85,7 +85,6 @@ android {
 }
 
 dependencies {
-    val kotlin_version = "1.5.21"
     implementation(project(DATA))
     implementation(project(DOMAIN))
     implementation(ANDROIDX_CORE_KTX)
@@ -127,7 +126,7 @@ dependencies {
     implementation(GLIDE)
     annotationProcessor(GLIDE_COMPILER)
     implementation(FRAGMENT_KTS)
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.20")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.22")
     //Shimmer
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
     implementation("androidx.legacy:legacy-support-v4:1.0.0")
@@ -135,12 +134,12 @@ dependencies {
     implementation("com.github.ome450901:SimpleRatingBar:1.5.1")
     //Rounded ImageView
     implementation("de.hdodenhof:circleimageview:3.1.0")
-    implementation("com.google.android.gms:play-services-maps:18.1.0")
+    implementation("com.google.android.gms:play-services-maps:18.2.0")
     //Skeleton
-    implementation("com.faltenreich:skeletonlayout:4.0.0")
+    implementation("com.faltenreich:skeletonlayout:5.0.0")
     //lottie
-    implementation("com.airbnb.android:lottie:6.0.0")
+    implementation("com.airbnb.android:lottie:6.1.0")
     // Kotlin + coroutines(WorkManager)
-    implementation("androidx.work:work-runtime-ktx:2.8.1")
+    implementation("androidx.work:work-runtime-ktx:2.9.0")
     implementation("androidx.startup:startup-runtime:1.1.1")
 }

@@ -3,12 +3,18 @@ package com.example.citassalon.presentacion.ui.info.stores
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentStoresBinding
+import com.example.citassalon.presentacion.ui.MainActivity
 import com.example.citassalon.presentacion.ui.base.BaseFragment
 import com.example.citassalon.presentacion.ui.extensions.toJson
 import kotlin.random.Random
 
 
 class StoresFragment : BaseFragment<FragmentStoresBinding>(R.layout.fragment_stores) {
+
+    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+        showToolbar = true,
+        toolbarTitle = getString(R.string.tiendas)
+    )
 
     companion object {
         const val FAKE_STORE = "Fake store"

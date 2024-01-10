@@ -61,7 +61,7 @@ object ModuleApi {
             .build()
     }
 
-    private fun createGenericRetrofit(okHttpClient: OkHttpClient, baseUrl: String = "") =
+    private fun createGenericRetrofit(okHttpClient: OkHttpClient, baseUrl: String) =
         Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create())
