@@ -5,16 +5,8 @@ import com.example.androidbase.presentation.ConfigData.TEST_INSTRUMENTATION_RUNN
 import com.example.androidbase.presentation.Dependencies.ANDROIDX_APPCOMPAT
 import com.example.androidbase.presentation.Dependencies.ANDROIDX_CORE_KTX
 import com.example.androidbase.presentation.Dependencies.ANDROID_MATERIAL
-import com.example.androidbase.presentation.Dependencies.FIREBASE_ANALYTICS_KTX
-import com.example.androidbase.presentation.Dependencies.FIREBASE_AUTH_KTX
-import com.example.androidbase.presentation.Dependencies.FIREBASE_AUTH_V_KTX
 import com.example.androidbase.presentation.Dependencies.FIREBASE_BOM
-import com.example.androidbase.presentation.Dependencies.FIREBASE_DATABASE
-import com.example.androidbase.presentation.Dependencies.FIREBASE_PLAY_SERVICES
 import com.example.androidbase.presentation.Dependencies.JUNIT
-import com.example.androidbase.presentation.Dependencies.ROOM_COMPILER
-import com.example.androidbase.presentation.Dependencies.ROOM_KTX
-import com.example.androidbase.presentation.Dependencies.ROOM_RUNTIME
 import com.example.androidbase.presentation.Dependencies.TEST_EXPRESO
 import com.example.androidbase.presentation.Dependencies.TEST_JUNIT
 import com.example.androidbase.presentation.Dependencies.firebase

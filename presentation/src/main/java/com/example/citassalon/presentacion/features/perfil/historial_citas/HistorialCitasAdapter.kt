@@ -24,11 +24,6 @@ class HistorialCitasAdapter(private val listener: ClickOnItem<AppointmentFirebas
         notifyDataSetChanged()
     }
 
-    @SuppressLint("NotifyDataSetChanged")
-    fun removeElement(position: Int) {
-        listAppointment.removeAt(position)
-        notifyDataSetChanged()
-    }
 
     fun getElement(position: Int): AppointmentFirebase {
         return listAppointment[position]
