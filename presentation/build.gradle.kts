@@ -7,31 +7,12 @@ import com.example.androidbase.presentation.ConfigData.TEST_INSTRUMENTATION_RUNN
 import com.example.androidbase.presentation.Dependencies.ANDROIDX_APPCOMPAT
 import com.example.androidbase.presentation.Dependencies.ANDROIDX_CONSTRAINT_LAYOUT
 import com.example.androidbase.presentation.Dependencies.ANDROIDX_CORE_KTX
-import com.example.androidbase.presentation.Dependencies.ANDROID_HILT_COMPILER
-import com.example.androidbase.presentation.Dependencies.ANDROID_HILT_WORK
 import com.example.androidbase.presentation.Dependencies.ANDROID_MATERIAL
-import com.example.androidbase.presentation.Dependencies.DAGGER_HILT
-import com.example.androidbase.presentation.Dependencies.DAGGER_HILT_COMPILER
-import com.example.androidbase.presentation.Dependencies.FIREBASE_ANALYTICS_KTX
-import com.example.androidbase.presentation.Dependencies.FIREBASE_AUTH_KTX
-import com.example.androidbase.presentation.Dependencies.FIREBASE_AUTH_V_KTX
 import com.example.androidbase.presentation.Dependencies.FIREBASE_BOM
-import com.example.androidbase.presentation.Dependencies.FIREBASE_DATABASE
-import com.example.androidbase.presentation.Dependencies.FIREBASE_PLAY_SERVICES
 import com.example.androidbase.presentation.Dependencies.FRAGMENT_KTS
-import com.example.androidbase.presentation.Dependencies.GLIDE
-import com.example.androidbase.presentation.Dependencies.GLIDE_COMPILER
 import com.example.androidbase.presentation.Dependencies.GOOGLE_GSON
 import com.example.androidbase.presentation.Dependencies.JUNIT
 import com.example.androidbase.presentation.Dependencies.LIVE_DATA
-import com.example.androidbase.presentation.Dependencies.NAVIGATION_FRAGMENT
-import com.example.androidbase.presentation.Dependencies.NAVIGATION_UI
-import com.example.androidbase.presentation.Dependencies.RETROFIT
-import com.example.androidbase.presentation.Dependencies.RETROFIT_CONVERTER_GSON
-import com.example.androidbase.presentation.Dependencies.RETROFIT_INTERCEPTOR
-import com.example.androidbase.presentation.Dependencies.ROOM_COMPILER
-import com.example.androidbase.presentation.Dependencies.ROOM_KTX
-import com.example.androidbase.presentation.Dependencies.ROOM_RUNTIME
 import com.example.androidbase.presentation.Dependencies.TEST_EXPRESO
 import com.example.androidbase.presentation.Dependencies.TEST_JUNIT
 import com.example.androidbase.presentation.Dependencies.VIEW_MODEL
@@ -59,6 +40,10 @@ android {
     buildFeatures {
         viewBinding = true
         dataBinding = true
+        compose = true
+    }
+    composeOptions {
+        kotlinCompilerExtensionVersion = "1.5.10"
     }
 
     defaultConfig {
@@ -136,4 +121,13 @@ dependencies {
     // Kotlin + coroutines(WorkManager)
     implementation("androidx.work:work-runtime-ktx:2.9.0")
     implementation("androidx.startup:startup-runtime:1.1.1")
+
+    //Compose
+    implementation("androidx.compose.ui:ui")
+    implementation("androidx.compose.material:material")
+    implementation("androidx.compose.runtime:runtime")
+    implementation("androidx.activity:activity-compose:1.8.2")
+    implementation(platform("androidx.compose:compose-bom:2024.02.02"))
+    implementation("androidx.compose.ui:ui-graphics")
+    implementation("androidx.compose.ui:ui-tooling-preview")
 }

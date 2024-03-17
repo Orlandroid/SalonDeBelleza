@@ -1,6 +1,8 @@
 package com.example.citassalon.presentacion.features.perfil.historial_citas
 
 import android.util.Log
+import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -30,15 +32,16 @@ class HistorialCitasViewModel @Inject constructor(
     ViewModel() {
 
 
-    private val _appointment =
-        MutableLiveData<ApiState<List<AppointmentFirebase>>>()
-    val appointment: MutableLiveData<ApiState<List<AppointmentFirebase>>>
+    private val _appointment = MutableLiveData<ApiState<List<AppointmentFirebase>>>()
+    val appointment: LiveData<ApiState<List<AppointmentFirebase>>>
         get() = _appointment
 
 
     private val _removeAppointment = MutableLiveData<ApiState<List<AppointmentFirebase>>>()
     val removeAppointment: MutableLiveData<ApiState<List<AppointmentFirebase>>>
         get() = _removeAppointment
+
+    val android = mutableStateOf("")
 
     init {
         getAppointments()

@@ -1,6 +1,7 @@
 package com.example.citassalon.presentacion.features.perfil.historial_citas
 
 import android.annotation.SuppressLint
+import androidx.compose.material.Text
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
@@ -36,7 +37,6 @@ class HistorialDeCitasFragment :
 
     override fun setUpUi() {
         swipeRecycler.swipe(binding.recyclerAppointment, getListenerSwipeRecyclerListenr())
-
     }
 
 
@@ -48,6 +48,7 @@ class HistorialDeCitasFragment :
     @SuppressLint("SetTextI18n")
     override fun observerViewModel() {
         super.observerViewModel()
+
         observeApiResultGeneric(liveData = viewModel.appointment,
             onLoading = { binding.progressBar.visible() },
             onFinishLoading = { binding.progressBar.gone() },
@@ -73,6 +74,8 @@ class HistorialDeCitasFragment :
         ) {
             showSuccessMessage("Appointment eliminado")
         }
+
+
     }
 
 
