@@ -9,7 +9,7 @@
         android:background="@color/background"
         app:cardCornerRadius="32dp"
         app:cardUseCompatPadding="true"
-        tools:context=".presentacion.ui.perfil.historial_detail.HistorialDetailFragment">
+        tools:context=".presentacion.features.perfil.historial_detail.HistorialDetailFragment">
 
 
         <com.google.android.material.card.MaterialCardView
@@ -22,7 +22,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            tools:context=".presentacion.ui.perfil.historial_detail.HistorialDetailFragment">
+            tools:context=".presentacion.features.perfil.historial_detail.HistorialDetailFragment">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

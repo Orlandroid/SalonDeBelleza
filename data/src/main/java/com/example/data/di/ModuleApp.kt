@@ -2,7 +2,7 @@ package com.example.data.di
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.data.preferences.LoginPeferences
+import com.example.data.preferences.LoginPreferences
 import com.example.data.preferences.PreferencesManager
 import dagger.Module
 import dagger.Provides
@@ -31,8 +31,8 @@ object ModuleApp {
 
     @Singleton
     @Provides
-    fun provideLoginPreferences(sharedPreferences: SharedPreferences): LoginPeferences {
-        return LoginPeferences(sharedPreferences)
+    fun provideLoginPreferences(sharedPreferences: SharedPreferences): LoginPreferences {
+        return LoginPreferences(sharedPreferences)
     }
 
 

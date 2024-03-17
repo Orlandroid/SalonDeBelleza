@@ -126,7 +126,6 @@ object Dependencies {
     }
 
     fun DependencyHandler.firebase() {
-        //implementation(Dependencies.FIREBASE_BOM)
         implementation(Dependencies.FIREBASE_AUTH_KTX)
         implementation(Dependencies.FIREBASE_AUTH_V_KTX)
         implementation(Dependencies.FIREBASE_ANALYTICS_KTX)

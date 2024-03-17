@@ -1,8 +1,8 @@
 package com.example.domain.state
 
-sealed class SessionStatus() {
-    object LOADING : SessionStatus()
-    object NETWORKERROR : SessionStatus()
-    object SUCESS : SessionStatus()
-    object ERROR : SessionStatus()
+sealed class SessionStatus {
+    data object LOADING : SessionStatus()
+    data object NETWORKERROR : SessionStatus()
+    data object SUCCESS : SessionStatus()
+    data object ERROR : SessionStatus()
 }

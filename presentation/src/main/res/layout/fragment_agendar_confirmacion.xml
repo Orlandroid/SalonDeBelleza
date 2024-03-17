@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background"
-        tools:context=".presentacion.ui.confirmarcita.AgendarConfirmacionFragment">
+        tools:context=".presentacion.features.confirmarcita.AgendarConfirmacionFragment">
 
         <TextView
             android:id="@+id/text_agendar_sucursal"

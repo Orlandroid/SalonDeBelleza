@@ -5,7 +5,7 @@ import com.example.domain.entities.remote.Servicio
 import com.example.domain.entities.remote.dummyUsers.DummyUsersResponse
 import com.example.domain.entities.remote.Staff
 import com.example.domain.entities.remote.migration.SucursalesResponse
-import com.example.domain.entities.remote.ramdomuser.RandomUserResponse
+import com.example.domain.perfil.RandomUserResponse
 import retrofit2.http.GET
 import retrofit2.http.Url
 

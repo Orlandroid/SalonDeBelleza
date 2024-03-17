@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background"
-        tools:context=".presentacion.ui.info.establecimiento.EstablecimientoFragment">
+        tools:context=".presentacion.features.info.establecimiento.EstablecimientoFragment">
 
 
         <androidx.constraintlayout.widget.Guideline

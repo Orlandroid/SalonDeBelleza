@@ -7,7 +7,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/status_bar_color"
-        tools:context=".presentacion.ui.splashscreen.SplashScreenFragment">
+        tools:context=".presentacion.features.splashscreen.SplashScreenFragment">
 
 
         <ImageView

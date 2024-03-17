@@ -2,7 +2,7 @@ package com.example.domain.mappers
 
 import com.example.domain.entities.local.AppointmentObject
 import com.example.domain.entities.remote.AppointmentResponse
-import com.example.domain.entities.remote.firebase.AppointmentFirebase
+import com.example.domain.perfil.AppointmentFirebase
 
 fun AppointmentResponse.toAppointmentRemote(idAppointment: String): AppointmentFirebase {
     val establishment = this.establecimiento

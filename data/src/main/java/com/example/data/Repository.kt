@@ -3,7 +3,7 @@ package com.example.data
 
 import com.example.domain.entities.db.AppointmentDb
 import com.example.domain.entities.db.ProductDb
-import com.example.domain.entities.remote.ramdomuser.RandomUserResponse
+import com.example.domain.perfil.RandomUserResponse
 import com.example.domain.LocalDataSource
 import com.example.domain.RemoteDataSource
 import com.example.domain.entities.remote.Product

@@ -9,7 +9,7 @@
         android:layout_height="match_parent"
         android:background="@color/background"
         android:orientation="vertical"
-        tools:context=".presentacion.ui.fecha.AgendarFechaFragment">
+        tools:context=".presentacion.features.fecha.AgendarFechaFragment">
         
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cardView3"

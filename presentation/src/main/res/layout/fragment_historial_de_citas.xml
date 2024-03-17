@@ -6,7 +6,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".presentacion.ui.perfil.historial_citas.HistorialDeCitasFragment">
+        tools:context=".presentacion.features.perfil.historial_citas.HistorialDeCitasFragment">
 
 
         <androidx.recyclerview.widget.RecyclerView

@@ -12,7 +12,7 @@
             android:id="@+id/container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            tools:context=".presentacion.ui.login.LoginFragment">
+            tools:context=".presentacion.features.login.LoginFragment">
 
             <com.airbnb.lottie.LottieAnimationView
                 android:id="@+id/image_animation"

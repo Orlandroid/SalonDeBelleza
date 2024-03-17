@@ -4,7 +4,7 @@ package com.example.data.remote
 import com.example.data.api.FakeStoreService
 import com.example.data.api.WebServices
 import com.example.data.firebase.FireBaseSource
-import com.example.domain.entities.remote.ramdomuser.RandomUserResponse
+import com.example.domain.perfil.RandomUserResponse
 import com.example.domain.RemoteDataSource
 import com.example.domain.entities.remote.Product
 import com.example.domain.entities.remote.dummyUsers.DummyUsersResponse

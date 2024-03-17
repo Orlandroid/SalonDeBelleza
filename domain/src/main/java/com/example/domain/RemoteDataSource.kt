@@ -1,7 +1,7 @@
 package com.example.domain
 
 
-import com.example.domain.entities.remote.ramdomuser.RandomUserResponse
+import com.example.domain.perfil.RandomUserResponse
 import com.example.domain.entities.remote.Cart
 import com.example.domain.entities.remote.Product
 import com.example.domain.entities.remote.Servicio

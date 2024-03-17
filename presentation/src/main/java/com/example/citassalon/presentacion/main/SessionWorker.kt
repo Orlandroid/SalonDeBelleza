@@ -5,7 +5,7 @@ import android.content.Context
 import androidx.hilt.work.HiltWorker
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.example.data.preferences.LoginPeferences
+import com.example.data.preferences.LoginPreferences
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 
@@ -13,7 +13,7 @@ import dagger.assisted.AssistedInject
 class SessionWorker @AssistedInject constructor(
     @Assisted context: Context,
     @Assisted workerParams: WorkerParameters,
-    private val loginPeferences: LoginPeferences
+    private val loginPreferences: LoginPreferences
 ) :
     Worker(context, workerParams) {
 
@@ -27,7 +27,7 @@ class SessionWorker @AssistedInject constructor(
     }
 
     private fun deleteSessionUser() {
-        loginPeferences.destroyUserSession()
+        loginPreferences.destroyUserSession()
     }
 
 }

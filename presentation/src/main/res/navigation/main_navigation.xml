@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/login"
-        android:name="com.example.citassalon.presentacion.ui.login.LoginFragment"
+        android:name="com.example.citassalon.presentacion.features.login.LoginFragment"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login">
         <action
@@ -21,7 +21,7 @@
     </fragment>
     <fragment
         android:id="@+id/home3"
-        android:name="com.example.citassalon.presentacion.ui.home.HomeFragment"
+        android:name="com.example.citassalon.presentacion.features.home.HomeFragment"
         android:label="fragment_home"
         tools:layout="@layout/fragment_home">
         <action
@@ -43,7 +43,7 @@
     </fragment>
     <fragment
         android:id="@+id/agendarSucursal"
-        android:name="com.example.citassalon.presentacion.ui.sucursal.AgendarSucursalFragment"
+        android:name="com.example.citassalon.presentacion.features.sucursal.AgendarSucursalFragment"
         android:label="fragment_agendar_sucursal"
         tools:layout="@layout/fragment_agendar_sucursal">
         <action
@@ -56,7 +56,7 @@
     </fragment>
     <fragment
         android:id="@+id/agendarStaff"
-        android:name="com.example.citassalon.presentacion.ui.staff.AgendarStaffFragment"
+        android:name="com.example.citassalon.presentacion.features.staff.AgendarStaffFragment"
         android:label="fragment_agendar_staff"
         tools:layout="@layout/fragment_agendar_staff">
         <action
@@ -72,7 +72,7 @@
     </fragment>
     <fragment
         android:id="@+id/agendarServicio"
-        android:name="com.example.citassalon.presentacion.ui.servicio.AgendarServicioFragment"
+        android:name="com.example.citassalon.presentacion.features.servicio.AgendarServicioFragment"
         android:label="fragment_agendar_servicio"
         tools:layout="@layout/fragment_agendar_servicio">
         <action
@@ -85,7 +85,7 @@
     </fragment>
     <fragment
         android:id="@+id/agendarFecha"
-        android:name="com.example.citassalon.presentacion.ui.fecha.AgendarFechaFragment"
+        android:name="com.example.citassalon.presentacion.features.fecha.AgendarFechaFragment"
         android:label="fragment_agendar_fecha"
         tools:layout="@layout/fragment_agendar_fecha">
         <action
@@ -98,7 +98,7 @@
     </fragment>
     <fragment
         android:id="@+id/agendarConfirmacion"
-        android:name="com.example.citassalon.presentacion.ui.confirmarcita.AgendarConfirmacionFragment"
+        android:name="com.example.citassalon.presentacion.features.confirmarcita.AgendarConfirmacionFragment"
         android:label="fragment_agendar_confirmacion"
         tools:layout="@layout/fragment_agendar_confirmacion">
         <action
@@ -110,7 +110,7 @@
     </fragment>
     <fragment
         android:id="@+id/citaAgendada"
-        android:name="com.example.citassalon.presentacion.ui.cita_agendada.CitaAgendadaFragment"
+        android:name="com.example.citassalon.presentacion.features.cita_agendada.CitaAgendadaFragment"
         android:label="fragment_cita_agendada"
         tools:layout="@layout/fragment_cita_agendada">
         <action
@@ -124,7 +124,7 @@
     </fragment>
     <fragment
         android:id="@+id/perfil"
-        android:name="com.example.citassalon.presentacion.ui.perfil.perfil.PerfilFragment"
+        android:name="com.example.citassalon.presentacion.features.perfil.perfil.PerfilFragment"
         android:label="fragment_perfil"
         tools:layout="@layout/fragment_perfil">
         <action
@@ -144,17 +144,17 @@
     </fragment>
     <fragment
         android:id="@+id/detalleStaff"
-        android:name="com.example.citassalon.presentacion.ui.detalle_staff.DetalleStaffFragment"
+        android:name="com.example.citassalon.presentacion.features.detalle_staff.DetalleStaffFragment"
         android:label="fragment_detalle_staff"
         tools:layout="@layout/fragment_detalle_staff" />
     <fragment
         android:id="@+id/sucursales"
-        android:name="com.example.citassalon.presentacion.ui.info.sucursales.SucursalesFragment"
+        android:name="com.example.citassalon.presentacion.features.info.sucursales.SucursalesFragment"
         android:label="fragment_sucursales"
         tools:layout="@layout/fragment_sucursales" />
     <fragment
         android:id="@+id/signUp"
-        android:name="com.example.citassalon.presentacion.ui.sign_up.SignUpFragment"
+        android:name="com.example.citassalon.presentacion.features.sign_up.SignUpFragment"
         android:label="sign_in"
         tools:layout="@layout/sign_in">
         <action
@@ -163,7 +163,7 @@
     </fragment>
     <fragment
         android:id="@+id/historialDeCitas"
-        android:name="com.example.citassalon.presentacion.ui.perfil.historial_citas.HistorialDeCitasFragment"
+        android:name="com.example.citassalon.presentacion.features.perfil.historial_citas.HistorialDeCitasFragment"
         android:label="fragment_historial_de_citas"
         tools:layout="@layout/fragment_historial_de_citas">
         <action
@@ -172,7 +172,7 @@
     </fragment>
     <fragment
         android:id="@+id/splashScreenFragment"
-        android:name="com.example.citassalon.presentacion.ui.splashscreen.SplashScreenFragment"
+        android:name="com.example.citassalon.presentacion.features.splashscreen.SplashScreenFragment"
         android:label="fragment_splash_screen"
         tools:layout="@layout/fragment_splash_screen">
         <action
@@ -183,7 +183,7 @@
     </fragment>
     <fragment
         android:id="@+id/historialDetailFragment"
-        android:name="com.example.citassalon.presentacion.ui.perfil.historial_detail.HistorialDetailFragment"
+        android:name="com.example.citassalon.presentacion.features.perfil.historial_detail.HistorialDetailFragment"
         android:label="HistorialDetailFragment"
         tools:layout="@layout/fragment_historial_detail">
         <argument
@@ -192,7 +192,7 @@
     </fragment>
     <fragment
         android:id="@+id/userProfileFragment"
-        android:name="com.example.citassalon.presentacion.ui.perfil.userprofile.UserProfileFragment"
+        android:name="com.example.citassalon.presentacion.features.perfil.userprofile.UserProfileFragment"
         android:label="fragment_user_profile"
         tools:layout="@layout/fragment_user_profile" />
 
@@ -203,7 +203,7 @@
 
         <fragment
             android:id="@+id/establecimiento"
-            android:name="com.example.citassalon.presentacion.ui.info.establecimiento.EstablecimientoFragment"
+            android:name="com.example.citassalon.presentacion.features.info.establecimiento.EstablecimientoFragment"
             android:label="fragment_establecimiento"
             tools:layout="@layout/fragment_establecimiento">
             <action
@@ -215,7 +215,7 @@
         </fragment>
         <fragment
             android:id="@+id/sucursales2"
-            android:name="com.example.citassalon.presentacion.ui.info.sucursales.SucursalesFragment"
+            android:name="com.example.citassalon.presentacion.features.info.sucursales.SucursalesFragment"
             android:label="fragment_sucursales"
             tools:layout="@layout/fragment_sucursales">
             <action
@@ -224,7 +224,7 @@
         </fragment>
         <fragment
             android:id="@+id/negocioInfo"
-            android:name="com.example.citassalon.presentacion.ui.info.sucursal.NegocioInfoFragment"
+            android:name="com.example.citassalon.presentacion.features.info.sucursal.NegocioInfoFragment"
             android:label="fragment_negocio_info"
             tools:layout="@layout/fragment_negocio_info">
             <action
@@ -242,17 +242,17 @@
         </fragment>
         <fragment
             android:id="@+id/nuestroStaff"
-            android:name="com.example.citassalon.presentacion.ui.info.nuestro_staff.NuestroStaffFragment"
+            android:name="com.example.citassalon.presentacion.features.info.nuestro_staff.NuestroStaffFragment"
             android:label="fragment_nuestro_staff"
             tools:layout="@layout/fragment_nuestro_staff" />
         <fragment
             android:id="@+id/infoServicios"
-            android:name="com.example.citassalon.presentacion.ui.info.servicios.InfoServicesFragment"
+            android:name="com.example.citassalon.presentacion.features.info.servicios.InfoServicesFragment"
             android:label="fragment_info_servicios"
             tools:layout="@layout/fragment_info_servicios" />
         <fragment
             android:id="@+id/ubicacion"
-            android:name="com.example.citassalon.presentacion.ui.info.ubicacion.UbicacionFragment"
+            android:name="com.example.citassalon.presentacion.features.info.ubicacion.UbicacionFragment"
             android:label="fragment_ubicacion"
             tools:layout="@layout/fragment_ubicacion">
             <argument
@@ -261,7 +261,7 @@
         </fragment>
         <fragment
             android:id="@+id/listOfProductsFragment"
-            android:name="com.example.citassalon.presentacion.ui.info.productos.categories.ListOfCategoriesFragment"
+            android:name="com.example.citassalon.presentacion.features.info.productos.categories.ListOfCategoriesFragment"
             android:label="fragment_list_of_products"
             tools:layout="@layout/fragment_list_of_categories">
             <action
@@ -273,7 +273,7 @@
         </fragment>
         <fragment
             android:id="@+id/productsFragment"
-            android:name="com.example.citassalon.presentacion.ui.info.productos.productos.ProductsFragment"
+            android:name="com.example.citassalon.presentacion.features.info.productos.productos.ProductsFragment"
             android:label="fragment_products"
             tools:layout="@layout/fragment_products">
             <argument
@@ -288,7 +288,7 @@
         </fragment>
         <fragment
             android:id="@+id/detalleProductoFragment"
-            android:name="com.example.citassalon.presentacion.ui.info.productos.detalleproducto.DetalleProductoFragment"
+            android:name="com.example.citassalon.presentacion.features.info.productos.detalleproducto.DetalleProductoFragment"
             android:label="fragment_detalle_producto"
             tools:layout="@layout/fragment_detalle_producto">
             <argument
@@ -297,12 +297,12 @@
         </fragment>
         <fragment
             android:id="@+id/cartFragment"
-            android:name="com.example.citassalon.presentacion.ui.info.cart.CartFragment"
+            android:name="com.example.citassalon.presentacion.features.info.cart.CartFragment"
             android:label="CartFragment"
             tools:layout="@layout/fragment_cart" />
         <fragment
             android:id="@+id/storesFragment"
-            android:name="com.example.citassalon.presentacion.ui.info.stores.StoresFragment"
+            android:name="com.example.citassalon.presentacion.features.info.stores.StoresFragment"
             android:label="StoresFragment"
             tools:layout="@layout/fragment_stores" >
             <action
