@@ -2,8 +2,13 @@ package com.example.citassalon.presentacion.features.login
 
 import android.content.Intent
 import android.util.Log
+import androidx.compose.runtime.getValue
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentLoginBinding
 import com.example.citassalon.presentacion.main.AlertDialogs
@@ -55,11 +60,18 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
             buttonLoginGoogle.click {
                 signIn()
             }
-            txtPassord.editText?.doOnTextChanged { text, start, before, count ->
+            txtPassord.editText?.doOnTextChanged { _, _, _, _ ->
                 buttonGetIn.isEnabled = areNotEmptyFields()
             }
             configureGoogleSignIn()
             isSessionActive()
+            imageAnimation.setContent {
+                val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.login_icon))
+                LottieAnimation(
+                    iterations = LottieConstants.IterateForever,
+                    composition = composition
+                )
+            }
         }
     }
 
@@ -84,6 +96,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         if (requestCode == RC_SIGN_IN) {
