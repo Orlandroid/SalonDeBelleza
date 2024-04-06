@@ -138,5 +138,7 @@ dependencies {
     implementation("androidx.hilt:hilt-navigation-compose:1.2.0")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
     implementation("androidx.compose.material3:material3:1.2.1")
+    implementation("io.coil-kt:coil-compose:2.6.0")
+    implementation("com.github.a914-gowtham:compose-ratingbar:1.3.4")
 
 }
