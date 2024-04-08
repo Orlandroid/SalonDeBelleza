@@ -27,7 +27,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.fragment.app.viewModels
 import com.example.citassalon.R
-import com.example.citassalon.databinding.FragmentHomeBinding
+import com.example.citassalon.databinding.FragmentGenericBindingBinding
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.extensions.navigate
 import com.example.citassalon.presentacion.features.extensions.observeApiResultGeneric
@@ -41,7 +41,8 @@ import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
 
 @AndroidEntryPoint
-class HomeFragment : BaseFragment<FragmentHomeBinding>(R.layout.fragment_home) {
+class HomeFragment :
+    BaseFragment<FragmentGenericBindingBinding>(R.layout.fragment_generic_binding) {
 
     private val viewModel: UserProfileViewModel by viewModels()
 

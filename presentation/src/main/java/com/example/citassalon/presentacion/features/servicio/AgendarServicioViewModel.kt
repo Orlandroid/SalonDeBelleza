@@ -28,7 +28,7 @@ class AgendarServicioViewModel @Inject constructor(
         getServices()
     }
 
-    fun getServices() {
+    private fun getServices() {
         viewModelScope.launch(Dispatchers.IO) {
             _services.postValue(ApiState.Loading())
             if (!networkHelper.isNetworkConnected()) {

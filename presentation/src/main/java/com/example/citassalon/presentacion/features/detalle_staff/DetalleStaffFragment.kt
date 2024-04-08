@@ -27,7 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.navGraphViewModels
 import coil.compose.AsyncImage
 import com.example.citassalon.R
-import com.example.citassalon.databinding.FragmentDetalleStaffBinding
+import com.example.citassalon.databinding.FragmentGenericBindingBinding
 import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.flow_main.FlowMainViewModel
@@ -38,7 +38,7 @@ import com.gowtham.ratingbar.RatingBarStyle
 
 
 class DetalleStaffFragment :
-    BaseFragment<FragmentDetalleStaffBinding>(R.layout.fragment_detalle_staff) {
+    BaseFragment<FragmentGenericBindingBinding>(R.layout.fragment_generic_binding) {
 
     private val flowMainViewModel by navGraphViewModels<FlowMainViewModel>(R.id.main_navigation) {
         defaultViewModelProviderFactory
@@ -51,7 +51,7 @@ class DetalleStaffFragment :
 
 
     override fun setUpUi() {
-        
+
     }
 
 

@@ -66,8 +66,7 @@ fun showDatePickerDialog(
     fragment: Fragment,
     setMinDate: Boolean = false
 ) {
-    val newFragment =
-        DatePickerFragment.newInstance(listener, fragment.requireContext(), setMinDate)
+    val newFragment = DatePickerFragment.newInstance(listener, fragment.requireContext(), setMinDate)
     fragment.activity?.let { newFragment.show(it.supportFragmentManager, "datePicker") }
 }
 

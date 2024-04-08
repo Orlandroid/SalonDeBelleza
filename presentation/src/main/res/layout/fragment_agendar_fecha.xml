@@ -10,7 +10,7 @@
         android:background="@color/background"
         android:orientation="vertical"
         tools:context=".presentacion.features.fecha.AgendarFechaFragment">
-        
+
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/cardView3"
             android:layout_width="0dp"
