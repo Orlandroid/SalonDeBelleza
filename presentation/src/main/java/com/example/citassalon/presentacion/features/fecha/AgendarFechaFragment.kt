@@ -150,8 +150,8 @@ class AgendarFechaFragment :
     fun ScheduleAppointmentScreen(flowMainViewModel: FlowMainViewModel) {
         var date: String by remember { mutableStateOf(getCurrentDateTime().toStringFormat(dateFormat)) }
         var myTime: String by remember { mutableStateOf(getInitialTime()) }
-
-        //listener("$hourOfDay:$minute hrs", isValidTime)
+        flowMainViewModel.hourAppointment = myTime
+        flowMainViewModel.dateAppointment = date
         ConstraintLayout(
             Modifier
                 .fillMaxSize()
