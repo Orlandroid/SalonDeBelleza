@@ -1,19 +1,45 @@
 package com.example.citassalon.presentacion.features.info.stores
 
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.modifier.modifierLocalConsumer
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
 import androidx.navigation.fragment.findNavController
+import com.airbnb.lottie.compose.LottieAnimation
+import com.airbnb.lottie.compose.LottieCompositionSpec
+import com.airbnb.lottie.compose.LottieConstants
+import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
+import com.example.citassalon.databinding.FragmentGenericBindingBinding
 import com.example.citassalon.databinding.FragmentStoresBinding
 import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
+import com.example.citassalon.presentacion.features.components.TextWithArrow
+import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
 import com.example.citassalon.presentacion.features.extensions.toJson
 import kotlin.random.Random
 
 
-class StoresFragment : BaseFragment<FragmentStoresBinding>(R.layout.fragment_stores) {
+class StoresFragment :
+    BaseFragment<FragmentGenericBindingBinding>(R.layout.fragment_generic_binding) {
 
     override fun configureToolbar() = MainActivity.ToolbarConfiguration(
-        showToolbar = true,
-        toolbarTitle = getString(R.string.tiendas)
+        showToolbar = true, toolbarTitle = getString(R.string.tiendas)
     )
 
     companion object {
@@ -21,11 +47,8 @@ class StoresFragment : BaseFragment<FragmentStoresBinding>(R.layout.fragment_sto
         const val DUMMY_JSON = "DummyJSON"
     }
 
-    private val adapter = StoresAdapter(clickOnStore = { clickOnStore(it) })
     override fun setUpUi() {
-        setAnimation()
-        binding.recycler.adapter = adapter
-        adapter.setData(setStores())
+
     }
 
     private fun clickOnStore(store: StoresAdapter.Store) {
@@ -36,18 +59,62 @@ class StoresFragment : BaseFragment<FragmentStoresBinding>(R.layout.fragment_sto
         )
     }
 
-    private fun setStores() =
-        listOf(
-            StoresAdapter.Store(name = FAKE_STORE),
-            StoresAdapter.Store(name = DUMMY_JSON)
-        )
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                StoresScreen()
+            }
+        }
+    }
 
-    private fun setAnimation() {
+    @Composable
+    fun StoresScreen() {
+        Column(
+            Modifier.fillMaxSize(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(setAnimation()))
+            LottieAnimation(
+                modifier = Modifier
+                    .height(250.dp)
+                    .width(250.dp),
+                composition = composition,
+                iterations = LottieConstants.IterateForever,
+            )
+            LazyColumn {
+                setStores().forEach { store ->
+                    item {
+                        Spacer(modifier = Modifier.height(8.dp))
+                        TextWithArrow(
+                            config = TextWithArrowConfig(text = store.name, clickOnItem = {
+                                clickOnStore(store)
+                            })
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    @Composable
+    @Preview(showBackground = true)
+    fun StoresScreenPreview() {
+        StoresScreen()
+    }
+
+    private fun setStores() = listOf(
+        StoresAdapter.Store(name = FAKE_STORE), StoresAdapter.Store(name = DUMMY_JSON)
+    )
+
+    private fun setAnimation(): Int {
         val random = Random.nextInt(1, 2)
-        if (random % 2 == 0) {
-            binding.lottieAnimation.setAnimation(R.raw.ecomerce)
+        return if (random % 2 == 0) {
+            R.raw.ecomerce
         } else {
-            binding.lottieAnimation.setAnimation(R.raw.ecomerce2)
+            R.raw.ecomerce2
         }
     }
 }
