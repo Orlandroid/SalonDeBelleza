@@ -27,7 +27,6 @@ class CartFragment : BaseFragment<FragmentCartBinding>(R.layout.fragment_cart),
     lateinit var loginPreferences: LoginPreferences
 
     private val viewModel: CartViewModel by viewModels()
-    private val productsViewModel: ProductsViewModel by viewModels()
     private val cartAdapter = CartAdapter()
 
     override fun configureToolbar() = MainActivity.ToolbarConfiguration(
