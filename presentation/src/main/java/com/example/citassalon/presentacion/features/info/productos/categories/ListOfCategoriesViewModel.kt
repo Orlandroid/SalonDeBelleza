@@ -11,6 +11,7 @@ import com.example.data.remote.products.ProductsRepository
 import com.example.domain.state.ApiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -35,6 +36,7 @@ class ListOfCategoriesViewModel @Inject constructor(
     fun getCategoriesFakeStore() {
         viewModelScope.launch(Dispatchers.IO) {
             safeApiCall(_categories, coroutineDispatchers) {
+                delay(3000)
                 val response = repository.getCategories()
                 withContext(Dispatchers.Main) {
                     _categories.value = ApiState.Success(response)
