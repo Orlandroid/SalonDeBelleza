@@ -27,6 +27,7 @@ class CartAdapter :
         private val imageProduct: ImageView = view.findViewById(R.id.image_product)
         private val productName: TextView = view.findViewById(R.id.tv_product_name)
         private val productPrice: TextView = view.findViewById(R.id.tv_price)
+        @SuppressLint("SetTextI18n")
         fun bind(product: Product) {
             Glide.with(itemView.context).load(product.imageBase64.base64StringToBitmap())
                 .into(imageProduct)
