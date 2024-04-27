@@ -30,14 +30,13 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.fragment.app.viewModels
 import com.example.citassalon.R
-import com.example.citassalon.databinding.FragmentPerfilBinding
+import com.example.citassalon.databinding.FragmentGenericBindingBinding
 import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.extensions.navigate
@@ -51,7 +50,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class PerfilFragment : BaseFragment<FragmentPerfilBinding>(R.layout.fragment_perfil),
+class PerfilFragment : BaseFragment<FragmentGenericBindingBinding>(R.layout.fragment_generic_binding),
     ListenerAlertDialogWithButtons, ClickOnItem<String> {
 
     private val viewModelPerfil: PerfilViewModel by viewModels()
@@ -62,15 +61,7 @@ class PerfilFragment : BaseFragment<FragmentPerfilBinding>(R.layout.fragment_per
     )
 
     override fun setUpUi() {
-        setUpRecyclerView()
-    }
 
-    private fun getListener(): ClickOnItem<String> {
-        return this
-    }
-
-    private fun setUpRecyclerView() {
-        //binding.recyclerProfile.adapter = PerfilAdapter(setElementsMenu(), getListener())
     }
 
     override fun onCreateView(
