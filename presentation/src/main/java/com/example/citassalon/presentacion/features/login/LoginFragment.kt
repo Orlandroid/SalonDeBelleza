@@ -1,8 +1,45 @@
 package com.example.citassalon.presentacion.features.login
 
 import android.content.Intent
+import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Info
+import androidx.compose.material.icons.filled.Person
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Checkbox
+import androidx.compose.material3.Icon
+import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
 import com.airbnb.lottie.compose.LottieAnimation
@@ -11,9 +48,6 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentLoginBinding
-import com.example.citassalon.presentacion.main.AlertDialogs
-import com.example.citassalon.presentacion.main.AlertDialogs.Companion.ERROR_MESSAGE
-import com.example.citassalon.presentacion.main.AlertDialogs.Companion.WARNING_MESSAGE
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.extensions.click
 import com.example.citassalon.presentacion.features.extensions.gone
@@ -21,6 +55,10 @@ import com.example.citassalon.presentacion.features.extensions.hideKeyboard
 import com.example.citassalon.presentacion.features.extensions.invisible
 import com.example.citassalon.presentacion.features.extensions.navigate
 import com.example.citassalon.presentacion.features.extensions.visible
+import com.example.citassalon.presentacion.features.theme.Background
+import com.example.citassalon.presentacion.main.AlertDialogs
+import com.example.citassalon.presentacion.main.AlertDialogs.Companion.ERROR_MESSAGE
+import com.example.citassalon.presentacion.main.AlertDialogs.Companion.WARNING_MESSAGE
 import com.example.citassalon.presentacion.util.AlertsDialogMessages
 import com.example.domain.state.SessionStatus
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -39,6 +77,139 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
 
     companion object {
         private const val RC_SIGN_IN = 200
+    }
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                LoginScreen()
+            }
+        }
+    }
+
+    @Composable
+    fun LoginScreen() {
+        Column(
+            Modifier
+                .fillMaxSize()
+                .background(Background)
+                .padding(8.dp),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            val userName = remember { mutableStateOf("") }
+            val userPassword = remember { mutableStateOf("") }
+            val checkedState = remember { mutableStateOf(false) }
+            val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.login_icon))
+            LottieAnimation(
+                iterations = LottieConstants.IterateForever,
+                composition = composition,
+                modifier = Modifier
+                    .height(150.dp)
+                    .width(150.dp)
+            )
+            OutlinedTextField(
+                value = userName.value, onValueChange = {
+                    userName.value = it
+                },
+                leadingIcon = {
+                    Icon(Icons.Default.Person, contentDescription = "person")
+                },
+                label = {
+                    Text(text = "username")
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(0.dp, 20.dp, 0.dp, 0.dp)
+            )
+            OutlinedTextField(
+                value = userPassword.value, onValueChange = {
+                    userPassword.value = it
+                },
+                trailingIcon = {
+                    Icon(Icons.Default.Info, contentDescription = "password")
+                },
+                label = {
+                    Text(text = "password")
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(0.dp, 20.dp, 0.dp, 0.dp),
+                visualTransformation = PasswordVisualTransformation()
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Checkbox(
+                    checked = checkedState.value,
+                    onCheckedChange = { checkedState.value = it }
+                )
+                Text(text = stringResource(id = R.string.recuerda_tu_usuario))
+            }
+            OutlinedButton(
+                onClick = { },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(0.dp, 25.dp, 0.dp, 0.dp)
+            ) {
+                Text(
+                    text = "Login",
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(5.dp),
+                    textAlign = TextAlign.Center,
+                    fontSize = 20.sp
+                )
+            }
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(text = stringResource(id = R.string.olvidaste_contraseña))
+            Spacer(modifier = Modifier.height(16.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.padding(8.dp)
+            ) {
+                Spacer(
+                    modifier = Modifier
+                        .height(1.dp)
+                        .weight(1F)
+                        .background(Color.Black)
+                )
+                Text(text = "OR", Modifier.padding(horizontal = 16.dp))
+                Spacer(
+                    modifier = Modifier
+                        .height(1.dp)
+                        .weight(1F)
+                        .background(Color.Black)
+                )
+            }
+            Button(
+                onClick = { },
+                colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(text = stringResource(id = R.string.sing_up), color = Color.Black)
+            }
+            Button(
+                onClick = { },
+                colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = stringResource(id = R.string.ingresar_con_google),
+                    color = Color.Black
+                )
+            }
+        }
+    }
+
+    @Composable
+    @Preview(showBackground = true)
+    fun LoginScreenPreview() {
+        LoginScreen()
     }
 
     override fun setUpUi() {

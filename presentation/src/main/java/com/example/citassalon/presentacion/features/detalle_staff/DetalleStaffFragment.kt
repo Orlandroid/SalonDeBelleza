@@ -78,7 +78,7 @@ class DetalleStaffFragment :
         ) {
             AsyncImage(
                 model = staff.image_url,
-                contentDescription = null,
+                contentDescription = "ImageDetailStaff",
                 modifier = Modifier
                     .height(150.dp)
                     .size(150.dp)
@@ -86,7 +86,8 @@ class DetalleStaffFragment :
             )
             Text(
                 text = stringResource(id = R.string.nombre),
-                Modifier.padding(top = 32.dp),
+                Modifier
+                    .padding(top = 32.dp),
                 fontSize = 24.sp
             )
             Text(
