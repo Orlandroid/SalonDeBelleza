@@ -33,7 +33,7 @@ class SucursalViewModel @Inject constructor(
         getSucursales()
     }
 
-    private fun getSucursales() {
+    fun getSucursales() {
         viewModelScope.launch {
             safeApiCall(_sucursal, coroutineDispatchers) {
                 val response = repository.getSucursales()
