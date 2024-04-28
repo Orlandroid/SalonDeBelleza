@@ -10,6 +10,8 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
@@ -70,32 +72,31 @@ class EstablecimientoFragment :
                     height = Dimension.wrapContent
                     width = Dimension.wrapContent
                 })
-            LazyColumn(modifier = Modifier
-                .background(Color.White)
-                .border(
-                    border = BorderStroke(0.dp, Color.Black),
-                    shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp)
-                )
-                .constrainAs(list) {
+            Card(
+                Modifier.constrainAs(list) {
                     linkTo(guideline, parent.bottom)
                     linkTo(parent.start, parent.end)
                     height = Dimension.fillToConstraints
                     width = Dimension.fillToConstraints
-                }) {
-                item {
-                    TextWithArrow(
-                        config = TextWithArrowConfig(
-                            text = stringResource(id = R.string.sucursales),
-                            clickOnItem = { navigate(EstablecimientoFragmentDirections.actionEstablecimientoToSucursales2()) }
+                },
+                colors = CardDefaults.cardColors(containerColor = Color.White)
+            ) {
+                LazyColumn {
+                    item {
+                        TextWithArrow(
+                            config = TextWithArrowConfig(
+                                text = stringResource(id = R.string.sucursales),
+                                clickOnItem = { navigate(EstablecimientoFragmentDirections.actionEstablecimientoToSucursales2()) }
+                            )
                         )
-                    )
-                }
-                item {
-                    TextWithArrow(config = TextWithArrowConfig(
-                        text = stringResource(id = R.string.tiendas),
-                        clickOnItem = { navigate(EstablecimientoFragmentDirections.actionEstablecimientoToStoresFragment()) }
-                    )
-                    )
+                    }
+                    item {
+                        TextWithArrow(config = TextWithArrowConfig(
+                            text = stringResource(id = R.string.tiendas),
+                            clickOnItem = { navigate(EstablecimientoFragmentDirections.actionEstablecimientoToStoresFragment()) }
+                        )
+                        )
+                    }
                 }
             }
         }

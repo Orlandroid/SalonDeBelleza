@@ -61,6 +61,10 @@ class HistorialDetailFragment :
         }
     }
 
+    override fun setUpUi() {
+        
+    }
+
     @Composable
     fun HistoryDetail(appointmentObject: AppointmentObject) {
         ConstraintLayout(
@@ -109,18 +113,6 @@ class HistorialDetailFragment :
             fontSize = 18.sp,
             modifier = Modifier.padding(top = 16.dp)
         )
-    }
-
-    @SuppressLint("SetTextI18n")
-    override fun setUpUi() {/*
-        appointment = args.appointment.fromJson()
-        with(binding) {
-            tvEstablecimiento.text = "Establecimiento: ${appointment.establishment}"
-            tvEmpleado.text = "Empleado: ${appointment.employee}"
-            tvServicio.text = "Servicio: ${appointment.service}"
-            tvHora.text = "Hora: ${appointment.hour}"
-            tvFecha.text = "Fecha: ${appointment.date}"
-        }*/
     }
 
 }
