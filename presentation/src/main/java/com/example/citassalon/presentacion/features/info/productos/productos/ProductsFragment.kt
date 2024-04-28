@@ -1,5 +1,6 @@
 package com.example.citassalon.presentacion.features.info.productos.productos
 
+import android.os.Bundle
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
@@ -27,19 +28,19 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
     private var adapter: ProductsAdapter? = null
     private val args: ProductsFragmentArgs by navArgs()
     private var skeleton: Skeleton? = null
-    private var isFirstTimeOnTheView = true
 
     override fun configureToolbar() = MainActivity.ToolbarConfiguration(
         showToolbar = true,
         toolbarTitle = getString(R.string.productos)
     )
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        viewModel.getProducts(args.categoria)
+    }
+
 
     override fun setUpUi() {
-        if (isFirstTimeOnTheView) {
-            viewModel.getProducts(args.categoria)
-            isFirstTimeOnTheView = false
-        }
         with(binding) {
             adapter = ProductsAdapter(object : ProductsAdapter.ClickOnItems {
                 override fun clickOnElement(product: Product) {
@@ -86,7 +87,8 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
 
 
     override fun clickOnItem(element: Product, position: Int?) {
-        val action = ProductsFragmentDirections.actionProductsFragmentToDetalleProductoFragment(element.toJson())
+        val action =
+            ProductsFragmentDirections.actionProductsFragmentToDetalleProductoFragment(element.toJson())
         navigate(action)
     }
 

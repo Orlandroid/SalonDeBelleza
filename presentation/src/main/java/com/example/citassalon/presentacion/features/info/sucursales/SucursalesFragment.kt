@@ -70,7 +70,7 @@ class SucursalesFragment :
 
     @Composable
     fun BranchOffices(viewModel: SucursalViewModel) {
-        //Todo add skeletons
+        //Todo add skeletons in loading state
         val branches = viewModel.sucursal.observeAsState()
         ConstraintLayout(
             Modifier
