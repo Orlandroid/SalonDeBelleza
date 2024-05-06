@@ -26,13 +26,17 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -40,25 +44,21 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.core.widget.doOnTextChanged
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
-import com.example.citassalon.databinding.FragmentLoginBinding
+import com.example.citassalon.databinding.FragmentGenericBindingBinding
 import com.example.citassalon.presentacion.features.base.BaseFragment
-import com.example.citassalon.presentacion.features.extensions.click
-import com.example.citassalon.presentacion.features.extensions.gone
-import com.example.citassalon.presentacion.features.extensions.hideKeyboard
-import com.example.citassalon.presentacion.features.extensions.invisible
 import com.example.citassalon.presentacion.features.extensions.navigate
-import com.example.citassalon.presentacion.features.extensions.visible
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.citassalon.presentacion.main.AlertDialogs
 import com.example.citassalon.presentacion.main.AlertDialogs.Companion.ERROR_MESSAGE
-import com.example.citassalon.presentacion.main.AlertDialogs.Companion.WARNING_MESSAGE
 import com.example.citassalon.presentacion.util.AlertsDialogMessages
 import com.example.domain.state.SessionStatus
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -69,7 +69,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login),
+class LoginFragment :
+    BaseFragment<FragmentGenericBindingBinding>(R.layout.fragment_generic_binding),
     ListeneClickOnRecoverPassword {
 
     private val viewModel: LoginViewModel by viewModels()
@@ -92,6 +93,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
 
     @Composable
     fun LoginScreen() {
+        val viewModel = viewModels<LoginViewModel>()
+        val loginStatus = viewModel.value.loginStatus.observeAsState()
         Column(
             Modifier
                 .fillMaxSize()
@@ -99,8 +102,8 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                 .padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val userName = remember { mutableStateOf("") }
-            val userPassword = remember { mutableStateOf("") }
+            val userName = remember { mutableStateOf("android@gmailcom") }
+            val userPassword = remember { mutableStateOf("android123456") }
             val checkedState = remember { mutableStateOf(false) }
             val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.login_icon))
             LottieAnimation(
@@ -151,7 +154,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                 Text(text = stringResource(id = R.string.recuerda_tu_usuario))
             }
             OutlinedButton(
-                onClick = { },
+                onClick = {
+                    viewModel.value.login(userName.value, userPassword.value)
+                },
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(0.dp, 25.dp, 0.dp, 0.dp)
@@ -165,6 +170,59 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                     fontSize = 20.sp
                 )
             }
+            val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
+            DisposableEffect(lifecycleOwner) {
+                val observer = LifecycleEventObserver { _, event ->
+                    when (event) {
+                        Lifecycle.Event.ON_CREATE -> {
+                            Log.w("ANDORID", "oncreate")
+
+                        }
+
+                        else -> {}
+                    }
+                }
+                lifecycleOwner.lifecycle.addObserver(observer)
+                onDispose {
+                    lifecycleOwner.lifecycle.removeObserver(observer)
+                }
+            }
+            LaunchedEffect(Unit) {
+                when (loginStatus.value) {
+                    SessionStatus.ERROR -> {
+                        Log.w("ERROR", "AndroidError")
+                    }
+
+                    SessionStatus.LOADING -> {
+                        Log.w("ERROR", "Loading")
+                    }
+
+                    SessionStatus.NETWORKERROR -> {
+
+                    }
+
+                    SessionStatus.SUCCESS -> {
+                        navigate(LoginFragmentDirections.actionLoginToHome32())
+                    }
+
+                    null -> {}
+                }
+            }
+
+
+            /*
+            *  private fun login() {
+        /*
+        val user = binding.txtUser.editText?.text.toString()
+        val password = binding.txtPassord.editText?.text.toString()
+        if (user.isNotEmpty() && password.isNotEmpty()) viewModel.login(user, password)
+        else {
+            val alert = AlertDialogs(WARNING_MESSAGE, "Debes de llenar Ambos campos")
+            activity?.let { it1 -> alert.show(it1.supportFragmentManager, "dialog") }
+        }*/
+    }
+            * */
+
             Spacer(modifier = Modifier.height(16.dp))
             Text(text = stringResource(id = R.string.olvidaste_contraseña))
             Spacer(modifier = Modifier.height(16.dp))
@@ -213,6 +271,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
     }
 
     override fun setUpUi() {
+        /*
         with(binding) {
             buttonGetIn.click {
                 login()
@@ -244,6 +303,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                 )
             }
         }
+        */
     }
 
 
@@ -284,11 +344,12 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
 
 
     private fun areNotEmptyFields(): Boolean {
+        /*
         val user = binding.txtUser.editText?.text.toString().trim()
         val password = binding.txtPassord.editText?.text.toString().trim()
         if (user.isNotEmpty() && password.isNotEmpty()) {
             return password.length > 8
-        }
+        }*/
         return false
     }
 
@@ -299,6 +360,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
 
 
     private fun saveUserEmailToPreferences() {
+        /*
         val userEmail = binding.txtUser.editText?.text.toString()
         if (userEmail.isEmpty()) {
             return
@@ -307,6 +369,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
             return
         }
         viewModel.saveUserEmailToPreferences(userEmail)
+         */
     }
 
 
@@ -318,6 +381,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
     }
 
     private fun observerforgetPasswordStatus() {
+        /*
         viewModel.forgetPasswordStatus.observe(viewLifecycleOwner) {
             when (it) {
                 is SessionStatus.LOADING -> {
@@ -342,7 +406,9 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                     binding.progress.invisible()
                 }
             }
-        }
+        }*/
+
+
     }
 
     private fun observerGoogleLoginStatus() {
@@ -372,6 +438,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
 
 
     private fun observerLoginStatus() {
+        /*
         viewModel.loginStatus.observe(viewLifecycleOwner) {
             when (it) {
                 is SessionStatus.LOADING -> {
@@ -401,7 +468,7 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
                     showAlertMessage(ERROR_MESSAGE, "Error de internet")
                 }
             }
-        }
+        }*/
     }
 
 
@@ -422,13 +489,14 @@ class LoginFragment : BaseFragment<FragmentLoginBinding>(R.layout.fragment_login
     }
 
     private fun login() {
+        /*
         val user = binding.txtUser.editText?.text.toString()
         val password = binding.txtPassord.editText?.text.toString()
         if (user.isNotEmpty() && password.isNotEmpty()) viewModel.login(user, password)
         else {
             val alert = AlertDialogs(WARNING_MESSAGE, "Debes de llenar Ambos campos")
             activity?.let { it1 -> alert.show(it1.supportFragmentManager, "dialog") }
-        }
+        }*/
     }
 
 

@@ -141,5 +141,6 @@ dependencies {
     implementation("io.coil-kt:coil-compose:2.6.0")
     implementation("com.github.a914-gowtham:compose-ratingbar:1.3.4")
     implementation("androidx.compose.ui:ui-tooling:1.6.6")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
 
 }
