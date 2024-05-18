@@ -101,6 +101,8 @@ class SignUpFragment : BaseFragment<SignInBinding>(R.layout.sign_in),
                         )
                     }
                 }
+
+                SessionStatus.IDLE -> {}
             }
         }
     }

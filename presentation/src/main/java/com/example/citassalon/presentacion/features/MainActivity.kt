@@ -3,6 +3,12 @@ package com.example.citassalon.presentacion.features
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.width
+import androidx.compose.material.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.dp
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
@@ -33,6 +39,13 @@ class MainActivity : AppCompatActivity(), AlertsDialogMessages.ClickOnAccepSimpl
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setUpNavController()
+        binding.progressBar.setContent {
+            CircularProgressIndicator(
+                modifier = Modifier.width(64.dp),
+                color = Color(0xFF3700B3),
+                strokeWidth = 5.dp
+            )
+        }
     }
 
     private fun setUpNavController() {

@@ -18,20 +18,27 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Checkbox
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.State
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -40,6 +47,7 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -55,10 +63,13 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
 import com.example.citassalon.presentacion.features.base.BaseFragment
+import com.example.citassalon.presentacion.features.extensions.hideProgress
 import com.example.citassalon.presentacion.features.extensions.navigate
+import com.example.citassalon.presentacion.features.extensions.showProgress
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.citassalon.presentacion.main.AlertDialogs
 import com.example.citassalon.presentacion.main.AlertDialogs.Companion.ERROR_MESSAGE
+import com.example.citassalon.presentacion.main.AlertDialogs.Companion.SUCCESS_MESSAGE
 import com.example.citassalon.presentacion.util.AlertsDialogMessages
 import com.example.domain.state.SessionStatus
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -66,6 +77,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import dagger.hilt.android.AndroidEntryPoint
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -86,15 +99,16 @@ class LoginFragment :
         return ComposeView(requireContext()).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
-                LoginScreen()
+                LoginScreen(viewModel)
             }
         }
     }
 
     @Composable
-    fun LoginScreen() {
-        val viewModel = viewModels<LoginViewModel>()
-        val loginStatus = viewModel.value.loginStatus.observeAsState()
+    fun LoginScreen(viewModel: LoginViewModel) {
+        //val loginStatus = viewModel.loginStatus.observeAsState()
+        //val loginStatus by viewModel.loginStatus.collectAsState()
+        val coroutineScope = rememberCoroutineScope()
         Column(
             Modifier
                 .fillMaxSize()
@@ -102,8 +116,8 @@ class LoginFragment :
                 .padding(8.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val userName = remember { mutableStateOf("android@gmailcom") }
-            val userPassword = remember { mutableStateOf("android123456") }
+            val userName = remember { mutableStateOf("android@gmail.com") }
+            val userPassword = remember { mutableStateOf("android1234") }
             val checkedState = remember { mutableStateOf(false) }
             val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.login_icon))
             LottieAnimation(
@@ -113,51 +127,56 @@ class LoginFragment :
                     .height(150.dp)
                     .width(150.dp)
             )
+            OutlinedTextField(value = userName.value, onValueChange = {
+                userName.value = it
+            }, leadingIcon = {
+                Icon(Icons.Default.Person, contentDescription = "person")
+            }, label = {
+                Text(text = "username")
+            }, modifier = Modifier
+                .fillMaxWidth()
+                .padding(0.dp, 20.dp, 0.dp, 0.dp)
+            )
+            var isPasswordVisible by remember { mutableStateOf(false) }
             OutlinedTextField(
-                value = userName.value, onValueChange = {
-                    userName.value = it
-                },
-                leadingIcon = {
-                    Icon(Icons.Default.Person, contentDescription = "person")
-                },
-                label = {
-                    Text(text = "username")
-                },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(0.dp, 20.dp, 0.dp, 0.dp)
-            )
-            OutlinedTextField(
-                value = userPassword.value, onValueChange = {
+                    .padding(0.dp, 20.dp, 0.dp, 0.dp),
+                value = userPassword.value,
+                onValueChange = {
                     userPassword.value = it
                 },
-                trailingIcon = {
-                    Icon(Icons.Default.Info, contentDescription = "password")
+                leadingIcon = {
+                    IconButton(onClick = {
+                        isPasswordVisible = !isPasswordVisible
+                    }) {
+                        Icon(
+                            imageVector = if (isPasswordVisible)
+                                Icons.Filled.Visibility
+                            else
+                                Icons.Filled.VisibilityOff,
+                            contentDescription = "Password Visibility"
+                        )
+                    }
                 },
                 label = {
                     Text(text = "password")
                 },
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(0.dp, 20.dp, 0.dp, 0.dp),
-                visualTransformation = PasswordVisualTransformation()
+                visualTransformation = if (isPasswordVisible) VisualTransformation.None
+                else PasswordVisualTransformation(),
             )
             Spacer(modifier = Modifier.height(16.dp))
             Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.fillMaxWidth()
+                verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()
             ) {
-                Checkbox(
-                    checked = checkedState.value,
-                    onCheckedChange = { checkedState.value = it }
-                )
+                Checkbox(checked = checkedState.value,
+                    onCheckedChange = { checkedState.value = it })
                 Text(text = stringResource(id = R.string.recuerda_tu_usuario))
             }
             OutlinedButton(
                 onClick = {
-                    viewModel.value.login(userName.value, userPassword.value)
-                },
-                modifier = Modifier
+                    viewModel.login(userName.value, userPassword.value)
+                }, modifier = Modifier
                     .fillMaxWidth()
                     .padding(0.dp, 25.dp, 0.dp, 0.dp)
             ) {
@@ -170,46 +189,34 @@ class LoginFragment :
                     fontSize = 20.sp
                 )
             }
-            val lifecycleOwner: LifecycleOwner = LocalLifecycleOwner.current
-            DisposableEffect(lifecycleOwner) {
-                val observer = LifecycleEventObserver { _, event ->
-                    when (event) {
-                        Lifecycle.Event.ON_CREATE -> {
-                            Log.w("ANDORID", "oncreate")
-
-                        }
-
-                        else -> {}
-                    }
-                }
-                lifecycleOwner.lifecycle.addObserver(observer)
-                onDispose {
-                    lifecycleOwner.lifecycle.removeObserver(observer)
-                }
-            }
             LaunchedEffect(Unit) {
-                when (loginStatus.value) {
-                    SessionStatus.ERROR -> {
-                        Log.w("ERROR", "AndroidError")
+                coroutineScope.launch {
+                    viewModel.loginStatus.collectLatest {
+                        when (it) {
+                            SessionStatus.ERROR -> {
+                                showAlertMessage(ERROR_MESSAGE, "Error")
+                                hideProgress()
+                            }
+
+                            SessionStatus.LOADING -> {
+                                showProgress()
+                            }
+
+                            SessionStatus.NETWORKERROR -> {
+                                showAlertMessage(ERROR_MESSAGE, "Error")
+                                hideProgress()
+                            }
+
+                            SessionStatus.SUCCESS -> {
+                                hideProgress()
+                                navigate(LoginFragmentDirections.actionLoginToHome32())
+                            }
+
+                            SessionStatus.IDLE -> {}
+                        }
                     }
-
-                    SessionStatus.LOADING -> {
-                        Log.w("ERROR", "Loading")
-                    }
-
-                    SessionStatus.NETWORKERROR -> {
-
-                    }
-
-                    SessionStatus.SUCCESS -> {
-                        navigate(LoginFragmentDirections.actionLoginToHome32())
-                    }
-
-                    null -> {}
                 }
             }
-
-
             /*
             *  private fun login() {
         /*
@@ -227,8 +234,7 @@ class LoginFragment :
             Text(text = stringResource(id = R.string.olvidaste_contraseña))
             Spacer(modifier = Modifier.height(16.dp))
             Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.padding(8.dp)
+                verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(8.dp)
             ) {
                 Spacer(
                     modifier = Modifier
@@ -257,8 +263,7 @@ class LoginFragment :
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(
-                    text = stringResource(id = R.string.ingresar_con_google),
-                    color = Color.Black
+                    text = stringResource(id = R.string.ingresar_con_google), color = Color.Black
                 )
             }
         }
@@ -267,11 +272,10 @@ class LoginFragment :
     @Composable
     @Preview(showBackground = true)
     fun LoginScreenPreview() {
-        LoginScreen()
+        LoginScreen(viewModel)
     }
 
-    override fun setUpUi() {
-        /*
+    override fun setUpUi() {/*
         with(binding) {
             buttonGetIn.click {
                 login()
@@ -343,8 +347,7 @@ class LoginFragment :
     }
 
 
-    private fun areNotEmptyFields(): Boolean {
-        /*
+    private fun areNotEmptyFields(): Boolean {/*
         val user = binding.txtUser.editText?.text.toString().trim()
         val password = binding.txtPassord.editText?.text.toString().trim()
         if (user.isNotEmpty() && password.isNotEmpty()) {
@@ -359,8 +362,7 @@ class LoginFragment :
     }
 
 
-    private fun saveUserEmailToPreferences() {
-        /*
+    private fun saveUserEmailToPreferences() {/*
         val userEmail = binding.txtUser.editText?.text.toString()
         if (userEmail.isEmpty()) {
             return
@@ -380,8 +382,7 @@ class LoginFragment :
         observerGoogleLoginStatus()
     }
 
-    private fun observerforgetPasswordStatus() {
-        /*
+    private fun observerforgetPasswordStatus() {/*
         viewModel.forgetPasswordStatus.observe(viewLifecycleOwner) {
             when (it) {
                 is SessionStatus.LOADING -> {
@@ -432,13 +433,14 @@ class LoginFragment :
                 is SessionStatus.NETWORKERROR -> {
                     showAlertMessage(ERROR_MESSAGE, "Revisa tu conexion de internet")
                 }
+
+                SessionStatus.IDLE -> {}
             }
         }
     }
 
 
-    private fun observerLoginStatus() {
-        /*
+    private fun observerLoginStatus() {/*
         viewModel.loginStatus.observe(viewLifecycleOwner) {
             when (it) {
                 is SessionStatus.LOADING -> {
@@ -488,8 +490,7 @@ class LoginFragment :
         )
     }
 
-    private fun login() {
-        /*
+    private fun login() {/*
         val user = binding.txtUser.editText?.text.toString()
         val password = binding.txtPassord.editText?.text.toString()
         if (user.isNotEmpty() && password.isNotEmpty()) viewModel.login(user, password)

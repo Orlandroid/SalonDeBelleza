@@ -1,13 +1,10 @@
 package com.example.citassalon.presentacion.features.perfil.historial_citas
 
 import android.annotation.SuppressLint
-import androidx.compose.material.Text
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentHistorialDeCitasBinding
-import com.example.citassalon.presentacion.interfaces.ClickOnItem
-import com.example.citassalon.presentacion.main.AlertDialogs
 import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.extensions.gone
@@ -15,9 +12,11 @@ import com.example.citassalon.presentacion.features.extensions.observeApiResultG
 import com.example.citassalon.presentacion.features.extensions.showSuccessMessage
 import com.example.citassalon.presentacion.features.extensions.toJson
 import com.example.citassalon.presentacion.features.extensions.visible
+import com.example.citassalon.presentacion.interfaces.ClickOnItem
+import com.example.citassalon.presentacion.main.AlertDialogs
 import com.example.citassalon.presentacion.util.SwipeRecycler
-import com.example.domain.perfil.AppointmentFirebase
 import com.example.domain.mappers.toAppointmentObject
+import com.example.domain.perfil.AppointmentFirebase
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
