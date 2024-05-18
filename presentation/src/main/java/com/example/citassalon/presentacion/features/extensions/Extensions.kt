@@ -6,6 +6,7 @@ import android.content.Context
 import android.graphics.PorterDuff
 import android.graphics.drawable.Drawable
 import android.os.Build
+import android.util.Log
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ImageView
@@ -66,7 +67,8 @@ fun showDatePickerDialog(
     fragment: Fragment,
     setMinDate: Boolean = false
 ) {
-    val newFragment = DatePickerFragment.newInstance(listener, fragment.requireContext(), setMinDate)
+    val newFragment =
+        DatePickerFragment.newInstance(listener, fragment.requireContext(), setMinDate)
     fragment.activity?.let { newFragment.show(it.supportFragmentManager, "datePicker") }
 }
 
@@ -82,10 +84,9 @@ fun Drawable.tint(context: Context, @ColorRes color: Int) {
     DrawableCompat.setTint(this, context.resources.getColor(color, context.theme))
 }
 
-
-
-
-
-
+fun Fragment.showLog(message: String) {
+    val mTag = context?.packageName.plus(tag)
+    Log.w(mTag, message)
+}
 
 

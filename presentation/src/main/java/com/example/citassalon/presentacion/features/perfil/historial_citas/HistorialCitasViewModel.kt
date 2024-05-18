@@ -28,8 +28,7 @@ class HistorialCitasViewModel @Inject constructor(
     private val networkHelper: NetworkHelper,
     private val firebaseDatabase: FirebaseDatabase,
     private val firebaseAuth: FirebaseAuth
-) :
-    ViewModel() {
+) : ViewModel() {
 
 
     private val _appointment = MutableLiveData<ApiState<List<AppointmentFirebase>>>()
@@ -52,49 +51,46 @@ class HistorialCitasViewModel @Inject constructor(
     }
 
     private fun provideFirebaseRealtimeDatabaseReference(
-        firebaseDatabase: FirebaseDatabase,
-        firebaseAuth: FirebaseAuth
+        firebaseDatabase: FirebaseDatabase, firebaseAuth: FirebaseAuth
     ): DatabaseReference {
         val uuidUser = firebaseAuth.uid
         return firebaseDatabase.reference.child(APPOINTMENT_REFERENCE).child(uuidUser!!)
     }
 
 
-    private fun getAppointments() {
+    private fun getAppointments() = viewModelScope.launch {
         _appointment.value = ApiState.Loading()
-        viewModelScope.launch(Dispatchers.IO) {
-            if (!networkHelper.isNetworkConnected()) {
-                withContext(Dispatchers.Main) {
-                    _appointment.value = ApiState.ErrorNetwork()
-                }
-                return@launch
+        if (!networkHelper.isNetworkConnected()) {
+            withContext(Dispatchers.Main) {
+                _appointment.value = ApiState.ErrorNetwork()
             }
-            val databaseReference =
-                provideFirebaseRealtimeDatabaseReference(firebaseDatabase, firebaseAuth)
-            databaseReference.addValueEventListener(object : ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    val listOfAppointments =
-                        arrayListOf<AppointmentFirebase>()
-                    snapshot.children.forEach {
-                        val appointment = it.getValue<AppointmentFirebase>()
-                        appointment?.let {
-                            listOfAppointments.add(appointment)
-                        }
-                        Log.w("POST", appointment.toString())
-                    }
-                    if (listOfAppointments.isEmpty()) {
-                        _appointment.value = ApiState.NoData()
-                    } else {
-                        _appointment.value = ApiState.Success(listOfAppointments)
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                    _appointment.value = ApiState.Error(Throwable(message = error.message))
-                    Log.i("ERROR", error.message)
-                }
-            })
+            return@launch
         }
+        val databaseReference =
+            provideFirebaseRealtimeDatabaseReference(firebaseDatabase, firebaseAuth)
+        databaseReference.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val listOfAppointments = arrayListOf<AppointmentFirebase>()
+                snapshot.children.forEach {
+                    val appointment = it.getValue<AppointmentFirebase>()
+                    appointment?.let {
+                        listOfAppointments.add(appointment)
+                    }
+                    Log.w("POST", appointment.toString())
+                }
+                if (listOfAppointments.isEmpty()) {
+                    _appointment.value = ApiState.NoData()
+                } else {
+                    _appointment.value = ApiState.Success(listOfAppointments)
+                }
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                _appointment.value = ApiState.Error(Throwable(message = error.message))
+                Log.i("ERROR", error.message)
+            }
+        })
+
     }
 
     fun removeAppointment(idAppointment: String) {
