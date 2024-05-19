@@ -1,6 +1,7 @@
 package com.example.citassalon.presentacion.features.login
 
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -82,6 +83,14 @@ class LoginViewModel
         } else {
             _loginStatus.emit(SessionStatus.NETWORKERROR)
         }
+    }
+
+    fun loginUi(user: String, password: String, onEmptyFields: () -> Unit) {
+        if (user.isEmpty() || password.isEmpty()) {
+            onEmptyFields.invoke()
+            return
+        }
+        login(user, password)
     }
 
     fun isUserActive(): Boolean {

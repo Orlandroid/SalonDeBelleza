@@ -3,18 +3,13 @@ package com.example.citassalon.presentacion.features
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.layout.width
-import androidx.compose.material.CircularProgressIndicator
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.unit.dp
 import androidx.core.view.isVisible
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.citassalon.R
 import com.example.citassalon.databinding.ActivityMainBinding
+import com.example.citassalon.presentacion.features.components.AppProgress
 import com.example.citassalon.presentacion.features.extensions.click
 import com.example.citassalon.presentacion.features.extensions.gone
 import com.example.citassalon.presentacion.features.extensions.visible
@@ -40,11 +35,7 @@ class MainActivity : AppCompatActivity(), AlertsDialogMessages.ClickOnAccepSimpl
         setContentView(binding.root)
         setUpNavController()
         binding.progressBar.setContent {
-            CircularProgressIndicator(
-                modifier = Modifier.width(64.dp),
-                color = Color(0xFF3700B3),
-                strokeWidth = 5.dp
-            )
+            AppProgress()
         }
     }
 

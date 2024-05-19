@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,7 +17,6 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Visibility
 import androidx.compose.material.icons.filled.VisibilityOff
@@ -29,21 +29,14 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.DisposableEffect
-import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -53,9 +46,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.LifecycleOwner
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
@@ -63,13 +53,13 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
 import com.example.citassalon.presentacion.features.base.BaseFragment
-import com.example.citassalon.presentacion.features.extensions.hideProgress
+import com.example.citassalon.presentacion.features.extensions.ObserveSessionStatusFlow
+import com.example.citassalon.presentacion.features.extensions.hideKeyboard
 import com.example.citassalon.presentacion.features.extensions.navigate
-import com.example.citassalon.presentacion.features.extensions.showProgress
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.citassalon.presentacion.main.AlertDialogs
 import com.example.citassalon.presentacion.main.AlertDialogs.Companion.ERROR_MESSAGE
-import com.example.citassalon.presentacion.main.AlertDialogs.Companion.SUCCESS_MESSAGE
+import com.example.citassalon.presentacion.main.AlertDialogs.Companion.WARNING_MESSAGE
 import com.example.citassalon.presentacion.util.AlertsDialogMessages
 import com.example.domain.state.SessionStatus
 import com.google.android.gms.auth.api.signin.GoogleSignIn
@@ -77,8 +67,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import dagger.hilt.android.AndroidEntryPoint
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 
 @AndroidEntryPoint
@@ -91,6 +79,12 @@ class LoginFragment :
 
     companion object {
         private const val RC_SIGN_IN = 200
+    }
+
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        isSessionActive()
+        configureGoogleSignIn()
     }
 
     override fun onCreateView(
@@ -106,18 +100,20 @@ class LoginFragment :
 
     @Composable
     fun LoginScreen(viewModel: LoginViewModel) {
-        //val loginStatus = viewModel.loginStatus.observeAsState()
-        //val loginStatus by viewModel.loginStatus.collectAsState()
-        val coroutineScope = rememberCoroutineScope()
         Column(
             Modifier
                 .fillMaxSize()
                 .background(Background)
-                .padding(8.dp),
+                .padding(8.dp)
+                .clickable {
+                    hideKeyboard()
+                },
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val userName = remember { mutableStateOf("android@gmail.com") }
-            val userPassword = remember { mutableStateOf("android1234") }
+            //val userName = remember { mutableStateOf("android@gmail.com") }
+            //val userPassword = remember { mutableStateOf("android1234") }
+            val userName = remember { mutableStateOf("") }
+            val userPassword = remember { mutableStateOf("") }
             val checkedState = remember { mutableStateOf(false) }
             val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.login_icon))
             LottieAnimation(
@@ -127,15 +123,16 @@ class LoginFragment :
                     .height(150.dp)
                     .width(150.dp)
             )
-            OutlinedTextField(value = userName.value, onValueChange = {
-                userName.value = it
-            }, leadingIcon = {
-                Icon(Icons.Default.Person, contentDescription = "person")
-            }, label = {
-                Text(text = "username")
-            }, modifier = Modifier
-                .fillMaxWidth()
-                .padding(0.dp, 20.dp, 0.dp, 0.dp)
+            OutlinedTextField(value = userName.value,
+                onValueChange = {
+                    userName.value = it
+                }, leadingIcon = {
+                    Icon(Icons.Default.Person, contentDescription = "person")
+                }, label = {
+                    Text(text = "username")
+                }, modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(0.dp, 20.dp, 0.dp, 0.dp)
             )
             var isPasswordVisible by remember { mutableStateOf(false) }
             OutlinedTextField(
@@ -175,7 +172,10 @@ class LoginFragment :
             }
             OutlinedButton(
                 onClick = {
-                    viewModel.login(userName.value, userPassword.value)
+                    viewModel.loginUi(userName.value, userPassword.value) {
+                        val alert = AlertDialogs(WARNING_MESSAGE, "Debes de llenar Ambos campos")
+                        activity?.let { it1 -> alert.show(it1.supportFragmentManager, "dialog") }
+                    }
                 }, modifier = Modifier
                     .fillMaxWidth()
                     .padding(0.dp, 25.dp, 0.dp, 0.dp)
@@ -189,49 +189,19 @@ class LoginFragment :
                     fontSize = 20.sp
                 )
             }
-            LaunchedEffect(Unit) {
-                coroutineScope.launch {
-                    viewModel.loginStatus.collectLatest {
-                        when (it) {
-                            SessionStatus.ERROR -> {
-                                showAlertMessage(ERROR_MESSAGE, "Error")
-                                hideProgress()
-                            }
-
-                            SessionStatus.LOADING -> {
-                                showProgress()
-                            }
-
-                            SessionStatus.NETWORKERROR -> {
-                                showAlertMessage(ERROR_MESSAGE, "Error")
-                                hideProgress()
-                            }
-
-                            SessionStatus.SUCCESS -> {
-                                hideProgress()
-                                navigate(LoginFragmentDirections.actionLoginToHome32())
-                            }
-
-                            SessionStatus.IDLE -> {}
-                        }
-                    }
-                }
+            ObserveSessionStatusFlow(
+                viewModel.loginStatus,
+                "Error al iniciar session"
+            ) {
+                navigate(LoginFragmentDirections.actionLoginToHome32())
             }
-            /*
-            *  private fun login() {
-        /*
-        val user = binding.txtUser.editText?.text.toString()
-        val password = binding.txtPassord.editText?.text.toString()
-        if (user.isNotEmpty() && password.isNotEmpty()) viewModel.login(user, password)
-        else {
-            val alert = AlertDialogs(WARNING_MESSAGE, "Debes de llenar Ambos campos")
-            activity?.let { it1 -> alert.show(it1.supportFragmentManager, "dialog") }
-        }*/
-    }
-            * */
-
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = stringResource(id = R.string.olvidaste_contraseña))
+            Text(
+                modifier = Modifier.clickable {
+                    showForgetPassword()
+                },
+                text = stringResource(id = R.string.olvidaste_contraseña)
+            )
             Spacer(modifier = Modifier.height(16.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(8.dp)
@@ -251,14 +221,18 @@ class LoginFragment :
                 )
             }
             Button(
-                onClick = { },
+                onClick = {
+                    navigate(LoginFragmentDirections.actionLoginToSignUp())
+                },
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(text = stringResource(id = R.string.sing_up), color = Color.Black)
             }
             Button(
-                onClick = { },
+                onClick = {
+                    signIn()
+                },
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                 modifier = Modifier.fillMaxWidth()
             ) {
@@ -268,6 +242,7 @@ class LoginFragment :
             }
         }
     }
+
 
     @Composable
     @Preview(showBackground = true)
@@ -346,32 +321,17 @@ class LoginFragment :
         }
     }
 
-
-    private fun areNotEmptyFields(): Boolean {/*
-        val user = binding.txtUser.editText?.text.toString().trim()
-        val password = binding.txtPassord.editText?.text.toString().trim()
-        if (user.isNotEmpty() && password.isNotEmpty()) {
-            return password.length > 8
-        }*/
-        return false
-    }
-
     private fun showForgetPassword() {
         val dialog = ForgetPasswordDialog(getListener())
         activity?.let { dialog.show(it.supportFragmentManager, "forgetPassword") }
     }
 
 
-    private fun saveUserEmailToPreferences() {/*
-        val userEmail = binding.txtUser.editText?.text.toString()
-        if (userEmail.isEmpty()) {
+    private fun saveUserEmailToPreferences(user: String, isCheck: Boolean) {
+        if (user.isEmpty() || !isCheck) {
             return
         }
-        if (!binding.checkBox.isChecked) {
-            return
-        }
-        viewModel.saveUserEmailToPreferences(userEmail)
-         */
+        viewModel.saveUserEmailToPreferences(user)
     }
 
 

@@ -13,6 +13,11 @@ class AppointmentFirebase {
 
     constructor()
 
+    constructor(establishment: String, service: String) {
+        this.establishment = establishment
+        this.service = service
+    }
+
     override fun toString(): String {
         return "$establishment,$employee,$service,$date,$hour,$total"
     }

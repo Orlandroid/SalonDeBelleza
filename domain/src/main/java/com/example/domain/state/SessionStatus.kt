@@ -6,5 +6,5 @@ sealed class SessionStatus {
     data object NETWORKERROR : SessionStatus()
     data object SUCCESS : SessionStatus()
     data object ERROR : SessionStatus()
-    data object IDLE:SessionStatus()
+    data object IDLE : SessionStatus()
 }
