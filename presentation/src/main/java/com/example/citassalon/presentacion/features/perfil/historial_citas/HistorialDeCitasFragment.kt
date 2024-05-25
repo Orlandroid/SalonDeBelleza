@@ -103,7 +103,7 @@ class HistorialDeCitasFragment :
                     }
                 }
                 GenericResultState(state = removeAppointmentState) {
-                    
+
                 }
             }
         }
@@ -227,6 +227,7 @@ class HistorialDeCitasFragment :
     }
 
     override fun onMove() {
+
 
     }
 

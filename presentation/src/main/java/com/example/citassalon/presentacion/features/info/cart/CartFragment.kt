@@ -17,7 +17,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
@@ -52,7 +51,6 @@ class CartFragment : BaseFragment<FragmentGenericBindingBinding>(R.layout.fragme
     lateinit var loginPreferences: LoginPreferences
 
     private val viewModel: CartViewModel by viewModels()
-    private val cartAdapter = CartAdapter()
 
     override fun configureToolbar() = MainActivity.ToolbarConfiguration(
         showToolbar = true, toolbarTitle = getUserMoneyFormat(loginPreferences.getUserMoney())
@@ -75,7 +73,7 @@ class CartFragment : BaseFragment<FragmentGenericBindingBinding>(R.layout.fragme
     }
 
     @Composable
-    //@Preview(showBackground = true)
+    @Preview(showBackground = true)
     fun CardScreenPreview() {
         CardScreen()
     }

@@ -1,6 +1,5 @@
 package com.example.citassalon.presentacion.features.extensions
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
@@ -22,11 +21,9 @@ fun <T> Fragment.GenericResultState(
     onSuccess: @Composable () -> Unit,
 ) {
     if (state.value is ApiState.Loading) {
-        Log.w("ANDORID", "LOADING")
         onLoading()
     } else {
         onFinishLoading()
-        Log.w("ANDORID", "NOTLOADING")
     }
     when (state.value) {
         is ApiState.Error -> {
