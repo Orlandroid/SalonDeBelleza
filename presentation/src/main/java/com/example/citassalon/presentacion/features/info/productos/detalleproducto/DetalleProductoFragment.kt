@@ -12,6 +12,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -47,7 +49,7 @@ class DetalleProductoFragment :
     BaseFragment<FragmentGenericBindingBinding>(R.layout.fragment_generic_binding) {
 
     private val args: DetalleProductoFragmentArgs by navArgs()
-    lateinit var product: Product
+    private lateinit var product: Product
 
     override fun configureToolbar() = MainActivity.ToolbarConfiguration(
         showToolbar = true, toolbarTitle = "Detalle producto"
@@ -59,7 +61,8 @@ class DetalleProductoFragment :
         return ComposeView(requireContext()).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
-                DetailProductView(args.producto.fromJson())
+                product = args.producto.fromJson()
+                DetailProductView(product)
             }
         }
     }
@@ -116,7 +119,10 @@ class DetalleProductoFragment :
             fontSize = 24.sp,
             fontWeight = fontWeight,
             color = AlwaysBlack,
-            modifier = modifier.fillMaxWidth(),
+            modifier = modifier
+                .padding(bottom = 16.dp)
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState()),
             textAlign = TextAlign.Center
         )
     }
@@ -133,23 +139,8 @@ class DetalleProductoFragment :
     }
 
     @SuppressLint("SetTextI18n")
-    override fun setUpUi() {/*
-        with(binding) {
-            initRating()
-            product = args.producto.fromJson()
-            tvTitle.text = product.title
-            Glide.with(this@DetalleProductoFragment).load(product.image).into(image)
-            rating.rating = product.rating.rate.toFloat()
-            tvPrecio.text = "$ ${product.price}"
-            tvDescripcion.text = product.description
-        }*/
-    }
+    override fun setUpUi() {
 
-    private fun initRating() {/*
-        with(binding) {
-            rating.setIsIndicator(true)
-            rating.numStars = 5
-        }*/
     }
 
 }

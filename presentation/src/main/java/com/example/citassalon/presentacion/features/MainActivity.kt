@@ -66,7 +66,7 @@ class MainActivity : AppCompatActivity(), AlertsDialogMessages.ClickOnAccepSimpl
         }
     }
 
-    private fun changeTitleToolbar(title: String) {
+    fun changeTitleToolbar(title: String) {
         binding.toolbarLayout.toolbarTitle.text = title
     }
 

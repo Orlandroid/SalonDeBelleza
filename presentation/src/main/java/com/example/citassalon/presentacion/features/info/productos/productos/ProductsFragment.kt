@@ -1,15 +1,15 @@
 package com.example.citassalon.presentacion.features.info.productos.productos
 
+import android.graphics.Bitmap
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -19,7 +19,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -38,10 +37,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.core.graphics.drawable.toBitmapOrNull
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import androidx.navigation.fragment.navArgs
-import androidx.recyclerview.widget.GridLayoutManager
 import coil.compose.AsyncImage
 import coil.imageLoader
 import coil.util.DebugLogger
@@ -52,16 +50,14 @@ import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.components.ButtonWithIcon
 import com.example.citassalon.presentacion.features.extensions.GenericResultState
 import com.example.citassalon.presentacion.features.extensions.navigate
-import com.example.citassalon.presentacion.features.extensions.observeApiResultGeneric
 import com.example.citassalon.presentacion.features.extensions.showSuccessMessage
+import com.example.citassalon.presentacion.features.extensions.toBase64
 import com.example.citassalon.presentacion.features.extensions.toJson
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.citassalon.presentacion.interfaces.ClickOnItem
 import com.example.domain.entities.remote.Product
 import com.example.domain.mappers.toProductDb
 import com.example.domain.state.ApiState
-import com.faltenreich.skeletonlayout.Skeleton
-import com.faltenreich.skeletonlayout.applySkeleton
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -69,9 +65,7 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
     ClickOnItem<Product> {
 
     private val viewModel: ProductsViewModel by viewModels()
-    private var adapter: ProductsAdapter? = null
     private val args: ProductsFragmentArgs by navArgs()
-    private var skeleton: Skeleton? = null
 
     override fun configureToolbar() = MainActivity.ToolbarConfiguration(
         showToolbar = true, toolbarTitle = getString(R.string.productos)
@@ -104,7 +98,14 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
         ) {
             Row(Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
                 Image(
-                    modifier = Modifier.size(50.dp),
+                    modifier = Modifier
+                        .padding(end = 8.dp, top = 8.dp)
+                        .size(50.dp)
+                        .clickable {
+                            val action =
+                                ProductsFragmentDirections.actionProductsFragmentToCartFragment()
+                            navigate(action)
+                        },
                     painter = painterResource(id = R.drawable.shopping_cart),
                     contentDescription = "ImageCart"
                 )
@@ -116,10 +117,10 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
 
     @Composable
     fun ShowProducts(products: State<ApiState<List<Product>>?>) {
+        //TODO Add Skeletons when loading
         GenericResultState(state = products) {
             LazyVerticalGrid(
-                columns = GridCells.Fixed(2),
-
+                columns = GridCells.Fixed(2)
             ) {
                 products.value?.data?.forEach { product ->
                     item {
@@ -134,9 +135,14 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
     fun ItemProduct(modifier: Modifier = Modifier, product: Product) {
         val imageLoader =
             LocalContext.current.imageLoader.newBuilder().logger(DebugLogger()).build()
+        var bitmapImageProduct: Bitmap? = null
         Card(
             shape = RoundedCornerShape(8.dp),
             modifier = modifier.padding(4.dp),
+            onClick = {
+                clickOnItem(element = product)
+            },
+            colors = CardDefaults.cardColors(containerColor = Color.White)
         ) {
             Spacer(modifier = Modifier.height(16.dp))
             ButtonWithIcon(
@@ -146,6 +152,12 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
                 ),
                 buttonText = "Agregar",
                 backgroundColor = Color.White,
+                onClick = {
+                    product.imageBase64 = bitmapImageProduct?.toBase64() ?: ""
+                    viewModel.insertProduct(product.toProductDb()) {
+                        showDialogConfirmationAddProduct()
+                    }
+                }
             )
             Spacer(modifier = Modifier.height(16.dp))
             AsyncImage(
@@ -154,44 +166,26 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
                     .align(Alignment.CenterHorizontally),
                 model = product.image,
                 contentDescription = "ImageProduct",
-                imageLoader = imageLoader
+                imageLoader = imageLoader,
+                onSuccess = {
+                    bitmapImageProduct = it.result.drawable.toBitmapOrNull()
+                }
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = product.title)
+            Text(text = product.title, Modifier.padding(horizontal = 8.dp))
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = product.price.toString(),
-                modifier = Modifier.align(Alignment.CenterHorizontally)
+                modifier = Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(bottom = 16.dp)
             )
         }
     }
 
 
     override fun setUpUi() {
-//        with(binding) {
-//            adapter = ProductsAdapter(object : ProductsAdapter.ClickOnItems {
-//                override fun clickOnElement(product: Product) {
-//                    val action =
-//                        ProductsFragmentDirections.actionProductsFragmentToDetalleProductoFragment(
-//                            product.toJson()
-//                        )
-//                    findNavController().navigate(action)
-//                }
-//
-//                override fun clickOnAddToCard(product: Product) {
-//                    viewModel.insertProduct(product.toProductDb()) {
-//                        showDialogConfirmationAddProduct()
-//                    }
-//                }
-//
-//            })
-//            imageCart.setOnClickListener {
-//                val action = ProductsFragmentDirections.actionProductsFragmentToCartFragment()
-//                navigate(action)
-//            }
-//            skeleton = recyclerProducts.applySkeleton(R.layout.item_product, 8)
-//            recyclerProducts.layoutManager = GridLayoutManager(requireContext(), 2)
-//        }
+
     }
 
 
@@ -200,21 +194,12 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
     }
 
     override fun observerViewModel() {
-//        super.observerViewModel()
-//        observeApiResultGeneric(liveData = viewModel.products,
-//            onLoading = { skeleton?.showSkeleton() },
-//            onFinishLoading = { skeleton?.showOriginal() }) {
-//            binding.recyclerProducts.adapter = adapter
-//            adapter?.setData(it)
-//            binding.root.setBackgroundColor(resources.getColor(R.color.background))
-//        }
+
     }
 
 
     override fun clickOnItem(element: Product, position: Int?) {
-        val action =
-            ProductsFragmentDirections.actionProductsFragmentToDetalleProductoFragment(element.toJson())
-        navigate(action)
+        navigate(ProductsFragmentDirections.actionProductsFragmentToDetalleProductoFragment(element.toJson()))
     }
 
     @Composable
