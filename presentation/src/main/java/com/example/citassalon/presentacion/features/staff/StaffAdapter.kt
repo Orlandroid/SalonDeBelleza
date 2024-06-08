@@ -1,5 +1,6 @@
 package com.example.citassalon.presentacion.features.staff
 
+import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -14,6 +15,7 @@ class StaffAdapter(private val listener: ClickOnItem<Staff>) :
 
     private var listaStaff: List<Staff> = arrayListOf()
 
+    @SuppressLint("NotifyDataSetChanged")
     fun setData(lista: List<Staff>) {
         listaStaff = lista
         notifyDataSetChanged()
