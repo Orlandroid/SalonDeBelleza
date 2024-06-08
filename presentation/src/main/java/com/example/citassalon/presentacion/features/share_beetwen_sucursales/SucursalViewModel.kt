@@ -25,21 +25,19 @@ class SucursalViewModel @Inject constructor(
 ) :
     BaseViewModel(coroutineDispatchers, networkHelper) {
 
-    private var _sucursal = MutableLiveData<ApiState<List<NegoInfo>>>()
-    val sucursal: LiveData<ApiState<List<NegoInfo>>>
-        get() = _sucursal
+    private var _branches = MutableLiveData<ApiState<List<NegoInfo>>>()
+    val branches: LiveData<ApiState<List<NegoInfo>>>
+        get() = _branches
 
     init {
         getSucursales()
     }
 
-    fun getSucursales() {
-        viewModelScope.launch {
-            safeApiCall(_sucursal, coroutineDispatchers) {
-                val response = repository.getSucursales()
-                withContext(Dispatchers.Main) {
-                    _sucursal.value = ApiState.Success(response.sucursales)
-                }
+    fun getSucursales() = viewModelScope.launch {
+        safeApiCall(_branches, coroutineDispatchers) {
+            val response = repository.getSucursales()
+            withContext(Dispatchers.Main) {
+                _branches.value = ApiState.Success(response.sucursales)
             }
         }
     }

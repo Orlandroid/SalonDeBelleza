@@ -71,7 +71,7 @@ class SucursalesFragment :
     @Composable
     fun BranchOffices(viewModel: SucursalViewModel) {
         //Todo add skeletons in loading state
-        val branches = viewModel.sucursal.observeAsState()
+        val branches = viewModel.branches.observeAsState()
         ConstraintLayout(
             Modifier
                 .fillMaxSize()
@@ -133,7 +133,7 @@ class SucursalesFragment :
     override fun observerViewModel() {
         super.observerViewModel()
         observeApiResultGeneric(
-            liveData = viewModel.sucursal
+            liveData = viewModel.branches
         ) {
             //binding.shimmerSucursal.gone()
             //binding.recyclerView.adapter = SucursalAdapter(it, getListener())
