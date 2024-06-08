@@ -32,8 +32,7 @@ import com.example.citassalon.presentacion.features.components.TextWithArrowConf
 import com.example.citassalon.presentacion.features.extensions.GenericResultState
 import com.example.citassalon.presentacion.features.extensions.fromJson
 import com.example.citassalon.presentacion.features.extensions.navigate
-import com.example.citassalon.presentacion.features.extensions.observeApiResultGeneric
-import com.example.citassalon.presentacion.features.info.stores.StoresAdapter
+import com.example.citassalon.presentacion.features.info.stores.StoresFragment
 import com.example.citassalon.presentacion.features.info.stores.StoresFragment.Companion.DUMMY_JSON
 import com.example.citassalon.presentacion.features.info.stores.StoresFragment.Companion.FAKE_STORE
 import com.example.citassalon.presentacion.features.theme.Background
@@ -47,9 +46,8 @@ class ListOfCategoriesFragment :
     ClickOnItem<String> {
 
     private val viewModel: ListOfCategoriesViewModel by viewModels()
-    private val adapter = ListOfCategoriesAdapter(this)
     private val args: ListOfCategoriesFragmentArgs by navArgs()
-    private var currentStore: StoresAdapter.Store? = null
+    private var currentStore: StoresFragment.Store? = null
 
     override fun configureToolbar() = MainActivity.ToolbarConfiguration(
         showToolbar = true, toolbarTitle = getString(R.string.categorias)
@@ -121,7 +119,7 @@ class ListOfCategoriesFragment :
 
 
     override fun setUpUi() {
-        
+
     }
 
     private fun setUpStore() {
@@ -136,23 +134,6 @@ class ListOfCategoriesFragment :
                     viewModel.getCategoriesDummyJson()
                 }
             }
-        }
-    }
-
-    override fun observerViewModel() {
-        super.observerViewModel()
-        observeApiResultGeneric(liveData = viewModel.categories, onLoading = {}, onFinishLoading = {
-            //binding.shimmerCategorias.gone()
-        }, shouldCloseTheViewOnApiError = true
-        ) {
-            adapter.setData(it)
-            //binding.shimmerCategorias.gone()
-        }
-        observeApiResultGeneric(
-            viewModel.categoriesResponse, shouldCloseTheViewOnApiError = true
-        ) {
-            //binding.shimmerCategorias.gone()
-            adapter.setData(it)
         }
     }
 

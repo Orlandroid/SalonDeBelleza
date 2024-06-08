@@ -49,7 +49,7 @@ class StoresFragment :
 
     }
 
-    private fun clickOnStore(store: StoresAdapter.Store) {
+    private fun clickOnStore(store: Store) {
         findNavController().navigate(
             StoresFragmentDirections.actionStoresFragmentToListOfProductsFragment(
                 store.toJson()
@@ -104,7 +104,7 @@ class StoresFragment :
     }
 
     private fun setStores() = listOf(
-        StoresAdapter.Store(name = FAKE_STORE), StoresAdapter.Store(name = DUMMY_JSON)
+        Store(name = FAKE_STORE), Store(name = DUMMY_JSON)
     )
 
     private fun setAnimation(): Int {
@@ -115,4 +115,9 @@ class StoresFragment :
             R.raw.ecomerce2
         }
     }
+
+    data class Store(
+        val name: String = ""
+    )
+
 }

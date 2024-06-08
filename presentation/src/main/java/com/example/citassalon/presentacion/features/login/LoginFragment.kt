@@ -110,9 +110,8 @@ class LoginFragment :
                 },
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            //val userName = remember { mutableStateOf("android@gmail.com") }
-            //val userPassword = remember { mutableStateOf("android1234") }
-            val userName = remember { mutableStateOf("") }
+            val userEmail = viewModel.getUserEmailFromPreferences() ?: ""
+            val userName = remember { mutableStateOf(userEmail) }
             val userPassword = remember { mutableStateOf("") }
             val checkedState = remember { mutableStateOf(false) }
             val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.login_icon))
@@ -172,10 +171,19 @@ class LoginFragment :
             }
             OutlinedButton(
                 onClick = {
-                    viewModel.loginUi(userName.value, userPassword.value) {
-                        val alert = AlertDialogs(WARNING_MESSAGE, "Debes de llenar Ambos campos")
-                        activity?.let { it1 -> alert.show(it1.supportFragmentManager, "dialog") }
-                    }
+                    viewModel.loginUi(
+                        userName.value, userPassword.value,
+                        onEmptyFields = {
+                            val alert =
+                                AlertDialogs(WARNING_MESSAGE, "Debes de llenar Ambos campos")
+                            activity?.let { it1 ->
+                                alert.show(
+                                    it1.supportFragmentManager,
+                                    "dialog"
+                                )
+                            }
+                        }
+                    )
                 }, modifier = Modifier
                     .fillMaxWidth()
                     .padding(0.dp, 25.dp, 0.dp, 0.dp)

@@ -53,6 +53,7 @@ import com.example.citassalon.presentacion.features.extensions.navigate
 import com.example.citassalon.presentacion.features.extensions.showSuccessMessage
 import com.example.citassalon.presentacion.features.extensions.toBase64
 import com.example.citassalon.presentacion.features.extensions.toJson
+import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.citassalon.presentacion.interfaces.ClickOnItem
 import com.example.domain.entities.remote.Product
@@ -142,7 +143,7 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
             onClick = {
                 clickOnItem(element = product)
             },
-            colors = CardDefaults.cardColors(containerColor = Color.White)
+            colors = CardDefaults.cardColors(containerColor = AlwaysWhite)
         ) {
             Spacer(modifier = Modifier.height(16.dp))
             ButtonWithIcon(
@@ -191,10 +192,6 @@ class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment
 
     private fun showDialogConfirmationAddProduct() {
         showSuccessMessage(getString(R.string.product_add))
-    }
-
-    override fun observerViewModel() {
-
     }
 
 
