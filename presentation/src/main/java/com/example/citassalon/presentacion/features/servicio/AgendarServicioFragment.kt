@@ -1,38 +1,49 @@
 package com.example.citassalon.presentacion.features.servicio
 
+
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.unit.dp
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
-import com.bumptech.glide.Glide
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentAgendarServicioBinding
-import com.example.citassalon.presentacion.interfaces.ClickOnItem
-import com.example.citassalon.presentacion.main.AlertDialogs
 import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
-import com.example.citassalon.presentacion.features.extensions.click
+import com.example.citassalon.presentacion.features.components.ItemStaff
+import com.example.citassalon.presentacion.features.components.TextWithArrow
+import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
 import com.example.citassalon.presentacion.features.extensions.navigate
-import com.example.citassalon.presentacion.features.extensions.showToast
 import com.example.citassalon.presentacion.features.flow_main.FlowMainViewModel
+import com.example.citassalon.presentacion.main.AlertDialogs
 import com.example.domain.entities.remote.migration.Service
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AgendarServicioFragment :
     BaseFragment<FragmentAgendarServicioBinding>(R.layout.fragment_agendar_servicio),
-    ClickOnItem<Service>, AlertDialogs.ClickOnAccept {
+    AlertDialogs.ClickOnAccept {
 
     private val flowMainViewModel by navGraphViewModels<FlowMainViewModel>(R.id.main_navigation) {
         defaultViewModelProviderFactory
     }
-    private lateinit var agendarServicioAdapter: AgendarServicioAdapter
     private var listOfServices = arrayListOf<Service>()
 
 
     override fun configureToolbar() = MainActivity.ToolbarConfiguration(
         showToolbar = true,
-        toolbarTitle = "Agendar Servicio"
+        toolbarTitle = getString(R.string.agendar_servicio)
     )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -40,47 +51,47 @@ class AgendarServicioFragment :
         setUpUi()
     }
 
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                ScheduleService()
+            }
+        }
+    }
+
+    @Composable
+    fun ScheduleService() {
+        Column(Modifier.fillMaxSize()) {
+            Spacer(modifier = Modifier.height(16.dp))
+            ItemStaff(
+                staff = flowMainViewModel.currentStaff,
+                branch = flowMainViewModel.sucursal.name
+            )
+            LazyColumn {
+                flowMainViewModel.listOfServices.forEach { service ->
+                    item {
+                        TextWithArrow(
+                            config = TextWithArrowConfig(
+                                text = service.name,
+                                clickOnItem = {
+                                    navigate(AgendarServicioFragmentDirections.actionAgendarServicioToAgendarFecha())
+                                }
+                            )
+                        )
+                    }
+                }
+            }
+        }
+    }
+
 
     override fun setUpUi() {
-        with(binding) {
-            btnNext.click {
-                if (!agendarServicioAdapter.isOneItemOrMoreSelect()) {
-                    requireContext().showToast("Debes de seleccionar almenos 1 servicio")
-                    return@click
-                }
-                flowMainViewModel.listOfServices = getServicesSelect()
-                flowMainViewModel
-                val acction =
-                    AgendarServicioFragmentDirections.actionAgendarServicioToAgendarFecha()
-                navigate(acction)
-            }
-            agendarServicioAdapter =
-                AgendarServicioAdapter(flowMainViewModel.listOfServices, getListener())
-            binding.recyclerAgendarServicio.adapter = agendarServicioAdapter
-        }
-        setValuesToView()
+
     }
-
-    private fun setValuesToView() {
-        with(binding) {
-            flowMainViewModel.currentStaff.let {
-                Glide.with(requireActivity()).load(it.image_url).into(staffImage)
-                nombreStaff.text = it.nombre
-            }
-        }
-    }
-
-    private fun getServicesSelect(): List<Service> {
-        return listOfServices.distinct()
-    }
-
-    private fun getListener(): ClickOnItem<Service> = this
-
-    override fun clickOnItem(element: Service, position: Int?) {
-        binding.tvServicio.text = element.name
-        listOfServices.add(element)
-    }
-
+    
     override fun clickOnAccept() {
         findNavController().popBackStack()
     }
