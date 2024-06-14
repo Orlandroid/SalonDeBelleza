@@ -44,7 +44,7 @@ import coil.compose.AsyncImage
 import coil.imageLoader
 import coil.util.DebugLogger
 import com.example.citassalon.R
-import com.example.citassalon.databinding.FragmentProductsBinding
+import com.example.citassalon.databinding.FragmentGenericBindingBinding
 import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.components.ButtonWithIcon
@@ -62,7 +62,7 @@ import com.example.domain.state.ApiState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class ProductsFragment : BaseFragment<FragmentProductsBinding>(R.layout.fragment_products),
+class ProductsFragment : BaseFragment<FragmentGenericBindingBinding>(R.layout.fragment_generic_binding),
     ClickOnItem<Product> {
 
     private val viewModel: ProductsViewModel by viewModels()

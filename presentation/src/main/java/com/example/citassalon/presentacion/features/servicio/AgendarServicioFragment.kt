@@ -18,7 +18,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.example.citassalon.R
-import com.example.citassalon.databinding.FragmentAgendarServicioBinding
+import com.example.citassalon.databinding.FragmentGenericBindingBinding
 import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.components.ItemStaff
@@ -32,7 +32,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AgendarServicioFragment :
-    BaseFragment<FragmentAgendarServicioBinding>(R.layout.fragment_agendar_servicio),
+    BaseFragment<FragmentGenericBindingBinding>(R.layout.fragment_generic_binding),
     AlertDialogs.ClickOnAccept {
 
     private val flowMainViewModel by navGraphViewModels<FlowMainViewModel>(R.id.main_navigation) {

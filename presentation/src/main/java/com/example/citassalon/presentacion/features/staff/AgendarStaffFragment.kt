@@ -26,7 +26,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.example.citassalon.R
-import com.example.citassalon.databinding.FragmentAgendarStaffBinding
+import com.example.citassalon.databinding.FragmentGenericBindingBinding
 import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.components.ClickOnItemStaff
@@ -39,7 +39,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AgendarStaffFragment :
-    BaseFragment<FragmentAgendarStaffBinding>(R.layout.fragment_generic_binding),
+    BaseFragment<FragmentGenericBindingBinding>(R.layout.fragment_generic_binding),
     AlertDialogs.ClickOnAccept {
 
 

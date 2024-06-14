@@ -40,7 +40,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
-import com.example.citassalon.databinding.FragmentHistorialDeCitasBinding
+import com.example.citassalon.databinding.FragmentGenericBindingBinding
 import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.components.AppProgress
@@ -55,7 +55,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class HistorialDeCitasFragment :
-    BaseFragment<FragmentHistorialDeCitasBinding>(R.layout.fragment_generic_binding),
+    BaseFragment<FragmentGenericBindingBinding>(R.layout.fragment_generic_binding),
     ClickOnItem<AppointmentFirebase>, SwipeRecycler.SwipeRecyclerListenr {
 
 

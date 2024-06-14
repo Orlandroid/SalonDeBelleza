@@ -20,7 +20,7 @@ import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.example.citassalon.R
-import com.example.citassalon.databinding.FragmentAgendarSucursalBinding
+import com.example.citassalon.databinding.FragmentGenericBindingBinding
 import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.components.TextWithArrow
@@ -39,7 +39,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AgendarSucursalFragment :
-    BaseFragment<FragmentAgendarSucursalBinding>(R.layout.fragment_generic_binding),
+    BaseFragment<FragmentGenericBindingBinding>(R.layout.fragment_generic_binding),
     ClickOnItem<NegoInfo>, AlertDialogs.ClickOnAccept {
 
     private val branchViewModel: SucursalViewModel by viewModels()
