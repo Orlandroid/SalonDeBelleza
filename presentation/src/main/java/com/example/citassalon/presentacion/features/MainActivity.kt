@@ -9,6 +9,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.fragment.NavHostFragment
 import com.example.citassalon.R
 import com.example.citassalon.databinding.ActivityMainBinding
+import com.example.citassalon.presentacion.features.components.AppProgress
 import com.example.citassalon.presentacion.features.extensions.click
 import com.example.citassalon.presentacion.features.extensions.gone
 import com.example.citassalon.presentacion.features.extensions.visible
@@ -33,6 +34,9 @@ class MainActivity : AppCompatActivity(), AlertsDialogMessages.ClickOnAccepSimpl
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setUpNavController()
+        binding.progressBar.setContent {
+            AppProgress()
+        }
     }
 
     private fun setUpNavController() {
@@ -62,7 +66,7 @@ class MainActivity : AppCompatActivity(), AlertsDialogMessages.ClickOnAccepSimpl
         }
     }
 
-    private fun changeTitleToolbar(title: String) {
+    fun changeTitleToolbar(title: String) {
         binding.toolbarLayout.toolbarTitle.text = title
     }
 

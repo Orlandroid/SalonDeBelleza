@@ -1,14 +1,12 @@
 package com.example.citassalon.presentacion.features.extensions
 
 import android.util.Log
-import androidx.annotation.IdRes
 import androidx.fragment.app.Fragment
-import androidx.navigation.NavController
 import androidx.navigation.NavDirections
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.main.AlertDialogs
 import com.example.citassalon.presentacion.features.MainActivity
+import com.example.citassalon.presentacion.main.AlertDialogs
 
 fun Fragment.showProgress() {
     (requireActivity() as MainActivity).showProgress()
@@ -102,29 +100,11 @@ fun Any?.makeSaveAction(action: () -> Unit) {
     action()
 }
 
-fun NavController.navigateSafe(@IdRes destinationId: Int, navDirection: NavDirections) {
-    if (currentDestination?.id == destinationId) {
-        navigate(navDirection)
-    }
-}
-
 fun Fragment.navigateAction(action: NavDirections) {
     val navController = this.findNavController()
     if (navController.currentDestination?.getAction(action.actionId) == null) {
         return
     } else {
         navController.navigate(action)
-    }
-}
-
-fun NavController.navigateSafe(
-    navDirections: NavDirections? = null
-) {
-    try {
-        navDirections?.let {
-            this.navigate(navDirections)
-        }
-    } catch (e: Exception) {
-        e.printStackTrace()
     }
 }

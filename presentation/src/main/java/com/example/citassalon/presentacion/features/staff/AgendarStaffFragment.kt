@@ -1,136 +1,138 @@
 package com.example.citassalon.presentacion.features.staff
 
 
-import androidx.fragment.app.viewModels
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ComposeView
+import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
-import androidx.recyclerview.widget.GridLayoutManager
 import com.example.citassalon.R
-import com.example.citassalon.databinding.FragmentAgendarStaffBinding
-import com.example.citassalon.presentacion.interfaces.ClickOnItem
-import com.example.citassalon.presentacion.main.AlertDialogs
+import com.example.citassalon.databinding.FragmentGenericBindingBinding
 import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
-import com.example.citassalon.presentacion.features.extensions.action
-import com.example.citassalon.presentacion.features.extensions.click
-import com.example.citassalon.presentacion.features.extensions.displaySnack
+import com.example.citassalon.presentacion.features.components.ClickOnItemStaff
+import com.example.citassalon.presentacion.features.components.ItemStaff
 import com.example.citassalon.presentacion.features.extensions.navigate
-import com.example.citassalon.presentacion.features.extensions.observeApiResultGeneric
 import com.example.citassalon.presentacion.features.flow_main.FlowMainViewModel
+import com.example.citassalon.presentacion.main.AlertDialogs
 import com.example.domain.entities.remote.migration.Staff
-import com.faltenreich.skeletonlayout.Skeleton
-import com.faltenreich.skeletonlayout.applySkeleton
-import com.google.android.material.snackbar.Snackbar
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class AgendarStaffFragment :
-    BaseFragment<FragmentAgendarStaffBinding>(R.layout.fragment_agendar_staff), ClickOnItem<Staff>,
+    BaseFragment<FragmentGenericBindingBinding>(R.layout.fragment_generic_binding),
     AlertDialogs.ClickOnAccept {
 
 
-    private val viewModelStaff: StaffViewModel by viewModels()
     private val flowMainViewModel by navGraphViewModels<FlowMainViewModel>(R.id.main_navigation) {
         defaultViewModelProviderFactory
     }
-    private val adaptador = StaffAdapter(getListener())
-    private lateinit var skeletonRecyclerView: Skeleton
+
 
     override fun configureToolbar() = MainActivity.ToolbarConfiguration(
-        showToolbar = true,
-        toolbarTitle = "Agendar Staff"
+        showToolbar = true, toolbarTitle = getString(R.string.agendar_staff)
     )
+
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
+    ): View {
+        return ComposeView(requireContext()).apply {
+            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
+            setContent {
+                ScheduleStaff()
+            }
+        }
+    }
+
+    @Composable
+    fun ScheduleStaff() {
+        Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                text = flowMainViewModel.sucursal.name,
+                fontSize = 32.sp,
+                style = TextStyle(fontWeight = FontWeight.W900)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Button(onClick = {
+                val randomStaff = getRandomStaff(flowMainViewModel.listOfStaffs)
+                flowMainViewModel.currentStaff = randomStaff
+                navigate(AgendarStaffFragmentDirections.actionAgendarStaffToAgendarServicio())
+            }) {
+                Text(text = stringResource(id = R.string.estilista_button))
+            }
+            Spacer(modifier = Modifier.height(32.dp))
+            LazyColumn {
+                flowMainViewModel.listOfStaffs.forEach { myStaff ->
+                    item {
+                        ItemStaff(
+                            staff = myStaff,
+                            onClick = {
+                                clickOnStaff(it, myStaff)
+                            }
+                        )
+                    }
+                }
+            }
+        }
+    }
+
+    private fun clickOnStaff(
+        clickOnItemStaff: ClickOnItemStaff,
+        myStaff: Staff
+    ) {
+        flowMainViewModel.currentStaff = myStaff
+        when (clickOnItemStaff) {
+            ClickOnItemStaff.ClickOnItem -> {
+                navigate(AgendarStaffFragmentDirections.actionAgendarStaffToAgendarServicio())
+            }
+
+            ClickOnItemStaff.ClickOnImage -> {
+                navigate(AgendarStaffFragmentDirections.actionAgendarStaffToDetalleStaff())
+            }
+        }
+    }
+
+    private fun getRandomStaff(staffs: List<Staff>): Staff {
+        val randomNumber = staffs.indices.random()
+        val randomStaff = staffs[randomNumber]
+        return randomStaff
+    }
+
+    @Composable
+    @Preview(showBackground = true)
+    fun ItemStaffPreview(modifier: Modifier = Modifier) {
+        ItemStaff(
+            staff = Staff(
+                id = "", image_url = "", nombre = "", sexo = "", valoracion = 4
+            )
+        )
+    }
 
 
     override fun setUpUi() {
-        with(binding) {
-            skeletonRecyclerView = recyclerStaff.applySkeleton(R.layout.item_staff, 8)
-            binding.buttonEtilistaAletorio.click {
-                val estilitaAleatorio = (adaptador.getData().indices).random()
-                val estilista = adaptador.getData()[estilitaAleatorio]
-                navigateToAngendarService(estilista)
-            }
-        }
-        setUpRecyclerView()
-        getArgs()
+
     }
-
-    override fun observerViewModel() {
-        super.observerViewModel()
-        observeApiResultGeneric(
-            liveData = viewModelStaff.staff,
-            onLoading = {
-                showSkeleton()
-            },
-            onFinishLoading = {
-                hideSkeleton()
-            },
-            hasProgressTheView = false,
-            shouldCloseTheViewOnApiError = true,
-            onError = { snackErrorConection() }
-        ) {
-            setUpRecyclerView()
-        }
-    }
-
-    private fun getListener(): ClickOnItem<Staff> {
-        return this
-    }
-
-
-    private fun getArgs() {
-        setValueToView(flowMainViewModel.sucursal.name)
-    }
-
-    private fun setValueToView(sucursal: String) {
-        binding.tvSucursal.text = sucursal
-    }
-
-    private fun setUpRecyclerView() {
-        binding.recyclerStaff.layoutManager = GridLayoutManager(requireContext(), 2)
-        binding.recyclerStaff.adapter = adaptador
-        adaptador.setData(flowMainViewModel.listOfStaffs)
-    }
-
-    private fun showSkeleton() {
-        skeletonRecyclerView.showSkeleton()
-    }
-
-    private fun hideSkeleton() {
-        skeletonRecyclerView.showOriginal()
-    }
-
-
-    private fun snackErrorConection() {
-        binding.root.displaySnack(
-            getString(R.string.network_error),
-            Snackbar.LENGTH_INDEFINITE
-        ) {
-            action(getString(R.string.retry)) {
-                viewModelStaff.getSttafs()
-            }
-        }
-    }
-
-
-    private fun navigateToAngendarService(staff: Staff) {
-        binding.tvEmpleado.text = staff.nombre
-        val action = AgendarStaffFragmentDirections.actionAgendarStaffToAgendarServicio()
-        navigate(action)
-    }
-
-
-    override fun clickOnItem(element: Staff, position: Int?) {
-        flowMainViewModel.currentStaff = element
-        if (position == 0) {
-            val action =
-                AgendarStaffFragmentDirections.actionAgendarStaffToDetalleStaff()
-            navigate(action)
-            return
-        }
-        navigateToAngendarService(element)
-    }
-
+    
     override fun clickOnAccept() {
         findNavController().popBackStack()
     }

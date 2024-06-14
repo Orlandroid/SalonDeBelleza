@@ -4,12 +4,16 @@ package com.example.citassalon.presentacion.features.login
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.data.Repository
 import com.example.data.preferences.LoginPreferences
 import com.example.domain.state.SessionStatus
 import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,9 +23,8 @@ class LoginViewModel
     private val repository: Repository,
     private val loginPeferences: LoginPreferences,
 ) : ViewModel() {
-
-    private val _loginStatus = MutableLiveData<SessionStatus>()
-    val loginStatus: LiveData<SessionStatus> get() = _loginStatus
+    private val _loginStatus: MutableStateFlow<SessionStatus> = MutableStateFlow(SessionStatus.IDLE)
+    val loginStatus = _loginStatus.asStateFlow()
 
     private val _forgetPasswordStatus = MutableLiveData<SessionStatus>()
     val forgetPasswordStatus: LiveData<SessionStatus> get() = _forgetPasswordStatus
@@ -61,21 +64,33 @@ class LoginViewModel
         }
     }
 
-    fun login(email: String, password: String) {
-        _loginStatus.value = SessionStatus.LOADING
+    fun login(email: String, password: String) = viewModelScope.launch {
+        _loginStatus.emit(SessionStatus.LOADING)
         if (networkHelper.isNetworkConnected()) {
-            repository.login(email, password)
-                .addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        _loginStatus.value = SessionStatus.SUCCESS
-                        saveUserSession()
-                    } else {
-                        _loginStatus.value = SessionStatus.ERROR
+            repository.login(email, password).addOnCompleteListener {
+                if (it.isSuccessful) {
+                    viewModelScope.launch {
+                        _loginStatus.emit(SessionStatus.SUCCESS)
+                    }
+                    saveUserSession()
+                } else {
+                    viewModelScope.launch {
+                        _loginStatus.emit(SessionStatus.ERROR)
                     }
                 }
+            }
         } else {
-            _loginStatus.value = SessionStatus.NETWORKERROR
+            _loginStatus.emit(SessionStatus.NETWORKERROR)
         }
+    }
+
+    fun loginUi(user: String, password: String, onEmptyFields: () -> Unit) {
+        if (user.isEmpty() || password.isEmpty()) {
+            onEmptyFields.invoke()
+            return
+        }
+        saveUserEmailToPreferences(user)
+        login(user, password)
     }
 
     fun isUserActive(): Boolean {

@@ -4,7 +4,6 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.util.Base64
 import java.io.ByteArrayOutputStream
-import java.io.File
 import java.io.IOException
 
 fun Bitmap.toBase64(): String {
@@ -35,12 +34,3 @@ fun String.base64StringToBitmap(): Bitmap {
     imageBytes = Base64.decode(this, Base64.DEFAULT)
     return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
 }
-
-fun File.getImageBase64FromFile(): String {
-    val stream = ByteArrayOutputStream()
-    val bitmap = BitmapFactory.decodeFile(absolutePath)
-    bitmap.compress(Bitmap.CompressFormat.JPEG, 80, stream)
-    val imageBytes = stream.toByteArray()
-    return Base64.encodeToString(imageBytes, Base64.NO_WRAP)
-}
-
