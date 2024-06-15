@@ -7,7 +7,7 @@ buildscript {
     }
     dependencies {
         val kotlinVersion = "1.9.22"
-        classpath("com.android.tools.build:gradle:8.4.1")
+        classpath("com.android.tools.build:gradle:8.5.0")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
         classpath("com.google.gms:google-services:4.4.2")
         val navVersion = "2.7.6"
