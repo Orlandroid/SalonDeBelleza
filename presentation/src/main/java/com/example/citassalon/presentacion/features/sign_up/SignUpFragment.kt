@@ -45,22 +45,20 @@ import androidx.compose.ui.unit.dp
 import androidx.fragment.app.viewModels
 import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
-import com.example.citassalon.databinding.SignInBinding
+import com.example.citassalon.databinding.FragmentGenericBindingBinding
 import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.extensions.ObserveSessionStatusLiveData
 import com.example.citassalon.presentacion.features.extensions.showDatePickerDialog
-import com.example.citassalon.presentacion.features.extensions.showLog
 import com.example.citassalon.presentacion.features.extensions.showProgress
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.citassalon.presentacion.main.AlertDialogs
 import com.example.citassalon.presentacion.util.isValidEmail
 import com.example.domain.entities.remote.User
-import com.example.domain.state.SessionStatus
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SignUpFragment : BaseFragment<SignInBinding>(R.layout.fragment_generic_binding),
+class SignUpFragment : BaseFragment<FragmentGenericBindingBinding>(R.layout.fragment_generic_binding),
     DatePickerDialog.OnDateSetListener {
 
     private val viewModel: SignUpViewModel by viewModels()
@@ -224,71 +222,11 @@ class SignUpFragment : BaseFragment<SignInBinding>(R.layout.fragment_generic_bin
 
 
     override fun setUpUi() {
-//        with(binding) {
-//            buttonRegistarse.click {
-//                saveUserImformation()
-//                singUp()
-//            }
-//            container.click {
-//                hideKeyboard()
-//            }
-//            birtday.setEndIconOnClickListener {
-//                showDatePickerDialog(getListenerOnDataSet(), this@SignUpFragment)
-//            }
-//        }
-//        doOnTextChange()
+
     }
 
     private fun getListenerOnDataSet(): DatePickerDialog.OnDateSetListener {
         return this
-    }
-
-    override fun observerViewModel() {
-        super.observerViewModel()
-//        viewModel.singUp.observe(viewLifecycleOwner) {
-//            when (it) {
-//                is SessionStatus.LOADING -> {
-//                    with(binding) {
-//                        buttonRegistarse.isEnabled = false
-//                        progress.visible()
-//                    }
-//                }
-//
-//                is SessionStatus.SUCCESS -> {
-//                    with(binding) {
-//                        buttonRegistarse.isEnabled = true
-//                        progress.gone()
-//                        showDialogMessage(
-//                            AlertDialogs.SUCCESS_MESSAGE, "Usuario registraro correctament"
-//                        )
-//                        findNavController().popBackStack()
-//                    }
-//                }
-//
-//                is SessionStatus.ERROR -> {
-//                    with(binding) {
-//                        buttonRegistarse.isEnabled = true
-//                        progress.gone()
-//                        showDialogMessage(
-//                            AlertDialogs.ERROR_MESSAGE, "Error al registrar al usuario"
-//                        )
-//                    }
-//                }
-//
-//                is SessionStatus.NETWORKERROR -> {
-//                    with(binding) {
-//                        buttonRegistarse.isEnabled = true
-//                        progress.gone()
-//                        showDialogMessage(
-//                            AlertDialogs.ERROR_MESSAGE,
-//                            "Error de red verifica que tengas conexion a internet"
-//                        )
-//                    }
-//                }
-//
-//                SessionStatus.IDLE -> {}
-//            }
-//        }
     }
 
 
@@ -336,7 +274,6 @@ class SignUpFragment : BaseFragment<SignInBinding>(R.layout.fragment_generic_bin
         var areEmptyFields = false
         if (!isValidNumber()) {
             if (phone.isNotEmpty()) {
-                //telefono.error = "Debes de ingresar un telefono valido"
                 errorPhone.value = true
             }
             isValidPhone = false
@@ -345,14 +282,12 @@ class SignUpFragment : BaseFragment<SignInBinding>(R.layout.fragment_generic_bin
         if (!isValidPassword()) {
             if (passwordText.isNotEmpty()) {
                 errorPassword.value = true
-                //password.error = "La contraseña debe ser de minimo de 6 digitos"
             }
             isValidPassword = false
         }
         if (!isTheEmailValidEmail(getEmail())) {
             if (email.isNotEmpty()) {
                 errorEmail.value = true
-                //correo.error = "Ingresa un correo electronico valido"
             }
             isValidEmail = false
         }
@@ -366,7 +301,7 @@ class SignUpFragment : BaseFragment<SignInBinding>(R.layout.fragment_generic_bin
 
     private fun changeColorTextButton() {
         if (validateForm()) {
-            binding.buttonRegistarse.setTextColor(android.graphics.Color.WHITE)
+//            binding.buttonRegistarse.setTextColor(android.graphics.Color.WHITE)
         }
     }
 
