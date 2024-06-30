@@ -86,7 +86,7 @@ fun Drawable.tint(context: Context, @ColorRes color: Int) {
 
 fun Fragment.showLog(message: String) {
     val mTag = context?.packageName.plus(tag)
-    Log.w(mTag, message)
+    Log.d(mTag, message)
 }
 
 
