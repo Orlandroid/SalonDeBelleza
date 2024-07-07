@@ -1,12 +1,10 @@
 package com.example.citassalon.presentacion.features.extensions
 
-import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.State
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.LiveData
 import com.example.domain.state.ApiState
 import com.example.domain.state.SessionStatus
 import kotlinx.coroutines.flow.StateFlow
@@ -20,7 +18,7 @@ fun <T> Fragment.GenericResultState(
     shouldCloseTheViewOnApiError: Boolean = false,
     onLoading: () -> Unit = { },
     onFinishLoading: () -> Unit = { },
-    onSuccess: @Composable () -> Unit,
+    onSuccess: @Composable (data: T) -> Unit,
 ) {
     if (state.value is ApiState.Loading) {
         onLoading()
@@ -48,7 +46,9 @@ fun <T> Fragment.GenericResultState(
 
         is ApiState.Success -> {
             hideProgress()
-            onSuccess()
+            state.value?.data?.let { dataResponse ->
+                onSuccess(dataResponse)
+            }
         }
 
         null -> {}
@@ -110,9 +110,9 @@ fun Fragment.ObserveSessionStatusLiveData(
     when (state.value) {
         SessionStatus.ERROR -> {
             hideProgress()
-            if (messageOnError == null){
+            if (messageOnError == null) {
                 showErrorApi()
-            }else{
+            } else {
                 showErrorApi(messageBody = messageOnError)
             }
         }
