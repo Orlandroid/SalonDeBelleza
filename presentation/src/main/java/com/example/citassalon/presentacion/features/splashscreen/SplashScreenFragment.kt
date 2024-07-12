@@ -1,10 +1,5 @@
 package com.example.citassalon.presentacion.features.splashscreen
 
-import android.annotation.SuppressLint
-import android.os.Bundle
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeOut
@@ -15,8 +10,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.ComposeView
-import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -25,35 +18,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.navigation.NavController
 import com.example.citassalon.R
-import com.example.citassalon.databinding.FragmentGenericBindingBinding
-import com.example.citassalon.presentacion.features.base.BaseFragment
-import com.example.citassalon.presentacion.features.extensions.navigateAction
+import com.example.citassalon.presentacion.features.base.BaseComposeScreen
+import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
+import com.example.citassalon.presentacion.features.navigation.Screens
 import com.example.citassalon.presentacion.features.theme.StatusBarColor
 
 
-@SuppressLint("CustomSplashScreen")
-class SplashScreenFragment :
-    BaseFragment<FragmentGenericBindingBinding>(R.layout.fragment_generic_binding) {
-
-
-    override fun setUpUi() {
-
-    }
-
-    override fun onCreateView(
-        inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
-    ): View {
-        return ComposeView(requireContext()).apply {
-            setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
-            setContent {
-                SplashScreen()
-            }
-        }
-    }
-
-    @Composable
-    fun SplashScreen() {
+@Composable
+fun SplashScreenV1(navController: NavController) {
+    BaseComposeScreen(
+        navController = navController,
+        toolbarConfiguration = ToolbarConfiguration(showToolbar = false)
+    ) {
         ConstraintLayout(
             Modifier
                 .fillMaxSize()
@@ -88,9 +66,9 @@ class SplashScreenFragment :
                 visible = true,
                 exit = fadeOut(animationSpec = tween(1000))
             ) {
-                navigateAction(SplashScreenFragmentDirections.actionSplashScreenFragmentToLogin())
+                navController.navigate(Screens.LoginScreen.route)
             }
         }
     }
-    
 }
+    

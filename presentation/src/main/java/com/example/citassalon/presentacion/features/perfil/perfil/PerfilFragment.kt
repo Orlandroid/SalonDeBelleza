@@ -50,7 +50,8 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class PerfilFragment : BaseFragment<FragmentGenericBindingBinding>(R.layout.fragment_generic_binding),
+class PerfilFragment :
+    BaseFragment<FragmentGenericBindingBinding>(R.layout.fragment_generic_binding),
     ListenerAlertDialogWithButtons, ClickOnItem<String> {
 
     private val viewModelPerfil: PerfilViewModel by viewModels()

@@ -16,15 +16,19 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
+import androidx.compose.ui.res.stringResource
 import androidx.fragment.app.viewModels
+import androidx.navigation.compose.rememberNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.navGraphViewModels
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
 import com.example.citassalon.presentacion.features.MainActivity
+import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
+import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.extensions.GenericResultState
 import com.example.citassalon.presentacion.features.extensions.navigate
 import com.example.citassalon.presentacion.features.flow_main.FlowMainViewModel
@@ -48,7 +52,7 @@ class AgendarSucursalFragment :
     }
 
     override fun configureToolbar() = MainActivity.ToolbarConfiguration(
-        showToolbar = true, toolbarTitle = getString(R.string.agendar_sucursal)
+        showToolbar = false, toolbarTitle = getString(R.string.agendar_sucursal)
     )
 
     override fun setUpUi() {
@@ -68,14 +72,22 @@ class AgendarSucursalFragment :
 
     @Composable
     fun ScheduleBranch(branchViewModel: SucursalViewModel) {
-        val branches = branchViewModel.branches.observeAsState()
-        Column(
-            Modifier
-                .fillMaxSize()
-                .background(Background),
-            horizontalAlignment = Alignment.CenterHorizontally
+        BaseComposeScreen(
+            navController = rememberNavController(), toolbarConfiguration = ToolbarConfiguration(
+                title = stringResource(
+                    id = R.string.agendar_sucursal
+                )
+            )
         ) {
-            ShowBranches(branches = branches)
+            val branches = branchViewModel.branches.observeAsState()
+            Column(
+                Modifier
+                    .fillMaxSize()
+                    .background(Background),
+                horizontalAlignment = Alignment.CenterHorizontally
+            ) {
+                ShowBranches(branches = branches)
+            }
         }
     }
 

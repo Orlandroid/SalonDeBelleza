@@ -24,6 +24,8 @@ class UbicacionFragment : BaseFragment<FragmentUbicacionBinding>(R.layout.fragme
         toolbarTitle = getString(R.string.ubicacion)
     )
 
+    ///Somes changes to find quick next time when update
+
 
     override fun setUpUi() {
         with(binding) {
