@@ -13,6 +13,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,8 +24,41 @@ class LoginViewModel
     private val repository: Repository,
     private val loginPeferences: LoginPreferences,
 ) : ViewModel() {
-    private val _loginStatus: MutableStateFlow<SessionStatus> = MutableStateFlow(SessionStatus.IDLE)
-    val loginStatus = _loginStatus.asStateFlow()
+
+    private val _status: MutableStateFlow<LoginUiState> = MutableStateFlow(LoginUiState())
+    val status = _status.asStateFlow()
+
+    fun handleActions(actions: LoginActions) {
+        when (actions) {
+            is LoginActions.ForgetPassword -> {
+
+            }
+
+            is LoginActions.Login -> {
+                login(actions.email, actions.password)
+            }
+
+            is LoginUiEffect.NavigateToHomeScreen -> {
+
+            }
+
+            is LoginActions.RememberUser -> {
+
+            }
+
+            is LoginActions.SignUp -> {
+
+            }
+
+            is LoginActions.SignUpWithGoogle -> {
+
+            }
+        }
+    }
+
+    fun handleEffect(effect: LoginUiEffect) {
+
+    }
 
     private val _forgetPasswordStatus = MutableLiveData<SessionStatus>()
     val forgetPasswordStatus: LiveData<SessionStatus> get() = _forgetPasswordStatus
@@ -65,33 +99,54 @@ class LoginViewModel
     }
 
     fun login(email: String, password: String) = viewModelScope.launch {
-        _loginStatus.emit(SessionStatus.LOADING)
-        if (networkHelper.isNetworkConnected()) {
-            repository.login(email, password).addOnCompleteListener {
-                if (it.isSuccessful) {
-                    viewModelScope.launch {
-                        _loginStatus.emit(SessionStatus.SUCCESS)
-                    }
-                    saveUserSession()
-                } else {
-                    viewModelScope.launch {
-                        _loginStatus.emit(SessionStatus.ERROR)
-                    }
-                }
+        if (email.isEmpty() or password.isEmpty()) {
+            //android
+        }
+        _status.update {
+            it.copy(isLoading = true)
+        }
+        if (!networkHelper.isNetworkConnected()) {
+            _status.update {
+                it.copy(isError = true)
             }
-        } else {
-            _loginStatus.emit(SessionStatus.NETWORKERROR)
+        }
+        repository.login(email = email, password = password).addOnCompleteListener {
+            if (it.isSuccessful) {
+
+            } else {
+
+            }
         }
     }
 
-    fun loginUi(user: String, password: String, onEmptyFields: () -> Unit) {
-        if (user.isEmpty() || password.isEmpty()) {
-            onEmptyFields.invoke()
-            return
-        }
-        saveUserEmailToPreferences(user)
-        login(user, password)
-    }
+//    fun login(email: String, password: String) = viewModelScope.launch {
+//        _status.emit(SessionStatus.LOADING)
+//        if (networkHelper.isNetworkConnected()) {
+//            repository.login(email, password).addOnCompleteListener {
+//                if (it.isSuccessful) {
+//                    viewModelScope.launch {
+//                        _status.emit(SessionStatus.SUCCESS)
+//                    }
+//                    saveUserSession()
+//                } else {
+//                    viewModelScope.launch {
+//                        _status.emit(SessionStatus.ERROR)
+//                    }
+//                }
+//            }
+//        } else {
+//            _status.emit(SessionStatus.NETWORKERROR)
+//        }
+//    }
+
+//    fun loginUi(user: String, password: String, onEmptyFields: () -> Unit) {
+//        if (user.isEmpty() || password.isEmpty()) {
+//            onEmptyFields.invoke()
+//            return
+//        }
+//        saveUserEmailToPreferences(user)
+//        login(user, password)
+//    }
 
     fun isUserActive(): Boolean {
         return repository.getUser() != null

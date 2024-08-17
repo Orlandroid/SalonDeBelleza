@@ -171,19 +171,19 @@ class LoginFragment :
             }
             OutlinedButton(
                 onClick = {
-                    viewModel.loginUi(
-                        userName.value, userPassword.value,
-                        onEmptyFields = {
-                            val alert =
-                                AlertDialogs(WARNING_MESSAGE, "Debes de llenar Ambos campos")
-                            activity?.let { it1 ->
-                                alert.show(
-                                    it1.supportFragmentManager,
-                                    "dialog"
-                                )
-                            }
-                        }
-                    )
+//                    viewModel.loginUi(
+//                        userName.value, userPassword.value,
+//                        onEmptyFields = {
+//                            val alert =
+//                                AlertDialogs(WARNING_MESSAGE, "Debes de llenar Ambos campos")
+//                            activity?.let { it1 ->
+//                                alert.show(
+//                                    it1.supportFragmentManager,
+//                                    "dialog"
+//                                )
+//                            }
+//                        }
+//                    )
                 }, modifier = Modifier
                     .fillMaxWidth()
                     .padding(0.dp, 25.dp, 0.dp, 0.dp)
@@ -197,12 +197,12 @@ class LoginFragment :
                     fontSize = 20.sp
                 )
             }
-            ObserveSessionStatusFlow(
-                viewModel.loginStatus,
-                "Error al iniciar session"
-            ) {
-                navigate(LoginFragmentDirections.actionLoginToHome32())
-            }
+//            ObserveSessionStatusFlow(
+//                viewModel.status,
+//                "Error al iniciar session"
+//            ) {
+//                navigate(LoginFragmentDirections.actionLoginToHome32())
+//            }
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 modifier = Modifier.clickable {

@@ -8,3 +8,4 @@ sealed class ApiState<T>(val data: T? = null, val message: String? = null) {
     class ErrorNetwork<T> : ApiState<T>()
     class NoData<T> : ApiState<T>()
 }
+

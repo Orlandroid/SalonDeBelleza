@@ -23,10 +23,11 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -46,12 +47,31 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
+import com.example.citassalon.presentacion.features.navigation.Screens
 import com.example.citassalon.presentacion.features.theme.Background
 
 @Composable
 fun LoginScreen(
+    navController: NavController, viewModel: LoginViewModel = hiltViewModel()
+) {
+    val status = viewModel.status.collectAsState()
+    LoginScreenContent(
+        navController = navController,
+        loginUiState = status.value,
+        userEmail = viewModel.getUserEmailFromPreferences() ?: "",
+        loginAction = viewModel::handleActions,
+        loginUiEffect = viewModel::handleEffect
+    )
+    navController.navigate(Screens.HomeScreen.route)
+}
+
+@Composable
+fun LoginScreenContent(
+    userEmail: String,
     navController: NavController,
-    viewModel: LoginViewModel = hiltViewModel()
+    loginUiState: LoginUiState,
+    loginAction: (LoginActions) -> Unit,
+    loginUiEffect: (LoginUiEffect) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
     focusManager.clearFocus()
@@ -69,144 +89,197 @@ fun LoginScreen(
                 },
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val userEmail = viewModel.getUserEmailFromPreferences() ?: ""
             val userName = remember { mutableStateOf(userEmail) }
             val userPassword = remember { mutableStateOf("") }
             val checkedState = remember { mutableStateOf(false) }
-            val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.login_icon))
-            LottieAnimation(
-                iterations = LottieConstants.IterateForever,
-                composition = composition,
-                modifier = Modifier
-                    .height(150.dp)
-                    .width(150.dp)
-            )
-            OutlinedTextField(value = userName.value,
-                onValueChange = {
-                    userName.value = it
-                }, leadingIcon = {
-                    Icon(Icons.Default.Person, contentDescription = "person")
-                }, label = {
-                    Text(text = "username")
-                }, modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(0.dp, 20.dp, 0.dp, 0.dp)
-            )
-            var isPasswordVisible by remember { mutableStateOf(false) }
-            OutlinedTextField(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(0.dp, 20.dp, 0.dp, 0.dp),
-                value = userPassword.value,
-                onValueChange = {
-                    userPassword.value = it
-                },
-                leadingIcon = {
-                    IconButton(onClick = {
-                        isPasswordVisible = !isPasswordVisible
-                    }) {
-                        Icon(
-                            imageVector = if (isPasswordVisible)
-                                Icons.Filled.Visibility
-                            else
-                                Icons.Filled.VisibilityOff,
-                            contentDescription = "Password Visibility"
-                        )
-                    }
-                },
-                label = {
-                    Text(text = "password")
-                },
-                visualTransformation = if (isPasswordVisible) VisualTransformation.None
-                else PasswordVisualTransformation(),
-            )
+            val isPasswordVisible = remember { mutableStateOf(false) }
+            LottieAnimation()
+            UserName(userName = userName)
+            Password(userPassword = userPassword, isPasswordVisible = isPasswordVisible)
+            CheckRememberUser(checkedState = checkedState)
             Spacer(modifier = Modifier.height(16.dp))
-            Row(
-                verticalAlignment = Alignment.CenterVertically, modifier = Modifier.fillMaxWidth()
-            ) {
-                Checkbox(checked = checkedState.value,
-                    onCheckedChange = { checkedState.value = it })
-                Text(text = stringResource(id = R.string.recuerda_tu_usuario))
-            }
-            OutlinedButton(
-                onClick = {
-                    viewModel.loginUi(
-                        userName.value, userPassword.value,
-                        onEmptyFields = {
-//                            val alert =
-//                                AlertDialogs(WARNING_MESSAGE, "Debes de llenar Ambos campos")
-//                            activity?.let { it1 ->
-//                                alert.show(
-//                                    it1.supportFragmentManager,
-//                                    "dialog"
-//                                )
-//                            }
-                        }
-                    )
-                }, modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(0.dp, 25.dp, 0.dp, 0.dp)
-            ) {
-                Text(
-                    text = "Login",
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(5.dp),
-                    textAlign = TextAlign.Center,
-                    fontSize = 20.sp
-                )
-            }
-//            ObserveSessionStatusFlow(
-//                viewModel.loginStatus,
-//                "Error al iniciar session"
-//            ) {
-////            navigate(LoginFragmentDirections.actionLoginToHome32())
-//            }
+            LoginButton(user = userEmail, password = userPassword.value, loginAction = loginAction)
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 modifier = Modifier.clickable {
 //                showForgetPassword()
-                },
-                text = stringResource(id = R.string.olvidaste_contraseña)
+                }, text = stringResource(id = R.string.olvidaste_contraseña)
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Row(
-                verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(8.dp)
-            ) {
-                Spacer(
-                    modifier = Modifier
-                        .height(1.dp)
-                        .weight(1F)
-                        .background(Color.Black)
-                )
-                Text(text = "OR", Modifier.padding(horizontal = 16.dp))
-                Spacer(
-                    modifier = Modifier
-                        .height(1.dp)
-                        .weight(1F)
-                        .background(Color.Black)
-                )
-            }
-            Button(
-                onClick = {
-//                navigate(LoginFragmentDirections.actionLoginToSignUp())
-                },
-                colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(text = stringResource(id = R.string.sing_up), color = Color.Black)
-            }
-            Button(
-                onClick = {
-//                signIn()
-                },
-                colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                Text(
-                    text = stringResource(id = R.string.ingresar_con_google), color = Color.Black
-                )
-            }
+            TextOr()
+            SignUpButton()
+            GoogleButton()
         }
+    }
+}
+
+@Composable
+fun LottieAnimation(modifier: Modifier = Modifier) {
+    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.login_icon))
+    LottieAnimation(
+        iterations = LottieConstants.IterateForever,
+        composition = composition,
+        modifier = modifier
+            .height(150.dp)
+            .width(150.dp)
+    )
+}
+
+@Composable
+fun UserName(modifier: Modifier = Modifier, userName: MutableState<String>) {
+    OutlinedTextField(modifier = modifier
+        .fillMaxWidth()
+        .padding(0.dp, 20.dp, 0.dp, 0.dp),
+        value = userName.value,
+        onValueChange = {
+            userName.value = it
+        },
+        leadingIcon = {
+            Icon(Icons.Default.Person, contentDescription = "person")
+        },
+        label = {
+            Text(text = "username")
+        }
+    )
+}
+
+@Composable
+fun Password(
+    modifier: Modifier = Modifier,
+    userPassword: MutableState<String>,
+    isPasswordVisible: MutableState<Boolean>
+) {
+    OutlinedTextField(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(0.dp, 20.dp, 0.dp, 0.dp),
+        value = userPassword.value,
+        onValueChange = {
+            userPassword.value = it
+        },
+        leadingIcon = {
+            IconButton(
+                onClick = {
+                    isPasswordVisible.value = !isPasswordVisible.value
+                }
+            ) {
+                Icon(
+                    imageVector = if (isPasswordVisible.value) Icons.Filled.Visibility
+                    else Icons.Filled.VisibilityOff, contentDescription = "Password Visibility"
+                )
+            }
+        },
+        label = {
+            Text(text = "password")
+        },
+        visualTransformation = if (isPasswordVisible.value) VisualTransformation.None
+        else PasswordVisualTransformation(),
+    )
+}
+
+
+@Composable
+fun CheckRememberUser(
+    modifier: Modifier = Modifier,
+    checkedState: MutableState<Boolean>
+) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = modifier.fillMaxWidth()
+    ) {
+        Checkbox(checked = checkedState.value,
+            onCheckedChange = { checkedState.value = it })
+        Text(text = stringResource(id = R.string.recuerda_tu_usuario))
+    }
+}
+
+@Composable
+fun LoginButton(
+    modifier: Modifier = Modifier,
+    user: String,
+    password: String,
+    loginAction: (LoginActions) -> Unit,
+) {
+    if (password.isEmpty() or user.isEmpty()) {
+        //activate show dialog user or password empty
+    }
+    val clickOnLogin = {
+        loginAction(
+            LoginActions.Login(
+                email = "android@gmail.com", password = "admin1234"
+            )
+        )
+    }
+    OutlinedButton(
+        onClick = {
+            clickOnLogin.invoke()
+        },
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(0.dp, 25.dp, 0.dp, 0.dp)
+    ) {
+        Text(
+            text = "Login",
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(5.dp),
+            textAlign = TextAlign.Center,
+            fontSize = 20.sp
+        )
+    }
+}
+
+@Composable
+fun TextOr(modifier: Modifier = Modifier) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(8.dp)
+    ) {
+        Spacer(
+            modifier = Modifier
+                .height(1.dp)
+                .weight(1F)
+                .background(Color.Black)
+        )
+        Text(text = "OR", Modifier.padding(horizontal = 16.dp))
+        Spacer(
+            modifier = modifier
+                .height(1.dp)
+                .weight(1F)
+                .background(Color.Black)
+        )
+    }
+}
+
+@Composable
+fun SignUpButton(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
+) {
+    Button(
+        onClick = {
+            onClick.invoke()
+        },
+        colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+        modifier = modifier.fillMaxWidth()
+    ) {
+        Text(text = stringResource(id = R.string.sing_up), color = Color.Black)
+    }
+}
+
+@Composable
+fun GoogleButton(
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
+) {
+    Button(
+        onClick = {
+            onClick.invoke()
+        },
+        colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+        modifier = modifier.fillMaxWidth()
+    ) {
+        Text(
+            text = stringResource(id = R.string.ingresar_con_google), color = Color.Black
+        )
     }
 }
