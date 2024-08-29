@@ -10,6 +10,7 @@ import com.example.citassalon.presentacion.features.perfil.userprofile.UserProfi
 import com.example.citassalon.presentacion.features.perfil.userprofile.UserProfileFragment.Companion.USER_SESSION
 import com.example.citassalon.presentacion.features.perfil.userprofile.UserProfileFragment.Companion.USER_UID
 import com.example.data.di.CoroutineDispatchers
+import com.example.data.preferences.LoginPreferences
 import com.example.domain.perfil.RandomUserResponse
 import com.example.domain.state.ApiState
 import com.google.firebase.auth.FirebaseAuth
@@ -31,7 +32,8 @@ class UserProfileViewModel @Inject constructor(
     networkHelper: NetworkHelper,
     private val repository: com.example.data.Repository,
     private val firebaseDatabase: FirebaseDatabase,
-    private val firebaseAuth: FirebaseAuth
+    private val firebaseAuth: FirebaseAuth,
+    private val loginPreferences: LoginPreferences
 ) : BaseViewModel(coroutineDispatchers, networkHelper) {
 
     private val _infoUser = MutableLiveData<ApiState<HashMap<String, String>>>()
@@ -59,6 +61,8 @@ class UserProfileViewModel @Inject constructor(
             }
         }
     }
+
+    fun getUserMoney() = loginPreferences.getUserMoney().toString()
 
 
     private fun provideFirebaseRealtimeDatabaseReference(

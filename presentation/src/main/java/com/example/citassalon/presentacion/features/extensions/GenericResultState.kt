@@ -2,6 +2,7 @@ package com.example.citassalon.presentacion.features.extensions
 
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.State
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.fragment.app.Fragment
@@ -132,6 +133,40 @@ fun Fragment.ObserveSessionStatusLiveData(
         SessionStatus.SUCCESS -> {
             hideProgress()
             onSuccess()
+        }
+
+        null -> {}
+    }
+}
+
+@Composable
+fun <T> GenericResultStateV2(
+    state: State<ApiState<T>?>,
+    isLoading: MutableState<Boolean>,
+    onSuccess: @Composable (data: T) -> Unit,
+) {
+    isLoading.value = state.value is ApiState.Loading
+    when (state.value) {
+        is ApiState.Error -> {
+
+        }
+
+        is ApiState.ErrorNetwork -> {
+
+        }
+
+        is ApiState.Loading -> {
+
+        }
+
+        is ApiState.NoData -> {
+
+        }
+
+        is ApiState.Success -> {
+            state.value?.data?.let { dataResponse ->
+                onSuccess(dataResponse)
+            }
         }
 
         null -> {}

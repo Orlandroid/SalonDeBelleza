@@ -1,5 +1,6 @@
 package com.example.citassalon.presentacion.features.login
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -52,32 +53,47 @@ import com.example.citassalon.presentacion.features.theme.Background
 
 @Composable
 fun LoginScreen(
-    navController: NavController, viewModel: LoginViewModel = hiltViewModel()
+    navController: NavController,
+    viewModel: LoginViewModel = hiltViewModel()
 ) {
+    //val user and pass android@gmail.com android1234
     val status = viewModel.status.collectAsState()
+    val effect = viewModel.effects.collectAsState()
     LoginScreenContent(
         navController = navController,
         loginUiState = status.value,
-        userEmail = viewModel.getUserEmailFromPreferences() ?: "",
         loginAction = viewModel::handleActions,
-        loginUiEffect = viewModel::handleEffect
+        isLoading = status.value.isLoading
     )
-    navController.navigate(Screens.HomeScreen.route)
+
+    when (effect.value) {
+        LoginUiEffect.GoToSignUp -> {
+
+        }
+
+        LoginUiEffect.Idle -> {
+
+        }
+
+        LoginUiEffect.NavigateToHomeScreen -> {
+            navController.navigate(Screens.HomeScreen.route)
+        }
+    }
 }
 
 @Composable
 fun LoginScreenContent(
-    userEmail: String,
+    isLoading: Boolean,
     navController: NavController,
     loginUiState: LoginUiState,
-    loginAction: (LoginActions) -> Unit,
-    loginUiEffect: (LoginUiEffect) -> Unit
+    loginAction: (LoginActions) -> Unit
 ) {
     val focusManager = LocalFocusManager.current
     focusManager.clearFocus()
     BaseComposeScreen(
         navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(showToolbar = false)
+        toolbarConfiguration = ToolbarConfiguration(showToolbar = false),
+        isLoading = isLoading
     ) {
         Column(
             Modifier
@@ -89,7 +105,7 @@ fun LoginScreenContent(
                 },
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val userName = remember { mutableStateOf(userEmail) }
+            val userName = remember { mutableStateOf("") }
             val userPassword = remember { mutableStateOf("") }
             val checkedState = remember { mutableStateOf(false) }
             val isPasswordVisible = remember { mutableStateOf(false) }
@@ -98,7 +114,11 @@ fun LoginScreenContent(
             Password(userPassword = userPassword, isPasswordVisible = isPasswordVisible)
             CheckRememberUser(checkedState = checkedState)
             Spacer(modifier = Modifier.height(16.dp))
-            LoginButton(user = userEmail, password = userPassword.value, loginAction = loginAction)
+            LoginButton(
+                user = userName.value,
+                password = userPassword.value,
+                loginAction = loginAction
+            )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 modifier = Modifier.clickable {
@@ -133,6 +153,7 @@ fun UserName(modifier: Modifier = Modifier, userName: MutableState<String>) {
         value = userName.value,
         onValueChange = {
             userName.value = it
+            Log.w("DEBUG", userName.value)
         },
         leadingIcon = {
             Icon(Icons.Default.Person, contentDescription = "person")
@@ -156,6 +177,7 @@ fun Password(
         value = userPassword.value,
         onValueChange = {
             userPassword.value = it
+            Log.w("DEBUG", userPassword.value)
         },
         leadingIcon = {
             IconButton(
@@ -200,19 +222,18 @@ fun LoginButton(
     password: String,
     loginAction: (LoginActions) -> Unit,
 ) {
-    if (password.isEmpty() or user.isEmpty()) {
-        //activate show dialog user or password empty
-    }
     val clickOnLogin = {
         loginAction(
             LoginActions.Login(
-                email = "android@gmail.com", password = "admin1234"
+                email = user, password = password
             )
         )
     }
     OutlinedButton(
         onClick = {
-            clickOnLogin.invoke()
+            if (password.isNotEmpty() or user.isNotEmpty()) {
+                clickOnLogin.invoke()
+            }
         },
         modifier = modifier
             .fillMaxWidth()

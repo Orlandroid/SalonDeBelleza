@@ -27,7 +27,10 @@ import com.example.citassalon.presentacion.features.theme.StatusBarColor
 
 
 @Composable
-fun SplashScreenV1(navController: NavController) {
+fun SplashScreenV1(
+    navController: NavController,
+    isActiveSession: Boolean = false
+) {
     BaseComposeScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(showToolbar = false)
@@ -66,7 +69,12 @@ fun SplashScreenV1(navController: NavController) {
                 visible = true,
                 exit = fadeOut(animationSpec = tween(1000))
             ) {
-                navController.navigate(Screens.LoginScreen.route)
+                if (isActiveSession) {
+                    navController.navigate(Screens.HomeScreen.route)
+                } else {
+                    navController.navigate(Screens.LoginScreen.route)
+                }
+
             }
         }
     }

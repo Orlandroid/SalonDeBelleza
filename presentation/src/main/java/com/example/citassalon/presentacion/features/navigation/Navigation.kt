@@ -8,8 +8,10 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.citassalon.presentacion.features.home.HomeScreen
 import com.example.citassalon.presentacion.features.login.LoginScreen
-import com.example.citassalon.presentacion.features.perfil.perfil.PerfilViewModel
+import com.example.citassalon.presentacion.features.login.LoginViewModel
 import com.example.citassalon.presentacion.features.perfil.perfil.ProfileScreen
+import com.example.citassalon.presentacion.features.perfil.userprofile.UserProfileScreen
+import com.example.citassalon.presentacion.features.perfil.userprofile.UserProfileViewModel
 import com.example.citassalon.presentacion.features.splashscreen.SplashScreenV1
 
 @Composable
@@ -17,7 +19,8 @@ fun Navigation() {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = Screens.SplashScreen.route) {
         composable(route = Screens.SplashScreen.route) {
-            SplashScreenV1(navController)
+            val loginViewModel: LoginViewModel = hiltViewModel()
+            SplashScreenV1(navController, loginViewModel.getUserSession())
         }
         composable(route = Screens.LoginScreen.route) {
             LoginScreen(navController)
@@ -26,12 +29,22 @@ fun Navigation() {
             HomeScreen(navController)
         }
         composable(route = Screens.ProfileScreen.route) {
-            val profileViewModel: PerfilViewModel = hiltViewModel()
-            val firebaseUser = profileViewModel.firebaseUser.observeAsState()
-            ProfileScreen(
-                navController = navController,
-                firebaseEmail = firebaseUser.value?.email,
-                profileViewModel.setElementsMenu()
+            ProfileScreen(navController = navController)
+        }
+        composable(route = Screens.UserProfileScreen.route) {
+            val userProfileViewModel: UserProfileViewModel = hiltViewModel()
+            val infoUserState = userProfileViewModel.infoUser.observeAsState()
+            val imageUserState = userProfileViewModel.imageUser.observeAsState()
+            val imageUserProfileState = userProfileViewModel.imageUserProfile.observeAsState()
+            UserProfileScreen(
+                saveImageUser = { base64Image ->
+                    userProfileViewModel.saveImageUser(base64Image)
+                },
+                infoUserState = infoUserState,
+                imageUserState = imageUserState,
+                imageUserProfileState = imageUserProfileState,
+                money = userProfileViewModel.getUserMoney(),
+                navController = navController
             )
         }
     }

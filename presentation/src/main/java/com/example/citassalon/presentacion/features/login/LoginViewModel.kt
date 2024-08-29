@@ -28,6 +28,9 @@ class LoginViewModel
     private val _status: MutableStateFlow<LoginUiState> = MutableStateFlow(LoginUiState())
     val status = _status.asStateFlow()
 
+    private val _effects: MutableStateFlow<LoginUiEffect> = MutableStateFlow(LoginUiEffect.Idle)
+    val effects = _effects.asStateFlow()
+
     fun handleActions(actions: LoginActions) {
         when (actions) {
             is LoginActions.ForgetPassword -> {
@@ -38,9 +41,6 @@ class LoginViewModel
                 login(actions.email, actions.password)
             }
 
-            is LoginUiEffect.NavigateToHomeScreen -> {
-
-            }
 
             is LoginActions.RememberUser -> {
 
@@ -54,10 +54,6 @@ class LoginViewModel
 
             }
         }
-    }
-
-    fun handleEffect(effect: LoginUiEffect) {
-
     }
 
     private val _forgetPasswordStatus = MutableLiveData<SessionStatus>()
@@ -99,22 +95,26 @@ class LoginViewModel
     }
 
     fun login(email: String, password: String) = viewModelScope.launch {
-        if (email.isEmpty() or password.isEmpty()) {
-            //android
-        }
         _status.update {
             it.copy(isLoading = true)
+        }
+        if (email.isEmpty() or password.isEmpty()) {
+            return@launch
         }
         if (!networkHelper.isNetworkConnected()) {
             _status.update {
                 it.copy(isError = true)
             }
         }
-        repository.login(email = email, password = password).addOnCompleteListener {
-            if (it.isSuccessful) {
-
+        repository.login(email = email, password = password).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                _effects.value = LoginUiEffect.NavigateToHomeScreen
+                _status.update { it.copy(isLoading = false) }
+                saveUserSession()
             } else {
-
+                _status.update {
+                    it.copy(isError = true)
+                }
             }
         }
     }

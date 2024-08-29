@@ -43,6 +43,7 @@
     <string name="aceptar">Aceptar</string>
     <string name="cancelar_dialog">Cancelar</string>
     <string name="perfil">Perfil</string>
+    <string name="userProfile">Perfil Usuario</string>
     <string name="historial">Historial de citas</string>
     <string name="contactanos">Contáctanos</string>
     <string name="terminosCondiciones">Términos y condiciones</string>

@@ -17,18 +17,24 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.citassalon.R
+import com.example.citassalon.presentacion.features.base.BaseComposeScreen
+import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
+import com.example.citassalon.presentacion.features.navigation.Screens
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.perfil.MENU
 import com.example.domain.perfil.ProfileItem
@@ -36,50 +42,64 @@ import com.example.domain.perfil.ProfileItem
 @Composable
 fun ProfileScreen(
     navController: NavHostController,
-    firebaseEmail: String?,
-    elementsMenu: List<ProfileItem>
+    profileViewModel: PerfilViewModel = hiltViewModel(),
 ) {
-    ConstraintLayout(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(Background)
-    ) {
-        val (image, textUser, listProfile) = createRefs()
-        val myGuideline = createGuidelineFromTop(0.40f)
-        Image(painter = painterResource(id = R.drawable.perfil),
-            contentDescription = null,
-            modifier = Modifier.constrainAs(image) {
-                linkTo(parent.start, parent.end)
-                top.linkTo(parent.top, 24.dp)
-                width = Dimension.value(100.dp)
-                height = Dimension.value(100.dp)
-            })
-        Text(text = firebaseEmail ?: "",
-            fontSize = 20.sp,
-            modifier = Modifier.constrainAs(textUser) {
-                linkTo(parent.start, parent.end)
-                top.linkTo(image.bottom)
-                bottom.linkTo(listProfile.top)
-                width = Dimension.wrapContent
-                height = Dimension.wrapContent
-            })
-        LazyColumn(modifier = Modifier
-            .border(
-                shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
-                border = BorderStroke(0.dp, Color.White)
+    BaseComposeScreen(
+        navController = navController,
+        toolbarConfiguration = ToolbarConfiguration(
+            showToolbar = true,
+            isWithBackIcon = true,
+            title = stringResource(
+                id = R.string.perfil
             )
-            .background(Color.White)
-            .constrainAs(listProfile) {
-                linkTo(parent.start, parent.end)
-                bottom.linkTo(parent.bottom)
-                top.linkTo(myGuideline)
-                width = Dimension.matchParent
-                height = Dimension.fillToConstraints
-            }) {
-            elementsMenu.forEach { itemProfile ->
-                item {
-                    ItemProfile(elementProfile = itemProfile) {
-//                        clickOnItem(itemProfile)
+        )
+    ) {
+        val firebaseUser = profileViewModel.firebaseUser.observeAsState()
+        ConstraintLayout(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Background)
+        ) {
+            val (image, textUser, listProfile) = createRefs()
+            val myGuideline = createGuidelineFromTop(0.40f)
+            Image(painter = painterResource(id = R.drawable.perfil),
+                contentDescription = null,
+                modifier = Modifier.constrainAs(image) {
+                    linkTo(parent.start, parent.end)
+                    top.linkTo(parent.top, 24.dp)
+                    width = Dimension.value(100.dp)
+                    height = Dimension.value(100.dp)
+                }
+            )
+            Text(text = firebaseUser.value?.email ?: "",
+                fontSize = 20.sp,
+                modifier = Modifier.constrainAs(textUser) {
+                    linkTo(parent.start, parent.end)
+                    top.linkTo(image.bottom)
+                    bottom.linkTo(listProfile.top)
+                    width = Dimension.wrapContent
+                    height = Dimension.wrapContent
+                }
+            )
+            LazyColumn(modifier = Modifier
+                .border(
+                    shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+                    border = BorderStroke(0.dp, Color.White)
+                )
+                .background(Color.White)
+                .constrainAs(listProfile) {
+                    linkTo(parent.start, parent.end)
+                    bottom.linkTo(parent.bottom)
+                    top.linkTo(myGuideline)
+                    width = Dimension.matchParent
+                    height = Dimension.fillToConstraints
+                }
+            ) {
+                profileViewModel.setElementsMenu().forEach { itemProfile ->
+                    item {
+                        ItemProfile(elementProfile = itemProfile) {
+                            clickOnItem(itemProfile, navController)
+                        }
                     }
                 }
             }
@@ -123,18 +143,44 @@ fun ItemProfile(
                 modifier = Modifier.constrainAs(icon) {
                     end.linkTo(parent.end, 16.dp)
                     linkTo(parent.top, parent.bottom)
-                })
+                }
+            )
         }
     }
+}
+
+
+fun clickOnItem(
+    itemProfile: ProfileItem,
+    navController: NavHostController
+) {
+    when (itemProfile.menu) {
+        MENU.PROFILE -> {
+            navController.navigate(Screens.UserProfileScreen.route)
+        }
+
+        MENU.HISTORY -> {
+
+        }
+
+        MENU.CONTACTS -> {
+
+        }
+
+        MENU.TERMS_AND_CONDITIONS -> {
+
+        }
+
+        MENU.CLOSE_SESSION -> {
+
+        }
+    }
+
 }
 
 @Composable
 @Preview(showBackground = true)
 fun ProfileScreenPreview(modifier: Modifier = Modifier) {
     val profileElement = listOf(ProfileItem(name = "", image = R.drawable.perfil, MENU.PROFILE))
-    ProfileScreen(
-        navController = rememberNavController(),
-        elementsMenu = profileElement,
-        firebaseEmail = "android@gmail.com",
-    )
+    ProfileScreen(rememberNavController())
 }

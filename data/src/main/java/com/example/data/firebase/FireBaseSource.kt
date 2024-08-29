@@ -8,6 +8,7 @@ class FireBaseSource @Inject constructor(private val firebaseAuth: FirebaseAuth)
 
     fun getUser() = firebaseAuth.currentUser
 
+
     fun login(email: String, password: String) =
         firebaseAuth.signInWithEmailAndPassword(email, password)
 
