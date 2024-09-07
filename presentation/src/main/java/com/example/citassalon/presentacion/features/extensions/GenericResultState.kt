@@ -1,5 +1,6 @@
 package com.example.citassalon.presentacion.features.extensions
 
+import android.util.Log
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
@@ -146,6 +147,7 @@ fun <T> GenericResultStateV2(
     onSuccess: @Composable (data: T) -> Unit,
 ) {
     isLoading.value = state.value is ApiState.Loading
+    Log.w("STATE", isLoading.value.toString())
     when (state.value) {
         is ApiState.Error -> {
 

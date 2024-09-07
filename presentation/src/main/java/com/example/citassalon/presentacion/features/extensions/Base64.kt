@@ -30,7 +30,11 @@ fun Bitmap.toBase64(): String {
 
 fun String.base64StringToBitmap(): Bitmap {
     val baos = ByteArrayOutputStream()
-    var imageBytes: ByteArray = baos.toByteArray()
-    imageBytes = Base64.decode(this, Base64.DEFAULT)
+    var imageBytes: ByteArray = Base64.decode(this, Base64.DEFAULT)
     return BitmapFactory.decodeByteArray(imageBytes, 0, imageBytes.size)
+}
+
+fun String.base64toBitmap(): Bitmap {
+    val decodedBytes = Base64.decode(this, Base64.DEFAULT)
+    return BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
 }

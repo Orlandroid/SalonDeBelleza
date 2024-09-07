@@ -160,15 +160,15 @@ fun clickOnItem(
         }
 
         MENU.HISTORY -> {
-
+            navController.navigate(Screens.AppointmentHistoryScreen.route)
         }
 
         MENU.CONTACTS -> {
-
+            navController.navigate(Screens.ContactScreen.route)
         }
 
         MENU.TERMS_AND_CONDITIONS -> {
-
+            navController.navigate(Screens.TermsAndConditions.route)
         }
 
         MENU.CLOSE_SESSION -> {

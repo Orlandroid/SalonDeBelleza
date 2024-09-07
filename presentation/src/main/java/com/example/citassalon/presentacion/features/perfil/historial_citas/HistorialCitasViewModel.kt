@@ -61,7 +61,7 @@ class HistorialCitasViewModel @Inject constructor(
 
 
     private fun getAppointments() = viewModelScope.launch {
-        delay(1.5.seconds)
+        delay(2.seconds)
         _appointment.value = ApiState.Loading()
         if (!networkHelper.isNetworkConnected()) {
             withContext(Dispatchers.Main) {

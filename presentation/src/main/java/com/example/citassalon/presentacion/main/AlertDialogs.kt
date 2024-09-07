@@ -1,5 +1,6 @@
 package com.example.citassalon.presentacion.main
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -97,6 +98,7 @@ class AlertDialogs(
         }
     }
 
+    @SuppressLint("SetTextI18n")
     private fun setKindOfMessage() = with(binding) {
         when (kindOfMessage) {
             0 -> {

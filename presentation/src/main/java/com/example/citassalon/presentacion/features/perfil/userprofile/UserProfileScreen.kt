@@ -6,6 +6,7 @@ import android.util.Log
 import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -35,14 +36,20 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
+import com.example.citassalon.R
+import com.example.citassalon.presentacion.features.base.BaseComposeScreen
+import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.extensions.GenericResultStateV2
-import com.example.citassalon.presentacion.features.extensions.base64StringToBitmap
+import com.example.citassalon.presentacion.features.extensions.base64toBitmap
 import com.example.citassalon.presentacion.features.extensions.toBase64
 import com.example.citassalon.presentacion.features.extensions.uriToBitmap
 import com.example.citassalon.presentacion.features.perfil.userprofile.UserProfileFragment.Companion.USER_EMAIL
@@ -51,12 +58,6 @@ import com.example.citassalon.presentacion.features.perfil.userprofile.UserProfi
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.perfil.UserInfo
 import com.example.domain.state.ApiState
-import androidx.compose.foundation.Canvas
-import androidx.compose.ui.res.stringResource
-import androidx.navigation.NavHostController
-import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.base.BaseComposeScreen
-import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 
 
 @Composable
@@ -122,16 +123,19 @@ fun UserProfileScreenContent(
         imageUser.value?.let { userImage ->
             ImageUser(model = userImage, galleryLauncher)
         }
-        AsyncImage(contentScale = ContentScale.Crop,
-            model = imageUri,
-            contentDescription = "ImageProfile",
-            modifier = Modifier
-                .size(144.dp)
-                .clip(CircleShape)
-                .border(2.dp, Color.Gray, CircleShape)
-                .clickable {
-                    galleryLauncher.launch("image/*")
-                })
+        imageUri?.let { userStoreImage ->
+            AsyncImage(contentScale = ContentScale.Crop,
+                model = userStoreImage,
+                contentDescription = "ImageProfile",
+                modifier = Modifier
+                    .size(144.dp)
+                    .clip(CircleShape)
+                    .border(2.dp, Color.Gray, CircleShape)
+                    .clickable {
+                        galleryLauncher.launch("image/*")
+                    }
+            )
+        }
         Row(
             Modifier
                 .fillMaxWidth()
@@ -139,9 +143,10 @@ fun UserProfileScreenContent(
             horizontalArrangement = Arrangement.Start
         ) {
             Text(text = "Nombre del usuario", fontSize = 24.sp)
-            Spacer(modifier = Modifier.width(8.dp))
+            Spacer(modifier = Modifier.width(24.dp))
             CircleStatus(colorSessionUser.value)
         }
+        Spacer(modifier = Modifier.height(24.dp))
         GenericResultStateV2(state = infoUserState, isLoading = isLoading) { data ->
             data.let { userResponse ->
                 listUserInfo.add(UserInfo("Nombre"))
@@ -181,8 +186,8 @@ fun UserProfileScreenContent(
         }
         GenericResultStateV2(state = imageUserProfileState, isLoading = isLoading) { dataResponse ->
             dataResponse?.let {
-                imageUser.value = dataResponse.base64StringToBitmap()
-                imageUser.value = dataResponse.base64StringToBitmap()
+                imageUser.value = dataResponse.base64toBitmap()
+                Log.w("ANDORID", "RESPONSE IMAGE")
             }
         }
     }
