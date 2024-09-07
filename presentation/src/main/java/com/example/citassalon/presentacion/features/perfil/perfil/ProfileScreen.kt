@@ -1,5 +1,6 @@
 package com.example.citassalon.presentacion.features.perfil.perfil
 
+import android.app.Activity
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -18,9 +19,12 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -32,6 +36,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.citassalon.R
+import com.example.citassalon.presentacion.features.MainActivityCompose
+import com.example.citassalon.presentacion.features.dialogs.BaseAlertDialog
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.navigation.Screens
@@ -55,6 +61,22 @@ fun ProfileScreen(
         )
     ) {
         val firebaseUser = profileViewModel.firebaseUser.observeAsState()
+        val showCloseSessionAlert = remember { mutableStateOf(false) }
+        val activity = LocalContext.current as Activity
+        if (showCloseSessionAlert.value) {
+            BaseAlertDialog(
+                onDismissRequest = {
+                    showCloseSessionAlert.value = false
+                },
+                onConfirmation = {
+                    showCloseSessionAlert.value = false
+                    profileViewModel.logout()
+                    (activity as MainActivityCompose).closeAndOpenActivity()
+                },
+                dialogTitle = stringResource(id = R.string.cerrar_session),
+                dialogText = stringResource(id = R.string.seguro_que_deseas_cerrar_sesion)
+            )
+        }
         ConstraintLayout(
             modifier = Modifier
                 .fillMaxSize()
@@ -98,7 +120,10 @@ fun ProfileScreen(
                 profileViewModel.setElementsMenu().forEach { itemProfile ->
                     item {
                         ItemProfile(elementProfile = itemProfile) {
-                            clickOnItem(itemProfile, navController)
+                            clickOnItem(itemProfile, navController) {
+                                profileViewModel.destroyUserSession()
+                                showCloseSessionAlert.value = true
+                            }
                         }
                     }
                 }
@@ -152,7 +177,8 @@ fun ItemProfile(
 
 fun clickOnItem(
     itemProfile: ProfileItem,
-    navController: NavHostController
+    navController: NavHostController,
+    onCloseSession: () -> Unit
 ) {
     when (itemProfile.menu) {
         MENU.PROFILE -> {
@@ -172,7 +198,7 @@ fun clickOnItem(
         }
 
         MENU.CLOSE_SESSION -> {
-
+            onCloseSession.invoke()
         }
     }
 

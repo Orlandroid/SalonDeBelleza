@@ -2,6 +2,7 @@ package com.example.citassalon.presentacion.features.perfil.historial_citas
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -33,7 +34,7 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.base.BaseAlertDialog
+import com.example.citassalon.presentacion.features.dialogs.BaseAlertDialog
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.base.LoadingScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
@@ -161,13 +162,14 @@ fun NotDatView() {
             getRandomNoDataAnimation()
         )
     )
-    Column(Modifier.fillMaxSize()) {
+    Box(Modifier.fillMaxSize()) {
         LottieAnimation(
             iterations = LottieConstants.IterateForever,
             composition = composition,
             modifier = Modifier
                 .height(250.dp)
-                .width(250.dp)
+                .width(250.dp),
+            alignment = Alignment.Center
         )
     }
 }

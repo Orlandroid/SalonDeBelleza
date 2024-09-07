@@ -1,5 +1,6 @@
 package com.example.citassalon.presentacion.features
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -25,5 +26,11 @@ class MainActivityCompose : ComponentActivity() {
                 }
             }
         }
+    }
+
+    fun closeAndOpenActivity() {
+        val intent = Intent(this, MainActivityCompose::class.java)
+        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+        startActivity(intent)
     }
 }

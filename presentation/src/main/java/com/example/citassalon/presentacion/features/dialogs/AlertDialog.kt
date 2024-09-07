@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.base
+package com.example.citassalon.presentacion.features.dialogs
 
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Info
@@ -10,7 +10,9 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.theme.Danger
 import com.example.citassalon.presentacion.features.theme.Info
 import com.example.citassalon.presentacion.features.theme.Success
@@ -45,7 +47,7 @@ fun BaseAlertDialog(
                     onConfirmation()
                 }
             ) {
-                Text("Confirm")
+                Text(stringResource(id = R.string.aceptar))
             }
         },
         dismissButton = {
@@ -54,7 +56,7 @@ fun BaseAlertDialog(
                     onDismissRequest()
                 }
             ) {
-                Text("Dismiss")
+                Text(stringResource(id = R.string.cancelar_dialog))
             }
         }
     )
