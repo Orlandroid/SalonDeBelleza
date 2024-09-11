@@ -48,6 +48,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
+import com.example.citassalon.presentacion.features.dialogs.AlertDialogForgetPasswordScreen
 import com.example.citassalon.presentacion.features.navigation.Screens
 import com.example.citassalon.presentacion.features.theme.Background
 
@@ -60,6 +61,7 @@ fun LoginScreen(
     val status = viewModel.status.collectAsState()
     val effect = viewModel.effects.collectAsState()
     LoginScreenContent(
+        userEmail = viewModel.getUserEmailFromPreferences(),
         navController = navController,
         loginUiState = status.value,
         loginAction = viewModel::handleActions,
@@ -84,6 +86,7 @@ fun LoginScreen(
 @Composable
 fun LoginScreenContent(
     isLoading: Boolean,
+    userEmail: String? = null,
     navController: NavController,
     loginUiState: LoginUiState,
     loginAction: (LoginActions) -> Unit
@@ -105,10 +108,11 @@ fun LoginScreenContent(
                 },
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            val userName = remember { mutableStateOf("") }
+            val userName = remember { mutableStateOf(userEmail ?: "") }
             val userPassword = remember { mutableStateOf("") }
             val checkedState = remember { mutableStateOf(false) }
             val isPasswordVisible = remember { mutableStateOf(false) }
+            val showDialogForgetPassword = remember { mutableStateOf(false) }
             LottieAnimation()
             UserName(userName = userName)
             Password(userPassword = userPassword, isPasswordVisible = isPasswordVisible)
@@ -122,13 +126,25 @@ fun LoginScreenContent(
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 modifier = Modifier.clickable {
-//                showForgetPassword()
-                }, text = stringResource(id = R.string.olvidaste_contraseña)
+                    showDialogForgetPassword.value = true
+                },
+                text = stringResource(id = R.string.olvidaste_contraseña)
             )
             Spacer(modifier = Modifier.height(16.dp))
             TextOr()
-            SignUpButton()
+            SignUpButton(
+                onClick = {
+                    navController.navigate(Screens.SingUpScreen.route)
+                }
+            )
             GoogleButton()
+            if (showDialogForgetPassword.value) {
+                AlertDialogForgetPasswordScreen(
+                    onDismissRequest = {
+                        showDialogForgetPassword.value = false
+                    }
+                )
+            }
         }
     }
 }
@@ -177,7 +193,6 @@ fun Password(
         value = userPassword.value,
         onValueChange = {
             userPassword.value = it
-            Log.w("DEBUG", userPassword.value)
         },
         leadingIcon = {
             IconButton(

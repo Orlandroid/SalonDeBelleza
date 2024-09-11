@@ -1,6 +1,7 @@
 package com.example.citassalon.presentacion.features.login
 
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -99,6 +100,9 @@ class LoginViewModel
             it.copy(isLoading = true)
         }
         if (email.isEmpty() or password.isEmpty()) {
+            _status.update {
+                it.copy(isEmptyFields = true, isLoading = false)
+            }
             return@launch
         }
         if (!networkHelper.isNetworkConnected()) {
@@ -111,6 +115,7 @@ class LoginViewModel
                 _effects.value = LoginUiEffect.NavigateToHomeScreen
                 _status.update { it.copy(isLoading = false) }
                 saveUserSession()
+                saveUserEmailToPreferences(email)
             } else {
                 _status.update {
                     it.copy(isError = true)

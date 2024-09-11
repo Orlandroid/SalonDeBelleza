@@ -312,7 +312,6 @@ class SignUpFragment : BaseFragment<FragmentGenericBindingBinding>(R.layout.frag
         val password = password.value.trim()
         val birthDay = birthDay.value.trim()
         return User(nombre, telefono, correo, password, birthDay)
-
     }
 
     override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {

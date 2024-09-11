@@ -16,6 +16,7 @@ import com.example.citassalon.presentacion.features.perfil.historial_citas.Appoi
 import com.example.citassalon.presentacion.features.perfil.perfil.ProfileScreen
 import com.example.citassalon.presentacion.features.perfil.userprofile.UserProfileScreen
 import com.example.citassalon.presentacion.features.perfil.userprofile.UserProfileViewModel
+import com.example.citassalon.presentacion.features.sign_up.SignUpScreen
 import com.example.citassalon.presentacion.features.splashscreen.SplashScreenV1
 
 @Composable
@@ -63,6 +64,9 @@ fun Navigation() {
         }
         composable(route = Screens.TermsAndConditions.route) {
             Text(text = "TermsAndConditions")
+        }
+        composable(route = Screens.SingUpScreen.route) {
+            SignUpScreen(navController)
         }
     }
 }
