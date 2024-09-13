@@ -18,6 +18,7 @@ import androidx.navigation.compose.rememberNavController
 import com.example.citassalon.presentacion.features.components.AppProgress
 import com.example.citassalon.presentacion.features.components.Toolbar
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
+import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.theme.Background
 
 
@@ -39,12 +40,11 @@ fun BaseComposeScreen(
             }
         }
     ) { paddingValues ->
-        if (isLoading) {
-            LoadingScreen()
-        } else {
-            ContentScreen(paddingValues = paddingValues, background = background) {
-                content()
+        ContentScreen(paddingValues = paddingValues, background = background) {
+            if (isLoading) {
+                ProgressDialog()
             }
+            content()
         }
     }
 }

@@ -255,7 +255,7 @@ fun LoginButton(
             .padding(0.dp, 25.dp, 0.dp, 0.dp)
     ) {
         Text(
-            text = "Login",
+            text = "Ingresar",
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(5.dp),

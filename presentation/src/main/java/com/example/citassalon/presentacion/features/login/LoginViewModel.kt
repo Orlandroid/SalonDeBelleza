@@ -12,11 +12,13 @@ import com.example.data.preferences.LoginPreferences
 import com.example.domain.state.SessionStatus
 import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class LoginViewModel
@@ -99,6 +101,7 @@ class LoginViewModel
         _status.update {
             it.copy(isLoading = true)
         }
+        delay(2.seconds)
         if (email.isEmpty() or password.isEmpty()) {
             _status.update {
                 it.copy(isEmptyFields = true, isLoading = false)
