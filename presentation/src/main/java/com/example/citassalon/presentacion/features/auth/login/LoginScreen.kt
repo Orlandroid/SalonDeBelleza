@@ -1,6 +1,8 @@
-package com.example.citassalon.presentacion.features.login
+package com.example.citassalon.presentacion.features.auth.login
 
+import android.app.Activity
 import android.util.Log
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -32,6 +34,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -46,16 +49,18 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
+import com.example.citassalon.presentacion.features.app_navigation.MainActivityCompose
+import com.example.citassalon.presentacion.features.auth.AuthScreens
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.dialogs.AlertDialogForgetPasswordScreen
-import com.example.citassalon.presentacion.features.navigation.Screens
 import com.example.citassalon.presentacion.features.theme.Background
 
 @Composable
 fun LoginScreen(
     navController: NavController,
-    viewModel: LoginViewModel = hiltViewModel()
+    viewModel: LoginViewModel = hiltViewModel(),
+    navigateToScheduleNav: () -> Unit
 ) {
     //val user and pass android@gmail.com android1234
     val status = viewModel.status.collectAsState()
@@ -78,7 +83,7 @@ fun LoginScreen(
         }
 
         LoginUiEffect.NavigateToHomeScreen -> {
-            navController.navigate(Screens.HomeScreen.route)
+            navigateToScheduleNav.invoke()
         }
     }
 }
@@ -93,11 +98,15 @@ fun LoginScreenContent(
 ) {
     val focusManager = LocalFocusManager.current
     focusManager.clearFocus()
+    val activity = LocalContext.current as Activity
     BaseComposeScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(showToolbar = false),
         isLoading = isLoading
     ) {
+        BackHandler {
+            (activity as MainActivityCompose).finish()
+        }
         Column(
             Modifier
                 .fillMaxSize()
@@ -113,12 +122,14 @@ fun LoginScreenContent(
             val checkedState = remember { mutableStateOf(false) }
             val isPasswordVisible = remember { mutableStateOf(false) }
             val showDialogForgetPassword = remember { mutableStateOf(false) }
+            val isEnableLoginButton = remember { mutableStateOf(true) }
             LottieAnimation()
             UserName(userName = userName)
             Password(userPassword = userPassword, isPasswordVisible = isPasswordVisible)
             CheckRememberUser(checkedState = checkedState)
             Spacer(modifier = Modifier.height(16.dp))
             LoginButton(
+                isEnable = isEnableLoginButton.value,
                 user = userName.value,
                 password = userPassword.value,
                 loginAction = loginAction
@@ -134,7 +145,7 @@ fun LoginScreenContent(
             TextOr()
             SignUpButton(
                 onClick = {
-                    navController.navigate(Screens.SingUpScreen.route)
+                    navController.navigate(AuthScreens.SingUpScreen.route)
                 }
             )
             GoogleButton()
@@ -232,6 +243,7 @@ fun CheckRememberUser(
 
 @Composable
 fun LoginButton(
+    isEnable: Boolean,
     modifier: Modifier = Modifier,
     user: String,
     password: String,
@@ -245,6 +257,7 @@ fun LoginButton(
         )
     }
     OutlinedButton(
+        enabled = isEnable,
         onClick = {
             if (password.isNotEmpty() or user.isNotEmpty()) {
                 clickOnLogin.invoke()

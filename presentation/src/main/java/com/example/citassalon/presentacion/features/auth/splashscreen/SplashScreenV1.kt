@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.splashscreen
+package com.example.citassalon.presentacion.features.auth.splashscreen
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.core.tween
@@ -20,9 +20,9 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavController
 import com.example.citassalon.R
+import com.example.citassalon.presentacion.features.auth.AuthScreens
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
-import com.example.citassalon.presentacion.features.navigation.Screens
 import com.example.citassalon.presentacion.features.theme.StatusBarColor
 
 
@@ -70,9 +70,9 @@ fun SplashScreenV1(
                 exit = fadeOut(animationSpec = tween(1000))
             ) {
                 if (isActiveSession) {
-                    navController.navigate(Screens.HomeScreen.route)
+//                    navController.navigate(AuthScreens.HomeScreen.route)//navigate to home
                 } else {
-                    navController.navigate(Screens.LoginScreen.route)
+                    navController.navigate(AuthScreens.LoginScreen.route)
                 }
 
             }

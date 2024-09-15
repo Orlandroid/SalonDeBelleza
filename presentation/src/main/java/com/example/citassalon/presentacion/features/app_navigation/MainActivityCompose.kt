@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features
+package com.example.citassalon.presentacion.features.app_navigation
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
-import com.example.citassalon.presentacion.features.navigation.Navigation
 import com.example.citassalon.presentacion.features.theme.SkedulyComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -22,7 +21,7 @@ class MainActivityCompose : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Navigation()
+                    AppNavigation()
                 }
             }
         }

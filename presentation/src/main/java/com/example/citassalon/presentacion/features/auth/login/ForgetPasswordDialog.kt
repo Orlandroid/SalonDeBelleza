@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.login
+package com.example.citassalon.presentacion.features.auth.login
 
 import android.app.Dialog
 import android.os.Bundle

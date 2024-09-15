@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.login
+package com.example.citassalon.presentacion.features.auth.login
 
 sealed class LoginActions {
     data class Login(val email: String, val password: String) : LoginActions()

@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/login"
-        android:name="com.example.citassalon.presentacion.features.login.LoginFragment"
+        android:name="com.example.citassalon.presentacion.features.auth.login.LoginFragment"
         android:label="fragment_login">
         <action
             android:id="@+id/action_login_to_home32"
@@ -20,7 +20,7 @@
     </fragment>
     <fragment
         android:id="@+id/home3"
-        android:name="com.example.citassalon.presentacion.features.home.HomeFragment"
+        android:name="com.example.citassalon.presentacion.features.schedule_appointment.home.HomeFragment"
         android:label="fragment_home">
         <action
             android:id="@+id/action_home3_to_agendarSucursal"
@@ -144,7 +144,7 @@
         android:label="fragment_sucursales" />
     <fragment
         android:id="@+id/signUp"
-        android:name="com.example.citassalon.presentacion.features.sign_up.SignUpFragment"
+        android:name="com.example.citassalon.presentacion.features.auth.sign_up.SignUpFragment"
         android:label="sign_in">
         <action
             android:id="@+id/action_signUp_to_login"

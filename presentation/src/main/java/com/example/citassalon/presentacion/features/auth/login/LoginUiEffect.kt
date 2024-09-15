@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.login
+package com.example.citassalon.presentacion.features.auth.login
 
 sealed class LoginUiEffect {
     data object NavigateToHomeScreen : LoginUiEffect()

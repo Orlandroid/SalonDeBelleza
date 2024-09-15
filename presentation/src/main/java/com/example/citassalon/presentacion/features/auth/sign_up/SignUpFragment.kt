@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.sign_up
+package com.example.citassalon.presentacion.features.auth.sign_up
 
 import android.app.DatePickerDialog
 import android.os.Bundle

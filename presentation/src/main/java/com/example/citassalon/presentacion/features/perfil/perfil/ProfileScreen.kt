@@ -36,11 +36,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.MainActivityCompose
-import com.example.citassalon.presentacion.features.dialogs.BaseAlertDialog
+import com.example.citassalon.presentacion.features.app_navigation.MainActivityCompose
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
-import com.example.citassalon.presentacion.features.navigation.Screens
+import com.example.citassalon.presentacion.features.dialogs.BaseAlertDialog
+import com.example.citassalon.presentacion.features.perfil.ProfileNavigationScreen
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.perfil.MENU
 import com.example.domain.perfil.ProfileItem
@@ -182,19 +182,19 @@ fun clickOnItem(
 ) {
     when (itemProfile.menu) {
         MENU.PROFILE -> {
-            navController.navigate(Screens.UserProfileScreen.route)
+            navController.navigate(ProfileNavigationScreen.UserProfile.route)
         }
 
         MENU.HISTORY -> {
-            navController.navigate(Screens.AppointmentHistoryScreen.route)
+            navController.navigate(ProfileNavigationScreen.AppointmentHistory.route)
         }
 
         MENU.CONTACTS -> {
-            navController.navigate(Screens.ContactScreen.route)
+            navController.navigate(ProfileNavigationScreen.Contacts.route)
         }
 
         MENU.TERMS_AND_CONDITIONS -> {
-            navController.navigate(Screens.TermsAndConditions.route)
+            navController.navigate(ProfileNavigationScreen.TermsAndConditions.route)
         }
 
         MENU.CLOSE_SESSION -> {

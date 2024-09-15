@@ -1,6 +1,8 @@
-package com.example.citassalon.presentacion.features.sign_up
+package com.example.citassalon.presentacion.features.auth.sign_up
 
 import android.util.Log
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -20,6 +22,10 @@ class SignUpViewModel @Inject constructor(
 
     private val _singUp = MutableLiveData<SessionStatus>()
     val singUp: LiveData<SessionStatus> get() = _singUp
+
+    var errorPhone = mutableStateOf(false)
+    var errorEmail = mutableStateOf(false)
+    var errorPassword = mutableStateOf(false)
 
     fun sinUp(email: String, password: String) {
         _singUp.value = SessionStatus.LOADING

@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.home
+package com.example.citassalon.presentacion.features.schedule_appointment.home
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -22,14 +22,17 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.navigation.Screens
 import com.example.citassalon.presentacion.features.theme.AlwaysBlack
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.citassalon.presentacion.features.theme.StatusBarColor
 
 @Composable
-fun HomeScreen(navController: NavHostController) {
+fun HomeScreen(
+    navController: NavHostController,
+    goToInfoNavigation: () -> Unit,
+    goToProfileNavigation: () -> Unit
+) {
     ConstraintLayout(
         Modifier
             .fillMaxSize()
@@ -101,7 +104,7 @@ fun HomeScreen(navController: NavHostController) {
                 bottom.linkTo(parent.bottom, 60.dp)
             },
             onClick = {
-//                    navigate(R.id.nav_info)
+                goToInfoNavigation()
             }
         ) {
             Icon(
@@ -116,7 +119,7 @@ fun HomeScreen(navController: NavHostController) {
                 bottom.linkTo(parent.bottom, 60.dp)
             },
             onClick = {
-                navController.navigate(Screens.ProfileScreen.route)
+                goToProfileNavigation()
             }
         ) {
             Icon(
@@ -130,5 +133,9 @@ fun HomeScreen(navController: NavHostController) {
 @Composable
 @Preview(showBackground = true)
 fun HomeScreenPreview(modifier: Modifier = Modifier) {
-    HomeScreen(rememberNavController())
+    HomeScreen(
+        navController = rememberNavController(),
+        goToProfileNavigation = {},
+        goToInfoNavigation = {}
+    )
 }

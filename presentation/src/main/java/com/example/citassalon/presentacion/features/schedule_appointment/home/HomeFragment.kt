@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.home
+package com.example.citassalon.presentacion.features.schedule_appointment.home
 
 import android.os.Bundle
 import android.view.LayoutInflater
