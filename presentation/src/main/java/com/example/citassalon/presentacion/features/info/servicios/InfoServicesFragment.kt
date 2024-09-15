@@ -11,17 +11,16 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
-import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 
 
 class InfoServicesFragment :
     BaseFragment<FragmentGenericBindingBinding>(R.layout.fragment_generic_binding) {
 
-    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
-        showToolbar = true,
-        toolbarTitle = "Servicios"
-    )
+//    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+//        showToolbar = true,
+//        toolbarTitle = "Servicios"
+//    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?

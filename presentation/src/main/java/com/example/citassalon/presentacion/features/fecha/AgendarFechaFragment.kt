@@ -45,11 +45,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import androidx.navigation.navGraphViewModels
 import coil.compose.AsyncImage
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
-import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.extensions.navigate
 import com.example.citassalon.presentacion.features.extensions.showDatePickerDialog
@@ -67,13 +65,13 @@ class AgendarFechaFragment :
     BaseFragment<FragmentGenericBindingBinding>(R.layout.fragment_generic_binding),
     DatePickerDialog.OnDateSetListener {
 
-    private val flowMainViewModel by navGraphViewModels<FlowMainViewModel>(R.id.main_navigation) {
-        defaultViewModelProviderFactory
-    }
-
-    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
-        showToolbar = true, toolbarTitle = getString(R.string.agendar_hora)
-    )
+//    private val flowMainViewModel by navGraphViewModels<FlowMainViewModel>(R.id.main_navigation) {
+//        defaultViewModelProviderFactory
+//    }
+//
+//    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+//        showToolbar = true, toolbarTitle = getString(R.string.agendar_hora)
+//    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -117,7 +115,7 @@ class AgendarFechaFragment :
         return ComposeView(requireContext()).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
-                ScheduleAppointmentScreen(flowMainViewModel)
+//                ScheduleAppointmentScreen(flowMainViewModel)
             }
         }
     }
@@ -125,7 +123,7 @@ class AgendarFechaFragment :
     @Composable
     @Preview(showBackground = true)
     fun ScheduleAppointmentScreenPreview() {
-        ScheduleAppointmentScreen(flowMainViewModel)
+//        ScheduleAppointmentScreen(flowMainViewModel)
     }
 
     private val dateFormat = "dd/MM/yyyy"
@@ -278,7 +276,7 @@ class AgendarFechaFragment :
                     )
                     Button(
                         onClick = {
-                            navigate(AgendarFechaFragmentDirections.actionAgendarFechaToAgendarConfirmacion())
+//                            navigate(AgendarFechaFragmentDirections.actionAgendarFechaToAgendarConfirmacion())
                         }
                     ) {
                         Text(text = stringResource(id = R.string.next))
@@ -293,7 +291,7 @@ class AgendarFechaFragment :
     override fun onDateSet(datePicker: DatePicker?, year: Int, month: Int, day: Int) {
         val selectedDate = day.toString() + " / " + (month + 1) + " / " + year
         //binding.etFecha.editText?.setText(selectedDate)
-        flowMainViewModel.dateAppointment = selectedDate
+//        flowMainViewModel.dateAppointment = selectedDate
         //goToComfirm()
     }
 
@@ -324,7 +322,7 @@ class AgendarFechaFragment :
 
     private fun onTimeSelected(time: String) {
         //binding.edHora.editText?.setText(time)
-        flowMainViewModel.hourAppointment = time
+//        flowMainViewModel.hourAppointment = time
     }
 
     /*

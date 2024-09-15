@@ -37,7 +37,6 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.fragment.app.viewModels
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
-import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.extensions.navigate
 import com.example.citassalon.presentacion.features.theme.Background
@@ -57,9 +56,9 @@ class PerfilFragment :
     private val viewModelPerfil: PerfilViewModel by viewModels()
 
 
-    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
-        showToolbar = true, toolbarTitle = getString(R.string.perfil)
-    )
+//    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+//        showToolbar = true, toolbarTitle = getString(R.string.perfil)
+//    )
 
     override fun setUpUi() {
 
@@ -187,11 +186,11 @@ class PerfilFragment :
     fun clickOnItem(itemProfile: ProfileItem) {
         when (itemProfile.menu) {
             MENU.PROFILE -> {
-                navigate(PerfilFragmentDirections.actionPerfilToUserProfileFragment())
+//                navigate(PerfilFragmentDirections.actionPerfilToUserProfileFragment())
             }
 
             MENU.HISTORY -> {
-                navigate(PerfilFragmentDirections.actionPerfilToHistorialDeCitas())
+//                navigate(PerfilFragmentDirections.actionPerfilToHistorialDeCitas())
             }
 
             MENU.CONTACTS -> {
@@ -212,13 +211,13 @@ class PerfilFragment :
     override fun clickOnItem(element: String, position: Int?) {
         when (position) {
             1 -> {
-                val action = PerfilFragmentDirections.actionPerfilToUserProfileFragment()
-                navigate(action)
+//                val action = PerfilFragmentDirections.actionPerfilToUserProfileFragment()
+//                navigate(action)
             }
 
             2 -> {
-                val action = PerfilFragmentDirections.actionPerfilToHistorialDeCitas()
-                navigate(action)
+//                val action = PerfilFragmentDirections.actionPerfilToHistorialDeCitas()
+//                navigate(action)
             }
 
             3 -> Log.w("uno", "unos")
@@ -253,9 +252,9 @@ class PerfilFragment :
 
     override fun clickOnConfirmar() {
         viewModelPerfil.logout()
-        val intent = Intent(requireContext(), MainActivity::class.java)
-        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
-        startActivity(intent)
+//        val intent = Intent(requireContext(), MainActivity::class.java)
+//        intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
+//        startActivity(intent)
     }
 
     override fun clickOnCancel() {

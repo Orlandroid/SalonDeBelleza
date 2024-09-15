@@ -1,20 +1,20 @@
 package com.example.citassalon.presentacion.features.schedule_appointment
 
-import androidx.compose.runtime.Composable
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navigation
+import com.example.citassalon.presentacion.features.app_navigation.AppNavigationRoutes
 import com.example.citassalon.presentacion.features.schedule_appointment.home.HomeScreen
 
 
-@Composable
-fun ScheduleNavigationGraph(
+fun NavGraphBuilder.scheduleNavigationGraph(
     navController: NavHostController,
     goToInfoNavigation: () -> Unit,
     goToProfileNavigation: () -> Unit
 ) {
-    NavHost(
-        navController = navController,
+    navigation(
+        route = AppNavigationRoutes.ScheduleNavigation.route,
         startDestination = ScheduleAppointmentScreens.HomeScreen.route
     ) {
         composable(route = ScheduleAppointmentScreens.HomeScreen.route) {

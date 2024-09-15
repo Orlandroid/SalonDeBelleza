@@ -23,11 +23,8 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.navGraphViewModels
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
-import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.components.ClickOnItemStaff
 import com.example.citassalon.presentacion.features.components.ItemStaff
@@ -43,14 +40,14 @@ class AgendarStaffFragment :
     AlertDialogs.ClickOnAccept {
 
 
-    private val flowMainViewModel by navGraphViewModels<FlowMainViewModel>(R.id.main_navigation) {
-        defaultViewModelProviderFactory
-    }
+//    private val flowMainViewModel by navGraphViewModels<FlowMainViewModel>(R.id.main_navigation) {
+//        defaultViewModelProviderFactory
+//    }
 
 
-    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
-        showToolbar = true, toolbarTitle = getString(R.string.agendar_staff)
-    )
+//    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+//        showToolbar = true, toolbarTitle = getString(R.string.agendar_staff)
+//    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -68,49 +65,49 @@ class AgendarStaffFragment :
         Column(Modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                text = flowMainViewModel.sucursal.name,
+                text = "flowMainViewModel.sucursal.name",
                 fontSize = 32.sp,
                 style = TextStyle(fontWeight = FontWeight.W900)
             )
             Spacer(modifier = Modifier.height(16.dp))
             Button(onClick = {
-                val randomStaff = getRandomStaff(flowMainViewModel.listOfStaffs)
-                flowMainViewModel.currentStaff = randomStaff
-                navigate(AgendarStaffFragmentDirections.actionAgendarStaffToAgendarServicio())
+//                val randomStaff = getRandomStaff(flowMainViewModel.listOfStaffs)
+//                flowMainViewModel.currentStaff = randomStaff
+//                navigate(AgendarStaffFragmentDirections.actionAgendarStaffToAgendarServicio())
             }) {
                 Text(text = stringResource(id = R.string.estilista_button))
             }
             Spacer(modifier = Modifier.height(32.dp))
             LazyColumn {
-                flowMainViewModel.listOfStaffs.forEach { myStaff ->
-                    item {
-                        ItemStaff(
-                            staff = myStaff,
-                            onClick = {
-                                clickOnStaff(it, myStaff)
-                            }
-                        )
-                    }
-                }
+//                flowMainViewModel.listOfStaffs.forEach { myStaff ->
+//                    item {
+//                        ItemStaff(
+//                            staff = myStaff,
+//                            onClick = {
+//                                clickOnStaff(it, myStaff)
+//                            }
+//                        )
+//                    }
+//                }
             }
         }
     }
 
-    private fun clickOnStaff(
-        clickOnItemStaff: ClickOnItemStaff,
-        myStaff: Staff
-    ) {
-        flowMainViewModel.currentStaff = myStaff
-        when (clickOnItemStaff) {
-            ClickOnItemStaff.ClickOnItem -> {
-                navigate(AgendarStaffFragmentDirections.actionAgendarStaffToAgendarServicio())
-            }
-
-            ClickOnItemStaff.ClickOnImage -> {
-                navigate(AgendarStaffFragmentDirections.actionAgendarStaffToDetalleStaff())
-            }
-        }
-    }
+//    private fun clickOnStaff(
+//        clickOnItemStaff: ClickOnItemStaff,
+//        myStaff: Staff
+//    ) {
+//        flowMainViewModel.currentStaff = myStaff
+//        when (clickOnItemStaff) {
+//            ClickOnItemStaff.ClickOnItem -> {
+//                navigate(AgendarStaffFragmentDirections.actionAgendarStaffToAgendarServicio())
+//            }
+//
+//            ClickOnItemStaff.ClickOnImage -> {
+//                navigate(AgendarStaffFragmentDirections.actionAgendarStaffToDetalleStaff())
+//            }
+//        }
+//    }
 
     private fun getRandomStaff(staffs: List<Staff>): Staff {
         val randomNumber = staffs.indices.random()
@@ -134,7 +131,7 @@ class AgendarStaffFragment :
     }
     
     override fun clickOnAccept() {
-        findNavController().popBackStack()
+//        findNavController().popBackStack()
     }
 
     override fun clickOnCancel() {

@@ -25,7 +25,6 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.fragment.app.viewModels
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
-import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
@@ -47,10 +46,10 @@ class SucursalesFragment :
 
     private val viewModel: SucursalViewModel by viewModels()
 
-    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
-        showToolbar = true,
-        toolbarTitle = getString(R.string.ubicacion)
-    )
+//    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+//        showToolbar = true,
+//        toolbarTitle = getString(R.string.ubicacion)
+//    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -147,8 +146,8 @@ class SucursalesFragment :
     override fun clickOnItem(element: NegoInfo, position: Int?) {
         val gson = Gson()
         val bussnicesInfo = gson.toJson(element)
-        val action = SucursalesFragmentDirections.actionSucursales2ToNegocioInfo(bussnicesInfo)
-        navigate(action)
+//        val action = SucursalesFragmentDirections.actionSucursales2ToNegocioInfo(bussnicesInfo)
+//        navigate(action)
     }
 
 }

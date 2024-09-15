@@ -126,7 +126,7 @@ class HomeFragment :
                     containerColor = AlwaysWhite
                 ),
                 onClick = {
-                    navigate(HomeFragmentDirections.actionHome3ToAgendarSucursal())
+//                    navigate(HomeFragmentDirections.actionHome3ToAgendarSucursal())
                 },
                 modifier = Modifier
                     .constrainAs(btnSchedule) {
@@ -150,7 +150,7 @@ class HomeFragment :
                     bottom.linkTo(parent.bottom, 60.dp)
                 },
                 onClick = {
-                    navigate(R.id.nav_info)
+//                    navigate(R.id.nav_info)
                 }
             ) {
                 Icon(
@@ -165,7 +165,7 @@ class HomeFragment :
                     bottom.linkTo(parent.bottom, 60.dp)
                 },
                 onClick = {
-                    navigate(HomeFragmentDirections.actionHome3ToPerfil())
+//                    navigate(HomeFragmentDirections.actionHome3ToPerfil())
                 }
             ) {
                 Icon(

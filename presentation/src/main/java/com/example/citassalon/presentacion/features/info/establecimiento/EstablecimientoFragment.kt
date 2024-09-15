@@ -22,7 +22,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
-import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
@@ -32,9 +31,9 @@ import com.example.citassalon.presentacion.features.theme.Background
 
 class EstablecimientoFragment :
     BaseFragment<FragmentGenericBindingBinding>(R.layout.fragment_generic_binding) {
-    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
-        showToolbar = true, toolbarTitle = getString(R.string.nombre_establecimiento)
-    )
+//    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+//        showToolbar = true, toolbarTitle = getString(R.string.nombre_establecimiento)
+//    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -82,14 +81,18 @@ class EstablecimientoFragment :
                         TextWithArrow(
                             config = TextWithArrowConfig(
                                 text = stringResource(id = R.string.sucursales),
-                                clickOnItem = { navigate(EstablecimientoFragmentDirections.actionEstablecimientoToSucursales2()) }
+                                clickOnItem = {
+//                                    navigate(EstablecimientoFragmentDirections.actionEstablecimientoToSucursales2())
+                                }
                             )
                         )
                     }
                     item {
                         TextWithArrow(config = TextWithArrowConfig(
                             text = stringResource(id = R.string.tiendas),
-                            clickOnItem = { navigate(EstablecimientoFragmentDirections.actionEstablecimientoToStoresFragment()) }
+                            clickOnItem = {
+//                                navigate(EstablecimientoFragmentDirections.actionEstablecimientoToStoresFragment())
+                            }
                         )
                         )
                     }

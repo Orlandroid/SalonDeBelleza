@@ -32,11 +32,9 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.fragment.navArgs
 import coil.compose.AsyncImage
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
-import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.extensions.fromJson
 import com.example.citassalon.presentacion.features.theme.AlwaysBlack
@@ -48,12 +46,12 @@ import com.gowtham.ratingbar.RatingBarStyle
 class DetalleProductoFragment :
     BaseFragment<FragmentGenericBindingBinding>(R.layout.fragment_generic_binding) {
 
-    private val args: DetalleProductoFragmentArgs by navArgs()
+//    private val args: DetalleProductoFragmentArgs by navArgs()
     private lateinit var product: Product
 
-    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
-        showToolbar = true, toolbarTitle = "Detalle producto"
-    )
+//    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+//        showToolbar = true, toolbarTitle = "Detalle producto"
+//    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -61,7 +59,7 @@ class DetalleProductoFragment :
         return ComposeView(requireContext()).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
-                product = args.producto.fromJson()
+//                product = args.producto.fromJson()
                 DetailProductView(product)
             }
         }
@@ -130,7 +128,7 @@ class DetalleProductoFragment :
     @Composable
     @Preview(showBackground = true)
     fun DetailProductViewPreview() {
-        DetailProductView(args.producto.fromJson<Product>())
+//        DetailProductView(args.producto.fromJson<Product>())
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

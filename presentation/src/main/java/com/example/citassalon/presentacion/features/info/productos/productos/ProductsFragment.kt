@@ -39,13 +39,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmapOrNull
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import coil.compose.AsyncImage
 import coil.imageLoader
 import coil.util.DebugLogger
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
-import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.components.ButtonWithIcon
 import com.example.citassalon.presentacion.features.extensions.GenericResultState
@@ -66,16 +64,16 @@ class ProductsFragment : BaseFragment<FragmentGenericBindingBinding>(R.layout.fr
     ClickOnItem<Product> {
 
     private val viewModel: ProductsViewModel by viewModels()
-    private val args: ProductsFragmentArgs by navArgs()
+//    private val args: ProductsFragmentArgs by navArgs()
 
-    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
-        showToolbar = true, toolbarTitle = getString(R.string.productos)
-    )
+//    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+//        showToolbar = true, toolbarTitle = getString(R.string.productos)
+//    )
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getProducts(args.categoria)
+//        viewModel.getProducts(args.categoria)
     }
 
     override fun onCreateView(
@@ -103,9 +101,9 @@ class ProductsFragment : BaseFragment<FragmentGenericBindingBinding>(R.layout.fr
                         .padding(end = 8.dp, top = 8.dp)
                         .size(50.dp)
                         .clickable {
-                            val action =
-                                ProductsFragmentDirections.actionProductsFragmentToCartFragment()
-                            navigate(action)
+//                            val action =
+//                                ProductsFragmentDirections.actionProductsFragmentToCartFragment()
+//                            navigate(action)
                         },
                     painter = painterResource(id = R.drawable.shopping_cart),
                     contentDescription = "ImageCart"
@@ -196,7 +194,7 @@ class ProductsFragment : BaseFragment<FragmentGenericBindingBinding>(R.layout.fr
 
 
     override fun clickOnItem(element: Product, position: Int?) {
-        navigate(ProductsFragmentDirections.actionProductsFragmentToDetalleProductoFragment(element.toJson()))
+//        navigate(ProductsFragmentDirections.actionProductsFragmentToDetalleProductoFragment(element.toJson()))
     }
 
     @Composable

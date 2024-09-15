@@ -90,46 +90,46 @@ object Dependencies {
     const val ROOM_KTX = "androidx.room:room-ktx:${Versions.ROOM_VERSION}"
 
     fun DependencyHandler.room() {
-        implementation(Dependencies.ROOM_KTX)
-        implementation(Dependencies.ROOM_RUNTIME)
-        kapt(Dependencies.ROOM_COMPILER)
+        implementation(ROOM_KTX)
+        implementation(ROOM_RUNTIME)
+        kapt(ROOM_COMPILER)
     }
 
     fun DependencyHandler.lifecycle() {
-        implementation(Dependencies.VIEW_MODEL)
-        implementation(Dependencies.LIVE_DATA)
-        implementation(Dependencies.ANDROIDX_FRAGMENT)
+        implementation(VIEW_MODEL)
+        implementation(LIVE_DATA)
+        implementation(ANDROIDX_FRAGMENT)
     }
 
     fun DependencyHandler.retrofit() {
-        implementation(Dependencies.RETROFIT)
-        implementation(Dependencies.RETROFIT_CONVERTER_GSON)
-        implementation(Dependencies.RETROFIT_CONVERTER_MOSHI)
-        implementation(Dependencies.RETROFIT_INTERCEPTOR)
+        implementation(RETROFIT)
+        implementation(RETROFIT_CONVERTER_GSON)
+        implementation(RETROFIT_CONVERTER_MOSHI)
+        implementation(RETROFIT_INTERCEPTOR)
     }
 
     fun DependencyHandler.daggerHilt() {
-        implementation(Dependencies.DAGGER_HILT)
-        implementation(Dependencies.ANDROID_HILT_WORK)
-        kapt(Dependencies.ANDROID_HILT_COMPILER)
-        kapt(Dependencies.DAGGER_HILT_COMPILER)
+        implementation(DAGGER_HILT)
+        implementation(ANDROID_HILT_WORK)
+        kapt(ANDROID_HILT_COMPILER)
+        kapt(DAGGER_HILT_COMPILER)
     }
 
-    fun DependencyHandler.navigationComponent() {
-        implementation(Dependencies.NAVIGATION_FRAGMENT)
-        implementation(Dependencies.NAVIGATION_UI)
-    }
+//    fun DependencyHandler.navigationComponent() {
+//        implementation(NAVIGATION_FRAGMENT)
+//        implementation(NAVIGATION_UI)
+//    }
 
     fun DependencyHandler.glide() {
-        implementation(Dependencies.GLIDE)
-        annotationProcessor(Dependencies.GLIDE_COMPILER)
+        implementation(GLIDE)
+        annotationProcessor(GLIDE_COMPILER)
     }
 
     fun DependencyHandler.firebase() {
-        implementation(Dependencies.FIREBASE_AUTH_KTX)
-        implementation(Dependencies.FIREBASE_AUTH_V_KTX)
-        implementation(Dependencies.FIREBASE_ANALYTICS_KTX)
-        implementation(Dependencies.FIREBASE_PLAY_SERVICES)
-        implementation(Dependencies.FIREBASE_DATABASE)
+        implementation(FIREBASE_AUTH_KTX)
+        implementation(FIREBASE_AUTH_V_KTX)
+        implementation(FIREBASE_ANALYTICS_KTX)
+        implementation(FIREBASE_PLAY_SERVICES)
+        implementation(FIREBASE_DATABASE)
     }
 }

@@ -15,11 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.unit.dp
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.navGraphViewModels
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
-import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.components.ItemStaff
 import com.example.citassalon.presentacion.features.components.TextWithArrow
@@ -35,16 +32,16 @@ class AgendarServicioFragment :
     BaseFragment<FragmentGenericBindingBinding>(R.layout.fragment_generic_binding),
     AlertDialogs.ClickOnAccept {
 
-    private val flowMainViewModel by navGraphViewModels<FlowMainViewModel>(R.id.main_navigation) {
-        defaultViewModelProviderFactory
-    }
+//    private val flowMainViewModel by navGraphViewModels<FlowMainViewModel>(R.id.main_navigation) {
+//        defaultViewModelProviderFactory
+//    }
     private var listOfServices = arrayListOf<Service>()
 
 
-    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
-        showToolbar = true,
-        toolbarTitle = getString(R.string.agendar_servicio)
-    )
+//    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+//        showToolbar = true,
+//        toolbarTitle = getString(R.string.agendar_servicio)
+//    )
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -66,23 +63,23 @@ class AgendarServicioFragment :
     fun ScheduleService() {
         Column(Modifier.fillMaxSize()) {
             Spacer(modifier = Modifier.height(16.dp))
-            ItemStaff(
-                staff = flowMainViewModel.currentStaff,
-                branch = flowMainViewModel.sucursal.name
-            )
+//            ItemStaff(
+//                staff = flowMainViewModel.currentStaff,
+//                branch = flowMainViewModel.sucursal.name
+//            )
             LazyColumn {
-                flowMainViewModel.listOfServices.forEach { service ->
-                    item {
-                        TextWithArrow(
-                            config = TextWithArrowConfig(
-                                text = service.name,
-                                clickOnItem = {
-                                    navigate(AgendarServicioFragmentDirections.actionAgendarServicioToAgendarFecha())
-                                }
-                            )
-                        )
-                    }
-                }
+//                flowMainViewModel.listOfServices.forEach { service ->
+//                    item {
+//                        TextWithArrow(
+//                            config = TextWithArrowConfig(
+//                                text = service.name,
+//                                clickOnItem = {
+//                                    navigate(AgendarServicioFragmentDirections.actionAgendarServicioToAgendarFecha())
+//                                }
+//                            )
+//                        )
+//                    }
+//                }
             }
         }
     }
@@ -93,7 +90,7 @@ class AgendarServicioFragment :
     }
     
     override fun clickOnAccept() {
-        findNavController().popBackStack()
+//        findNavController().popBackStack()
     }
 
     override fun clickOnCancel() {

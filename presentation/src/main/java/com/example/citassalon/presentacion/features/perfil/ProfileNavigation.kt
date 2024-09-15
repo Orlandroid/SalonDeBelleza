@@ -5,18 +5,20 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import androidx.navigation.navigation
+import com.example.citassalon.presentacion.features.app_navigation.AppNavigationRoutes
 import com.example.citassalon.presentacion.features.perfil.historial_citas.AppointmentHistoryScreen
 import com.example.citassalon.presentacion.features.perfil.perfil.ProfileScreen
 import com.example.citassalon.presentacion.features.perfil.userprofile.UserProfileScreen
 import com.example.citassalon.presentacion.features.perfil.userprofile.UserProfileViewModel
 
-@Composable
-fun ProfileNavigationGraph(navController: NavHostController) {
-    NavHost(
-        navController = navController,
+
+fun NavGraphBuilder.profileNavigationGraph(navController: NavHostController) {
+    navigation(
+        route = AppNavigationRoutes.ProfileNavigation.route,
         startDestination = ProfileNavigationScreen.Profile.route
     ) {
         composable(route = ProfileNavigationScreen.Profile.route) {

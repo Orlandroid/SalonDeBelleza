@@ -52,7 +52,6 @@ import androidx.fragment.app.viewModels
 import coil.compose.AsyncImage
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentUserProfileBinding
-import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.extensions.GenericResultState
 import com.example.citassalon.presentacion.features.extensions.base64StringToBitmap
@@ -80,10 +79,10 @@ class UserProfileFragment :
     @SuppressLint("MutableCollectionMutableState")
     private var listUserInfo: MutableState<ArrayList<UserInfo>> = mutableStateOf(arrayListOf())
 
-    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
-        showToolbar = true,
-        toolbarTitle = getString(R.string.perfil)
-    )
+//    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+//        showToolbar = true,
+//        toolbarTitle = getString(R.string.perfil)
+//    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

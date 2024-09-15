@@ -2,13 +2,10 @@ package com.example.citassalon.presentacion.features.cita_agendada
 
 import android.animation.Animator
 import android.view.View
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.fragment.navArgs
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentCitaAgendadaBinding
 import com.example.citassalon.presentacion.main.NotificationHelper
 import com.example.citassalon.presentacion.features.base.BaseFragment
-import com.example.citassalon.presentacion.features.perfil.historial_detail.HistorialDetailFragmentArgs
 
 
 class CitaAgendadaFragment :
@@ -16,27 +13,27 @@ class CitaAgendadaFragment :
     Animator.AnimatorListener {
 
     private var notificationHelper: NotificationHelper? = null
-    private val args: CitaAgendadaFragmentArgs by navArgs()
+//    private val args: CitaAgendadaFragmentArgs by navArgs()
 
 
     override fun setUpUi() {
-        val arg = HistorialDetailFragmentArgs(args.apponitment).toBundle()
-        val pendingIntent = findNavController()
-            .createDeepLink()
-            .setDestination(R.id.historialDetailFragment)
-            .setArguments(arg)
-            .createPendingIntent()
+//        val arg = HistorialDetailFragmentArgs(args.apponitment).toBundle()
+//        val pendingIntent = findNavController()
+//            .createDeepLink()
+//            .setDestination(R.id.historialDetailFragment)
+//            .setArguments(arg)
+//            .createPendingIntent()
 
 
         notificationHelper = NotificationHelper(requireContext())
-        notificationHelper!!.sendNotification(
-            getString(R.string.cita_agendada),
-            "Cita",
-            pendingIntent
-        )
+//        notificationHelper!!.sendNotification(
+//            getString(R.string.cita_agendada),
+//            "Cita",
+//            pendingIntent
+//        )
         loadAnimation()
         binding.buttonAceptar.setOnClickListener {
-            findNavController().popBackStack(R.id.home3, false)
+//            findNavController().popBackStack(R.id.home3, false)
         }
     }
 

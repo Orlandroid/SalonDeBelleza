@@ -35,10 +35,8 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.fragment.app.viewModels
-import androidx.navigation.navGraphViewModels
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
-import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.extensions.navigate
 import com.example.citassalon.presentacion.features.extensions.toJson
@@ -59,13 +57,13 @@ class AgendarConfirmacionFragment :
     ListenerAlertDialogWithButtons {
 
     private val viewModel: AgendarConfirmacionViewModel by viewModels()
-    private val flowMainViewModel by navGraphViewModels<FlowMainViewModel>(R.id.main_navigation) {
-        defaultViewModelProviderFactory
-    }
+//    private val flowMainViewModel by navGraphViewModels<FlowMainViewModel>(R.id.main_navigation) {
+//        defaultViewModelProviderFactory
+//    }
 
-    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
-        showToolbar = true, toolbarTitle = "Agendar Comfirmacion"
-    )
+//    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+//        showToolbar = true, toolbarTitle = "Agendar Comfirmacion"
+//    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -90,30 +88,30 @@ class AgendarConfirmacionFragment :
             Spacer(modifier = Modifier.height(16.dp))
             Text(text = stringResource(id = R.string.confirmacionDeCita), fontSize = 20.sp)
             Spacer(modifier = Modifier.height(8.dp))
-            flowMainViewModel.let { flow ->
-                ButtonImageAndText(
-                    text = flow.sucursal.name, iconImage = R.drawable.place_24p_negro
-                )
-                ButtonImageAndText(
-                    text = flow.currentStaff.nombre, iconImage = R.drawable.face_unlock_24px
-                )
-                ButtonImageAndText(
-                    text = flow.listOfServices[0].name, iconImage = R.drawable.stars_24px
-                )
-                ButtonImageAndText(
-                    text = flow.dateAppointment, iconImage = R.drawable.insert_invitation_24px
-                )
-                ButtonImageAndText(
-                    text = flow.hourAppointment, iconImage = R.drawable.watch_later_24px
-                )
-            }
+//            flowMainViewModel.let { flow ->
+//                ButtonImageAndText(
+//                    text = flow.sucursal.name, iconImage = R.drawable.place_24p_negro
+//                )
+//                ButtonImageAndText(
+//                    text = flow.currentStaff.nombre, iconImage = R.drawable.face_unlock_24px
+//                )
+//                ButtonImageAndText(
+//                    text = flow.listOfServices[0].name, iconImage = R.drawable.stars_24px
+//                )
+//                ButtonImageAndText(
+//                    text = flow.dateAppointment, iconImage = R.drawable.insert_invitation_24px
+//                )
+//                ButtonImageAndText(
+//                    text = flow.hourAppointment, iconImage = R.drawable.watch_later_24px
+//                )
+//            }
             Spacer(modifier = Modifier.height(32.dp))
             Row(
                 horizontalArrangement = Arrangement.Absolute.SpaceAround,
                 modifier = Modifier.fillMaxWidth()
             ) {
                 Text(text = stringResource(id = R.string.Total), fontSize = 20.sp)
-                Text(text = flowMainViewModel.listOfServices[0].precio.toString(), fontSize = 20.sp)
+//                Text(text = flowMainViewModel.listOfServices[0].precio.toString(), fontSize = 20.sp)
             }
             Spacer(modifier = Modifier.height(24.dp))
             Button(modifier = Modifier
@@ -192,29 +190,29 @@ class AgendarConfirmacionFragment :
 
     override fun clickOnConfirmar() {
         saveToDatabaseAppointment()
-        val action = AgendarConfirmacionFragmentDirections.actionAgendarConfirmacionToCitaAgendada(
-            createAppointment().toAppointmentObject().toJson()
-        )
-        navigate(action)
+//        val action = AgendarConfirmacionFragmentDirections.actionAgendarConfirmacionToCitaAgendada(
+//            createAppointment().toAppointmentObject().toJson()
+//        )
+//        navigate(action)
     }
 
-    private fun createAppointment(): AppointmentFirebase {
-        val uniqueID = UUID.randomUUID().toString()
-        flowMainViewModel.let {
-            return AppointmentFirebase(
-                uniqueID,
-                it.sucursal.name,
-                it.currentStaff.nombre,
-                it.listOfServices[0].name,
-                it.dateAppointment,
-                it.hourAppointment,
-                it.listOfServices[0].precio.toString()
-            )
-        }
-    }
+//    private fun createAppointment(): AppointmentFirebase {
+//        val uniqueID = UUID.randomUUID().toString()
+//        flowMainViewModel.let {
+//            return AppointmentFirebase(
+//                uniqueID,
+//                it.sucursal.name,
+//                it.currentStaff.nombre,
+//                it.listOfServices[0].name,
+//                it.dateAppointment,
+//                it.hourAppointment,
+//                it.listOfServices[0].precio.toString()
+//            )
+//        }
+//    }
 
     private fun saveToDatabaseAppointment() {
-        viewModel.saveAppointMent(createAppointment())
+//        viewModel.saveAppointMent(createAppointment())
     }
 
     override fun clickOnCancel() {

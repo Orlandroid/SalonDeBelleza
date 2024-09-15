@@ -19,11 +19,8 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.stringResource
 import androidx.fragment.app.viewModels
 import androidx.navigation.compose.rememberNavController
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.navGraphViewModels
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
-import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.components.TextWithArrow
@@ -47,13 +44,13 @@ class AgendarSucursalFragment :
     ClickOnItem<NegoInfo>, AlertDialogs.ClickOnAccept {
 
     private val branchViewModel: SucursalViewModel by viewModels()
-    private val flowMainViewModel by navGraphViewModels<FlowMainViewModel>(R.id.main_navigation) {
-        defaultViewModelProviderFactory
-    }
+//    private val flowMainViewModel by navGraphViewModels<FlowMainViewModel>(R.id.main_navigation) {
+//        defaultViewModelProviderFactory
+//    }
 
-    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
-        showToolbar = false, toolbarTitle = getString(R.string.agendar_sucursal)
-    )
+//    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+//        showToolbar = false, toolbarTitle = getString(R.string.agendar_sucursal)
+//    )
 
     override fun setUpUi() {
 
@@ -113,18 +110,18 @@ class AgendarSucursalFragment :
 
 
     override fun clickOnItem(element: NegoInfo, position: Int?) {
-        flowMainViewModel.let {
-            it.sucursal = element.sucursal
-            it.listOfStaffs = element.staffs
-            it.listOfServices = element.services
-        }
-        val action = AgendarSucursalFragmentDirections.actionAgendarSucursalToAgendarStaff()
-        navigate(action)
+//        flowMainViewModel.let {
+//            it.sucursal = element.sucursal
+//            it.listOfStaffs = element.staffs
+//            it.listOfServices = element.services
+//        }
+//        val action = AgendarSucursalFragmentDirections.actionAgendarSucursalToAgendarStaff()
+//        navigate(action)
 
     }
 
     override fun clickOnAccept() {
-        findNavController().popBackStack()
+//        findNavController().popBackStack()
     }
 
     override fun clickOnCancel() {

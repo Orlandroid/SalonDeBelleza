@@ -18,14 +18,12 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.fragment.findNavController
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
-import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
@@ -36,9 +34,9 @@ import kotlin.random.Random
 class StoresFragment :
     BaseFragment<FragmentGenericBindingBinding>(R.layout.fragment_generic_binding) {
 
-    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
-        showToolbar = true, toolbarTitle = getString(R.string.tiendas)
-    )
+//    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+//        showToolbar = true, toolbarTitle = getString(R.string.tiendas)
+//    )
 
     companion object {
         const val FAKE_STORE = "Fake store"
@@ -50,11 +48,11 @@ class StoresFragment :
     }
 
     private fun clickOnStore(store: Store) {
-        findNavController().navigate(
-            StoresFragmentDirections.actionStoresFragmentToListOfProductsFragment(
-                store.toJson()
-            )
-        )
+//        findNavController().navigate(
+//            StoresFragmentDirections.actionStoresFragmentToListOfProductsFragment(
+//                store.toJson()
+//            )
+//        )
     }
 
     override fun onCreateView(

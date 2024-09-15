@@ -25,11 +25,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.navGraphViewModels
 import coil.compose.AsyncImage
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
-import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.flow_main.FlowMainViewModel
 import com.example.citassalon.presentacion.features.theme.Background
@@ -41,14 +39,14 @@ import com.gowtham.ratingbar.RatingBarStyle
 class DetalleStaffFragment :
     BaseFragment<FragmentGenericBindingBinding>(R.layout.fragment_generic_binding) {
 
-    private val flowMainViewModel by navGraphViewModels<FlowMainViewModel>(R.id.main_navigation) {
-        defaultViewModelProviderFactory
-    }
+//    private val flowMainViewModel by navGraphViewModels<FlowMainViewModel>(R.id.main_navigation) {
+//        defaultViewModelProviderFactory
+//    }
 
-    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
-        showToolbar = true,
-        toolbarTitle = "Detalle Staff"
-    )
+//    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+//        showToolbar = true,
+//        toolbarTitle = "Detalle Staff"
+//    )
 
 
     override fun setUpUi() {
@@ -62,7 +60,7 @@ class DetalleStaffFragment :
         return ComposeView(requireContext()).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
-                DetailStaffView(flowMainViewModel.currentStaff)
+//                DetailStaffView(flowMainViewModel.currentStaff)
             }
         }
     }
@@ -112,7 +110,7 @@ class DetalleStaffFragment :
     @Composable
     @Preview(showBackground = true)
     fun DetailStaffViewPreview() {
-        DetailStaffView(flowMainViewModel.currentStaff)
+//        DetailStaffView(flowMainViewModel.currentStaff)
     }
 
 }

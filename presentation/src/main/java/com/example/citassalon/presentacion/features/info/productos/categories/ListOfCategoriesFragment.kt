@@ -22,10 +22,8 @@ import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.navArgs
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
-import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
@@ -46,12 +44,12 @@ class ListOfCategoriesFragment :
     ClickOnItem<String> {
 
     private val viewModel: ListOfCategoriesViewModel by viewModels()
-    private val args: ListOfCategoriesFragmentArgs by navArgs()
+//    private val args: ListOfCategoriesFragmentArgs by navArgs()
     private var currentStore: StoresFragment.Store? = null
 
-    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
-        showToolbar = true, toolbarTitle = getString(R.string.categorias)
-    )
+//    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+//        showToolbar = true, toolbarTitle = getString(R.string.categorias)
+//    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -123,7 +121,7 @@ class ListOfCategoriesFragment :
     }
 
     private fun setUpStore() {
-        currentStore = args.store.fromJson()
+//        currentStore = args.store.fromJson()
         currentStore?.let { store ->
             when (store.name) {
                 FAKE_STORE -> {
@@ -139,11 +137,11 @@ class ListOfCategoriesFragment :
 
 
     override fun clickOnItem(element: String, position: Int?) {
-        navigate(
-            ListOfCategoriesFragmentDirections.actionListOfProductsFragmentToProductsFragment(
-                element
-            )
-        )
+//        navigate(
+//            ListOfCategoriesFragmentDirections.actionListOfProductsFragmentToProductsFragment(
+//                element
+//            )
+//        )
     }
 
 

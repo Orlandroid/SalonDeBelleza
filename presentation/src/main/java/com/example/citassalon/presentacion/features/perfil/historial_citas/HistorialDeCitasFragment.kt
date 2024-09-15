@@ -34,14 +34,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.navigation.fragment.findNavController
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
-import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.components.AppProgress
 import com.example.citassalon.presentacion.features.extensions.GenericResultState
@@ -59,9 +57,9 @@ class HistorialDeCitasFragment :
     ClickOnItem<AppointmentFirebase>, SwipeRecycler.SwipeRecyclerListenr {
 
 
-    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
-        showToolbar = true, toolbarTitle = getString(R.string.historiasl_de_citas)
-    )
+//    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+//        showToolbar = true, toolbarTitle = getString(R.string.historiasl_de_citas)
+//    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -219,11 +217,11 @@ class HistorialDeCitasFragment :
 
     override fun clickOnItem(element: AppointmentFirebase, position: Int?) {
         val appointment = element.toAppointmentObject()
-        val action =
-            HistorialDeCitasFragmentDirections.actionHistorialDeCitasToHistorialDetailFragment(
-                appointment.toJson()
-            )
-        findNavController().navigate(action)
+//        val action =
+//            HistorialDeCitasFragmentDirections.actionHistorialDeCitasToHistorialDetailFragment(
+//                appointment.toJson()
+//            )
+//        findNavController().navigate(action)
     }
 
     override fun onMove() {

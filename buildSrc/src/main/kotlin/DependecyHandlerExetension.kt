@@ -9,24 +9,24 @@ private const val ANDROID_TEST_IMPLEMENTATION = "androidTestImplementation"
 private const val TEST_IMPLEMENTATION = "testImplementation"
 private const val ANNOTATION_PROCESSOR = "annotationProcessor"
 
-fun DependencyHandler.implementation(dependecy: String) {
-    add(IMPLEMENTATION, dependecy)
+fun DependencyHandler.implementation(dependency: String) {
+    add(IMPLEMENTATION, dependency)
 }
 
 
-fun DependencyHandler.kapt(dependecy: String) {
-    add(KAPT, dependecy)
+fun DependencyHandler.kapt(dependency: String) {
+    add(KAPT, dependency)
 }
 
-fun DependencyHandler.androidTestImplementation(dependecy: String) {
-    add(ANDROID_TEST_IMPLEMENTATION, dependecy)
+fun DependencyHandler.androidTestImplementation(dependency: String) {
+    add(ANDROID_TEST_IMPLEMENTATION, dependency)
 }
 
-fun DependencyHandler.testImplementation(dependecy: String) {
-    add(TEST_IMPLEMENTATION, dependecy)
+fun DependencyHandler.testImplementation(dependency: String) {
+    add(TEST_IMPLEMENTATION, dependency)
 }
 
-fun DependencyHandler.annotationProcessor(dependecy: String) {
-    add(ANNOTATION_PROCESSOR, dependecy)
+fun DependencyHandler.annotationProcessor(dependency: String) {
+    add(ANNOTATION_PROCESSOR, dependency)
 }
 

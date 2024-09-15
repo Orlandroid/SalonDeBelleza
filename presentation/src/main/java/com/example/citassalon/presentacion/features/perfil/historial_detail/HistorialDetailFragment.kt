@@ -28,10 +28,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import androidx.navigation.fragment.navArgs
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
-import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.extensions.fromJson
 import com.example.citassalon.presentacion.features.theme.Background
@@ -41,12 +39,12 @@ import com.example.domain.entities.local.AppointmentObject
 class HistorialDetailFragment :
     BaseFragment<FragmentGenericBindingBinding>(R.layout.fragment_generic_binding) {
 
-    private val args: HistorialDetailFragmentArgs by navArgs()
+//    private val args: HistorialDetailFragmentArgs by navArgs()
     private lateinit var appointment: AppointmentObject
 
-    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
-        showToolbar = true, toolbarTitle = "Historial"
-    )
+//    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+//        showToolbar = true, toolbarTitle = "Historial"
+//    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -54,7 +52,7 @@ class HistorialDetailFragment :
         return ComposeView(requireContext()).apply {
             setViewCompositionStrategy(ViewCompositionStrategy.DisposeOnViewTreeLifecycleDestroyed)
             setContent {
-                appointment = args.appointment.fromJson()
+//                appointment = args.appointment.fromJson()
                 HistoryDetail(appointment)
             }
         }

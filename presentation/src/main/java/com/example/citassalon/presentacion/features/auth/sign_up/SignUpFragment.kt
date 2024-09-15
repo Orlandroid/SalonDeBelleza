@@ -43,14 +43,11 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.fragment.app.viewModels
-import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
-import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.extensions.ObserveSessionStatusLiveData
 import com.example.citassalon.presentacion.features.extensions.showDatePickerDialog
-import com.example.citassalon.presentacion.features.extensions.showProgress
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.citassalon.presentacion.main.AlertDialogs
 import com.example.citassalon.presentacion.util.isValidEmail
@@ -77,9 +74,9 @@ class SignUpFragment : BaseFragment<FragmentGenericBindingBinding>(R.layout.frag
         private const val PHONE_NUMBER_CHARACTERS = 10
     }
 
-    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
-        showToolbar = true, toolbarTitle = getString(R.string.signUp)
-    )
+//    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+//        showToolbar = true, toolbarTitle = getString(R.string.signUp)
+//    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -117,7 +114,7 @@ class SignUpFragment : BaseFragment<FragmentGenericBindingBinding>(R.layout.frag
                 showDialogMessage(
                     AlertDialogs.SUCCESS_MESSAGE, "Usuario registraro correctament"
                 )
-                findNavController().popBackStack()
+//                findNavController().popBackStack()
             }
             OutlinedTextField(text = "Nombre", value = name)
             OutlinedTextField(
@@ -160,7 +157,7 @@ class SignUpFragment : BaseFragment<FragmentGenericBindingBinding>(R.layout.frag
                         user = getUser()
                     )
                     viewModel.sinUp(email.value, password.value)
-                    showProgress()
+//                    showProgress()
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                 modifier = Modifier.fillMaxWidth()

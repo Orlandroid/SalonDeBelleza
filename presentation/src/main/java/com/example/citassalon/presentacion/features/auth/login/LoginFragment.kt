@@ -230,7 +230,7 @@ class LoginFragment :
             }
             Button(
                 onClick = {
-                    navigate(LoginFragmentDirections.actionLoginToSignUp())
+//                    navigate(LoginFragmentDirections.actionLoginToSignUp())
                 },
                 colors = ButtonDefaults.buttonColors(containerColor = Color.White),
                 modifier = Modifier.fillMaxWidth()
@@ -296,8 +296,8 @@ class LoginFragment :
 
     private fun isSessionActive() {
         if (viewModel.isUserActive()) {
-            val action = LoginFragmentDirections.actionLoginToHome32()
-            navigate(action)
+//            val action = LoginFragmentDirections.actionLoginToHome32()
+//            navigate(action)
         }
     }
 
@@ -388,8 +388,8 @@ class LoginFragment :
                 }
 
                 is SessionStatus.SUCCESS -> {
-                    val action = LoginFragmentDirections.actionLoginToHome32()
-                    navigate(action)
+//                    val action = LoginFragmentDirections.actionLoginToHome32()
+//                    navigate(action)
                 }
 
                 is SessionStatus.ERROR -> {
