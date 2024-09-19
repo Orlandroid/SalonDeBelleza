@@ -29,9 +29,8 @@ import androidx.fragment.app.viewModels
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
 import com.example.citassalon.presentacion.features.base.BaseFragment
-import com.example.citassalon.presentacion.features.extensions.navigate
 import com.example.citassalon.presentacion.features.extensions.observeApiResultGeneric
-import com.example.citassalon.presentacion.features.perfil.userprofile.UserProfileViewModel
+import com.example.citassalon.presentacion.features.profile.userprofile.UserProfileViewModel
 import com.example.citassalon.presentacion.features.theme.AlwaysBlack
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background

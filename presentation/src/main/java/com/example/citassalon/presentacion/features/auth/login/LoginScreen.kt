@@ -26,6 +26,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -72,18 +73,19 @@ fun LoginScreen(
         loginAction = viewModel::handleActions,
         isLoading = status.value.isLoading
     )
+    LaunchedEffect(effect.value) {
+        when (effect.value) {
+            LoginUiEffect.GoToSignUp -> {
 
-    when (effect.value) {
-        LoginUiEffect.GoToSignUp -> {
+            }
 
-        }
+            LoginUiEffect.Idle -> {
 
-        LoginUiEffect.Idle -> {
+            }
 
-        }
-
-        LoginUiEffect.NavigateToHomeScreen -> {
-            navigateToScheduleNav.invoke()
+            LoginUiEffect.NavigateToHomeScreen -> {
+                navigateToScheduleNav.invoke()
+            }
         }
     }
 }

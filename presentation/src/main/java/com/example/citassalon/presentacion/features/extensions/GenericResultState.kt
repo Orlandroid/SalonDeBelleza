@@ -147,7 +147,6 @@ fun <T> GenericResultStateV2(
     onSuccess: @Composable (data: T) -> Unit,
 ) {
     isLoading.value = state.value is ApiState.Loading
-    Log.w("STATE", isLoading.value.toString())
     when (state.value) {
         is ApiState.Error -> {
 

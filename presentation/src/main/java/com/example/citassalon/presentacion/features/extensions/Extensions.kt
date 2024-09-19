@@ -23,7 +23,7 @@ import androidx.core.graphics.drawable.DrawableCompat
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
 import androidx.navigation.findNavController
-import com.example.citassalon.presentacion.features.fecha.DatePickerFragment
+import com.example.citassalon.presentacion.features.schedule_appointment.schedule.DatePickerFragment
 import com.google.android.material.snackbar.Snackbar
 
 

@@ -32,5 +32,9 @@ data class Staff(
     val nombre: String,
     val sexo: String,
     val valoracion: Int
-)
+) {
+    companion object {
+        fun mockStaff() = Staff(id = "", image_url = "", nombre = "Orlando", sexo = "Hombre", valoracion = 4)
+    }
+}
 

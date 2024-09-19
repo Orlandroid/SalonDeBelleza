@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/background"
-        tools:context=".presentacion.features.perfil.userprofile.UserProfileFragment">
+        tools:context=".presentacion.features.profile.userprofile.UserProfileFragment">
 
 
         <androidx.constraintlayout.widget.Guideline

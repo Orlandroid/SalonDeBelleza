@@ -16,8 +16,10 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavHostController
 import com.example.citassalon.R
+import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
+import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.theme.Background
 
 @Composable
@@ -25,13 +27,18 @@ fun EstablishingScreen(
     modifier: Modifier = Modifier,
     navController: NavHostController
 ) {
-    EstablishingScreenContent()
+    BaseComposeScreen(
+        navController = navController,
+        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.nombre_establecimiento))
+    ) {
+        EstablishingScreenContent(modifier = modifier)
+    }
 }
 
 @Composable
-fun EstablishingScreenContent() {
+fun EstablishingScreenContent(modifier: Modifier = Modifier) {
     ConstraintLayout(
-        Modifier
+        modifier
             .fillMaxSize()
             .background(Background)
     ) {

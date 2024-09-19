@@ -22,6 +22,7 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.citassalon.R
+import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
 import com.example.citassalon.presentacion.features.theme.AlwaysBlack
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
@@ -80,7 +81,7 @@ fun HomeScreen(
                 containerColor = AlwaysWhite
             ),
             onClick = {
-//                    navigate(HomeFragmentDirections.actionHome3ToAgendarSucursal())
+                navController.navigate(ScheduleAppointmentScreens.ChoseBranch.route)
             },
             modifier = Modifier
                 .constrainAs(btnSchedule) {

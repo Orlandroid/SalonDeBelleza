@@ -29,9 +29,8 @@ import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
 import com.example.citassalon.presentacion.features.extensions.GenericResultState
-import com.example.citassalon.presentacion.features.extensions.navigate
 import com.example.citassalon.presentacion.features.extensions.observeApiResultGeneric
-import com.example.citassalon.presentacion.features.share_beetwen_sucursales.SucursalViewModel
+import com.example.citassalon.presentacion.features.share_beetwen_sucursales.BranchViewModel
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.citassalon.presentacion.interfaces.ClickOnItem
 import com.example.domain.entities.remote.migration.NegoInfo
@@ -44,7 +43,7 @@ class SucursalesFragment :
     BaseFragment<FragmentGenericBindingBinding>(R.layout.fragment_generic_binding),
     ClickOnItem<NegoInfo> {
 
-    private val viewModel: SucursalViewModel by viewModels()
+    private val viewModel: BranchViewModel by viewModels()
 
 //    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
 //        showToolbar = true,
@@ -53,7 +52,7 @@ class SucursalesFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getSucursales()
+        viewModel.getBranches()
     }
 
     override fun onCreateView(
@@ -68,7 +67,7 @@ class SucursalesFragment :
     }
 
     @Composable
-    fun BranchOffices(viewModel: SucursalViewModel) {
+    fun BranchOffices(viewModel: BranchViewModel) {
         //Todo add skeletons in loading state
         val branches = viewModel.branches.observeAsState()
         ConstraintLayout(

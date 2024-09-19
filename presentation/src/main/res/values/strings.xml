@@ -159,4 +159,5 @@
     <string name="signUp">SignUp</string>
     <string name="tiendas">Tiendas</string>
     <string name="reset_password">Reset Password</string>
+    <string name="detail_staff">Detail Staff</string>
 </resources>
