@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.cita_agendada
+package com.example.citassalon.presentacion.features.schedule_appointment.cita_agendada
 
 import android.animation.Animator
 import android.view.View

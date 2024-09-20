@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.info.establecimiento
+package com.example.citassalon.presentacion.features.info.establishing
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
@@ -20,6 +20,7 @@ import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
+import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
 import com.example.citassalon.presentacion.features.theme.Background
 
 @Composable
@@ -31,12 +32,24 @@ fun EstablishingScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.nombre_establecimiento))
     ) {
-        EstablishingScreenContent(modifier = modifier)
+        EstablishingScreenContent(
+            modifier = modifier,
+            navigateToStore = {
+                navController.navigate(InfoNavigationScreens.Stores.route)
+            },
+            navigateToBranches = {
+                navController.navigate(InfoNavigationScreens.Branches.route)
+            }
+        )
     }
 }
 
 @Composable
-fun EstablishingScreenContent(modifier: Modifier = Modifier) {
+fun EstablishingScreenContent(
+    modifier: Modifier = Modifier,
+    navigateToStore: () -> Unit,
+    navigateToBranches: () -> Unit
+) {
     ConstraintLayout(
         modifier
             .fillMaxSize()
@@ -61,27 +74,43 @@ fun EstablishingScreenContent(modifier: Modifier = Modifier) {
             },
             colors = CardDefaults.cardColors(containerColor = Color.White)
         ) {
-            LazyColumn {
-                item {
-                    TextWithArrow(
-                        config = TextWithArrowConfig(
-                            text = stringResource(id = R.string.sucursales),
-                            clickOnItem = {
-//                                navigate(EstablecimientoFragmentDirections.actionEstablecimientoToSucursales2())
-                            }
-                        )
-                    )
+            MenuBranch(
+                clickOnBranches = {
+                    navigateToBranches.invoke()
+                },
+                clickOnStore = {
+                    navigateToStore.invoke()
                 }
-                item {
-                    TextWithArrow(config = TextWithArrowConfig(
-                        text = stringResource(id = R.string.tiendas),
-                        clickOnItem = {
-//                            navigate(EstablecimientoFragmentDirections.actionEstablecimientoToStoresFragment())
-                        }
-                    )
-                    )
-                }
-            }
+            )
+        }
+    }
+}
+
+@Composable
+private fun MenuBranch(
+    clickOnBranches: () -> Unit,
+    clickOnStore: () -> Unit
+) {
+    LazyColumn {
+        item {
+            TextWithArrow(
+                config = TextWithArrowConfig(
+                    text = stringResource(id = R.string.sucursales),
+                    clickOnItem = {
+                        clickOnBranches.invoke()
+                    }
+                )
+            )
+        }
+        item {
+            TextWithArrow(
+                config = TextWithArrowConfig(
+                    text = stringResource(id = R.string.tiendas),
+                    clickOnItem = {
+                        clickOnStore.invoke()
+                    }
+                )
+            )
         }
     }
 }
@@ -89,5 +118,8 @@ fun EstablishingScreenContent(modifier: Modifier = Modifier) {
 @Composable
 @Preview(showBackground = true)
 fun EstablishingScreenPreview() {
-    EstablishingScreenContent()
+    EstablishingScreenContent(
+        navigateToBranches = {},
+        navigateToStore = {}
+    )
 }

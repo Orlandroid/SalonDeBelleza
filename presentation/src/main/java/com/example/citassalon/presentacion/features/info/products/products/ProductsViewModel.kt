@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.info.productos.productos
+package com.example.citassalon.presentacion.features.info.products.products
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

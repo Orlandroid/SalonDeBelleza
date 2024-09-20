@@ -147,7 +147,7 @@ fun LoginScreenContent(
             TextOr()
             SignUpButton(
                 onClick = {
-                    navController.navigate(AuthScreens.SingUpScreen.route)
+                    navController.navigate(AuthScreens.SingUp.route)
                 }
             )
             GoogleButton()
@@ -281,7 +281,7 @@ fun LoginButton(
 }
 
 @Composable
-fun TextOr(modifier: Modifier = Modifier) {
+private fun TextOr(modifier: Modifier = Modifier) {
     Row(
         verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(8.dp)
     ) {

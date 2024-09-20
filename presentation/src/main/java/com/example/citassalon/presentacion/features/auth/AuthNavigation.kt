@@ -18,9 +18,9 @@ fun NavGraphBuilder.authNavigationGraph(
 ) {
     navigation(
         route = AppNavigationRoutes.AuthNavigation.route,
-        startDestination = AuthScreens.SplashScreen.route,
+        startDestination = AuthScreens.Splash.route,
     ) {
-        composable(route = AuthScreens.SplashScreen.route) {
+        composable(route = AuthScreens.Splash.route) {
             val loginViewModel: LoginViewModel = hiltViewModel()
             SplashScreenV1(
                 navController = navController,
@@ -29,12 +29,12 @@ fun NavGraphBuilder.authNavigationGraph(
                 goToScheduleNav.invoke()
             }
         }
-        composable(route = AuthScreens.LoginScreen.route) {
+        composable(route = AuthScreens.Login.route) {
             LoginScreen(navController) {
                 goToScheduleNav()
             }
         }
-        composable(route = AuthScreens.SingUpScreen.route) {
+        composable(route = AuthScreens.SingUp.route) {
             SignUpScreen(navController)
         }
     }

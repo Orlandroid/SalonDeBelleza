@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,6 +15,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.tooling.preview.Preview
@@ -28,6 +30,7 @@ import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
 import com.example.citassalon.presentacion.features.extensions.toJson
+import com.example.citassalon.presentacion.features.theme.Background
 import kotlin.random.Random
 
 
@@ -69,7 +72,7 @@ class StoresFragment :
     @Composable
     fun StoresScreen() {
         Column(
-            Modifier.fillMaxSize(),
+            Modifier.fillMaxSize().background(Background),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(setAnimation()))
@@ -80,7 +83,7 @@ class StoresFragment :
                 composition = composition,
                 iterations = LottieConstants.IterateForever,
             )
-            LazyColumn {
+            LazyColumn(Modifier.background(Color.White)) {
                 setStores().forEach { store ->
                     item {
                         Spacer(modifier = Modifier.height(8.dp))

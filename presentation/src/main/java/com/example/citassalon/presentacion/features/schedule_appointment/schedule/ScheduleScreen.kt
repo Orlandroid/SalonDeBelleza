@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material3.Button
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
@@ -27,7 +28,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -42,10 +42,15 @@ import coil.compose.AsyncImage
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
-import com.example.citassalon.presentacion.features.extensions.showDatePickerDialog
+import com.example.citassalon.presentacion.features.extensions.dateFormat
+import com.example.citassalon.presentacion.features.extensions.getCurrentDateTime
+import com.example.citassalon.presentacion.features.extensions.getHourFormat
+import com.example.citassalon.presentacion.features.extensions.getInitialTime
+import com.example.citassalon.presentacion.features.extensions.timeFormat
+import com.example.citassalon.presentacion.features.extensions.toStringFormat
 import com.example.citassalon.presentacion.features.flow_main.FlowMainViewModel
+import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
 import com.example.citassalon.presentacion.features.theme.Background
-import java.util.Calendar
 
 @Composable
 fun ScheduleScreen(
@@ -56,60 +61,65 @@ fun ScheduleScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.agendar_hora))
     ) {
-        ScheduleScreenContent(flowMainViewModel = flowMainViewModel)
+        ScheduleScreenContent(flowMainViewModel = flowMainViewModel) {
+            navController.navigate(ScheduleAppointmentScreens.ScheduleConfirmation.route)
+        }
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ScheduleScreenContent(modifier: Modifier = Modifier, flowMainViewModel: FlowMainViewModel) {
-//    var date: String by remember { mutableStateOf(getCurrentDateTime().toStringFormat(dateFormat)) }
-//    var myTime: String by remember { mutableStateOf(getInitialTime()) }
-    flowMainViewModel.hourAppointment = ""
-    flowMainViewModel.dateAppointment = ""
+fun ScheduleScreenContent(
+    modifier: Modifier = Modifier,
+    flowMainViewModel: FlowMainViewModel,
+    goToConfirmationScreen: () -> Unit
+) {
+    val date = remember { mutableStateOf(getCurrentDateTime().toStringFormat(dateFormat)) }
+    val myTime = remember { mutableStateOf(getInitialTime()) }
+    val showDatePickerDialog = remember { mutableStateOf(false) }
+    val showTimePickerDialog = remember { mutableStateOf(false) }
+    flowMainViewModel.hourAppointment = myTime.value
+    flowMainViewModel.dateAppointment = date.value
+    if (showTimePickerDialog.value) {
+        MyTimePickerDialog(
+            onDismiss = {
+                showTimePickerDialog.value = false
+            },
+            onConfirm = {
+                showTimePickerDialog.value = false
+                myTime.value = it.getHourFormat()
+            }
+        )
+    }
+    if (showDatePickerDialog.value) {
+        MyDatePickerDialog(
+            onDismiss = {
+                showDatePickerDialog.value = false
+            },
+            onDateSelected = {
+                date.value = it
+            }
+        )
+    }
     ConstraintLayout(
         modifier
             .fillMaxSize()
             .background(Background)
     ) {
         val (cardInfoStaff, cardTime) = createRefs()
-        ElevatedCard(elevation = CardDefaults.cardElevation(
-            defaultElevation = 8.dp
-        ), shape = MaterialTheme.shapes.medium, modifier = Modifier.constrainAs(cardInfoStaff) {
-            top.linkTo(parent.top, 32.dp)
-            start.linkTo(parent.start, 16.dp)
-            end.linkTo(parent.end, 16.dp)
-            width = Dimension.fillToConstraints
-        }
-        ) {
-            Column(
-                horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.SpaceEvenly,
-                modifier = Modifier.fillMaxWidth()
-            ) {
-                AsyncImage(
-                    model = flowMainViewModel.currentStaff.image_url,
-                    contentDescription = null,
-                    modifier = Modifier
-                        .height(150.dp)
-                        .size(150.dp)
-                        .padding(top = 24.dp)
-                )
-                Spacer(modifier = Modifier.height(16.dp))
-                Text(
-                    fontSize = 30.sp, text = flowMainViewModel.currentStaff.nombre
-                )
-                Text(
-                    fontSize = 30.sp, text = flowMainViewModel.sucursal.name
-                )
-                Text(
-                    fontSize = 30.sp, text = flowMainViewModel.listOfServices[0].name
-                )
-                Text(
-                    fontSize = 30.sp,
-                    text = flowMainViewModel.listOfServices[0].precio.toString(),
-                    modifier = Modifier.padding(bottom = 8.dp)
-                )
+        ElevatedCard(
+            elevation = CardDefaults.cardElevation(
+                defaultElevation = 8.dp
+            ),
+            shape = MaterialTheme.shapes.medium,
+            modifier = Modifier.constrainAs(cardInfoStaff) {
+                top.linkTo(parent.top, 32.dp)
+                start.linkTo(parent.start, 16.dp)
+                end.linkTo(parent.end, 16.dp)
+                width = Dimension.fillToConstraints
             }
+        ) {
+            StaffInfo(flowMainViewModel = flowMainViewModel)
         }
         OutlinedCard(
             shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
@@ -128,9 +138,15 @@ fun ScheduleScreenContent(modifier: Modifier = Modifier, flowMainViewModel: Flow
                 verticalArrangement = Arrangement.SpaceEvenly,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                InputDate()
-                InputTime()
-                NextButton {}
+                InputDate(currentDate = date.value) {
+                    showDatePickerDialog.value = true
+                }
+                InputTime(currentTime = myTime.value) {
+                    showTimePickerDialog.value = true
+                }
+                NextButton {
+                    goToConfirmationScreen.invoke()
+                }
             }
 
         }
@@ -139,10 +155,47 @@ fun ScheduleScreenContent(modifier: Modifier = Modifier, flowMainViewModel: Flow
 
 
 @Composable
-fun InputDate() {
+fun StaffInfo(flowMainViewModel: FlowMainViewModel) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceEvenly,
+        modifier = Modifier.fillMaxWidth()
+    ) {
+        AsyncImage(
+            model = flowMainViewModel.currentStaff.image_url,
+            contentDescription = "imageStaff",
+            modifier = Modifier
+                .height(150.dp)
+                .size(150.dp)
+                .padding(top = 24.dp)
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            fontSize = 30.sp, text = flowMainViewModel.currentStaff.nombre
+        )
+        Text(
+            fontSize = 30.sp, text = flowMainViewModel.sucursal.name
+        )
+        Text(
+            fontSize = 30.sp, text = flowMainViewModel.listOfServices[0].name
+        )
+        Text(
+            fontSize = 30.sp,
+            text = flowMainViewModel.listOfServices[0].precio.toString(),
+            modifier = Modifier.padding(bottom = 8.dp)
+        )
+    }
+}
+
+
+@Composable
+fun InputDate(
+    currentDate: String,
+    clickOnIcon: () -> Unit
+) {
     TextField(
         enabled = false,
-        value = "",
+        value = currentDate,
         onValueChange = {
 
         },
@@ -153,7 +206,7 @@ fun InputDate() {
             Icon(imageVector = Icons.Default.CalendarToday,
                 contentDescription = null,
                 modifier = Modifier.clickable {
-
+                    clickOnIcon.invoke()
                 }
             )
         }
@@ -161,10 +214,13 @@ fun InputDate() {
 }
 
 @Composable
-fun InputTime() {
+fun InputTime(
+    currentTime: String,
+    clickOnIconTime: () -> Unit
+) {
     TextField(modifier = Modifier.clickable { },
         enabled = false,
-        value = "myTime",
+        value = currentTime,
         onValueChange = {
 
         },
@@ -173,7 +229,7 @@ fun InputTime() {
             Icon(imageVector = Icons.Default.AccessTime,
                 contentDescription = null,
                 modifier = Modifier.clickable {
-
+                    clickOnIconTime()
                 }
             )
         }
@@ -194,5 +250,8 @@ fun NextButton(goToConfirmationScreen: () -> Unit) {
 @Composable
 @Preview(showBackground = true)
 fun ScheduleScreenContentPreview(modifier: Modifier = Modifier) {
-    ScheduleScreenContent(flowMainViewModel = FlowMainViewModel())
+    ScheduleScreenContent(
+        flowMainViewModel = FlowMainViewModel(),
+        goToConfirmationScreen = {}
+    )
 }

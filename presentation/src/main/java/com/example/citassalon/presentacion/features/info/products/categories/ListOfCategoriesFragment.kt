@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.info.productos.categories
+package com.example.citassalon.presentacion.features.info.products.categories
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -28,8 +28,6 @@ import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
 import com.example.citassalon.presentacion.features.extensions.GenericResultState
-import com.example.citassalon.presentacion.features.extensions.fromJson
-import com.example.citassalon.presentacion.features.extensions.navigate
 import com.example.citassalon.presentacion.features.info.stores.StoresFragment
 import com.example.citassalon.presentacion.features.info.stores.StoresFragment.Companion.DUMMY_JSON
 import com.example.citassalon.presentacion.features.info.stores.StoresFragment.Companion.FAKE_STORE

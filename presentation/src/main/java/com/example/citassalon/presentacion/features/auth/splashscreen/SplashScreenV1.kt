@@ -73,7 +73,7 @@ fun SplashScreenV1(
                 if (isActiveSession) {
                     goToScheduleNav.invoke()
                 } else {
-                    navController.navigate(AuthScreens.LoginScreen.route)
+                    navController.navigate(AuthScreens.Login.route)
                 }
             }
         }

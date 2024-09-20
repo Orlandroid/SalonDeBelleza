@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.info.productos.detalleproducto
+package com.example.citassalon.presentacion.features.info.products.detalleproducto
 
 import android.annotation.SuppressLint
 import android.os.Bundle
@@ -36,7 +36,6 @@ import coil.compose.AsyncImage
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
 import com.example.citassalon.presentacion.features.base.BaseFragment
-import com.example.citassalon.presentacion.features.extensions.fromJson
 import com.example.citassalon.presentacion.features.theme.AlwaysBlack
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.entities.remote.Product

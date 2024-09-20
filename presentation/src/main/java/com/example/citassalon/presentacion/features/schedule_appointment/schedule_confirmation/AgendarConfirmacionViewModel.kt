@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.confirmarcita
+package com.example.citassalon.presentacion.features.schedule_appointment.schedule_confirmation
 
 import android.util.Log
 import androidx.lifecycle.ViewModel

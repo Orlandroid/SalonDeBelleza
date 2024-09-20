@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.info.productos.productos
+package com.example.citassalon.presentacion.features.info.products.products
 
 import android.graphics.Bitmap
 import android.os.Bundle
@@ -47,10 +47,8 @@ import com.example.citassalon.databinding.FragmentGenericBindingBinding
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.components.ButtonWithIcon
 import com.example.citassalon.presentacion.features.extensions.GenericResultState
-import com.example.citassalon.presentacion.features.extensions.navigate
 import com.example.citassalon.presentacion.features.extensions.showSuccessMessage
 import com.example.citassalon.presentacion.features.extensions.toBase64
-import com.example.citassalon.presentacion.features.extensions.toJson
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.citassalon.presentacion.interfaces.ClickOnItem

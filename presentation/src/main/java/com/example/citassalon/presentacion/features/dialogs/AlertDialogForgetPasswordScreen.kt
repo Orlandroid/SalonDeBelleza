@@ -86,7 +86,7 @@ fun AlertDialogForgetPasswordContent(
                         onDismissRequest.invoke()
                     })
         }
-        SmallSpacer(orientation = Orientation.HORIZONTAL)
+        SmallSpacer(orientation = Orientation.VERTICAL)
         Text(
             text = stringResource(id = R.string.olvidaste_contraseña),
             fontSize = 16.sp,
@@ -94,7 +94,7 @@ fun AlertDialogForgetPasswordContent(
             modifier = Modifier.wrapContentWidth()
         )
         InputEmail(userEmail)
-        SmallSpacer(orientation = Orientation.HORIZONTAL)
+        SmallSpacer(orientation = Orientation.VERTICAL)
         Button(enabled = isEnableButton.value, onClick = {}) {
             Text(text = stringResource(id = R.string.reset_password))
         }

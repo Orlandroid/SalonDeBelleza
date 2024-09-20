@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.info.establecimiento
+package com.example.citassalon.presentacion.features.info.establishing
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -25,7 +25,6 @@ import com.example.citassalon.databinding.FragmentGenericBindingBinding
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
-import com.example.citassalon.presentacion.features.extensions.navigate
 import com.example.citassalon.presentacion.features.theme.Background
 
 

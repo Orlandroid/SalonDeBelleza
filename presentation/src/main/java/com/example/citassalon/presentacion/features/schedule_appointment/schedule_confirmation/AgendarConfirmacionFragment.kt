@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.confirmarcita
+package com.example.citassalon.presentacion.features.schedule_appointment.schedule_confirmation
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -38,18 +38,12 @@ import androidx.fragment.app.viewModels
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
 import com.example.citassalon.presentacion.features.base.BaseFragment
-import com.example.citassalon.presentacion.features.extensions.navigate
-import com.example.citassalon.presentacion.features.extensions.toJson
-import com.example.citassalon.presentacion.features.flow_main.FlowMainViewModel
 import com.example.citassalon.presentacion.features.theme.AlwaysBlack
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.citassalon.presentacion.interfaces.ListenerAlertDialogWithButtons
 import com.example.citassalon.presentacion.util.AlertsDialogMessages
-import com.example.domain.mappers.toAppointmentObject
-import com.example.domain.perfil.AppointmentFirebase
 import dagger.hilt.android.AndroidEntryPoint
-import java.util.UUID
 
 @AndroidEntryPoint
 class AgendarConfirmacionFragment :
