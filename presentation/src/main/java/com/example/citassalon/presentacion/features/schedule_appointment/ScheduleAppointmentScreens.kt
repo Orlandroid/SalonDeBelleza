@@ -7,4 +7,5 @@ sealed class ScheduleAppointmentScreens(val route: String) {
     data object DetailStaff : ScheduleAppointmentScreens("detail_staff")
     data object Services : ScheduleAppointmentScreens("services")
     data object Schedule : ScheduleAppointmentScreens("schedule")
+    data object ScheduleConfirmation : ScheduleAppointmentScreens("schedule_confirmation")
 }

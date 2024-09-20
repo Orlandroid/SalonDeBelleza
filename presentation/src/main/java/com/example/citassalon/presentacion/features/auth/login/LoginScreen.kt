@@ -281,7 +281,7 @@ fun LoginButton(
 }
 
 @Composable
-fun TextOr(modifier: Modifier = Modifier) {
+private fun TextOr(modifier: Modifier = Modifier) {
     Row(
         verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(8.dp)
     ) {

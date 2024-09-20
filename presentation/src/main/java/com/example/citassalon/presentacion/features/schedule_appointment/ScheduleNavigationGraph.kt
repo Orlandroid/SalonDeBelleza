@@ -11,6 +11,7 @@ import com.example.citassalon.presentacion.features.schedule_appointment.branch.
 import com.example.citassalon.presentacion.features.schedule_appointment.detail_staff.DetailStaffScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.home.HomeScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.schedule.ScheduleScreen
+import com.example.citassalon.presentacion.features.schedule_appointment.schedule_confirmation.ScheduleConfirmationScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.service.ServiceScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.staff.ScheduleStaffScreen
 
@@ -42,7 +43,8 @@ fun NavGraphBuilder.scheduleNavigationGraph(
         composable(route = ScheduleAppointmentScreens.DetailStaff.route) {
             val mainViewModel = it.sharedViewModel<FlowMainViewModel>(navController = navController)
             DetailStaffScreen(
-                navController = navController, currentStaff = mainViewModel.currentStaff
+                navController = navController,
+                currentStaff = mainViewModel.currentStaff
             )
         }
         composable(route = ScheduleAppointmentScreens.Services.route) {
@@ -52,6 +54,13 @@ fun NavGraphBuilder.scheduleNavigationGraph(
         composable(route = ScheduleAppointmentScreens.Schedule.route) {
             val mainViewModel = it.sharedViewModel<FlowMainViewModel>(navController = navController)
             ScheduleScreen(flowMainViewModel = mainViewModel, navController = navController)
+        }
+        composable(route = ScheduleAppointmentScreens.ScheduleConfirmation.route) {
+            val mainViewModel = it.sharedViewModel<FlowMainViewModel>(navController = navController)
+            ScheduleConfirmationScreen(
+                navController = navController,
+                flowMainViewModel = mainViewModel
+            )
         }
     }
 }
