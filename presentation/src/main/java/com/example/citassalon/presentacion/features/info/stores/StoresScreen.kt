@@ -24,6 +24,7 @@ import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
+import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
 import com.example.citassalon.presentacion.features.info.stores.StoresFragment.Companion.DUMMY_JSON
 import com.example.citassalon.presentacion.features.info.stores.StoresFragment.Companion.FAKE_STORE
 import com.example.citassalon.presentacion.features.info.stores.StoresFragment.Store
@@ -32,12 +33,17 @@ import kotlin.random.Random
 @Composable
 fun StoresScreen(navController: NavController) {
     BaseComposeScreen(navController = navController) {
-        StoresScreenContent()
+        StoresScreenContent {
+            navController.navigate(InfoNavigationScreens.Categories.route)
+        }
     }
 }
 
 @Composable
-fun StoresScreenContent(modifier: Modifier = Modifier) {
+fun StoresScreenContent(
+    modifier: Modifier = Modifier,
+    goToCategories: () -> Unit
+) {
     Column(
         modifier.fillMaxSize(),
         horizontalAlignment = Alignment.CenterHorizontally
@@ -51,7 +57,7 @@ fun StoresScreenContent(modifier: Modifier = Modifier) {
             iterations = LottieConstants.IterateForever,
         )
         StoresMenu {
-
+            goToCategories.invoke()
         }
     }
 }
@@ -97,5 +103,5 @@ private fun setAnimation(): Int {
 @Composable
 @Preview(showBackground = true)
 fun StoresScreenContentPreview(modifier: Modifier = Modifier) {
-    StoresScreenContent()
+    StoresScreenContent(goToCategories = {})
 }

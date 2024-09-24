@@ -42,7 +42,8 @@ class ListOfCategoriesFragment :
     ClickOnItem<String> {
 
     private val viewModel: ListOfCategoriesViewModel by viewModels()
-//    private val args: ListOfCategoriesFragmentArgs by navArgs()
+
+    //    private val args: ListOfCategoriesFragmentArgs by navArgs()
     private var currentStore: StoresFragment.Store? = null
 
 //    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
@@ -128,6 +129,11 @@ class ListOfCategoriesFragment :
 
                 DUMMY_JSON -> {
                     viewModel.getCategoriesDummyJson()
+                }
+
+                else -> {
+
+
                 }
             }
         }

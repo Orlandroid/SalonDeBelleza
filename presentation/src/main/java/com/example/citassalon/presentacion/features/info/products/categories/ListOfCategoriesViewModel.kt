@@ -33,27 +33,25 @@ class ListOfCategoriesViewModel @Inject constructor(
     val categoriesResponse: LiveData<ApiState<List<String>>> get() = _categoriesResponse
 
 
-    fun getCategoriesFakeStore() {
-        viewModelScope.launch(Dispatchers.IO) {
-            safeApiCall(_categories, coroutineDispatchers) {
-                delay(3000)
-                val response = repository.getCategories()
-                withContext(Dispatchers.Main) {
-                    _categories.value = ApiState.Success(response)
-                }
+    fun getCategoriesFakeStore() = viewModelScope.launch(Dispatchers.IO) {
+        safeApiCall(_categories, coroutineDispatchers) {
+            delay(3000)
+            val response = repository.getCategories()
+            withContext(Dispatchers.Main) {
+                _categories.value = ApiState.Success(response)
             }
         }
     }
 
-    fun getCategoriesDummyJson() {
-        viewModelScope.launch {
-            safeApiCall(_categoriesResponse, coroutineDispatchers) {
-                val response = productsRepository.getCategories()
-                withContext(Dispatchers.Main) {
-                    _categoriesResponse.value = ApiState.Success(response)
-                }
+
+    fun getCategoriesDummyJson() = viewModelScope.launch {
+        safeApiCall(_categoriesResponse, coroutineDispatchers) {
+            val response = productsRepository.getCategories()
+            withContext(Dispatchers.Main) {
+                _categoriesResponse.value = ApiState.Success(response)
             }
         }
     }
+
 
 }
