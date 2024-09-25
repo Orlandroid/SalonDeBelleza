@@ -6,4 +6,5 @@ sealed class InfoNavigationScreens(val route: String) {
     data object Branches : InfoNavigationScreens("branches")
     data object Categories : InfoNavigationScreens("categories")
     data object Products : InfoNavigationScreens("products")
+    data object Cart : InfoNavigationScreens("cart")
 }

@@ -8,6 +8,7 @@ import androidx.navigation.navigation
 import com.example.citassalon.presentacion.features.app_navigation.AppNavigationRoutes
 import com.example.citassalon.presentacion.features.extensions.sharedViewModel
 import com.example.citassalon.presentacion.features.flow_main.FlowMainViewModel
+import com.example.citassalon.presentacion.features.info.cart.CartScreen
 import com.example.citassalon.presentacion.features.info.establishing.EstablishingScreen
 import com.example.citassalon.presentacion.features.info.products.categories.CategoriesScreen
 import com.example.citassalon.presentacion.features.info.products.products.ProductsScreen
@@ -35,6 +36,9 @@ fun NavGraphBuilder.infoNavigationGraph(navController: NavHostController) {
         }
         composable(route = InfoNavigationScreens.Products.route) {
             ProductsScreen(navController = navController)
+        }
+        composable(route = InfoNavigationScreens.Cart.route) {
+            CartScreen(navController = navController)
         }
     }
 }
