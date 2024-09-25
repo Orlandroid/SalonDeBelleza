@@ -182,19 +182,19 @@ fun clickOnItem(
 ) {
     when (itemProfile.menu) {
         MENU.PROFILE -> {
-            navController.navigate(ProfileNavigationScreen.UserProfile.route)
+            navController.navigate(ProfileNavigationScreen.UserProfileRoute)
         }
 
         MENU.HISTORY -> {
-            navController.navigate(ProfileNavigationScreen.AppointmentHistory.route)
+            navController.navigate(ProfileNavigationScreen.AppointmentHistoryRoute)
         }
 
         MENU.CONTACTS -> {
-            navController.navigate(ProfileNavigationScreen.Contacts.route)
+            navController.navigate(ProfileNavigationScreen.ContactsRoute)
         }
 
         MENU.TERMS_AND_CONDITIONS -> {
-            navController.navigate(ProfileNavigationScreen.TermsAndConditions.route)
+            navController.navigate(ProfileNavigationScreen.TermsAndConditionsRoute)
         }
 
         MENU.CLOSE_SESSION -> {

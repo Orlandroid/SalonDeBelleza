@@ -14,18 +14,18 @@ fun AppNavigation() {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
-        startDestination = AppNavigationRoutes.AuthNavigation.route
+        startDestination = AppNavigationRoutes.AuthNavigationRoute
     ) {
         authNavigationGraph(navController = navController) {
-            navController.navigate(AppNavigationRoutes.ScheduleNavigation.route)
+            navController.navigate(AppNavigationRoutes.ScheduleNavigationRoute)
         }
         scheduleNavigationGraph(
             navController = navController,
             goToInfoNavigation = {
-                navController.navigate(AppNavigationRoutes.InfoNavigation.route)
+                navController.navigate(AppNavigationRoutes.InfoNavigationRoute)
             },
             goToProfileNavigation = {
-                navController.navigate(AppNavigationRoutes.ProfileNavigation.route)
+                navController.navigate(AppNavigationRoutes.ProfileNavigationRoute)
             }
         )
         infoNavigationGraph(navController = navController)

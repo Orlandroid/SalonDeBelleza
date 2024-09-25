@@ -25,7 +25,6 @@ import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -46,7 +45,6 @@ import com.example.citassalon.presentacion.features.extensions.dateFormat
 import com.example.citassalon.presentacion.features.extensions.getCurrentDateTime
 import com.example.citassalon.presentacion.features.extensions.getHourFormat
 import com.example.citassalon.presentacion.features.extensions.getInitialTime
-import com.example.citassalon.presentacion.features.extensions.timeFormat
 import com.example.citassalon.presentacion.features.extensions.toStringFormat
 import com.example.citassalon.presentacion.features.flow_main.FlowMainViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
@@ -62,7 +60,7 @@ fun ScheduleScreen(
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.agendar_hora))
     ) {
         ScheduleScreenContent(flowMainViewModel = flowMainViewModel) {
-            navController.navigate(ScheduleAppointmentScreens.ScheduleConfirmation.route)
+            navController.navigate(ScheduleAppointmentScreens.ScheduleConfirmationRoute)
         }
     }
 }

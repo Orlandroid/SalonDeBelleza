@@ -17,27 +17,26 @@ import com.example.citassalon.presentacion.features.schedule_appointment.branch.
 
 
 fun NavGraphBuilder.infoNavigationGraph(navController: NavHostController) {
-    navigation(
-        route = AppNavigationRoutes.InfoNavigation.route,
-        startDestination = InfoNavigationScreens.Establishing.route
+    navigation<AppNavigationRoutes.InfoNavigationRoute>(
+        startDestination = EstablishingRoute
     ) {
-        composable(route = InfoNavigationScreens.Establishing.route) {
+        composable<EstablishingRoute> {
             EstablishingScreen(navController = navController)
         }
-        composable(route = InfoNavigationScreens.Stores.route) {
+        composable<StoresRoute> {
             StoresScreen(navController = navController)
         }
-        composable(route = InfoNavigationScreens.Branches.route) {
+        composable<BranchesRoute> {
             val mainViewModel = it.sharedViewModel<FlowMainViewModel>(navController = navController)
             BranchesScreen(navController = navController, mainViewModel = mainViewModel)
         }
-        composable(route = InfoNavigationScreens.Categories.route) {
+        composable<CategoriesRoute> {
             CategoriesScreen(navController = navController)
         }
-        composable(route = InfoNavigationScreens.Products.route) {
+        composable<ProductsRoute> {
             ProductsScreen(navController = navController)
         }
-        composable(route = InfoNavigationScreens.Cart.route) {
+        composable<CartRoute> {
             CartScreen(navController = navController)
         }
     }

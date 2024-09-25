@@ -30,7 +30,7 @@ fun ServiceScreen(
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.agendar_servicio))
     ) {
         ServiceScreenContent(modifier = Modifier, mainViewModel = mainViewModel) {
-            navController.navigate(ScheduleAppointmentScreens.Schedule.route)
+            navController.navigate(ScheduleAppointmentScreens.ScheduleRoute)
         }
     }
 }

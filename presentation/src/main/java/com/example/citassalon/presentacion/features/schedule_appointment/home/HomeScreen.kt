@@ -81,7 +81,7 @@ fun HomeScreen(
                 containerColor = AlwaysWhite
             ),
             onClick = {
-                navController.navigate(ScheduleAppointmentScreens.ChoseBranch.route)
+                navController.navigate(ScheduleAppointmentScreens.ChoseBranchRoute)
             },
             modifier = Modifier
                 .constrainAs(btnSchedule) {

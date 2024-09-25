@@ -147,7 +147,7 @@ fun LoginScreenContent(
             TextOr()
             SignUpButton(
                 onClick = {
-                    navController.navigate(AuthScreens.SingUp.route)
+                    navController.navigate(AuthScreens.SingUpRoute)
                 }
             )
             GoogleButton()

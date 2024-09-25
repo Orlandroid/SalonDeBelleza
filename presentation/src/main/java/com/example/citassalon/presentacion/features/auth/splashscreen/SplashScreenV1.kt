@@ -20,7 +20,7 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavController
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.auth.AuthScreens
+import com.example.citassalon.presentacion.features.auth.AuthScreens.LoginRoute
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.theme.StatusBarColor
@@ -73,7 +73,7 @@ fun SplashScreenV1(
                 if (isActiveSession) {
                     goToScheduleNav.invoke()
                 } else {
-                    navController.navigate(AuthScreens.Login.route)
+                    navController.navigate(LoginRoute)
                 }
             }
         }

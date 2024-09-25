@@ -30,6 +30,7 @@ plugins {
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
     id("com.google.gms.google-services")
+    kotlin("plugin.serialization")
 }
 
 android {
@@ -139,5 +140,6 @@ dependencies {
     implementation("com.github.a914-gowtham:compose-ratingbar:1.3.4")
     implementation("androidx.compose.ui:ui-tooling:1.7.2")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6")
+    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
     implementation("androidx.navigation:navigation-compose:2.8.0")
 }

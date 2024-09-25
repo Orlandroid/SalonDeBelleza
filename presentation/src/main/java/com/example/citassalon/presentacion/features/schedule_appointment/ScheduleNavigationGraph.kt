@@ -21,41 +21,40 @@ fun NavGraphBuilder.scheduleNavigationGraph(
     goToInfoNavigation: () -> Unit,
     goToProfileNavigation: () -> Unit
 ) {
-    navigation(
-        route = AppNavigationRoutes.ScheduleNavigation.route,
-        startDestination = ScheduleAppointmentScreens.Home.route
+    navigation<AppNavigationRoutes.ScheduleNavigationRoute>(
+        startDestination = ScheduleAppointmentScreens.HomeRoute
     ) {
-        composable(route = ScheduleAppointmentScreens.Home.route) {
+        composable<ScheduleAppointmentScreens.HomeRoute> {
             HomeScreen(
                 navController = navController,
                 goToInfoNavigation = goToInfoNavigation,
                 goToProfileNavigation = goToProfileNavigation
             )
         }
-        composable(route = ScheduleAppointmentScreens.ChoseBranch.route) {
+        composable<ScheduleAppointmentScreens.ChoseBranchRoute> {
             val mainViewModel = it.sharedViewModel<FlowMainViewModel>(navController = navController)
             BranchesScreen(navController = navController, mainViewModel = mainViewModel)
         }
-        composable(route = ScheduleAppointmentScreens.ScheduleStaff.route) {
+        composable<ScheduleAppointmentScreens.ScheduleStaffRoute> {
             val mainViewModel = it.sharedViewModel<FlowMainViewModel>(navController = navController)
             ScheduleStaffScreen(navController = navController, mainViewModel = mainViewModel)
         }
-        composable(route = ScheduleAppointmentScreens.DetailStaff.route) {
+        composable<ScheduleAppointmentScreens.DetailStaffRoute> {
             val mainViewModel = it.sharedViewModel<FlowMainViewModel>(navController = navController)
             DetailStaffScreen(
                 navController = navController,
                 currentStaff = mainViewModel.currentStaff
             )
         }
-        composable(route = ScheduleAppointmentScreens.Services.route) {
+        composable<ScheduleAppointmentScreens.ServicesRoute> {
             val mainViewModel = it.sharedViewModel<FlowMainViewModel>(navController = navController)
             ServiceScreen(mainViewModel = mainViewModel, navController = navController)
         }
-        composable(route = ScheduleAppointmentScreens.Schedule.route) {
+        composable<ScheduleAppointmentScreens.ScheduleRoute> {
             val mainViewModel = it.sharedViewModel<FlowMainViewModel>(navController = navController)
             ScheduleScreen(flowMainViewModel = mainViewModel, navController = navController)
         }
-        composable(route = ScheduleAppointmentScreens.ScheduleConfirmation.route) {
+        composable<ScheduleAppointmentScreens.ScheduleConfirmationRoute> {
             val mainViewModel = it.sharedViewModel<FlowMainViewModel>(navController = navController)
             ScheduleConfirmationScreen(
                 navController = navController,

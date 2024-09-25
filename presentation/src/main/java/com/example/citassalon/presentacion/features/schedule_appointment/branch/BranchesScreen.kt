@@ -61,7 +61,7 @@ fun BranchesScreenContent(
     ) {
         ShowBranches(branches = branches,
             navigateToBranchesScreen = {
-                navController.navigate(ScheduleAppointmentScreens.ScheduleStaff.route)
+                navController.navigate(ScheduleAppointmentScreens.ScheduleStaffRoute)
             },
             currentBranch = { chosenBranch ->
                 mainViewModel.let {

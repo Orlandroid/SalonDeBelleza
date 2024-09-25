@@ -1,11 +1,27 @@
 package com.example.citassalon.presentacion.features.schedule_appointment
 
-sealed class ScheduleAppointmentScreens(val route: String) {
-    data object Home : ScheduleAppointmentScreens("home")
-    data object ChoseBranch : ScheduleAppointmentScreens("chose_branch")
-    data object ScheduleStaff : ScheduleAppointmentScreens("schedule_staff")
-    data object DetailStaff : ScheduleAppointmentScreens("detail_staff")
-    data object Services : ScheduleAppointmentScreens("services")
-    data object Schedule : ScheduleAppointmentScreens("schedule")
-    data object ScheduleConfirmation : ScheduleAppointmentScreens("schedule_confirmation")
+import kotlinx.serialization.Serializable
+
+sealed class ScheduleAppointmentScreens {
+    @Serializable
+    data object HomeRoute
+
+    @Serializable
+    data object ChoseBranchRoute
+
+    @Serializable
+    data object ScheduleStaffRoute
+
+    @Serializable
+    data object DetailStaffRoute
+
+    @Serializable
+    data object ServicesRoute
+
+    @Serializable
+    data object ScheduleRoute
+
+    @Serializable
+    data object ScheduleConfirmationRoute
 }
+

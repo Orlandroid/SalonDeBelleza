@@ -37,10 +37,10 @@ fun ScheduleStaffScreen(
         ScheduleStaffScreenContent(
             mainViewModel = mainViewModel,
             navigateToDetailScreen = {
-                navController.navigate(ScheduleAppointmentScreens.DetailStaff.route)
+                navController.navigate(ScheduleAppointmentScreens.DetailStaffRoute)
             },
             navigateToServicesScreen = {
-                navController.navigate(ScheduleAppointmentScreens.Services.route)
+                navController.navigate(ScheduleAppointmentScreens.ServicesRoute)
             }
         )
     }

@@ -12,17 +12,16 @@ import com.example.citassalon.presentacion.features.profile.userprofile.UserProf
 
 
 fun NavGraphBuilder.profileNavigationGraph(navController: NavHostController) {
-    navigation(
-        route = AppNavigationRoutes.ProfileNavigation.route,
-        startDestination = ProfileNavigationScreen.Profile.route
+    navigation<AppNavigationRoutes.ProfileNavigationRoute>(
+        startDestination = ProfileNavigationScreen.ProfileRoute
     ) {
-        composable(route = ProfileNavigationScreen.Profile.route) {
+        composable<ProfileNavigationScreen.ProfileRoute> {
             ProfileScreen(navController = navController)
         }
-        composable(route = ProfileNavigationScreen.UserProfile.route) {
+        composable<ProfileNavigationScreen.UserProfileRoute> {
             UserProfileScreen(navController = navController)
         }
-        composable(route = ProfileNavigationScreen.AppointmentHistory.route) {
+        composable<ProfileNavigationScreen.AppointmentHistoryRoute> {
             AppointmentHistoryScreen(navController = navController)
         }
     }
