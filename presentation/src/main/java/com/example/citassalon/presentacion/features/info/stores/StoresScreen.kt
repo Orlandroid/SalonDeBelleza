@@ -34,7 +34,7 @@ import kotlin.random.Random
 fun StoresScreen(navController: NavController) {
     BaseComposeScreen(navController = navController) {
         StoresScreenContent {
-            navController.navigate(InfoNavigationScreens.Categories.route)
+            navController.navigate(InfoNavigationScreens.CategoriesRoute)
         }
     }
 }

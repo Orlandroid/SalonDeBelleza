@@ -29,6 +29,7 @@ import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.extensions.base64StringToBitmap
+import com.example.citassalon.presentacion.features.extensions.getUserMoneyFormat
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.citassalon.presentacion.interfaces.ClickOnItem
@@ -91,8 +92,8 @@ class CartFragment : BaseFragment<FragmentGenericBindingBinding>(R.layout.fragme
         ) {
             val (content, list) = createRefs()
             LazyColumn(modifier = Modifier.constrainAs(list) {
-
-            }) {
+            }
+            ) {
                 allProducts.value?.let { listProducts ->
                     if (listProducts.isNotEmpty()) {
                         listProducts.forEach { product ->

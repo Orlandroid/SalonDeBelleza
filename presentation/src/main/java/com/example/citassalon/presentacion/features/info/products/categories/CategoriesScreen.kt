@@ -17,6 +17,9 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
@@ -36,11 +39,13 @@ fun CategoriesScreen(
     navController: NavController,
     viewmodel: ListOfCategoriesViewModel = hiltViewModel()
 ) {
+    val lifecycleOwner = LocalLifecycleOwner.current
     val categories = viewmodel.categories.observeAsState()
-    val categoriesDummyjson =
-        viewmodel.categoriesResponse.observeAsState()//we need to add one parameters from navigation
-    LaunchedEffect(true) {
-        viewmodel.getCategoriesFakeStore()
+    val categoriesDummyjson = viewmodel.categoriesResponse.observeAsState()//we need to add one parameters from navigation
+    LaunchedEffect(categories.value) {
+        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
+            viewmodel.getCategoriesFakeStore()
+        }
     }
     BaseComposeScreen(
         navController = navController,
@@ -49,8 +54,8 @@ fun CategoriesScreen(
         CategoriesScreenContent(
             categories = categories.value?.data ?: emptyList(),
             store = StoresFragment.Store(FAKE_STORE)
-        ) {
-            navController.navigate(InfoNavigationScreens.Products.route)
+        ) { chosenCategory ->
+            navController.navigate(InfoNavigationScreens.ProductsRoute(category = chosenCategory))
         }
     }
 }
@@ -60,7 +65,7 @@ fun CategoriesScreenContent(
     modifier: Modifier = Modifier,
     categories: List<String>,
     store: StoresFragment.Store,
-    goToProductsScreen: () -> Unit
+    goToProductsScreen: (category: String) -> Unit
 ) {
     Column(
         modifier
@@ -80,8 +85,8 @@ fun CategoriesScreenContent(
         store.let { store ->
             when (store.name) {
                 FAKE_STORE -> {
-                    ShowCategories(categories = categories) {
-                        goToProductsScreen()
+                    ShowCategories(categories = categories) { category ->
+                        goToProductsScreen(category)
                     }
                 }
 
@@ -95,7 +100,10 @@ fun CategoriesScreenContent(
 }
 
 @Composable
-private fun ShowCategories(categories: List<String>, goToProductsScreen: () -> Unit) {
+private fun ShowCategories(
+    categories: List<String>,
+    goToProductsScreen: (category: String) -> Unit
+) {
     LazyColumn {
         categories.forEach { category ->
             item {
@@ -103,7 +111,7 @@ private fun ShowCategories(categories: List<String>, goToProductsScreen: () -> U
                     TextWithArrowConfig(
                         text = category,
                         clickOnItem = {
-                            goToProductsScreen.invoke()
+                            goToProductsScreen(category)
                         }
                     )
                 )

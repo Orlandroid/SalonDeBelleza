@@ -42,24 +42,27 @@ import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.ButtonWithIcon
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
+import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.entities.remote.Product
 
 @Composable
 fun ProductsScreen(
-    navController: NavController, productsViewModel: ProductsViewModel = hiltViewModel()
+    navController: NavController,
+    category: String,
+    productsViewModel: ProductsViewModel = hiltViewModel()
 ) {
     val products = productsViewModel.products.observeAsState()
     LaunchedEffect(Unit) {
-        productsViewModel.getProducts("electronics")
+        productsViewModel.getProducts(category)
     }
     BaseComposeScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.productos))
     ) {
         ProductsScreenContent(products = products.value?.data) {
-
+            navController.navigate(InfoNavigationScreens.CartRoute)
         }
     }
 

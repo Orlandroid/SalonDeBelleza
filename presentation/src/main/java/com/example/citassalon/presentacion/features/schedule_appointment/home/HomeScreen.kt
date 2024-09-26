@@ -1,5 +1,7 @@
 package com.example.citassalon.presentacion.features.schedule_appointment.home
 
+import android.app.Activity
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,6 +12,7 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
@@ -22,6 +25,7 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import com.example.citassalon.R
+import com.example.citassalon.presentacion.features.app_navigation.MainActivityCompose
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
 import com.example.citassalon.presentacion.features.theme.AlwaysBlack
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
@@ -34,6 +38,10 @@ fun HomeScreen(
     goToInfoNavigation: () -> Unit,
     goToProfileNavigation: () -> Unit
 ) {
+    val activity = LocalContext.current as Activity
+    BackHandler {
+        (activity as MainActivityCompose).finish()
+    }
     ConstraintLayout(
         Modifier
             .fillMaxSize()
@@ -64,7 +72,8 @@ fun HomeScreen(
                 height = Dimension.fillToConstraints
                 width = Dimension.fillToConstraints
                 bottom.linkTo(myGuideline, 24.dp)
-            })
+            }
+        )
         Text(
             fontSize = 30.sp,
             text = stringResource(id = R.string.app_name),
@@ -75,7 +84,8 @@ fun HomeScreen(
                 bottom.linkTo(btnSchedule.top)
                 width = Dimension.wrapContent
                 height = Dimension.wrapContent
-            })
+            }
+        )
         OutlinedButton(
             colors = ButtonDefaults.buttonColors(
                 containerColor = AlwaysWhite

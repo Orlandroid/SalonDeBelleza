@@ -35,10 +35,10 @@ fun EstablishingScreen(
         EstablishingScreenContent(
             modifier = modifier,
             navigateToStore = {
-                navController.navigate(InfoNavigationScreens.Stores.route)
+                navController.navigate(InfoNavigationScreens.StoresRoute)
             },
             navigateToBranches = {
-                navController.navigate(InfoNavigationScreens.Branches.route)
+                navController.navigate(InfoNavigationScreens.BranchesRoute)
             }
         )
     }

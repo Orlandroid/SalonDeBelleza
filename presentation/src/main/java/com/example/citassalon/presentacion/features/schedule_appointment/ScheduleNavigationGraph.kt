@@ -14,6 +14,7 @@ import com.example.citassalon.presentacion.features.schedule_appointment.schedul
 import com.example.citassalon.presentacion.features.schedule_appointment.schedule_confirmation.ScheduleConfirmationScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.service.ServiceScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.staff.ScheduleStaffScreen
+import com.example.citassalon.presentacion.features.schedule_appointment.branch.Flow
 
 
 fun NavGraphBuilder.scheduleNavigationGraph(
@@ -33,7 +34,11 @@ fun NavGraphBuilder.scheduleNavigationGraph(
         }
         composable<ScheduleAppointmentScreens.ChoseBranchRoute> {
             val mainViewModel = it.sharedViewModel<FlowMainViewModel>(navController = navController)
-            BranchesScreen(navController = navController, mainViewModel = mainViewModel)
+            BranchesScreen(
+                navController = navController,
+                mainViewModel = mainViewModel,
+                flow = Flow.SCHEDULE_APPOINTMENT
+            )
         }
         composable<ScheduleAppointmentScreens.ScheduleStaffRoute> {
             val mainViewModel = it.sharedViewModel<FlowMainViewModel>(navController = navController)

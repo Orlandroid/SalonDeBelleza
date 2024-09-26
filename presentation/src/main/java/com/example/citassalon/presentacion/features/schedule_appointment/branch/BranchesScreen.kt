@@ -20,6 +20,7 @@ import com.example.citassalon.presentacion.features.components.TextWithArrowConf
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.flow_main.FlowMainViewModel
+import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
 import com.example.citassalon.presentacion.features.share_beetwen_sucursales.BranchViewModel
 import com.example.citassalon.presentacion.features.theme.Background
@@ -30,7 +31,8 @@ import com.example.domain.state.ApiState
 fun BranchesScreen(
     navController: NavController,
     mainViewModel: FlowMainViewModel,
-    branchViewModel: BranchViewModel = hiltViewModel()
+    branchViewModel: BranchViewModel = hiltViewModel(),
+    flow: Flow,
 ) {
     val branchesState = branchViewModel.branches.observeAsState()
     BaseComposeScreen(
@@ -42,6 +44,7 @@ fun BranchesScreen(
             branches = branchesState,
             navController = navController,
             mainViewModel = mainViewModel,
+            flow = flow
         )
     }
 }
@@ -52,6 +55,7 @@ fun BranchesScreenContent(
     branches: State<ApiState<List<NegoInfo>>?>,
     navController: NavController,
     mainViewModel: FlowMainViewModel,
+    flow: Flow,
 ) {
     Column(
         modifier
@@ -59,9 +63,18 @@ fun BranchesScreenContent(
             .background(Background),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ShowBranches(branches = branches,
-            navigateToBranchesScreen = {
-                navController.navigate(ScheduleAppointmentScreens.ScheduleStaffRoute)
+        ShowBranches(
+            branches = branches,
+            goToNextScreen = {
+                when (flow) {
+                    Flow.SCHEDULE_APPOINTMENT -> {
+                        navController.navigate(ScheduleAppointmentScreens.ScheduleStaffRoute)
+                    }
+
+                    Flow.INFO -> {
+                        navController.navigate(InfoNavigationScreens.BranchInfoRoute)
+                    }
+                }
             },
             currentBranch = { chosenBranch ->
                 mainViewModel.let {
@@ -78,7 +91,7 @@ fun BranchesScreenContent(
 @Composable
 private fun ShowBranches(
     branches: State<ApiState<List<NegoInfo>>?>,
-    navigateToBranchesScreen: () -> Unit,
+    goToNextScreen: () -> Unit,
     currentBranch: (NegoInfo) -> Unit
 ) {
     when (branches.value) {
@@ -91,9 +104,10 @@ private fun ShowBranches(
                 branches.value?.data?.forEach { branch ->
                     item {
                         TextWithArrow(
-                            TextWithArrowConfig(text = branch.sucursal.name,
+                            TextWithArrowConfig(
+                                text = branch.sucursal.name,
                                 clickOnItem = {
-                                    navigateToBranchesScreen.invoke()
+                                    goToNextScreen.invoke()
                                     currentBranch.invoke(branch)
                                 }
                             )

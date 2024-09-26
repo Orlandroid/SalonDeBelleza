@@ -1,6 +1,7 @@
 package com.example.citassalon.presentacion.features.profile
 
 
+import androidx.compose.material3.Text
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -23,6 +24,12 @@ fun NavGraphBuilder.profileNavigationGraph(navController: NavHostController) {
         }
         composable<ProfileNavigationScreen.AppointmentHistoryRoute> {
             AppointmentHistoryScreen(navController = navController)
+        }
+        composable<ProfileNavigationScreen.ContactsRoute> {
+            Text("Contacts")
+        }
+        composable<ProfileNavigationScreen.TermsAndConditionsRoute> {
+            Text("TermsAndConditions")
         }
     }
 }
