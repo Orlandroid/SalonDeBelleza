@@ -24,6 +24,7 @@ class ListOfCategoriesViewModel @Inject constructor(
     networkHelper: NetworkHelper
 ) : BaseViewModel(coroutineDispatchers, networkHelper) {
 
+    var wasCallService = false
 
     private val _categories = MutableLiveData<ApiState<List<String>>>()
     val categories: MutableLiveData<ApiState<List<String>>>

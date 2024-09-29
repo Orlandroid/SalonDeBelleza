@@ -30,7 +30,10 @@ import com.gowtham.ratingbar.RatingBar
 import com.gowtham.ratingbar.RatingBarStyle
 
 @Composable
-fun DetailStaffScreen(navController: NavController, currentStaff: Staff) {
+fun DetailStaffScreen(
+    navController: NavController,
+    currentStaff: Staff
+) {
     BaseComposeScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.detail_staff))

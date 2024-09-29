@@ -9,7 +9,7 @@ import com.example.citassalon.presentacion.features.app_navigation.AppNavigation
 import com.example.citassalon.presentacion.features.auth.login.LoginScreen
 import com.example.citassalon.presentacion.features.auth.login.LoginViewModel
 import com.example.citassalon.presentacion.features.auth.sign_up.SignUpScreen
-import com.example.citassalon.presentacion.features.auth.splashscreen.SplashScreenV1
+import com.example.citassalon.presentacion.features.auth.splashscreen.SplashScreen
 
 
 fun NavGraphBuilder.authNavigationGraph(
@@ -21,7 +21,7 @@ fun NavGraphBuilder.authNavigationGraph(
     ) {
         composable<AuthScreens.SplashRoute> {
             val loginViewModel: LoginViewModel = hiltViewModel()
-            SplashScreenV1(
+            SplashScreen(
                 navController = navController, isActiveSession = loginViewModel.getUserSession()
             ) {
                 goToScheduleNav.invoke()

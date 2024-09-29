@@ -64,7 +64,8 @@ fun EstablishingScreenContent(
                 linkTo(parent.start, parent.end)
                 height = Dimension.wrapContent
                 width = Dimension.wrapContent
-            })
+            }
+        )
         Card(
             Modifier.constrainAs(list) {
                 linkTo(guideline, parent.bottom)

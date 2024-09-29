@@ -45,7 +45,8 @@ fun ScheduleConfirmationScreen(
     navController: NavController, flowMainViewModel: FlowMainViewModel
 ) {
     BaseComposeScreen(
-        navController = navController, toolbarConfiguration = ToolbarConfiguration()
+        navController = navController,
+        toolbarConfiguration = ToolbarConfiguration(title = "Agendar comfirmacion")
     ) {
         ScheduleConfirmationScreenContent(flowMainViewModel = flowMainViewModel)
     }
@@ -54,7 +55,8 @@ fun ScheduleConfirmationScreen(
 
 @Composable
 fun ScheduleConfirmationScreenContent(
-    modifier: Modifier = Modifier, flowMainViewModel: FlowMainViewModel
+    modifier: Modifier = Modifier,
+    flowMainViewModel: FlowMainViewModel
 ) {
     val showConfirmationDialog = remember { mutableStateOf(false) }
     if (showConfirmationDialog.value) {
@@ -123,7 +125,8 @@ private fun ConfirmButton(
 
 @Composable
 private fun ButtonImageAndText(
-    text: String, size: Dp = 24.dp, @DrawableRes iconImage: Int
+    text: String, size: Dp = 24.dp,
+    @DrawableRes iconImage: Int
 ) {
     Card(
         colors = CardDefaults.cardColors(containerColor = AlwaysWhite),

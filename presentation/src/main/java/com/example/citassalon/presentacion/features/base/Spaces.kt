@@ -38,8 +38,8 @@ fun BaseSpacer(orientation: Orientation, size: Dp) {
 
 
 enum class Orientation {
-    VERTICAL,//alto
-    HORIZONTAL//ancho
+    VERTICAL,//height
+    HORIZONTAL//width
 }
 
 

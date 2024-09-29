@@ -108,7 +108,8 @@ fun OurStaffItem(user: User) {
                     start.linkTo(parent.start)
                     width = Dimension.value(100.dp)
                     height = Dimension.value(100.dp)
-                })
+                }
+            )
             Column(verticalArrangement = Arrangement.SpaceAround,
                 modifier = Modifier
                     .padding(start = 8.dp)
@@ -119,17 +120,22 @@ fun OurStaffItem(user: User) {
                         bottom.linkTo(parent.bottom)
                         width = Dimension.fillToConstraints
                         height = Dimension.fillToConstraints
-                    }) {
+                    }
+            ) {
                 Text(
                     text = "${user.firstName} ${user.lastName}",
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = user.email, fontSize = 16.sp, fontWeight = FontWeight.Bold
+                    text = user.email,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = user.address.address, fontSize = 16.sp, fontWeight = FontWeight.Bold
+                    text = user.address.address,
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.Bold
                 )
             }
         }

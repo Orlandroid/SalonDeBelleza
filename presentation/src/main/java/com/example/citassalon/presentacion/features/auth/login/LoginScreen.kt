@@ -1,7 +1,6 @@
 package com.example.citassalon.presentacion.features.auth.login
 
 import android.app.Activity
-import android.util.Log
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -63,7 +62,6 @@ fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
     navigateToScheduleNav: () -> Unit
 ) {
-    //val user and pass android@gmail.com android1234
     val status = viewModel.status.collectAsState()
     val effect = viewModel.effects.collectAsState()
     LoginScreenContent(
@@ -76,16 +74,14 @@ fun LoginScreen(
     LaunchedEffect(effect.value) {
         when (effect.value) {
             LoginUiEffect.GoToSignUp -> {
-
-            }
-
-            LoginUiEffect.Idle -> {
-
+                navController.navigate(AuthScreens.SingUpRoute)
             }
 
             LoginUiEffect.NavigateToHomeScreen -> {
                 navigateToScheduleNav.invoke()
             }
+
+            else -> {}
         }
     }
 }
@@ -147,7 +143,7 @@ fun LoginScreenContent(
             TextOr()
             SignUpButton(
                 onClick = {
-                    navController.navigate(AuthScreens.SingUpRoute)
+                    loginAction(LoginActions.SignUp)
                 }
             )
             GoogleButton()
@@ -182,13 +178,12 @@ fun UserName(modifier: Modifier = Modifier, userName: MutableState<String>) {
         value = userName.value,
         onValueChange = {
             userName.value = it
-            Log.w("DEBUG", userName.value)
         },
         leadingIcon = {
             Icon(Icons.Default.Person, contentDescription = "person")
         },
         label = {
-            Text(text = "username")
+            Text(text = stringResource(R.string.username))
         }
     )
 }
@@ -270,7 +265,7 @@ fun LoginButton(
             .padding(0.dp, 25.dp, 0.dp, 0.dp)
     ) {
         Text(
-            text = "Ingresar",
+            text = stringResource(R.string.ingresar),
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(5.dp),

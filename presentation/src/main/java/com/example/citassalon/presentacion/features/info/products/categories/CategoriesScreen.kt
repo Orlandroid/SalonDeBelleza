@@ -17,9 +17,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.compose.LocalLifecycleOwner
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
@@ -41,9 +39,11 @@ fun CategoriesScreen(
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
     val categories = viewmodel.categories.observeAsState()
-    val categoriesDummyjson = viewmodel.categoriesResponse.observeAsState()//we need to add one parameters from navigation
-    LaunchedEffect(categories.value) {
-        lifecycleOwner.repeatOnLifecycle(Lifecycle.State.CREATED) {
+    val categoriesDummyjson =
+        viewmodel.categoriesResponse.observeAsState()//we need to add one parameters from navigation
+    LaunchedEffect(Unit) {
+        if (viewmodel.wasCallService.not()) {
+            viewmodel.wasCallService = true
             viewmodel.getCategoriesFakeStore()
         }
     }

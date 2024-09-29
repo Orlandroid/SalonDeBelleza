@@ -13,13 +13,17 @@ import com.example.citassalon.presentacion.features.info.cart.CartScreen
 import com.example.citassalon.presentacion.features.info.establishing.EstablishingScreen
 import com.example.citassalon.presentacion.features.info.nuestro_staff.OurStaffScreen
 import com.example.citassalon.presentacion.features.info.products.categories.CategoriesScreen
+import com.example.citassalon.presentacion.features.info.products.detalleproducto.DetailProductScreen
 import com.example.citassalon.presentacion.features.info.products.products.ProductsScreen
-import com.example.citassalon.presentacion.features.info.servicios.ServicesScreen
+import com.example.citassalon.presentacion.features.info.services.ServicesScreen
 import com.example.citassalon.presentacion.features.info.stores.StoresScreen
 import com.example.citassalon.presentacion.features.info.sucursal.BranchInfoScreen
 import com.example.citassalon.presentacion.features.info.ubicacion.LocationScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.branch.BranchesScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.branch.Flow
+import com.example.domain.entities.remote.CustomNavType
+import com.example.domain.entities.remote.Product
+import kotlin.reflect.typeOf
 
 
 fun NavGraphBuilder.infoNavigationGraph(navController: NavHostController) {
@@ -46,6 +50,12 @@ fun NavGraphBuilder.infoNavigationGraph(navController: NavHostController) {
         composable<InfoNavigationScreens.ProductsRoute> {
             val arguments = it.toRoute<InfoNavigationScreens.ProductsRoute>()
             ProductsScreen(navController = navController, category = arguments.category)
+        }
+        composable<InfoNavigationScreens.DetailProductRoute>(
+            typeMap = mapOf(typeOf<Product>() to CustomNavType.productType)
+        ) {
+            val arguments = it.toRoute<InfoNavigationScreens.DetailProductRoute>()
+            DetailProductScreen(navController = navController, product = arguments.product)
         }
         composable<InfoNavigationScreens.CartRoute> {
             CartScreen(navController = navController)

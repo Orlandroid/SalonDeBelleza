@@ -1,5 +1,6 @@
 package com.example.citassalon.presentacion.features.profile
 
+import com.example.domain.entities.local.AppointmentObject
 import kotlinx.serialization.Serializable
 
 
@@ -12,6 +13,9 @@ sealed class ProfileNavigationScreen {
 
     @Serializable
     data object AppointmentHistoryRoute
+
+    @Serializable
+    data class HistoryDetailRoute(val appointment: AppointmentObject)
 
     @Serializable
     data object ContactsRoute

@@ -54,6 +54,7 @@ dependencies {
     implementation(ANDROIDX_CORE_KTX)
     implementation(ANDROIDX_APPCOMPAT)
     implementation(ANDROID_MATERIAL)
+    implementation("androidx.navigation:navigation-common-ktx:2.8.1")
     testImplementation(JUNIT)
     androidTestImplementation(TEST_JUNIT)
     androidTestImplementation(TEST_EXPRESO)

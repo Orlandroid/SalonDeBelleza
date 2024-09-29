@@ -61,16 +61,25 @@ fun ProductsScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.productos))
     ) {
-        ProductsScreenContent(products = products.value?.data) {
-            navController.navigate(InfoNavigationScreens.CartRoute)
-        }
+        ProductsScreenContent(
+            products = products.value?.data,
+            goToDetailProduct = { product ->
+                navController.navigate(InfoNavigationScreens.DetailProductRoute(product))
+            },
+            goToCartScreen = {
+                navController.navigate(InfoNavigationScreens.CartRoute)
+            }
+        )
     }
 
 }
 
 @Composable
 fun ProductsScreenContent(
-    modifier: Modifier = Modifier, products: List<Product>?, goToCartScreen: () -> Unit
+    modifier: Modifier = Modifier,
+    products: List<Product>?,
+    goToCartScreen: () -> Unit,
+    goToDetailProduct: (Product) -> Unit
 ) {
     Column(
         modifier
@@ -90,13 +99,13 @@ fun ProductsScreenContent(
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
-        ShowProducts(products)
+        ShowProducts(products = products, goToDetailProduct = goToDetailProduct)
 
     }
 }
 
 @Composable
-fun ShowProducts(products: List<Product>?) {
+fun ShowProducts(products: List<Product>?, goToDetailProduct: (Product) -> Unit) {
     products?.let { myProducts ->
         LazyVerticalGrid(
             columns = GridCells.Fixed(2)
@@ -104,7 +113,7 @@ fun ShowProducts(products: List<Product>?) {
             myProducts.forEach { product ->
                 item {
                     ItemProduct(product = product) {
-
+                        goToDetailProduct.invoke(product)
                     }
                 }
             }
@@ -135,7 +144,7 @@ fun ItemProduct(
             imageVector = ImageVector.vectorResource(
                 id = R.drawable.ic_baseline_add_24
             ),
-            buttonText = "Agregar",
+            buttonText = stringResource(R.string.agregar),
             backgroundColor = Color.White,
             onClick = {
 
@@ -169,9 +178,11 @@ fun ItemProduct(
 @Composable
 @Preview(showBackground = true)
 fun ProductsScreenContentPreview() {
-    ProductsScreenContent(products = emptyList()) {
-
-    }
+    ProductsScreenContent(
+        products = emptyList(),
+        goToCartScreen = {},
+        goToDetailProduct = {}
+    )
 }
 
 

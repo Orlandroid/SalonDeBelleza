@@ -4,8 +4,11 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -24,6 +27,8 @@ import com.example.citassalon.presentacion.features.components.ItemStaff
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.flow_main.FlowMainViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
+import com.example.citassalon.presentacion.features.theme.BackgroundListsMainFlow
+import com.example.domain.entities.remote.migration.Staff
 
 @Composable
 fun ScheduleStaffScreen(
@@ -66,34 +71,43 @@ fun ScheduleStaffScreenContent(
             mainViewModel.currentStaff = mainViewModel.listOfStaffs[randomStaff]
         }
         Spacer(modifier = Modifier.height(32.dp))
-        ListStaffs(
-            mainViewModel = mainViewModel,
-            navigateToDetailScreen = navigateToDetailScreen,
-            navigateToServicesScreen = navigateToServicesScreen
-        )
+        Card(
+            colors = CardDefaults.cardColors(containerColor = BackgroundListsMainFlow)
+        ) {
+            ListStaffs(
+                listOfStaffs = mainViewModel.listOfStaffs,
+                navigateToDetailScreen = navigateToDetailScreen,
+                navigateToServicesScreen = navigateToServicesScreen
+            ) { chosenStaff ->
+                mainViewModel.currentStaff = chosenStaff
+            }
+        }
     }
 }
 
 @Composable
 fun ListStaffs(
-    mainViewModel: FlowMainViewModel,
+    listOfStaffs: List<Staff>,
     navigateToDetailScreen: () -> Unit,
-    navigateToServicesScreen: () -> Unit
+    navigateToServicesScreen: () -> Unit,
+    clickOnStaff: (Staff) -> Unit
 ) {
-    LazyColumn {
-        mainViewModel.listOfStaffs.forEach { myStaff ->
+    LazyVerticalGrid(
+        columns = GridCells.Fixed(2)
+    ) {
+        listOfStaffs.forEach { myStaff ->
             item {
                 ItemStaff(
                     staff = myStaff,
                     onClick = {
-                        mainViewModel.currentStaff = myStaff
+                        clickOnStaff.invoke(myStaff)
                         when (it) {
                             ClickOnItemStaff.ClickOnImage -> {
-                                navigateToDetailScreen()
+                                navigateToServicesScreen()
                             }
 
                             ClickOnItemStaff.ClickOnItem -> {
-                                navigateToServicesScreen()
+                                navigateToDetailScreen()
                             }
                         }
                     }

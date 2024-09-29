@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.info.servicios
+package com.example.citassalon.presentacion.features.info.services
 
 import android.os.Bundle
 import android.view.LayoutInflater

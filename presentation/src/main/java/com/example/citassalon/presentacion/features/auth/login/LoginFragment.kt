@@ -53,13 +53,10 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
 import com.example.citassalon.presentacion.features.base.BaseFragment
-import com.example.citassalon.presentacion.features.extensions.ObserveSessionStatusFlow
 import com.example.citassalon.presentacion.features.extensions.hideKeyboard
-import com.example.citassalon.presentacion.features.extensions.navigate
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.citassalon.presentacion.main.AlertDialogs
 import com.example.citassalon.presentacion.main.AlertDialogs.Companion.ERROR_MESSAGE
-import com.example.citassalon.presentacion.main.AlertDialogs.Companion.WARNING_MESSAGE
 import com.example.citassalon.presentacion.util.AlertsDialogMessages
 import com.example.domain.state.SessionStatus
 import com.google.android.gms.auth.api.signin.GoogleSignIn

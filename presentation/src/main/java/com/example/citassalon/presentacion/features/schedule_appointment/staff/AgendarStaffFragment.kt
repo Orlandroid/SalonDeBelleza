@@ -26,10 +26,7 @@ import androidx.compose.ui.unit.sp
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
 import com.example.citassalon.presentacion.features.base.BaseFragment
-import com.example.citassalon.presentacion.features.components.ClickOnItemStaff
 import com.example.citassalon.presentacion.features.components.ItemStaff
-import com.example.citassalon.presentacion.features.extensions.navigate
-import com.example.citassalon.presentacion.features.flow_main.FlowMainViewModel
 import com.example.citassalon.presentacion.main.AlertDialogs
 import com.example.domain.entities.remote.migration.Staff
 import dagger.hilt.android.AndroidEntryPoint

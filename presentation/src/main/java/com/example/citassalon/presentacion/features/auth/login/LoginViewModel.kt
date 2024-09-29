@@ -27,6 +27,7 @@ class LoginViewModel
     private val loginPeferences: LoginPreferences,
 ) : ViewModel() {
 
+
     private val _status: MutableStateFlow<LoginUiState> = MutableStateFlow(LoginUiState())
     val status = _status.asStateFlow()
 
@@ -49,7 +50,7 @@ class LoginViewModel
             }
 
             is LoginActions.SignUp -> {
-
+                _effects.value = LoginUiEffect.GoToSignUp
             }
 
             is LoginActions.SignUpWithGoogle -> {
