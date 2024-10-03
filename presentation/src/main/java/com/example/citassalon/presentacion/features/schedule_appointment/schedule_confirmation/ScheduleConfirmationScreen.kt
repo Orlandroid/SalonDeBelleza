@@ -76,19 +76,24 @@ fun ScheduleConfirmationScreenContent(
         Spacer(modifier = Modifier.height(8.dp))
         flowMainViewModel.let { flow ->
             ButtonImageAndText(
-                text = flow.sucursal.name, iconImage = R.drawable.place_24p_negro
+                text = flow.sucursal.name,
+                iconImage = R.drawable.place_24p_negro
             )
             ButtonImageAndText(
-                text = flow.currentStaff.nombre, iconImage = R.drawable.face_unlock_24px
+                text = flow.currentStaff.nombre,
+                iconImage = R.drawable.face_unlock_24px
             )
             ButtonImageAndText(
-                text = flow.listOfServices[0].name, iconImage = R.drawable.stars_24px
+                text = flow.listOfServices[0].name,
+                iconImage = R.drawable.stars_24px
             )
             ButtonImageAndText(
-                text = flow.dateAppointment, iconImage = R.drawable.insert_invitation_24px
+                text = flow.dateAppointment,
+                iconImage = R.drawable.insert_invitation_24px
             )
             ButtonImageAndText(
-                text = flow.hourAppointment, iconImage = R.drawable.watch_later_24px
+                text = flow.hourAppointment,
+                iconImage = R.drawable.watch_later_24px
             )
         }
         Spacer(modifier = Modifier.height(32.dp))
@@ -96,8 +101,15 @@ fun ScheduleConfirmationScreenContent(
             horizontalArrangement = Arrangement.Absolute.SpaceAround,
             modifier = Modifier.fillMaxWidth()
         ) {
-            Text(text = stringResource(id = R.string.Total), fontSize = 20.sp)
-            Text(text = flowMainViewModel.listOfServices[0].precio.toString(), fontSize = 20.sp)
+            Text(
+                text =
+                stringResource(id = R.string.Total),
+                fontSize = 20.sp
+            )
+            Text(
+                text = flowMainViewModel.listOfServices[0].precio.toString(),
+                fontSize = 20.sp
+            )
         }
         Spacer(modifier = Modifier.height(24.dp))
         ConfirmButton {

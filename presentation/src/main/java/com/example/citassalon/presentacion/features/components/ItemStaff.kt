@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -19,7 +20,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import coil.compose.AsyncImage
+import coil.compose.SubcomposeAsyncImage
 import coil.imageLoader
 import coil.util.DebugLogger
 import com.example.domain.entities.remote.migration.Staff
@@ -51,7 +52,8 @@ fun ItemStaff(
             val imageLoader =
                 LocalContext.current.imageLoader.newBuilder().logger(DebugLogger()).build()
             Spacer(modifier = Modifier.height(16.dp))
-            AsyncImage(
+            SubcomposeAsyncImage(
+                imageLoader = imageLoader,
                 modifier = Modifier
                     .clip(CircleShape)
                     .size(150.dp)
@@ -60,7 +62,7 @@ fun ItemStaff(
                     },
                 model = staff.image_url,
                 contentDescription = "ImageStaff",
-                imageLoader = imageLoader
+                loading = { CircularProgressIndicator() },
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(text = staff.nombre, fontWeight = FontWeight.W900, fontSize = 18.sp)
