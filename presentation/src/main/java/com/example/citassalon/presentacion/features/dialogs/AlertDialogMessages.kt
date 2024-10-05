@@ -1,25 +1,25 @@
 package com.example.citassalon.presentacion.features.dialogs
 
+import androidx.annotation.StringRes
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Info
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.citassalon.R
+import com.example.citassalon.presentacion.features.base.MediumSpacer
 import com.example.citassalon.presentacion.features.base.Orientation
 import com.example.citassalon.presentacion.features.base.SmallSpacer
 import com.example.citassalon.presentacion.features.theme.AlwaysBlack
@@ -33,50 +33,83 @@ import com.example.citassalon.presentacion.features.theme.Waring
 @Composable
 fun BaseAlertDialogMessages(
     modifier: Modifier = Modifier,
+    alertDialogMessagesConfig: AlertDialogMessagesConfig =
+        AlertDialogMessagesConfig(
+            title = R.string.title,
+            bodyMessage = R.string.message_body,
+            buttonText = R.string.aceptar
+        ),
     onDismissRequest: () -> Unit,
     onConfirmation: () -> Unit,
-    dialogTitle: String,
-    dialogText: String,
-    icon: ImageVector = Icons.Default.Info,
 ) {
-    BaseCustomDialog(modifier = modifier, onDismissRequest = { }) {
-        BaseAlertDialogMessagesContent()
+    BaseCustomDialog(
+        modifier = modifier, onDismissRequest = onDismissRequest
+    ) {
+        BaseAlertDialogMessagesContent(
+            title = alertDialogMessagesConfig.title,
+            bodyMessage = alertDialogMessagesConfig.bodyMessage,
+            onConfirmation = onConfirmation,
+            alertDialogMessagesConfig = alertDialogMessagesConfig,
+            buttonMessage = alertDialogMessagesConfig.buttonText
+        )
     }
 }
 
 @Composable
 fun BaseAlertDialogMessagesContent(
     modifier: Modifier = Modifier,
-    title: String = "Tittle Message",
-    bodyMessage: String = stringResource(R.string.test_text),
-    buttonMessage: String = stringResource(R.string.aceptar)
+    alertDialogMessagesConfig: AlertDialogMessagesConfig,
+    @StringRes
+    title: Int,
+    @StringRes
+    bodyMessage: Int,
+    @StringRes
+    buttonMessage: Int,
+    onConfirmation: () -> Unit
 ) {
     Column(
         modifier = modifier.fillMaxWidth()
     ) {
-        AlertTitle(modifier = Modifier, title = title)
+        AlertTitle(
+            kindOfMessage = alertDialogMessagesConfig.kindOfMessage,
+            modifier = Modifier,
+            title = title,
+            onConfirmation = onConfirmation
+        )
+        MediumSpacer(orientation = Orientation.VERTICAL)
         Text(
             textAlign = TextAlign.Center,
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight(),
-            text = bodyMessage,
+            text = stringResource(bodyMessage),
             fontSize = 18.sp,
             color = AlwaysBlack,
         )
-        AlertButton(modifier = Modifier, buttonMessage = buttonMessage)
+        MediumSpacer(orientation = Orientation.VERTICAL)
+        AlertButton(
+            modifier = Modifier,
+            buttonMessage = buttonMessage
+        )
     }
 }
 
 @Composable
 fun AlertTitle(
-    modifier: Modifier = Modifier, title: String
+    kindOfMessage: KindOfMessage,
+    modifier: Modifier = Modifier,
+    @StringRes
+    title: Int,
+    onConfirmation: () -> Unit
 ) {
     Card(
         modifier = modifier
             .height(48.dp)
-            .fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = Success),
+            .fillMaxWidth()
+            .clickable {
+                onConfirmation.invoke()
+            },
+        colors = CardDefaults.cardColors(containerColor = kindOfMessage.color),
         shape = RectangleShape,
     ) {
         SmallSpacer(orientation = Orientation.VERTICAL)
@@ -84,7 +117,7 @@ fun AlertTitle(
             textAlign = TextAlign.Center,
             color = AlwaysWhite,
             fontSize = 24.sp,
-            text = title,
+            text = stringResource(title),
             modifier = Modifier.fillMaxWidth()
         )
     }
@@ -92,7 +125,9 @@ fun AlertTitle(
 
 @Composable
 fun AlertButton(
-    modifier: Modifier = Modifier, buttonMessage: String
+    modifier: Modifier = Modifier,
+    @StringRes
+    buttonMessage: Int
 ) {
     Card(
         modifier = modifier
@@ -106,7 +141,7 @@ fun AlertButton(
             textAlign = TextAlign.Center,
             color = AlwaysWhite,
             fontSize = 24.sp,
-            text = buttonMessage,
+            text = stringResource(buttonMessage),
             modifier = Modifier.fillMaxWidth()
         )
     }
@@ -115,14 +150,30 @@ fun AlertButton(
 
 @Composable
 @Preview(showBackground = true)
-fun BaseAlertDialogPreview(modifier: Modifier = Modifier) {
-    BaseAlertDialogMessages(dialogTitle = "Alert dialog example",
-        dialogText = "This is an example of an alert dialog with buttons",
-        icon = Icons.Default.Info,
-        onDismissRequest = {},
-        onConfirmation = {})
+fun BaseAlertDialogPreview(
+    modifier: Modifier = Modifier
+) {
+    BaseAlertDialogMessages(
+        modifier = Modifier,
+        onConfirmation = {},
+        onDismissRequest = {}
+    )
 }
 
-enum class StatesHeaderDialog(color: Color) {
-    SUCCESS(Success), WARING(Waring), ERROR(Danger), INFO(Info)
+enum class KindOfMessage(val color: Color) {
+    SUCCESS(Success),
+    WARING(Waring),
+    ERROR(Danger),
+    INFO(Info)
 }
+
+data class AlertDialogMessagesConfig(
+    @StringRes
+    val title: Int,
+    @StringRes
+    val bodyMessage: Int,
+    @StringRes
+    val buttonText: Int = R.string.test_text,
+    val kindOfMessage: KindOfMessage = KindOfMessage.INFO
+)
+

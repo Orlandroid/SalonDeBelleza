@@ -6,7 +6,6 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -37,8 +36,12 @@ import androidx.navigation.NavHostController
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.app_navigation.MainActivityCompose
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
+import com.example.citassalon.presentacion.features.base.MediumSpacer
+import com.example.citassalon.presentacion.features.base.Orientation
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
+import com.example.citassalon.presentacion.features.dialogs.AlertDialogMessagesConfig
 import com.example.citassalon.presentacion.features.dialogs.BaseAlertDialogMessages
+import com.example.citassalon.presentacion.features.dialogs.KindOfMessage
 import com.example.citassalon.presentacion.features.profile.ProfileNavigationScreen
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.perfil.MENU
@@ -88,17 +91,17 @@ fun ProfileScreen(
         }
         val activity = LocalContext.current as Activity
         if (showCloseSessionAlert.value) {
-            BaseAlertDialogMessages(
-                onDismissRequest = {
-                    showCloseSessionAlert.value = false
-                },
-                onConfirmation = {
-                    showCloseSessionAlert.value = false
-                    profileViewModel.logout()
-                    (activity as MainActivityCompose).closeAndOpenActivity()
-                },
-                dialogTitle = stringResource(id = R.string.cerrar_session),
-                dialogText = stringResource(id = R.string.seguro_que_deseas_cerrar_sesion)
+            BaseAlertDialogMessages(onDismissRequest = {
+                showCloseSessionAlert.value = false
+            }, onConfirmation = {
+                showCloseSessionAlert.value = false
+                profileViewModel.logout()
+                (activity as MainActivityCompose).closeAndOpenActivity()
+            }, alertDialogMessagesConfig = AlertDialogMessagesConfig(
+                title = R.string.cerrar_session,
+                bodyMessage = R.string.seguro_que_deseas_cerrar_sesion,
+                kindOfMessage = KindOfMessage.WARING
+            )
             )
         }
     }
@@ -118,7 +121,8 @@ private fun ProfileScreenContent(
     ) {
         val (image, textUser, listProfile) = createRefs()
         val myGuideline = createGuidelineFromTop(0.40f)
-        Image(painter = painterResource(id = R.drawable.perfil),
+        Image(
+            painter = painterResource(id = R.drawable.perfil),
             contentDescription = null,
             modifier = Modifier.constrainAs(image) {
                 linkTo(parent.start, parent.end)
@@ -138,20 +142,19 @@ private fun ProfileScreenContent(
                 height = Dimension.wrapContent
             }
         )
-        LazyColumn(
-            modifier = Modifier
-                .border(
-                    shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
-                    border = BorderStroke(0.dp, Color.White)
-                )
-                .background(Color.White)
-                .constrainAs(listProfile) {
-                    linkTo(parent.start, parent.end)
-                    bottom.linkTo(parent.bottom)
-                    top.linkTo(myGuideline)
-                    width = Dimension.matchParent
-                    height = Dimension.fillToConstraints
-                }
+        LazyColumn(modifier = Modifier
+            .border(
+                shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+                border = BorderStroke(0.dp, Color.White)
+            )
+            .background(Color.White)
+            .constrainAs(listProfile) {
+                linkTo(parent.start, parent.end)
+                bottom.linkTo(parent.bottom)
+                top.linkTo(myGuideline)
+                width = Dimension.matchParent
+                height = Dimension.fillToConstraints
+            }
         ) {
             elementsProfile.forEach { itemProfile ->
                 item {
@@ -166,25 +169,29 @@ private fun ProfileScreenContent(
 
 @Composable
 fun ItemProfile(
-    elementProfile: ProfileItem, clickOnItem: () -> Unit
+    elementProfile: ProfileItem,
+    clickOnItem: () -> Unit
 ) {
-    Card(shape = RoundedCornerShape(16.dp),
+    Card(
+        shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
-        onClick = { clickOnItem.invoke() }) {
+        onClick = { clickOnItem.invoke() }
+    ) {
         ConstraintLayout(
             modifier = Modifier.fillMaxWidth()
         ) {
             val (row, icon) = createRefs()
-            Row(verticalAlignment = Alignment.CenterVertically,
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.constrainAs(row) {
                     start.linkTo(parent.start)
                     end.linkTo(icon.start, 16.dp)
                     width = Dimension.matchParent
                 }
             ) {
-                Spacer(modifier = Modifier.width(16.dp))
+                MediumSpacer(orientation = Orientation.HORIZONTAL)
                 Image(
                     painter = painterResource(id = elementProfile.image),
                     contentDescription = null,
@@ -192,13 +199,11 @@ fun ItemProfile(
                         .height(50.dp)
                         .width(50.dp)
                 )
-                Spacer(modifier = Modifier.width(16.dp))
-                Text(
-                    text = elementProfile.name,
-                    fontSize = 20.sp
-                )
+                MediumSpacer(orientation = Orientation.HORIZONTAL)
+                Text(text = elementProfile.name, fontSize = 20.sp)
             }
-            Icon(painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_24),
+            Icon(
+                painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_24),
                 contentDescription = null,
                 tint = Color.Black,
                 modifier = Modifier.constrainAs(icon) {

@@ -27,6 +27,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.material3.Card
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.airbnb.lottie.compose.LottieAnimation
@@ -36,7 +37,9 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
+import com.example.citassalon.presentacion.features.dialogs.AlertDialogMessagesConfig
 import com.example.citassalon.presentacion.features.dialogs.BaseAlertDialogMessages
+import com.example.citassalon.presentacion.features.dialogs.KindOfMessage
 import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.domain.perfil.AppointmentFirebase
 import com.example.domain.state.ApiState
@@ -106,16 +109,22 @@ fun DatingHistory(
             onConfirmation = {
                 openAlertDialog.value = false
             },
-            dialogTitle = "Estas seguro que deseas eliminar el registro",
-            dialogText = "Estas seguro que deseas eliminar el registro"
+            alertDialogMessagesConfig = AlertDialogMessagesConfig(
+                title = R.string.delete_row_message,
+                bodyMessage = R.string.delete_row_message,
+                kindOfMessage = KindOfMessage.WARING
+            )
         )
     }
 
 }
 
 @Composable
-fun ItemAppointment(appointment: AppointmentFirebase, onRemoveAppointment: () -> Unit) {
-    androidx.compose.material3.Card(modifier = Modifier.padding(8.dp),
+fun ItemAppointment(
+    appointment: AppointmentFirebase,
+    onRemoveAppointment: () -> Unit
+) {
+    Card(modifier = Modifier.padding(8.dp),
         elevation = CardDefaults.cardElevation(8.dp),
         shape = RoundedCornerShape(16.dp),
         onClick = { }) {

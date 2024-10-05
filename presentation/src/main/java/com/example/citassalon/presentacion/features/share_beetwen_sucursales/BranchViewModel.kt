@@ -6,7 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.citassalon.presentacion.features.base.BaseViewModel
-import com.example.citassalon.presentacion.features.schedule_appointment.branches.BranchState
+import com.example.citassalon.presentacion.features.schedule_appointment.branches.BaseScreenState
 import com.example.data.Repository
 import com.example.data.di.CoroutineDispatchers
 import com.example.domain.entities.remote.migration.NegoInfo
@@ -34,8 +34,8 @@ class BranchViewModel @Inject constructor(
     val branches: LiveData<ApiState<List<NegoInfo>>>
         get() = _branches
 
-    private val _state: MutableStateFlow<BranchState<List<NegoInfo>>> =
-        MutableStateFlow(BranchState.Loading())
+    private val _state: MutableStateFlow<BaseScreenState<List<NegoInfo>>> =
+        MutableStateFlow(BaseScreenState.Loading())
     val state = _state.asStateFlow()
 
     init {
@@ -57,7 +57,7 @@ class BranchViewModel @Inject constructor(
         safeApiCallCompose(state = _state, coroutineDispatchers = coroutineDispatchers) {
             val response = repository.getSucursales()
             withContext(Dispatchers.Main) {
-                _state.value = BranchState.Success(data = response.sucursales)
+                _state.value = BaseScreenState.Success(data = response.sucursales)
             }
         }
     }

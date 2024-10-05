@@ -1,10 +1,13 @@
 package com.example.domain.entities.remote.migration
 
+import com.google.gson.annotations.SerializedName
+
 data class SucursalesResponse(
     val sucursales: List<NegoInfo>
 )
 
 data class NegoInfo(
+    @SerializedName("sucursal")
     val sucursal: Sucursal,
     val staffs: List<Staff>,
     val services: List<Service>,

@@ -4,7 +4,7 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.presentacion.features.schedule_appointment.branches.BranchState
+import com.example.citassalon.presentacion.features.schedule_appointment.branches.BaseScreenState
 import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.data.di.CoroutineDispatchers
 import com.example.domain.state.ApiState
@@ -69,7 +69,7 @@ abstract class BaseViewModel(
     }
 
     suspend inline fun <T> safeApiCallCompose(
-        state: MutableStateFlow<BranchState<T>>,
+        state: MutableStateFlow<BaseScreenState<T>>,
         coroutineDispatchers: CoroutineDispatchers,
         crossinline apiToCall: suspend () -> Unit,
     ) {
@@ -77,7 +77,7 @@ abstract class BaseViewModel(
         job = viewModelScope.launch(coroutineDispatchers.io) {
             try {
                 if (!networkHelper.isNetworkConnected()) {
-                    state.value = BranchState.ErrorNetwork()
+                    state.value = BaseScreenState.ErrorNetwork()
                     return@launch
                 }
                 apiToCall()
@@ -87,13 +87,14 @@ abstract class BaseViewModel(
                     Log.e("ApiCalls", "Call error: ${e.localizedMessage}", e.cause)
                     when (e) {
                         is HttpException -> {
-                            state.value = BranchState.Error(exception = e)
+                            state.value = BaseScreenState.Error(exception = e)
                         }
 
-                        is SocketTimeoutException -> state.value = BranchState.Error(exception = e)
+                        is SocketTimeoutException -> state.value =
+                            BaseScreenState.Error(exception = e)
 
-                        is IOException -> state.value = BranchState.Error(exception = e)
-                        else -> state.value = BranchState.Error(exception = e)
+                        is IOException -> state.value = BaseScreenState.Error(exception = e)
+                        else -> state.value = BaseScreenState.Error(exception = e)
                     }
                 }
             }

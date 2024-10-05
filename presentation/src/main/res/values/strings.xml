@@ -112,6 +112,7 @@
     </string>
     <string name="nombre_establecimiento">Nombre Establecimiento</string>
     <string name="network_error">Error de conexion</string>
+    <string name="network_error_message">Revisa que tengas conexion a internet</string>
     <string name="retry">Reintentar</string>
     <string name="more">more</string>
     <string name="confirma_cita">Confirma cita</string>
@@ -173,4 +174,7 @@
     <string name="Ingresa">Ingresar</string>
     <string name="username">username</string>
     <string name="history_detail">History Detail</string>
+    <string name="title">Title</string>
+    <string name="message_body">Message Body</string>
+    <string name="delete_row_message">Estas seguro que deseas eliminar el registro</string>
 </resources>

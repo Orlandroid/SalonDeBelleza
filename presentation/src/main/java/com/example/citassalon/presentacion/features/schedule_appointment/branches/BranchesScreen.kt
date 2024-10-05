@@ -1,6 +1,5 @@
 package com.example.citassalon.presentacion.features.schedule_appointment.branches
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -16,14 +15,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.base.BaseComposeScreen
+import com.example.citassalon.presentacion.features.base.BaseComposeScreenState
 import com.example.citassalon.presentacion.features.base.LongSpacer
 import com.example.citassalon.presentacion.features.base.MediumSpacer
 import com.example.citassalon.presentacion.features.base.Orientation
 import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
-import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.flow_main.FlowMainViewModel
 import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
@@ -40,39 +38,24 @@ fun BranchesScreen(
     flow: Flow,
 ) {
     val state = branchViewModel.state.collectAsStateWithLifecycle()
-    BaseComposeScreen(
+    BaseComposeScreenState(
+        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.agendar_sucursal)),
         navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.agendar_sucursal))
+        state = state
     ) {
-        when (state.value) {
-            is BranchState.Error -> {
-
-            }
-
-            is BranchState.Loading -> {
-                ProgressDialog()
-            }
-
-            is BranchState.Success -> {
-                BranchesScreenContent(
-                    modifier = Modifier,
-                    branches = (state.value as BranchState.Success<List<NegoInfo>>).data,
-                    mainViewModel = mainViewModel,
-                ) {
-                    when (flow) {
-                        Flow.SCHEDULE_APPOINTMENT -> {
-                            navController.navigate(ScheduleAppointmentScreens.ScheduleStaffRoute)
-                        }
-
-                        Flow.INFO -> {
-                            navController.navigate(InfoNavigationScreens.BranchInfoRoute)
-                        }
-                    }
+        BranchesScreenContent(
+            modifier = Modifier,
+            branches = (state.value as BaseScreenState.Success<List<NegoInfo>>).data,
+            mainViewModel = mainViewModel,
+        ) {
+            when (flow) {
+                Flow.SCHEDULE_APPOINTMENT -> {
+                    navController.navigate(ScheduleAppointmentScreens.ScheduleStaffRoute)
                 }
-            }
 
-            is BranchState.ErrorNetwork -> {
-                Log.e("ANDORID", "ErrorNetwork")
+                Flow.INFO -> {
+                    navController.navigate(InfoNavigationScreens.BranchInfoRoute)
+                }
             }
         }
     }
