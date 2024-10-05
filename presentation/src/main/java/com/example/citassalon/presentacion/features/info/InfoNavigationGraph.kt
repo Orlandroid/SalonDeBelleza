@@ -19,8 +19,8 @@ import com.example.citassalon.presentacion.features.info.services.ServicesScreen
 import com.example.citassalon.presentacion.features.info.stores.StoresScreen
 import com.example.citassalon.presentacion.features.info.sucursal.BranchInfoScreen
 import com.example.citassalon.presentacion.features.info.ubicacion.LocationScreen
-import com.example.citassalon.presentacion.features.schedule_appointment.branch.BranchesScreen
-import com.example.citassalon.presentacion.features.schedule_appointment.branch.Flow
+import com.example.citassalon.presentacion.features.schedule_appointment.branches.BranchesScreen
+import com.example.citassalon.presentacion.features.schedule_appointment.branches.Flow
 import com.example.domain.entities.remote.CustomNavType
 import com.example.domain.entities.remote.Product
 import kotlin.reflect.typeOf

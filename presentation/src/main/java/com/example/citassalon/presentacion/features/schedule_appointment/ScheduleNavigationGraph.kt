@@ -7,14 +7,14 @@ import androidx.navigation.navigation
 import com.example.citassalon.presentacion.features.app_navigation.AppNavigationRoutes
 import com.example.citassalon.presentacion.features.extensions.sharedViewModel
 import com.example.citassalon.presentacion.features.flow_main.FlowMainViewModel
-import com.example.citassalon.presentacion.features.schedule_appointment.branch.BranchesScreen
+import com.example.citassalon.presentacion.features.schedule_appointment.branches.BranchesScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.detail_staff.DetailStaffScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.home.HomeScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.schedule.ScheduleScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.schedule_confirmation.ScheduleConfirmationScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.service.ServiceScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.staff.ScheduleStaffScreen
-import com.example.citassalon.presentacion.features.schedule_appointment.branch.Flow
+import com.example.citassalon.presentacion.features.schedule_appointment.branches.Flow
 
 
 fun NavGraphBuilder.scheduleNavigationGraph(

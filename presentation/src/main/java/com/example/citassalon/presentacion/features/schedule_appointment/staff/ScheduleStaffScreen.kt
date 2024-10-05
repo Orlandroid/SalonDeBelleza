@@ -40,12 +40,20 @@ fun ScheduleStaffScreen(
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.agendar_staff))
     ) {
         ScheduleStaffScreenContent(
-            mainViewModel = mainViewModel,
+            branchName = mainViewModel.sucursal.name,
+            listOfStaffs = mainViewModel.listOfStaffs,
             navigateToDetailScreen = {
                 navController.navigate(ScheduleAppointmentScreens.DetailStaffRoute)
             },
             navigateToServicesScreen = {
                 navController.navigate(ScheduleAppointmentScreens.ServicesRoute)
+            },
+            clickOnRandomStaff = {
+                val randomStaff = mainViewModel.listOfStaffs.indices.random()
+                mainViewModel.currentStaff = mainViewModel.listOfStaffs[randomStaff]
+            },
+            clickOnStaff = { chosenStaff ->
+                mainViewModel.currentStaff = chosenStaff
             }
         )
     }
@@ -54,33 +62,38 @@ fun ScheduleStaffScreen(
 @Composable
 fun ScheduleStaffScreenContent(
     modifier: Modifier = Modifier,
-    mainViewModel: FlowMainViewModel,
+    listOfStaffs: List<Staff>,
+    branchName: String,
+    clickOnStaff: (Staff) -> Unit,
+    clickOnRandomStaff: () -> Unit,
     navigateToDetailScreen: () -> Unit,
     navigateToServicesScreen: () -> Unit
 ) {
-    Column(modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally) {
+    Column(
+        modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = mainViewModel.sucursal.name,
+            text = branchName,
             fontSize = 32.sp,
             style = TextStyle(fontWeight = FontWeight.W900)
         )
         Spacer(modifier = Modifier.height(16.dp))
         ButtonRandomStaff {
-            val randomStaff = mainViewModel.listOfStaffs.indices.random()
-            mainViewModel.currentStaff = mainViewModel.listOfStaffs[randomStaff]
+            clickOnRandomStaff.invoke()
+            navigateToServicesScreen.invoke()
         }
         Spacer(modifier = Modifier.height(32.dp))
         Card(
             colors = CardDefaults.cardColors(containerColor = BackgroundListsMainFlow)
         ) {
             ListStaffs(
-                listOfStaffs = mainViewModel.listOfStaffs,
+                listOfStaffs = listOfStaffs,
                 navigateToDetailScreen = navigateToDetailScreen,
-                navigateToServicesScreen = navigateToServicesScreen
-            ) { chosenStaff ->
-                mainViewModel.currentStaff = chosenStaff
-            }
+                navigateToServicesScreen = navigateToServicesScreen,
+                clickOnStaff = clickOnStaff
+            )
         }
     }
 }
@@ -132,9 +145,12 @@ fun ButtonRandomStaff(onClick: () -> Unit) {
 @Preview(showBackground = true)
 fun ScheduleStaffScreenContentPreview(modifier: Modifier = Modifier) {
     ScheduleStaffScreenContent(
-        mainViewModel = FlowMainViewModel(),
         navigateToDetailScreen = {},
-        navigateToServicesScreen = {}
+        navigateToServicesScreen = {},
+        listOfStaffs = Staff.mockStaffList(),
+        branchName = "Zacatecas",
+        clickOnStaff = {},
+        clickOnRandomStaff = {}
     )
 }
 

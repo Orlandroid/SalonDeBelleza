@@ -109,7 +109,8 @@ fun ItemCart(productDb: ProductDb) {
                     end.linkTo(parent.end, 16.dp)
                     width = Dimension.wrapContent
                     height = Dimension.wrapContent
-                })
+                }
+            )
         }
     }
 }
@@ -118,8 +119,7 @@ fun ItemCart(productDb: ProductDb) {
 @Composable
 @Preview(showBackground = true)
 fun CartScreenContentPreview() {
-    CartScreenContent(products = emptyList())
-
+    CartScreenContent(products = ProductDb.mockProductDbList())
 }
 
 

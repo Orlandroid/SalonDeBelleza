@@ -4,10 +4,12 @@ import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.citassalon.presentacion.features.schedule_appointment.branches.BranchState
 import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.data.di.CoroutineDispatchers
 import com.example.domain.state.ApiState
 import kotlinx.coroutines.Job
+import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import okio.IOException
@@ -60,6 +62,38 @@ abstract class BaseViewModel(
 
                         is IOException -> result.value = ApiState.Error(e)
                         else -> result.value = ApiState.Error(e)
+                    }
+                }
+            }
+        }
+    }
+
+    suspend inline fun <T> safeApiCallCompose(
+        state: MutableStateFlow<BranchState<T>>,
+        coroutineDispatchers: CoroutineDispatchers,
+        crossinline apiToCall: suspend () -> Unit,
+    ) {
+        job?.cancel()
+        job = viewModelScope.launch(coroutineDispatchers.io) {
+            try {
+                if (!networkHelper.isNetworkConnected()) {
+                    state.value = BranchState.ErrorNetwork()
+                    return@launch
+                }
+                apiToCall()
+            } catch (e: Exception) {
+                withContext(coroutineDispatchers.main) {
+                    e.printStackTrace()
+                    Log.e("ApiCalls", "Call error: ${e.localizedMessage}", e.cause)
+                    when (e) {
+                        is HttpException -> {
+                            state.value = BranchState.Error(exception = e)
+                        }
+
+                        is SocketTimeoutException -> state.value = BranchState.Error(exception = e)
+
+                        is IOException -> state.value = BranchState.Error(exception = e)
+                        else -> state.value = BranchState.Error(exception = e)
                     }
                 }
             }

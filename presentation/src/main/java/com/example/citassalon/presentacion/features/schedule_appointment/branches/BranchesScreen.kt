@@ -1,5 +1,6 @@
-package com.example.citassalon.presentacion.features.schedule_appointment.branch
+package com.example.citassalon.presentacion.features.schedule_appointment.branches
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -8,12 +9,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
@@ -31,7 +31,6 @@ import com.example.citassalon.presentacion.features.share_beetwen_sucursales.Bra
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.citassalon.presentacion.features.theme.BackgroundListsMainFlow
 import com.example.domain.entities.remote.migration.NegoInfo
-import com.example.domain.state.ApiState
 
 @Composable
 fun BranchesScreen(
@@ -40,24 +39,41 @@ fun BranchesScreen(
     branchViewModel: BranchViewModel = hiltViewModel(),
     flow: Flow,
 ) {
-    val branchesState = branchViewModel.branches.observeAsState()
+    val state = branchViewModel.state.collectAsStateWithLifecycle()
     BaseComposeScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.agendar_sucursal))
     ) {
-        BranchesScreenContent(
-            modifier = Modifier,
-            branches = branchesState,
-            mainViewModel = mainViewModel,
-        ) {
-            when (flow) {
-                Flow.SCHEDULE_APPOINTMENT -> {
-                    navController.navigate(ScheduleAppointmentScreens.ScheduleStaffRoute)
-                }
+        when (state.value) {
+            is BranchState.Error -> {
+                Log.e("ANDORID", "Error")
+            }
 
-                Flow.INFO -> {
-                    navController.navigate(InfoNavigationScreens.BranchInfoRoute)
+            is BranchState.Loading -> {
+                ProgressDialog()
+            }
+
+            is BranchState.Success -> {
+                (state.value as BranchState.Success<List<NegoInfo>>).data
+                BranchesScreenContent(
+                    modifier = Modifier,
+                    branches = (state.value as BranchState.Success<List<NegoInfo>>).data,
+                    mainViewModel = mainViewModel,
+                ) {
+                    when (flow) {
+                        Flow.SCHEDULE_APPOINTMENT -> {
+                            navController.navigate(ScheduleAppointmentScreens.ScheduleStaffRoute)
+                        }
+
+                        Flow.INFO -> {
+                            navController.navigate(InfoNavigationScreens.BranchInfoRoute)
+                        }
+                    }
                 }
+            }
+
+            is BranchState.ErrorNetwork -> {
+                Log.e("ANDORID", "ErrorNetwork")
             }
         }
     }
@@ -66,15 +82,14 @@ fun BranchesScreen(
 @Composable
 fun BranchesScreenContent(
     modifier: Modifier = Modifier,
-    branches: State<ApiState<List<NegoInfo>>?>,
+    branches: List<NegoInfo>?,
     mainViewModel: FlowMainViewModel,
     goToNextScreen: () -> Unit
 ) {
     Column(
         modifier
             .fillMaxSize()
-            .background(Background),
-        verticalArrangement = Arrangement.Bottom
+            .background(Background), verticalArrangement = Arrangement.Bottom
     ) {
         Card(
             colors = CardDefaults.cardColors(containerColor = BackgroundListsMainFlow)
@@ -98,45 +113,33 @@ fun BranchesScreenContent(
     }
 }
 
-//TODO add shimmer effect to list
 @Composable
 private fun ShowBranches(
-    branches: State<ApiState<List<NegoInfo>>?>,
+    branches: List<NegoInfo>?,
     goToNextScreen: () -> Unit,
     currentBranch: (NegoInfo) -> Unit
 ) {
-    when (branches.value) {
-        is ApiState.Loading -> {
-            ProgressDialog()
-        }
-
-        is ApiState.Success -> {
-            LazyColumn {
-                branches.value?.data?.forEach { branch ->
-                    item {
-                        MediumSpacer(orientation = Orientation.VERTICAL)
-                        TextWithArrow(
-                            TextWithArrowConfig(
-                                text = branch.sucursal.name,
-                                clickOnItem = {
-                                    goToNextScreen.invoke()
-                                    currentBranch.invoke(branch)
-                                }
-                            )
-                        )
-                    }
-                }
+    LazyColumn {
+        branches?.forEach { branch ->
+            item {
+                MediumSpacer(orientation = Orientation.VERTICAL)
+                TextWithArrow(
+                    TextWithArrowConfig(text = branch.sucursal.name,
+                        clickOnItem = {
+                            goToNextScreen.invoke()
+                            currentBranch.invoke(branch)
+                        }
+                    )
+                )
             }
         }
-
-        else -> {}
     }
-
 }
 
 
 @Composable
 @Preview(showBackground = true)
 fun BranchesScreenContentPreview(modifier: Modifier = Modifier) {
+
 }
 

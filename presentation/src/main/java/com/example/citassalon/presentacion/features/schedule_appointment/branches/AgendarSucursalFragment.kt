@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.schedule_appointment.branch
+package com.example.citassalon.presentacion.features.schedule_appointment.branches
 
 
 import android.os.Bundle

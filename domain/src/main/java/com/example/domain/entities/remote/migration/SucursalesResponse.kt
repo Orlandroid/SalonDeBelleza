@@ -24,7 +24,19 @@ data class Service(
     val name: String,
     val precio: Int,
     var isSelect: Boolean = false
-)
+) {
+    companion object {
+        private fun mockService() = Service(id = "0", name = "Corte de pelo", precio = 150)
+
+        fun mockListServices() = listOf(
+            mockService(),
+            mockService(),
+            mockService(),
+            mockService(),
+            mockService()
+        )
+    }
+}
 
 data class Staff(
     val id: String,
@@ -34,7 +46,16 @@ data class Staff(
     val valoracion: Int
 ) {
     companion object {
-        fun mockStaff() = Staff(id = "", image_url = "", nombre = "Orlando", sexo = "Hombre", valoracion = 4)
+        fun mockStaff() =
+            Staff(id = "", image_url = "", nombre = "Orlando", sexo = "Hombre", valoracion = 4)
+
+        fun mockStaffList() = listOf(
+            mockStaff(),
+            mockStaff(),
+            mockStaff(),
+            mockStaff(),
+            mockStaff(),
+        )
     }
 }
 

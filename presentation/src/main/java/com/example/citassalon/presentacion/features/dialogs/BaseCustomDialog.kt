@@ -31,7 +31,6 @@ fun BaseCustomDialog(
     ) {
         Box(
             modifier = modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
         ) {
             Box(
                 Modifier

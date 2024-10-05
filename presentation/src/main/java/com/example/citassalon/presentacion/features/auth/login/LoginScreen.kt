@@ -27,7 +27,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -43,6 +42,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
@@ -53,7 +53,6 @@ import com.example.citassalon.presentacion.features.app_navigation.MainActivityC
 import com.example.citassalon.presentacion.features.auth.AuthScreens
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
-import com.example.citassalon.presentacion.features.dialogs.AlertDialogForgetPasswordScreen
 import com.example.citassalon.presentacion.features.theme.Background
 
 @Composable
@@ -62,8 +61,23 @@ fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel(),
     navigateToScheduleNav: () -> Unit
 ) {
-    val status = viewModel.status.collectAsState()
-    val effect = viewModel.effects.collectAsState()
+    val status = viewModel.status.collectAsStateWithLifecycle()
+    val effect = viewModel.effects.collectAsStateWithLifecycle()
+    LaunchedEffect(effect.value) {
+        when (effect.value) {
+            LoginUiEffect.GoToSignUp -> {
+                navController.navigate(AuthScreens.SingUpRoute)
+                viewModel.resetEffects()
+            }
+
+            LoginUiEffect.NavigateToHomeScreen -> {
+                navigateToScheduleNav.invoke()
+                viewModel.resetEffects()
+            }
+
+            else -> {}
+        }
+    }
     LoginScreenContent(
         userEmail = viewModel.getUserEmailFromPreferences(),
         navController = navController,
@@ -71,19 +85,6 @@ fun LoginScreen(
         loginAction = viewModel::handleActions,
         isLoading = status.value.isLoading
     )
-    LaunchedEffect(effect.value) {
-        when (effect.value) {
-            LoginUiEffect.GoToSignUp -> {
-                navController.navigate(AuthScreens.SingUpRoute)
-            }
-
-            LoginUiEffect.NavigateToHomeScreen -> {
-                navigateToScheduleNav.invoke()
-            }
-
-            else -> {}
-        }
-    }
 }
 
 @Composable

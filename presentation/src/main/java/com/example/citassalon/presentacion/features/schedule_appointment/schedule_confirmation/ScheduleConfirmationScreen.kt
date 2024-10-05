@@ -48,7 +48,14 @@ fun ScheduleConfirmationScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(title = "Agendar comfirmacion")
     ) {
-        ScheduleConfirmationScreenContent(flowMainViewModel = flowMainViewModel)
+        ScheduleConfirmationScreenContent(
+            branchName = flowMainViewModel.sucursal.name,
+            staffName = flowMainViewModel.currentStaff.nombre,
+            service = flowMainViewModel.listOfServices[0].name,
+            servicePrice = flowMainViewModel.listOfServices[0].precio.toString(),
+            dateAppointment = flowMainViewModel.dateAppointment,
+            hourAppointment = flowMainViewModel.hourAppointment
+        )
     }
 }
 
@@ -56,7 +63,12 @@ fun ScheduleConfirmationScreen(
 @Composable
 fun ScheduleConfirmationScreenContent(
     modifier: Modifier = Modifier,
-    flowMainViewModel: FlowMainViewModel
+    branchName: String,
+    staffName: String,
+    service: String,
+    servicePrice: String,
+    dateAppointment: String,
+    hourAppointment: String
 ) {
     val showConfirmationDialog = remember { mutableStateOf(false) }
     if (showConfirmationDialog.value) {
@@ -74,28 +86,27 @@ fun ScheduleConfirmationScreenContent(
         Spacer(modifier = Modifier.height(16.dp))
         Text(text = stringResource(id = R.string.confirmacionDeCita), fontSize = 20.sp)
         Spacer(modifier = Modifier.height(8.dp))
-        flowMainViewModel.let { flow ->
-            ButtonImageAndText(
-                text = flow.sucursal.name,
-                iconImage = R.drawable.place_24p_negro
-            )
-            ButtonImageAndText(
-                text = flow.currentStaff.nombre,
-                iconImage = R.drawable.face_unlock_24px
-            )
-            ButtonImageAndText(
-                text = flow.listOfServices[0].name,
-                iconImage = R.drawable.stars_24px
-            )
-            ButtonImageAndText(
-                text = flow.dateAppointment,
-                iconImage = R.drawable.insert_invitation_24px
-            )
-            ButtonImageAndText(
-                text = flow.hourAppointment,
-                iconImage = R.drawable.watch_later_24px
-            )
-        }
+        ButtonImageAndText(
+            text = branchName,
+            iconImage = R.drawable.place_24p_negro
+        )
+        ButtonImageAndText(
+            text = staffName,
+            iconImage = R.drawable.face_unlock_24px
+        )
+        ButtonImageAndText(
+            text = service,
+            iconImage = R.drawable.stars_24px
+        )
+        ButtonImageAndText(
+            text = dateAppointment,
+            iconImage = R.drawable.insert_invitation_24px
+        )
+        ButtonImageAndText(
+            text = hourAppointment,
+            iconImage = R.drawable.watch_later_24px
+        )
+
         Spacer(modifier = Modifier.height(32.dp))
         Row(
             horizontalArrangement = Arrangement.Absolute.SpaceAround,
@@ -107,7 +118,7 @@ fun ScheduleConfirmationScreenContent(
                 fontSize = 20.sp
             )
             Text(
-                text = flowMainViewModel.listOfServices[0].precio.toString(),
+                text = servicePrice,
                 fontSize = 20.sp
             )
         }
@@ -174,5 +185,12 @@ private fun ButtonImageAndText(
 @Composable
 @Preview(showBackground = true)
 fun ScheduleConfirmationScreenContentPreview(modifier: Modifier = Modifier) {
-    ScheduleConfirmationScreenContent(flowMainViewModel = FlowMainViewModel())
+    ScheduleConfirmationScreenContent(
+        branchName = "Zacatecas",
+        staffName = "Orlando",
+        servicePrice = "150",
+        service = "Corte de pelo",
+        dateAppointment = "12/09/2024",
+        hourAppointment = "12:30 am"
+    )
 }

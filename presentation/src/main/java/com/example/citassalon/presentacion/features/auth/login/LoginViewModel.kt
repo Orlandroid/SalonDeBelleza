@@ -59,6 +59,10 @@ class LoginViewModel
         }
     }
 
+    fun resetEffects() {
+        _effects.value = LoginUiEffect.Idle
+    }
+
     private val _forgetPasswordStatus = MutableLiveData<SessionStatus>()
     val forgetPasswordStatus: LiveData<SessionStatus> get() = _forgetPasswordStatus
 

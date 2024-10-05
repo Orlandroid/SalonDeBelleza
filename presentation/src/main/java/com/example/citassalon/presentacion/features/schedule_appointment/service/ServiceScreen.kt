@@ -22,6 +22,7 @@ import com.example.citassalon.presentacion.features.flow_main.FlowMainViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
 import com.example.citassalon.presentacion.features.theme.BackgroundListsMainFlow
 import com.example.domain.entities.remote.migration.Service
+import com.example.domain.entities.remote.migration.Staff
 
 @Composable
 fun ServiceScreen(
@@ -32,7 +33,13 @@ fun ServiceScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.agendar_servicio))
     ) {
-        ServiceScreenContent(modifier = Modifier, mainViewModel = mainViewModel) {
+        ServiceScreenContent(
+            modifier = Modifier,
+            staff = mainViewModel.currentStaff,
+            branch = mainViewModel.sucursal.name,
+            listOfServices = mainViewModel.listOfServices
+        ) {
+            mainViewModel.currentStaff
             navController.navigate(ScheduleAppointmentScreens.ScheduleRoute)
         }
     }
@@ -41,21 +48,23 @@ fun ServiceScreen(
 @Composable
 fun ServiceScreenContent(
     modifier: Modifier = Modifier,
-    mainViewModel: FlowMainViewModel,
+    staff: Staff,
+    branch: String,
+    listOfServices: List<Service>,
     navigateToDateScreen: () -> Unit
 ) {
     Column(modifier.fillMaxSize()) {
         MediumSpacer(orientation = Orientation.VERTICAL)
         ItemStaff(
-            staff = mainViewModel.currentStaff,
-            branch = mainViewModel.sucursal.name
+            staff = staff,
+            branch = branch
         )
         MediumSpacer(orientation = Orientation.VERTICAL)
         Card(
             colors = CardDefaults.cardColors(containerColor = BackgroundListsMainFlow)
         ) {
             ListServices(
-                listOfServices = mainViewModel.listOfServices,
+                listOfServices = listOfServices,
                 navigateToDateScreen = navigateToDateScreen
             )
         }
@@ -87,5 +96,10 @@ fun ListServices(
 @Composable
 @Preview(showBackground = true)
 fun ServiceScreenContentPreview(modifier: Modifier = Modifier) {
-    ServiceScreenContent(mainViewModel = FlowMainViewModel()) {}
+    ServiceScreenContent(
+        staff = Staff.mockStaff(),
+        branch = "Zacatecas",
+        listOfServices = Service.mockListServices(),
+        navigateToDateScreen = {}
+    )
 }

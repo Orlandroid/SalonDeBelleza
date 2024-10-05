@@ -43,7 +43,9 @@ fun DetailStaffScreen(
 }
 
 @Composable
-fun DetailStaffScreenContent(modifier: Modifier = Modifier, staff: Staff) {
+fun DetailStaffScreenContent(
+    modifier: Modifier = Modifier, staff: Staff
+) {
     var rating: Float by remember { mutableFloatStateOf(staff.valoracion.toFloat()) }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -68,11 +70,16 @@ fun DetailStaffScreenContent(modifier: Modifier = Modifier, staff: Staff) {
             fontSize = 24.sp
         )
         Spacer(modifier = Modifier.height(16.dp))
-        RatingBar(value = rating, style = RatingBarStyle.Fill(), onValueChange = {
-            rating = it
-        }, onRatingChanged = {
+        RatingBar(
+            value = rating,
+            style = RatingBarStyle.Fill(),
+            onValueChange = {
+                rating = it
+            },
+            onRatingChanged = {
 
-        })
+            }
+        )
     }
 }
 

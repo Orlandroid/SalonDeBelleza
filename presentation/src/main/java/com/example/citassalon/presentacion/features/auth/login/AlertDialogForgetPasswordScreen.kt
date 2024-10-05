@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.dialogs
+package com.example.citassalon.presentacion.features.auth.login
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.traceEventEnd
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -33,15 +34,20 @@ import androidx.constraintlayout.compose.Dimension
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.Orientation
 import com.example.citassalon.presentacion.features.base.SmallSpacer
+import com.example.citassalon.presentacion.features.dialogs.BaseCustomDialog
 import com.example.citassalon.presentacion.features.theme.Background
+import com.example.citassalon.presentacion.util.isValidEmail
 
 @Composable
 fun AlertDialogForgetPasswordScreen(
     modifier: Modifier = Modifier, onDismissRequest: () -> Unit
 ) {
-    BaseCustomDialog(modifier = modifier, onDismissRequest = { }) {
+    BaseCustomDialog(
+        modifier = modifier,
+        onDismissRequest = { }
+    ) {
         AlertDialogForgetPasswordContent(
-            modifier = modifier, onDismissRequest
+            modifier = modifier, onDismissRequest = onDismissRequest
         )
     }
 }
@@ -72,7 +78,8 @@ fun AlertDialogForgetPasswordContent(
                     end.linkTo(parent.end)
                     height = Dimension.value(64.dp)
                     width = Dimension.value(64.dp)
-                })
+                }
+            )
             Image(painter = closeImage,
                 contentDescription = "ImageClose",
                 modifier = Modifier
@@ -84,7 +91,8 @@ fun AlertDialogForgetPasswordContent(
                     }
                     .clickable {
                         onDismissRequest.invoke()
-                    })
+                    }
+            )
         }
         SmallSpacer(orientation = Orientation.VERTICAL)
         Text(
@@ -93,7 +101,10 @@ fun AlertDialogForgetPasswordContent(
             textAlign = TextAlign.Center,
             modifier = Modifier.wrapContentWidth()
         )
-        InputEmail(userEmail)
+        InputEmail(userEmail.value) { email ->
+            userEmail.value = email
+            isEnableButton.value = isValidEmail(email)
+        }
         SmallSpacer(orientation = Orientation.VERTICAL)
         Button(enabled = isEnableButton.value, onClick = {}) {
             Text(text = stringResource(id = R.string.reset_password))
@@ -102,15 +113,18 @@ fun AlertDialogForgetPasswordContent(
 }
 
 @Composable
-fun InputEmail(userEmail: MutableState<String>) {
+fun InputEmail(
+    userEmail: String,
+    onValueChange: (String) -> Unit
+) {
     OutlinedTextField(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 8.dp),
         singleLine = true,
-        value = userEmail.value,
+        value = userEmail,
         onValueChange = {
-            userEmail.value = it
+            onValueChange(it)
         },
         leadingIcon = {
             Icon(

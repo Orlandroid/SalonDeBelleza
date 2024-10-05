@@ -34,7 +34,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.app_navigation.MainActivityCompose
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
@@ -51,17 +50,42 @@ fun ProfileScreen(
     profileViewModel: PerfilViewModel = hiltViewModel(),
 ) {
     BaseComposeScreen(
-        navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(
-            showToolbar = true,
-            isWithBackIcon = true,
-            title = stringResource(
+        navController = navController, toolbarConfiguration = ToolbarConfiguration(
+            showToolbar = true, isWithBackIcon = true, title = stringResource(
                 id = R.string.perfil
             )
         )
     ) {
         val firebaseUser = profileViewModel.firebaseUser.observeAsState()
         val showCloseSessionAlert = remember { mutableStateOf(false) }
+        ProfileScreenContent(
+            modifier = Modifier,
+            email = firebaseUser.value?.email ?: "",
+            elementsProfile = profileViewModel.setElementsMenu(),
+        ) { itemProfile ->
+            when (itemProfile.menu) {
+                MENU.PROFILE -> {
+                    navController.navigate(ProfileNavigationScreen.UserProfileRoute)
+                }
+
+                MENU.HISTORY -> {
+                    navController.navigate(ProfileNavigationScreen.AppointmentHistoryRoute)
+                }
+
+                MENU.CONTACTS -> {
+                    navController.navigate(ProfileNavigationScreen.ContactsRoute)
+                }
+
+                MENU.TERMS_AND_CONDITIONS -> {
+                    navController.navigate(ProfileNavigationScreen.TermsAndConditionsRoute)
+                }
+
+                MENU.CLOSE_SESSION -> {
+                    profileViewModel.destroyUserSession()
+                    showCloseSessionAlert.value = true
+                }
+            }
+        }
         val activity = LocalContext.current as Activity
         if (showCloseSessionAlert.value) {
             BaseAlertDialog(
@@ -77,33 +101,45 @@ fun ProfileScreen(
                 dialogText = stringResource(id = R.string.seguro_que_deseas_cerrar_sesion)
             )
         }
-        ConstraintLayout(
+    }
+}
+
+@Composable
+private fun ProfileScreenContent(
+    modifier: Modifier = Modifier,
+    email: String,
+    elementsProfile: List<ProfileItem>,
+    clickOnItemProfile: (ProfileItem) -> Unit = {}
+) {
+    ConstraintLayout(
+        modifier = modifier
+            .fillMaxSize()
+            .background(Background)
+    ) {
+        val (image, textUser, listProfile) = createRefs()
+        val myGuideline = createGuidelineFromTop(0.40f)
+        Image(painter = painterResource(id = R.drawable.perfil),
+            contentDescription = null,
+            modifier = Modifier.constrainAs(image) {
+                linkTo(parent.start, parent.end)
+                top.linkTo(parent.top, 24.dp)
+                width = Dimension.value(100.dp)
+                height = Dimension.value(100.dp)
+            }
+        )
+        Text(
+            text = email,
+            fontSize = 20.sp,
+            modifier = Modifier.constrainAs(textUser) {
+                linkTo(parent.start, parent.end)
+                top.linkTo(image.bottom)
+                bottom.linkTo(listProfile.top)
+                width = Dimension.wrapContent
+                height = Dimension.wrapContent
+            }
+        )
+        LazyColumn(
             modifier = Modifier
-                .fillMaxSize()
-                .background(Background)
-        ) {
-            val (image, textUser, listProfile) = createRefs()
-            val myGuideline = createGuidelineFromTop(0.40f)
-            Image(painter = painterResource(id = R.drawable.perfil),
-                contentDescription = null,
-                modifier = Modifier.constrainAs(image) {
-                    linkTo(parent.start, parent.end)
-                    top.linkTo(parent.top, 24.dp)
-                    width = Dimension.value(100.dp)
-                    height = Dimension.value(100.dp)
-                }
-            )
-            Text(text = firebaseUser.value?.email ?: "",
-                fontSize = 20.sp,
-                modifier = Modifier.constrainAs(textUser) {
-                    linkTo(parent.start, parent.end)
-                    top.linkTo(image.bottom)
-                    bottom.linkTo(listProfile.top)
-                    width = Dimension.wrapContent
-                    height = Dimension.wrapContent
-                }
-            )
-            LazyColumn(modifier = Modifier
                 .border(
                     shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
                     border = BorderStroke(0.dp, Color.White)
@@ -116,15 +152,11 @@ fun ProfileScreen(
                     width = Dimension.matchParent
                     height = Dimension.fillToConstraints
                 }
-            ) {
-                profileViewModel.setElementsMenu().forEach { itemProfile ->
-                    item {
-                        ItemProfile(elementProfile = itemProfile) {
-                            clickOnItem(itemProfile, navController) {
-                                profileViewModel.destroyUserSession()
-                                showCloseSessionAlert.value = true
-                            }
-                        }
+        ) {
+            elementsProfile.forEach { itemProfile ->
+                item {
+                    ItemProfile(elementProfile = itemProfile) {
+                        clickOnItemProfile(itemProfile)
                     }
                 }
             }
@@ -141,14 +173,17 @@ fun ItemProfile(
             .fillMaxWidth()
             .padding(8.dp),
         onClick = { clickOnItem.invoke() }) {
-        ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
+        ConstraintLayout(
+            modifier = Modifier.fillMaxWidth()
+        ) {
             val (row, icon) = createRefs()
             Row(verticalAlignment = Alignment.CenterVertically,
                 modifier = Modifier.constrainAs(row) {
                     start.linkTo(parent.start)
                     end.linkTo(icon.start, 16.dp)
                     width = Dimension.matchParent
-                }) {
+                }
+            ) {
                 Spacer(modifier = Modifier.width(16.dp))
                 Image(
                     painter = painterResource(id = elementProfile.image),
@@ -159,7 +194,8 @@ fun ItemProfile(
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
-                    text = elementProfile.name, fontSize = 20.sp
+                    text = elementProfile.name,
+                    fontSize = 20.sp
                 )
             }
             Icon(painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_24),
@@ -174,39 +210,11 @@ fun ItemProfile(
     }
 }
 
-
-fun clickOnItem(
-    itemProfile: ProfileItem,
-    navController: NavHostController,
-    onCloseSession: () -> Unit
-) {
-    when (itemProfile.menu) {
-        MENU.PROFILE -> {
-            navController.navigate(ProfileNavigationScreen.UserProfileRoute)
-        }
-
-        MENU.HISTORY -> {
-            navController.navigate(ProfileNavigationScreen.AppointmentHistoryRoute)
-        }
-
-        MENU.CONTACTS -> {
-            navController.navigate(ProfileNavigationScreen.ContactsRoute)
-        }
-
-        MENU.TERMS_AND_CONDITIONS -> {
-            navController.navigate(ProfileNavigationScreen.TermsAndConditionsRoute)
-        }
-
-        MENU.CLOSE_SESSION -> {
-            onCloseSession.invoke()
-        }
-    }
-
-}
-
 @Composable
 @Preview(showBackground = true)
 fun ProfileScreenPreview(modifier: Modifier = Modifier) {
-    val profileElement = listOf(ProfileItem(name = "", image = R.drawable.perfil, MENU.PROFILE))
-    ProfileScreen(rememberNavController())
+    ProfileScreenContent(
+        email = "android@gmail.com",
+        elementsProfile = ProfileItem.mockProfileList(R.drawable.perfil)
+    )
 }

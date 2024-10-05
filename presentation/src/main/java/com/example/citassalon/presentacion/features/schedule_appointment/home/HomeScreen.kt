@@ -23,7 +23,6 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavHostController
-import androidx.navigation.compose.rememberNavController
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.app_navigation.MainActivityCompose
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
@@ -42,8 +41,25 @@ fun HomeScreen(
     BackHandler {
         (activity as MainActivityCompose).finish()
     }
+    HomeScreenContent(
+        modifier = Modifier,
+        goToInfoNavigation = goToInfoNavigation,
+        goToProfileNavigation = goToProfileNavigation,
+        goToBranchesScreen = {
+            navController.navigate(ScheduleAppointmentScreens.ChoseBranchRoute)
+        }
+    )
+}
+
+@Composable
+private fun HomeScreenContent(
+    modifier: Modifier = Modifier,
+    goToInfoNavigation: () -> Unit,
+    goToProfileNavigation: () -> Unit,
+    goToBranchesScreen: () -> Unit
+) {
     ConstraintLayout(
-        Modifier
+        modifier
             .fillMaxSize()
             .background(Background)
     ) {
@@ -86,13 +102,7 @@ fun HomeScreen(
                 height = Dimension.wrapContent
             }
         )
-        OutlinedButton(
-            colors = ButtonDefaults.buttonColors(
-                containerColor = AlwaysWhite
-            ),
-            onClick = {
-                navController.navigate(ScheduleAppointmentScreens.ChoseBranchRoute)
-            },
+        ButtonSchedule(
             modifier = Modifier
                 .constrainAs(btnSchedule) {
                     top.linkTo(myGuideline)
@@ -101,51 +111,89 @@ fun HomeScreen(
                     end.linkTo(parent.end)
                     width = Dimension.wrapContent
                     height = Dimension.wrapContent
-                }
-        ) {
-            Text(
-                color = AlwaysBlack,
-                text = stringResource(id = R.string.agendar_button),
-                fontFamily = FontFamily(Font(R.font.poppins_medium))
-            )
-        }
-        FloatingActionButton(
+                },
+            goToBranchesScreen = goToBranchesScreen
+        )
+        FloatingButtonInfo(
             modifier = Modifier.constrainAs(floatingLeft) {
                 start.linkTo(parent.start, 48.dp)
                 bottom.linkTo(parent.bottom, 60.dp)
             },
-            onClick = {
-                goToInfoNavigation()
-            }
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_baseline_list_24),
-                contentDescription = null
-            )
-
-        }
-        FloatingActionButton(
+            goToInfoNavigation = goToInfoNavigation
+        )
+        FloatingButtonProfile(
             modifier = Modifier.constrainAs(floatingProfile) {
                 end.linkTo(parent.end, 48.dp)
                 bottom.linkTo(parent.bottom, 60.dp)
             },
-            onClick = {
-                goToProfileNavigation()
-            }
-        ) {
-            Icon(
-                painter = painterResource(id = R.drawable.ic_baseline_person_24),
-                contentDescription = null
-            )
+            goToProfileNavigation = goToProfileNavigation
+        )
+    }
+}
+
+@Composable
+private fun ButtonSchedule(
+    modifier: Modifier = Modifier,
+    goToBranchesScreen: () -> Unit
+) {
+    OutlinedButton(
+        colors = ButtonDefaults.buttonColors(
+            containerColor = AlwaysWhite
+        ),
+        onClick = {
+            goToBranchesScreen()
+        },
+        modifier = modifier
+    ) {
+        Text(
+            color = AlwaysBlack,
+            text = stringResource(id = R.string.agendar_button),
+            fontFamily = FontFamily(Font(R.font.poppins_medium))
+        )
+    }
+}
+
+@Composable
+private fun FloatingButtonInfo(
+    modifier: Modifier = Modifier,
+    goToInfoNavigation: () -> Unit
+) {
+    FloatingActionButton(
+        modifier = modifier,
+        onClick = {
+            goToInfoNavigation()
         }
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_baseline_list_24),
+            contentDescription = null
+        )
+    }
+}
+
+@Composable
+private fun FloatingButtonProfile(
+    modifier: Modifier = Modifier,
+    goToProfileNavigation: () -> Unit
+) {
+    FloatingActionButton(
+        modifier = modifier,
+        onClick = {
+            goToProfileNavigation()
+        }
+    ) {
+        Icon(
+            painter = painterResource(id = R.drawable.ic_baseline_person_24),
+            contentDescription = null
+        )
     }
 }
 
 @Composable
 @Preview(showBackground = true)
 fun HomeScreenPreview(modifier: Modifier = Modifier) {
-    HomeScreen(
-        navController = rememberNavController(),
+    HomeScreenContent(
+        goToBranchesScreen = {},
         goToProfileNavigation = {},
         goToInfoNavigation = {}
     )
