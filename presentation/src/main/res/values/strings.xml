@@ -101,6 +101,15 @@
          repellendus voluptatibus quidem? Repellat molestias dignissimos explicabo consequatur
           est autem natus. Perferendis unde nobis necessitatibus magnam at aspernatur animi,
     </string>
+    <string name="test_text">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit.
+     Repudiandae saepe temporibus, aut enim quibusdam debitis
+      voluptate aliquid reprehenderit ea dolorum tenetur, molestiae
+      voluptatibus similique error accusamus omnis vero et velit deserunt,
+      necessitatibus nihil sit perferendis! Eveniet ab corporis nihil aperiam
+      libero quibusdam reiciendis quis beatae pariatur animi inventore quod
+       dignissimos eligendi, facilis aspernatur ea! Maxime eius possimus.
+    </string>
     <string name="nombre_establecimiento">Nombre Establecimiento</string>
     <string name="network_error">Error de conexion</string>
     <string name="retry">Reintentar</string>

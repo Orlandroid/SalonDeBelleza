@@ -38,7 +38,7 @@ import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.app_navigation.MainActivityCompose
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
-import com.example.citassalon.presentacion.features.dialogs.BaseAlertDialog
+import com.example.citassalon.presentacion.features.dialogs.BaseAlertDialogMessages
 import com.example.citassalon.presentacion.features.profile.ProfileNavigationScreen
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.perfil.MENU
@@ -88,7 +88,7 @@ fun ProfileScreen(
         }
         val activity = LocalContext.current as Activity
         if (showCloseSessionAlert.value) {
-            BaseAlertDialog(
+            BaseAlertDialogMessages(
                 onDismissRequest = {
                     showCloseSessionAlert.value = false
                 },

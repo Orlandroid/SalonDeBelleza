@@ -46,7 +46,7 @@ fun BranchesScreen(
     ) {
         when (state.value) {
             is BranchState.Error -> {
-                Log.e("ANDORID", "Error")
+
             }
 
             is BranchState.Loading -> {
@@ -54,7 +54,6 @@ fun BranchesScreen(
             }
 
             is BranchState.Success -> {
-                (state.value as BranchState.Success<List<NegoInfo>>).data
                 BranchesScreenContent(
                     modifier = Modifier,
                     branches = (state.value as BranchState.Success<List<NegoInfo>>).data,
@@ -96,9 +95,7 @@ fun BranchesScreenContent(
         ) {
             ShowBranches(
                 branches = branches,
-                goToNextScreen = {
-                    goToNextScreen.invoke()
-                },
+                goToNextScreen = goToNextScreen,
                 currentBranch = { chosenBranch ->
                     mainViewModel.let {
                         it.sucursal = chosenBranch.sucursal
