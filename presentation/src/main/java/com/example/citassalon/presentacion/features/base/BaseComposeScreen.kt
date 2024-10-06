@@ -8,13 +8,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.State
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.components.Toolbar
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.dialogs.AlertDialogMessagesConfig
@@ -52,27 +52,26 @@ fun BaseComposeScreen(
 fun <T> BaseComposeScreenState(
     navController: NavController,
     toolbarConfiguration: ToolbarConfiguration = ToolbarConfiguration(),
-    alertDialogMessagesConfig: AlertDialogMessagesConfig = AlertDialogMessagesConfig(
-        title = R.string.test_text,
-        bodyMessage = R.string.message_body,
-        buttonText = R.string.aceptar
-    ),
+    alertDialogMessagesConfig: AlertDialogMessagesConfig,
     background: Color = Background,
-    state: State<BaseScreenState<T>>,
+    state: BaseScreenState<T>,
     content: @Composable () -> Unit,
 ) {
-    Scaffold(topBar = {
-        if (toolbarConfiguration.showToolbar) {
-            Toolbar(
-                navController = navController, toolbarConfiguration = toolbarConfiguration
-            )
+    Scaffold(
+        topBar = {
+            if (toolbarConfiguration.showToolbar) {
+                Toolbar(
+                    navController = navController, toolbarConfiguration = toolbarConfiguration
+                )
+            }
         }
-    }) { paddingValues ->
+    ) { paddingValues ->
         ContentScreen(
             paddingValues = paddingValues, background = background
         ) {
             BaseStateScreen(
-                state = state, alertDialogMessagesConfig = alertDialogMessagesConfig
+                state = state,
+                alertDialogMessagesConfig = alertDialogMessagesConfig
             ) {
                 content()
             }
@@ -82,15 +81,14 @@ fun <T> BaseComposeScreenState(
 
 @Composable
 fun <T> BaseStateScreen(
-    state: State<BaseScreenState<T>>,
+    state: BaseScreenState<T>,
     alertDialogMessagesConfig: AlertDialogMessagesConfig,
     content: @Composable () -> Unit,
 ) {
-    when (state.value) {
+    when (state) {
         is BaseScreenState.Error -> {
             BaseAlertDialogMessages(
                 alertDialogMessagesConfig = alertDialogMessagesConfig,
-                onConfirmation = {},
                 onDismissRequest = {},
             )
         }
@@ -104,11 +102,19 @@ fun <T> BaseStateScreen(
         }
 
         is BaseScreenState.ErrorNetwork -> {
-            BaseAlertDialogMessages(
-                onConfirmation = {},
-                onDismissRequest = {},
-                alertDialogMessagesConfig = alertDialogMessagesConfig
-            )
+            val shouldShowDialog = remember { mutableStateOf(true) }
+            if (shouldShowDialog.value) {
+                BaseAlertDialogMessages(
+                    onDismissRequest = {
+
+                    },
+                    alertDialogMessagesConfig = alertDialogMessagesConfig.copy(
+                        onConfirmation = {
+                            shouldShowDialog.value = false
+                        }
+                    )
+                )
+            }
         }
     }
 }

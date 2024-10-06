@@ -58,6 +58,7 @@ class BranchViewModel @Inject constructor(
             val response = repository.getSucursales()
             withContext(Dispatchers.Main) {
                 _state.value = BaseScreenState.Success(data = response.sucursales)
+                _state.value = BaseScreenState.ErrorNetwork()
             }
         }
     }

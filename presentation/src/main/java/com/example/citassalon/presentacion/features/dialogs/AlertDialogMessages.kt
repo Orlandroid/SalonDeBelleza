@@ -37,20 +37,17 @@ fun BaseAlertDialogMessages(
         AlertDialogMessagesConfig(
             title = R.string.title,
             bodyMessage = R.string.message_body,
-            buttonText = R.string.aceptar
+            buttonText = R.string.aceptar,
         ),
     onDismissRequest: () -> Unit,
-    onConfirmation: () -> Unit,
 ) {
     BaseCustomDialog(
-        modifier = modifier, onDismissRequest = onDismissRequest
+        modifier = modifier,
+        onDismissRequest = onDismissRequest
     ) {
         BaseAlertDialogMessagesContent(
-            title = alertDialogMessagesConfig.title,
-            bodyMessage = alertDialogMessagesConfig.bodyMessage,
-            onConfirmation = onConfirmation,
+            onConfirmation = alertDialogMessagesConfig.onConfirmation,
             alertDialogMessagesConfig = alertDialogMessagesConfig,
-            buttonMessage = alertDialogMessagesConfig.buttonText
         )
     }
 }
@@ -59,12 +56,6 @@ fun BaseAlertDialogMessages(
 fun BaseAlertDialogMessagesContent(
     modifier: Modifier = Modifier,
     alertDialogMessagesConfig: AlertDialogMessagesConfig,
-    @StringRes
-    title: Int,
-    @StringRes
-    bodyMessage: Int,
-    @StringRes
-    buttonMessage: Int,
     onConfirmation: () -> Unit
 ) {
     Column(
@@ -73,8 +64,7 @@ fun BaseAlertDialogMessagesContent(
         AlertTitle(
             kindOfMessage = alertDialogMessagesConfig.kindOfMessage,
             modifier = Modifier,
-            title = title,
-            onConfirmation = onConfirmation
+            title = alertDialogMessagesConfig.title,
         )
         MediumSpacer(orientation = Orientation.VERTICAL)
         Text(
@@ -82,14 +72,15 @@ fun BaseAlertDialogMessagesContent(
             modifier = Modifier
                 .fillMaxWidth()
                 .wrapContentHeight(),
-            text = stringResource(bodyMessage),
+            text = stringResource(alertDialogMessagesConfig.bodyMessage),
             fontSize = 18.sp,
             color = AlwaysBlack,
         )
         MediumSpacer(orientation = Orientation.VERTICAL)
         AlertButton(
             modifier = Modifier,
-            buttonMessage = buttonMessage
+            buttonMessage = alertDialogMessagesConfig.buttonText,
+            onConfirmation = onConfirmation
         )
     }
 }
@@ -99,16 +90,12 @@ fun AlertTitle(
     kindOfMessage: KindOfMessage,
     modifier: Modifier = Modifier,
     @StringRes
-    title: Int,
-    onConfirmation: () -> Unit
+    title: Int
 ) {
     Card(
         modifier = modifier
             .height(48.dp)
-            .fillMaxWidth()
-            .clickable {
-                onConfirmation.invoke()
-            },
+            .fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = kindOfMessage.color),
         shape = RectangleShape,
     ) {
@@ -127,12 +114,14 @@ fun AlertTitle(
 fun AlertButton(
     modifier: Modifier = Modifier,
     @StringRes
-    buttonMessage: Int
+    buttonMessage: Int,
+    onConfirmation: () -> Unit
 ) {
     Card(
         modifier = modifier
             .height(48.dp)
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable { onConfirmation.invoke() },
         colors = CardDefaults.cardColors(containerColor = Azul),
         shape = RectangleShape,
     ) {
@@ -155,7 +144,6 @@ fun BaseAlertDialogPreview(
 ) {
     BaseAlertDialogMessages(
         modifier = Modifier,
-        onConfirmation = {},
         onDismissRequest = {}
     )
 }
@@ -169,11 +157,12 @@ enum class KindOfMessage(val color: Color) {
 
 data class AlertDialogMessagesConfig(
     @StringRes
-    val title: Int,
+    val title: Int = R.string.title,
     @StringRes
-    val bodyMessage: Int,
+    val bodyMessage: Int = R.string.message_body,
     @StringRes
-    val buttonText: Int = R.string.test_text,
-    val kindOfMessage: KindOfMessage = KindOfMessage.INFO
+    val buttonText: Int = R.string.aceptar,
+    val kindOfMessage: KindOfMessage = KindOfMessage.INFO,
+    val onConfirmation: () -> Unit = {}
 )
 

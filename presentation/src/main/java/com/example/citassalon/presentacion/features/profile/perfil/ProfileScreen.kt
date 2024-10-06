@@ -91,17 +91,20 @@ fun ProfileScreen(
         }
         val activity = LocalContext.current as Activity
         if (showCloseSessionAlert.value) {
-            BaseAlertDialogMessages(onDismissRequest = {
-                showCloseSessionAlert.value = false
-            }, onConfirmation = {
-                showCloseSessionAlert.value = false
-                profileViewModel.logout()
-                (activity as MainActivityCompose).closeAndOpenActivity()
-            }, alertDialogMessagesConfig = AlertDialogMessagesConfig(
-                title = R.string.cerrar_session,
-                bodyMessage = R.string.seguro_que_deseas_cerrar_sesion,
-                kindOfMessage = KindOfMessage.WARING
-            )
+            BaseAlertDialogMessages(
+                onDismissRequest = {
+                    showCloseSessionAlert.value = false
+                },
+                alertDialogMessagesConfig = AlertDialogMessagesConfig(
+                    title = R.string.cerrar_session,
+                    bodyMessage = R.string.seguro_que_deseas_cerrar_sesion,
+                    kindOfMessage = KindOfMessage.WARING,
+                    onConfirmation = {
+                        showCloseSessionAlert.value = false
+                        profileViewModel.logout()
+                        (activity as MainActivityCompose).closeAndOpenActivity()
+                    }
+                )
             )
         }
     }

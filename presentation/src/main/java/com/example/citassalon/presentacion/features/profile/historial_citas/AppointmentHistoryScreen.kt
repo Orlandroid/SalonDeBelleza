@@ -106,13 +106,13 @@ fun DatingHistory(
             onDismissRequest = {
                 openAlertDialog.value = false
             },
-            onConfirmation = {
-                openAlertDialog.value = false
-            },
             alertDialogMessagesConfig = AlertDialogMessagesConfig(
                 title = R.string.delete_row_message,
                 bodyMessage = R.string.delete_row_message,
-                kindOfMessage = KindOfMessage.WARING
+                kindOfMessage = KindOfMessage.WARING,
+                onConfirmation = {
+                    openAlertDialog.value = false
+                }
             )
         )
     }
