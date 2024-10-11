@@ -18,6 +18,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.lang.Exception
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
 
@@ -58,7 +59,6 @@ class BranchViewModel @Inject constructor(
             val response = repository.getSucursales()
             withContext(Dispatchers.Main) {
                 _state.value = BaseScreenState.Success(data = response.sucursales)
-                _state.value = BaseScreenState.ErrorNetwork()
             }
         }
     }

@@ -43,7 +43,7 @@ fun BranchesScreen(
     BaseComposeScreenState(
         alertDialogMessagesConfig = AlertDialogMessagesConfig(
             onConfirmation = {
-                Log.w("ANDROID", "onConfirmation")
+
             }
         ),
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.agendar_sucursal)),

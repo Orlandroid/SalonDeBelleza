@@ -15,10 +15,12 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.components.Toolbar
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.dialogs.AlertDialogMessagesConfig
 import com.example.citassalon.presentacion.features.dialogs.BaseAlertDialogMessages
+import com.example.citassalon.presentacion.features.dialogs.KindOfMessage
 import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.schedule_appointment.branches.BaseScreenState
 import com.example.citassalon.presentacion.features.theme.Background
@@ -48,6 +50,7 @@ fun BaseComposeScreen(
     }
 }
 
+
 @Composable
 fun <T> BaseComposeScreenState(
     navController: NavController,
@@ -57,21 +60,18 @@ fun <T> BaseComposeScreenState(
     state: BaseScreenState<T>,
     content: @Composable () -> Unit,
 ) {
-    Scaffold(
-        topBar = {
-            if (toolbarConfiguration.showToolbar) {
-                Toolbar(
-                    navController = navController, toolbarConfiguration = toolbarConfiguration
-                )
-            }
+    Scaffold(topBar = {
+        if (toolbarConfiguration.showToolbar) {
+            Toolbar(
+                navController = navController, toolbarConfiguration = toolbarConfiguration
+            )
         }
-    ) { paddingValues ->
+    }) { paddingValues ->
         ContentScreen(
             paddingValues = paddingValues, background = background
         ) {
             BaseStateScreen(
-                state = state,
-                alertDialogMessagesConfig = alertDialogMessagesConfig
+                state = state, alertDialogMessagesConfig = alertDialogMessagesConfig
             ) {
                 content()
             }
@@ -87,10 +87,7 @@ fun <T> BaseStateScreen(
 ) {
     when (state) {
         is BaseScreenState.Error -> {
-            BaseAlertDialogMessages(
-                alertDialogMessagesConfig = alertDialogMessagesConfig,
-                onDismissRequest = {},
-            )
+            ErrorState(alertDialogMessagesConfig)
         }
 
         is BaseScreenState.Loading -> {
@@ -102,20 +99,46 @@ fun <T> BaseStateScreen(
         }
 
         is BaseScreenState.ErrorNetwork -> {
-            val shouldShowDialog = remember { mutableStateOf(true) }
-            if (shouldShowDialog.value) {
-                BaseAlertDialogMessages(
-                    onDismissRequest = {
-
-                    },
-                    alertDialogMessagesConfig = alertDialogMessagesConfig.copy(
-                        onConfirmation = {
-                            shouldShowDialog.value = false
-                        }
-                    )
-                )
-            }
+            ErrorNetworkState(alertDialogMessagesConfig)
         }
+    }
+}
+
+@Composable
+fun ErrorState(alertDialogMessagesConfig: AlertDialogMessagesConfig) {
+    val shouldShowDialogError = remember { mutableStateOf(true) }
+    if (shouldShowDialogError.value) {
+        BaseAlertDialogMessages(
+            alertDialogMessagesConfig = alertDialogMessagesConfig.copy(kindOfMessage = KindOfMessage.ERROR,
+                title = R.string.error,
+                bodyMessage = R.string.error_al_obtener_datos,
+                onConfirmation = {
+                    alertDialogMessagesConfig.onConfirmation.invoke()
+                    shouldShowDialogError.value = false
+                }
+            ),
+            onDismissRequest = {},
+        )
+    }
+}
+
+@Composable
+fun ErrorNetworkState(alertDialogMessagesConfig: AlertDialogMessagesConfig) {
+    val shouldShowDialogNetworkError = remember { mutableStateOf(true) }
+    if (shouldShowDialogNetworkError.value) {
+        BaseAlertDialogMessages(
+            onDismissRequest = {
+
+            },
+            alertDialogMessagesConfig = alertDialogMessagesConfig.copy(kindOfMessage = KindOfMessage.ERROR,
+                title = R.string.network_error,
+                bodyMessage = R.string.network_error_message,
+                onConfirmation = {
+                    alertDialogMessagesConfig.onConfirmation.invoke()
+                    shouldShowDialogNetworkError.value = false
+                }
+            )
+        )
     }
 }
 
