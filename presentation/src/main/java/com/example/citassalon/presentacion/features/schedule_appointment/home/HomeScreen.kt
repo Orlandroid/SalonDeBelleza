@@ -190,7 +190,7 @@ private fun FloatingButtonProfile(
 }
 
 @Composable
-@Preview(showBackground = true)
+@Preview(showBackground = true, apiLevel = 33)
 fun HomeScreenPreview(modifier: Modifier = Modifier) {
     HomeScreenContent(
         goToBranchesScreen = {},

@@ -39,8 +39,7 @@ fun ScheduleStaffScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.agendar_staff))
     ) {
-        ScheduleStaffScreenContent(
-            branchName = mainViewModel.sucursal.name,
+        ScheduleStaffScreenContent(branchName = mainViewModel.sucursal.name,
             listOfStaffs = mainViewModel.listOfStaffs,
             navigateToDetailScreen = {
                 navController.navigate(ScheduleAppointmentScreens.DetailStaffRoute)
@@ -70,14 +69,11 @@ fun ScheduleStaffScreenContent(
     navigateToServicesScreen: () -> Unit
 ) {
     Column(
-        modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            text = branchName,
-            fontSize = 32.sp,
-            style = TextStyle(fontWeight = FontWeight.W900)
+            text = branchName, fontSize = 32.sp, style = TextStyle(fontWeight = FontWeight.W900)
         )
         Spacer(modifier = Modifier.height(16.dp))
         ButtonRandomStaff {
@@ -110,21 +106,18 @@ fun ListStaffs(
     ) {
         listOfStaffs.forEach { myStaff ->
             item {
-                ItemStaff(
-                    staff = myStaff,
-                    onClick = {
-                        clickOnStaff.invoke(myStaff)
-                        when (it) {
-                            ClickOnItemStaff.ClickOnImage -> {
-                                navigateToServicesScreen()
-                            }
+                ItemStaff(staff = myStaff, onClick = {
+                    clickOnStaff.invoke(myStaff)
+                    when (it) {
+                        ClickOnItemStaff.ClickOnImage -> {
+                            navigateToServicesScreen()
+                        }
 
-                            ClickOnItemStaff.ClickOnItem -> {
-                                navigateToDetailScreen()
-                            }
+                        ClickOnItemStaff.ClickOnItem -> {
+                            navigateToDetailScreen()
                         }
                     }
-                )
+                })
             }
         }
     }
@@ -132,11 +125,9 @@ fun ListStaffs(
 
 @Composable
 fun ButtonRandomStaff(onClick: () -> Unit) {
-    Button(
-        onClick = {
-            onClick.invoke()
-        }
-    ) {
+    Button(onClick = {
+        onClick.invoke()
+    }) {
         Text(text = stringResource(id = R.string.estilista_button))
     }
 }
@@ -144,13 +135,11 @@ fun ButtonRandomStaff(onClick: () -> Unit) {
 @Composable
 @Preview(showBackground = true)
 fun ScheduleStaffScreenContentPreview(modifier: Modifier = Modifier) {
-    ScheduleStaffScreenContent(
-        navigateToDetailScreen = {},
+    ScheduleStaffScreenContent(navigateToDetailScreen = {},
         navigateToServicesScreen = {},
         listOfStaffs = Staff.mockStaffList(),
         branchName = "Zacatecas",
         clickOnStaff = {},
-        clickOnRandomStaff = {}
-    )
+        clickOnRandomStaff = {})
 }
 
