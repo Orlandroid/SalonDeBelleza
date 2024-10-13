@@ -1,5 +1,6 @@
 package com.example.citassalon.presentacion.features.schedule_appointment
 
+import androidx.compose.runtime.internal.composableLambda
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -15,6 +16,7 @@ import com.example.citassalon.presentacion.features.schedule_appointment.schedul
 import com.example.citassalon.presentacion.features.schedule_appointment.service.ServiceScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.staff.ScheduleStaffScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.branches.Flow
+import com.example.citassalon.presentacion.features.schedule_appointment.cita_agendada.AppointmentScheduledScreen
 
 
 fun NavGraphBuilder.scheduleNavigationGraph(
@@ -64,7 +66,12 @@ fun NavGraphBuilder.scheduleNavigationGraph(
             ScheduleConfirmationScreen(
                 navController = navController,
                 flowMainViewModel = mainViewModel
-            )
+            ) {
+                navController.navigate(ScheduleAppointmentScreens.AppointmentScheduledRoute)
+            }
+        }
+        composable<ScheduleAppointmentScreens.AppointmentScheduledRoute> {
+            AppointmentScheduledScreen(navController = navController)
         }
     }
 }

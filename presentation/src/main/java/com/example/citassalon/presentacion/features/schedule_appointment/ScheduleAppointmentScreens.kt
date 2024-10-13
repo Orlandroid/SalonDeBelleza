@@ -23,5 +23,8 @@ sealed class ScheduleAppointmentScreens {
 
     @Serializable
     data object ScheduleConfirmationRoute
+
+    @Serializable
+    data object AppointmentScheduledRoute
 }
 

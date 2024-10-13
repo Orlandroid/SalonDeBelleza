@@ -42,7 +42,9 @@ import com.example.citassalon.presentacion.features.theme.Background
 
 @Composable
 fun ScheduleConfirmationScreen(
-    navController: NavController, flowMainViewModel: FlowMainViewModel
+    navController: NavController,
+    flowMainViewModel: FlowMainViewModel,
+    navigateToAppointmentSchedule: () -> Unit
 ) {
     BaseComposeScreen(
         navController = navController,
@@ -54,7 +56,8 @@ fun ScheduleConfirmationScreen(
             service = flowMainViewModel.listOfServices[0].name,
             servicePrice = flowMainViewModel.listOfServices[0].precio.toString(),
             dateAppointment = flowMainViewModel.dateAppointment,
-            hourAppointment = flowMainViewModel.hourAppointment
+            hourAppointment = flowMainViewModel.hourAppointment,
+            navigateToAppointmentSchedule = navigateToAppointmentSchedule
         )
     }
 }
@@ -68,12 +71,16 @@ fun ScheduleConfirmationScreenContent(
     service: String,
     servicePrice: String,
     dateAppointment: String,
-    hourAppointment: String
+    hourAppointment: String,
+    navigateToAppointmentSchedule: () -> Unit
 ) {
     val showConfirmationDialog = remember { mutableStateOf(false) }
     if (showConfirmationDialog.value) {
         ConfirmAppointmentDialog(
-            clickOnAccept = { showConfirmationDialog.value = false },
+            clickOnAccept = {
+                showConfirmationDialog.value = false
+                navigateToAppointmentSchedule.invoke()
+            },
             clickOnCancel = { showConfirmationDialog.value = false }
         )
     }
@@ -191,6 +198,7 @@ fun ScheduleConfirmationScreenContentPreview(modifier: Modifier = Modifier) {
         servicePrice = "150",
         service = "Corte de pelo",
         dateAppointment = "12/09/2024",
-        hourAppointment = "12:30 am"
+        hourAppointment = "12:30 am",
+        navigateToAppointmentSchedule = {}
     )
 }

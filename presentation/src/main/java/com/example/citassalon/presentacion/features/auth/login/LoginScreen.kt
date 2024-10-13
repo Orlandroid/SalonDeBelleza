@@ -160,7 +160,7 @@ fun LoginScreenContent(
 }
 
 @Composable
-fun LottieAnimation(modifier: Modifier = Modifier) {
+private fun LottieAnimation(modifier: Modifier = Modifier) {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.login_icon))
     LottieAnimation(
         iterations = LottieConstants.IterateForever,
