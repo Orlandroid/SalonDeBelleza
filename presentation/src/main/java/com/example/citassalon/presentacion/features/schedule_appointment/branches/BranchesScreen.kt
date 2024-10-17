@@ -1,6 +1,5 @@
 package com.example.citassalon.presentacion.features.schedule_appointment.branches
 
-import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column

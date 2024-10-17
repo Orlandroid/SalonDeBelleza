@@ -6,7 +6,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.citassalon.presentacion.features.schedule_appointment.branches.BaseScreenState
 import com.example.citassalon.presentacion.main.NetworkHelper
+import com.example.domain.entities.remote.migration.NegoInfo
 import com.example.domain.perfil.AppointmentFirebase
 import com.example.domain.state.ApiState
 import com.google.firebase.auth.FirebaseAuth
@@ -19,6 +21,8 @@ import com.google.firebase.database.ktx.getValue
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -42,7 +46,9 @@ class HistorialCitasViewModel @Inject constructor(
     val removeAppointment: MutableLiveData<ApiState<List<AppointmentFirebase>>>
         get() = _removeAppointment
 
-    val android = mutableStateOf("")
+    private val _state: MutableStateFlow<BaseScreenState<List<AppointmentFirebase>>> =
+        MutableStateFlow(BaseScreenState.Loading())
+    val state = _state.asStateFlow()
 
     init {
         getAppointments()
@@ -62,38 +68,37 @@ class HistorialCitasViewModel @Inject constructor(
 
     private fun getAppointments() = viewModelScope.launch {
         delay(2.seconds)
-        _appointment.value = ApiState.Loading()
+        _state.value = BaseScreenState.Loading()
         if (!networkHelper.isNetworkConnected()) {
             withContext(Dispatchers.Main) {
-                _appointment.value = ApiState.ErrorNetwork()
+                _state.value = BaseScreenState.ErrorNetwork()
             }
             return@launch
         }
         val databaseReference =
             provideFirebaseRealtimeDatabaseReference(firebaseDatabase, firebaseAuth)
-        databaseReference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                val listOfAppointments = arrayListOf<AppointmentFirebase>()
-                snapshot.children.forEach {
-                    val appointment = it.getValue<AppointmentFirebase>()
-                    appointment?.let {
-                        listOfAppointments.add(appointment)
+        databaseReference.addValueEventListener(
+            object : ValueEventListener {
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val listOfAppointments = arrayListOf<AppointmentFirebase>()
+                    snapshot.children.forEach {
+                        val appointment = it.getValue<AppointmentFirebase>()
+                        appointment?.let {
+                            listOfAppointments.add(appointment)
+                        }
                     }
-                    Log.w("POST", appointment.toString())
+                    if (listOfAppointments.isEmpty()) {
+                        _state.value = BaseScreenState.Success(data = emptyList())
+                    } else {
+                        _state.value = BaseScreenState.Success(data = listOfAppointments)
+                    }
                 }
-                if (listOfAppointments.isEmpty()) {
-                    _appointment.value = ApiState.NoData()
-                } else {
-                    _appointment.value = ApiState.Success(listOfAppointments)
+
+                override fun onCancelled(error: DatabaseError) {
+                    _state.value = BaseScreenState.Error(exception = Exception(error.message))
                 }
             }
-
-            override fun onCancelled(error: DatabaseError) {
-                _appointment.value = ApiState.Error(Throwable(message = error.message))
-                Log.i("ERROR", error.message)
-            }
-        })
-
+        )
     }
 
     fun removeAppointment(idAppointment: String) = viewModelScope.launch {

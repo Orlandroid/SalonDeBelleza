@@ -24,6 +24,7 @@ import com.example.citassalon.presentacion.features.dialogs.KindOfMessage
 import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.schedule_appointment.branches.BaseScreenState
 import com.example.citassalon.presentacion.features.theme.Background
+import kotlinx.coroutines.flow.StateFlow
 
 
 @Composable
@@ -55,18 +56,21 @@ fun BaseComposeScreen(
 fun <T> BaseComposeScreenState(
     navController: NavController,
     toolbarConfiguration: ToolbarConfiguration = ToolbarConfiguration(),
-    alertDialogMessagesConfig: AlertDialogMessagesConfig,
+    alertDialogMessagesConfig: AlertDialogMessagesConfig = AlertDialogMessagesConfig(),
     background: Color = Background,
     state: BaseScreenState<T>,
     content: @Composable () -> Unit,
 ) {
-    Scaffold(topBar = {
-        if (toolbarConfiguration.showToolbar) {
-            Toolbar(
-                navController = navController, toolbarConfiguration = toolbarConfiguration
-            )
+    Scaffold(
+        topBar = {
+            if (toolbarConfiguration.showToolbar) {
+                Toolbar(
+                    navController = navController,
+                    toolbarConfiguration = toolbarConfiguration
+                )
+            }
         }
-    }) { paddingValues ->
+    ) { paddingValues ->
         ContentScreen(
             paddingValues = paddingValues, background = background
         ) {

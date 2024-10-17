@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -27,102 +28,76 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.material3.Card
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.base.BaseComposeScreen
+import com.example.citassalon.presentacion.features.base.BaseComposeScreenState
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.dialogs.AlertDialogMessagesConfig
 import com.example.citassalon.presentacion.features.dialogs.BaseAlertDialogMessages
 import com.example.citassalon.presentacion.features.dialogs.KindOfMessage
 import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
+import com.example.citassalon.presentacion.features.schedule_appointment.branches.BaseScreenState
 import com.example.domain.perfil.AppointmentFirebase
 import com.example.domain.state.ApiState
 
 @Composable
-fun AppointmentHistoryScreen(navController: NavHostController) {
-    BaseComposeScreen(
+fun AppointmentHistoryScreen(
+    navController: NavHostController, viewModel: HistorialCitasViewModel = hiltViewModel()
+) {
+    val state = viewModel.state.collectAsStateWithLifecycle()
+    BaseComposeScreenState(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(
-            showToolbar = true,
-            title = stringResource(id = R.string.historiasl_de_citas)
-        )
+            showToolbar = true, title = stringResource(id = R.string.historiasl_de_citas),
+        ),
+        state = state.value
     ) {
-        DatingHistory()
+        AppointHistoryList(
+            appointments = (state.value as BaseScreenState.Success<List<AppointmentFirebase>>).data,
+            onRemoveAppointment = {}
+        )
     }
 }
 
-
 @Composable
-fun DatingHistory(
-    viewModel: HistorialCitasViewModel = hiltViewModel()
+fun AppointHistoryList(
+    modifier: Modifier = Modifier,
+    appointments: List<AppointmentFirebase>,
+    onRemoveAppointment: (idAppointment: String) -> Unit
 ) {
     val openAlertDialog = remember { mutableStateOf(false) }
-    val appointmentState = viewModel.appointment.observeAsState()
-    val removeAppointmentState = viewModel.removeAppointment.observeAsState()
-    when (appointmentState.value) {
-        is ApiState.Success -> {
-            Column(Modifier.fillMaxSize()) {
-                appointmentState.value?.data?.let { appointments ->
-                    if (appointments.isEmpty()) {
-                        NotDatView()
-                    } else {
-                        LazyColumn {
-                            appointmentState.value?.data?.forEach { appointment ->
-                                item {
-                                    ItemAppointment(
-                                        appointment,
-                                        onRemoveAppointment = {
-                                            openAlertDialog.value = true
-                                            viewModel.removeAppointment(appointment.idAppointment)
-                                        }
-                                    )
+    Column(modifier.fillMaxSize()) {
+        appointments.let { appointments ->
+            if (appointments.isEmpty()) {
+                NotDatView()
+            } else {
+                LazyColumn {
+                    appointments.forEach { appointment ->
+                        item {
+                            ItemAppointment(
+                                appointment = appointment,
+                                onRemoveAppointment = {
+                                    openAlertDialog.value = true
+                                    onRemoveAppointment.invoke(appointment.idAppointment)
                                 }
-                            }
+                            )
                         }
                     }
                 }
-
             }
         }
-
-        is ApiState.NoData -> {
-            NotDatView()
-        }
-
-        is ApiState.Loading -> {
-            ProgressDialog()
-        }
-
-        else -> {}
     }
-    if (openAlertDialog.value) {
-        BaseAlertDialogMessages(
-            onDismissRequest = {
-                openAlertDialog.value = false
-            },
-            alertDialogMessagesConfig = AlertDialogMessagesConfig(
-                title = R.string.delete_row_message,
-                bodyMessage = R.string.delete_row_message,
-                kindOfMessage = KindOfMessage.WARING,
-                onConfirmation = {
-                    openAlertDialog.value = false
-                }
-            )
-        )
-    }
-
 }
 
 @Composable
 fun ItemAppointment(
-    appointment: AppointmentFirebase,
-    onRemoveAppointment: () -> Unit
+    appointment: AppointmentFirebase, onRemoveAppointment: () -> Unit
 ) {
     Card(modifier = Modifier.padding(8.dp),
         elevation = CardDefaults.cardElevation(8.dp),
@@ -145,8 +120,7 @@ fun ItemAppointment(
                 fontSize = 24.sp,
                 modifier = Modifier.clickable {
                     onRemoveAppointment.invoke()
-                }
-            )
+                })
         }
     }
 }
