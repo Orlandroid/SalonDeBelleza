@@ -8,10 +8,8 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Card
@@ -54,7 +52,7 @@ class NuestroStaffFragment :
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getStaffsUsers()
+//        viewModel.getStaffsUsers()
     }
 
     override fun onCreateView(
@@ -71,7 +69,7 @@ class NuestroStaffFragment :
     @Composable
     fun OurStaffScreen(viewModel: OurStaffViewModel) {
         //Todo add skeletons in loading state
-        val staffs = viewModel.ourStaffsResponse.observeAsState()
+//        val staffs = viewModel.ourStaffsResponse.observeAsState()
         ConstraintLayout(
             Modifier
                 .fillMaxSize()
@@ -102,11 +100,11 @@ class NuestroStaffFragment :
                 )
             ) {
                 LazyColumn {
-                    staffs.value?.data?.users?.forEach { user ->
-                        item {
-                            OurStaffItem(user)
-                        }
-                    }
+//                    staffs.value?.data?.users?.forEach { user ->
+//                        item {
+//                            OurStaffItem(user)
+//                        }
+//                    }
                 }
             }
         }
