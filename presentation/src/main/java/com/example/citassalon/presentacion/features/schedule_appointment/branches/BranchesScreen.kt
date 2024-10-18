@@ -22,7 +22,6 @@ import com.example.citassalon.presentacion.features.base.Orientation
 import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
-import com.example.citassalon.presentacion.features.dialogs.AlertDialogMessagesConfig
 import com.example.citassalon.presentacion.features.flow_main.FlowMainViewModel
 import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
@@ -40,18 +39,13 @@ fun BranchesScreen(
 ) {
     val state = branchViewModel.state.collectAsStateWithLifecycle()
     BaseComposeScreenState(
-        alertDialogMessagesConfig = AlertDialogMessagesConfig(
-            onConfirmation = {
-
-            }
-        ),
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.agendar_sucursal)),
         navController = navController,
         state = state.value
-    ) {
+    ) { result ->
         BranchesScreenContent(
             modifier = Modifier,
-            branches = (state.value as BaseScreenState.Success<List<NegoInfo>>).data,
+            branches = result,
             mainViewModel = mainViewModel,
         ) {
             when (flow) {

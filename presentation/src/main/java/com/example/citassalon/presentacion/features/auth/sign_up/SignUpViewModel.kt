@@ -1,7 +1,6 @@
 package com.example.citassalon.presentacion.features.auth.sign_up
 
 import android.util.Log
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

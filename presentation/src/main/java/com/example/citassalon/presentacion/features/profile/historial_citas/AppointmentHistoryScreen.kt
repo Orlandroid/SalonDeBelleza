@@ -17,7 +17,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -38,13 +37,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreenState
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
-import com.example.citassalon.presentacion.features.dialogs.AlertDialogMessagesConfig
-import com.example.citassalon.presentacion.features.dialogs.BaseAlertDialogMessages
-import com.example.citassalon.presentacion.features.dialogs.KindOfMessage
-import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
-import com.example.citassalon.presentacion.features.schedule_appointment.branches.BaseScreenState
 import com.example.domain.perfil.AppointmentFirebase
-import com.example.domain.state.ApiState
 
 @Composable
 fun AppointmentHistoryScreen(
@@ -57,9 +50,9 @@ fun AppointmentHistoryScreen(
             showToolbar = true, title = stringResource(id = R.string.historiasl_de_citas),
         ),
         state = state.value
-    ) {
+    ) { result ->
         AppointHistoryList(
-            appointments = (state.value as BaseScreenState.Success<List<AppointmentFirebase>>).data,
+            appointments = result,
             onRemoveAppointment = {}
         )
     }

@@ -24,7 +24,6 @@ import com.example.citassalon.presentacion.features.dialogs.KindOfMessage
 import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.schedule_appointment.branches.BaseScreenState
 import com.example.citassalon.presentacion.features.theme.Background
-import kotlinx.coroutines.flow.StateFlow
 
 
 @Composable
@@ -59,7 +58,7 @@ fun <T> BaseComposeScreenState(
     alertDialogMessagesConfig: AlertDialogMessagesConfig = AlertDialogMessagesConfig(),
     background: Color = Background,
     state: BaseScreenState<T>,
-    content: @Composable () -> Unit,
+    onSuccess: @Composable (result: T) -> Unit,
 ) {
     Scaffold(
         topBar = {
@@ -72,12 +71,14 @@ fun <T> BaseComposeScreenState(
         }
     ) { paddingValues ->
         ContentScreen(
-            paddingValues = paddingValues, background = background
+            paddingValues = paddingValues,
+            background = background
         ) {
             BaseStateScreen(
-                state = state, alertDialogMessagesConfig = alertDialogMessagesConfig
-            ) {
-                content()
+                state = state,
+                alertDialogMessagesConfig = alertDialogMessagesConfig
+            ) { mResult ->
+                onSuccess(mResult)
             }
         }
     }
@@ -87,7 +88,7 @@ fun <T> BaseComposeScreenState(
 fun <T> BaseStateScreen(
     state: BaseScreenState<T>,
     alertDialogMessagesConfig: AlertDialogMessagesConfig,
-    content: @Composable () -> Unit,
+    onSuccess: @Composable (T) -> Unit,
 ) {
     when (state) {
         is BaseScreenState.Error -> {
@@ -99,7 +100,7 @@ fun <T> BaseStateScreen(
         }
 
         is BaseScreenState.Success -> {
-            content()
+            onSuccess(state.data)
         }
 
         is BaseScreenState.ErrorNetwork -> {

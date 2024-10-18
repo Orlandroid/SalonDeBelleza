@@ -21,7 +21,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,12 +33,13 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.graphics.drawable.toBitmapOrNull
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import coil.imageLoader
 import coil.util.DebugLogger
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.base.BaseComposeScreen
+import com.example.citassalon.presentacion.features.base.BaseComposeScreenState
 import com.example.citassalon.presentacion.features.components.ButtonWithIcon
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
@@ -53,16 +53,17 @@ fun ProductsScreen(
     category: String,
     productsViewModel: ProductsViewModel = hiltViewModel()
 ) {
-    val products = productsViewModel.products.observeAsState()
+    val products = productsViewModel.state.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
-        productsViewModel.getProducts(category)
+        productsViewModel.getProductsV2(category)
     }
-    BaseComposeScreen(
+    BaseComposeScreenState(
         navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.productos))
-    ) {
+        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.productos)),
+        state = products.value
+    ) { result ->
         ProductsScreenContent(
-            products = products.value?.data,
+            products = result,
             goToDetailProduct = { product ->
                 navController.navigate(InfoNavigationScreens.DetailProductRoute(product))
             },
@@ -71,7 +72,6 @@ fun ProductsScreen(
             }
         )
     }
-
 }
 
 @Composable

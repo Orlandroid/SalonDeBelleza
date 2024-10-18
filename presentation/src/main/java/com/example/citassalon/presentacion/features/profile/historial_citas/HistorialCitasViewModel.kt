@@ -1,14 +1,12 @@
 package com.example.citassalon.presentacion.features.profile.historial_citas
 
 import android.util.Log
-import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.schedule_appointment.branches.BaseScreenState
 import com.example.citassalon.presentacion.main.NetworkHelper
-import com.example.domain.entities.remote.migration.NegoInfo
 import com.example.domain.perfil.AppointmentFirebase
 import com.example.domain.state.ApiState
 import com.google.firebase.auth.FirebaseAuth
