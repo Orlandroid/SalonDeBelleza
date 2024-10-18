@@ -124,7 +124,7 @@ class ListOfCategoriesFragment :
         currentStore?.let { store ->
             when (store.name) {
                 FAKE_STORE -> {
-                    viewModel.getCategoriesFakeStore()
+//                    viewModel.getCategoriesFakeStore()
                 }
 
                 DUMMY_JSON -> {

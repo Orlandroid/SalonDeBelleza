@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -17,10 +16,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.LocalLifecycleOwner
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.base.BaseComposeScreen
+import com.example.citassalon.presentacion.features.base.BaseComposeScreenState
 import com.example.citassalon.presentacion.features.base.MediumSpacer
 import com.example.citassalon.presentacion.features.base.Orientation
 import com.example.citassalon.presentacion.features.components.TextWithArrow
@@ -37,22 +36,20 @@ fun CategoriesScreen(
     navController: NavController,
     viewmodel: ListOfCategoriesViewModel = hiltViewModel()
 ) {
-    val lifecycleOwner = LocalLifecycleOwner.current
-    val categories = viewmodel.categories.observeAsState()
-    val categoriesDummyjson =
-        viewmodel.categoriesResponse.observeAsState()//we need to add one parameters from navigation
+    val categories = viewmodel.state.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
         if (viewmodel.wasCallService.not()) {
             viewmodel.wasCallService = true
-            viewmodel.getCategoriesFakeStore()
+            viewmodel.getCategoriesFakeStoreV2()
         }
     }
-    BaseComposeScreen(
+    BaseComposeScreenState(
         navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.categorias))
-    ) {
+        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.categorias)),
+        state = categories.value
+    ) { result ->
         CategoriesScreenContent(
-            categories = categories.value?.data ?: emptyList(),
+            categories = result,
             store = StoresFragment.Store(FAKE_STORE)
         ) { chosenCategory ->
             navController.navigate(InfoNavigationScreens.ProductsRoute(category = chosenCategory))

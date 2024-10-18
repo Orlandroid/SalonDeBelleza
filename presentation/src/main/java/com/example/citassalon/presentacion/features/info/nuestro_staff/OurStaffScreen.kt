@@ -13,7 +13,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
@@ -25,10 +24,11 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.base.BaseComposeScreen
+import com.example.citassalon.presentacion.features.base.BaseComposeScreenState
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.entities.remote.dummyUsers.User
@@ -38,15 +38,16 @@ fun OurStaffScreen(
     navController: NavController,
     ourStaffViewModel: OurStaffViewModel = hiltViewModel()
 ) {
-    val staffs = ourStaffViewModel.ourStaffsResponse.observeAsState()
+    val staffs = ourStaffViewModel.state.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
-        ourStaffViewModel.getStaffsUsers()
+        ourStaffViewModel.getStaffsUsersV2()
     }
-    BaseComposeScreen(
+    BaseComposeScreenState(
         navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.nuestro_staff))
-    ) {
-        OurStaffScreenContent(users = staffs.value?.data?.users)
+        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.nuestro_staff)),
+        state = staffs.value
+    ) { result ->
+        OurStaffScreenContent(users = result.users)
     }
 }
 
