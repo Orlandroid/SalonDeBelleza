@@ -35,7 +35,6 @@ import androidx.fragment.app.viewModels
 import coil.compose.AsyncImage
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
-import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.entities.remote.dummyUsers.User
@@ -49,9 +48,9 @@ class NuestroStaffFragment :
 
     private val viewModel: OurStaffViewModel by viewModels()
 
-    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
-        showToolbar = true, toolbarTitle = getString(R.string.nuestro_staff)
-    )
+//    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+//        showToolbar = true, toolbarTitle = getString(R.string.nuestro_staff)
+//    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

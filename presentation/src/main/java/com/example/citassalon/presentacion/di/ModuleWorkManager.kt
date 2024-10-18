@@ -18,8 +18,8 @@ import javax.inject.Singleton
 
 object ModuleWorkManager {
 
-    const val TASK_SESSION_MANAGER = "taskSessionManager"
-    const val REQUEST_SESSION_MANAGER = "requestSessionManager"
+    private const val TASK_SESSION_MANAGER = "taskSessionManager"
+    private const val REQUEST_SESSION_MANAGER = "requestSessionManager"
 
 
     @Provides
@@ -32,8 +32,7 @@ object ModuleWorkManager {
     @Provides
     @Singleton
     @Named(REQUEST_SESSION_MANAGER)
-    fun provideRequest() =
-        OneTimeWorkRequestBuilder<SessionWorker>().setInitialDelay(1L, TimeUnit.MINUTES).build()
+    fun provideRequest() = OneTimeWorkRequestBuilder<SessionWorker>().setInitialDelay(1L, TimeUnit.MINUTES).build()
 
 
 }

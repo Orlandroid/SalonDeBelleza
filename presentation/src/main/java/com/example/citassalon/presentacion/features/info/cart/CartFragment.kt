@@ -27,11 +27,9 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.fragment.app.viewModels
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
-import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.extensions.base64StringToBitmap
 import com.example.citassalon.presentacion.features.extensions.getUserMoneyFormat
-import com.example.citassalon.presentacion.features.extensions.showProgress
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.citassalon.presentacion.interfaces.ClickOnItem
@@ -52,9 +50,9 @@ class CartFragment : BaseFragment<FragmentGenericBindingBinding>(R.layout.fragme
 
     private val viewModel: CartViewModel by viewModels()
 
-    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
-        showToolbar = true, toolbarTitle = getUserMoneyFormat(loginPreferences.getUserMoney())
-    )
+//    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+//        showToolbar = true, toolbarTitle = getUserMoneyFormat(loginPreferences.getUserMoney())
+//    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -69,7 +67,7 @@ class CartFragment : BaseFragment<FragmentGenericBindingBinding>(R.layout.fragme
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        showProgress()
+//        showProgress()
     }
 
     @Composable
@@ -94,8 +92,8 @@ class CartFragment : BaseFragment<FragmentGenericBindingBinding>(R.layout.fragme
         ) {
             val (content, list) = createRefs()
             LazyColumn(modifier = Modifier.constrainAs(list) {
-
-            }) {
+            }
+            ) {
                 allProducts.value?.let { listProducts ->
                     if (listProducts.isNotEmpty()) {
                         listProducts.forEach { product ->

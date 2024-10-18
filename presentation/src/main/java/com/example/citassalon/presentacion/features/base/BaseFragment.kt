@@ -9,8 +9,6 @@ import androidx.annotation.LayoutRes
 import androidx.databinding.DataBindingUtil
 import androidx.databinding.ViewDataBinding
 import androidx.fragment.app.Fragment
-import com.example.citassalon.presentacion.features.MainActivity
-import com.example.citassalon.presentacion.features.extensions.hideProgress
 
 abstract class BaseFragment<ViewBinding : ViewDataBinding>(@LayoutRes protected val contentLayoutId: Int) :
     Fragment() {
@@ -28,7 +26,7 @@ abstract class BaseFragment<ViewBinding : ViewDataBinding>(@LayoutRes protected 
 
     protected abstract fun setUpUi()
 
-    open fun configureToolbar() = MainActivity.ToolbarConfiguration()
+//    open fun configureToolbar() = MainActivity.ToolbarConfiguration()
 
     open fun observerViewModel() {
 
@@ -38,14 +36,14 @@ abstract class BaseFragment<ViewBinding : ViewDataBinding>(@LayoutRes protected 
         super.onViewCreated(view, savedInstanceState)
         setUpUi()
         observerViewModel()
-        (requireActivity() as MainActivity).apply {
-            setToolbarConfiguration(configureToolbar())
-            invalidateOptionsMenu()
-        }
+//        (requireActivity() as MainActivity).apply {
+//            setToolbarConfiguration(configureToolbar())
+//            invalidateOptionsMenu()
+//        }
     }
 
     override fun onDestroyView() {
         super.onDestroyView()
-        hideProgress()
+//        hideProgress()
     }
 }

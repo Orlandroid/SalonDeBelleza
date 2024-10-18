@@ -42,7 +42,7 @@ data class User(
     val firstName: String,
     val gender: String,
     val hair: Hair,
-    val height: Int,
+    val height: String,
     val id: Int,
     val image: String,
     val ip: String,

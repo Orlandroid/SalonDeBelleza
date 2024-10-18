@@ -27,19 +27,19 @@ fun LongSpacer(orientation: Orientation) {
 fun BaseSpacer(orientation: Orientation, size: Dp) {
     when (orientation) {
         Orientation.VERTICAL -> {
-            Spacer(modifier = Modifier.width(size))
+            Spacer(modifier = Modifier.height(size))
         }
 
         Orientation.HORIZONTAL -> {
-            Spacer(modifier = Modifier.height(size))
+            Spacer(modifier = Modifier.width(size))
         }
     }
 }
 
 
 enum class Orientation {
-    VERTICAL,
-    HORIZONTAL
+    VERTICAL,//height
+    HORIZONTAL//width
 }
 
 

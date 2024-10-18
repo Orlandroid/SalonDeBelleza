@@ -4,6 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -14,31 +15,31 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.navigation.fragment.findNavController
 import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
-import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
 import com.example.citassalon.presentacion.features.extensions.toJson
+import com.example.citassalon.presentacion.features.theme.Background
 import kotlin.random.Random
 
 
 class StoresFragment :
     BaseFragment<FragmentGenericBindingBinding>(R.layout.fragment_generic_binding) {
 
-    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
-        showToolbar = true, toolbarTitle = getString(R.string.tiendas)
-    )
+//    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+//        showToolbar = true, toolbarTitle = getString(R.string.tiendas)
+//    )
 
     companion object {
         const val FAKE_STORE = "Fake store"
@@ -50,11 +51,11 @@ class StoresFragment :
     }
 
     private fun clickOnStore(store: Store) {
-        findNavController().navigate(
-            StoresFragmentDirections.actionStoresFragmentToListOfProductsFragment(
-                store.toJson()
-            )
-        )
+//        findNavController().navigate(
+//            StoresFragmentDirections.actionStoresFragmentToListOfProductsFragment(
+//                store.toJson()
+//            )
+//        )
     }
 
     override fun onCreateView(
@@ -71,7 +72,7 @@ class StoresFragment :
     @Composable
     fun StoresScreen() {
         Column(
-            Modifier.fillMaxSize(),
+            Modifier.fillMaxSize().background(Background),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(setAnimation()))
@@ -82,7 +83,7 @@ class StoresFragment :
                 composition = composition,
                 iterations = LottieConstants.IterateForever,
             )
-            LazyColumn {
+            LazyColumn(Modifier.background(Color.White)) {
                 setStores().forEach { store ->
                     item {
                         Spacer(modifier = Modifier.height(8.dp))

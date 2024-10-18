@@ -1,9 +1,7 @@
 package com.example.citassalon.presentacion.features.info.ubicacion
 
-import androidx.navigation.fragment.navArgs
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentUbicacionBinding
-import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.domain.entities.remote.migration.NegoInfo
 import com.google.android.gms.maps.CameraUpdateFactory
@@ -17,20 +15,20 @@ import com.google.gson.Gson
 class UbicacionFragment : BaseFragment<FragmentUbicacionBinding>(R.layout.fragment_ubicacion),
     OnMapReadyCallback {
 
-    private val args: UbicacionFragmentArgs by navArgs()
+//    private val args: UbicacionFragmentArgs by navArgs()
 
-    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
-        showToolbar = true,
-        toolbarTitle = getString(R.string.ubicacion)
-    )
+//    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+//        showToolbar = true,
+//        toolbarTitle = getString(R.string.ubicacion)
+//    )
 
     ///Somes changes to find quick next time when update
 
 
     override fun setUpUi() {
         with(binding) {
-            val sucursal = Gson().fromJson(args.currentSucursal, NegoInfo::class.java)
-            textView10.text = sucursal.sucursal.name
+//            val sucursal = Gson().fromJson(args.currentSucursal, NegoInfo::class.java)
+//            textView10.text = sucursal.sucursal.name
             initMap()
         }
     }

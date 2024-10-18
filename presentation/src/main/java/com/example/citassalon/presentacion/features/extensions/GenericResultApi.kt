@@ -27,7 +27,7 @@ fun <T> Fragment.observeApiResultGeneric(
         val isLoading = apiState is ApiState.Loading
         isLoadingState(isLoading)
         if (hasProgressTheView) {
-            shouldShowProgress(isLoading)
+//            shouldShowProgress(isLoading)
         } else {
             handleStatusOnLoading(isLoading)
         }

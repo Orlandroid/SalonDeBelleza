@@ -17,4 +17,26 @@ data class ProductDb(
     val count: Int,
     @ColumnInfo(defaultValue = "")
     val userUi: String
-)
+) {
+
+    companion object {
+        private fun mockProductDb() = ProductDb(
+            id = 1,
+            title = "Producto 1",
+            price = 100.00,
+            description = "Description",
+            category = "Category",
+            image = "",
+            rate = 4.0,
+            count = 4,
+            userUi = ""
+        )
+
+        fun mockProductDbList() = listOf(
+            mockProductDb(),
+            mockProductDb(),
+            mockProductDb(),
+            mockProductDb(),
+        )
+    }
+}

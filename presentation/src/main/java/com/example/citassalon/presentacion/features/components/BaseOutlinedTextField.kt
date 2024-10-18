@@ -1,5 +1,6 @@
 package com.example.citassalon.presentacion.features.components
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
@@ -19,11 +20,13 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 
 @Composable
 fun BaseOutlinedTextField(
+    modifier: Modifier = Modifier,
     text: String,
     imageVector: ImageVector = Icons.Filled.Person,
     keyboardType: KeyboardType = KeyboardType.Text,
@@ -43,7 +46,7 @@ fun BaseOutlinedTextField(
                 )
             }
         },
-        modifier = Modifier
+        modifier = modifier
             .fillMaxWidth()
             .padding(0.dp, 16.dp, 0.dp, 0.dp),
         value = value.value,
@@ -54,8 +57,8 @@ fun BaseOutlinedTextField(
             IconButton(
                 onClick = {
                     clickOnIcon.invoke()
-                    if (isInputPassword){
-                        isPasswordVisible.value =  !isPasswordVisible.value
+                    if (isInputPassword) {
+                        isPasswordVisible.value = !isPasswordVisible.value
                     }
                 }
             ) {
@@ -74,5 +77,17 @@ fun BaseOutlinedTextField(
         } else {
             VisualTransformation.None
         }
+    )
+}
+
+
+@SuppressLint("UnrememberedMutableState")
+@Composable
+@Preview(showBackground = true)
+fun BaseOutlinedTextFieldPreview(modifier: Modifier = Modifier) {
+    BaseOutlinedTextField(
+        modifier = Modifier.padding(8.dp),
+        text = "Email",
+        value = mutableStateOf("adnroid@gmail.com")
     )
 }

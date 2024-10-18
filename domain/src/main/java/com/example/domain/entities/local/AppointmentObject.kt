@@ -1,9 +1,8 @@
 package com.example.domain.entities.local
 
-import android.os.Parcelable
-import kotlinx.parcelize.Parcelize
+import kotlinx.serialization.Serializable
 
-@Parcelize
+@Serializable
 data class AppointmentObject(
     var idAppointment: String = "",
     var establishment: String = "",
@@ -12,4 +11,4 @@ data class AppointmentObject(
     var date: String = "",
     var hour: String = "",
     var total: String = "",
-) : Parcelable
+)

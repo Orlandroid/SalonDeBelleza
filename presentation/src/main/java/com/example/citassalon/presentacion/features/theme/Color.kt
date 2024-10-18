@@ -28,3 +28,6 @@ val ShimmerColor = Color(0xFF85929E)
 val AlwaysWhite = Color(0xFFFFFFFF)
 val AlwaysBlack = Color(0xFF000000)
 val StatusBarColor = Color(0XFF0275d8)
+val BtnNext = Color(0XFF051721)
+val Cafe = Color(0XFFB49B6A)
+val BackgroundListsMainFlow = Color.White

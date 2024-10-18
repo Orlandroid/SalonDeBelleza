@@ -3,22 +3,20 @@ package com.example.citassalon.presentacion.features.extensions
 import android.util.Log
 import androidx.fragment.app.Fragment
 import androidx.navigation.NavDirections
-import androidx.navigation.fragment.findNavController
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.main.AlertDialogs
 
-fun Fragment.showProgress() {
-    (requireActivity() as MainActivity).showProgress()
-}
-
-fun Fragment.hideProgress() {
-    (requireActivity() as MainActivity).hideProgress()
-}
-
-fun Fragment.shouldShowProgress(isLoading: Boolean) {
-    (requireActivity() as MainActivity).shouldShowProgress(isLoading)
-}
+//fun Fragment.showProgress() {
+//    (requireActivity() as MainActivity).showProgress()
+//}
+//
+//fun Fragment.hideProgress() {
+//    (requireActivity() as MainActivity).hideProgress()
+//}
+//
+//fun Fragment.shouldShowProgress(isLoading: Boolean) {
+//    (requireActivity() as MainActivity).shouldShowProgress(isLoading)
+//}
 
 
 fun Fragment.showSuccessMessage(messageSuccess: String = getString(R.string.message_succes)) {
@@ -39,7 +37,7 @@ fun Fragment.showErrorApi(
         clickOnAccept = object : AlertDialogs.ClickOnAccept {
             override fun clickOnAccept() {
                 if (shouldCloseTheViewOnApiError) {
-                    findNavController().popBackStack()
+//                    findNavController().popBackStack()
                 }
             }
 
@@ -59,7 +57,7 @@ fun Fragment.showErrorNetwork(shouldCloseTheViewOnApiError: Boolean = false) {
             clickOnAccept = object : AlertDialogs.ClickOnAccept {
                 override fun clickOnAccept() {
                     if (shouldCloseTheViewOnApiError) {
-                        findNavController().popBackStack()
+//                        findNavController().popBackStack()
                     }
                 }
 
@@ -80,11 +78,11 @@ fun Fragment.packageName() = context?.packageName.toString()
 fun Fragment.getUserMoneyFormat(money: Int) = "$ $money"
 
 fun Fragment.navigate(accion: Int) {
-    findNavController().navigate(accion)
+//    findNavController().navigate(accion)
 }
 
 fun Fragment.navigate(accion: NavDirections) {
-    findNavController().navigate(accion)
+//    findNavController().navigate(accion)
 }
 
 fun Any?.makeSaveAction(action: () -> Unit) {
@@ -100,11 +98,11 @@ fun Any?.makeSaveAction(action: () -> Unit) {
     action()
 }
 
-fun Fragment.navigateAction(action: NavDirections) {
-    val navController = this.findNavController()
-    if (navController.currentDestination?.getAction(action.actionId) == null) {
-        return
-    } else {
-        navController.navigate(action)
-    }
-}
+//fun Fragment.navigateAction(action: NavDirections) {
+//    val navController = this.findNavController()
+//    if (navController.currentDestination?.getAction(action.actionId) == null) {
+//        return
+//    } else {
+//        navController.navigate(action)
+//    }
+//}

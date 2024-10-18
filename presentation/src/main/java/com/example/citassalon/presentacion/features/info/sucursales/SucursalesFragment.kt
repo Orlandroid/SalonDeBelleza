@@ -25,14 +25,12 @@ import androidx.constraintlayout.compose.Dimension
 import androidx.fragment.app.viewModels
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
-import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
 import com.example.citassalon.presentacion.features.extensions.GenericResultState
-import com.example.citassalon.presentacion.features.extensions.navigate
 import com.example.citassalon.presentacion.features.extensions.observeApiResultGeneric
-import com.example.citassalon.presentacion.features.share_beetwen_sucursales.SucursalViewModel
+import com.example.citassalon.presentacion.features.share_beetwen_sucursales.BranchViewModel
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.citassalon.presentacion.interfaces.ClickOnItem
 import com.example.domain.entities.remote.migration.NegoInfo
@@ -45,16 +43,16 @@ class SucursalesFragment :
     BaseFragment<FragmentGenericBindingBinding>(R.layout.fragment_generic_binding),
     ClickOnItem<NegoInfo> {
 
-    private val viewModel: SucursalViewModel by viewModels()
+    private val viewModel: BranchViewModel by viewModels()
 
-    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
-        showToolbar = true,
-        toolbarTitle = getString(R.string.ubicacion)
-    )
+//    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+//        showToolbar = true,
+//        toolbarTitle = getString(R.string.ubicacion)
+//    )
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        viewModel.getSucursales()
+        viewModel.getBranches()
     }
 
     override fun onCreateView(
@@ -69,7 +67,7 @@ class SucursalesFragment :
     }
 
     @Composable
-    fun BranchOffices(viewModel: SucursalViewModel) {
+    fun BranchOffices(viewModel: BranchViewModel) {
         //Todo add skeletons in loading state
         val branches = viewModel.branches.observeAsState()
         ConstraintLayout(
@@ -147,8 +145,8 @@ class SucursalesFragment :
     override fun clickOnItem(element: NegoInfo, position: Int?) {
         val gson = Gson()
         val bussnicesInfo = gson.toJson(element)
-        val action = SucursalesFragmentDirections.actionSucursales2ToNegocioInfo(bussnicesInfo)
-        navigate(action)
+//        val action = SucursalesFragmentDirections.actionSucursales2ToNegocioInfo(bussnicesInfo)
+//        navigate(action)
     }
 
 }

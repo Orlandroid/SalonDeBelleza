@@ -29,17 +29,17 @@ fun <T> Fragment.GenericResultState(
     }
     when (state.value) {
         is ApiState.Error -> {
-            hideProgress()
+//            hideProgress()
             showErrorApi()
         }
 
         is ApiState.ErrorNetwork -> {
-            hideProgress()
+//            hideProgress()
             showErrorNetwork(shouldCloseTheViewOnApiError)
         }
 
         is ApiState.Loading -> {
-            showProgress()
+//            showProgress()
         }
 
         is ApiState.NoData -> {
@@ -47,7 +47,7 @@ fun <T> Fragment.GenericResultState(
         }
 
         is ApiState.Success -> {
-            hideProgress()
+//            hideProgress()
             state.value?.data?.let { dataResponse ->
                 onSuccess(dataResponse)
             }
@@ -71,20 +71,20 @@ fun Fragment.ObserveSessionStatusFlow(
                 when (it) {
                     SessionStatus.ERROR -> {
                         showErrorApi(messageBody = errorMessage)
-                        hideProgress()
+//                        hideProgress()
                     }
 
                     SessionStatus.LOADING -> {
-                        showProgress()
+//                        showProgress()
                     }
 
                     SessionStatus.NETWORKERROR -> {
                         showErrorNetwork()
-                        hideProgress()
+//                        hideProgress()
                     }
 
                     SessionStatus.SUCCESS -> {
-                        hideProgress()
+//                        hideProgress()
                         onSuccess.invoke()
                     }
 
@@ -111,7 +111,7 @@ fun Fragment.ObserveSessionStatusLiveData(
     }
     when (state.value) {
         SessionStatus.ERROR -> {
-            hideProgress()
+//            hideProgress()
             if (messageOnError == null) {
                 showErrorApi()
             } else {
@@ -123,16 +123,16 @@ fun Fragment.ObserveSessionStatusLiveData(
         }
 
         SessionStatus.LOADING -> {
-            showProgress()
+//            showProgress()
         }
 
         SessionStatus.NETWORKERROR -> {
-            hideProgress()
+//            hideProgress()
             showErrorNetwork(shouldCloseTheViewOnApiError)
         }
 
         SessionStatus.SUCCESS -> {
-            hideProgress()
+//            hideProgress()
             onSuccess()
         }
 
@@ -147,7 +147,6 @@ fun <T> GenericResultStateV2(
     onSuccess: @Composable (data: T) -> Unit,
 ) {
     isLoading.value = state.value is ApiState.Loading
-    Log.w("STATE", isLoading.value.toString())
     when (state.value) {
         is ApiState.Error -> {
 

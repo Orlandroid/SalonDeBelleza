@@ -1,5 +1,6 @@
 package com.example.citassalon.presentacion.features.components
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -24,17 +25,23 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.example.citassalon.R
+import com.example.citassalon.presentacion.features.theme.Cafe
 
 @Composable
 fun TextWithArrow(
     config: TextWithArrowConfig
 ) {
-    Card(elevation = CardDefaults.cardElevation(config.cardElevation),
+    Card(
+        elevation = CardDefaults.cardElevation(config.cardElevation),
         shape = RoundedCornerShape(config.cornerSize),
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
-        onClick = { config.clickOnItem.invoke() }) {
+        border = BorderStroke(width = 1.dp, color = Color.Black),
+        onClick = {
+            config.clickOnItem.invoke()
+        }
+    ) {
         ConstraintLayout(
             modifier = Modifier
                 .fillMaxWidth()
@@ -46,7 +53,8 @@ fun TextWithArrow(
                     start.linkTo(parent.start)
                     end.linkTo(icon.start, 16.dp)
                     width = Dimension.matchParent
-                }) {
+                }
+            ) {
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
                     text = config.text, fontSize = config.fontSize
@@ -58,7 +66,8 @@ fun TextWithArrow(
                 modifier = Modifier.constrainAs(icon) {
                     end.linkTo(parent.end, 16.dp)
                     linkTo(parent.top, parent.bottom)
-                })
+                }
+            )
         }
     }
 }

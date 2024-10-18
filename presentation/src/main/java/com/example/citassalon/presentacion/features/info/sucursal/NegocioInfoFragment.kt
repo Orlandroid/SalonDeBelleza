@@ -16,10 +16,8 @@ import androidx.compose.ui.platform.ComposeView
 import androidx.compose.ui.platform.ViewCompositionStrategy
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import androidx.navigation.fragment.navArgs
 import com.example.citassalon.R
 import com.example.citassalon.databinding.FragmentGenericBindingBinding
-import com.example.citassalon.presentacion.features.MainActivity
 import com.example.citassalon.presentacion.features.base.BaseFragment
 import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
@@ -29,11 +27,11 @@ import com.example.citassalon.presentacion.features.theme.Background
 class NegocioInfoFragment :
     BaseFragment<FragmentGenericBindingBinding>(R.layout.fragment_generic_binding) {
 
-    private val args: NegocioInfoFragmentArgs by navArgs()
+//    private val args: NegocioInfoFragmentArgs by navArgs()
 
-    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
-        showToolbar = true, toolbarTitle = "Sucursal"
-    )
+//    override fun configureToolbar() = MainActivity.ToolbarConfiguration(
+//        showToolbar = true, toolbarTitle = "Sucursal"
+//    )
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?
@@ -73,27 +71,27 @@ class NegocioInfoFragment :
                         TextWithArrow(config = TextWithArrowConfig(
                             text = context?.getString(R.string.staff).toString()
                         ) {
-                            val action =
-                                NegocioInfoFragmentDirections.actionNegocioInfoToNuestroStaff()
-                            navigate(action)
+//                            val action =
+//                                NegocioInfoFragmentDirections.actionNegocioInfoToNuestroStaff()
+//                            navigate(action)
                         })
                     }
                     item {
                         TextWithArrow(config = TextWithArrowConfig(
                             text = context?.getString(R.string.servicios).toString()
                         ) {
-                            val action =
-                                NegocioInfoFragmentDirections.actionNegocioInfoToInfoServicios()
-                            navigate(action)
+//                            val action =
+//                                NegocioInfoFragmentDirections.actionNegocioInfoToInfoServicios()
+//                            navigate(action)
                         })
                     }
                     item {
                         TextWithArrow(config = TextWithArrowConfig(
                             text = context?.getString(R.string.ubicacion).toString()
                         ) {
-                            val action =
-                                NegocioInfoFragmentDirections.actionNegocioInfoToUbicacion(args.currentSucursal)
-                            navigate(action)
+//                            val action =
+//                                NegocioInfoFragmentDirections.actionNegocioInfoToUbicacion(args.currentSucursal)
+//                            navigate(action)
                         })
                     }
                 }
