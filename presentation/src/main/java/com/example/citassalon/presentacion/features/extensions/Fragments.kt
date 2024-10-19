@@ -97,12 +97,3 @@ fun Any?.makeSaveAction(action: () -> Unit) {
     }
     action()
 }
-
-//fun Fragment.navigateAction(action: NavDirections) {
-//    val navController = this.findNavController()
-//    if (navController.currentDestination?.getAction(action.actionId) == null) {
-//        return
-//    } else {
-//        navController.navigate(action)
-//    }
-//}

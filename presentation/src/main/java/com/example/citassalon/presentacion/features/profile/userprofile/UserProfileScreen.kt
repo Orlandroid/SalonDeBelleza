@@ -55,13 +55,13 @@ import com.example.citassalon.presentacion.features.extensions.GenericResultStat
 import com.example.citassalon.presentacion.features.extensions.base64toBitmap
 import com.example.citassalon.presentacion.features.extensions.toBase64
 import com.example.citassalon.presentacion.features.extensions.uriToBitmap
-import com.example.citassalon.presentacion.features.profile.userprofile.UserProfileFragment.Companion.USER_EMAIL
-import com.example.citassalon.presentacion.features.profile.userprofile.UserProfileFragment.Companion.USER_SESSION
-import com.example.citassalon.presentacion.features.profile.userprofile.UserProfileFragment.Companion.USER_UID
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.perfil.UserInfo
 import com.example.domain.state.ApiState
 
+const val USER_EMAIL = "email"
+const val USER_UID = "uid"
+const val USER_SESSION = "userSession"
 
 @Composable
 fun UserProfileScreen(

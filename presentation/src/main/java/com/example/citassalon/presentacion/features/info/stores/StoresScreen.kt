@@ -25,9 +25,9 @@ import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
 import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
-import com.example.citassalon.presentacion.features.info.stores.StoresFragment.Companion.DUMMY_JSON
-import com.example.citassalon.presentacion.features.info.stores.StoresFragment.Companion.FAKE_STORE
-import com.example.citassalon.presentacion.features.info.stores.StoresFragment.Store
+import com.example.citassalon.presentacion.features.info.products.categories.DUMMY_JSON
+import com.example.citassalon.presentacion.features.info.products.categories.FAKE_STORE
+import com.example.citassalon.presentacion.features.info.products.categories.Store
 import kotlin.random.Random
 
 @Composable

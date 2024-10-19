@@ -6,9 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.citassalon.presentacion.features.base.BaseViewModel
-import com.example.citassalon.presentacion.features.profile.userprofile.UserProfileFragment.Companion.USER_EMAIL
-import com.example.citassalon.presentacion.features.profile.userprofile.UserProfileFragment.Companion.USER_SESSION
-import com.example.citassalon.presentacion.features.profile.userprofile.UserProfileFragment.Companion.USER_UID
 import com.example.data.di.CoroutineDispatchers
 import com.example.data.preferences.LoginPreferences
 import com.example.domain.perfil.RandomUserResponse

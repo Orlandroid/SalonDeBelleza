@@ -26,10 +26,15 @@ import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
-import com.example.citassalon.presentacion.features.info.stores.StoresFragment
-import com.example.citassalon.presentacion.features.info.stores.StoresFragment.Companion.DUMMY_JSON
-import com.example.citassalon.presentacion.features.info.stores.StoresFragment.Companion.FAKE_STORE
 import com.example.citassalon.presentacion.features.theme.Background
+
+const val FAKE_STORE = "Fake store"
+const val DUMMY_JSON = "DummyJSON"
+
+
+data class Store(
+    val name: String = ""
+)
 
 @Composable
 fun CategoriesScreen(
@@ -50,7 +55,7 @@ fun CategoriesScreen(
     ) { result ->
         CategoriesScreenContent(
             categories = result,
-            store = StoresFragment.Store(FAKE_STORE)
+            store = Store(FAKE_STORE)
         ) { chosenCategory ->
             navController.navigate(InfoNavigationScreens.ProductsRoute(category = chosenCategory))
         }
@@ -61,7 +66,7 @@ fun CategoriesScreen(
 fun CategoriesScreenContent(
     modifier: Modifier = Modifier,
     categories: List<String>,
-    store: StoresFragment.Store,
+    store: Store,
     goToProductsScreen: (category: String) -> Unit
 ) {
     Column(
@@ -128,7 +133,7 @@ fun CategoriesScreenContentPreview() {
             "jewelery",
             "men,s clothing"
         ),
-        store = StoresFragment.Store("Android"),
+        store = Store("Android"),
         goToProductsScreen = {}
     )
 }
