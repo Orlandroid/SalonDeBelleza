@@ -88,6 +88,6 @@ fun BaseOutlinedTextFieldPreview(modifier: Modifier = Modifier) {
     BaseOutlinedTextField(
         modifier = Modifier.padding(8.dp),
         text = "Email",
-        value = mutableStateOf("adnroid@gmail.com")
+        value = mutableStateOf("android@gmail.com")
     )
 }

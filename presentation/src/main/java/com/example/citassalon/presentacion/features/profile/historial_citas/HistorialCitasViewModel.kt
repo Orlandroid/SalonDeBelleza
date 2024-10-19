@@ -100,10 +100,11 @@ class HistorialCitasViewModel @Inject constructor(
     }
 
     fun removeAppointment(idAppointment: String) = viewModelScope.launch {
-        _removeAppointment.value = ApiState.Loading()
+        _state.value = BaseScreenState.Loading()
+        delay(2.seconds)
         if (!networkHelper.isNetworkConnected()) {
             withContext(Dispatchers.Main) {
-                _removeAppointment.value = ApiState.ErrorNetwork()
+                _state.value = BaseScreenState.ErrorNetwork()
             }
             return@launch
         }
@@ -112,14 +113,12 @@ class HistorialCitasViewModel @Inject constructor(
                 provideFirebaseRealtimeDatabaseReference(firebaseDatabase, firebaseAuth)
             databaseReference.child(idAppointment).removeValue().addOnSuccessListener {
                 _removeAppointment.value = ApiState.Success(listOf())
-                Log.i("SUCCES", "Appointment Eliminado")
             }.addOnCanceledListener {
-                _removeAppointment.value = ApiState.Error(Throwable(message = "Error al elimnar"))
-                Log.i("ERROR", "Error al eliminar el appointment")
+                _state.value = BaseScreenState.Error(Exception())
             }
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
-                _removeAppointment.value = ApiState.Error(e)
+                _state.value = BaseScreenState.Error(e)
             }
         }
     }

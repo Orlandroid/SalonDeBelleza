@@ -37,6 +37,10 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreenState
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
+import com.example.citassalon.presentacion.features.dialogs.AlertDialogMessagesConfig
+import com.example.citassalon.presentacion.features.dialogs.BaseAlertDialogMessages
+import com.example.citassalon.presentacion.features.dialogs.IsTwoButtonsAlert
+import com.example.citassalon.presentacion.features.dialogs.KindOfMessage
 import com.example.domain.perfil.AppointmentFirebase
 
 @Composable
@@ -44,6 +48,30 @@ fun AppointmentHistoryScreen(
     navController: NavHostController, viewModel: HistorialCitasViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
+    val shouldShowDialogRemoveAppointment = remember { mutableStateOf(false) }
+    val mIdAppointment = remember { mutableStateOf("") }
+    if (shouldShowDialogRemoveAppointment.value) {
+        BaseAlertDialogMessages(
+            onDismissRequest = {
+                shouldShowDialogRemoveAppointment.value = false
+            },
+            alertDialogMessagesConfig = AlertDialogMessagesConfig(
+                title = R.string.warning,
+                bodyMessage = R.string.delete_row_message,
+                kindOfMessage = KindOfMessage.WARING,
+                onConfirmation = {
+                    shouldShowDialogRemoveAppointment.value = false
+                    viewModel.removeAppointment(mIdAppointment.value)
+                },
+                isTwoButtonsAlert = IsTwoButtonsAlert(
+                    clickOnCancel = {
+                        shouldShowDialogRemoveAppointment.value = false
+                    }
+                )
+            )
+        )
+
+    }
     BaseComposeScreenState(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(
@@ -53,7 +81,10 @@ fun AppointmentHistoryScreen(
     ) { result ->
         AppointHistoryList(
             appointments = result,
-            onRemoveAppointment = {}
+            onRemoveAppointment = { idAppointment ->
+                shouldShowDialogRemoveAppointment.value = true
+                mIdAppointment.value = idAppointment
+            }
         )
     }
 }
@@ -90,13 +121,18 @@ fun AppointHistoryList(
 
 @Composable
 fun ItemAppointment(
-    appointment: AppointmentFirebase, onRemoveAppointment: () -> Unit
+    appointment: AppointmentFirebase,
+    onRemoveAppointment: () -> Unit
 ) {
-    Card(modifier = Modifier.padding(8.dp),
+    Card(
+        modifier = Modifier.padding(8.dp),
         elevation = CardDefaults.cardElevation(8.dp),
-        shape = RoundedCornerShape(16.dp),
-        onClick = { }) {
-        Column(Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally) {
+        shape = RoundedCornerShape(16.dp)
+    ) {
+        Column(
+            Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
             Image(
                 modifier = Modifier
                     .height(150.dp)
@@ -113,7 +149,8 @@ fun ItemAppointment(
                 fontSize = 24.sp,
                 modifier = Modifier.clickable {
                     onRemoveAppointment.invoke()
-                })
+                }
+            )
         }
     }
 }

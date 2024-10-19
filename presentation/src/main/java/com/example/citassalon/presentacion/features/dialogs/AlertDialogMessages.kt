@@ -3,10 +3,12 @@ package com.example.citassalon.presentacion.features.dialogs
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -34,17 +36,15 @@ import com.example.citassalon.presentacion.features.theme.Waring
 @Composable
 fun BaseAlertDialogMessages(
     modifier: Modifier = Modifier,
-    alertDialogMessagesConfig: AlertDialogMessagesConfig =
-        AlertDialogMessagesConfig(
-            title = R.string.title,
-            bodyMessage = R.string.message_body,
-            buttonText = R.string.aceptar,
-        ),
+    alertDialogMessagesConfig: AlertDialogMessagesConfig = AlertDialogMessagesConfig(
+        title = R.string.title,
+        bodyMessage = R.string.message_body,
+        buttonText = R.string.aceptar,
+    ),
     onDismissRequest: () -> Unit,
 ) {
     BaseCustomDialog(
-        modifier = modifier,
-        onDismissRequest = onDismissRequest
+        modifier = modifier, onDismissRequest = onDismissRequest
     ) {
         BaseAlertDialogMessagesContent(
             onConfirmation = alertDialogMessagesConfig.onConfirmation,
@@ -79,20 +79,64 @@ fun BaseAlertDialogMessagesContent(
             color = AlwaysBlack,
         )
         MediumSpacer(orientation = Orientation.VERTICAL)
-        AlertButton(
+        AlertButtonOrButtons(
             modifier = Modifier,
-            buttonMessage = alertDialogMessagesConfig.buttonText,
-            onConfirmation = onConfirmation
+            acceptText = alertDialogMessagesConfig.buttonText,
+            isTwoButtonsAlert = alertDialogMessagesConfig.isTwoButtonsAlert,
+            onAccept = onConfirmation
         )
     }
 }
 
 @Composable
-fun AlertTitle(
-    kindOfMessage: KindOfMessage,
+fun AlertButtonOrButtons(
     modifier: Modifier = Modifier,
-    @StringRes
-    title: Int
+    @StringRes acceptText: Int,
+    onAccept: () -> Unit,
+    isTwoButtonsAlert: IsTwoButtonsAlert?
+) {
+    if (isTwoButtonsAlert == null) {
+        AlertButton(
+            modifier = modifier,
+            buttonMessage = acceptText, onClick = {
+                onAccept.invoke()
+            }
+        )
+    } else {
+        Row(
+            modifier = Modifier
+        ) {
+            AlertButton(
+                isRounded = true,
+                modifier = modifier
+                    .weight(1f)
+                    .padding(start = 4.dp, bottom = 4.dp),
+                buttonMessage = acceptText,
+                onClick = {
+                    onAccept.invoke()
+                }
+            )
+            SmallSpacer(
+                orientation = Orientation.HORIZONTAL
+            )
+            AlertButton(
+                isRounded = true,
+                modifier = modifier
+                    .weight(1f)
+                    .padding(end = 4.dp, bottom = 4.dp),
+                buttonMessage = isTwoButtonsAlert.cancelText,
+                onClick = {
+                    isTwoButtonsAlert.clickOnCancel.invoke()
+                }
+            )
+            SmallSpacer(orientation = Orientation.VERTICAL)
+        }
+    }
+}
+
+@Composable
+fun AlertTitle(
+    kindOfMessage: KindOfMessage, modifier: Modifier = Modifier, @StringRes title: Int
 ) {
     Card(
         modifier = modifier
@@ -115,17 +159,21 @@ fun AlertTitle(
 @Composable
 fun AlertButton(
     modifier: Modifier = Modifier,
-    @StringRes
-    buttonMessage: Int,
-    onConfirmation: () -> Unit
+    isRounded: Boolean = false,
+    @StringRes buttonMessage: Int,
+    onClick: () -> Unit
 ) {
     Card(
         modifier = modifier
             .height(48.dp)
             .fillMaxWidth()
-            .clickable { onConfirmation.invoke() },
+            .clickable { onClick.invoke() },
         colors = CardDefaults.cardColors(containerColor = Azul),
-        shape = RectangleShape,
+        shape = if (isRounded) {
+            RoundedCornerShape(8.dp)
+        } else {
+            RectangleShape
+        }
     ) {
         SmallSpacer(orientation = Orientation.VERTICAL)
         Text(
@@ -144,27 +192,40 @@ fun AlertButton(
 fun BaseAlertDialogPreview(
     modifier: Modifier = Modifier
 ) {
+    BaseAlertDialogMessages(modifier = Modifier, onDismissRequest = {})
+}
+
+@Composable
+@Preview(showBackground = true)
+fun BaseAlertDialogPreviewTwoButton(
+    modifier: Modifier = Modifier
+) {
     BaseAlertDialogMessages(
         modifier = Modifier,
-        onDismissRequest = {}
+        onDismissRequest = {},
+        alertDialogMessagesConfig = AlertDialogMessagesConfig(
+            isTwoButtonsAlert = IsTwoButtonsAlert(clickOnCancel = {})
+        )
     )
 }
 
 enum class KindOfMessage(val color: Color) {
-    SUCCESS(Success),
-    WARING(Waring),
-    ERROR(Danger),
-    INFO(Info)
+    SUCCESS(Success), WARING(Waring), ERROR(Danger), INFO(Info)
 }
 
 data class AlertDialogMessagesConfig(
-    @StringRes
-    val title: Int = R.string.title,
-    @StringRes
-    val bodyMessage: Int = R.string.message_body,
-    @StringRes
-    val buttonText: Int = R.string.aceptar,
+    @StringRes val title: Int = R.string.title,
+    @StringRes val bodyMessage: Int = R.string.message_body,
+    @StringRes val buttonText: Int = R.string.aceptar,
     val kindOfMessage: KindOfMessage = KindOfMessage.INFO,
-    val onConfirmation: () -> Unit = {}
+    val onConfirmation: () -> Unit = {},
+    val isTwoButtonsAlert: IsTwoButtonsAlert? = null
+)
+
+data class IsTwoButtonsAlert(
+    @StringRes val acceptText: Int = R.string.aceptar,
+    val clickOnAccept: () -> Unit = {},
+    @StringRes val cancelText: Int = R.string.cancelar_alert,
+    val clickOnCancel: () -> Unit,
 )
 

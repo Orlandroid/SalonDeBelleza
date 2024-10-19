@@ -123,8 +123,12 @@ private fun ShowCategories(
 @Preview(showBackground = true)
 fun CategoriesScreenContentPreview() {
     CategoriesScreenContent(
-        categories = emptyList(),
-        store = StoresFragment.Store(""),
+        categories = listOf(
+            "electronics",
+            "jewelery",
+            "men,s clothing"
+        ),
+        store = StoresFragment.Store("Android"),
         goToProductsScreen = {}
     )
 }

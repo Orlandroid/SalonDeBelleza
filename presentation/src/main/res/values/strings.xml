@@ -140,6 +140,7 @@
     <string name="username">username</string>
     <string name="history_detail">History Detail</string>
     <string name="title">Title</string>
+    <string name="warning">Warning</string>
     <string name="message_body">Message Body</string>
     <string name="delete_row_message">Estas seguro que deseas eliminar el registro</string>
     <string name="terminos_y_condiciones">

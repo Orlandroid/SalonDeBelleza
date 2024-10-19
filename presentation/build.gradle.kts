@@ -138,8 +138,9 @@ dependencies {
     implementation("androidx.compose.material3:material3:1.3.0")
     implementation("io.coil-kt:coil-compose:2.6.0")
     implementation("com.github.a914-gowtham:compose-ratingbar:1.3.4")
-    implementation("androidx.compose.ui:ui-tooling:1.7.3")
+    implementation("androidx.compose.ui:ui-tooling:1.7.4")
     implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.8.6")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
     implementation("androidx.navigation:navigation-compose:2.8.0")
+    implementation("com.google.maps.android:maps-compose:4.3.3")
 }
