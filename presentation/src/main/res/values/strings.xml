@@ -31,6 +31,7 @@
     <string name="ingresar">Ingresar</string>
     <string name="nombre">Nombre</string>
     <string name="telefono">Número de teléfono</string>
+    <string name="phone">Telefono</string>
     <string name="cumpleaños">dd/mm/aaaa</string>
     <string name="sin_cuenta">¿No tienes cuenta?</string>
     <string name="sing_up">Sign Up</string>
@@ -143,6 +144,9 @@
     <string name="warning">Warning</string>
     <string name="message_body">Message Body</string>
     <string name="delete_row_message">Estas seguro que deseas eliminar el registro</string>
+    <string name="error_phone">Debes de ingresar un telefono valido</string>
+    <string name="error_email">Ingresa un correo electronico valido</string>
+    <string name="error_passsword">La contraseña debe ser de minimo de 6 digitos</string>
     <string name="terminos_y_condiciones">
          Lorem ipsum dolor sit amet consectetur adipisicing elit.
      Repudiandae saepe temporibus, aut enim quibusdam debitis

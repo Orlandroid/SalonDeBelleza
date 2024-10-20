@@ -12,7 +12,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
@@ -30,38 +29,37 @@ fun BaseOutlinedTextField(
     text: String,
     imageVector: ImageVector = Icons.Filled.Person,
     keyboardType: KeyboardType = KeyboardType.Text,
-    value: MutableState<String>,
+    value: String,
     isEnable: Boolean = true,
-    supportingText: String = "",
-    showError: Boolean = false,
+    inputError: InputError? = null,
     isInputPassword: Boolean = false,
+    onValueChange: (value: String) -> Unit = {},
     clickOnIcon: () -> Unit = {}
 ) {
     val isPasswordVisible = remember { mutableStateOf(false) }
     OutlinedTextField(
         supportingText = {
-            if (showError) {
+            if (inputError != null) {
                 Text(
-                    text = supportingText, color = MaterialTheme.colorScheme.error
+                    text = inputError.errorText,
+                    color = MaterialTheme.colorScheme.error
                 )
             }
         },
         modifier = modifier
             .fillMaxWidth()
             .padding(0.dp, 16.dp, 0.dp, 0.dp),
-        value = value.value,
+        value = value,
         onValueChange = {
-            value.value = it
+            onValueChange.invoke(it)
         },
         leadingIcon = {
-            IconButton(
-                onClick = {
-                    clickOnIcon.invoke()
-                    if (isInputPassword) {
-                        isPasswordVisible.value = !isPasswordVisible.value
-                    }
+            IconButton(onClick = {
+                clickOnIcon.invoke()
+                if (isInputPassword) {
+                    isPasswordVisible.value = !isPasswordVisible.value
                 }
-            ) {
+            }) {
                 Icon(
                     imageVector = imageVector, contentDescription = null
                 )
@@ -86,8 +84,10 @@ fun BaseOutlinedTextField(
 @Preview(showBackground = true)
 fun BaseOutlinedTextFieldPreview(modifier: Modifier = Modifier) {
     BaseOutlinedTextField(
-        modifier = Modifier.padding(8.dp),
-        text = "Email",
-        value = mutableStateOf("android@gmail.com")
+        modifier = Modifier.padding(8.dp), text = "Email", value = "android@gmail.com"
     )
 }
+
+data class InputError(
+    val errorText: String = "Error",
+)

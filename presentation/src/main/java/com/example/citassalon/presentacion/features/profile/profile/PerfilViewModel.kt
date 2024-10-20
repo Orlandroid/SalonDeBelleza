@@ -1,5 +1,6 @@
-package com.example.citassalon.presentacion.features.profile.perfil
+package com.example.citassalon.presentacion.features.profile.profile
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -27,6 +28,7 @@ class PerfilViewModel @Inject constructor(
     }
 
     fun logout() {
+        Log.w("ANDORID", "logout")
         repository.logout()
     }
 

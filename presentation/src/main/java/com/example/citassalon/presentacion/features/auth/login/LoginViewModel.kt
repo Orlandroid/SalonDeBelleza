@@ -69,7 +69,7 @@ class LoginViewModel
     private val _loginGoogleStatus = MutableLiveData<SessionStatus>()
     val loginGoogleStatus: LiveData<SessionStatus> get() = _loginGoogleStatus
 
-    fun saveUserEmailToPreferences(userEmail: String) {
+    private fun saveUserEmailToPreferences(userEmail: String) {
         loginPeferences.saveUserEmail(userEmail)
     }
 
@@ -119,6 +119,7 @@ class LoginViewModel
         }
         repository.login(email = email, password = password).addOnCompleteListener { task ->
             if (task.isSuccessful) {
+                task.result
                 _effects.value = LoginUiEffect.NavigateToHomeScreen
                 _status.update { it.copy(isLoading = false) }
                 saveUserSession()

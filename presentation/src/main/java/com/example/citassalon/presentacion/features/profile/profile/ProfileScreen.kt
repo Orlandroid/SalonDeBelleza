@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.profile.perfil
+package com.example.citassalon.presentacion.features.profile.profile
 
 import android.app.Activity
 import androidx.compose.foundation.BorderStroke
@@ -41,6 +41,7 @@ import com.example.citassalon.presentacion.features.base.Orientation
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.dialogs.AlertDialogMessagesConfig
 import com.example.citassalon.presentacion.features.dialogs.BaseAlertDialogMessages
+import com.example.citassalon.presentacion.features.dialogs.IsTwoButtonsAlert
 import com.example.citassalon.presentacion.features.dialogs.KindOfMessage
 import com.example.citassalon.presentacion.features.profile.ProfileNavigationScreen
 import com.example.citassalon.presentacion.features.theme.Background
@@ -53,8 +54,11 @@ fun ProfileScreen(
     profileViewModel: PerfilViewModel = hiltViewModel(),
 ) {
     BaseComposeScreen(
-        navController = navController, toolbarConfiguration = ToolbarConfiguration(
-            showToolbar = true, isWithBackIcon = true, title = stringResource(
+        navController = navController,
+        toolbarConfiguration = ToolbarConfiguration(
+            showToolbar = true,
+            isWithBackIcon = true,
+            title = stringResource(
                 id = R.string.perfil
             )
         )
@@ -84,7 +88,6 @@ fun ProfileScreen(
                 }
 
                 MENU.CLOSE_SESSION -> {
-                    profileViewModel.destroyUserSession()
                     showCloseSessionAlert.value = true
                 }
             }
@@ -101,9 +104,15 @@ fun ProfileScreen(
                     kindOfMessage = KindOfMessage.WARING,
                     onConfirmation = {
                         showCloseSessionAlert.value = false
+                        profileViewModel.destroyUserSession()
                         profileViewModel.logout()
                         (activity as MainActivityCompose).closeAndOpenActivity()
-                    }
+                    },
+                    isTwoButtonsAlert = IsTwoButtonsAlert(
+                        clickOnCancel = {
+                            showCloseSessionAlert.value = false
+                        }
+                    )
                 )
             )
         }

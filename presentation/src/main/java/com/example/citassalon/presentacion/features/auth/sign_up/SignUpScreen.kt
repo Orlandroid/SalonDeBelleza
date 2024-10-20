@@ -29,10 +29,12 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.base.BaseComposeScreen
+import com.example.citassalon.presentacion.features.base.BaseComposeScreenState
 import com.example.citassalon.presentacion.features.components.BaseOutlinedTextField
+import com.example.citassalon.presentacion.features.components.InputError
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.entities.remote.User
@@ -43,21 +45,20 @@ fun SignUpScreen(
     navHostController: NavHostController,
     signUpViewModel: SignUpViewModel = hiltViewModel(),
 ) {
-    BaseComposeScreen(
+    val state = signUpViewModel.state.collectAsStateWithLifecycle()
+    val uiState = signUpViewModel.uiState.collectAsStateWithLifecycle()
+    BaseComposeScreenState(
         navController = navHostController,
         toolbarConfiguration = ToolbarConfiguration(
             showToolbar = true,
             title = stringResource(id = R.string.signUp)
-        )
+        ),
+        state = state.value
     ) {
         SignUpScreenContent(
-            modifier = Modifier,
-            saveUserInformation = { user ->
+            modifier = Modifier, saveUserInformation = { user ->
                 signUpViewModel.saveUserInformation(user)
-            },
-            sinUp = { email, password ->
-                signUpViewModel.sinUp(email = email, password = password)
-            }
+            }, uiState = uiState.value, signUpViewModel = signUpViewModel
         )
     }
 }
@@ -66,7 +67,8 @@ fun SignUpScreen(
 fun SignUpScreenContent(
     modifier: Modifier = Modifier,
     saveUserInformation: (user: User) -> Unit,
-    sinUp: (email: String, password: String) -> Unit,
+    uiState: SignUpUiState,
+    signUpViewModel: SignUpViewModel = hiltViewModel(),
 ) {
     val name = remember { mutableStateOf("") }
     val phone = remember { mutableStateOf("") }
@@ -74,50 +76,56 @@ fun SignUpScreenContent(
     val password = remember { mutableStateOf("") }
     val enableButton = remember { mutableStateOf(false) }
     val birthDay = remember { mutableStateOf("") }
-    val errorPhone = remember { mutableStateOf(false) }
-    val errorEmail = remember { mutableStateOf(false) }
-    val errorPassword = remember { mutableStateOf(false) }
     Column(
         modifier
             .fillMaxSize()
             .background(Background)
-            .padding(8.dp), horizontalAlignment = Alignment.CenterHorizontally
+            .padding(8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val logoImage = painterResource(id = R.drawable.logo)
-        Image(painter = logoImage, contentDescription = "SkedulyImage", modifier.size(150.dp))
-        BaseOutlinedTextField(text = "Nombre", value = name)
-        BaseOutlinedTextField(
-            showError = errorPhone.value,
-            supportingText = "Debes de ingresar un telefono valido",
-            text = "Telefono",
-            keyboardType =
-            KeyboardType.Number,
-            imageVector = Icons.Filled.Phone,
-            value = phone
+        Image(
+            painter = logoImage,
+            contentDescription = "SkedulyImage",
+            modifier.size(150.dp)
         )
-        BaseOutlinedTextField(
-            showError = errorEmail.value,
-            supportingText = "Ingresa un correo electronico valido",
-            text = "example@gmail.com",
-            keyboardType = KeyboardType.Email,
-            imageVector = Icons.Filled.Email,
-            value = email
+        InputName(
+            value = name.value,
+            onValueChange = {
+                name.value = it
+                signUpViewModel.validateForm()
+            }
         )
-        BaseOutlinedTextField(
-            showError = errorPassword.value,
-            supportingText = "La contraseña debe ser de minimo de 6 digitos",
-            text = "password",
-            keyboardType = KeyboardType.Password,
-            imageVector = Icons.Filled.Lock,
-            value = password,
-            isInputPassword = true
+        InputPhone(
+            value = phone.value,
+            showError = uiState.showErrorPhone,
+            onValueChange = {
+                phone.value = it
+                signUpViewModel.validateForm()
+            }
         )
-        BaseOutlinedTextField(
-            text = "dd/mm/aaaa",
-            imageVector = Icons.Filled.Cake,
-            value = birthDay,
-            isEnable = false,
-            clickOnIcon = {}
+        InputEmail(
+            value = email.value,
+            showError = uiState.showErrorEmail,
+            onValueChange = {
+                email.value = it
+                signUpViewModel.validateForm()
+            }
+        )
+        InputPassword(
+            value = password.value,
+            showError = uiState.showErrorPassword,
+            onValueChange = {
+                password.value = it
+                signUpViewModel.validateForm()
+            }
+        )
+        InputBirthday(
+            value = birthDay.value,
+            onValueChange = {
+                birthDay.value = it
+                signUpViewModel.validateForm()
+            }
         )
         Spacer(modifier = Modifier.height(16.dp))
         Button(
@@ -132,7 +140,9 @@ fun SignUpScreenContent(
                         birthDay = birthDay.value
                     )
                 )
-                sinUp(email.value, password.value)
+                signUpViewModel.sinUpV2(
+                    email = email.value, password = password.value
+                )
             },
             colors = ButtonDefaults.buttonColors(containerColor = Color.White),
             modifier = Modifier.fillMaxWidth()
@@ -143,11 +153,123 @@ fun SignUpScreenContent(
 }
 
 @Composable
+fun InputName(
+    modifier: Modifier = Modifier,
+    value: String,
+    onValueChange: (value: String) -> Unit
+) {
+    BaseOutlinedTextField(
+        modifier = modifier,
+        text = stringResource(R.string.nombre),
+        value = value,
+        onValueChange = { currentValue ->
+            onValueChange.invoke(currentValue)
+        }
+    )
+}
+
+@Composable
+fun InputPhone(
+    modifier: Modifier = Modifier,
+    value: String,
+    showError: Boolean,
+    onValueChange: (value: String) -> Unit
+) {
+    BaseOutlinedTextField(
+        modifier = modifier,
+        inputError = if (showError) {
+            InputError(
+                errorText = stringResource(R.string.error_phone),
+            )
+        } else {
+            null
+        },
+        text = stringResource(R.string.phone),
+        keyboardType = KeyboardType.Number,
+        imageVector = Icons.Filled.Phone,
+        value = value,
+        onValueChange = {
+            onValueChange.invoke(it)
+        }
+    )
+}
+
+@Composable
+fun InputEmail(
+    modifier: Modifier = Modifier,
+    value: String,
+    showError: Boolean,
+    onValueChange: (value: String) -> Unit
+) {
+    BaseOutlinedTextField(
+        modifier = modifier,
+        inputError = if (showError) {
+            InputError(
+                errorText = stringResource(R.string.error_email),
+            )
+        } else {
+            null
+        },
+        text = "example@gmail.com",
+        keyboardType = KeyboardType.Email,
+        imageVector = Icons.Filled.Email,
+        value = value,
+        onValueChange = {
+            onValueChange.invoke(it)
+        }
+    )
+}
+
+@Composable
+fun InputPassword(
+    modifier: Modifier = Modifier,
+    value: String,
+    showError: Boolean,
+    onValueChange: (value: String) -> Unit
+) {
+    BaseOutlinedTextField(
+        modifier = modifier,
+        inputError = if (showError) {
+            InputError(
+                errorText = stringResource(R.string.error_passsword),
+            )
+        } else {
+            null
+        },
+        text = "password",
+        keyboardType = KeyboardType.Password,
+        imageVector = Icons.Filled.Lock,
+        value = value,
+        isInputPassword = true,
+        onValueChange = {
+            onValueChange.invoke(it)
+        }
+    )
+}
+
+@Composable
+fun InputBirthday(
+    modifier: Modifier = Modifier,
+    value: String,
+    clickOnIcon: () -> Unit = {},
+    onValueChange: (value: String) -> Unit
+) {
+    BaseOutlinedTextField(
+        modifier = modifier,
+        text = "dd/mm/aaaa",
+        imageVector = Icons.Filled.Cake,
+        value = value,
+        isEnable = false,
+        clickOnIcon = { clickOnIcon.invoke() },
+        onValueChange = { onValueChange.invoke(it) }
+    )
+}
+
+
+@Composable
 @Preview(showBackground = true)
 fun SignUpScreenPreview(modifier: Modifier = Modifier) {
     SignUpScreenContent(
-        modifier = Modifier,
-        saveUserInformation = {},
-        sinUp = { email, password -> }
+        modifier = Modifier, saveUserInformation = {}, uiState = SignUpUiState()
     )
 }
