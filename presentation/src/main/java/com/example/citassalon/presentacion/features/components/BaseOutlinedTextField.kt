@@ -50,16 +50,18 @@ fun BaseOutlinedTextField(
             .fillMaxWidth()
             .padding(0.dp, 16.dp, 0.dp, 0.dp),
         value = value,
-        onValueChange = {
-            onValueChange.invoke(it)
+        onValueChange = { mText ->
+            onValueChange.invoke(mText)
         },
         leadingIcon = {
-            IconButton(onClick = {
-                clickOnIcon.invoke()
-                if (isInputPassword) {
-                    isPasswordVisible.value = !isPasswordVisible.value
+            IconButton(
+                onClick = {
+                    clickOnIcon.invoke()
+                    if (isInputPassword) {
+                        isPasswordVisible.value = !isPasswordVisible.value
+                    }
                 }
-            }) {
+            ) {
                 Icon(
                     imageVector = imageVector, contentDescription = null
                 )

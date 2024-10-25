@@ -136,6 +136,7 @@
     <string name="tiendas">Tiendas</string>
     <string name="reset_password">Reset Password</string>
     <string name="detail_staff">Detail Staff</string>
+    <string name="error_password_or_user">Usuario o contraseña incorrectos</string>
     <string name="detail_product">Detail Product</string>
     <string name="Ingresa">Ingresar</string>
     <string name="username">username</string>

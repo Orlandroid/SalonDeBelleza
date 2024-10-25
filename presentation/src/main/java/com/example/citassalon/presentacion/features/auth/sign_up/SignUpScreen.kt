@@ -36,6 +36,12 @@ import com.example.citassalon.presentacion.features.base.BaseComposeScreenState
 import com.example.citassalon.presentacion.features.components.BaseOutlinedTextField
 import com.example.citassalon.presentacion.features.components.InputError
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
+import com.example.citassalon.presentacion.features.extensions.dateFormat
+import com.example.citassalon.presentacion.features.extensions.getCurrentDateTime
+import com.example.citassalon.presentacion.features.extensions.getHourFormat
+import com.example.citassalon.presentacion.features.extensions.toStringFormat
+import com.example.citassalon.presentacion.features.schedule_appointment.schedule.MyDatePickerDialog
+import com.example.citassalon.presentacion.features.schedule_appointment.schedule.MyTimePickerDialog
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.entities.remote.User
 
@@ -48,17 +54,16 @@ fun SignUpScreen(
     val state = signUpViewModel.state.collectAsStateWithLifecycle()
     val uiState = signUpViewModel.uiState.collectAsStateWithLifecycle()
     BaseComposeScreenState(
-        navController = navHostController,
-        toolbarConfiguration = ToolbarConfiguration(
-            showToolbar = true,
-            title = stringResource(id = R.string.signUp)
-        ),
-        state = state.value
+        navController = navHostController, toolbarConfiguration = ToolbarConfiguration(
+            showToolbar = true, title = stringResource(id = R.string.signUp)
+        ), state = state.value
     ) {
         SignUpScreenContent(
             modifier = Modifier, saveUserInformation = { user ->
                 signUpViewModel.saveUserInformation(user)
-            }, uiState = uiState.value, signUpViewModel = signUpViewModel
+            },
+            uiState = uiState.value,
+            signUpViewModel = signUpViewModel
         )
     }
 }
@@ -70,12 +75,19 @@ fun SignUpScreenContent(
     uiState: SignUpUiState,
     signUpViewModel: SignUpViewModel = hiltViewModel(),
 ) {
-    val name = remember { mutableStateOf("") }
-    val phone = remember { mutableStateOf("") }
-    val email = remember { mutableStateOf("") }
-    val password = remember { mutableStateOf("") }
-    val enableButton = remember { mutableStateOf(false) }
-    val birthDay = remember { mutableStateOf("") }
+    val showDatePickerDialog = remember { mutableStateOf(false) }
+    val date = remember { mutableStateOf(getCurrentDateTime().toStringFormat(dateFormat)) }
+    if (showDatePickerDialog.value) {
+        MyDatePickerDialog(
+            onDismiss = {
+                showDatePickerDialog.value = false
+            },
+            onDateSelected = {
+                date.value = it
+                signUpViewModel.birthDay.value = it
+            }
+        )
+    }
     Column(
         modifier
             .fillMaxSize()
@@ -85,63 +97,65 @@ fun SignUpScreenContent(
     ) {
         val logoImage = painterResource(id = R.drawable.logo)
         Image(
-            painter = logoImage,
-            contentDescription = "SkedulyImage",
-            modifier.size(150.dp)
+            painter = logoImage, contentDescription = "SkedulyImage", modifier.size(150.dp)
         )
         InputName(
-            value = name.value,
+            value = signUpViewModel.name.value,
             onValueChange = {
-                name.value = it
+                signUpViewModel.name.value = it
                 signUpViewModel.validateForm()
             }
         )
         InputPhone(
-            value = phone.value,
+            value = signUpViewModel.phone.value,
             showError = uiState.showErrorPhone,
             onValueChange = {
-                phone.value = it
+                signUpViewModel.phone.value = it
                 signUpViewModel.validateForm()
             }
         )
         InputEmail(
-            value = email.value,
+            value = signUpViewModel.email.value,
             showError = uiState.showErrorEmail,
             onValueChange = {
-                email.value = it
+                signUpViewModel.email.value = it
                 signUpViewModel.validateForm()
             }
         )
         InputPassword(
-            value = password.value,
+            value = signUpViewModel.password.value,
             showError = uiState.showErrorPassword,
             onValueChange = {
-                password.value = it
+                signUpViewModel.password.value = it
                 signUpViewModel.validateForm()
             }
         )
         InputBirthday(
-            value = birthDay.value,
+            value = signUpViewModel.birthDay.value,
+            clickOnIcon = {
+                showDatePickerDialog.value = true
+                signUpViewModel.validateForm()
+            },
             onValueChange = {
-                birthDay.value = it
+                signUpViewModel.birthDay.value = it
                 signUpViewModel.validateForm()
             }
         )
         Spacer(modifier = Modifier.height(16.dp))
         Button(
-            enabled = enableButton.value,
+            enabled = uiState.isEnableButton,
             onClick = {
                 saveUserInformation.invoke(
                     User(
-                        name = name.value,
-                        phone = phone.value,
-                        email = email.value,
-                        password = password.value,
-                        birthDay = birthDay.value
+                        name = signUpViewModel.name.value,
+                        phone = signUpViewModel.phone.value,
+                        email = signUpViewModel.email.value,
+                        password = signUpViewModel.password.value,
+                        birthDay = signUpViewModel.birthDay.value
                     )
                 )
                 signUpViewModel.sinUpV2(
-                    email = email.value, password = password.value
+                    email = signUpViewModel.email.value, password = signUpViewModel.password.value
                 )
             },
             colors = ButtonDefaults.buttonColors(containerColor = Color.White),
@@ -158,8 +172,7 @@ fun InputName(
     value: String,
     onValueChange: (value: String) -> Unit
 ) {
-    BaseOutlinedTextField(
-        modifier = modifier,
+    BaseOutlinedTextField(modifier = modifier,
         text = stringResource(R.string.nombre),
         value = value,
         onValueChange = { currentValue ->
@@ -201,8 +214,7 @@ fun InputEmail(
     showError: Boolean,
     onValueChange: (value: String) -> Unit
 ) {
-    BaseOutlinedTextField(
-        modifier = modifier,
+    BaseOutlinedTextField(modifier = modifier,
         inputError = if (showError) {
             InputError(
                 errorText = stringResource(R.string.error_email),
@@ -216,8 +228,7 @@ fun InputEmail(
         value = value,
         onValueChange = {
             onValueChange.invoke(it)
-        }
-    )
+        })
 }
 
 @Composable
@@ -227,8 +238,7 @@ fun InputPassword(
     showError: Boolean,
     onValueChange: (value: String) -> Unit
 ) {
-    BaseOutlinedTextField(
-        modifier = modifier,
+    BaseOutlinedTextField(modifier = modifier,
         inputError = if (showError) {
             InputError(
                 errorText = stringResource(R.string.error_passsword),
@@ -243,8 +253,7 @@ fun InputPassword(
         isInputPassword = true,
         onValueChange = {
             onValueChange.invoke(it)
-        }
-    )
+        })
 }
 
 @Composable
@@ -254,15 +263,13 @@ fun InputBirthday(
     clickOnIcon: () -> Unit = {},
     onValueChange: (value: String) -> Unit
 ) {
-    BaseOutlinedTextField(
-        modifier = modifier,
+    BaseOutlinedTextField(modifier = modifier,
         text = "dd/mm/aaaa",
         imageVector = Icons.Filled.Cake,
         value = value,
         isEnable = false,
         clickOnIcon = { clickOnIcon.invoke() },
-        onValueChange = { onValueChange.invoke(it) }
-    )
+        onValueChange = { onValueChange.invoke(it) })
 }
 
 

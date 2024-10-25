@@ -3,18 +3,22 @@ package com.example.citassalon.presentacion.features.auth.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.citassalon.presentacion.features.base.BaseViewModel
+import com.example.citassalon.presentacion.features.schedule_appointment.branches.BaseScreenState
 import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.data.Repository
+import com.example.data.di.CoroutineDispatchers
 import com.example.data.preferences.LoginPreferences
 import com.example.domain.state.SessionStatus
 import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
@@ -22,14 +26,18 @@ import kotlin.time.Duration.Companion.seconds
 @HiltViewModel
 class LoginViewModel
 @Inject constructor(
-    private val networkHelper: NetworkHelper,
+    networkHelper: NetworkHelper,
     private val repository: Repository,
+    coroutineDispatchers: CoroutineDispatchers,
     private val loginPeferences: LoginPreferences,
-) : ViewModel() {
+) : BaseViewModel(
+    coroutineDispatchers = coroutineDispatchers,
+    networkHelper = networkHelper
+) {
 
-
-    private val _status: MutableStateFlow<LoginUiState> = MutableStateFlow(LoginUiState())
-    val status = _status.asStateFlow()
+    private val _sideEffectChannel = Channel<LoginUiEffect>(capacity = Channel.BUFFERED)
+    val sideEffectFlow: Flow<LoginUiEffect>
+        get() = _sideEffectChannel.receiveAsFlow()
 
     private val _effects: MutableStateFlow<LoginUiEffect> = MutableStateFlow(LoginUiEffect.Idle)
     val effects = _effects.asStateFlow()
@@ -41,7 +49,7 @@ class LoginViewModel
             }
 
             is LoginActions.Login -> {
-                login(actions.email, actions.password)
+//                login(actions.email, actions.password)
             }
 
 
@@ -101,36 +109,54 @@ class LoginViewModel
         }
     }
 
-    fun login(email: String, password: String) = viewModelScope.launch {
-        _status.update {
-            it.copy(isLoading = true)
-        }
-        delay(2.seconds)
-        if (email.isEmpty() or password.isEmpty()) {
-            _status.update {
-                it.copy(isEmptyFields = true, isLoading = false)
-            }
-            return@launch
-        }
+    private val _state: MutableStateFlow<BaseScreenState<Unit>> =
+        MutableStateFlow(BaseScreenState.Idle())
+    val state = _state.asStateFlow()
+
+    fun loginV2(email: String, password: String) = viewModelScope.launch {
+        _state.value = BaseScreenState.Loading()
+        delay(1.seconds)
         if (!networkHelper.isNetworkConnected()) {
-            _status.update {
-                it.copy(isError = true)
-            }
+            _state.value = BaseScreenState.ErrorNetwork()
         }
-        repository.login(email = email, password = password).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                task.result
-                _effects.value = LoginUiEffect.NavigateToHomeScreen
-                _status.update { it.copy(isLoading = false) }
-                saveUserSession()
-                saveUserEmailToPreferences(email)
-            } else {
-                _status.update {
-                    it.copy(isError = true)
-                }
-            }
+        val response = repository.login(email = email, password = password)
+        if (response.isSuccessful) {
+            _state.value = BaseScreenState.Success(Unit)
+        } else {
+            _state.value = BaseScreenState.Error(Exception(response.exception?.message))
         }
     }
+
+
+//    fun login(email: String, password: String) = viewModelScope.launch {
+//        _status.update {
+//            it.copy(isLoading = true)
+//        }
+//        delay(2.seconds)
+//        if (email.isEmpty() or password.isEmpty()) {
+//            _status.update {
+//                it.copy(isEmptyFields = true, isLoading = false)
+//            }
+//            return@launch
+//        }
+//        if (!networkHelper.isNetworkConnected()) {
+//            _status.update {
+//                it.copy(isError = true)
+//            }
+//        }
+//        repository.login(email = email, password = password).addOnCompleteListener { task ->
+//            if (task.isSuccessful) {
+//                _effects.value = LoginUiEffect.NavigateToHomeScreen
+//                _status.update { it.copy(isLoading = false) }
+//                saveUserSession()
+//                saveUserEmailToPreferences(email)
+//            } else {
+//                _status.update {
+//                    it.copy(isError = true, isLoading = false)
+//                }
+//            }
+//        }
+//    }
 
 //    fun login(email: String, password: String) = viewModelScope.launch {
 //        _status.emit(SessionStatus.LOADING)

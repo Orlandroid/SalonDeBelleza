@@ -106,6 +106,8 @@ fun <T> BaseStateScreen(
         is BaseScreenState.ErrorNetwork -> {
             ErrorNetworkState(alertDialogMessagesConfig)
         }
+
+        is BaseScreenState.Idle -> {}
     }
 }
 
@@ -116,7 +118,7 @@ fun ErrorState(alertDialogMessagesConfig: AlertDialogMessagesConfig) {
         BaseAlertDialogMessages(
             alertDialogMessagesConfig = alertDialogMessagesConfig.copy(kindOfMessage = KindOfMessage.ERROR,
                 title = R.string.error,
-                bodyMessage = R.string.error_al_obtener_datos,
+                bodyMessage = alertDialogMessagesConfig.bodyMessage,
                 onConfirmation = {
                     alertDialogMessagesConfig.onConfirmation.invoke()
                     shouldShowDialogError.value = false

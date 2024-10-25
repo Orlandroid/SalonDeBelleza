@@ -1,6 +1,5 @@
 package com.example.citassalon.presentacion.features.schedule_appointment
 
-import androidx.compose.runtime.internal.composableLambda
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -9,14 +8,14 @@ import com.example.citassalon.presentacion.features.app_navigation.AppNavigation
 import com.example.citassalon.presentacion.features.extensions.sharedViewModel
 import com.example.citassalon.presentacion.features.flow_main.FlowMainViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.branches.BranchesScreen
+import com.example.citassalon.presentacion.features.schedule_appointment.branches.Flow
+import com.example.citassalon.presentacion.features.schedule_appointment.cita_agendada.AppointmentScheduledScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.detail_staff.DetailStaffScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.home.HomeScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.schedule.ScheduleScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.schedule_confirmation.ScheduleConfirmationScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.service.ServiceScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.staff.ScheduleStaffScreen
-import com.example.citassalon.presentacion.features.schedule_appointment.branches.Flow
-import com.example.citassalon.presentacion.features.schedule_appointment.cita_agendada.AppointmentScheduledScreen
 
 
 fun NavGraphBuilder.scheduleNavigationGraph(

@@ -2,7 +2,11 @@ package com.example.citassalon.presentacion.features.auth.sign_up
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
+import com.example.citassalon.presentacion.features.extensions.dateFormat
+import com.example.citassalon.presentacion.features.extensions.getCurrentDateTime
+import com.example.citassalon.presentacion.features.extensions.toStringFormat
 import com.example.citassalon.presentacion.features.schedule_appointment.branches.BaseScreenState
 import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.citassalon.presentacion.util.isValidEmail
@@ -11,6 +15,7 @@ import com.google.firebase.database.FirebaseDatabase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,12 +30,7 @@ class SignUpViewModel @Inject constructor(
         private const val PHONE_NUMBER_CHARACTERS = 10
     }
 
-
-    var showErrorPhone = mutableStateOf(false)
-    var showErrorEmail = mutableStateOf(false)
-    var showErrorPassword = mutableStateOf(false)
-
-    var birthDay = mutableStateOf("")
+    var birthDay = mutableStateOf(getCurrentDateTime().toStringFormat(dateFormat))
     var name = mutableStateOf("")
     var phone = mutableStateOf("")
     var email = mutableStateOf("")
@@ -100,9 +100,14 @@ class SignUpViewModel @Inject constructor(
     }
 
     private fun resetErrorsInputs() {
-        showErrorPhone.value = false
-        showErrorEmail.value = false
-        showErrorPassword.value = false
+        _uiState.update {
+            it.copy(
+                showErrorPassword = false,
+                showErrorEmail = false,
+                showErrorPhone = false,
+                isEnableButton = false
+            )
+        }
     }
 
     fun validateForm(): Boolean {
@@ -116,23 +121,24 @@ class SignUpViewModel @Inject constructor(
         var areEmptyFields = false
         if (!isValidNumber()) {
             if (phone.isNotEmpty()) {
-                showErrorPhone.value = true
+                _uiState.update { it.copy(showErrorPhone = true) }
             }
             isValidPhone = false
         }
         if (areEmptyFields()) areEmptyFields = true
         if (!isValidPassword()) {
             if (passwordText.isNotEmpty()) {
-                showErrorPassword.value = true
+                _uiState.update { it.copy(showErrorPassword = true) }
             }
             isValidPassword = false
         }
         if (!isTheEmailValidEmail(getEmail())) {
             if (email.isNotEmpty()) {
-                showErrorEmail.value = true
+                _uiState.update { it.copy(showErrorEmail = true) }
             }
             isValidEmail = false
         }
+        _uiState.update { it.copy(isEnableButton = true) }
         return isValidPhone && isValidEmail && isValidPassword && !areEmptyFields
     }
 

@@ -38,21 +38,27 @@ import com.example.citassalon.presentacion.util.isValidEmail
 
 @Composable
 fun AlertDialogForgetPasswordScreen(
-    modifier: Modifier = Modifier, onDismissRequest: () -> Unit
+    modifier: Modifier = Modifier,
+    onDismissRequest: () -> Unit,
+    clickOnResetPassword: (email: String) -> Unit = {}
 ) {
     BaseCustomDialog(
         modifier = modifier,
         onDismissRequest = { }
     ) {
         AlertDialogForgetPasswordContent(
-            modifier = modifier, onDismissRequest = onDismissRequest
+            modifier = modifier,
+            onDismissRequest = onDismissRequest,
+            clickOnResetPassword = clickOnResetPassword
         )
     }
 }
 
 @Composable
 fun AlertDialogForgetPasswordContent(
-    modifier: Modifier = Modifier, onDismissRequest: () -> Unit
+    modifier: Modifier = Modifier,
+    onDismissRequest: () -> Unit,
+    clickOnResetPassword: (email: String) -> Unit
 ) {
     val userEmail = remember { mutableStateOf("") }
     val isEnableButton = remember { mutableStateOf(false) }
@@ -104,7 +110,9 @@ fun AlertDialogForgetPasswordContent(
             isEnableButton.value = isValidEmail(email)
         }
         SmallSpacer(orientation = Orientation.VERTICAL)
-        Button(enabled = isEnableButton.value, onClick = {}) {
+        Button(
+            enabled = isEnableButton.value,
+            onClick = { clickOnResetPassword.invoke(userEmail.value) }) {
             Text(text = stringResource(id = R.string.reset_password))
         }
     }
