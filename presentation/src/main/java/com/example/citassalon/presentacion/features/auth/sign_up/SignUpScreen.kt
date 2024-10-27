@@ -38,10 +38,8 @@ import com.example.citassalon.presentacion.features.components.InputError
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.extensions.dateFormat
 import com.example.citassalon.presentacion.features.extensions.getCurrentDateTime
-import com.example.citassalon.presentacion.features.extensions.getHourFormat
 import com.example.citassalon.presentacion.features.extensions.toStringFormat
 import com.example.citassalon.presentacion.features.schedule_appointment.schedule.MyDatePickerDialog
-import com.example.citassalon.presentacion.features.schedule_appointment.schedule.MyTimePickerDialog
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.entities.remote.User
 

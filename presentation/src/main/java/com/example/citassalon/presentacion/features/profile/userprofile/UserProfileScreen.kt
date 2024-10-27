@@ -51,7 +51,6 @@ import coil.compose.AsyncImage
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
-import com.example.citassalon.presentacion.features.extensions.GenericResultStateV2
 import com.example.citassalon.presentacion.features.extensions.base64toBitmap
 import com.example.citassalon.presentacion.features.extensions.toBase64
 import com.example.citassalon.presentacion.features.extensions.uriToBitmap
@@ -154,51 +153,51 @@ fun UserProfileScreenContent(
             CircleStatus(colorSessionUser.value)
         }
         Spacer(modifier = Modifier.height(24.dp))
-        GenericResultStateV2(state = infoUserState, isLoading = isLoading) { data ->
-            data.let { userResponse ->
-                listUserInfo.add(UserInfo("Nombre"))
-                listUserInfo.add(UserInfo("Telefono"))
-                listUserInfo.add(UserInfo("correo", userResponse[USER_EMAIL] ?: ""))
-                listUserInfo.add(UserInfo("uid", userResponse[USER_UID] ?: ""))
-                listUserInfo.add(
-                    UserInfo(
-                        "Money", "$ $money"
-                    )
-                )
-                if (data[USER_SESSION].equals("true")) {
-                    colorSessionUser.value = Color.Green
-                } else {
-                    colorSessionUser.value = Color.Red
-                }
-                Card(
-                    shape = RoundedCornerShape(16.dp),
-                    colors = CardDefaults.cardColors(containerColor = Color.White),
-                    modifier = Modifier
-                        .padding(horizontal = 8.dp, vertical = 8.dp)
-                        .fillMaxWidth()
-
-                ) {
-                    LazyColumn(Modifier.padding(horizontal = 8.dp)) {
-                        listUserInfo.forEach { userInfo ->
-                            item {
-                                ItemList(userInfo = userInfo)
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        GenericResultStateV2(state = imageUserState, isLoading = isLoading) {
-            Log.w("ANDORID", "SUCCESS")
-        }
-        GenericResultStateV2(state = imageUserProfileState, isLoading = isLoading) { dataResponse ->
-            dataResponse?.let {
-                LaunchedEffect(imageUser.value) {
-                    imageUser.value = dataResponse.base64toBitmap()
-                    Log.w("ANDORID", "eRROR")
-                }
-            }
-        }
+//        GenericResultStateV2(state = infoUserState, isLoading = isLoading) { data ->
+//            data.let { userResponse ->
+//                listUserInfo.add(UserInfo("Nombre"))
+//                listUserInfo.add(UserInfo("Telefono"))
+//                listUserInfo.add(UserInfo("correo", userResponse[USER_EMAIL] ?: ""))
+//                listUserInfo.add(UserInfo("uid", userResponse[USER_UID] ?: ""))
+//                listUserInfo.add(
+//                    UserInfo(
+//                        "Money", "$ $money"
+//                    )
+//                )
+//                if (data[USER_SESSION].equals("true")) {
+//                    colorSessionUser.value = Color.Green
+//                } else {
+//                    colorSessionUser.value = Color.Red
+//                }
+//                Card(
+//                    shape = RoundedCornerShape(16.dp),
+//                    colors = CardDefaults.cardColors(containerColor = Color.White),
+//                    modifier = Modifier
+//                        .padding(horizontal = 8.dp, vertical = 8.dp)
+//                        .fillMaxWidth()
+//
+//                ) {
+//                    LazyColumn(Modifier.padding(horizontal = 8.dp)) {
+//                        listUserInfo.forEach { userInfo ->
+//                            item {
+//                                ItemList(userInfo = userInfo)
+//                            }
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        GenericResultStateV2(state = imageUserState, isLoading = isLoading) {
+//            Log.w("ANDORID", "SUCCESS")
+//        }
+//        GenericResultStateV2(state = imageUserProfileState, isLoading = isLoading) { dataResponse ->
+//            dataResponse?.let {
+//                LaunchedEffect(imageUser.value) {
+//                    imageUser.value = dataResponse.base64toBitmap()
+//                    Log.w("ANDORID", "eRROR")
+//                }
+//            }
+//        }
     }
 }
 

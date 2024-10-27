@@ -119,11 +119,14 @@ class LoginViewModel
         if (!networkHelper.isNetworkConnected()) {
             _state.value = BaseScreenState.ErrorNetwork()
         }
-        val response = repository.login(email = email, password = password)
-        if (response.isSuccessful) {
-            _state.value = BaseScreenState.Success(Unit)
-        } else {
-            _state.value = BaseScreenState.Error(Exception(response.exception?.message))
+        repository.login(email = email, password = password).addOnCompleteListener { response ->
+            if (response.isSuccessful) {
+                _state.value = BaseScreenState.Success(Unit)
+                saveUserSession()
+                saveUserEmailToPreferences (email)
+            } else {
+                _state.value = BaseScreenState.Error(Exception(response.exception?.message))
+            }
         }
     }
 
