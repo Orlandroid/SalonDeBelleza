@@ -102,7 +102,15 @@ fun TextHistory(text: String) {
 @Composable
 @Preview(showBackground = true)
 fun HistoryDetailContentPreview() {
-    HistoryDetailContent(appointment = AppointmentObject())
+    HistoryDetailContent(
+        appointment = AppointmentObject(
+            establishment = "Zacatecas",
+            employee = "Diego",
+            service = "Corte de pelo",
+            hour = "16:00 pm",
+            date = "01/01/202"
+        )
+    )
 }
 
 

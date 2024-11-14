@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.citassalon.presentacion.features.base.BaseViewModel
+import com.example.citassalon.presentacion.features.schedule_appointment.branches.BaseScreenState
 import com.example.data.di.CoroutineDispatchers
 import com.example.data.preferences.LoginPreferences
 import com.example.domain.perfil.RandomUserResponse
@@ -19,6 +20,8 @@ import com.google.firebase.database.ValueEventListener
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
@@ -33,14 +36,17 @@ class UserProfileViewModel @Inject constructor(
     private val loginPreferences: LoginPreferences
 ) : BaseViewModel(coroutineDispatchers, networkHelper) {
 
-    private val _infoUser = MutableLiveData<ApiState<HashMap<String, String>>>()
-    val infoUser: LiveData<ApiState<HashMap<String, String>>> get() = _infoUser
+    private val _infoUserState: MutableStateFlow<BaseScreenState<HashMap<String, String>>> =
+        MutableStateFlow(BaseScreenState.Idle())
+    val infoUserState = _infoUserState.asStateFlow()
 
-    private val _imageUser = MutableLiveData<ApiState<String>>()
-    val imageUser: LiveData<ApiState<String>> get() = _imageUser
+    private val _remoteImageProfileState: MutableStateFlow<BaseScreenState<String>> =
+        MutableStateFlow(BaseScreenState.Idle())
+    val remoteImageProfileState = _remoteImageProfileState.asStateFlow()
 
-    private val _imageUserProfile = MutableLiveData<ApiState<String?>>()
-    val imageUserProfile: LiveData<ApiState<String?>> get() = _imageUserProfile
+    private val _localImageState: MutableStateFlow<BaseScreenState<String>> =
+        MutableStateFlow(BaseScreenState.Idle())
+    val localImageState = _localImageState.asStateFlow()
 
 
     private val _randomUserResponse = MutableLiveData<ApiState<RandomUserResponse>>()
@@ -69,14 +75,15 @@ class UserProfileViewModel @Inject constructor(
         return firebaseDatabase.reference.child(IMAGE_USER).child(uuidUser!!)
     }
 
+
     fun getUserInfo() = viewModelScope.launch(Dispatchers.IO) {
         withContext(Dispatchers.Main) {
-            _infoUser.value = ApiState.Loading()
+            _infoUserState.value = BaseScreenState.Loading()
         }
         delay(2000)
         if (!networkHelper.isNetworkConnected()) {
             withContext(Dispatchers.Main) {
-                _infoUser.value = ApiState.ErrorNetwork()
+                _infoUserState.value = BaseScreenState.ErrorNetwork()
             }
             return@launch
         }
@@ -87,21 +94,21 @@ class UserProfileViewModel @Inject constructor(
             userInfo[USER_UID] = user.uid
             userInfo[USER_SESSION] = (repository.getUser() != null).toString()
             withContext(Dispatchers.Main) {
-                _infoUser.value = ApiState.Success(userInfo)
+                _infoUserState.value = BaseScreenState.Success(userInfo)
             }
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
-                _infoUser.value = ApiState.Error(e)
+                _infoUserState.value = BaseScreenState.Error(e)
             }
         }
-
     }
 
+
     fun getUserImage() = viewModelScope.launch {
-        _imageUserProfile.value = ApiState.Loading()
+        _remoteImageProfileState.value = BaseScreenState.Loading()
         if (!networkHelper.isNetworkConnected()) {
             withContext(Dispatchers.Main) {
-                _imageUserProfile.value = ApiState.ErrorNetwork()
+                _remoteImageProfileState.value = BaseScreenState.ErrorNetwork()
             }
             return@launch
         }
@@ -110,23 +117,25 @@ class UserProfileViewModel @Inject constructor(
         databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val imageUser = snapshot.value.toString()
-                _imageUserProfile.value = ApiState.Success(imageUser)
+                _remoteImageProfileState.value = BaseScreenState.Success(imageUser)
             }
 
             override fun onCancelled(error: DatabaseError) {
-                _imageUserProfile.value = ApiState.Error(Throwable(message = error.message))
+                _remoteImageProfileState.value =
+                    BaseScreenState.Error(exception = Exception(error.message))
             }
-        })
-
+        }
+        )
     }
+
 
     fun saveImageUser(imageLikeBase64: String) = viewModelScope.launch(Dispatchers.IO) {
         withContext(Dispatchers.Main) {
-            _imageUser.value = ApiState.Loading()
+            _localImageState.value = BaseScreenState.Loading()
         }
         if (!networkHelper.isNetworkConnected()) {
             withContext(Dispatchers.Main) {
-                _imageUser.value = ApiState.ErrorNetwork()
+                _localImageState.value = BaseScreenState.ErrorNetwork()
             }
             return@launch
         }
@@ -134,9 +143,9 @@ class UserProfileViewModel @Inject constructor(
         firebaseDatabase.getReference(IMAGE_USER).child(userUii).setValue(imageLikeBase64)
             .addOnCompleteListener {
                 if (it.isSuccessful) {
-                    _imageUser.value = ApiState.Success(it.isSuccessful.toString())
+                    _localImageState.value = BaseScreenState.Success(it.isSuccessful.toString())
                 } else {
-                    _imageUser.value = ApiState.Error(Throwable(message = "error saving image"))
+                    _localImageState.value = BaseScreenState.Error(exception = Exception())
                 }
             }
     }

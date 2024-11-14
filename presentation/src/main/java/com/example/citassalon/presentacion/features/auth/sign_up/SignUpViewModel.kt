@@ -2,7 +2,6 @@ package com.example.citassalon.presentacion.features.auth.sign_up
 
 import android.util.Log
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.lifecycle.ViewModel
 import com.example.citassalon.presentacion.features.extensions.dateFormat
 import com.example.citassalon.presentacion.features.extensions.getCurrentDateTime

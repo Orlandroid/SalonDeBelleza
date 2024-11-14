@@ -19,7 +19,9 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.painter.BrushPainter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -72,7 +74,15 @@ fun DetailProductScreenContent(modifier: Modifier = Modifier, product: Product) 
                 AsyncImage(
                     model = product.image,
                     contentDescription = null,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    placeholder = BrushPainter(
+                        Brush.linearGradient(
+                            listOf(
+                                Color(color = 0xFFFFFFAA),
+                                Color(color = 0xFFDDDDDD),
+                            )
+                        )
+                    )
                 )
                 DText(text = product.title, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.height(8.dp))

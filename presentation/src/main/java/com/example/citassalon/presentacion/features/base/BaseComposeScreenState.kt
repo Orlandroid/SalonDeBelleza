@@ -40,7 +40,7 @@ fun <T> BaseComposeScreenState(
             paddingValues = paddingValues,
             background = background
         ) {
-            BaseStateScreen(
+            ObserveBaseState(
                 state = state,
                 alertDialogMessagesConfig = alertDialogMessagesConfig
             ) { mResult ->
@@ -51,7 +51,7 @@ fun <T> BaseComposeScreenState(
 }
 
 @Composable
-fun <T> BaseStateScreen(
+fun <T> ObserveBaseState(
     state: BaseScreenState<T>,
     alertDialogMessagesConfig: AlertDialogMessagesConfig,
     onSuccess: @Composable (T) -> Unit,
