@@ -22,6 +22,9 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -58,6 +61,7 @@ import com.example.citassalon.presentacion.features.extensions.uriToBitmap
 import com.example.citassalon.presentacion.features.schedule_appointment.branches.BaseScreenState
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.perfil.UserInfo
+import com.example.domain.perfil.UserProfileResponse
 
 const val USER_EMAIL = "email"
 const val USER_UID = "uid"
@@ -87,8 +91,7 @@ fun UserProfileScreen(
             remoteImageState = remoteImageState,
             saveImageUser = {
                 userProfileViewModel.saveImageUser(imageLikeBase64 = it)
-            },
-            money = userProfileViewModel.getUserMoney()
+            }
         )
     }
 }
@@ -97,10 +100,9 @@ fun UserProfileScreen(
 @Composable
 fun UserProfileScreenContent(
     modifier: Modifier = Modifier,
-    infoUserState: State<BaseScreenState<HashMap<String, String>>>,
+    infoUserState: State<BaseScreenState<UserProfileResponse>>,
     localImageState: State<BaseScreenState<String>>,
     remoteImageState: State<BaseScreenState<String>>,
-    money: String,
     saveImageUser: (imageUserBase64: String) -> Unit
 ) {
     val listUserInfo = arrayListOf<UserInfo>()
@@ -108,17 +110,17 @@ fun UserProfileScreenContent(
     val imageUserRemote = remember { mutableStateOf<Bitmap?>(null) }
     var imageFromLocal by remember { mutableStateOf<Uri?>(null) }
     val colorSessionUser = remember { mutableStateOf(Color.Red) }
-    val galleryLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent(),
-        onResult = { uri ->
-            uri?.let {
-                imageFromLocal = it
-                val imageBitmap = context.uriToBitmap(it)
-                imageBitmap?.let {
-                    saveImageUser(imageBitmap.toBase64())
+    val galleryLauncher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent(),
+            onResult = { uri ->
+                uri?.let {
+                    imageFromLocal = it
+                    val imageBitmap = context.uriToBitmap(it)
+                    imageBitmap?.let {
+                        saveImageUser(imageBitmap.toBase64())
+                    }
                 }
-            }
-        })
+            })
     Column(
         modifier
             .fillMaxSize()
@@ -151,32 +153,36 @@ fun UserProfileScreenContent(
                 .padding(start = 16.dp, top = 16.dp),
             horizontalArrangement = Arrangement.Start
         ) {
-            Text(text = stringResource(R.string.name_user), fontSize = 24.sp)
+            Text(
+                text = stringResource(R.string.name_user),
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold
+            )
             Spacer(modifier = Modifier.width(24.dp))
             CircleStatus(colorSessionUser.value)
         }
         Spacer(modifier = Modifier.height(24.dp))
         ObserveBaseState(
-            state = infoUserState.value, alertDialogMessagesConfig = AlertDialogMessagesConfig()
+            state = infoUserState.value,
+            alertDialogMessagesConfig = AlertDialogMessagesConfig()
         ) { userResponse ->
-            listUserInfo.add(UserInfo("Nombre"))
-            listUserInfo.add(UserInfo("Telefono"))
-            listUserInfo.add(UserInfo("correo", userResponse[USER_EMAIL] ?: ""))
-            listUserInfo.add(UserInfo("uid", userResponse[USER_UID] ?: ""))
-            listUserInfo.add(
-                UserInfo(
-                    "Money", "$ $money"
-                )
-            )
-            if (userResponse[USER_SESSION].equals("true")) {
+            if (userResponse.isUserSessionActive) {
                 colorSessionUser.value = Color.Green
             } else {
                 colorSessionUser.value = Color.Red
             }
-            LazyColumn(Modifier.padding(horizontal = 8.dp)) {
-                listUserInfo.forEach { userInfo ->
-                    item {
-                        ItemList(userInfo = userInfo)
+            Card(
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp),
+                colors = CardDefaults.cardColors(containerColor = Color.White)
+            ) {
+                LazyColumn {
+                    userResponse.userInfo.forEach { userInfo ->
+                        item {
+                            ItemList(userInfo = userInfo)
+                            HorizontalDivider()
+                        }
                     }
                 }
             }
@@ -184,10 +190,8 @@ fun UserProfileScreenContent(
         ObserveBaseState(
             state = remoteImageState.value, alertDialogMessagesConfig = AlertDialogMessagesConfig()
         ) { response ->
-            if (response != "null") {
-                response.let {
-                    imageUserRemote.value = response.base64StringToBitmap()
-                }
+            response.let {
+                imageUserRemote.value = response.base64StringToBitmap()
             }
         }
         ObserveBaseState(
@@ -200,11 +204,17 @@ fun UserProfileScreenContent(
 
 @Composable
 fun ItemList(userInfo: UserInfo) {
-    Column {
-        Text(text = userInfo.title, fontWeight = FontWeight.Bold)
-        Spacer(modifier = Modifier.height(8.dp))
-        Text(text = userInfo.value)
-    }
+    Text(
+        modifier = Modifier.padding(4.dp),
+        text = userInfo.title,
+        fontWeight = FontWeight.Bold
+    )
+    Spacer(modifier = Modifier.height(8.dp))
+    Text(
+        modifier =
+        Modifier.padding(4.dp),
+        text = userInfo.value
+    )
 }
 
 
@@ -213,8 +223,7 @@ fun ImageUser(
     model: Any, galleryLauncher: ManagedActivityResultLauncher<String, Uri?>
 ) {
     if (model is ImageBitmap) {
-        Image(
-            contentScale = ContentScale.Crop,
+        Image(contentScale = ContentScale.Crop,
             bitmap = model,
             contentDescription = "ImageProfile",
             modifier = Modifier
@@ -223,8 +232,7 @@ fun ImageUser(
                 .border(2.dp, Color.Gray, CircleShape)
                 .clickable {
                     galleryLauncher.launch("image/*")
-                }
-        )
+                })
     } else {
         AsyncImage(contentScale = ContentScale.Crop,
             model = model,
@@ -235,8 +243,7 @@ fun ImageUser(
                 .border(2.dp, Color.Gray, CircleShape)
                 .clickable {
                     galleryLauncher.launch("image/*")
-                }
-        )
+                })
     }
 }
 

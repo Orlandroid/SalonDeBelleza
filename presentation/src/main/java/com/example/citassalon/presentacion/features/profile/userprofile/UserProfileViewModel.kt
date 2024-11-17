@@ -10,6 +10,8 @@ import com.example.citassalon.presentacion.features.schedule_appointment.branche
 import com.example.data.di.CoroutineDispatchers
 import com.example.data.preferences.LoginPreferences
 import com.example.domain.perfil.RandomUserResponse
+import com.example.domain.perfil.UserInfo
+import com.example.domain.perfil.UserProfileResponse
 import com.example.domain.state.ApiState
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -36,7 +38,7 @@ class UserProfileViewModel @Inject constructor(
     private val loginPreferences: LoginPreferences
 ) : BaseViewModel(coroutineDispatchers, networkHelper) {
 
-    private val _infoUserState: MutableStateFlow<BaseScreenState<HashMap<String, String>>> =
+    private val _infoUserState: MutableStateFlow<BaseScreenState<UserProfileResponse>> =
         MutableStateFlow(BaseScreenState.Idle())
     val infoUserState = _infoUserState.asStateFlow()
 
@@ -94,7 +96,22 @@ class UserProfileViewModel @Inject constructor(
             userInfo[USER_UID] = user.uid
             userInfo[USER_SESSION] = (repository.getUser() != null).toString()
             withContext(Dispatchers.Main) {
-                _infoUserState.value = BaseScreenState.Success(userInfo)
+                val listUserInfo = arrayListOf<UserInfo>()
+                listUserInfo.add(UserInfo("Nombre"))
+                listUserInfo.add(UserInfo("Telefono"))
+                listUserInfo.add(UserInfo("correo", user.email ?: ""))
+                listUserInfo.add(UserInfo("uid", user.uid))
+                listUserInfo.add(
+                    UserInfo(
+                        "Money", "$ ${getUserMoney()}"
+                    )
+                )
+                _infoUserState.value = BaseScreenState.Success(
+                    UserProfileResponse(
+                        userInfo = listUserInfo,
+                        isUserSessionActive = repository.getUser() != null
+                    )
+                )
             }
         } catch (e: Exception) {
             withContext(Dispatchers.Main) {
@@ -116,16 +133,20 @@ class UserProfileViewModel @Inject constructor(
             provideFirebaseRealtimeDatabaseReference(firebaseDatabase, firebaseAuth)
         databaseReference.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                val imageUser = snapshot.value.toString()
-                _remoteImageProfileState.value = BaseScreenState.Success(imageUser)
+                if (snapshot.value.toString() != "null") {
+                    val imageUser = snapshot.value.toString()
+                    _remoteImageProfileState.value = BaseScreenState.Success(imageUser)
+                } else {
+                    _remoteImageProfileState.value =
+                        BaseScreenState.Error(exception = Exception("error"))
+                }
             }
 
             override fun onCancelled(error: DatabaseError) {
                 _remoteImageProfileState.value =
                     BaseScreenState.Error(exception = Exception(error.message))
             }
-        }
-        )
+        })
     }
 
 
