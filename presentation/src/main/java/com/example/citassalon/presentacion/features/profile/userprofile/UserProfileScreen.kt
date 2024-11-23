@@ -2,7 +2,6 @@ package com.example.citassalon.presentacion.features.profile.userprofile
 
 import android.graphics.Bitmap
 import android.net.Uri
-import androidx.activity.compose.ManagedActivityResultLauncher
 import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Canvas
@@ -28,11 +27,8 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.State
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -58,7 +54,6 @@ import com.example.citassalon.presentacion.features.dialogs.AlertDialogMessagesC
 import com.example.citassalon.presentacion.features.extensions.base64StringToBitmap
 import com.example.citassalon.presentacion.features.extensions.toBase64
 import com.example.citassalon.presentacion.features.extensions.uriToBitmap
-import com.example.citassalon.presentacion.features.schedule_appointment.branches.BaseScreenState
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.perfil.UserInfo
 import com.example.domain.perfil.UserProfileResponse
@@ -71,14 +66,65 @@ const val USER_SESSION = "userSession"
 fun UserProfileScreen(
     navController: NavHostController,
 ) {
+    val context = LocalContext.current
     val userProfileViewModel: UserProfileViewModel = hiltViewModel()
     val infoUserState = userProfileViewModel.infoUserState.collectAsStateWithLifecycle()
     val localImageState = userProfileViewModel.localImageState.collectAsStateWithLifecycle()
     val remoteImageState =
         userProfileViewModel.remoteImageProfileState.collectAsStateWithLifecycle()
+    val imageUserRemote = remember { mutableStateOf<Bitmap?>(null) }
+    val imageFromLocal = remember { mutableStateOf<Uri?>(null) }
+    val userProfileResponse = remember { mutableStateOf<UserProfileResponse?>(null) }
+    val galleryLauncher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent(),
+            onResult = { uri ->
+                uri?.let {
+                    imageFromLocal.value = it
+                    val imageBitmap = context.uriToBitmap(uri)
+                    imageBitmap?.let {
+                        userProfileViewModel.saveImageUser(imageLikeBase64 = imageBitmap.toBase64())
+                    }
+                }
+            }
+        )
     LaunchedEffect(Unit) {
         userProfileViewModel.getUserImage()
         userProfileViewModel.getUserInfo()
+    }
+    ObserveBaseState(
+        state = remoteImageState.value,
+        alertDialogMessagesConfig = AlertDialogMessagesConfig()
+    ) { response ->
+        response.let {
+            imageUserRemote.value = response.base64StringToBitmap()
+        }
+    }
+    ObserveBaseState(
+        state = localImageState.value,
+        alertDialogMessagesConfig = AlertDialogMessagesConfig()
+    ) {
+        ///Add message image uploaded succesful
+    }
+    ObserveBaseState(
+        state = infoUserState.value,
+        alertDialogMessagesConfig = AlertDialogMessagesConfig()
+    ) { userResponse ->
+        userProfileResponse.value = userResponse
+        Card(
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp),
+            colors = CardDefaults.cardColors(containerColor = Color.White)
+        ) {
+            LazyColumn {
+                userResponse.userInfo.forEach { userInfo ->
+                    item {
+                        ItemList(userInfo = userInfo)
+                        HorizontalDivider()
+                    }
+                }
+            }
+        }
     }
     BaseComposeScreen(
         navController = navController, toolbarConfiguration = ToolbarConfiguration(
@@ -86,12 +132,9 @@ fun UserProfileScreen(
         )
     ) {
         UserProfileScreenContent(
-            infoUserState = infoUserState,
-            localImageState = localImageState,
-            remoteImageState = remoteImageState,
-            saveImageUser = {
-                userProfileViewModel.saveImageUser(imageLikeBase64 = it)
-            }
+            imageUserRemote = imageUserRemote.value,
+            userProfileResponse = userProfileResponse.value,
+            launchGallery = { galleryLauncher.launch("image/*") },
         )
     }
 }
@@ -100,27 +143,10 @@ fun UserProfileScreen(
 @Composable
 fun UserProfileScreenContent(
     modifier: Modifier = Modifier,
-    infoUserState: State<BaseScreenState<UserProfileResponse>>,
-    localImageState: State<BaseScreenState<String>>,
-    remoteImageState: State<BaseScreenState<String>>,
-    saveImageUser: (imageUserBase64: String) -> Unit
+    imageUserRemote: Bitmap?,
+    launchGallery: () -> Unit,
+    userProfileResponse: UserProfileResponse?
 ) {
-    val listUserInfo = arrayListOf<UserInfo>()
-    val context = LocalContext.current
-    val imageUserRemote = remember { mutableStateOf<Bitmap?>(null) }
-    var imageFromLocal by remember { mutableStateOf<Uri?>(null) }
-    val colorSessionUser = remember { mutableStateOf(Color.Red) }
-    val galleryLauncher =
-        rememberLauncherForActivityResult(contract = ActivityResultContracts.GetContent(),
-            onResult = { uri ->
-                uri?.let {
-                    imageFromLocal = it
-                    val imageBitmap = context.uriToBitmap(it)
-                    imageBitmap?.let {
-                        saveImageUser(imageBitmap.toBase64())
-                    }
-                }
-            })
     Column(
         modifier
             .fillMaxSize()
@@ -128,24 +154,14 @@ fun UserProfileScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(16.dp))
-        if (imageUserRemote.value == null) {
-            ImageUser(model = R.drawable.userprofile, galleryLauncher = galleryLauncher)
-        } else {
-            imageUserRemote.value?.let { userImage ->
-                ImageUser(model = userImage.asImageBitmap(), galleryLauncher = galleryLauncher)
+        if (imageUserRemote == null) {
+            ImageUser(model = R.drawable.userprofile) {
+                launchGallery.invoke()
             }
-        }
-        imageFromLocal?.let { userStoreImage ->
-            AsyncImage(contentScale = ContentScale.Crop,
-                model = userStoreImage,
-                contentDescription = "ImageProfile",
-                modifier = Modifier
-                    .size(144.dp)
-                    .clip(CircleShape)
-                    .border(2.dp, Color.Gray, CircleShape)
-                    .clickable {
-                        galleryLauncher.launch("image/*")
-                    })
+        } else {
+            ImageUser(model = imageUserRemote.asImageBitmap()) {
+                launchGallery.invoke()
+            }
         }
         Row(
             Modifier
@@ -159,18 +175,18 @@ fun UserProfileScreenContent(
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.width(24.dp))
-            CircleStatus(colorSessionUser.value)
+            userProfileResponse?.let { user ->
+                CircleStatus(
+                    if (user.isUserSessionActive) {
+                        Color.Green
+                    } else {
+                        Color.Red
+                    }
+                )
+            }
         }
         Spacer(modifier = Modifier.height(24.dp))
-        ObserveBaseState(
-            state = infoUserState.value,
-            alertDialogMessagesConfig = AlertDialogMessagesConfig()
-        ) { userResponse ->
-            if (userResponse.isUserSessionActive) {
-                colorSessionUser.value = Color.Green
-            } else {
-                colorSessionUser.value = Color.Red
-            }
+        userProfileResponse?.let { userResponse ->
             Card(
                 Modifier
                     .fillMaxWidth()
@@ -187,18 +203,7 @@ fun UserProfileScreenContent(
                 }
             }
         }
-        ObserveBaseState(
-            state = remoteImageState.value, alertDialogMessagesConfig = AlertDialogMessagesConfig()
-        ) { response ->
-            response.let {
-                imageUserRemote.value = response.base64StringToBitmap()
-            }
-        }
-        ObserveBaseState(
-            state = localImageState.value, alertDialogMessagesConfig = AlertDialogMessagesConfig()
-        ) {
 
-        }
     }
 }
 
@@ -220,7 +225,8 @@ fun ItemList(userInfo: UserInfo) {
 
 @Composable
 fun ImageUser(
-    model: Any, galleryLauncher: ManagedActivityResultLauncher<String, Uri?>
+    model: Any,
+    launchGallery: () -> Unit,
 ) {
     if (model is ImageBitmap) {
         Image(contentScale = ContentScale.Crop,
@@ -231,8 +237,9 @@ fun ImageUser(
                 .clip(CircleShape)
                 .border(2.dp, Color.Gray, CircleShape)
                 .clickable {
-                    galleryLauncher.launch("image/*")
-                })
+                    launchGallery.invoke()
+                }
+        )
     } else {
         AsyncImage(contentScale = ContentScale.Crop,
             model = model,
@@ -242,8 +249,9 @@ fun ImageUser(
                 .clip(CircleShape)
                 .border(2.dp, Color.Gray, CircleShape)
                 .clickable {
-                    galleryLauncher.launch("image/*")
-                })
+                    launchGallery.invoke()
+                }
+        )
     }
 }
 
