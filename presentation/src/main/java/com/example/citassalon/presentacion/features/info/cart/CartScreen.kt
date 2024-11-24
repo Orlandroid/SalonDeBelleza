@@ -49,7 +49,7 @@ fun CartScreenContent(
             .fillMaxSize()
             .background(Background)
     ) {
-        val (content, list) = createRefs()
+        val (list) = createRefs()
         LazyColumn(modifier = Modifier.constrainAs(list) {
         }
         ) {

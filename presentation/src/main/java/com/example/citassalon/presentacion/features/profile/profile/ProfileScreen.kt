@@ -51,7 +51,7 @@ import com.example.domain.perfil.ProfileItem
 @Composable
 fun ProfileScreen(
     navController: NavHostController,
-    profileViewModel: PerfilViewModel = hiltViewModel(),
+    profileViewModel: ProfileViewModel = hiltViewModel(),
 ) {
     BaseComposeScreen(
         navController = navController,

@@ -67,7 +67,7 @@ class UserProfileViewModel @Inject constructor(
         }
     }
 
-    fun getUserMoney() = loginPreferences.getUserMoney().toString()
+    private fun getUserMoney() = loginPreferences.getUserMoney().toString()
 
 
     private fun provideFirebaseRealtimeDatabaseReference(

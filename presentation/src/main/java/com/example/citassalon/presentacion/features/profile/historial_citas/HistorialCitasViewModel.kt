@@ -1,6 +1,5 @@
 package com.example.citassalon.presentacion.features.profile.historial_citas
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel

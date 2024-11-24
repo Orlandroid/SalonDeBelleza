@@ -31,6 +31,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
@@ -44,6 +45,7 @@ import com.example.citassalon.presentacion.features.theme.Background
 fun ScheduleConfirmationScreen(
     navController: NavController,
     flowMainViewModel: FlowMainViewModel,
+    agendarConfirmacionViewModel: AgendarConfirmacionViewModel = hiltViewModel(),
     navigateToAppointmentSchedule: () -> Unit
 ) {
     BaseComposeScreen(
@@ -57,6 +59,11 @@ fun ScheduleConfirmationScreen(
             servicePrice = flowMainViewModel.listOfServices[0].precio.toString(),
             dateAppointment = flowMainViewModel.dateAppointment,
             hourAppointment = flowMainViewModel.hourAppointment,
+            saveAppointment = {
+                agendarConfirmacionViewModel.saveAppointMent(
+                    flowMainViewModel.getAppointmentFirebase()
+                )
+            },
             navigateToAppointmentSchedule = navigateToAppointmentSchedule
         )
     }
@@ -72,6 +79,7 @@ fun ScheduleConfirmationScreenContent(
     servicePrice: String,
     dateAppointment: String,
     hourAppointment: String,
+    saveAppointment: () -> Unit,
     navigateToAppointmentSchedule: () -> Unit
 ) {
     val showConfirmationDialog = remember { mutableStateOf(false) }
@@ -132,6 +140,7 @@ fun ScheduleConfirmationScreenContent(
         Spacer(modifier = Modifier.height(24.dp))
         ConfirmButton {
             showConfirmationDialog.value = true
+            saveAppointment.invoke()
         }
     }
 }
@@ -199,6 +208,7 @@ fun ScheduleConfirmationScreenContentPreview(modifier: Modifier = Modifier) {
         service = "Corte de pelo",
         dateAppointment = "12/09/2024",
         hourAppointment = "12:30 am",
+        saveAppointment = {},
         navigateToAppointmentSchedule = {}
     )
 }
