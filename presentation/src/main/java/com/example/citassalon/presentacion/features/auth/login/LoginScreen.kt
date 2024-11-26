@@ -58,7 +58,8 @@ import com.example.citassalon.presentacion.features.theme.Background
 fun LoginScreen(
     navController: NavController,
     viewModel: LoginViewModel = hiltViewModel(),
-    navigateToScheduleNav: () -> Unit
+    navigateToScheduleNav: () -> Unit,
+    navigateToSignUpScreen: () -> Unit,
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
     val effects =
@@ -84,7 +85,8 @@ fun LoginScreen(
     ) {
         navigateToScheduleNav.invoke()
     }
-    LoginScreenContent(userEmail = viewModel.getUserEmailFromPreferences() ?: "",
+    LoginScreenContent(
+        userEmail = viewModel.getUserEmailFromPreferences() ?: "",
         onLogin = { email, password ->
             viewModel.loginV2(
                 email = email, password = password
@@ -92,7 +94,8 @@ fun LoginScreen(
         },
         forgetPassword = { email ->
             viewModel.forgetPassword(email)
-        }
+        },
+        navigateToSignUpScreen = navigateToSignUpScreen
     )
 }
 
@@ -101,7 +104,8 @@ fun LoginScreenContent(
     modifier: Modifier = Modifier,
     userEmail: String,
     forgetPassword: (email: String) -> Unit = {},
-    onLogin: (email: String, password: String) -> Unit
+    onLogin: (email: String, password: String) -> Unit,
+    navigateToSignUpScreen: () -> Unit
 ) {
     val focusManager = LocalFocusManager.current
     focusManager.clearFocus()
@@ -145,7 +149,9 @@ fun LoginScreenContent(
         )
         Spacer(modifier = Modifier.height(16.dp))
         TextOr()
-        SignUpButton()
+        SignUpButton {
+            navigateToSignUpScreen.invoke()
+        }
         GoogleButton()
         if (showDialogForgetPassword.value) {
             AlertDialogForgetPasswordScreen(

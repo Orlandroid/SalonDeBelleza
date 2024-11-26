@@ -4,9 +4,9 @@ package com.example.citassalon.presentacion.features.profile.userprofile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.citassalon.presentacion.features.base.BaseViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.branches.BaseScreenState
+import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.data.di.CoroutineDispatchers
 import com.example.data.preferences.LoginPreferences
 import com.example.domain.perfil.RandomUserResponse
@@ -21,7 +21,6 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -82,7 +81,6 @@ class UserProfileViewModel @Inject constructor(
         withContext(Dispatchers.Main) {
             _infoUserState.value = BaseScreenState.Loading()
         }
-        delay(2000)
         if (!networkHelper.isNetworkConnected()) {
             withContext(Dispatchers.Main) {
                 _infoUserState.value = BaseScreenState.ErrorNetwork()
@@ -97,7 +95,7 @@ class UserProfileViewModel @Inject constructor(
             userInfo[USER_SESSION] = (repository.getUser() != null).toString()
             withContext(Dispatchers.Main) {
                 val listUserInfo = arrayListOf<UserInfo>()
-                listUserInfo.add(UserInfo("Nombre"))
+                listUserInfo.add(UserInfo("Nombre", value = user.displayName ?: ""))
                 listUserInfo.add(UserInfo("Telefono"))
                 listUserInfo.add(UserInfo("correo", user.email ?: ""))
                 listUserInfo.add(UserInfo("uid", user.uid))

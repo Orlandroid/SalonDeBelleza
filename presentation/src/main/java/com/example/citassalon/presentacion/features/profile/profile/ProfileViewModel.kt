@@ -15,7 +15,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val repository: com.example.data.Repository,
-    private val loginPeferences: LoginPreferences
+    private val loginPreferences: LoginPreferences
 ) :
     ViewModel() {
 
@@ -23,7 +23,7 @@ class ProfileViewModel @Inject constructor(
     val firebaseUser: LiveData<FirebaseUser> get() = _firebaseUser
 
     fun destroyUserSession() {
-        loginPeferences.destroyUserSession()
+        loginPreferences.destroyUserSession()
     }
 
     fun logout() {

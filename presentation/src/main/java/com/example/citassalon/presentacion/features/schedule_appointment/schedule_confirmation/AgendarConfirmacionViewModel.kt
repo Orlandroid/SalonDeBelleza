@@ -37,7 +37,7 @@ class AgendarConfirmacionViewModel @Inject constructor(
             .child(uuidUser!!)
     }
 
-    fun saveAppointMent(appointment: AppointmentFirebase) {
+    fun saveAppointment(appointment: AppointmentFirebase) {
         val databaseReference =
             provideFirebaseRealtimeDatabaseReference(firebaseDatabase, firebaseAuth)
         databaseReference.child(appointment.idAppointment).setValue(appointment)

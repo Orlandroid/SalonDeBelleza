@@ -28,9 +28,13 @@ fun NavGraphBuilder.authNavigationGraph(
             }
         }
         composable<AuthScreens.LoginRoute> {
-            LoginScreen(navController) {
-                goToScheduleNav()
-            }
+            LoginScreen(
+                navController = navController,
+                navigateToScheduleNav = { goToScheduleNav() },
+                navigateToSignUpScreen = {
+                    navController.navigate(AuthScreens.SingUpRoute)
+                }
+            )
         }
         composable<AuthScreens.SingUpRoute> {
             SignUpScreen(navController)

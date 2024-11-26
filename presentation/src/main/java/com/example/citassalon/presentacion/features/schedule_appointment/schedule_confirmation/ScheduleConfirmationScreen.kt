@@ -60,7 +60,7 @@ fun ScheduleConfirmationScreen(
             dateAppointment = flowMainViewModel.dateAppointment,
             hourAppointment = flowMainViewModel.hourAppointment,
             saveAppointment = {
-                agendarConfirmacionViewModel.saveAppointMent(
+                agendarConfirmacionViewModel.saveAppointment(
                     flowMainViewModel.getAppointmentFirebase()
                 )
             },

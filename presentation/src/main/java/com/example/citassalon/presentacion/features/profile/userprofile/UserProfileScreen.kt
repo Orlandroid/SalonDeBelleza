@@ -85,29 +85,25 @@ fun UserProfileScreen(
                         userProfileViewModel.saveImageUser(imageLikeBase64 = imageBitmap.toBase64())
                     }
                 }
-            }
-        )
+            })
     LaunchedEffect(Unit) {
         userProfileViewModel.getUserImage()
         userProfileViewModel.getUserInfo()
     }
     ObserveBaseState(
-        state = remoteImageState.value,
-        alertDialogMessagesConfig = AlertDialogMessagesConfig()
+        state = remoteImageState.value, alertDialogMessagesConfig = AlertDialogMessagesConfig()
     ) { response ->
         response.let {
             imageUserRemote.value = response.base64StringToBitmap()
         }
     }
     ObserveBaseState(
-        state = localImageState.value,
-        alertDialogMessagesConfig = AlertDialogMessagesConfig()
+        state = localImageState.value, alertDialogMessagesConfig = AlertDialogMessagesConfig()
     ) {
         ///Add message image uploaded succesful
     }
     ObserveBaseState(
-        state = infoUserState.value,
-        alertDialogMessagesConfig = AlertDialogMessagesConfig()
+        state = infoUserState.value, alertDialogMessagesConfig = AlertDialogMessagesConfig()
     ) { userResponse ->
         userProfileResponse.value = userResponse
         Card(
@@ -133,8 +129,9 @@ fun UserProfileScreen(
     ) {
         UserProfileScreenContent(
             imageUserRemote = imageUserRemote.value,
-            userProfileResponse = userProfileResponse.value,
             launchGallery = { galleryLauncher.launch("image/*") },
+            isSessionActive = userProfileResponse.value?.isUserSessionActive ?: false,
+            userInfo = userProfileResponse.value?.userInfo ?: emptyList()
         )
     }
 }
@@ -143,9 +140,10 @@ fun UserProfileScreen(
 @Composable
 fun UserProfileScreenContent(
     modifier: Modifier = Modifier,
-    imageUserRemote: Bitmap?,
+    imageUserRemote: Bitmap? = null,
     launchGallery: () -> Unit,
-    userProfileResponse: UserProfileResponse?
+    isSessionActive: Boolean,
+    userInfo: List<UserInfo>,
 ) {
     Column(
         modifier
@@ -167,7 +165,7 @@ fun UserProfileScreenContent(
             Modifier
                 .fillMaxWidth()
                 .padding(start = 16.dp, top = 16.dp),
-            horizontalArrangement = Arrangement.Start
+            horizontalArrangement = Arrangement.Center
         ) {
             Text(
                 text = stringResource(R.string.name_user),
@@ -175,50 +173,42 @@ fun UserProfileScreenContent(
                 fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.width(24.dp))
-            userProfileResponse?.let { user ->
-                CircleStatus(
-                    if (user.isUserSessionActive) {
-                        Color.Green
-                    } else {
-                        Color.Red
-                    }
-                )
-            }
+            CircleStatus(
+                if (isSessionActive) {
+                    Color.Green
+                } else {
+                    Color.Red
+                }
+            )
+
         }
         Spacer(modifier = Modifier.height(24.dp))
-        userProfileResponse?.let { userResponse ->
-            Card(
-                Modifier
-                    .fillMaxWidth()
-                    .padding(horizontal = 8.dp),
-                colors = CardDefaults.cardColors(containerColor = Color.White)
-            ) {
-                LazyColumn {
-                    userResponse.userInfo.forEach { userInfo ->
-                        item {
-                            ItemList(userInfo = userInfo)
-                            HorizontalDivider()
-                        }
+        Card(
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp),
+            colors = CardDefaults.cardColors(containerColor = Color.White)
+        ) {
+            LazyColumn {
+                userInfo.forEach { userInfo ->
+                    item {
+                        ItemList(userInfo = userInfo)
+                        HorizontalDivider()
                     }
                 }
             }
         }
-
     }
 }
 
 @Composable
 fun ItemList(userInfo: UserInfo) {
     Text(
-        modifier = Modifier.padding(4.dp),
-        text = userInfo.title,
-        fontWeight = FontWeight.Bold
+        modifier = Modifier.padding(4.dp), text = userInfo.title, fontWeight = FontWeight.Bold
     )
     Spacer(modifier = Modifier.height(8.dp))
     Text(
-        modifier =
-        Modifier.padding(4.dp),
-        text = userInfo.value
+        modifier = Modifier.padding(4.dp), text = userInfo.value
     )
 }
 
@@ -238,8 +228,7 @@ fun ImageUser(
                 .border(2.dp, Color.Gray, CircleShape)
                 .clickable {
                     launchGallery.invoke()
-                }
-        )
+                })
     } else {
         AsyncImage(contentScale = ContentScale.Crop,
             model = model,
@@ -250,8 +239,7 @@ fun ImageUser(
                 .border(2.dp, Color.Gray, CircleShape)
                 .clickable {
                     launchGallery.invoke()
-                }
-        )
+                })
     }
 }
 
@@ -265,5 +253,14 @@ fun CircleStatus(statusColor: Color) {
 @Composable
 @Preview(showBackground = true)
 fun UserProfileScreenContentPreview(modifier: Modifier = Modifier) {
-//    UserProfileScreenContent()
+    UserProfileScreenContent(
+        launchGallery = {},
+        isSessionActive = true,
+        userInfo = listOf(
+            UserInfo("Nombre", "Orlando"),
+            UserInfo("Telefono", "1234567890"),
+            UserInfo("Correo", "email@gmail.com"),
+            UserInfo("Money", "500 $")
+        )
+    )
 }

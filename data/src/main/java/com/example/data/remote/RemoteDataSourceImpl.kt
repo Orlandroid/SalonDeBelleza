@@ -43,7 +43,7 @@ class RemoteDataSourceImpl @Inject constructor(
     override fun login(email: String, password: String) = fireBaseSource.login(email, password)
 
     override fun register(email: String, password: String) =
-        fireBaseSource.registrer(email, password)
+        fireBaseSource.register(email, password)
 
     override fun forgetPassword(email: String) = fireBaseSource.forgetPassword(email)
 

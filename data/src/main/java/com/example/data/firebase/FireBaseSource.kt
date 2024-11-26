@@ -6,13 +6,14 @@ import javax.inject.Inject
 
 class FireBaseSource @Inject constructor(private val firebaseAuth: FirebaseAuth) {
 
+
     fun getUser() = firebaseAuth.currentUser
 
 
     fun login(email: String, password: String) =
         firebaseAuth.signInWithEmailAndPassword(email, password)
 
-    fun registrer(email: String, password: String) =
+    fun register(email: String, password: String) =
         firebaseAuth.createUserWithEmailAndPassword(email, password)
 
     fun logout() = firebaseAuth.signOut()
