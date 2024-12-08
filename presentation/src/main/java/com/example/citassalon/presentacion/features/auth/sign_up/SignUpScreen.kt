@@ -52,9 +52,12 @@ fun SignUpScreen(
     val state = signUpViewModel.state.collectAsStateWithLifecycle()
     val uiState = signUpViewModel.uiState.collectAsStateWithLifecycle()
     BaseComposeScreenState(
-        navController = navHostController, toolbarConfiguration = ToolbarConfiguration(
-            showToolbar = true, title = stringResource(id = R.string.signUp)
-        ), state = state.value
+        navController = navHostController,
+        toolbarConfiguration = ToolbarConfiguration(
+            showToolbar = true,
+            title = stringResource(id = R.string.signUp)
+        ),
+        state = state.value
     ) {
         SignUpScreenContent(
             modifier = Modifier, saveUserInformation = { user ->
@@ -153,7 +156,8 @@ fun SignUpScreenContent(
                     )
                 )
                 signUpViewModel.sinUpV2(
-                    email = signUpViewModel.email.value, password = signUpViewModel.password.value
+                    email = signUpViewModel.email.value,
+                    password = signUpViewModel.password.value
                 )
             },
             colors = ButtonDefaults.buttonColors(containerColor = Color.White),

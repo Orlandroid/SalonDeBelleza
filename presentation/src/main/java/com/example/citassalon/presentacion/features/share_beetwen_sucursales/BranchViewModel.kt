@@ -42,16 +42,6 @@ class BranchViewModel @Inject constructor(
         getBranchesV2()
     }
 
-    fun getBranches() = viewModelScope.launch {
-        delay(1L.seconds)
-        safeApiCall(_branches, coroutineDispatchers) {
-            val response = repository.getSucursales()
-            withContext(Dispatchers.Main) {
-                _branches.value = ApiState.Success(response.sucursales)
-            }
-        }
-    }
-
     private fun getBranchesV2() = viewModelScope.launch {
         delay(1L.seconds)
         safeApiCallCompose(state = _state, coroutineDispatchers = coroutineDispatchers) {

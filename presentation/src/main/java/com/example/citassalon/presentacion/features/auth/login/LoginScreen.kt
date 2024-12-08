@@ -62,21 +62,6 @@ fun LoginScreen(
     navigateToSignUpScreen: () -> Unit,
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
-    val effects =
-        viewModel.sideEffectFlow.collectAsStateWithLifecycle(initialValue = LoginUiEffect.Idle)
-    when (effects.value) {
-        LoginUiEffect.GoToSignUp -> {
-
-        }
-
-        LoginUiEffect.Idle -> {
-
-        }
-
-        LoginUiEffect.NavigateToHomeScreen -> {
-            navigateToScheduleNav.invoke()
-        }
-    }
     BaseComposeScreenState(
         alertDialogMessagesConfig = AlertDialogMessagesConfig(bodyMessage = R.string.error_password_or_user),
         navController = navController,

@@ -3,14 +3,13 @@ package com.example.citassalon.presentacion.features.info.products.products
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.citassalon.presentacion.features.base.BaseViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.branches.BaseScreenState
+import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.data.Repository
 import com.example.data.di.CoroutineDispatchers
 import com.example.domain.entities.db.ProductDb
 import com.example.domain.entities.remote.Product
-import com.example.domain.entities.remote.migration.NegoInfo
 import com.example.domain.state.ApiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -39,17 +38,6 @@ class ProductsViewModel @Inject constructor(
         MutableStateFlow(BaseScreenState.Loading())
     val state = _state.asStateFlow()
 
-
-    fun getProducts(categoria: String) {
-        viewModelScope.launch {
-            safeApiCall(_productos, coroutineDispatchers) {
-                val response = repository.getProducts(categoria)
-                withContext(Dispatchers.Main) {
-                    _productos.value = ApiState.Success(response)
-                }
-            }
-        }
-    }
 
     fun getProductsV2(categoria: String) {
         viewModelScope.launch {

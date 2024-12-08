@@ -13,12 +13,9 @@ import com.example.data.preferences.LoginPreferences
 import com.example.domain.state.SessionStatus
 import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
@@ -29,47 +26,12 @@ class LoginViewModel
     networkHelper: NetworkHelper,
     private val repository: Repository,
     coroutineDispatchers: CoroutineDispatchers,
-    private val loginPeferences: LoginPreferences,
+    private val loginPreferences: LoginPreferences,
 ) : BaseViewModel(
     coroutineDispatchers = coroutineDispatchers,
     networkHelper = networkHelper
 ) {
 
-    private val _sideEffectChannel = Channel<LoginUiEffect>(capacity = Channel.BUFFERED)
-    val sideEffectFlow: Flow<LoginUiEffect>
-        get() = _sideEffectChannel.receiveAsFlow()
-
-    private val _effects: MutableStateFlow<LoginUiEffect> = MutableStateFlow(LoginUiEffect.Idle)
-    val effects = _effects.asStateFlow()
-
-    fun handleActions(actions: LoginActions) {
-        when (actions) {
-            is LoginActions.ForgetPassword -> {
-
-            }
-
-            is LoginActions.Login -> {
-//                login(actions.email, actions.password)
-            }
-
-
-            is LoginActions.RememberUser -> {
-
-            }
-
-            is LoginActions.SignUp -> {
-                _effects.value = LoginUiEffect.GoToSignUp
-            }
-
-            is LoginActions.SignUpWithGoogle -> {
-
-            }
-        }
-    }
-
-    fun resetEffects() {
-        _effects.value = LoginUiEffect.Idle
-    }
 
     private val _forgetPasswordStatus = MutableLiveData<SessionStatus>()
     val forgetPasswordStatus: LiveData<SessionStatus> get() = _forgetPasswordStatus
@@ -78,19 +40,19 @@ class LoginViewModel
     val loginGoogleStatus: LiveData<SessionStatus> get() = _loginGoogleStatus
 
     private fun saveUserEmailToPreferences(userEmail: String) {
-        loginPeferences.saveUserEmail(userEmail)
+        loginPreferences.saveUserEmail(userEmail)
     }
 
     fun getUserEmailFromPreferences(): String? {
-        return loginPeferences.getUserEmail()
+        return loginPreferences.getUserEmail()
     }
 
     private fun saveUserSession() {
-        loginPeferences.saveUserSession()
+        loginPreferences.saveUserSession()
     }
 
     fun getUserSession(): Boolean {
-        return loginPeferences.getUserSession()
+        return loginPreferences.getUserSession()
     }
 
 
@@ -123,7 +85,7 @@ class LoginViewModel
             if (response.isSuccessful) {
                 _state.value = BaseScreenState.Success(Unit)
                 saveUserSession()
-                saveUserEmailToPreferences (email)
+                saveUserEmailToPreferences(email)
             } else {
                 _state.value = BaseScreenState.Error(Exception(response.exception?.message))
             }
