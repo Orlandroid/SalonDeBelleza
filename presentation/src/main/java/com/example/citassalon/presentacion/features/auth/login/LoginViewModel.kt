@@ -72,7 +72,7 @@ class LoginViewModel
     }
 
     private val _state: MutableStateFlow<BaseScreenState<Unit>> =
-        MutableStateFlow(BaseScreenState.Idle())
+        MutableStateFlow(BaseScreenState.Success(Unit))
     val state = _state.asStateFlow()
 
     fun loginV2(email: String, password: String) = viewModelScope.launch {
@@ -83,7 +83,7 @@ class LoginViewModel
         }
         repository.login(email = email, password = password).addOnCompleteListener { response ->
             if (response.isSuccessful) {
-                _state.value = BaseScreenState.Success(Unit)
+                _state.value = BaseScreenState.ErrorNetwork()
                 saveUserSession()
                 saveUserEmailToPreferences(email)
             } else {

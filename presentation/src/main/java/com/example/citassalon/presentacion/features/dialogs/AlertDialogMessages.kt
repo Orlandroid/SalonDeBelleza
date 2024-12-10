@@ -38,7 +38,7 @@ fun BaseAlertDialogMessages(
     modifier: Modifier = Modifier,
     alertDialogMessagesConfig: AlertDialogMessagesConfig = AlertDialogMessagesConfig(
         title = R.string.title,
-        bodyMessage = R.string.message_body,
+        bodyMessage = stringResource(R.string.message_body),
         buttonText = R.string.aceptar,
     ),
     onDismissRequest: () -> Unit,
@@ -74,7 +74,7 @@ fun BaseAlertDialogMessagesContent(
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp)
                 .wrapContentHeight(),
-            text = stringResource(alertDialogMessagesConfig.bodyMessage),
+            text = alertDialogMessagesConfig.bodyMessage,
             fontSize = 18.sp,
             color = AlwaysBlack,
         )
@@ -204,6 +204,7 @@ fun BaseAlertDialogPreviewTwoButton(
         modifier = Modifier,
         onDismissRequest = {},
         alertDialogMessagesConfig = AlertDialogMessagesConfig(
+            bodyMessage = "Error al crear el usuario",
             isTwoButtonsAlert = IsTwoButtonsAlert(clickOnCancel = {})
         )
     )
@@ -215,7 +216,7 @@ enum class KindOfMessage(val color: Color) {
 
 data class AlertDialogMessagesConfig(
     @StringRes val title: Int = R.string.title,
-    @StringRes val bodyMessage: Int = R.string.message_body,
+    val bodyMessage: String,
     @StringRes val buttonText: Int = R.string.aceptar,
     val kindOfMessage: KindOfMessage = KindOfMessage.INFO,
     val onConfirmation: () -> Unit = {},

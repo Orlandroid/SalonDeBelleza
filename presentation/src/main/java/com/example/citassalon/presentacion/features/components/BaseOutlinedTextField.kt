@@ -10,11 +10,14 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextFieldColors
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -63,7 +66,8 @@ fun BaseOutlinedTextField(
                 }
             ) {
                 Icon(
-                    imageVector = imageVector, contentDescription = null
+                    imageVector = imageVector,
+                    contentDescription = null
                 )
             }
         },
@@ -86,7 +90,9 @@ fun BaseOutlinedTextField(
 @Preview(showBackground = true)
 fun BaseOutlinedTextFieldPreview(modifier: Modifier = Modifier) {
     BaseOutlinedTextField(
-        modifier = Modifier.padding(8.dp), text = "Email", value = "android@gmail.com"
+        modifier = Modifier.padding(8.dp),
+        text = "Email",
+        value = "android@gmail.com"
     )
 }
 

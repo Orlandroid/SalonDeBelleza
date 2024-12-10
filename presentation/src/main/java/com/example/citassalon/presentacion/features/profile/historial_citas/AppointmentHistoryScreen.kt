@@ -57,7 +57,7 @@ fun AppointmentHistoryScreen(
             },
             alertDialogMessagesConfig = AlertDialogMessagesConfig(
                 title = R.string.warning,
-                bodyMessage = R.string.delete_row_message,
+                bodyMessage = stringResource(R.string.delete_row_message),
                 kindOfMessage = KindOfMessage.WARING,
                 onConfirmation = {
                     shouldShowDialogRemoveAppointment.value = false

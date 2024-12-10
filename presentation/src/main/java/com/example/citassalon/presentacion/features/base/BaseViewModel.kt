@@ -68,7 +68,7 @@ abstract class BaseViewModel(
         }
     }
 
-    suspend inline fun <T> safeApiCallCompose(
+    inline fun <T> safeApiCallCompose(
         state: MutableStateFlow<BaseScreenState<T>>,
         coroutineDispatchers: CoroutineDispatchers,
         crossinline apiToCall: suspend () -> Unit,
