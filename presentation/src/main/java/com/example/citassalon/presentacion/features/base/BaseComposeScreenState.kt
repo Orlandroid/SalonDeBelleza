@@ -5,6 +5,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavController
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.components.Toolbar
@@ -21,28 +22,27 @@ import com.example.citassalon.presentacion.features.theme.Background
 fun <T> BaseComposeScreenState(
     navController: NavController,
     toolbarConfiguration: ToolbarConfiguration = ToolbarConfiguration(),
-    alertDialogMessagesConfig: AlertDialogMessagesConfig = AlertDialogMessagesConfig(),
+    alertDialogMessagesConfig: AlertDialogMessagesConfig = AlertDialogMessagesConfig(
+        bodyMessage = stringResource(
+            R.string.error
+        )
+    ),
     background: Color = Background,
     state: BaseScreenState<T>,
     onSuccess: @Composable (result: T) -> Unit,
 ) {
-    Scaffold(
-        topBar = {
-            if (toolbarConfiguration.showToolbar) {
-                Toolbar(
-                    navController = navController,
-                    toolbarConfiguration = toolbarConfiguration
-                )
-            }
+    Scaffold(topBar = {
+        if (toolbarConfiguration.showToolbar) {
+            Toolbar(
+                navController = navController, toolbarConfiguration = toolbarConfiguration
+            )
         }
-    ) { paddingValues ->
+    }) { paddingValues ->
         ContentScreen(
-            paddingValues = paddingValues,
-            background = background
+            paddingValues = paddingValues, background = background
         ) {
             ObserveBaseState(
-                state = state,
-                alertDialogMessagesConfig = alertDialogMessagesConfig
+                state = state, alertDialogMessagesConfig = alertDialogMessagesConfig
             ) { mResult ->
                 onSuccess(mResult)
             }
@@ -58,7 +58,11 @@ fun <T> ObserveBaseState(
 ) {
     when (state) {
         is BaseScreenState.Error -> {
-            ErrorState(alertDialogMessagesConfig)
+            ErrorState(
+                alertDialogMessagesConfig.copy(
+                    bodyMessage = state.exception.message ?: stringResource(R.string.error)
+                )
+            )
         }
 
         is BaseScreenState.Loading -> {
@@ -88,8 +92,7 @@ fun ErrorState(alertDialogMessagesConfig: AlertDialogMessagesConfig) {
                 onConfirmation = {
                     alertDialogMessagesConfig.onConfirmation.invoke()
                     shouldShowDialogError.value = false
-                }
-            ),
+                }),
             onDismissRequest = {},
         )
     }
@@ -105,7 +108,7 @@ fun ErrorNetworkState(alertDialogMessagesConfig: AlertDialogMessagesConfig) {
             },
             alertDialogMessagesConfig = alertDialogMessagesConfig.copy(kindOfMessage = KindOfMessage.ERROR,
                 title = R.string.network_error,
-                bodyMessage = R.string.network_error_message,
+                bodyMessage = stringResource(R.string.network_error_message),
                 onConfirmation = {
                     alertDialogMessagesConfig.onConfirmation.invoke()
                     shouldShowDialogNetworkError.value = false

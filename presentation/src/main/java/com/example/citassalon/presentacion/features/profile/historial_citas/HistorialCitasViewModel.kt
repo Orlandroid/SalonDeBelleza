@@ -85,9 +85,9 @@ class HistorialCitasViewModel @Inject constructor(
                         }
                     }
                     if (listOfAppointments.isEmpty()) {
-                        _state.value = BaseScreenState.Success(data = emptyList())
+                        _state.value = BaseScreenState.Success(listOfAppointments)
                     } else {
-                        _state.value = BaseScreenState.Success(data = listOfAppointments)
+                        _state.value = BaseScreenState.Success(listOfAppointments)
                     }
                 }
 

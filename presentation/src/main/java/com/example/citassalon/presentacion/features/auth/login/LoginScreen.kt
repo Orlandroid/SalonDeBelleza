@@ -63,7 +63,7 @@ fun LoginScreen(
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
     BaseComposeScreenState(
-        alertDialogMessagesConfig = AlertDialogMessagesConfig(bodyMessage = R.string.error_password_or_user),
+        alertDialogMessagesConfig = AlertDialogMessagesConfig(bodyMessage = stringResource(R.string.error_password_or_user)),
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(showToolbar = false),
         state = state.value

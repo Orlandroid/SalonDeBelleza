@@ -91,19 +91,22 @@ fun UserProfileScreen(
         userProfileViewModel.getUserInfo()
     }
     ObserveBaseState(
-        state = remoteImageState.value, alertDialogMessagesConfig = AlertDialogMessagesConfig()
+        state = remoteImageState.value,
+        alertDialogMessagesConfig = AlertDialogMessagesConfig(bodyMessage = "")
     ) { response ->
         response.let {
             imageUserRemote.value = response.base64StringToBitmap()
         }
     }
     ObserveBaseState(
-        state = localImageState.value, alertDialogMessagesConfig = AlertDialogMessagesConfig()
+        state = localImageState.value,
+        alertDialogMessagesConfig = AlertDialogMessagesConfig(bodyMessage = "")
     ) {
         ///Add message image uploaded succesful
     }
     ObserveBaseState(
-        state = infoUserState.value, alertDialogMessagesConfig = AlertDialogMessagesConfig()
+        state = infoUserState.value,
+        alertDialogMessagesConfig = AlertDialogMessagesConfig(bodyMessage = "")
     ) { userResponse ->
         userProfileResponse.value = userResponse
         Card(
@@ -228,7 +231,8 @@ fun ImageUser(
                 .border(2.dp, Color.Gray, CircleShape)
                 .clickable {
                     launchGallery.invoke()
-                })
+                }
+        )
     } else {
         AsyncImage(contentScale = ContentScale.Crop,
             model = model,

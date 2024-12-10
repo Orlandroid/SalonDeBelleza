@@ -100,7 +100,7 @@ fun ProfileScreen(
                 },
                 alertDialogMessagesConfig = AlertDialogMessagesConfig(
                     title = R.string.cerrar_session,
-                    bodyMessage = R.string.seguro_que_deseas_cerrar_sesion,
+                    bodyMessage = stringResource(R.string.seguro_que_deseas_cerrar_sesion),
                     kindOfMessage = KindOfMessage.WARING,
                     onConfirmation = {
                         showCloseSessionAlert.value = false

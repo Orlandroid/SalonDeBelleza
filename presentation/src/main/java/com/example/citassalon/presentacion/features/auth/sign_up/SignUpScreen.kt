@@ -18,6 +18,7 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
@@ -41,7 +42,6 @@ import com.example.citassalon.presentacion.features.extensions.getCurrentDateTim
 import com.example.citassalon.presentacion.features.extensions.toStringFormat
 import com.example.citassalon.presentacion.features.schedule_appointment.schedule.MyDatePickerDialog
 import com.example.citassalon.presentacion.features.theme.Background
-import com.example.domain.entities.remote.User
 
 
 @Composable
@@ -51,6 +51,9 @@ fun SignUpScreen(
 ) {
     val state = signUpViewModel.state.collectAsStateWithLifecycle()
     val uiState = signUpViewModel.uiState.collectAsStateWithLifecycle()
+    LaunchedEffect(Unit) {
+        //Todo we need to add SideEffect
+    }
     BaseComposeScreenState(
         navController = navHostController,
         toolbarConfiguration = ToolbarConfiguration(
@@ -60,11 +63,11 @@ fun SignUpScreen(
         state = state.value
     ) {
         SignUpScreenContent(
-            modifier = Modifier, saveUserInformation = { user ->
-                signUpViewModel.saveUserInformation(user)
-            },
+            modifier = Modifier,
             uiState = uiState.value,
-            signUpViewModel = signUpViewModel
+            onEvents = { event ->
+                signUpViewModel.onEvents(event)
+            }
         )
     }
 }
@@ -72,9 +75,8 @@ fun SignUpScreen(
 @Composable
 fun SignUpScreenContent(
     modifier: Modifier = Modifier,
-    saveUserInformation: (user: User) -> Unit,
     uiState: SignUpUiState,
-    signUpViewModel: SignUpViewModel = hiltViewModel(),
+    onEvents: (SingUpEvents) -> Unit,
 ) {
     val showDatePickerDialog = remember { mutableStateOf(false) }
     val date = remember { mutableStateOf(getCurrentDateTime().toStringFormat(dateFormat)) }
@@ -85,7 +87,7 @@ fun SignUpScreenContent(
             },
             onDateSelected = {
                 date.value = it
-                signUpViewModel.birthDay.value = it
+                onEvents(SingUpEvents.OnBirthDayChange(birthday = it))
             }
         )
     }
@@ -98,81 +100,75 @@ fun SignUpScreenContent(
     ) {
         val logoImage = painterResource(id = R.drawable.logo)
         Image(
-            painter = logoImage, contentDescription = "SkedulyImage", modifier.size(150.dp)
+            painter = logoImage,
+            contentDescription = "SkedulyImage",
+            modifier.size(150.dp)
         )
         InputName(
-            value = signUpViewModel.name.value,
+            value = uiState.name,
             onValueChange = {
-                signUpViewModel.name.value = it
-                signUpViewModel.validateForm()
+                onEvents(SingUpEvents.OnNameChange(name = it))
             }
         )
         InputPhone(
-            value = signUpViewModel.phone.value,
+            value = uiState.phone,
             showError = uiState.showErrorPhone,
             onValueChange = {
-                signUpViewModel.phone.value = it
-                signUpViewModel.validateForm()
+                onEvents(SingUpEvents.OnPhoneChange(phone = it))
             }
         )
         InputEmail(
-            value = signUpViewModel.email.value,
+            value = uiState.email,
             showError = uiState.showErrorEmail,
             onValueChange = {
-                signUpViewModel.email.value = it
-                signUpViewModel.validateForm()
+                onEvents(SingUpEvents.OnEmailChange(email = it))
             }
         )
         InputPassword(
-            value = signUpViewModel.password.value,
+            value = uiState.password,
             showError = uiState.showErrorPassword,
             onValueChange = {
-                signUpViewModel.password.value = it
-                signUpViewModel.validateForm()
+                onEvents(SingUpEvents.OnPasswordChange(password = it))
             }
         )
         InputBirthday(
-            value = signUpViewModel.birthDay.value,
+            value = uiState.birthday,
             clickOnIcon = {
                 showDatePickerDialog.value = true
-                signUpViewModel.validateForm()
             },
             onValueChange = {
-                signUpViewModel.birthDay.value = it
-                signUpViewModel.validateForm()
+                onEvents(SingUpEvents.OnBirthDayChange(birthday = it))
             }
         )
         Spacer(modifier = Modifier.height(16.dp))
-        Button(
-            enabled = uiState.isEnableButton,
+        ButtonSignUp(
+            isEnable = uiState.isEnableButton,
             onClick = {
-                saveUserInformation.invoke(
-                    User(
-                        name = signUpViewModel.name.value,
-                        phone = signUpViewModel.phone.value,
-                        email = signUpViewModel.email.value,
-                        password = signUpViewModel.password.value,
-                        birthDay = signUpViewModel.birthDay.value
-                    )
-                )
-                signUpViewModel.sinUpV2(
-                    email = signUpViewModel.email.value,
-                    password = signUpViewModel.password.value
-                )
-            },
-            colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-            modifier = Modifier.fillMaxWidth()
-        ) {
-            Text(text = stringResource(id = R.string.registrarse), color = Color.Black)
-        }
+                onEvents(SingUpEvents.OnSignUpClick)
+            }
+        )
+    }
+}
+
+@Composable
+private fun ButtonSignUp(
+    modifier: Modifier = Modifier, isEnable: Boolean, onClick: () -> Unit
+) {
+    Button(
+        modifier = modifier.fillMaxWidth(),
+        enabled = isEnable,
+        onClick = {
+            onClick.invoke()
+        },
+        colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+    ) {
+        Text(text = stringResource(id = R.string.registrarse), color = Color.Black)
     }
 }
 
 @Composable
 fun InputName(
-    modifier: Modifier = Modifier,
-    value: String,
-    onValueChange: (value: String) -> Unit
+    modifier: Modifier = Modifier, value: String, onValueChange: (value: String) -> Unit
 ) {
     BaseOutlinedTextField(modifier = modifier,
         text = stringResource(R.string.nombre),
@@ -190,8 +186,7 @@ fun InputPhone(
     showError: Boolean,
     onValueChange: (value: String) -> Unit
 ) {
-    BaseOutlinedTextField(
-        modifier = modifier,
+    BaseOutlinedTextField(modifier = modifier,
         inputError = if (showError) {
             InputError(
                 errorText = stringResource(R.string.error_phone),
@@ -205,8 +200,7 @@ fun InputPhone(
         value = value,
         onValueChange = {
             onValueChange.invoke(it)
-        }
-    )
+        })
 }
 
 @Composable
@@ -240,7 +234,8 @@ fun InputPassword(
     showError: Boolean,
     onValueChange: (value: String) -> Unit
 ) {
-    BaseOutlinedTextField(modifier = modifier,
+    BaseOutlinedTextField(
+        modifier = modifier,
         inputError = if (showError) {
             InputError(
                 errorText = stringResource(R.string.error_passsword),
@@ -255,7 +250,8 @@ fun InputPassword(
         isInputPassword = true,
         onValueChange = {
             onValueChange.invoke(it)
-        })
+        }
+    )
 }
 
 @Composable
@@ -279,6 +275,8 @@ fun InputBirthday(
 @Preview(showBackground = true)
 fun SignUpScreenPreview(modifier: Modifier = Modifier) {
     SignUpScreenContent(
-        modifier = Modifier, saveUserInformation = {}, uiState = SignUpUiState()
+        modifier = Modifier,
+        uiState = SignUpUiState(),
+        onEvents = {}
     )
 }
