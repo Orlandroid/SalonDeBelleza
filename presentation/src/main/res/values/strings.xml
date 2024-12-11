@@ -35,6 +35,7 @@
     <string name="cumpleaños">dd/mm/aaaa</string>
     <string name="sin_cuenta">¿No tienes cuenta?</string>
     <string name="sing_up">Sign Up</string>
+    <string name="log_in">Log In</string>
     <string name="registrarse">Registrarse</string>
     <string name="terminos_condiciones">Acepto los términos y condiciones</string>
     <string name="mi_mensaje"><![CDATA[Este es un <u>Mamut chiquito</u>]]></string>

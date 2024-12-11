@@ -37,7 +37,8 @@ fun <T> BaseComposeScreenState(
                 navController = navController, toolbarConfiguration = toolbarConfiguration
             )
         }
-    }) { paddingValues ->
+    }
+    ) { paddingValues ->
         ContentScreen(
             paddingValues = paddingValues, background = background
         ) {

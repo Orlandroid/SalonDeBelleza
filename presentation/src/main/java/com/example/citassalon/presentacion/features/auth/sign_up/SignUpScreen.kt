@@ -57,7 +57,7 @@ fun SignUpScreen(
     BaseComposeScreenState(
         navController = navHostController,
         toolbarConfiguration = ToolbarConfiguration(
-            showToolbar = true,
+            showToolbar = false,
             title = stringResource(id = R.string.signUp)
         ),
         state = state.value

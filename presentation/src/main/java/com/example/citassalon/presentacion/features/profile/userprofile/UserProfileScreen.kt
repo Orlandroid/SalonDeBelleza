@@ -234,7 +234,8 @@ fun ImageUser(
                 }
         )
     } else {
-        AsyncImage(contentScale = ContentScale.Crop,
+        AsyncImage(
+            contentScale = ContentScale.Crop,
             model = model,
             contentDescription = "ImageProfile",
             modifier = Modifier
@@ -243,7 +244,8 @@ fun ImageUser(
                 .border(2.dp, Color.Gray, CircleShape)
                 .clickable {
                     launchGallery.invoke()
-                })
+                }
+        )
     }
 }
 
