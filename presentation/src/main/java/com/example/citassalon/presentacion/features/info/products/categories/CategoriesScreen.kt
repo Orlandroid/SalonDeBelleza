@@ -45,7 +45,7 @@ fun CategoriesScreen(
     LaunchedEffect(Unit) {
         if (viewmodel.wasCallService.not()) {
             viewmodel.wasCallService = true
-            viewmodel.getCategoriesFakeStoreV2()
+            viewmodel.getCategoriesFakeStore()
         }
     }
     BaseComposeScreenState(
@@ -87,7 +87,7 @@ fun CategoriesScreenContent(
         store.let { store ->
             when (store.name) {
                 FAKE_STORE -> {
-                    ShowCategories(categories = categories) { category ->
+                    Categories(categories = categories) { category ->
                         goToProductsScreen(category)
                     }
                 }
@@ -102,7 +102,7 @@ fun CategoriesScreenContent(
 }
 
 @Composable
-private fun ShowCategories(
+private fun Categories(
     categories: List<String>,
     goToProductsScreen: (category: String) -> Unit
 ) {
@@ -133,7 +133,7 @@ fun CategoriesScreenContentPreview() {
             "jewelery",
             "men,s clothing"
         ),
-        store = Store("Android"),
+        store = Store(FAKE_STORE),
         goToProductsScreen = {}
     )
 }

@@ -26,7 +26,7 @@ class OurStaffViewModel @Inject constructor(
         MutableStateFlow(BaseScreenState.Loading())
     val state = _state.asStateFlow()
 
-    fun getStaffsUsersV2() = viewModelScope.launch {
+    fun getStaffsUsers() = viewModelScope.launch {
         safeApiCallCompose(_state, coroutineDispatchers) {
             val response = repository.getStaffUsers()
             withContext(Dispatchers.Main) {

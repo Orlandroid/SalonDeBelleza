@@ -8,6 +8,8 @@ import androidx.compose.material3.TimePicker
 import androidx.compose.material3.TimePickerState
 import androidx.compose.material3.rememberTimePickerState
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
 import java.util.Calendar
 
 
@@ -54,5 +56,15 @@ fun TimePickerDialog(
             }
         },
         text = { content() }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+@Preview(showBackground = true)
+fun TimePickerDialogPreview(modifier: Modifier = Modifier) {
+    MyTimePickerDialog(
+        onDismiss = {},
+        onConfirm = {}
     )
 }

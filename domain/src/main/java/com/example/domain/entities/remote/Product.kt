@@ -22,9 +22,9 @@ data class Product(
     companion object {
         fun dummyProduct() = Product(
             id = 1,
-            title = "",
+            title = "Product",
             price = 5.00,
-            description = "",
+            description = "Description",
             category = "",
             image = "",
             rating = Rating(rate = 2.0, count = 1),

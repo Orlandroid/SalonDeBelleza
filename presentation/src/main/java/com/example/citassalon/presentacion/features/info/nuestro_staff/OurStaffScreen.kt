@@ -40,7 +40,7 @@ fun OurStaffScreen(
 ) {
     val staffs = ourStaffViewModel.state.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
-        ourStaffViewModel.getStaffsUsersV2()
+        ourStaffViewModel.getStaffsUsers()
     }
     BaseComposeScreenState(
         navController = navController,

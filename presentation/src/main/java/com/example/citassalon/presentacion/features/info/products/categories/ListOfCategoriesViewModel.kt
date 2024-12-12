@@ -28,7 +28,7 @@ class ListOfCategoriesViewModel @Inject constructor(
         MutableStateFlow(BaseScreenState.Loading())
     val state = _state.asStateFlow()
 
-    fun getCategoriesFakeStoreV2() = viewModelScope.launch(Dispatchers.IO) {
+    fun getCategoriesFakeStore() = viewModelScope.launch(Dispatchers.IO) {
         safeApiCallCompose(_state, coroutineDispatchers) {
             delay(3000)
             val response = repository.getCategories()

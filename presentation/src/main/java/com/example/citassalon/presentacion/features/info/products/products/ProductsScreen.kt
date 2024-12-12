@@ -179,7 +179,12 @@ fun ItemProduct(
 @Preview(showBackground = true)
 fun ProductsScreenContentPreview() {
     ProductsScreenContent(
-        products = emptyList(),
+        products = listOf(
+            Product.dummyProduct(),
+            Product.dummyProduct(),
+            Product.dummyProduct(),
+            Product.dummyProduct()
+        ),
         goToCartScreen = {},
         goToDetailProduct = {}
     )

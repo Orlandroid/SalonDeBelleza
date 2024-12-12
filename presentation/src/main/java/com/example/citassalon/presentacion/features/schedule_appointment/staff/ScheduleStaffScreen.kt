@@ -39,7 +39,8 @@ fun ScheduleStaffScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.agendar_staff))
     ) {
-        ScheduleStaffScreenContent(branchName = mainViewModel.sucursal.name,
+        ScheduleStaffScreenContent(
+            branchName = mainViewModel.sucursal.name,
             listOfStaffs = mainViewModel.listOfStaffs,
             navigateToDetailScreen = {
                 navController.navigate(ScheduleAppointmentScreens.DetailStaffRoute)
@@ -81,16 +82,12 @@ fun ScheduleStaffScreenContent(
             navigateToServicesScreen.invoke()
         }
         Spacer(modifier = Modifier.height(32.dp))
-        Card(
-            colors = CardDefaults.cardColors(containerColor = BackgroundListsMainFlow)
-        ) {
-            ListStaffs(
-                listOfStaffs = listOfStaffs,
-                navigateToDetailScreen = navigateToDetailScreen,
-                navigateToServicesScreen = navigateToServicesScreen,
-                clickOnStaff = clickOnStaff
-            )
-        }
+        ListStaffs(
+            listOfStaffs = listOfStaffs,
+            navigateToDetailScreen = navigateToDetailScreen,
+            navigateToServicesScreen = navigateToServicesScreen,
+            clickOnStaff = clickOnStaff
+        )
     }
 }
 
@@ -101,25 +98,30 @@ fun ListStaffs(
     navigateToServicesScreen: () -> Unit,
     clickOnStaff: (Staff) -> Unit
 ) {
-    LazyVerticalGrid(
-        columns = GridCells.Fixed(2)
+    Card(
+        colors = CardDefaults.cardColors(containerColor = BackgroundListsMainFlow)
     ) {
-        listOfStaffs.forEach { myStaff ->
-            item {
-                ItemStaff(staff = myStaff, onClick = {
-                    clickOnStaff.invoke(myStaff)
-                    when (it) {
-                        ClickOnItemStaff.ClickOnImage -> {
-                            navigateToServicesScreen()
-                        }
+        LazyVerticalGrid(
+            columns = GridCells.Fixed(2)
+        ) {
+            listOfStaffs.forEach { myStaff ->
+                item {
+                    ItemStaff(staff = myStaff, onClick = {
+                        clickOnStaff.invoke(myStaff)
+                        when (it) {
+                            ClickOnItemStaff.ClickOnImage -> {
+                                navigateToServicesScreen()
+                            }
 
-                        ClickOnItemStaff.ClickOnItem -> {
-                            navigateToDetailScreen()
+                            ClickOnItemStaff.ClickOnItem -> {
+                                navigateToDetailScreen()
+                            }
                         }
-                    }
-                })
+                    })
+                }
             }
         }
+
     }
 }
 

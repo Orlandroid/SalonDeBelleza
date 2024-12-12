@@ -39,10 +39,10 @@ class BranchViewModel @Inject constructor(
     val state = _state.asStateFlow()
 
     init {
-        getBranchesV2()
+        getBranches()
     }
 
-    private fun getBranchesV2() = viewModelScope.launch {
+    private fun getBranches() = viewModelScope.launch {
         delay(1L.seconds)
         safeApiCallCompose(state = _state, coroutineDispatchers = coroutineDispatchers) {
             val response = repository.getSucursales()

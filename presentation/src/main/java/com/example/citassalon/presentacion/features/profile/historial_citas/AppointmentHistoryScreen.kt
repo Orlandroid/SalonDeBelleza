@@ -155,17 +155,15 @@ fun ItemAppointment(
     }
 }
 
+
 @Composable
 @Preview(showBackground = true)
-fun ItemAppointmentPreview() {
+fun AppointHistoryListPreview(modifier: Modifier = Modifier) {
     val mAppointment = AppointmentFirebase(
         establishment = "establishment",
         service = "service",
     )
-    ItemAppointment(
-        appointment = mAppointment,
-        onRemoveAppointment = {}
-    )
+    AppointHistoryList(appointments = listOf(mAppointment, mAppointment), onRemoveAppointment = {})
 }
 
 @Composable

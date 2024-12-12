@@ -26,6 +26,8 @@ import com.example.citassalon.presentacion.features.extensions.base64StringToBit
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.entities.db.ProductDb
+import com.example.domain.entities.remote.Product
+import com.example.domain.mappers.toProduct
 
 @Composable
 fun CartScreen(navController: NavController, viewModel: CartViewModel = hiltViewModel()) {
@@ -57,7 +59,7 @@ fun CartScreenContent(
                 if (listProducts.isNotEmpty()) {
                     listProducts.forEach { product ->
                         item {
-                            ItemCart(productDb = product)
+                            ItemCart(productDb = product.toProduct())
                         }
                     }
                 }
@@ -67,7 +69,7 @@ fun CartScreenContent(
 }
 
 @Composable
-fun ItemCart(productDb: ProductDb) {
+fun ItemCart(productDb: Product) {
     Card(
         Modifier
             .fillMaxWidth()
@@ -119,7 +121,7 @@ fun ItemCart(productDb: ProductDb) {
 @Composable
 @Preview(showBackground = true)
 fun CartScreenContentPreview() {
-    CartScreenContent(products = ProductDb.mockProductDbList())
+    ItemCart(Product.dummyProduct())
 }
 
 

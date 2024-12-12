@@ -57,5 +57,5 @@ fun MyDatePickerDialog(
 @Composable
 @Preview(showBackground = true)
 fun DatePickerDialogPreview(modifier: Modifier = Modifier) {
-    Text("Android Developer")
+    MyDatePickerDialog(onDismiss = {}, onDateSelected = {})
 }
