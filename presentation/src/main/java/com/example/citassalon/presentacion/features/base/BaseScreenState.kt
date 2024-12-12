@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.schedule_appointment.branches
+package com.example.citassalon.presentacion.features.base
 
 
 sealed class BaseScreenState<T> {

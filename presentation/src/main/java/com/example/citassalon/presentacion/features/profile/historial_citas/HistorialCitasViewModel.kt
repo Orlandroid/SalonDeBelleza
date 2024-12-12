@@ -4,7 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.presentacion.features.schedule_appointment.branches.BaseScreenState
+import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.domain.perfil.AppointmentFirebase
 import com.example.domain.state.ApiState

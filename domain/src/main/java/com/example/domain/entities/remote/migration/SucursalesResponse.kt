@@ -11,7 +11,23 @@ data class NegoInfo(
     val sucursal: Sucursal,
     val staffs: List<Staff>,
     val services: List<Service>,
-)
+) {
+    companion object {
+
+        fun mockBusinessList() = listOf(
+            mockBusiness(),
+            mockBusiness(),
+            mockBusiness(),
+            mockBusiness(),
+        )
+
+        private fun mockBusiness() = NegoInfo(
+            sucursal = Sucursal.mockBranch(),
+            staffs = Staff.mockStaffList(),
+            services = Service.mockListServices()
+        )
+    }
+}
 
 
 data class Sucursal(
@@ -19,7 +35,11 @@ data class Sucursal(
     val lat: String,
     val long: String,
     var name: String
-)
+) {
+    companion object {
+        fun mockBranch() = Sucursal(id = "", lat = "", long = "", name = "dummyBranch")
+    }
+}
 
 
 data class Service(

@@ -2,19 +2,16 @@ package com.example.citassalon.presentacion.features.auth.sign_up
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
-import com.example.citassalon.presentacion.features.schedule_appointment.branches.BaseScreenState
+import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.citassalon.presentacion.util.isValidEmail
 import com.example.domain.entities.remote.User
 import com.google.firebase.database.FirebaseDatabase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
-import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel

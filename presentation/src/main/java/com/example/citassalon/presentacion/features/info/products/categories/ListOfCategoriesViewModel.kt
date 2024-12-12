@@ -2,7 +2,7 @@ package com.example.citassalon.presentacion.features.info.products.categories
 
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.base.BaseViewModel
-import com.example.citassalon.presentacion.features.schedule_appointment.branches.BaseScreenState
+import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.data.Repository
 import com.example.data.di.CoroutineDispatchers

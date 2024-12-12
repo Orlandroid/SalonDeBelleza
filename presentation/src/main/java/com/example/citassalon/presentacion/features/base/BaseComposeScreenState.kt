@@ -14,7 +14,6 @@ import com.example.citassalon.presentacion.features.dialogs.AlertDialogMessagesC
 import com.example.citassalon.presentacion.features.dialogs.BaseAlertDialogMessages
 import com.example.citassalon.presentacion.features.dialogs.KindOfMessage
 import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
-import com.example.citassalon.presentacion.features.schedule_appointment.branches.BaseScreenState
 import com.example.citassalon.presentacion.features.theme.Background
 
 

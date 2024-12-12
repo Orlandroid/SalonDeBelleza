@@ -46,18 +46,23 @@ fun BranchesScreen(
         BranchesScreenContent(
             modifier = Modifier,
             branches = result,
-            mainViewModel = mainViewModel,
-        ) {
-            when (flow) {
-                Flow.SCHEDULE_APPOINTMENT -> {
-                    navController.navigate(ScheduleAppointmentScreens.ScheduleStaffRoute)
+            clickOnBranch = { branch ->
+                mainViewModel.let {
+                    it.sucursal = branch.sucursal
+                    it.listOfStaffs = branch.staffs
+                    it.listOfServices = branch.services
                 }
+                when (flow) {
+                    Flow.SCHEDULE_APPOINTMENT -> {
+                        navController.navigate(ScheduleAppointmentScreens.ScheduleStaffRoute)
+                    }
 
-                Flow.INFO -> {
-                    navController.navigate(InfoNavigationScreens.BranchInfoRoute)
+                    Flow.INFO -> {
+                        navController.navigate(InfoNavigationScreens.BranchInfoRoute)
+                    }
                 }
             }
-        }
+        )
     }
 }
 
@@ -65,8 +70,7 @@ fun BranchesScreen(
 fun BranchesScreenContent(
     modifier: Modifier = Modifier,
     branches: List<NegoInfo>?,
-    mainViewModel: FlowMainViewModel,
-    goToNextScreen: () -> Unit
+    clickOnBranch: (chosenBranch: NegoInfo) -> Unit,
 ) {
     Column(
         modifier
@@ -78,13 +82,8 @@ fun BranchesScreenContent(
         ) {
             ShowBranches(
                 branches = branches,
-                goToNextScreen = goToNextScreen,
                 currentBranch = { chosenBranch ->
-                    mainViewModel.let {
-                        it.sucursal = chosenBranch.sucursal
-                        it.listOfStaffs = chosenBranch.staffs
-                        it.listOfServices = chosenBranch.services
-                    }
+                    clickOnBranch.invoke(chosenBranch)
                 }
             )
             LongSpacer(orientation = Orientation.VERTICAL)
@@ -96,7 +95,6 @@ fun BranchesScreenContent(
 @Composable
 private fun ShowBranches(
     branches: List<NegoInfo>?,
-    goToNextScreen: () -> Unit,
     currentBranch: (NegoInfo) -> Unit
 ) {
     LazyColumn {
@@ -106,7 +104,6 @@ private fun ShowBranches(
                 TextWithArrow(
                     TextWithArrowConfig(text = branch.sucursal.name,
                         clickOnItem = {
-                            goToNextScreen.invoke()
                             currentBranch.invoke(branch)
                         }
                     )
@@ -120,6 +117,10 @@ private fun ShowBranches(
 @Composable
 @Preview(showBackground = true)
 fun BranchesScreenContentPreview(modifier: Modifier = Modifier) {
-
+    BranchesScreenContent(
+        modifier = Modifier,
+        branches = NegoInfo.mockBusinessList(),
+        clickOnBranch = {}
+    )
 }
 
