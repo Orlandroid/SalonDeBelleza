@@ -1,16 +1,13 @@
 package com.example.citassalon.presentacion.features.share_beetwen_sucursales
 
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.presentacion.features.base.BaseViewModel
 import com.example.citassalon.presentacion.features.base.BaseScreenState
+import com.example.citassalon.presentacion.features.base.BaseViewModel
 import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.data.Repository
 import com.example.data.di.CoroutineDispatchers
 import com.example.domain.entities.remote.migration.NegoInfo
-import com.example.domain.state.ApiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -30,13 +27,10 @@ class BranchViewModel @Inject constructor(
 ) :
     BaseViewModel(coroutineDispatchers, networkHelper) {
 
-    private var _branches = MutableLiveData<ApiState<List<NegoInfo>>>()
-    val branches: LiveData<ApiState<List<NegoInfo>>>
-        get() = _branches
-
     private val _state: MutableStateFlow<BaseScreenState<List<NegoInfo>>> =
         MutableStateFlow(BaseScreenState.Loading())
     val state = _state.asStateFlow()
+
 
     init {
         getBranches()
@@ -51,6 +45,5 @@ class BranchViewModel @Inject constructor(
             }
         }
     }
-
 
 }

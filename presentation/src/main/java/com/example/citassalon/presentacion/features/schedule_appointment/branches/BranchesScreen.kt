@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -22,9 +23,11 @@ import com.example.citassalon.presentacion.features.base.Orientation
 import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
-import com.example.citassalon.presentacion.features.flow_main.FlowMainViewModel
+import com.example.citassalon.presentacion.features.schedule_appointment.FlowMainViewModel
 import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
+import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentEvents
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
+import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentsSideEffects
 import com.example.citassalon.presentacion.features.share_beetwen_sucursales.BranchViewModel
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.citassalon.presentacion.features.theme.BackgroundListsMainFlow
@@ -35,9 +38,23 @@ fun BranchesScreen(
     navController: NavController,
     mainViewModel: FlowMainViewModel,
     branchViewModel: BranchViewModel = hiltViewModel(),
-    flow: Flow,
 ) {
     val state = branchViewModel.state.collectAsStateWithLifecycle()
+    LaunchedEffect(mainViewModel) {
+        mainViewModel.branchSideEffects.collect { effect ->
+            when (effect) {
+                ScheduleAppointmentsSideEffects.GoToScheduleStaff -> {
+                    navController.navigate(ScheduleAppointmentScreens.ScheduleStaffRoute)
+                }
+
+                ScheduleAppointmentsSideEffects.GotoBranchInfo -> {
+                    navController.navigate(InfoNavigationScreens.BranchInfoRoute)
+                }
+
+                else -> {}
+            }
+        }
+    }
     BaseComposeScreenState(
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.agendar_sucursal)),
         navController = navController,
@@ -46,21 +63,8 @@ fun BranchesScreen(
         BranchesScreenContent(
             modifier = Modifier,
             branches = result,
-            clickOnBranch = { branch ->
-                mainViewModel.let {
-                    it.sucursal = branch.sucursal
-                    it.listOfStaffs = branch.staffs
-                    it.listOfServices = branch.services
-                }
-                when (flow) {
-                    Flow.SCHEDULE_APPOINTMENT -> {
-                        navController.navigate(ScheduleAppointmentScreens.ScheduleStaffRoute)
-                    }
-
-                    Flow.INFO -> {
-                        navController.navigate(InfoNavigationScreens.BranchInfoRoute)
-                    }
-                }
+            onEvents = { event ->
+                mainViewModel.onEvents(event)
             }
         )
     }
@@ -70,7 +74,7 @@ fun BranchesScreen(
 fun BranchesScreenContent(
     modifier: Modifier = Modifier,
     branches: List<NegoInfo>?,
-    clickOnBranch: (chosenBranch: NegoInfo) -> Unit,
+    onEvents: (ScheduleAppointmentEvents) -> Unit
 ) {
     Column(
         modifier
@@ -80,10 +84,14 @@ fun BranchesScreenContent(
         Card(
             colors = CardDefaults.cardColors(containerColor = BackgroundListsMainFlow)
         ) {
-            ShowBranches(
+            Branches(
                 branches = branches,
                 currentBranch = { chosenBranch ->
-                    clickOnBranch.invoke(chosenBranch)
+                    onEvents(
+                        ScheduleAppointmentEvents.ClickOnBranch(
+                            branch = chosenBranch
+                        )
+                    )
                 }
             )
             LongSpacer(orientation = Orientation.VERTICAL)
@@ -93,16 +101,16 @@ fun BranchesScreenContent(
 }
 
 @Composable
-private fun ShowBranches(
-    branches: List<NegoInfo>?,
-    currentBranch: (NegoInfo) -> Unit
+private fun Branches(
+    branches: List<NegoInfo>?, currentBranch: (NegoInfo) -> Unit
 ) {
     LazyColumn {
         branches?.forEach { branch ->
             item {
                 MediumSpacer(orientation = Orientation.VERTICAL)
                 TextWithArrow(
-                    TextWithArrowConfig(text = branch.sucursal.name,
+                    TextWithArrowConfig(
+                        text = branch.sucursal.name,
                         clickOnItem = {
                             currentBranch.invoke(branch)
                         }
@@ -117,10 +125,9 @@ private fun ShowBranches(
 @Composable
 @Preview(showBackground = true)
 fun BranchesScreenContentPreview(modifier: Modifier = Modifier) {
-    BranchesScreenContent(
-        modifier = Modifier,
+    BranchesScreenContent(modifier = Modifier,
         branches = NegoInfo.mockBusinessList(),
-        clickOnBranch = {}
+        onEvents = {}
     )
 }
 

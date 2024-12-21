@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="agendar_sucursal">Agendar Sucursal</string>
+    <string name="cita_agendada">Tu cita ha sido \n agendada con exito.</string>
+    <string name="detail_staff">Detail Staff</string>
+    <string name="evaluacion">Evaluacion</string>
+    <string name="agendar_button">Agendar</string>
+    <string name="agendar_hora">Agendar Hora</string>
+    <string name="add_date">Selecciona la fecha de tu cita</string>
+    <string name="selecciona_la_hora_de_tu_cita">Selecciona la hora de tu cita</string>
+    <string name="mensaje_confirmacion">Deseas confirmar \n tu cita en (marca) ?</string>
+    <string name="confirmar">Si , Confirmar</string>
+    <string name="cancelar">No,Cancelar</string>
+    <string name="confirmar_cita">Confirmar cita</string>
+    <string name="confirmacionDeCita">Confirmación de Cita</string>
+    <string name="Total">Total</string>
+    <string name="confirma_cita">Confirma cita</string>
+    <string name="agendar_servicio">Agendar Servicio</string>
+    <string name="agendar_staff">Agendar Staff</string>
+    <string name="estilista_aleatorio">Estilista  aleatorio</string>
+</resources>

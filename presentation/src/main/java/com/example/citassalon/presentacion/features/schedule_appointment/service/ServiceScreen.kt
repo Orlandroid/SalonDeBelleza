@@ -18,8 +18,9 @@ import com.example.citassalon.presentacion.features.components.ItemStaff
 import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
-import com.example.citassalon.presentacion.features.flow_main.FlowMainViewModel
+import com.example.citassalon.presentacion.features.schedule_appointment.FlowMainViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
+import com.example.citassalon.presentacion.features.schedule_appointment.staff.StaffUiState
 import com.example.citassalon.presentacion.features.theme.BackgroundListsMainFlow
 import com.example.domain.entities.remote.migration.Service
 import com.example.domain.entities.remote.migration.Staff
@@ -27,7 +28,8 @@ import com.example.domain.entities.remote.migration.Staff
 @Composable
 fun ServiceScreen(
     navController: NavController,
-    mainViewModel: FlowMainViewModel
+    mainViewModel: FlowMainViewModel,
+    state: StaffUiState,
 ) {
     BaseComposeScreen(
         navController = navController,
@@ -35,13 +37,14 @@ fun ServiceScreen(
     ) {
         ServiceScreenContent(
             modifier = Modifier,
-            staff = mainViewModel.currentStaff,
-            branch = mainViewModel.sucursal.name,
-            listOfServices = mainViewModel.listOfServices
-        ) {
-            mainViewModel.currentStaff
-            navController.navigate(ScheduleAppointmentScreens.ScheduleRoute)
-        }
+            staff = state.currentStaff ?: Staff.mockStaff(),
+            branch = state.branchName,
+            listOfServices = mainViewModel.listOfServices,
+            navigateToDateScreen = {
+                mainViewModel.currentStaff
+                navController.navigate(ScheduleAppointmentScreens.ScheduleRoute)
+            }
+        )
     }
 }
 

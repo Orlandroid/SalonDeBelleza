@@ -8,7 +8,7 @@ import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.example.citassalon.presentacion.features.app_navigation.AppNavigationRoutes
 import com.example.citassalon.presentacion.features.extensions.sharedViewModel
-import com.example.citassalon.presentacion.features.flow_main.FlowMainViewModel
+import com.example.citassalon.presentacion.features.schedule_appointment.FlowMainViewModel
 import com.example.citassalon.presentacion.features.info.cart.CartScreen
 import com.example.citassalon.presentacion.features.info.establishing.EstablishingScreen
 import com.example.citassalon.presentacion.features.info.nuestro_staff.OurStaffScreen
@@ -20,7 +20,7 @@ import com.example.citassalon.presentacion.features.info.stores.StoresScreen
 import com.example.citassalon.presentacion.features.info.sucursal.BranchInfoScreen
 import com.example.citassalon.presentacion.features.info.ubicacion.LocationScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.branches.BranchesScreen
-import com.example.citassalon.presentacion.features.schedule_appointment.branches.Flow
+import com.example.citassalon.presentacion.features.schedule_appointment.branches.BranchFlow
 import com.example.domain.entities.remote.CustomNavType
 import com.example.domain.entities.remote.Product
 import kotlin.reflect.typeOf
@@ -38,10 +38,10 @@ fun NavGraphBuilder.infoNavigationGraph(navController: NavHostController) {
         }
         composable<InfoNavigationScreens.BranchesRoute> {
             val mainViewModel = it.sharedViewModel<FlowMainViewModel>(navController = navController)
+            mainViewModel.currentFlowBranch = BranchFlow.INFO
             BranchesScreen(
                 navController = navController,
-                mainViewModel = mainViewModel,
-                flow = Flow.INFO
+                mainViewModel = mainViewModel
             )
         }
         composable<InfoNavigationScreens.CategoriesRoute> {

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="warning">Warning</string>
+    <string name="delete_row_message">Estas seguro que deseas eliminar el registro</string>
+    <string name="historiasl_de_citas">Historial de citas</string>
+    <string name="history_detail">History Detail</string>
+    <string name="perfil">Perfil</string>
+    <string name="cerrar_session">Cerrar session</string>
+    <string name="seguro_que_deseas_cerrar_sesion">¿Seguro que deseas cerrar sesion?</string>
+</resources>

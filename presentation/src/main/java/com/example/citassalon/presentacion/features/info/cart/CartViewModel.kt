@@ -5,11 +5,11 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.domain.entities.db.ProductDb
 import com.example.domain.entities.remote.Cart
 import com.example.domain.entities.remote.Product
-import com.example.domain.state.ApiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -23,37 +23,29 @@ class CartViewModel @Inject constructor(
     private val networkHelper: NetworkHelper
 ) : ViewModel() {
 
-    private val _cart = MutableLiveData<ApiState<Cart>>()
-    val cart: LiveData<ApiState<Cart>>
-        get() = _cart
-    private val _product = MutableLiveData<ApiState<Product>>()
-    val product: LiveData<ApiState<Product>>
-        get() = _product
+    private val _cart = MutableLiveData<BaseScreenState<Cart>>()
+    val cart = _cart
+    private val _product = MutableLiveData<BaseScreenState<Product>>()
+    val product = _product
 
     val allIProducts: LiveData<List<ProductDb>> = repository.getAllProducts().asLiveData()
 
     fun getCart(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main) {
-                _cart.value = ApiState.Loading()
+                _cart.value = BaseScreenState.Loading()
             }
             if (!networkHelper.isNetworkConnected()) {
-                _cart.value = ApiState.ErrorNetwork()
+                _cart.value = BaseScreenState.ErrorNetwork()
                 return@launch
             }
             try {
                 val response = repository.getSingleCart(id)
-                if (response.products.isEmpty()) {
-                    withContext(Dispatchers.Main) {
-                        _cart.value = ApiState.NoData()
-                    }
-                    return@launch
-                }
                 withContext(Dispatchers.Main) {
-                    _cart.value = ApiState.Success(response)
+                    _cart.value = BaseScreenState.Success(response)
                 }
             } catch (e: Throwable) {
-                _cart.value = ApiState.Error(e)
+                _cart.value = BaseScreenState.Error()
             }
         }
     }
@@ -61,20 +53,20 @@ class CartViewModel @Inject constructor(
     fun getSingleProduct(id: Int) {
         viewModelScope.launch(Dispatchers.IO) {
             withContext(Dispatchers.Main) {
-                _product.value = ApiState.Loading()
+                _product.value = BaseScreenState.Loading()
             }
             if (!networkHelper.isNetworkConnected()) {
-                _product.value = ApiState.ErrorNetwork()
+                _product.value = BaseScreenState.ErrorNetwork()
                 return@launch
             }
             try {
                 val response = repository.getSingleProduct(id)
                 withContext(Dispatchers.Main) {
-                    _product.value = ApiState.Success(response)
+                    _product.value = BaseScreenState.Success(response)
                 }
             } catch (e: Throwable) {
                 withContext(Dispatchers.Main) {
-                    _product.value = ApiState.Error(e)
+                    _product.value = BaseScreenState.Error()
                 }
             }
         }

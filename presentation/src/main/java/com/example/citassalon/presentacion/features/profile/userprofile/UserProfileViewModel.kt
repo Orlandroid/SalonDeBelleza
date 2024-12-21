@@ -1,18 +1,16 @@
 package com.example.citassalon.presentacion.features.profile.userprofile
 
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.presentacion.features.base.BaseViewModel
 import com.example.citassalon.presentacion.features.base.BaseScreenState
+import com.example.citassalon.presentacion.features.base.BaseViewModel
 import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.data.di.CoroutineDispatchers
 import com.example.data.preferences.LoginPreferences
 import com.example.domain.perfil.RandomUserResponse
 import com.example.domain.perfil.UserInfo
 import com.example.domain.perfil.UserProfileResponse
-import com.example.domain.state.ApiState
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -50,21 +48,21 @@ class UserProfileViewModel @Inject constructor(
     val localImageState = _localImageState.asStateFlow()
 
 
-    private val _randomUserResponse = MutableLiveData<ApiState<RandomUserResponse>>()
-    val randomUserResponse: LiveData<ApiState<RandomUserResponse>> get() = _randomUserResponse
+    private val _randomUserResponse = MutableLiveData<BaseScreenState<RandomUserResponse>>()
+    val randomUserResponse = _randomUserResponse
 
     companion object {
         private const val IMAGE_USER = "imageUser"
     }
 
-    fun randomUser() = viewModelScope.launch {
-        safeApiCall(_randomUserResponse, coroutineDispatchers) {
-            val response = repository.randomUser()
-            withContext(Dispatchers.Main) {
-                _randomUserResponse.value = ApiState.Success(response)
-            }
-        }
-    }
+//    fun randomUser() = viewModelScope.launch {
+//        safeApiCallCompose(_randomUserResponse, coroutineDispatchers) {
+//            val response = repository.randomUser()
+//            withContext(Dispatchers.Main) {
+//                _randomUserResponse.value = BaseScreenState.Success(response)
+//            }
+//        }
+//    }
 
     private fun getUserMoney() = loginPreferences.getUserMoney().toString()
 

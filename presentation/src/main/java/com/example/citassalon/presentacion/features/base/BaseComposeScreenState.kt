@@ -60,7 +60,7 @@ fun <T> ObserveBaseState(
         is BaseScreenState.Error -> {
             ErrorState(
                 alertDialogMessagesConfig.copy(
-                    bodyMessage = state.exception.message ?: stringResource(R.string.error)
+                    bodyMessage = state.exception?.message ?: stringResource(R.string.error)
                 )
             )
         }

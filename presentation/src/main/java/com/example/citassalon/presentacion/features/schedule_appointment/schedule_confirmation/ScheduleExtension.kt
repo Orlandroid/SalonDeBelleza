@@ -1,6 +1,6 @@
 package com.example.citassalon.presentacion.features.schedule_appointment.schedule_confirmation
 
-import com.example.citassalon.presentacion.features.flow_main.FlowMainViewModel
+import com.example.citassalon.presentacion.features.schedule_appointment.FlowMainViewModel
 import com.example.domain.perfil.AppointmentFirebase
 import java.util.UUID
 

@@ -1,13 +1,11 @@
 package com.example.citassalon.presentacion.features.profile.historial_citas
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.domain.perfil.AppointmentFirebase
-import com.example.domain.state.ApiState
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -34,14 +32,11 @@ class HistorialCitasViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    private val _appointment = MutableLiveData<ApiState<List<AppointmentFirebase>>>()
-    val appointment: LiveData<ApiState<List<AppointmentFirebase>>>
-        get() = _appointment
+    private val _appointment = MutableLiveData<BaseScreenState<List<AppointmentFirebase>>>()
+    val appointment = _appointment
 
-
-    private val _removeAppointment = MutableLiveData<ApiState<List<AppointmentFirebase>>>()
-    val removeAppointment: MutableLiveData<ApiState<List<AppointmentFirebase>>>
-        get() = _removeAppointment
+    private val _removeAppointment = MutableLiveData<BaseScreenState<List<AppointmentFirebase>>>()
+    val removeAppointment = _removeAppointment
 
     private val _state: MutableStateFlow<BaseScreenState<List<AppointmentFirebase>>> =
         MutableStateFlow(BaseScreenState.Loading())
@@ -111,7 +106,7 @@ class HistorialCitasViewModel @Inject constructor(
             val databaseReference =
                 provideFirebaseRealtimeDatabaseReference(firebaseDatabase, firebaseAuth)
             databaseReference.child(idAppointment).removeValue().addOnSuccessListener {
-                _removeAppointment.value = ApiState.Success(listOf())
+                _removeAppointment.value = BaseScreenState.Success(listOf())
             }.addOnCanceledListener {
                 _state.value = BaseScreenState.Error(Exception())
             }

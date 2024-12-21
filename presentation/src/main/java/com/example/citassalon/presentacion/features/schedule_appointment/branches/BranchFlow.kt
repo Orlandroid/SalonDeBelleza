@@ -1,6 +1,6 @@
 package com.example.citassalon.presentacion.features.schedule_appointment.branches
 
-enum class Flow {
+enum class BranchFlow {
     SCHEDULE_APPOINTMENT,
     INFO
 }

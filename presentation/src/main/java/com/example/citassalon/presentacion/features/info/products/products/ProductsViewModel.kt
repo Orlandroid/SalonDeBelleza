@@ -10,7 +10,6 @@ import com.example.data.Repository
 import com.example.data.di.CoroutineDispatchers
 import com.example.domain.entities.db.ProductDb
 import com.example.domain.entities.remote.Product
-import com.example.domain.state.ApiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -30,9 +29,9 @@ class ProductsViewModel @Inject constructor(
         private const val NOT_SAVE = -1
     }
 
-    private val _productos = MutableLiveData<ApiState<List<Product>>>()
-    val products: LiveData<ApiState<List<Product>>>
-        get() = _productos
+    private val _products = MutableLiveData<BaseScreenState<List<Product>>>()
+    val products: LiveData<BaseScreenState<List<Product>>>
+        get() = _products
 
     private val _state: MutableStateFlow<BaseScreenState<List<Product>>> =
         MutableStateFlow(BaseScreenState.Loading())

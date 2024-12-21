@@ -46,7 +46,7 @@ import com.example.citassalon.presentacion.features.extensions.getCurrentDateTim
 import com.example.citassalon.presentacion.features.extensions.getHourFormat
 import com.example.citassalon.presentacion.features.extensions.getInitialTime
 import com.example.citassalon.presentacion.features.extensions.toStringFormat
-import com.example.citassalon.presentacion.features.flow_main.FlowMainViewModel
+import com.example.citassalon.presentacion.features.schedule_appointment.FlowMainViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
 import com.example.citassalon.presentacion.features.theme.Background
 
