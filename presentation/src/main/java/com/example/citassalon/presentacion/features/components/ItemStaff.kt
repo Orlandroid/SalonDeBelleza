@@ -28,7 +28,6 @@ import com.example.domain.entities.remote.migration.Staff
 
 sealed class ClickOnItemStaff {
     data object ClickOnItem : ClickOnItemStaff()
-    data object ClickOnImage : ClickOnItemStaff()
 }
 
 @Composable
@@ -36,6 +35,8 @@ fun ItemStaff(
     modifier: Modifier = Modifier,
     staff: Staff,
     branch: String? = null,
+    headerText: String? = null,
+    clickOnHeaderText: (() -> Unit?)? = null,
     onClick: ((ClickOnItemStaff) -> Unit?)? = null
 ) {
     Card(
@@ -47,8 +48,17 @@ fun ItemStaff(
             .padding(8.dp)
     ) {
         Column(
-            Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
+            Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
+            headerText?.let {
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    modifier = Modifier.clickable { clickOnHeaderText?.invoke() },
+                    text = headerText,
+                    fontWeight = FontWeight.Bold
+                )
+            }
             val imageLoader =
                 LocalContext.current.imageLoader.newBuilder().logger(DebugLogger()).build()
             Spacer(modifier = Modifier.height(16.dp))
@@ -56,10 +66,7 @@ fun ItemStaff(
                 imageLoader = imageLoader,
                 modifier = Modifier
                     .clip(CircleShape)
-                    .size(150.dp)
-                    .clickable {
-                        onClick?.invoke(ClickOnItemStaff.ClickOnImage)
-                    },
+                    .size(150.dp),
                 model = staff.image_url,
                 contentDescription = "ImageStaff",
                 loading = { CircularProgressIndicator() },

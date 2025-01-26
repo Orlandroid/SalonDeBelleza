@@ -19,6 +19,7 @@ import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.schedule_appointment.FlowMainViewModel
+import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentEvents
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
 import com.example.citassalon.presentacion.features.schedule_appointment.staff.StaffUiState
 import com.example.citassalon.presentacion.features.theme.BackgroundListsMainFlow
@@ -41,9 +42,9 @@ fun ServiceScreen(
             branch = state.branchName,
             listOfServices = mainViewModel.listOfServices,
             navigateToDateScreen = {
-                mainViewModel.currentStaff
                 navController.navigate(ScheduleAppointmentScreens.ScheduleRoute)
-            }
+            },
+            onEvents = { events -> mainViewModel.onEvents(events) }
         )
     }
 }
@@ -54,7 +55,8 @@ fun ServiceScreenContent(
     staff: Staff,
     branch: String,
     listOfServices: List<Service>,
-    navigateToDateScreen: () -> Unit
+    navigateToDateScreen: () -> Unit,
+    onEvents: (ScheduleAppointmentEvents) -> Unit
 ) {
     Column(modifier.fillMaxSize()) {
         MediumSpacer(orientation = Orientation.VERTICAL)
@@ -68,7 +70,10 @@ fun ServiceScreenContent(
         ) {
             ListServices(
                 listOfServices = listOfServices,
-                navigateToDateScreen = navigateToDateScreen
+                clickOnItem = {
+                    navigateToDateScreen()
+                    onEvents(ScheduleAppointmentEvents.ClickOnService(it))
+                }
             )
         }
     }
@@ -78,7 +83,7 @@ fun ServiceScreenContent(
 fun ListServices(
     modifier: Modifier = Modifier,
     listOfServices: List<Service>,
-    navigateToDateScreen: () -> Unit
+    clickOnItem: (service: Service) -> Unit
 ) {
     LazyColumn(modifier = modifier) {
         listOfServices.forEach { service ->
@@ -87,7 +92,7 @@ fun ListServices(
                     config = TextWithArrowConfig(
                         text = service.name,
                         clickOnItem = {
-                            navigateToDateScreen.invoke()
+                            clickOnItem(service)
                         }
                     )
                 )
@@ -103,6 +108,7 @@ fun ServiceScreenContentPreview(modifier: Modifier = Modifier) {
         staff = Staff.mockStaff(),
         branch = "Zacatecas",
         listOfServices = Service.mockListServices(),
-        navigateToDateScreen = {}
+        navigateToDateScreen = {},
+        onEvents = {}
     )
 }

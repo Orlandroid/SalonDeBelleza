@@ -118,6 +118,7 @@
     <string name="reset_password">Reset Password</string>
     <string name="error_password_or_user">Usuario o contraseña incorrectos</string>
     <string name="detail_product">Detail Product</string>
+    <string name="detail">Detail</string>
     <string name="Ingresa">Ingresar</string>
     <string name="username">username</string>
     <string name="title">Title</string>

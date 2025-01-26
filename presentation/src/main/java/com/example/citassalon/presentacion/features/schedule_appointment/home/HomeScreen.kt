@@ -1,6 +1,5 @@
 package com.example.citassalon.presentacion.features.schedule_appointment.home
 
-import android.app.Activity
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -12,7 +11,6 @@ import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.Font
@@ -24,7 +22,6 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavHostController
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.app_navigation.MainActivityCompose
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
 import com.example.citassalon.presentacion.features.theme.AlwaysBlack
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
@@ -35,11 +32,11 @@ import com.example.citassalon.presentacion.features.theme.StatusBarColor
 fun HomeScreen(
     navController: NavHostController,
     goToInfoNavigation: () -> Unit,
-    goToProfileNavigation: () -> Unit
+    goToProfileNavigation: () -> Unit,
+    onFinishActivity: () -> Unit
 ) {
-    val activity = LocalContext.current as Activity
     BackHandler {
-        (activity as MainActivityCompose).finish()
+        onFinishActivity.invoke()
     }
     HomeScreenContent(
         modifier = Modifier,

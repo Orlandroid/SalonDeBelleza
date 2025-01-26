@@ -43,7 +43,6 @@ fun SplashScreen(
             goToScheduleNav = goToScheduleNav
         )
     }
-
 }
 
 @Composable

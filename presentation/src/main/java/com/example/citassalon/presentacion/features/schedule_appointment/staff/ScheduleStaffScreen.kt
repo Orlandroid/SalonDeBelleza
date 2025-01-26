@@ -112,13 +112,13 @@ fun ListStaffs(
             listOfStaffs.forEach { myStaff ->
                 item {
                     ItemStaff(
+                        headerText = stringResource(R.string.detail),
+                        clickOnHeaderText = {
+                            onEvents(ScheduleAppointmentEvents.ClickOnImageStaff(myStaff))
+                        },
                         staff = myStaff,
                         onClick = {
                             when (it) {
-                                ClickOnItemStaff.ClickOnImage -> {
-                                    onEvents(ScheduleAppointmentEvents.ClickOnImageStaff(myStaff))
-                                }
-
                                 ClickOnItemStaff.ClickOnItem -> {
                                     onEvents(ScheduleAppointmentEvents.ClickOnStaff(myStaff))
                                 }

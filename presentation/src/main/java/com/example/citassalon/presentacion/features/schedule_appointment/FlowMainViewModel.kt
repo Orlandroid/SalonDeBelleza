@@ -56,6 +56,13 @@ class FlowMainViewModel : ViewModel() {
                 _staffUiState.update { oldState -> oldState.copy(currentStaff = event.staff) }
                 sentEvent(ScheduleAppointmentsSideEffects.GoToDetailStaffScreen)
             }
+
+            is ScheduleAppointmentEvents.ClickOnService -> {
+                _staffUiState.update { it.copy(listOfServices = listOf(event.service)) }
+            }
+
+            is ScheduleAppointmentEvents.ClickOnDate -> {}
+            is ScheduleAppointmentEvents.ClickOnTime -> {}
         }
     }
 

@@ -105,6 +105,7 @@ fun LoginScreenContent(
     uiState: LoginUiState,
     onEvents: (LoginEvents) -> Unit,
 ) {
+    val activity = LocalContext.current as Activity///this kills compose preview
     val focusManager = LocalFocusManager.current
     Column(
         modifier

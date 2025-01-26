@@ -45,7 +45,8 @@ object Dependencies {
     const val ANDROID_HILT_WORK = "androidx.hilt:hilt-work:1.0.0"
     const val GLIDE = "com.github.bumptech.glide:glide:4.14.2"
     const val GLIDE_COMPILER = "com.github.bumptech.glide:compiler:4.14.2"
-    const val VIEW_MODEL = "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE_VERSION}"
+    const val VIEW_MODEL =
+        "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE_VERSION}"
     const val LIVE_DATA = "androidx.lifecycle:lifecycle-livedata-ktx:${Versions.LIFECYCLE_VERSION}"
     const val FRAGMENT_KTS = "androidx.fragment:fragment-ktx:1.5.7"
     const val TEST_JUNIT = "androidx.test.ext:junit:1.1.4"
@@ -58,25 +59,32 @@ object Dependencies {
     const val FIREBASE_PLAY_SERVICES = "com.google.android.gms:play-services-auth:20.5.0"
     const val FIREBASE_DATABASE = "com.google.firebase:firebase-database-ktx"
     const val GOOGLE_GSON = "com.google.code.gson:gson:2.9.0"
-    const val ANDROIDX_LIFECYCLE = "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.ANDROIDX_LIFECYCLE_VERSION}"
-    const val ANDROIDX_LIFECYCLE_EXTENSIONS = "androidx.lifecycle:lifecycle-extensions:${Versions.ANDROIDX_LIFECYCLE_VERSION}"
+    const val ANDROIDX_LIFECYCLE =
+        "androidx.lifecycle:lifecycle-runtime-ktx:${Versions.ANDROIDX_LIFECYCLE_VERSION}"
+    const val ANDROIDX_LIFECYCLE_EXTENSIONS =
+        "androidx.lifecycle:lifecycle-extensions:${Versions.ANDROIDX_LIFECYCLE_VERSION}"
     const val KOIN = "org.koin:koin-core:${Versions.KOIN_VERSION}"
     const val KOIN_ANDROID = "org.koin:koin-android:${Versions.KOIN_VERSION}"
     const val KOIN_ANDROIDX_SCOPE = "org.koin:koin-androidx-scope:${Versions.KOIN_VERSION}"
     const val KOIN_ANDROIDX_VIEWMODEL = "org.koin:koin-androidx-viewmodel:${Versions.KOIN_VERSION}"
-    const val KOTLIN_STDLIB_JDK7 = "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.KOTLIN_VERSION}"
-    const val KOTLINX_COROUTINES = "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.KOTLINX_COROUTINES_VERSION}"
+    const val KOTLIN_STDLIB_JDK7 =
+        "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${Versions.KOTLIN_VERSION}"
+    const val KOTLINX_COROUTINES =
+        "org.jetbrains.kotlinx:kotlinx-coroutines-core:${Versions.KOTLINX_COROUTINES_VERSION}"
     const val MOSHI = "com.squareup.moshi:moshi-kotlin:${Versions.MOSHI_VERSION}"
     const val MOSHI_ADAPTERS = "com.squareup.moshi:moshi-adapters:${Versions.MOSHI_VERSION}"
     const val MOSHI_CODEGEN = "com.squareup.moshi:moshi-kotlin-codegen:${Versions.MOSHI_VERSION}"
-    const val NAVIGATION_FRAGMENT = "androidx.navigation:navigation-fragment-ktx:${Versions.NAVIGATION_VERSION}"
+    const val NAVIGATION_FRAGMENT =
+        "androidx.navigation:navigation-fragment-ktx:${Versions.NAVIGATION_VERSION}"
     const val NAVIGATION_UI = "androidx.navigation:navigation-ui-ktx:${Versions.NAVIGATION_VERSION}"
     const val PAGING = "androidx.paging:paging-runtime:3.0.0-beta02"
     const val RECYCLERVIEW = "androidx.recyclerview:recyclerview:1.1.0"
     const val RETROFIT_INTERCEPTOR = "com.squareup.okhttp3:logging-interceptor:5.0.0-alpha.2"
     const val RETROFIT = "com.squareup.retrofit2:retrofit:${Versions.RETROFIT_VERSION}"
-    const val RETROFIT_CONVERTER_MOSHI = "com.squareup.retrofit2:converter-moshi:${Versions.RETROFIT_VERSION}"
-    const val RETROFIT_CONVERTER_GSON = "com.squareup.retrofit2:converter-gson:${Versions.RETROFIT_VERSION}"
+    const val RETROFIT_CONVERTER_MOSHI =
+        "com.squareup.retrofit2:converter-moshi:${Versions.RETROFIT_VERSION}"
+    const val RETROFIT_CONVERTER_GSON =
+        "com.squareup.retrofit2:converter-gson:${Versions.RETROFIT_VERSION}"
     const val ROOM_RUNTIME = "androidx.room:room-runtime:${Versions.ROOM_VERSION}"
     const val ROOM_COMPILER = "androidx.room:room-compiler:${Versions.ROOM_VERSION}"
     const val ROOM_KTX = "androidx.room:room-ktx:${Versions.ROOM_VERSION}"
@@ -106,11 +114,6 @@ object Dependencies {
         kapt(ANDROID_HILT_COMPILER)
         kapt(DAGGER_HILT_COMPILER)
     }
-
-//    fun DependencyHandler.navigationComponent() {
-//        implementation(NAVIGATION_FRAGMENT)
-//        implementation(NAVIGATION_UI)
-//    }
 
     fun DependencyHandler.glide() {
         implementation(GLIDE)

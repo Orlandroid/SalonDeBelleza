@@ -32,14 +32,17 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.schedule_appointment.FlowMainViewModel
+import com.example.citassalon.presentacion.features.schedule_appointment.staff.StaffUiState
 import com.example.citassalon.presentacion.features.theme.AlwaysBlack
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
+import com.example.domain.entities.remote.migration.Staff
 
 @Composable
 fun ScheduleConfirmationScreen(
@@ -48,14 +51,13 @@ fun ScheduleConfirmationScreen(
     agendarConfirmacionViewModel: AgendarConfirmacionViewModel = hiltViewModel(),
     navigateToAppointmentSchedule: () -> Unit
 ) {
+    val uiState = flowMainViewModel.staffUiState.collectAsStateWithLifecycle()
     BaseComposeScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.confirmar_cita))
     ) {
         ScheduleConfirmationScreenContent(
-            branchName = flowMainViewModel.sucursal.name,
-            staffName = flowMainViewModel.currentStaff.nombre,
-            service = flowMainViewModel.listOfServices[0].name,
+            staffUiState = uiState.value,
             servicePrice = flowMainViewModel.listOfServices[0].precio.toString(),
             dateAppointment = flowMainViewModel.dateAppointment,
             hourAppointment = flowMainViewModel.hourAppointment,
@@ -73,9 +75,7 @@ fun ScheduleConfirmationScreen(
 @Composable
 fun ScheduleConfirmationScreenContent(
     modifier: Modifier = Modifier,
-    branchName: String,
-    staffName: String,
-    service: String,
+    staffUiState: StaffUiState,
     servicePrice: String,
     dateAppointment: String,
     hourAppointment: String,
@@ -102,15 +102,15 @@ fun ScheduleConfirmationScreenContent(
         Text(text = stringResource(id = R.string.confirmacionDeCita), fontSize = 20.sp)
         Spacer(modifier = Modifier.height(8.dp))
         ButtonImageAndText(
-            text = branchName,
+            text = staffUiState.branchName,
             iconImage = R.drawable.place_24p_negro
         )
         ButtonImageAndText(
-            text = staffName,
+            text = staffUiState.currentStaff?.nombre.orEmpty(),
             iconImage = R.drawable.face_unlock_24px
         )
         ButtonImageAndText(
-            text = service,
+            text = staffUiState.listOfServices[0].name,
             iconImage = R.drawable.stars_24px
         )
         ButtonImageAndText(
@@ -202,13 +202,14 @@ private fun ButtonImageAndText(
 @Preview(showBackground = true)
 fun ScheduleConfirmationScreenContentPreview(modifier: Modifier = Modifier) {
     ScheduleConfirmationScreenContent(
-        branchName = "Zacatecas",
-        staffName = "Orlando",
         servicePrice = "150",
-        service = "Corte de pelo",
         dateAppointment = "12/09/2024",
         hourAppointment = "12:30 am",
         saveAppointment = {},
-        navigateToAppointmentSchedule = {}
+        navigateToAppointmentSchedule = {},
+        staffUiState = StaffUiState(
+            branchName = "Zacatecas",
+            currentStaff = Staff.mockStaff()
+        )
     )
 }

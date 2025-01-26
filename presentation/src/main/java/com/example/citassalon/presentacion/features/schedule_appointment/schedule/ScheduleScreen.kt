@@ -36,6 +36,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.citassalon.R
@@ -48,6 +49,7 @@ import com.example.citassalon.presentacion.features.extensions.getInitialTime
 import com.example.citassalon.presentacion.features.extensions.toStringFormat
 import com.example.citassalon.presentacion.features.schedule_appointment.FlowMainViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
+import com.example.citassalon.presentacion.features.schedule_appointment.staff.StaffUiState
 import com.example.citassalon.presentacion.features.theme.Background
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -62,6 +64,7 @@ fun ScheduleScreen(
     val showTimePickerDialog = remember { mutableStateOf(false) }
     flowMainViewModel.hourAppointment = myTime.value
     flowMainViewModel.dateAppointment = date.value
+    val state = flowMainViewModel.staffUiState.collectAsStateWithLifecycle()
     BaseComposeScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.agendar_hora))
@@ -91,11 +94,7 @@ fun ScheduleScreen(
             clickOnOpenDialogTime = {
                 showTimePickerDialog.value = true
             },
-            image = flowMainViewModel.currentStaff.image_url,
-            name = flowMainViewModel.currentStaff.nombre,
-            branch = flowMainViewModel.sucursal.name,
-            services = flowMainViewModel.listOfServices[0].name,
-            price = flowMainViewModel.listOfServices[0].precio.toString()
+            state = state.value,
         ) {
             navController.navigate(ScheduleAppointmentScreens.ScheduleConfirmationRoute)
         }
@@ -105,11 +104,7 @@ fun ScheduleScreen(
 @Composable
 fun ScheduleScreenContent(
     modifier: Modifier = Modifier,
-    image: String,
-    name: String,
-    branch: String,
-    services: String,
-    price: String,
+    state: StaffUiState,
     date: String,
     time: String,
     clickOnOpenDialogDate: () -> Unit,
@@ -131,11 +126,11 @@ fun ScheduleScreenContent(
             width = Dimension.fillToConstraints
         }) {
             StaffInfo(
-                image = image,
-                name = name,
-                branch = branch,
-                services = services,
-                price = price
+                image = state.currentStaff?.image_url.orEmpty(),
+                name = state.currentStaff?.nombre.orEmpty(),
+                branch = state.branchName,
+                services = state.listOfServices[0].name,
+                price = state.listOfServices[0].precio.toString()
             )
         }
         OutlinedCard(
@@ -280,10 +275,6 @@ fun ScheduleScreenContentPreview(
         time = "15:42",
         clickOnOpenDialogDate = {},
         clickOnOpenDialogTime = {},
-        image = "",
-        name = "Orlando",
-        branch = "Zacatecas",
-        services = "uñas",
-        price = "200 $"
+        state = StaffUiState()
     )
 }

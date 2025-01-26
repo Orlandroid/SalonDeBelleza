@@ -136,7 +136,8 @@ fun AlertButtonOrButtons(
 
 @Composable
 fun AlertTitle(
-    kindOfMessage: KindOfMessage, modifier: Modifier = Modifier, @StringRes title: Int
+    kindOfMessage: KindOfMessage,
+    modifier: Modifier = Modifier, @StringRes title: Int
 ) {
     Card(
         modifier = modifier

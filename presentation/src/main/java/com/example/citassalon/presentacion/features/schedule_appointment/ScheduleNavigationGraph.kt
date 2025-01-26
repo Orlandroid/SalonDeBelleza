@@ -1,13 +1,16 @@
 package com.example.citassalon.presentacion.features.schedule_appointment
 
+import android.app.Activity
+import androidx.compose.ui.platform.LocalContext
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.citassalon.presentacion.features.app_navigation.AppNavigationRoutes
+import com.example.citassalon.presentacion.features.app_navigation.MainActivityCompose
 import com.example.citassalon.presentacion.features.extensions.sharedViewModel
-import com.example.citassalon.presentacion.features.schedule_appointment.branches.BranchesScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.branches.BranchFlow
+import com.example.citassalon.presentacion.features.schedule_appointment.branches.BranchesScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.cita_agendada.AppointmentScheduledScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.detail_staff.DetailStaffScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.home.HomeScreen
@@ -27,10 +30,14 @@ fun NavGraphBuilder.scheduleNavigationGraph(
         startDestination = ScheduleAppointmentScreens.HomeRoute
     ) {
         composable<ScheduleAppointmentScreens.HomeRoute> {
+            val activity = LocalContext.current as Activity
             HomeScreen(
                 navController = navController,
                 goToInfoNavigation = goToInfoNavigation,
-                goToProfileNavigation = goToProfileNavigation
+                goToProfileNavigation = goToProfileNavigation,
+                onFinishActivity = {
+                    (activity as MainActivityCompose).finish()
+                }
             )
         }
         composable<ScheduleAppointmentScreens.ChoseBranchRoute> {
