@@ -20,9 +20,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
-import androidx.navigation.NavHostController
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
 import com.example.citassalon.presentacion.features.theme.AlwaysBlack
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
@@ -30,9 +28,9 @@ import com.example.citassalon.presentacion.features.theme.StatusBarColor
 
 @Composable
 fun HomeScreen(
-    navController: NavHostController,
     goToInfoNavigation: () -> Unit,
     goToProfileNavigation: () -> Unit,
+    navigateToChoseBranch: () -> Unit,
     onFinishActivity: () -> Unit
 ) {
     BackHandler {
@@ -43,7 +41,7 @@ fun HomeScreen(
         goToInfoNavigation = goToInfoNavigation,
         goToProfileNavigation = goToProfileNavigation,
         goToBranchesScreen = {
-            navController.navigate(ScheduleAppointmentScreens.ChoseBranchRoute)
+            navigateToChoseBranch()
         }
     )
 }
@@ -76,7 +74,8 @@ private fun HomeScreenContent(
                 }
         ) {
         }
-        Image(painter = logoImage,
+        Image(
+            painter = logoImage,
             contentDescription = null,
             modifier = Modifier.constrainAs(imageLogo) {
                 top.linkTo(parent.top, 24.dp)
@@ -188,7 +187,7 @@ private fun FloatingButtonProfile(
 
 @Composable
 @Preview(showBackground = true)
-fun HomeScreenPreview(modifier: Modifier = Modifier) {
+fun HomeScreenPreview() {
     HomeScreenContent(
         goToBranchesScreen = {},
         goToProfileNavigation = {},

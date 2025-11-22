@@ -32,7 +32,9 @@ fun NavGraphBuilder.scheduleNavigationGraph(
         composable<ScheduleAppointmentScreens.HomeRoute> {
             val activity = LocalContext.current as Activity
             HomeScreen(
-                navController = navController,
+                navigateToChoseBranch = {
+                    navController.navigate(ScheduleAppointmentScreens.ChoseBranchRoute)
+                },
                 goToInfoNavigation = goToInfoNavigation,
                 goToProfileNavigation = goToProfileNavigation,
                 onFinishActivity = {
