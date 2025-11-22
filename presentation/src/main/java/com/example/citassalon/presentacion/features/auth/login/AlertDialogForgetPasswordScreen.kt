@@ -3,9 +3,13 @@ package com.example.citassalon.presentacion.features.auth.login
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.text.KeyboardOptions
@@ -55,7 +59,7 @@ fun AlertDialogForgetPasswordScreen(
 }
 
 @Composable
-fun AlertDialogForgetPasswordContent(
+private fun AlertDialogForgetPasswordContent(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
     clickOnResetPassword: (email: String) -> Unit
@@ -65,34 +69,26 @@ fun AlertDialogForgetPasswordContent(
     Column(
         modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        ConstraintLayout(
-            Modifier
+        Box(
+            modifier = Modifier
                 .fillMaxWidth()
-                .wrapContentHeight()
                 .background(Background)
         ) {
-            val (imageBlock, imageClose) = createRefs()
             val logoImage = painterResource(id = R.drawable.padlock)
             val closeImage = painterResource(id = R.drawable.ic_baseline_close_24)
-            Image(painter = logoImage,
+            Image(
+                painter = logoImage,
                 contentDescription = "ImageLock",
-                modifier = Modifier.constrainAs(imageBlock) {
-                    top.linkTo(parent.top)
-                    start.linkTo(parent.start)
-                    end.linkTo(parent.end)
-                    height = Dimension.value(64.dp)
-                    width = Dimension.value(64.dp)
-                }
+                modifier = Modifier
+                    .size(64.dp)
+                    .align(Alignment.Center)
             )
-            Image(painter = closeImage,
+            Image(
+                painter = closeImage,
                 contentDescription = "ImageClose",
                 modifier = Modifier
-                    .constrainAs(imageClose) {
-                        top.linkTo(parent.top)
-                        end.linkTo(parent.end)
-                        height = Dimension.value(50.dp)
-                        width = Dimension.value(50.dp)
-                    }
+                    .size(50.dp)
+                    .align(Alignment.TopEnd)
                     .clickable {
                         onDismissRequest.invoke()
                     }
@@ -119,7 +115,7 @@ fun AlertDialogForgetPasswordContent(
 }
 
 @Composable
-fun InputEmail(
+private fun InputEmail(
     userEmail: String,
     onValueChange: (String) -> Unit
 ) {
@@ -148,6 +144,6 @@ fun InputEmail(
 
 @Composable
 @Preview(showBackground = true)
-fun AlertDialogForgetPasswordPreview() {
+private fun AlertDialogForgetPasswordPreview() {
     AlertDialogForgetPasswordScreen(onDismissRequest = {})
 }
