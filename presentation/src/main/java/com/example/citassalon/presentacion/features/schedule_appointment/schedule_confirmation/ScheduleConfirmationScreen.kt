@@ -200,7 +200,7 @@ private fun ButtonImageAndText(
 
 @Composable
 @Preview(showBackground = true)
-fun ScheduleConfirmationScreenContentPreview(modifier: Modifier = Modifier) {
+fun ScheduleConfirmationScreenContentPreview() {
     ScheduleConfirmationScreenContent(
         servicePrice = "150",
         dateAppointment = "12/09/2024",

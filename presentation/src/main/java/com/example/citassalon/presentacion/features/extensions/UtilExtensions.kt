@@ -34,4 +34,3 @@ fun convertMillisToDate(millis: Long): String {
 fun TimePickerState.getHourFormat() ="${this.hour}:${this.minute}"
 
 const val dateFormat = "dd/MM/yyyy"
-const val timeFormat = "h:mm"

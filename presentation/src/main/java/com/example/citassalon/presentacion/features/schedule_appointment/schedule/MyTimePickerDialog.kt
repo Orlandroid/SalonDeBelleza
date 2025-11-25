@@ -62,7 +62,7 @@ fun TimePickerDialog(
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 @Preview(showBackground = true)
-fun TimePickerDialogPreview(modifier: Modifier = Modifier) {
+fun TimePickerDialogPreview() {
     MyTimePickerDialog(
         onDismiss = {},
         onConfirm = {}

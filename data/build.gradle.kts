@@ -56,7 +56,7 @@ dependencies {
     implementation(libs.bundles.retrofit)
     room()
     daggerHilt()
-    implementation(platform(FIREBASE_BOM))
+    implementation(platform(libs.firebaseBom))
     firebase()
     implementation(libs.kotlinSerialization)
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")

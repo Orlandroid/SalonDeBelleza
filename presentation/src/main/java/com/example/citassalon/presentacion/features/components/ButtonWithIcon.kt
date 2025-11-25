@@ -88,7 +88,7 @@ fun ButtonWithIcon(
 
 @Composable
 @Preview(showBackground = true)
-fun GoogleButtonPreview(modifier: Modifier = Modifier) {
+fun GoogleButtonPreview() {
     ButtonWithIcon(
         modifier = Modifier,
         imageVector = ImageVector.vectorResource(id = R.drawable.google_30),

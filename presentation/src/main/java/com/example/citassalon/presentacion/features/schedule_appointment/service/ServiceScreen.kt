@@ -103,7 +103,7 @@ fun ListServices(
 
 @Composable
 @Preview(showBackground = true)
-fun ServiceScreenContentPreview(modifier: Modifier = Modifier) {
+fun ServiceScreenContentPreview() {
     ServiceScreenContent(
         staff = Staff.mockStaff(),
         branch = "Zacatecas",

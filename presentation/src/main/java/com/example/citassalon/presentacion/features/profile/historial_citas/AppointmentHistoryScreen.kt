@@ -45,7 +45,8 @@ import com.example.domain.perfil.AppointmentFirebase
 
 @Composable
 fun AppointmentHistoryScreen(
-    navController: NavHostController, viewModel: HistorialCitasViewModel = hiltViewModel()
+    navController: NavHostController,
+    viewModel: HistorialCitasViewModel = hiltViewModel()
 ) {
     val state = viewModel.state.collectAsStateWithLifecycle()
     val shouldShowDialogRemoveAppointment = remember { mutableStateOf(false) }
@@ -144,7 +145,8 @@ fun ItemAppointment(
             Spacer(modifier = Modifier.height(16.dp))
             Text(text = appointment.establishment, fontSize = 24.sp)
             Spacer(modifier = Modifier.height(16.dp))
-            Text(color = Color.Red.copy(alpha = .80f),
+            Text(
+                color = Color.Red.copy(alpha = .80f),
                 text = "Remove",
                 fontSize = 24.sp,
                 modifier = Modifier.clickable {

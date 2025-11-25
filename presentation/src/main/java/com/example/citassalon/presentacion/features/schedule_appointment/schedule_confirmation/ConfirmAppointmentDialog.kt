@@ -71,7 +71,7 @@ fun ConfirmAppointmentDialogContent(
 
 @Composable
 @Preview(showBackground = true)
-fun ConfirmAppointmentDialogPreview(modifier: Modifier = Modifier) {
+fun ConfirmAppointmentDialogPreview() {
     ConfirmAppointmentDialog(
         clickOnCancel = {},
         clickOnAccept = {}

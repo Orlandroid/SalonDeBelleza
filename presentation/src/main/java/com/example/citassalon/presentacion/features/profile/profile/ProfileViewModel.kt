@@ -34,6 +34,7 @@ class ProfileViewModel @Inject constructor(
         _firebaseUser.value = repository.getUser()
     }
 
+    //Todo add a provider because with that we can also used for previews
     fun setElementsMenu(): List<ProfileItem> {
         val elementsMenu = arrayListOf<ProfileItem>()
         val perfil = ProfileItem("Perfil", R.drawable.perfil, MENU.PROFILE)

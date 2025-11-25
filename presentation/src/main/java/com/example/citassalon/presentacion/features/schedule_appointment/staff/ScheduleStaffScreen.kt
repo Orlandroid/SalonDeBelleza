@@ -143,7 +143,7 @@ fun ButtonRandomStaff(onClick: () -> Unit) {
 
 @Composable
 @Preview(showBackground = true)
-fun ScheduleStaffScreenContentPreview(modifier: Modifier = Modifier) {
+fun ScheduleStaffScreenContentPreview() {
     ScheduleStaffScreenContent(
         uiState = StaffUiState(
             listOfStaffs = Staff.mockStaffList(),

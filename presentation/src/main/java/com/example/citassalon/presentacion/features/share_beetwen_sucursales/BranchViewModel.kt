@@ -23,7 +23,7 @@ import kotlin.time.Duration.Companion.seconds
 class BranchViewModel @Inject constructor(
     coroutineDispatchers: CoroutineDispatchers,
     networkHelper: NetworkHelper,
-    private val repository: Repository,
+    private val repository: Repository
 ) :
     BaseViewModel(coroutineDispatchers, networkHelper) {
 

@@ -2,7 +2,6 @@ import com.example.androidbase.presentation.ConfigData.COMPILE_SDK_VERSION
 import com.example.androidbase.presentation.ConfigData.MIN_SDK_VERSION
 import com.example.androidbase.presentation.ConfigData.TARGET_SDK_VERSION
 import com.example.androidbase.presentation.ConfigData.TEST_INSTRUMENTATION_RUNNER
-import com.example.androidbase.presentation.Dependencies.FIREBASE_BOM
 import com.example.androidbase.presentation.Dependencies.firebase
 import com.example.androidbase.presentation.Dependencies.room
 
@@ -53,10 +52,8 @@ dependencies {
     testImplementation(libs.junit4)
     androidTestImplementation(libs.testJunit)
     androidTestImplementation(libs.espressoCore)
-    //Firebases
-    implementation(platform(FIREBASE_BOM))
+    implementation(platform(libs.firebaseBom))
     firebase()
-    //Room Dependecies
     room()
     implementation(libs.kotlinSerialization)
 }

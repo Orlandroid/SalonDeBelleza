@@ -5,7 +5,6 @@ import com.example.androidbase.presentation.ConfigData.MIN_SDK_VERSION
 import com.example.androidbase.presentation.ConfigData.TARGET_SDK_VERSION
 import com.example.androidbase.presentation.ConfigData.TEST_INSTRUMENTATION_RUNNER
 import com.example.androidbase.presentation.Dependencies.FIREBASE_BOM
-import com.example.androidbase.presentation.Dependencies.VIEW_MODEL
 import com.example.androidbase.presentation.Dependencies.daggerHilt
 import com.example.androidbase.presentation.Dependencies.firebase
 import com.example.androidbase.presentation.Dependencies.room
@@ -75,7 +74,6 @@ dependencies {
     room()
     implementation(libs.bundles.retrofit)
     implementation(libs.gson)
-    implementation(VIEW_MODEL)
     daggerHilt()
     implementation(platform(FIREBASE_BOM))
 

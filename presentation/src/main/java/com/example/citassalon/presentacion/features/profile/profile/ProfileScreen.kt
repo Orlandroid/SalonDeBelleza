@@ -229,7 +229,7 @@ fun ItemProfile(
 
 @Composable
 @Preview(showBackground = true)
-fun ProfileScreenPreview(modifier: Modifier = Modifier) {
+fun ProfileScreenPreview() {
     ProfileScreenContent(
         email = "android@gmail.com",
         elementsProfile = ProfileItem.mockProfileList(R.drawable.perfil)

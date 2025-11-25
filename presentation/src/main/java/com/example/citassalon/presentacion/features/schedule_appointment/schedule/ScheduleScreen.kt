@@ -266,9 +266,7 @@ fun NextButton(
 
 @Composable
 @Preview(showBackground = true)
-fun ScheduleScreenContentPreview(
-    modifier: Modifier = Modifier
-) {
+fun ScheduleScreenContentPreview() {
     ScheduleScreenContent(
         goToConfirmationScreen = {},
         date = "12/07/2024",

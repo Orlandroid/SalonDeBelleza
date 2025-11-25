@@ -84,15 +84,14 @@ fun ItemStaff(
 
 @Composable
 @Preview(showBackground = true)
-private fun ItemStaffPreview(modifier: Modifier = Modifier) {
-    ItemStaff(staff = dummyStaff(), branch = "Zacatecas")
-}
-
-fun dummyStaff() =
-    Staff(
-        id = "",
-        image_url = "",
-        nombre = "Orlando",
-        sexo = "",
-        valoracion = 4
+private fun ItemStaffPreview() {
+    ItemStaff(
+        staff = Staff(
+            id = "",
+            image_url = "",
+            nombre = "Orlando",
+            sexo = "",
+            valoracion = 4
+        ), branch = "Zacatecas"
     )
+}

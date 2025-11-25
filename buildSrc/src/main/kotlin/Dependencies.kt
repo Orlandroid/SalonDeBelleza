@@ -4,7 +4,6 @@ import org.gradle.api.artifacts.dsl.DependencyHandler
 
 object Versions {
     const val ROOM_VERSION = "2.6.1"
-    const val LIFECYCLE_VERSION = "2.3.1"
 }
 
 object Dependencies {
@@ -12,10 +11,6 @@ object Dependencies {
     const val DAGGER_HILT_COMPILER = "com.google.dagger:hilt-android-compiler:2.49"
     const val ANDROID_HILT_COMPILER = "androidx.hilt:hilt-compiler:1.0.0"
     const val ANDROID_HILT_WORK = "androidx.hilt:hilt-work:1.0.0"
-    const val GLIDE = "com.github.bumptech.glide:glide:4.14.2"
-    const val GLIDE_COMPILER = "com.github.bumptech.glide:compiler:4.14.2"
-    const val VIEW_MODEL =
-        "androidx.lifecycle:lifecycle-viewmodel-ktx:${Versions.LIFECYCLE_VERSION}"
     const val FIREBASE_BOM = "com.google.firebase:firebase-bom:31.2.0"
     const val FIREBASE_AUTH_KTX = "com.google.firebase:firebase-auth-ktx"
     const val FIREBASE_AUTH_V_KTX = "com.google.firebase:firebase-auth-ktx:21.1.0"
@@ -37,11 +32,6 @@ object Dependencies {
         implementation(ANDROID_HILT_WORK)
         kapt(ANDROID_HILT_COMPILER)
         kapt(DAGGER_HILT_COMPILER)
-    }
-
-    fun DependencyHandler.glide() {
-        implementation(GLIDE)
-        annotationProcessor(GLIDE_COMPILER)
     }
 
     fun DependencyHandler.firebase() {

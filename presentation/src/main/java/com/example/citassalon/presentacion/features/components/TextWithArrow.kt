@@ -25,7 +25,6 @@ import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.theme.Cafe
 
 @Composable
 fun TextWithArrow(

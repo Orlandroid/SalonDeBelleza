@@ -5,12 +5,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
@@ -31,8 +28,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.Orientation
 import com.example.citassalon.presentacion.features.base.SmallSpacer
@@ -69,31 +64,7 @@ private fun AlertDialogForgetPasswordContent(
     Column(
         modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(Background)
-        ) {
-            val logoImage = painterResource(id = R.drawable.padlock)
-            val closeImage = painterResource(id = R.drawable.ic_baseline_close_24)
-            Image(
-                painter = logoImage,
-                contentDescription = "ImageLock",
-                modifier = Modifier
-                    .size(64.dp)
-                    .align(Alignment.Center)
-            )
-            Image(
-                painter = closeImage,
-                contentDescription = "ImageClose",
-                modifier = Modifier
-                    .size(50.dp)
-                    .align(Alignment.TopEnd)
-                    .clickable {
-                        onDismissRequest.invoke()
-                    }
-            )
-        }
+        AlertHeader(onDismissRequest = onDismissRequest)
         SmallSpacer(orientation = Orientation.VERTICAL)
         Text(
             text = stringResource(id = R.string.olvidaste_contraseña),
@@ -111,6 +82,35 @@ private fun AlertDialogForgetPasswordContent(
             onClick = { clickOnResetPassword.invoke(userEmail.value) }) {
             Text(text = stringResource(id = R.string.reset_password))
         }
+    }
+}
+
+@Composable
+private fun AlertHeader(onDismissRequest: () -> Unit) {
+    Box(
+        modifier = Modifier
+            .fillMaxWidth()
+            .background(Background)
+    ) {
+        val logoImage = painterResource(id = R.drawable.padlock)
+        val closeImage = painterResource(id = R.drawable.ic_baseline_close_24)
+        Image(
+            painter = logoImage,
+            contentDescription = "ImageLock",
+            modifier = Modifier
+                .size(64.dp)
+                .align(Alignment.Center)
+        )
+        Image(
+            painter = closeImage,
+            contentDescription = "ImageClose",
+            modifier = Modifier
+                .size(50.dp)
+                .align(Alignment.TopEnd)
+                .clickable {
+                    onDismissRequest.invoke()
+                }
+        )
     }
 }
 

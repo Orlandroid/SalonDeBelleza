@@ -54,7 +54,7 @@ fun BaseAlertDialogMessages(
 }
 
 @Composable
-fun BaseAlertDialogMessagesContent(
+private fun BaseAlertDialogMessagesContent(
     modifier: Modifier = Modifier,
     alertDialogMessagesConfig: AlertDialogMessagesConfig,
     onConfirmation: () -> Unit
@@ -89,7 +89,7 @@ fun BaseAlertDialogMessagesContent(
 }
 
 @Composable
-fun AlertButtonOrButtons(
+private fun AlertButtonOrButtons(
     modifier: Modifier = Modifier,
     @StringRes acceptText: Int,
     onAccept: () -> Unit,
@@ -135,7 +135,7 @@ fun AlertButtonOrButtons(
 }
 
 @Composable
-fun AlertTitle(
+private fun AlertTitle(
     kindOfMessage: KindOfMessage,
     modifier: Modifier = Modifier, @StringRes title: Int
 ) {
@@ -158,7 +158,7 @@ fun AlertTitle(
 }
 
 @Composable
-fun AlertButton(
+private fun AlertButton(
     modifier: Modifier = Modifier,
     isRounded: Boolean = false,
     @StringRes buttonMessage: Int,
@@ -190,17 +190,13 @@ fun AlertButton(
 
 @Composable
 @Preview(showBackground = true)
-fun BaseAlertDialogPreview(
-    modifier: Modifier = Modifier
-) {
+fun BaseAlertDialogPreview() {
     BaseAlertDialogMessages(modifier = Modifier, onDismissRequest = {})
 }
 
 @Composable
 @Preview(showBackground = true)
-fun BaseAlertDialogPreviewTwoButton(
-    modifier: Modifier = Modifier
-) {
+fun BaseAlertDialogPreviewTwoButton() {
     BaseAlertDialogMessages(
         modifier = Modifier,
         onDismissRequest = {},
@@ -216,18 +212,18 @@ enum class KindOfMessage(val color: Color) {
 }
 
 data class AlertDialogMessagesConfig(
-    @StringRes val title: Int = R.string.title,
+    @param:StringRes val title: Int = R.string.title,
     val bodyMessage: String,
-    @StringRes val buttonText: Int = R.string.aceptar,
+    @param:StringRes val buttonText: Int = R.string.aceptar,
     val kindOfMessage: KindOfMessage = KindOfMessage.INFO,
     val onConfirmation: () -> Unit = {},
     val isTwoButtonsAlert: IsTwoButtonsAlert? = null
 )
 
 data class IsTwoButtonsAlert(
-    @StringRes val acceptText: Int = R.string.aceptar,
+    @param:StringRes val acceptText: Int = R.string.aceptar,
     val clickOnAccept: () -> Unit = {},
-    @StringRes val cancelText: Int = R.string.cancelar_alert,
+    @param:StringRes val cancelText: Int = R.string.cancelar_alert,
     val clickOnCancel: () -> Unit,
 )
 
