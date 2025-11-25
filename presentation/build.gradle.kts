@@ -4,22 +4,10 @@ import com.example.androidbase.presentation.ConfigData.COMPILE_SDK_VERSION
 import com.example.androidbase.presentation.ConfigData.MIN_SDK_VERSION
 import com.example.androidbase.presentation.ConfigData.TARGET_SDK_VERSION
 import com.example.androidbase.presentation.ConfigData.TEST_INSTRUMENTATION_RUNNER
-import com.example.androidbase.presentation.Dependencies.ANDROIDX_APPCOMPAT
-import com.example.androidbase.presentation.Dependencies.ANDROIDX_CONSTRAINT_LAYOUT
-import com.example.androidbase.presentation.Dependencies.ANDROIDX_CORE_KTX
-import com.example.androidbase.presentation.Dependencies.ANDROID_MATERIAL
 import com.example.androidbase.presentation.Dependencies.FIREBASE_BOM
-import com.example.androidbase.presentation.Dependencies.FRAGMENT_KTS
-import com.example.androidbase.presentation.Dependencies.GOOGLE_GSON
-import com.example.androidbase.presentation.Dependencies.JUNIT
-import com.example.androidbase.presentation.Dependencies.LIVE_DATA
-import com.example.androidbase.presentation.Dependencies.TEST_EXPRESO
-import com.example.androidbase.presentation.Dependencies.TEST_JUNIT
 import com.example.androidbase.presentation.Dependencies.VIEW_MODEL
 import com.example.androidbase.presentation.Dependencies.daggerHilt
 import com.example.androidbase.presentation.Dependencies.firebase
-import com.example.androidbase.presentation.Dependencies.glide
-import com.example.androidbase.presentation.Dependencies.retrofit
 import com.example.androidbase.presentation.Dependencies.room
 
 plugins {
@@ -78,44 +66,27 @@ android {
 dependencies {
     implementation(project(DATA))
     implementation(project(DOMAIN))
-    implementation(ANDROIDX_CORE_KTX)
-    implementation(ANDROIDX_APPCOMPAT)
-    implementation(ANDROID_MATERIAL)
-    implementation(ANDROIDX_CONSTRAINT_LAYOUT)
-    testImplementation(JUNIT)
-    androidTestImplementation(TEST_JUNIT)
-    androidTestImplementation(TEST_EXPRESO)
-    //Room Dependecies
+    implementation(libs.androidCoreKtx)
+    implementation(libs.appcompat)
+    implementation(libs.material)
+    testImplementation(libs.junit4)
+    androidTestImplementation(libs.testJunit)
+    androidTestImplementation(libs.espressoCore)
     room()
-    //Retrofit Dependecies
-    retrofit()
-    //GSON
-    implementation(GOOGLE_GSON)
-    // ViewModel
+    implementation(libs.bundles.retrofit)
+    implementation(libs.gson)
     implementation(VIEW_MODEL)
-    // LiveData
-    implementation(LIVE_DATA)
-    //Dagger - Hilt
     daggerHilt()
-    //Firebases
     implementation(platform(FIREBASE_BOM))
+
     firebase()
 
-    glide()
-    implementation(FRAGMENT_KTS)
+    implementation(libs.glide)
+    annotationProcessor(libs.glide)
+
     implementation("org.jetbrains.kotlin:kotlin-stdlib:2.0.20")
-    //Shimmer
-    implementation("androidx.legacy:legacy-support-v4:1.0.0")
-    implementation("com.facebook.shimmer:shimmer:0.5.0")
-    implementation("com.github.ome450901:SimpleRatingBar:1.5.1")
-    //Rounded ImageView
-    implementation("de.hdodenhof:circleimageview:3.1.0")
     implementation("com.google.android.gms:play-services-maps:19.1.0")
-    //Skeleton
-    implementation("com.faltenreich:skeletonlayout:5.0.0")
-    //lottie
-    implementation("com.airbnb.android:lottie:6.1.0")
-    // Kotlin + coroutines(WorkManager)
+
     implementation("androidx.work:work-runtime-ktx:2.9.1")
     implementation("androidx.startup:startup-runtime:1.2.0")
 

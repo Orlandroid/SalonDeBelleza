@@ -2,16 +2,9 @@ import com.example.androidbase.presentation.BuildModules.DOMAIN
 import com.example.androidbase.presentation.ConfigData.COMPILE_SDK_VERSION
 import com.example.androidbase.presentation.ConfigData.MIN_SDK_VERSION
 import com.example.androidbase.presentation.ConfigData.TARGET_SDK_VERSION
-import com.example.androidbase.presentation.Dependencies.ANDROIDX_APPCOMPAT
-import com.example.androidbase.presentation.Dependencies.ANDROIDX_CORE_KTX
-import com.example.androidbase.presentation.Dependencies.ANDROID_MATERIAL
 import com.example.androidbase.presentation.Dependencies.FIREBASE_BOM
-import com.example.androidbase.presentation.Dependencies.JUNIT
-import com.example.androidbase.presentation.Dependencies.TEST_EXPRESO
-import com.example.androidbase.presentation.Dependencies.TEST_JUNIT
 import com.example.androidbase.presentation.Dependencies.daggerHilt
 import com.example.androidbase.presentation.Dependencies.firebase
-import com.example.androidbase.presentation.Dependencies.retrofit
 import com.example.androidbase.presentation.Dependencies.room
 
 plugins {
@@ -55,21 +48,16 @@ android {
 dependencies {
 
     implementation(project(DOMAIN))
-    implementation(ANDROIDX_CORE_KTX)
-    implementation(ANDROIDX_APPCOMPAT)
-    implementation(ANDROID_MATERIAL)
-    testImplementation(JUNIT)
-    androidTestImplementation(TEST_JUNIT)
-    androidTestImplementation(TEST_EXPRESO)
-    //Retrofit Dependecies
-    retrofit()
-    //Room Dependecies
+    implementation(libs.androidCoreKtx)
+    testImplementation(libs.junit4)
+    testImplementation(libs.appcompat)
+    androidTestImplementation(libs.testJunit)
+    androidTestImplementation(libs.espressoCore)
+    implementation(libs.bundles.retrofit)
     room()
-    //Dagger - Hilt
     daggerHilt()
-    //Firebases
     implementation(platform(FIREBASE_BOM))
     firebase()
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+    implementation(libs.kotlinSerialization)
     implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
 }

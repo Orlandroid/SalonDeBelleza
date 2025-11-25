@@ -2,14 +2,7 @@ import com.example.androidbase.presentation.ConfigData.COMPILE_SDK_VERSION
 import com.example.androidbase.presentation.ConfigData.MIN_SDK_VERSION
 import com.example.androidbase.presentation.ConfigData.TARGET_SDK_VERSION
 import com.example.androidbase.presentation.ConfigData.TEST_INSTRUMENTATION_RUNNER
-import com.example.androidbase.presentation.Dependencies.ANDROIDX_APPCOMPAT
-import com.example.androidbase.presentation.Dependencies.ANDROIDX_CORE_KTX
-import com.example.androidbase.presentation.Dependencies.ANDROID_MATERIAL
 import com.example.androidbase.presentation.Dependencies.FIREBASE_BOM
-import com.example.androidbase.presentation.Dependencies.GOOGLE_GSON
-import com.example.androidbase.presentation.Dependencies.JUNIT
-import com.example.androidbase.presentation.Dependencies.TEST_EXPRESO
-import com.example.androidbase.presentation.Dependencies.TEST_JUNIT
 import com.example.androidbase.presentation.Dependencies.firebase
 import com.example.androidbase.presentation.Dependencies.room
 
@@ -52,18 +45,18 @@ android {
 }
 
 dependencies {
-    implementation(ANDROIDX_CORE_KTX)
-    implementation(ANDROIDX_APPCOMPAT)
-    implementation(ANDROID_MATERIAL)
-    implementation(GOOGLE_GSON)
+    implementation(libs.androidCoreKtx)
+    implementation(libs.appcompat)
+    implementation(libs.material)
+    implementation(libs.gson)
     implementation("androidx.navigation:navigation-common-ktx:2.8.1")
-    testImplementation(JUNIT)
-    androidTestImplementation(TEST_JUNIT)
-    androidTestImplementation(TEST_EXPRESO)
+    testImplementation(libs.junit4)
+    androidTestImplementation(libs.testJunit)
+    androidTestImplementation(libs.espressoCore)
     //Firebases
     implementation(platform(FIREBASE_BOM))
     firebase()
     //Room Dependecies
     room()
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+    implementation(libs.kotlinSerialization)
 }
