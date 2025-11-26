@@ -1,6 +1,5 @@
 package com.example.citassalon.presentacion.features.schedule_appointment.cita_agendada
 
-import android.app.Activity
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,7 +14,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -27,7 +25,6 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.app_navigation.MainActivityCompose
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.base.LongSpacer
 import com.example.citassalon.presentacion.features.base.Orientation
@@ -36,18 +33,24 @@ import com.example.citassalon.presentacion.features.theme.AlwaysBlack
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 
 @Composable
-fun AppointmentScheduledScreen(navController: NavController) {
+fun AppointmentScheduledScreen(
+    navController: NavController,
+    closeFlow: () -> Unit
+) {
     BaseComposeScreen(
         toolbarConfiguration = ToolbarConfiguration(showToolbar = false),
         navController = navController
     ) {
-        AppointmentScheduledContent()
+        AppointmentScheduledContent(closeFlow = closeFlow)
     }
 
 }
 
 @Composable
-fun AppointmentScheduledContent(modifier: Modifier = Modifier) {
+private fun AppointmentScheduledContent(
+    modifier: Modifier = Modifier,
+    closeFlow: () -> Unit
+) {
     Column(
         modifier = modifier.fillMaxSize(),
         verticalArrangement = Arrangement.Top,
@@ -72,29 +75,36 @@ fun AppointmentScheduledContent(modifier: Modifier = Modifier) {
                 modifier = Modifier.padding(horizontal = 32.dp)
             )
             LongSpacer(orientation = Orientation.VERTICAL)
-            val activity = LocalContext.current as Activity
-            Button(
-                colors = ButtonDefaults.buttonColors(contentColor = Color(0xFF051721)),
-                onClick = {
-                    (activity as MainActivityCompose).closeAndOpenActivity()
-                }
-            ) {
-                Text(
-                    color = AlwaysWhite,
-                    text = stringResource(R.string.aceptar),
-                    modifier = Modifier
-                        .padding(horizontal = 32.dp)
-                )
-            }
+            AcceptButton(closeFlow = closeFlow)
         }
+    }
+}
+
+@Composable
+private fun AcceptButton(
+    closeFlow: () -> Unit
+) {
+    Button(
+        colors = ButtonDefaults.buttonColors(contentColor = Color(0xFF051721)),
+        onClick = closeFlow
+    ) {
+        Text(
+            color = AlwaysWhite,
+            text = stringResource(R.string.aceptar),
+            modifier = Modifier
+                .padding(horizontal = 32.dp)
+        )
     }
 }
 
 
 @Composable
 @Preview(showBackground = true)
-fun AppointmentScheduledContentPreview() {
-    AppointmentScheduledContent()
+private fun AppointmentScheduledContentPreview() {
+    AppointmentScheduledContent(
+        modifier = Modifier,
+        closeFlow = {}
+    )
 
 }
 

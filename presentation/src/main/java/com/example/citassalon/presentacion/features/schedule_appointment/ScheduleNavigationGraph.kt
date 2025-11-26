@@ -83,7 +83,10 @@ fun NavGraphBuilder.scheduleNavigationGraph(
             }
         }
         composable<ScheduleAppointmentScreens.AppointmentScheduledRoute> {
-            AppointmentScheduledScreen(navController = navController)
+            val activity = LocalContext.current as Activity
+            AppointmentScheduledScreen(navController = navController) {
+                (activity as MainActivityCompose).closeAndOpenActivity()
+            }
         }
     }
 }

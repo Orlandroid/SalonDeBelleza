@@ -71,41 +71,44 @@ fun BranchesScreen(
 }
 
 @Composable
-fun BranchesScreenContent(
+private fun BranchesScreenContent(
     modifier: Modifier = Modifier,
     branches: List<NegoInfo>?,
     onEvents: (ScheduleAppointmentEvents) -> Unit
 ) {
     Column(
-        modifier
+        modifier = modifier
             .fillMaxSize()
-            .background(Background), verticalArrangement = Arrangement.Bottom
+            .background(Background),
+        verticalArrangement = Arrangement.Bottom
     ) {
         Card(
             colors = CardDefaults.cardColors(containerColor = BackgroundListsMainFlow)
         ) {
-            Branches(
-                branches = branches,
-                currentBranch = { chosenBranch ->
-                    onEvents(
-                        ScheduleAppointmentEvents.ClickOnBranch(
-                            branch = chosenBranch
+            branches?.let {
+                Branches(
+                    branches = branches,
+                    currentBranch = { chosenBranch ->
+                        onEvents(
+                            ScheduleAppointmentEvents.ClickOnBranch(
+                                branch = chosenBranch
+                            )
                         )
-                    )
-                }
-            )
+                    }
+                )
+            }
             LongSpacer(orientation = Orientation.VERTICAL)
         }
-
     }
 }
 
 @Composable
 private fun Branches(
-    branches: List<NegoInfo>?, currentBranch: (NegoInfo) -> Unit
+    branches: List<NegoInfo>,
+    currentBranch: (NegoInfo) -> Unit
 ) {
     LazyColumn {
-        branches?.forEach { branch ->
+        branches.forEach { branch ->
             item {
                 MediumSpacer(orientation = Orientation.VERTICAL)
                 TextWithArrow(
@@ -124,8 +127,9 @@ private fun Branches(
 
 @Composable
 @Preview(showBackground = true)
-fun BranchesScreenContentPreview(modifier: Modifier = Modifier) {
-    BranchesScreenContent(modifier = Modifier,
+private fun BranchesScreenContentPreview() {
+    BranchesScreenContent(
+        modifier = Modifier,
         branches = NegoInfo.mockBusinessList(),
         onEvents = {}
     )

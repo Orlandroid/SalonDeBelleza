@@ -187,7 +187,7 @@ private fun FloatingButtonProfile(
 
 @Composable
 @Preview(showBackground = true)
-fun HomeScreenPreview() {
+private fun HomeScreenPreview() {
     HomeScreenContent(
         goToBranchesScreen = {},
         goToProfileNavigation = {},
