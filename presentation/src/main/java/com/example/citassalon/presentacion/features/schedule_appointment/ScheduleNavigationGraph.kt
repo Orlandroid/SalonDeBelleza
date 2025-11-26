@@ -14,6 +14,7 @@ import com.example.citassalon.presentacion.features.schedule_appointment.branche
 import com.example.citassalon.presentacion.features.schedule_appointment.cita_agendada.AppointmentScheduledScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.detail_staff.DetailStaffScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.home.HomeScreen
+import com.example.citassalon.presentacion.features.schedule_appointment.home.HomeScreenEvents
 import com.example.citassalon.presentacion.features.schedule_appointment.schedule.ScheduleScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.schedule_confirmation.ScheduleConfirmationScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.service.ServiceScreen
@@ -32,15 +33,27 @@ fun NavGraphBuilder.scheduleNavigationGraph(
         composable<ScheduleAppointmentScreens.HomeRoute> {
             val activity = LocalContext.current as Activity
             HomeScreen(
-                navigateToChoseBranch = {
-                    navController.navigate(ScheduleAppointmentScreens.ChoseBranchRoute)
-                },
-                goToInfoNavigation = goToInfoNavigation,
-                goToProfileNavigation = goToProfileNavigation,
-                onFinishActivity = {
-                    (activity as MainActivityCompose).finish()
+                event = { event ->
+                    when (event) {
+                        HomeScreenEvents.NavigateToChoseBranch -> {
+                            navController.navigate(ScheduleAppointmentScreens.ChoseBranchRoute)
+                        }
+
+                        HomeScreenEvents.NavigateToInfoNavigationFlow -> {
+                            goToInfoNavigation()
+                        }
+
+                        HomeScreenEvents.NavigateToProfile -> {
+                            goToProfileNavigation()
+                        }
+
+                        HomeScreenEvents.OnCloseScreen -> {
+                            (activity as MainActivityCompose).finish()
+                        }
+                    }
                 }
             )
+
         }
         composable<ScheduleAppointmentScreens.ChoseBranchRoute> {
             val mainViewModel = it.sharedViewModel<FlowMainViewModel>(navController = navController)

@@ -28,30 +28,21 @@ import com.example.citassalon.presentacion.features.theme.StatusBarColor
 
 @Composable
 fun HomeScreen(
-    goToInfoNavigation: () -> Unit,
-    goToProfileNavigation: () -> Unit,
-    navigateToChoseBranch: () -> Unit,
-    onFinishActivity: () -> Unit
+    event: (HomeScreenEvents) -> Unit
 ) {
     BackHandler {
-        onFinishActivity.invoke()
+        event(HomeScreenEvents.OnCloseScreen)
     }
     HomeScreenContent(
         modifier = Modifier,
-        goToInfoNavigation = goToInfoNavigation,
-        goToProfileNavigation = goToProfileNavigation,
-        goToBranchesScreen = {
-            navigateToChoseBranch()
-        }
+        event = event
     )
 }
 
 @Composable
 private fun HomeScreenContent(
     modifier: Modifier = Modifier,
-    goToInfoNavigation: () -> Unit,
-    goToProfileNavigation: () -> Unit,
-    goToBranchesScreen: () -> Unit
+    event: (HomeScreenEvents) -> Unit
 ) {
     ConstraintLayout(
         modifier
@@ -108,21 +99,21 @@ private fun HomeScreenContent(
                     width = Dimension.wrapContent
                     height = Dimension.wrapContent
                 },
-            goToBranchesScreen = goToBranchesScreen
+            event = event
         )
         FloatingButtonInfo(
             modifier = Modifier.constrainAs(floatingLeft) {
                 start.linkTo(parent.start, 48.dp)
                 bottom.linkTo(parent.bottom, 60.dp)
             },
-            goToInfoNavigation = goToInfoNavigation
+            goToInfoNavigation = { }
         )
         FloatingButtonProfile(
             modifier = Modifier.constrainAs(floatingProfile) {
                 end.linkTo(parent.end, 48.dp)
                 bottom.linkTo(parent.bottom, 60.dp)
             },
-            goToProfileNavigation = goToProfileNavigation
+            goToProfileNavigation = { }
         )
     }
 }
@@ -130,14 +121,14 @@ private fun HomeScreenContent(
 @Composable
 private fun ButtonSchedule(
     modifier: Modifier = Modifier,
-    goToBranchesScreen: () -> Unit
+    event: (HomeScreenEvents) -> Unit
 ) {
     OutlinedButton(
         colors = ButtonDefaults.buttonColors(
             containerColor = AlwaysWhite
         ),
         onClick = {
-            goToBranchesScreen()
+            event(HomeScreenEvents.NavigateToChoseBranch)
         },
         modifier = modifier
     ) {
@@ -189,8 +180,6 @@ private fun FloatingButtonProfile(
 @Preview(showBackground = true)
 private fun HomeScreenPreview() {
     HomeScreenContent(
-        goToBranchesScreen = {},
-        goToProfileNavigation = {},
-        goToInfoNavigation = {}
+        event = {}
     )
 }
