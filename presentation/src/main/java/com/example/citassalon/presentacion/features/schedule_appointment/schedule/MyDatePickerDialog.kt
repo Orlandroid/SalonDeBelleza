@@ -8,7 +8,6 @@ import androidx.compose.material3.SelectableDates
 import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.citassalon.presentacion.features.extensions.convertMillisToDate
 
@@ -56,6 +55,6 @@ fun MyDatePickerDialog(
 
 @Composable
 @Preview(showBackground = true)
-fun DatePickerDialogPreview(modifier: Modifier = Modifier) {
+private fun DatePickerDialogPreview() {
     MyDatePickerDialog(onDismiss = {}, onDateSelected = {})
 }

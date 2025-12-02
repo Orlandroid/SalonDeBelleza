@@ -36,7 +36,7 @@ fun ConfirmAppointmentDialog(
 }
 
 @Composable
-fun ConfirmAppointmentDialogContent(
+private fun ConfirmAppointmentDialogContent(
     modifier: Modifier = Modifier,
     clickOnCancel: () -> Unit,
     clickOnAccept: () -> Unit
@@ -71,7 +71,7 @@ fun ConfirmAppointmentDialogContent(
 
 @Composable
 @Preview(showBackground = true)
-fun ConfirmAppointmentDialogPreview() {
+private fun ConfirmAppointmentDialogPreview() {
     ConfirmAppointmentDialog(
         clickOnCancel = {},
         clickOnAccept = {}

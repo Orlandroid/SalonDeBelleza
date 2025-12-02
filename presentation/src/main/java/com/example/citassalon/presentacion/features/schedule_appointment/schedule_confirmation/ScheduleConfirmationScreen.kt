@@ -20,8 +20,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -43,60 +42,73 @@ import com.example.citassalon.presentacion.features.theme.AlwaysBlack
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.entities.remote.migration.Staff
+import com.example.domain.perfil.AppointmentFirebase
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun ScheduleConfirmationScreen(
     navController: NavController,
     flowMainViewModel: FlowMainViewModel,
-    agendarConfirmacionViewModel: AgendarConfirmacionViewModel = hiltViewModel(),
+    agendarConfirmacionViewModel: ConfirmScheduleViewModel = hiltViewModel(),
     navigateToAppointmentSchedule: () -> Unit
 ) {
     val uiState = flowMainViewModel.staffUiState.collectAsStateWithLifecycle()
+    val scheduleState = agendarConfirmacionViewModel.uiState.collectAsStateWithLifecycle()
+    LaunchedEffect(Unit) {
+        agendarConfirmacionViewModel.effects.collectLatest {
+            when (it) {
+                ScheduleAppointmentEffects.NavigateToAppointComplete -> {
+                    navigateToAppointmentSchedule.invoke()
+                }
+            }
+        }
+    }
     BaseComposeScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.confirmar_cita))
     ) {
         ScheduleConfirmationScreenContent(
             staffUiState = uiState.value,
+            scheduleState = scheduleState.value,
             servicePrice = flowMainViewModel.listOfServices[0].precio.toString(),
             dateAppointment = flowMainViewModel.dateAppointment,
             hourAppointment = flowMainViewModel.hourAppointment,
-            saveAppointment = {
-                agendarConfirmacionViewModel.saveAppointment(
-                    flowMainViewModel.getAppointmentFirebase()
-                )
-            },
-            navigateToAppointmentSchedule = navigateToAppointmentSchedule
+            appointment = flowMainViewModel.getAppointmentFirebase(),
+            event = agendarConfirmacionViewModel::onEvents
         )
     }
 }
 
 
 @Composable
-fun ScheduleConfirmationScreenContent(
+private fun ScheduleConfirmationScreenContent(
     modifier: Modifier = Modifier,
+    appointment: AppointmentFirebase,
     staffUiState: StaffUiState,
+    scheduleState: ScheduleAppointmentState,
     servicePrice: String,
     dateAppointment: String,
     hourAppointment: String,
-    saveAppointment: () -> Unit,
-    navigateToAppointmentSchedule: () -> Unit
+    event: (ScheduleAppointmentEvents) -> Unit
 ) {
-    val showConfirmationDialog = remember { mutableStateOf(false) }
-    if (showConfirmationDialog.value) {
+    if (scheduleState.showConfirmationDialog) {
         ConfirmAppointmentDialog(
             clickOnAccept = {
-                showConfirmationDialog.value = false
-                navigateToAppointmentSchedule.invoke()
+                event(
+                    ScheduleAppointmentEvents.OnConfirmationAppointmentAccepted(appointment = appointment)
+                )
             },
-            clickOnCancel = { showConfirmationDialog.value = false }
+            clickOnCancel = {
+                event(ScheduleAppointmentEvents.OnConfirmationDialogCancel)
+            }
         )
     }
     Column(
-        modifier
+        modifier = modifier
             .fillMaxSize()
             .background(Background),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.SpaceBetween
     ) {
         Spacer(modifier = Modifier.height(16.dp))
         Text(text = stringResource(id = R.string.confirmacionDeCita), fontSize = 20.sp)
@@ -122,14 +134,14 @@ fun ScheduleConfirmationScreenContent(
             iconImage = R.drawable.watch_later_24px
         )
 
-        Spacer(modifier = Modifier.height(32.dp))
+        Spacer(modifier = Modifier.weight(1f))
         Row(
             horizontalArrangement = Arrangement.Absolute.SpaceAround,
             modifier = Modifier.fillMaxWidth()
         ) {
             Text(
                 text =
-                stringResource(id = R.string.Total),
+                    stringResource(id = R.string.Total),
                 fontSize = 20.sp
             )
             Text(
@@ -137,12 +149,12 @@ fun ScheduleConfirmationScreenContent(
                 fontSize = 20.sp
             )
         }
-        Spacer(modifier = Modifier.height(24.dp))
+        Spacer(modifier = Modifier.height(32.dp))
         ConfirmButton {
-            showConfirmationDialog.value = true
-            saveAppointment.invoke()
+            event(ScheduleAppointmentEvents.OnSaveAppointment)
         }
     }
+
 }
 
 @Composable
@@ -150,9 +162,10 @@ private fun ConfirmButton(
     modifier: Modifier = Modifier,
     onClick: () -> Unit
 ) {
-    Button(modifier = modifier
-        .fillMaxWidth()
-        .padding(16.dp),
+    Button(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(16.dp),
         colors = ButtonDefaults.buttonColors(containerColor = Color(0xff051721)),
         onClick = {
             onClick.invoke()
@@ -200,16 +213,18 @@ private fun ButtonImageAndText(
 
 @Composable
 @Preview(showBackground = true)
-fun ScheduleConfirmationScreenContentPreview() {
+private fun ScheduleConfirmationScreenContentPreview() {
     ScheduleConfirmationScreenContent(
         servicePrice = "150",
         dateAppointment = "12/09/2024",
         hourAppointment = "12:30 am",
-        saveAppointment = {},
-        navigateToAppointmentSchedule = {},
         staffUiState = StaffUiState(
             branchName = "Zacatecas",
             currentStaff = Staff.mockStaff()
-        )
+        ),
+        event = {},
+        appointment = AppointmentFirebase(),
+        scheduleState = ScheduleAppointmentState()
+
     )
 }
