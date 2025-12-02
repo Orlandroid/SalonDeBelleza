@@ -41,6 +41,7 @@ import com.example.citassalon.presentacion.features.schedule_appointment.staff.S
 import com.example.citassalon.presentacion.features.theme.AlwaysBlack
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
+import com.example.domain.entities.remote.migration.Service
 import com.example.domain.entities.remote.migration.Staff
 import com.example.domain.perfil.AppointmentFirebase
 import kotlinx.coroutines.flow.collectLatest
@@ -49,13 +50,13 @@ import kotlinx.coroutines.flow.collectLatest
 fun ScheduleConfirmationScreen(
     navController: NavController,
     flowMainViewModel: FlowMainViewModel,
-    agendarConfirmacionViewModel: ConfirmScheduleViewModel = hiltViewModel(),
+    confirmScheduleViewModel: ConfirmScheduleViewModel = hiltViewModel(),
     navigateToAppointmentSchedule: () -> Unit
 ) {
     val uiState = flowMainViewModel.staffUiState.collectAsStateWithLifecycle()
-    val scheduleState = agendarConfirmacionViewModel.uiState.collectAsStateWithLifecycle()
+    val scheduleState = confirmScheduleViewModel.uiState.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
-        agendarConfirmacionViewModel.effects.collectLatest {
+        confirmScheduleViewModel.effects.collectLatest {
             when (it) {
                 ScheduleAppointmentEffects.NavigateToAppointComplete -> {
                     navigateToAppointmentSchedule.invoke()
@@ -74,7 +75,7 @@ fun ScheduleConfirmationScreen(
             dateAppointment = flowMainViewModel.dateAppointment,
             hourAppointment = flowMainViewModel.hourAppointment,
             appointment = flowMainViewModel.getAppointmentFirebase(),
-            event = agendarConfirmacionViewModel::onEvents
+            event = confirmScheduleViewModel::onEvents
         )
     }
 }
@@ -220,10 +221,19 @@ private fun ScheduleConfirmationScreenContentPreview() {
         hourAppointment = "12:30 am",
         staffUiState = StaffUiState(
             branchName = "Zacatecas",
-            currentStaff = Staff.mockStaff()
+            currentStaff = Staff.mockStaff(),
+            listOfServices = listOf(Service("", "paint hair", 14, true))
         ),
         event = {},
-        appointment = AppointmentFirebase(),
+        appointment = AppointmentFirebase(
+            idAppointment = "",
+            establishment = "zacatecas",
+            employee = "orlando",
+            service = "uñas",
+            date = "12/09/2024",
+            hour = "12:30 am",
+            total = "150"
+        ),
         scheduleState = ScheduleAppointmentState()
 
     )
