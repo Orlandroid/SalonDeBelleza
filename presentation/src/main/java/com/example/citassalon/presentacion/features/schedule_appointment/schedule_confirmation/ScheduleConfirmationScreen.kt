@@ -111,8 +111,9 @@ private fun ScheduleConfirmationScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceBetween
     ) {
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(32.dp))
         Text(text = stringResource(id = R.string.confirmacionDeCita), fontSize = 20.sp)
+        Spacer(modifier = Modifier.weight(1F))
         Spacer(modifier = Modifier.height(8.dp))
         ButtonImageAndText(
             text = staffUiState.branchName,
@@ -178,7 +179,8 @@ private fun ConfirmButton(
 
 @Composable
 private fun ButtonImageAndText(
-    text: String, size: Dp = 24.dp,
+    text: String,
+    sizeIcon: Dp = 24.dp,
     @DrawableRes iconImage: Int
 ) {
     Card(
@@ -186,9 +188,7 @@ private fun ButtonImageAndText(
         modifier = Modifier
             .padding(horizontal = 16.dp)
             .fillMaxWidth(),
-        onClick = {
-
-        },
+        onClick = {},
         shape = RoundedCornerShape(24.dp)
     ) {
         Row(
@@ -199,12 +199,12 @@ private fun ButtonImageAndText(
                 contentDescription = null,
                 modifier = Modifier
                     .padding(start = 16.dp)
-                    .size(size)
+                    .size(sizeIcon)
             )
             Spacer(modifier = Modifier.width(32.dp))
             Text(
+                modifier = Modifier.padding(start = 10.dp, top = 8.dp, bottom = 8.dp),
                 text = text,
-                Modifier.padding(start = 10.dp, top = 8.dp, bottom = 8.dp),
                 color = AlwaysBlack
             )
         }

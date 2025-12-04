@@ -43,7 +43,7 @@ fun DetailStaffScreen(
 }
 
 @Composable
-fun DetailStaffScreenContent(
+private fun DetailStaffScreenContent(
     modifier: Modifier = Modifier, staff: Staff
 ) {
     var rating: Float by remember { mutableFloatStateOf(staff.valoracion.toFloat()) }
@@ -62,11 +62,12 @@ fun DetailStaffScreenContent(
                 .padding(top = 24.dp)
         )
         Text(
-            text = staff.nombre, Modifier.padding(top = 32.dp), fontSize = 24.sp
+            modifier = Modifier.padding(top = 32.dp), fontSize = 24.sp,
+            text = staff.nombre
         )
         Text(
+            modifier = Modifier.padding(top = 16.dp),
             text = stringResource(id = R.string.evaluacion),
-            Modifier.padding(top = 16.dp),
             fontSize = 24.sp
         )
         Spacer(modifier = Modifier.height(16.dp))
@@ -85,6 +86,6 @@ fun DetailStaffScreenContent(
 
 @Composable
 @Preview(showBackground = true)
-fun DetailStaffScreenPreview() {
+private fun DetailStaffScreenPreview() {
     DetailStaffScreenContent(modifier = Modifier, staff = Staff.mockStaff())
 }

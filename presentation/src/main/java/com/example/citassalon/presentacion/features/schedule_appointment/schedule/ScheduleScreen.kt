@@ -25,8 +25,7 @@ import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,80 +35,71 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
-import com.example.citassalon.presentacion.features.extensions.dateFormat
-import com.example.citassalon.presentacion.features.extensions.getCurrentDateTime
 import com.example.citassalon.presentacion.features.extensions.getHourFormat
-import com.example.citassalon.presentacion.features.extensions.getInitialTime
-import com.example.citassalon.presentacion.features.extensions.toStringFormat
 import com.example.citassalon.presentacion.features.schedule_appointment.FlowMainViewModel
-import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
 import com.example.citassalon.presentacion.features.schedule_appointment.staff.StaffUiState
 import com.example.citassalon.presentacion.features.theme.Background
+import com.example.domain.entities.remote.migration.Service
+import com.example.domain.entities.remote.migration.Staff
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScheduleScreen(
     navController: NavController,
-    flowMainViewModel: FlowMainViewModel
+    flowMainViewModel: FlowMainViewModel,
+    scheduleScreenViewmodel: ScheduleScreenViewmodel = hiltViewModel()
 ) {
-    val date = remember { mutableStateOf(getCurrentDateTime().toStringFormat(dateFormat)) }
-    val myTime = remember { mutableStateOf(getInitialTime()) }
-    val showDatePickerDialog = remember { mutableStateOf(false) }
-    val showTimePickerDialog = remember { mutableStateOf(false) }
-    flowMainViewModel.hourAppointment = myTime.value
-    flowMainViewModel.dateAppointment = date.value
+    val uiState by scheduleScreenViewmodel.uiState.collectAsStateWithLifecycle()
+    flowMainViewModel.hourAppointment = uiState.hourAppointment
+    flowMainViewModel.dateAppointment = uiState.dateAppointment
     val state = flowMainViewModel.staffUiState.collectAsStateWithLifecycle()
+    val onEvents = scheduleScreenViewmodel::onEvents
     BaseComposeScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.agendar_hora))
     ) {
-        if (showTimePickerDialog.value) {
-            MyTimePickerDialog(onDismiss = {
-                showTimePickerDialog.value = false
-            }, onConfirm = {
-                showTimePickerDialog.value = false
-                myTime.value = it.getHourFormat()
-            }
+        if (uiState.showTimeDialog) {
+            MyTimePickerDialog(
+                onDismiss = {
+                    onEvents(ScheduleScreenEvents.OnDismissTime)
+                }, onConfirm = {
+                    onEvents(ScheduleScreenEvents.OnConfirmTime(time = it.getHourFormat()))
+                }
             )
         }
-        if (showDatePickerDialog.value) {
-            MyDatePickerDialog(onDismiss = {
-                showDatePickerDialog.value = false
-            }, onDateSelected = {
-                date.value = it
-            })
+        if (uiState.showDateDialog) {
+            MyDatePickerDialog(
+                onDismiss = {
+                    onEvents(ScheduleScreenEvents.OnDismissDate)
+                },
+                onDateSelected = { dateSelected ->
+                    onEvents(ScheduleScreenEvents.OnConfirmDate(dateSelected))
+                }
+            )
         }
         ScheduleScreenContent(
-            date = date.value,
-            time = myTime.value,
-            clickOnOpenDialogDate = {
-                showDatePickerDialog.value = true
-            },
-            clickOnOpenDialogTime = {
-                showTimePickerDialog.value = true
-            },
+            date = uiState.dateAppointment,
+            time = uiState.hourAppointment,
+            onEvents = onEvents,
             state = state.value,
-        ) {
-            navController.navigate(ScheduleAppointmentScreens.ScheduleConfirmationRoute)
-        }
+        )
     }
 }
 
 @Composable
-fun ScheduleScreenContent(
+private fun ScheduleScreenContent(
     modifier: Modifier = Modifier,
     state: StaffUiState,
     date: String,
     time: String,
-    clickOnOpenDialogDate: () -> Unit,
-    clickOnOpenDialogTime: () -> Unit,
-    goToConfirmationScreen: () -> Unit
+    onEvents: (event: ScheduleScreenEvents) -> Unit
 ) {
     ConstraintLayout(
         modifier
@@ -117,14 +107,15 @@ fun ScheduleScreenContent(
             .background(Background)
     ) {
         val (cardInfoStaff, cardTime) = createRefs()
-        ElevatedCard(elevation = CardDefaults.cardElevation(
-            defaultElevation = 8.dp
-        ), shape = MaterialTheme.shapes.medium, modifier = Modifier.constrainAs(cardInfoStaff) {
-            top.linkTo(parent.top, 32.dp)
-            start.linkTo(parent.start, 16.dp)
-            end.linkTo(parent.end, 16.dp)
-            width = Dimension.fillToConstraints
-        }) {
+        ElevatedCard(
+            elevation = CardDefaults.cardElevation(
+                defaultElevation = 8.dp
+            ), shape = MaterialTheme.shapes.medium, modifier = Modifier.constrainAs(cardInfoStaff) {
+                top.linkTo(parent.top, 32.dp)
+                start.linkTo(parent.start, 16.dp)
+                end.linkTo(parent.end, 16.dp)
+                width = Dimension.fillToConstraints
+            }) {
             StaffInfo(
                 image = state.currentStaff?.image_url.orEmpty(),
                 name = state.currentStaff?.nombre.orEmpty(),
@@ -151,13 +142,13 @@ fun ScheduleScreenContent(
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 InputDate(currentDate = date) {
-                    clickOnOpenDialogDate.invoke()
+                    onEvents(ScheduleScreenEvents.OnDateClicked)
                 }
                 InputTime(currentTime = time) {
-                    clickOnOpenDialogTime.invoke()
+                    onEvents(ScheduleScreenEvents.OnTimeClicked)
                 }
                 NextButton {
-                    goToConfirmationScreen.invoke()
+                    onEvents(ScheduleScreenEvents.OnNextButtonClicked)
                 }
             }
 
@@ -167,7 +158,7 @@ fun ScheduleScreenContent(
 
 
 @Composable
-fun StaffInfo(
+private fun StaffInfo(
     image: String,
     name: String,
     branch: String,
@@ -201,38 +192,46 @@ fun StaffInfo(
             text = services
         )
         Text(
+            modifier = Modifier.padding(bottom = 8.dp),
             fontSize = 30.sp,
-            text = price,
-            modifier = Modifier.padding(bottom = 8.dp)
+            text = price
         )
     }
 }
 
 
 @Composable
-fun InputDate(
+private fun InputDate(
     currentDate: String,
     clickOnIcon: () -> Unit
 ) {
-    TextField(enabled = false, value = currentDate, onValueChange = {
+    TextField(
+        enabled = false,
+        value = currentDate,
+        onValueChange = {
 
-    }, placeholder = {
-        Text(stringResource(id = R.string.add_date))
-    }, trailingIcon = {
-        Icon(imageVector = Icons.Default.CalendarToday,
-            contentDescription = null,
-            modifier = Modifier.clickable {
-                clickOnIcon.invoke()
-            }
-        )
-    })
+        },
+        placeholder = {
+            Text(stringResource(id = R.string.add_date))
+        },
+        trailingIcon = {
+            Icon(
+                imageVector = Icons.Default.CalendarToday,
+                contentDescription = null,
+                modifier = Modifier.clickable {
+                    clickOnIcon.invoke()
+                }
+            )
+        }
+    )
 }
 
 @Composable
-fun InputTime(
+private fun InputTime(
     currentTime: String, clickOnIconTime: () -> Unit
 ) {
-    TextField(modifier = Modifier.clickable { },
+    TextField(
+        modifier = Modifier.clickable { },
         enabled = false,
         value = currentTime,
         onValueChange = {
@@ -252,7 +251,7 @@ fun InputTime(
 }
 
 @Composable
-fun NextButton(
+private fun NextButton(
     goToConfirmationScreen: () -> Unit
 ) {
     Button(
@@ -266,13 +265,20 @@ fun NextButton(
 
 @Composable
 @Preview(showBackground = true)
-fun ScheduleScreenContentPreview() {
+private fun ScheduleScreenContentPreview() {
     ScheduleScreenContent(
-        goToConfirmationScreen = {},
         date = "12/07/2024",
         time = "15:42",
-        clickOnOpenDialogDate = {},
-        clickOnOpenDialogTime = {},
-        state = StaffUiState()
+        state = StaffUiState(
+            currentStaff = Staff(
+                id = "",
+                nombre = "Orlando",
+                sexo = "h",
+                image_url = "",
+                valoracion = 4
+            ),
+            listOfServices = listOf(Service(id = "", name = "Uñas", precio = 200))
+        ),
+        onEvents = {}
     )
 }
