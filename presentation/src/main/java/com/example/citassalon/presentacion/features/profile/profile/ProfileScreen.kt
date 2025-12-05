@@ -5,11 +5,17 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -148,34 +154,31 @@ private fun ProfileScreenContent(
     elementsProfile: List<ProfileItem>,
     clickOnItemProfile: (ProfileItem) -> Unit = {}
 ) {
-    ConstraintLayout(
+    Column(
         modifier = modifier
             .fillMaxSize()
             .background(Background)
     ) {
-        val (image, textUser, listProfile) = createRefs()
-        val myGuideline = createGuidelineFromTop(0.40f)
-        Image(
-            painter = painterResource(id = R.drawable.perfil),
-            contentDescription = null,
-            modifier = Modifier.constrainAs(image) {
-                linkTo(parent.start, parent.end)
-                top.linkTo(parent.top, 24.dp)
-                width = Dimension.value(100.dp)
-                height = Dimension.value(100.dp)
-            }
-        )
-        Text(
-            text = email,
-            fontSize = 20.sp,
-            modifier = Modifier.constrainAs(textUser) {
-                linkTo(parent.start, parent.end)
-                top.linkTo(image.bottom)
-                bottom.linkTo(listProfile.top)
-                width = Dimension.wrapContent
-                height = Dimension.wrapContent
-            }
-        )
+        Box(
+            modifier = Modifier
+                .fillMaxHeight(0.4f)
+                .fillMaxWidth()
+        ) {
+            Image(
+                modifier = Modifier
+                    .size(100.dp)
+                    .align(Alignment.Center),
+                painter = painterResource(id = R.drawable.perfil),
+                contentDescription = null,
+            )
+            Text(
+                modifier = Modifier
+                    .align(Alignment.TopCenter)
+                    .padding(top = 24.dp),
+                text = email,
+                fontSize = 20.sp,
+            )
+        }
         LazyColumn(
             modifier = Modifier
                 .border(
@@ -183,24 +186,17 @@ private fun ProfileScreenContent(
                     border = BorderStroke(0.dp, Color.White)
                 )
                 .background(Color.White)
-                .constrainAs(listProfile) {
-                    linkTo(parent.start, parent.end)
-                    bottom.linkTo(parent.bottom)
-                    top.linkTo(myGuideline)
-                    width = Dimension.matchParent
-                    height = Dimension.fillToConstraints
-                }
+                .fillMaxHeight()
         ) {
-            elementsProfile.forEach { itemProfile ->
-                item {
-                    ItemProfile(elementProfile = itemProfile) {
-                        clickOnItemProfile(itemProfile)
-                    }
+            items(elementsProfile.size) {
+                ItemProfile(elementProfile = elementsProfile[it]) {
+                    clickOnItemProfile(elementsProfile[it])
                 }
             }
         }
     }
 }
+
 
 @Composable
 private fun ItemProfile(
@@ -208,45 +204,35 @@ private fun ItemProfile(
     clickOnItem: () -> Unit
 ) {
     Card(
-        shape = RoundedCornerShape(16.dp),
         modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
+        shape = RoundedCornerShape(16.dp),
         onClick = { clickOnItem.invoke() }
     ) {
-        ConstraintLayout(
-            modifier = Modifier.fillMaxWidth()
+        Row(
+            modifier = Modifier,
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            val (row, icon) = createRefs()
-            Row(
-                verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.constrainAs(row) {
-                    start.linkTo(parent.start)
-                    end.linkTo(icon.start, 16.dp)
-                    width = Dimension.percent(1f)
-                }
-            ) {
-                MediumSpacer(orientation = Orientation.HORIZONTAL)
-                Image(
-                    painter = painterResource(id = elementProfile.image),
-                    contentDescription = null,
-                    modifier = Modifier.padding(start = 8.dp)
-                        .height(50.dp)
-                        .width(50.dp)
-                )
-                MediumSpacer(orientation = Orientation.HORIZONTAL)
-                Text(text = elementProfile.name, fontSize = 20.sp)
-            }
+            MediumSpacer(orientation = Orientation.HORIZONTAL)
+            Image(
+                modifier = Modifier
+                    .height(50.dp)
+                    .width(50.dp),
+                painter = painterResource(id = elementProfile.image),
+                contentDescription = null
+            )
+            MediumSpacer(orientation = Orientation.HORIZONTAL)
+            Text(text = elementProfile.name, fontSize = 20.sp)
+            Spacer(Modifier.weight(1f))
             Icon(
+                modifier = Modifier.padding(end = 16.dp),
                 painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_24),
                 contentDescription = null,
-                tint = Color.Black,
-                modifier = Modifier.constrainAs(icon) {
-                    end.linkTo(parent.end, 16.dp)
-                    linkTo(parent.top, parent.bottom)
-                }
+                tint = Color.Black
             )
         }
+
     }
 }
 
