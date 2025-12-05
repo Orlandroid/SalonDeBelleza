@@ -25,6 +25,7 @@ import androidx.compose.material3.OutlinedCard
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -33,8 +34,6 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -44,10 +43,12 @@ import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.extensions.getHourFormat
 import com.example.citassalon.presentacion.features.schedule_appointment.FlowMainViewModel
+import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
 import com.example.citassalon.presentacion.features.schedule_appointment.staff.StaffUiState
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.entities.remote.migration.Service
 import com.example.domain.entities.remote.migration.Staff
+import kotlinx.coroutines.flow.collectLatest
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -61,6 +62,15 @@ fun ScheduleScreen(
     flowMainViewModel.dateAppointment = uiState.dateAppointment
     val state = flowMainViewModel.staffUiState.collectAsStateWithLifecycle()
     val onEvents = scheduleScreenViewmodel::onEvents
+    LaunchedEffect(Unit) {
+        scheduleScreenViewmodel.effects.collectLatest {
+            when (it) {
+                ScheduleScreenEffects.NavigateToConfirmationScreen -> {
+                    navController.navigate(ScheduleAppointmentScreens.ScheduleConfirmationRoute)
+                }
+            }
+        }
+    }
     BaseComposeScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.agendar_hora))
@@ -101,58 +111,19 @@ private fun ScheduleScreenContent(
     time: String,
     onEvents: (event: ScheduleScreenEvents) -> Unit
 ) {
-    ConstraintLayout(
+    Column(
         modifier
             .fillMaxSize()
             .background(Background)
     ) {
-        val (cardInfoStaff, cardTime) = createRefs()
-        ElevatedCard(
-            elevation = CardDefaults.cardElevation(
-                defaultElevation = 8.dp
-            ), shape = MaterialTheme.shapes.medium, modifier = Modifier.constrainAs(cardInfoStaff) {
-                top.linkTo(parent.top, 32.dp)
-                start.linkTo(parent.start, 16.dp)
-                end.linkTo(parent.end, 16.dp)
-                width = Dimension.fillToConstraints
-            }) {
-            StaffInfo(
-                image = state.currentStaff?.image_url.orEmpty(),
-                name = state.currentStaff?.nombre.orEmpty(),
-                branch = state.branchName,
-                services = state.listOfServices[0].name,
-                price = state.listOfServices[0].precio.toString()
-            )
-        }
-        OutlinedCard(
-            shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
-            modifier = Modifier.constrainAs(cardTime) {
-                top.linkTo(cardInfoStaff.bottom, 32.dp)
-                start.linkTo(parent.start)
-                end.linkTo(parent.end)
-                bottom.linkTo(parent.bottom)
-                width = Dimension.fillToConstraints
-                height = Dimension.fillToConstraints
-            },
-            border = BorderStroke(2.dp, Color.Black)
-        ) {
-            Column(
-                Modifier.fillMaxSize(),
-                verticalArrangement = Arrangement.SpaceEvenly,
-                horizontalAlignment = Alignment.CenterHorizontally
-            ) {
-                InputDate(currentDate = date) {
-                    onEvents(ScheduleScreenEvents.OnDateClicked)
-                }
-                InputTime(currentTime = time) {
-                    onEvents(ScheduleScreenEvents.OnTimeClicked)
-                }
-                NextButton {
-                    onEvents(ScheduleScreenEvents.OnNextButtonClicked)
-                }
-            }
-
-        }
+        StaffInfo(
+            image = state.currentStaff?.image_url.orEmpty(),
+            name = state.currentStaff?.nombre.orEmpty(),
+            branch = state.branchName,
+            services = state.listOfServices[0].name,
+            price = state.listOfServices[0].precio.toString()
+        )
+        ScheduleInputs(date = date, time = time, onEvents = onEvents)
     }
 }
 
@@ -165,37 +136,75 @@ private fun StaffInfo(
     services: String,
     price: String
 ) {
-    Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceEvenly,
-        modifier = Modifier.fillMaxWidth()
+    ElevatedCard(
+        elevation = CardDefaults.cardElevation(
+            defaultElevation = 8.dp
+        ),
+        shape = MaterialTheme.shapes.medium,
+        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 32.dp)
     ) {
-        AsyncImage(
-            model = image,
-            contentDescription = "imageStaff",
-            modifier = Modifier
-                .height(150.dp)
-                .size(150.dp)
-                .padding(top = 24.dp)
-        )
-        Spacer(modifier = Modifier.height(16.dp))
-        Text(
-            fontSize = 30.sp,
-            text = name
-        )
-        Text(
-            fontSize = 30.sp,
-            text = branch
-        )
-        Text(
-            fontSize = 30.sp,
-            text = services
-        )
-        Text(
-            modifier = Modifier.padding(bottom = 8.dp),
-            fontSize = 30.sp,
-            text = price
-        )
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.SpaceEvenly,
+            modifier = Modifier.fillMaxWidth()
+        ) {
+            AsyncImage(
+                model = image,
+                contentDescription = "imageStaff",
+                modifier = Modifier
+                    .height(150.dp)
+                    .size(150.dp)
+                    .padding(top = 24.dp)
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                fontSize = 30.sp,
+                text = name
+            )
+            Text(
+                fontSize = 30.sp,
+                text = branch
+            )
+            Text(
+                fontSize = 30.sp,
+                text = services
+            )
+            Text(
+                modifier = Modifier.padding(bottom = 8.dp),
+                fontSize = 30.sp,
+                text = price
+            )
+        }
+    }
+}
+
+@Composable
+private fun ScheduleInputs(
+    date: String,
+    time: String,
+    onEvents: (event: ScheduleScreenEvents) -> Unit
+) {
+    OutlinedCard(
+        shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
+        modifier = Modifier.padding(top = 32.dp),
+        border = BorderStroke(2.dp, Color.Black)
+    ) {
+        Column(
+            Modifier.fillMaxSize(),
+            verticalArrangement = Arrangement.SpaceEvenly,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            InputDate(currentDate = date) {
+                onEvents(ScheduleScreenEvents.OnDateClicked)
+            }
+            InputTime(currentTime = time) {
+                onEvents(ScheduleScreenEvents.OnTimeClicked)
+            }
+            NextButton {
+                onEvents(ScheduleScreenEvents.OnNextButtonClicked)
+            }
+        }
+
     }
 }
 
@@ -264,12 +273,13 @@ private fun NextButton(
 }
 
 @Composable
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 private fun ScheduleScreenContentPreview() {
     ScheduleScreenContent(
         date = "12/07/2024",
         time = "15:42",
         state = StaffUiState(
+            branchName = "Zacatecas",
             currentStaff = Staff(
                 id = "",
                 nombre = "Orlando",

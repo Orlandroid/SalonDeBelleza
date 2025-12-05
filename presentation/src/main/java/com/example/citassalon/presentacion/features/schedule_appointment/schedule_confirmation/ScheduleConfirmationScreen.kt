@@ -235,6 +235,5 @@ private fun ScheduleConfirmationScreenContentPreview() {
             total = "150"
         ),
         scheduleState = ScheduleAppointmentState()
-
     )
 }

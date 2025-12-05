@@ -1,16 +1,45 @@
 package com.example.citassalon.presentacion.features.profile.profile
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.citassalon.R
+import androidx.lifecycle.viewModelScope
 import com.example.data.preferences.LoginPreferences
-import com.example.domain.perfil.MENU
 import com.example.domain.perfil.ProfileItem
-import com.google.firebase.auth.FirebaseUser
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+
+data class ProfileUiState(
+    val showAlertCloseSession: Boolean = false,
+    val user: String? = null,
+    val menusProfile: List<ProfileItem> = ProfileMenuProvider.getMenusProfile()
+)
+
+sealed class ProfileEvents {
+    object OnProfileClicked : ProfileEvents()
+    object OnHistoricalClicked : ProfileEvents()
+    object OnContactClicked : ProfileEvents()
+    object OnTermAndCondictionsClicked : ProfileEvents()
+    object OnCloseSession : ProfileEvents()
+    object OnDismissDialog : ProfileEvents()
+    object OnConfirmClicked : ProfileEvents()
+    object OnCancel : ProfileEvents()
+}
+
+sealed class ProfileEffects {
+    object CloseAndOpenActivity : ProfileEffects()
+    object NavigateToProfile : ProfileEffects()
+    object NavigateToHistory : ProfileEffects()
+    object NavigateToContacts : ProfileEffects()
+    object NavigateToTermAndCondictions : ProfileEffects()
+}
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
@@ -19,36 +48,74 @@ class ProfileViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    private val _firebaseUser = MutableLiveData<FirebaseUser>()
-    val firebaseUser: LiveData<FirebaseUser> get() = _firebaseUser
+    private val _uiState: MutableStateFlow<ProfileUiState> =
+        MutableStateFlow(ProfileUiState())
 
-    fun destroyUserSession() {
+    val uiState = _uiState.onStart {
+        _uiState.update { it.copy(user = repository.getUser()?.email) }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(500L),
+        initialValue = ProfileUiState()
+    )
+
+    private val _effects = Channel<ProfileEffects>()
+
+    val effects = _effects.receiveAsFlow()
+
+    fun onEvents(event: ProfileEvents) {
+        when (event) {
+            ProfileEvents.OnCloseSession -> {
+                _uiState.update { it.copy(showAlertCloseSession = true) }
+            }
+
+            ProfileEvents.OnContactClicked -> {
+                sendEffect(ProfileEffects.NavigateToContacts)
+            }
+
+            ProfileEvents.OnHistoricalClicked -> {
+                sendEffect(ProfileEffects.NavigateToHistory)
+            }
+
+            ProfileEvents.OnProfileClicked -> {
+                sendEffect(ProfileEffects.NavigateToProfile)
+            }
+
+            ProfileEvents.OnTermAndCondictionsClicked -> {
+                sendEffect(ProfileEffects.NavigateToTermAndCondictions)
+            }
+
+            ProfileEvents.OnDismissDialog -> {
+                _uiState.update { it.copy(showAlertCloseSession = false) }
+                destroyUserSession()
+                logout()
+                viewModelScope.launch {
+                    _effects.send(ProfileEffects.CloseAndOpenActivity)
+                }
+            }
+
+            ProfileEvents.OnConfirmClicked -> {
+                _uiState.update { it.copy(showAlertCloseSession = false) }
+            }
+
+            ProfileEvents.OnCancel -> {
+                _uiState.update { it.copy(showAlertCloseSession = false) }
+            }
+        }
+    }
+
+    private fun sendEffect(effect: ProfileEffects) {
+        viewModelScope.launch {
+            _effects.send(effect)
+        }
+    }
+
+    private fun destroyUserSession() {
         loginPreferences.destroyUserSession()
     }
 
-    fun logout() {
+    private fun logout() {
         repository.logout()
-    }
-
-    init {
-        _firebaseUser.value = repository.getUser()
-    }
-
-    //Todo add a provider because with that we can also used for previews
-    fun setElementsMenu(): List<ProfileItem> {
-        val elementsMenu = arrayListOf<ProfileItem>()
-        val perfil = ProfileItem("Perfil", R.drawable.perfil, MENU.PROFILE)
-        val historial = ProfileItem("Historial de citas", R.drawable.historial_menu, MENU.HISTORY)
-        val contactanos = ProfileItem("Contactanos", R.drawable.contactos, MENU.CONTACTS)
-        val terminos =
-            ProfileItem("Terminos y condiciones", R.drawable.terminos, MENU.TERMS_AND_CONDITIONS)
-        val cerrarSesion = ProfileItem("Cerrar sesion", R.drawable.cerrar, MENU.CLOSE_SESSION)
-        elementsMenu.add(perfil)
-        elementsMenu.add(historial)
-        elementsMenu.add(contactanos)
-        elementsMenu.add(terminos)
-        elementsMenu.add(cerrarSesion)
-        return elementsMenu
     }
 
 }

@@ -71,7 +71,7 @@ fun ScheduleStaffScreen(
 }
 
 @Composable
-fun ScheduleStaffScreenContent(
+private fun ScheduleStaffScreenContent(
     modifier: Modifier = Modifier,
     uiState: StaffUiState,
     onEvents: (ScheduleAppointmentEvents) -> Unit
@@ -99,7 +99,7 @@ fun ScheduleStaffScreenContent(
 }
 
 @Composable
-fun ListStaffs(
+private fun ListStaffs(
     listOfStaffs: List<Staff>,
     onEvents: (ScheduleAppointmentEvents) -> Unit,
 ) {
@@ -133,7 +133,7 @@ fun ListStaffs(
 }
 
 @Composable
-fun ButtonRandomStaff(onClick: () -> Unit) {
+private fun ButtonRandomStaff(onClick: () -> Unit) {
     Button(onClick = {
         onClick.invoke()
     }) {
@@ -143,7 +143,7 @@ fun ButtonRandomStaff(onClick: () -> Unit) {
 
 @Composable
 @Preview(showBackground = true)
-fun ScheduleStaffScreenContentPreview() {
+private fun ScheduleStaffScreenContentPreview() {
     ScheduleStaffScreenContent(
         uiState = StaffUiState(
             listOfStaffs = Staff.mockStaffList(),

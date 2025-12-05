@@ -21,7 +21,7 @@ fun AppNavigation() {
     ) {
         authNavigationGraph(
             navController = navController,
-            goToScheduleNav = { navController.navigate(AppNavigationRoutes.ScheduleNavigationRoute) },
+            goToScheduleFlow = { navController.navigate(AppNavigationRoutes.ScheduleNavigationRoute) },
             closeActivity = {
                 (activity as MainActivityCompose).finish()
             }

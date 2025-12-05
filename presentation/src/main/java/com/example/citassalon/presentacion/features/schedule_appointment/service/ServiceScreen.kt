@@ -1,6 +1,7 @@
 package com.example.citassalon.presentacion.features.schedule_appointment.service
 
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Card
@@ -50,7 +51,7 @@ fun ServiceScreen(
 }
 
 @Composable
-fun ServiceScreenContent(
+private fun ServiceScreenContent(
     modifier: Modifier = Modifier,
     staff: Staff,
     branch: String,
@@ -64,7 +65,7 @@ fun ServiceScreenContent(
             staff = staff,
             branch = branch
         )
-        MediumSpacer(orientation = Orientation.VERTICAL)
+        Spacer(Modifier.weight(1f))
         Card(
             colors = CardDefaults.cardColors(containerColor = BackgroundListsMainFlow)
         ) {
@@ -80,7 +81,7 @@ fun ServiceScreenContent(
 }
 
 @Composable
-fun ListServices(
+private fun ListServices(
     modifier: Modifier = Modifier,
     listOfServices: List<Service>,
     clickOnItem: (service: Service) -> Unit
@@ -103,7 +104,7 @@ fun ListServices(
 
 @Composable
 @Preview(showBackground = true)
-fun ServiceScreenContentPreview() {
+private fun ServiceScreenContentPreview() {
     ServiceScreenContent(
         staff = Staff.mockStaff(),
         branch = "Zacatecas",
