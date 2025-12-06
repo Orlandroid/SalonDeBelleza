@@ -2,6 +2,7 @@ package com.example.citassalon.presentacion.features.profile.historial_detail
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -22,8 +23,6 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavController
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
@@ -46,30 +45,26 @@ fun HistoryDetail(
 }
 
 @Composable
-fun HistoryDetailContent(
+private fun HistoryDetailContent(
     modifier: Modifier = Modifier,
     appointment: AppointmentObject
 ) {
-    ConstraintLayout(
-        modifier
+    Column(
+        modifier = modifier
             .fillMaxSize()
-            .background(Background)
+            .background(Background),
+        verticalArrangement = Arrangement.Center
     ) {
-        val (cardContent) = createRefs()
         Card(
             Modifier
                 .padding(all = 8.dp)
-                .constrainAs(cardContent) {
-                    width = Dimension.matchParent
-                    height = Dimension.wrapContent
-                    linkTo(parent.start, parent.end)
-                    linkTo(parent.top, parent.bottom)
-                },
+                .fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
             colors = CardDefaults.cardColors(containerColor = Color.White)
         ) {
             Column(
-                Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
+                modifier = Modifier.fillMaxWidth(),
+                horizontalAlignment = Alignment.CenterHorizontally
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
                 Image(
@@ -83,12 +78,13 @@ fun HistoryDetailContent(
                 TextHistory(text = "Fecha: ${appointment.date}")
                 Spacer(modifier = Modifier.height(16.dp))
             }
+
         }
     }
 }
 
 @Composable
-fun TextHistory(text: String) {
+private fun TextHistory(text: String) {
     Text(
         textAlign = TextAlign.Center,
         text = text,
@@ -101,7 +97,7 @@ fun TextHistory(text: String) {
 
 @Composable
 @Preview(showBackground = true)
-fun HistoryDetailContentPreview() {
+private fun HistoryDetailContentPreview() {
     HistoryDetailContent(
         appointment = AppointmentObject(
             establishment = "Zacatecas",
