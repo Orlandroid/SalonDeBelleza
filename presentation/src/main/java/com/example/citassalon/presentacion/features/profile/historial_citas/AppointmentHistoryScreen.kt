@@ -17,8 +17,6 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -35,68 +33,95 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.base.BaseComposeScreenState
+import com.example.citassalon.presentacion.features.base.BaseComposeScreen
+import com.example.citassalon.presentacion.features.base.ErrorState
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.dialogs.AlertDialogMessagesConfig
 import com.example.citassalon.presentacion.features.dialogs.BaseAlertDialogMessages
 import com.example.citassalon.presentacion.features.dialogs.IsTwoButtonsAlert
 import com.example.citassalon.presentacion.features.dialogs.KindOfMessage
-import com.example.domain.perfil.AppointmentFirebase
+import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
+import com.example.domain.perfil.Appointment
 
 @Composable
 fun AppointmentHistoryScreen(
     navController: NavHostController,
-    viewModel: HistorialCitasViewModel = hiltViewModel()
+    viewModel: AppointmentHistoryViewModel = hiltViewModel()
 ) {
-    val state = viewModel.state.collectAsStateWithLifecycle()
-    val shouldShowDialogRemoveAppointment = remember { mutableStateOf(false) }
-    val mIdAppointment = remember { mutableStateOf("") }
-    if (shouldShowDialogRemoveAppointment.value) {
-        BaseAlertDialogMessages(
-            onDismissRequest = {
-                shouldShowDialogRemoveAppointment.value = false
-            },
-            alertDialogMessagesConfig = AlertDialogMessagesConfig(
-                title = R.string.warning,
-                bodyMessage = stringResource(R.string.delete_row_message),
-                kindOfMessage = KindOfMessage.WARING,
-                onConfirmation = {
-                    shouldShowDialogRemoveAppointment.value = false
-                    viewModel.removeAppointment(mIdAppointment.value)
-                },
-                isTwoButtonsAlert = IsTwoButtonsAlert(
-                    clickOnCancel = {
-                        shouldShowDialogRemoveAppointment.value = false
-                    }
-                )
+    val viewState = viewModel.state.collectAsStateWithLifecycle()
+    when (viewState.value) {
+        AppointmentHistoryViewState.OnLoading -> {
+            ProgressDialog()
+        }
+
+        is AppointmentHistoryViewState.OnContent -> {
+            //Todo when whe don,t have data add NotDatView
+            AppointmentHistoryScreenContent(
+                uiState = (viewState.value as AppointmentHistoryViewState.OnContent).content,
+                onEvents = viewModel::onEvents,
+                navHostController = navController
             )
-        )
+        }
+
+        is AppointmentHistoryViewState.OnError -> {
+            ErrorState(AlertDialogMessagesConfig(bodyMessage = "Error"))//Todo migrate
+        }
 
     }
-    BaseComposeScreenState(
-        navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(
+}
+
+@Composable
+private fun AppointmentHistoryScreenContent(
+    uiState: AppointmentHistoryUiState,
+    onEvents: (event: AppointmentHistoryEvents) -> Unit,
+    navHostController: NavHostController
+) {
+    BaseComposeScreen(
+        navController = navHostController, toolbarConfiguration = ToolbarConfiguration(
             showToolbar = true, title = stringResource(id = R.string.historiasl_de_citas),
-        ),
-        state = state.value
-    ) { result ->
+        )
+    ) {
         AppointHistoryList(
-            appointments = result,
-            onRemoveAppointment = { idAppointment ->
-                shouldShowDialogRemoveAppointment.value = true
-                mIdAppointment.value = idAppointment
-            }
+            appointments = uiState.appointments,
+            onEvents = onEvents
+        )
+    }
+    if (uiState.showDialog) {
+        ShowDialogDeleteAppointment(
+            onEvents = onEvents
         )
     }
 }
 
 @Composable
-fun AppointHistoryList(
-    modifier: Modifier = Modifier,
-    appointments: List<AppointmentFirebase>,
-    onRemoveAppointment: (idAppointment: String) -> Unit
+private fun ShowDialogDeleteAppointment(
+    onEvents: (event: AppointmentHistoryEvents) -> Unit
 ) {
-    val openAlertDialog = remember { mutableStateOf(false) }
+    BaseAlertDialogMessages(
+        onDismissRequest = {
+            onEvents(AppointmentHistoryEvents.OnCancel)
+        }, alertDialogMessagesConfig = AlertDialogMessagesConfig(
+            title = R.string.warning,
+            bodyMessage = stringResource(R.string.delete_row_message),
+            kindOfMessage = KindOfMessage.WARING,
+            onConfirmation = {
+                onEvents(AppointmentHistoryEvents.OnAccept)
+            },
+            isTwoButtonsAlert = IsTwoButtonsAlert(
+                clickOnCancel = {
+                    onEvents(AppointmentHistoryEvents.OnCancel)
+                }
+            )
+        )
+    )
+}
+
+@Composable
+private fun AppointHistoryList(
+    modifier: Modifier = Modifier,
+    appointments: List<Appointment>,
+    onEvents: (event: AppointmentHistoryEvents) -> Unit
+) {
     Column(modifier.fillMaxSize()) {
         appointments.let { appointments ->
             if (appointments.isEmpty()) {
@@ -108,8 +133,7 @@ fun AppointHistoryList(
                             ItemAppointment(
                                 appointment = appointment,
                                 onRemoveAppointment = {
-                                    openAlertDialog.value = true
-                                    onRemoveAppointment.invoke(appointment.idAppointment)
+                                    onEvents(AppointmentHistoryEvents.OnRemove(appointment.id))
                                 }
                             )
                         }
@@ -121,8 +145,8 @@ fun AppointHistoryList(
 }
 
 @Composable
-fun ItemAppointment(
-    appointment: AppointmentFirebase,
+private fun ItemAppointment(
+    appointment: Appointment,
     onRemoveAppointment: () -> Unit
 ) {
     Card(
@@ -131,8 +155,7 @@ fun ItemAppointment(
         shape = RoundedCornerShape(16.dp)
     ) {
         Column(
-            Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
                 modifier = Modifier
@@ -143,15 +166,15 @@ fun ItemAppointment(
             )
             Text(text = appointment.service, fontSize = 24.sp)
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = appointment.establishment, fontSize = 24.sp)
+            Text(text = appointment.branch, fontSize = 24.sp)
             Spacer(modifier = Modifier.height(16.dp))
             Text(
+                modifier = Modifier.clickable {
+                    onRemoveAppointment.invoke()
+                },
                 color = Color.Red.copy(alpha = .80f),
                 text = "Remove",
                 fontSize = 24.sp,
-                modifier = Modifier.clickable {
-                    onRemoveAppointment.invoke()
-                }
             )
         }
     }
@@ -160,16 +183,20 @@ fun ItemAppointment(
 
 @Composable
 @Preview(showBackground = true)
-fun AppointHistoryListPreview(modifier: Modifier = Modifier) {
-    val mAppointment = AppointmentFirebase(
-        establishment = "establishment",
+private fun AppointHistoryListPreview() {
+    val mAppointment = Appointment(
+        branch = "establishment",
         service = "service",
+        id = ""
     )
-    AppointHistoryList(appointments = listOf(mAppointment, mAppointment), onRemoveAppointment = {})
+    AppointHistoryList(
+        appointments = listOf(mAppointment, mAppointment),
+        onEvents = {}
+    )
 }
 
 @Composable
-fun NotDatView() {
+private fun NotDatView() {
     val composition by rememberLottieComposition(
         LottieCompositionSpec.RawRes(
             getRandomNoDataAnimation()
@@ -177,11 +204,11 @@ fun NotDatView() {
     )
     Box(Modifier.fillMaxSize()) {
         LottieAnimation(
-            iterations = LottieConstants.IterateForever,
-            composition = composition,
             modifier = Modifier
                 .height(250.dp)
                 .width(250.dp),
+            iterations = LottieConstants.IterateForever,
+            composition = composition,
             alignment = Alignment.Center
         )
     }

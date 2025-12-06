@@ -3,6 +3,7 @@ package com.example.data.di
 
 import com.example.data.firebase.FireBaseSource
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
 import dagger.Module
 import dagger.Provides
@@ -30,5 +31,16 @@ object ModuleFirebase {
     @Singleton
     @Provides
     fun provideFirebaseRealtimeInstance(): FirebaseDatabase = FirebaseDatabase.getInstance()
+
+
+    @Singleton
+    @Provides
+    fun provideFirebaseRealtimeDatabaseReference(
+        firebaseDatabase: FirebaseDatabase,
+        firebaseAuth: FirebaseAuth
+    ): DatabaseReference {
+        val uuidUser = firebaseAuth.uid
+        return firebaseDatabase.reference.child("Appointment").child(uuidUser!!)
+    }
 
 }
