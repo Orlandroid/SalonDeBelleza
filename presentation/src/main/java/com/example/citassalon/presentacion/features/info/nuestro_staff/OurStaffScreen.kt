@@ -4,9 +4,14 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.IntrinsicSize
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -21,69 +26,78 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.base.BaseComposeScreenState
+import com.example.citassalon.presentacion.features.base.BaseComposeScreen
+import com.example.citassalon.presentacion.features.base.BaseScreenStateV2
+import com.example.citassalon.presentacion.features.base.getContentOrNull
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
+import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.theme.Background
-import com.example.domain.entities.remote.dummyUsers.User
 
 @Composable
 fun OurStaffScreen(
     navController: NavController,
     ourStaffViewModel: OurStaffViewModel = hiltViewModel()
 ) {
-    val staffs = ourStaffViewModel.state.collectAsStateWithLifecycle()
-    LaunchedEffect(Unit) {
-        ourStaffViewModel.getStaffsUsers()
-    }
-    BaseComposeScreenState(
-        navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.nuestro_staff)),
-        state = staffs.value
-    ) { result ->
-        OurStaffScreenContent(users = result.users)
+    val uiState = ourStaffViewModel.state.collectAsStateWithLifecycle()
+    when (uiState.value) {
+
+        BaseScreenStateV2.OnLoading -> {
+            ProgressDialog()
+        }
+
+        is BaseScreenStateV2.OnContent -> {
+            LaunchedEffect(Unit) {
+                ourStaffViewModel.getStaffsUsers()
+            }
+            BaseComposeScreen(
+                navController = navController,
+                toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.nuestro_staff)),
+            ) {
+                uiState.value.getContentOrNull()?.let {
+                    OurStaffScreenContent(users = it.staffs.users.toUserUiList())
+                }
+            }
+        }
+
+        is BaseScreenStateV2.OnError -> {
+
+        }
     }
 }
 
 @Composable
-fun OurStaffScreenContent(modifier: Modifier = Modifier, users: List<User>?) {
-    ConstraintLayout(
-        modifier
+private fun OurStaffScreenContent(
+    modifier: Modifier = Modifier,
+    users: List<UserUi>
+) {
+    Column(
+        modifier = modifier
             .fillMaxSize()
             .background(Background)
     ) {
-        val myGuideline = createGuidelineFromTop(0.15f)
-        val (list, text) = createRefs()
-        Text(
-            fontSize = 24.sp,
-            textAlign = TextAlign.Center,
-            text = stringResource(id = R.string.nustro_staff),
-            modifier = Modifier.constrainAs(text) {
-                linkTo(parent.start, parent.end)
-                linkTo(parent.top, list.top)
-                width = Dimension.fillToConstraints
-                height = Dimension.wrapContent
-            }
-        )
+        Column(Modifier.fillMaxHeight(0.15f)) {
+            Text(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(top = 8.dp),
+                fontSize = 24.sp,
+                textAlign = TextAlign.Center,
+                text = stringResource(id = R.string.nustro_staff),
+            )
+        }
         Card(
-            Modifier.constrainAs(list) {
-                linkTo(parent.start, parent.end)
-                top.linkTo(myGuideline)
-                bottom.linkTo(parent.bottom)
-                width = Dimension.fillToConstraints
-                height = Dimension.fillToConstraints
-            }, colors = CardDefaults.cardColors(
+            modifier = Modifier.fillMaxHeight(),
+            colors = CardDefaults.cardColors(
                 containerColor = Color.White
             )
         ) {
             LazyColumn {
-                users?.forEach { user ->
+                users.forEach { user ->
                     item {
                         OurStaffItem(user)
                     }
@@ -94,34 +108,30 @@ fun OurStaffScreenContent(modifier: Modifier = Modifier, users: List<User>?) {
 }
 
 @Composable
-fun OurStaffItem(user: User) {
+private fun OurStaffItem(user: UserUi) {
     Card(
-        Modifier
+        modifier = Modifier
             .fillMaxWidth()
-            .padding(8.dp), border = BorderStroke(1.dp, Color.Black)
+            .padding(8.dp),
+        border = BorderStroke(1.dp, Color.Black)
     ) {
-        ConstraintLayout(Modifier.fillMaxWidth()) {
-            val (image, colum) = createRefs()
-            AsyncImage(model = user.image,
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(IntrinsicSize.Max)
+        ) {
+            AsyncImage(
+                modifier = Modifier
+                    .size(100.dp)
+                    .fillMaxHeight(),
+                model = user.image,
                 contentDescription = "ImageOurStaff",
-                modifier = Modifier.constrainAs(image) {
-                    top.linkTo(parent.top)
-                    start.linkTo(parent.start)
-                    width = Dimension.value(100.dp)
-                    height = Dimension.value(100.dp)
-                }
             )
-            Column(verticalArrangement = Arrangement.SpaceAround,
+            Column(
                 modifier = Modifier
                     .padding(start = 8.dp)
-                    .constrainAs(colum) {
-                        top.linkTo(parent.top)
-                        start.linkTo(image.end)
-                        end.linkTo(parent.end)
-                        bottom.linkTo(parent.bottom)
-                        width = Dimension.fillToConstraints
-                        height = Dimension.fillToConstraints
-                    }
+                    .fillMaxHeight(),
+                verticalArrangement = Arrangement.Center
             ) {
                 Text(
                     text = "${user.firstName} ${user.lastName}",
@@ -134,7 +144,7 @@ fun OurStaffItem(user: User) {
                     fontWeight = FontWeight.Bold
                 )
                 Text(
-                    text = user.address.address,
+                    text = user.address,
                     fontSize = 16.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -146,8 +156,22 @@ fun OurStaffItem(user: User) {
 
 @Composable
 @Preview(showBackground = true)
-fun OurStaffScreenContentPreview() {
-    OurStaffScreenContent(users = emptyList())
+private fun OurStaffScreenContentPreview() {
+    val user = UserUi(
+        firstName = "Naruto",
+        "Uzumaki",
+        "android@gmail.com",
+        address = "Mexico",
+        image = ""
+    )
+    OurStaffScreenContent(
+        users = listOf(
+            user,
+            user,
+            user,
+            user
+        )
+    )
 
 }
 

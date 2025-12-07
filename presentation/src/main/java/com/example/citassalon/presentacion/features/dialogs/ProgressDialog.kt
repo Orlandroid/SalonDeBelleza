@@ -39,6 +39,6 @@ fun ProgressDialog() {
 
 @Composable
 @Preview(showBackground = true)
-fun ProgressDialogPreview() {
+private fun ProgressDialogPreview() {
     ProgressDialog()
 }

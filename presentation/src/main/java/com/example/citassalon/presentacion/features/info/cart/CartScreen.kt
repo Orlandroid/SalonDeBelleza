@@ -13,38 +13,38 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.asImageBitmap
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
-import com.example.citassalon.presentacion.features.extensions.base64StringToBitmap
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
-import com.example.domain.entities.db.ProductDb
-import com.example.domain.entities.remote.Product
-import com.example.domain.mappers.toProduct
+import com.example.domain.entities.ProductUi
+import com.example.domain.entities.toProductUiList
 
 @Composable
-fun CartScreen(navController: NavController, viewModel: CartViewModel = hiltViewModel()) {
+fun CartScreen(
+    navController: NavController, viewModel: CartViewModel = hiltViewModel()
+) {
     val allProducts = viewModel.allIProducts.observeAsState()
     BaseComposeScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(title = "8.0 $")
     ) {
-        CartScreenContent(products = allProducts.value)
+        CartScreenContent(products = allProducts.value?.toProductUiList())
     }
 
 }
 
 @Composable
-fun CartScreenContent(
-    modifier: Modifier = Modifier,
-    products: List<ProductDb>?
+private fun CartScreenContent(
+    modifier: Modifier = Modifier, products: List<ProductUi>?
 ) {
     ConstraintLayout(
         modifier = modifier
@@ -52,14 +52,12 @@ fun CartScreenContent(
             .background(Background)
     ) {
         val (list) = createRefs()
-        LazyColumn(modifier = Modifier.constrainAs(list) {
-        }
-        ) {
+        LazyColumn(modifier = Modifier.constrainAs(list) {}) {
             products?.let { listProducts ->
                 if (listProducts.isNotEmpty()) {
                     listProducts.forEach { product ->
                         item {
-                            ItemCart(productDb = product.toProduct())
+                            ItemCart(productDb = product)
                         }
                     }
                 }
@@ -69,7 +67,7 @@ fun CartScreenContent(
 }
 
 @Composable
-fun ItemCart(productDb: Product) {
+private fun ItemCart(productDb: ProductUi) {
     Card(
         Modifier
             .fillMaxWidth()
@@ -89,30 +87,28 @@ fun ItemCart(productDb: Product) {
                     width = Dimension.value(100.dp)
                     height = Dimension.value(100.dp)
                 },
-                bitmap = productDb.image.base64StringToBitmap().asImageBitmap(),
+//                bitmap = productDb.image.base64StringToBitmap().asImageBitmap(),
+                //Todo add error handlir for image on previews
+                painter = painterResource(R.drawable.image15_mask),
                 contentDescription = "Image of product"
             )
             Text(
-                text = productDb.title,
-                modifier = Modifier
-                    .constrainAs(name) {
-                        start.linkTo(image.end)
-                        top.linkTo(parent.top)
-                        end.linkTo(parent.end)
-                        bottom.linkTo(parent.bottom)
-                        width = Dimension.value(120.dp)
-                        height = Dimension.wrapContent
-                    }
-            )
-            Text(text = "$ ${productDb.price}",
-                modifier = Modifier.constrainAs(price) {
+                text = productDb.title, modifier = Modifier.constrainAs(name) {
+                    start.linkTo(image.end)
+                    top.linkTo(parent.top)
+                    end.linkTo(parent.end)
+                    bottom.linkTo(parent.bottom)
+                    width = Dimension.value(120.dp)
+                    height = Dimension.wrapContent
+                })
+            Text(
+                text = "$ ${productDb.price}", modifier = Modifier.constrainAs(price) {
                     linkTo(parent.top, parent.bottom)
                     start.linkTo(name.end)
                     end.linkTo(parent.end, 16.dp)
                     width = Dimension.wrapContent
                     height = Dimension.wrapContent
-                }
-            )
+                })
         }
     }
 }
@@ -121,7 +117,18 @@ fun ItemCart(productDb: Product) {
 @Composable
 @Preview(showBackground = true)
 fun CartScreenContentPreview() {
-    ItemCart(Product.dummyProduct())
+    ItemCart(
+        ProductUi(
+            id = 1,
+            title = "Usb",
+            price = 45.0,
+            description = "Usb",
+            category = "",
+            image = "",
+            imageBase64 = "",
+            rating = 1.0
+        )
+    )
 }
 
 
