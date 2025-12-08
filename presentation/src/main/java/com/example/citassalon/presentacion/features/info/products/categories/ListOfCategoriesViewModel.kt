@@ -1,41 +1,73 @@
 package com.example.citassalon.presentacion.features.info.products.categories
 
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.presentacion.features.base.BaseViewModel
-import com.example.citassalon.presentacion.features.base.BaseScreenState
-import com.example.citassalon.presentacion.main.NetworkHelper
+import com.example.citassalon.presentacion.features.base.BaseScreenStateV2
 import com.example.data.Repository
-import com.example.data.di.CoroutineDispatchers
+import com.example.data.di.IoDispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
 import javax.inject.Inject
+
+data class CategoriesUiState(
+    val categories: List<String> = emptyList()
+)
+
+sealed class CategoriesEvents {
+    data class OnCategoryClicked(val category: String) : CategoriesEvents()
+}
+
+sealed class CategoriesEffects {
+    data class NavigateToProducts(val category: String) : CategoriesEffects()
+}
 
 @HiltViewModel
 class ListOfCategoriesViewModel @Inject constructor(
-    coroutineDispatchers: CoroutineDispatchers,
     private val repository: Repository,
-    networkHelper: NetworkHelper
-) : BaseViewModel(coroutineDispatchers, networkHelper) {
+    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
+) : ViewModel() {
 
-    var wasCallService = false
 
-    private val _state: MutableStateFlow<BaseScreenState<List<String>>> =
-        MutableStateFlow(BaseScreenState.Loading())
-    val state = _state.asStateFlow()
+    private val _effects = Channel<CategoriesEffects>()
+    val effects = _effects.receiveAsFlow()
 
-    fun getCategoriesFakeStore() = viewModelScope.launch(Dispatchers.IO) {
-        safeApiCallCompose(_state, coroutineDispatchers) {
-            delay(3000)
-            val response = repository.getCategories()
-            withContext(Dispatchers.Main) {
-                _state.value = BaseScreenState.Success(response)
+    private val _state: MutableStateFlow<BaseScreenStateV2<CategoriesUiState>> =
+        MutableStateFlow(BaseScreenStateV2.OnLoading)
+    val state = _state.onStart {
+        getCategoriesFakeStore()
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000L),
+        BaseScreenStateV2.OnLoading
+    )
+
+    fun onEvents(event: CategoriesEvents) {
+        when (event) {
+            is CategoriesEvents.OnCategoryClicked -> {
+                viewModelScope.launch {
+                    _effects.send(CategoriesEffects.NavigateToProducts(event.category))
+                }
             }
         }
     }
+
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
+        _state.update { BaseScreenStateV2.OnError(error = exception) }
+    }
+
+    private fun getCategoriesFakeStore() =
+        viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
+            val categories = repository.getCategories()
+            _state.update { BaseScreenStateV2.OnContent(content = CategoriesUiState(categories)) }
+        }
 
 }

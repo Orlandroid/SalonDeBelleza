@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -19,14 +20,20 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.base.BaseComposeScreenState
+import com.example.citassalon.presentacion.features.base.BaseComposeScreen
+import com.example.citassalon.presentacion.features.base.BaseScreenStateV2
+import com.example.citassalon.presentacion.features.base.ErrorState
 import com.example.citassalon.presentacion.features.base.MediumSpacer
 import com.example.citassalon.presentacion.features.base.Orientation
+import com.example.citassalon.presentacion.features.base.getContentOrNull
 import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
+import com.example.citassalon.presentacion.features.dialogs.AlertDialogMessagesConfig
+import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
 import com.example.citassalon.presentacion.features.theme.Background
+import kotlinx.coroutines.flow.collectLatest
 
 const val FAKE_STORE = "Fake store"
 const val DUMMY_JSON = "DummyJSON"
@@ -41,33 +48,48 @@ fun CategoriesScreen(
     navController: NavController,
     viewmodel: ListOfCategoriesViewModel = hiltViewModel()
 ) {
-    val categories = viewmodel.state.collectAsStateWithLifecycle()
-    LaunchedEffect(Unit) {
-        if (viewmodel.wasCallService.not()) {
-            viewmodel.wasCallService = true
-            viewmodel.getCategoriesFakeStore()
+    val uiState by viewmodel.state.collectAsStateWithLifecycle()
+    when (uiState) {
+        BaseScreenStateV2.OnLoading -> {
+            ProgressDialog()
         }
-    }
-    BaseComposeScreenState(
-        navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.categorias)),
-        state = categories.value
-    ) { result ->
-        CategoriesScreenContent(
-            categories = result,
-            store = Store(FAKE_STORE)
-        ) { chosenCategory ->
-            navController.navigate(InfoNavigationScreens.ProductsRoute(category = chosenCategory))
+
+        is BaseScreenStateV2.OnContent<*> -> {
+            LaunchedEffect(Unit) {
+                viewmodel.effects.collectLatest {
+                    when (it) {
+                        is CategoriesEffects.NavigateToProducts -> {
+                            navController.navigate(InfoNavigationScreens.ProductsRoute(category = it.category))
+                        }
+                    }
+                }
+            }
+            BaseComposeScreen(
+                navController = navController,
+                toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.categorias))
+            ) {
+                uiState.getContentOrNull()?.let { categoriesUiState ->
+                    CategoriesScreenContent(
+                        categories = categoriesUiState.categories,
+                        store = Store(FAKE_STORE),
+                        onEvent = viewmodel::onEvents
+                    )
+                }
+            }
+        }
+
+        is BaseScreenStateV2.OnError -> {
+            ErrorState(AlertDialogMessagesConfig(bodyMessage = "Error${(uiState as BaseScreenStateV2.OnError).error}"))
         }
     }
 }
 
 @Composable
-fun CategoriesScreenContent(
+private fun CategoriesScreenContent(
     modifier: Modifier = Modifier,
     categories: List<String>,
     store: Store,
-    goToProductsScreen: (category: String) -> Unit
+    onEvent: (event: CategoriesEvents) -> Unit
 ) {
     Column(
         modifier
@@ -77,23 +99,24 @@ fun CategoriesScreenContent(
     ) {
         MediumSpacer(orientation = Orientation.VERTICAL)
         Image(
-            painter = painterResource(id = R.drawable.estar),
-            contentDescription = null,
             modifier = Modifier
                 .height(150.dp)
-                .width(150.dp)
+                .width(150.dp),
+            painter = painterResource(id = R.drawable.estar),
+            contentDescription = null
         )
         MediumSpacer(orientation = Orientation.VERTICAL)
         store.let { store ->
             when (store.name) {
                 FAKE_STORE -> {
                     Categories(categories = categories) { category ->
-                        goToProductsScreen(category)
+                        onEvent(CategoriesEvents.OnCategoryClicked(category))
                     }
                 }
 
                 DUMMY_JSON -> {
-//                    ShowCategories(categories = categoriesDummyjson)
+                    //Todo Add the dummyProduct json api
+//                  ShowCategories(categories = categoriesDummyjson)
                 }
             }
         }
@@ -126,7 +149,7 @@ private fun Categories(
 
 @Composable
 @Preview(showBackground = true)
-fun CategoriesScreenContentPreview() {
+private fun CategoriesScreenContentPreview() {
     CategoriesScreenContent(
         categories = listOf(
             "electronics",
@@ -134,7 +157,7 @@ fun CategoriesScreenContentPreview() {
             "men,s clothing"
         ),
         store = Store(FAKE_STORE),
-        goToProductsScreen = {}
+        onEvent = {}
     )
 }
 
