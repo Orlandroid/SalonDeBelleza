@@ -78,7 +78,7 @@ fun ButtonWithIcon(
             Text(
                 modifier = Modifier.align(Alignment.Center),
                 text = buttonText,
-                color = MaterialTheme.colorScheme.onPrimaryContainer,
+                color = Color.Black,
                 textAlign = TextAlign.Center,
                 fontSize = 16.sp,
             )

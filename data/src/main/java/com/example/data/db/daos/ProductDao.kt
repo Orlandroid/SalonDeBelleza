@@ -30,6 +30,6 @@ interface ProductDao {
     fun getProductDbById(id: Int): Flow<ProductDb>
 
     @Query("DELETE  FROM ProductDb")
-    suspend fun deleteAll()
+    suspend fun deleteAll(): Int
 
 }

@@ -19,9 +19,7 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.painter.BrushPainter
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -41,7 +39,10 @@ import com.gowtham.ratingbar.RatingBarStyle
 
 
 @Composable
-fun DetailProductScreen(navController: NavController, product: Product) {
+fun DetailProductScreen(
+    navController: NavController,
+    product: Product
+) {
     BaseComposeScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.detail_product))
@@ -52,7 +53,10 @@ fun DetailProductScreen(navController: NavController, product: Product) {
 }
 
 @Composable
-fun DetailProductScreenContent(modifier: Modifier = Modifier, product: Product) {
+private fun DetailProductScreenContent(
+    modifier: Modifier = Modifier,
+    product: Product
+) {
     var rating: Float by remember { mutableFloatStateOf(product.rating.rate.toFloat()) }
     Column(
         modifier
@@ -74,15 +78,7 @@ fun DetailProductScreenContent(modifier: Modifier = Modifier, product: Product) 
                 AsyncImage(
                     model = product.image,
                     contentDescription = null,
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
-                    placeholder = BrushPainter(
-                        Brush.linearGradient(
-                            listOf(
-                                Color(color = 0xFFFFFFAA),
-                                Color(color = 0xFFDDDDDD),
-                            )
-                        )
-                    )
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
                 DText(text = product.title, fontWeight = FontWeight.Bold)
                 Spacer(modifier = Modifier.height(8.dp))
@@ -105,7 +101,11 @@ fun DetailProductScreenContent(modifier: Modifier = Modifier, product: Product) 
 }
 
 @Composable
-fun DText(modifier: Modifier = Modifier, text: String, fontWeight: FontWeight? = null) {
+fun DText(
+    modifier: Modifier = Modifier,
+    text: String,
+    fontWeight: FontWeight? = null
+) {
     Text(
         text = text,
         fontSize = 24.sp,

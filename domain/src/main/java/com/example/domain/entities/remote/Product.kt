@@ -1,5 +1,6 @@
 package com.example.domain.entities.remote
 
+import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
 import androidx.navigation.NavType
@@ -8,6 +9,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
+@SuppressLint("UnsafeOptInUsageError")
 @Serializable
 data class Product(
     val id: Int,
@@ -25,7 +27,7 @@ data class Product(
             title = "Product",
             price = 5.00,
             description = "Description",
-            category = "",
+            category = "Category",
             image = "",
             rating = Rating(rate = 2.0, count = 1),
             imageBase64 = ""
@@ -33,6 +35,7 @@ data class Product(
     }
 }
 
+@SuppressLint("UnsafeOptInUsageError")
 @Serializable
 data class Rating(
     val rate: Double,
@@ -40,6 +43,7 @@ data class Rating(
 )
 
 object CustomNavType {
+
 
     val productType = object : NavType<Product>(
         isNullableAllowed = false

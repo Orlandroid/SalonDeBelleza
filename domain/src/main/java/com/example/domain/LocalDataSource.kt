@@ -14,7 +14,7 @@ interface LocalDataSource {
 
     suspend fun insertManyProductDb(productDb: List<ProductDb>)
 
-    suspend fun deleteAllProducts()
+    suspend fun deleteAllProducts(): Int
 
     fun getAllProducts(): Flow<List<ProductDb>>
 
