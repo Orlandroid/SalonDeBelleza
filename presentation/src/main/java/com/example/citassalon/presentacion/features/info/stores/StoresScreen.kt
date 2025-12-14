@@ -3,10 +3,10 @@ package com.example.citassalon.presentacion.features.info.stores
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -40,7 +40,7 @@ fun StoresScreen(navController: NavController) {
 }
 
 @Composable
-fun StoresScreenContent(
+private fun StoresScreenContent(
     modifier: Modifier = Modifier,
     goToCategories: () -> Unit
 ) {
@@ -56,33 +56,27 @@ fun StoresScreenContent(
             composition = composition,
             iterations = LottieConstants.IterateForever,
         )
-        StoresMenu {
-            goToCategories.invoke()
-        }
+        StoresMenu(goToStoresList = goToCategories)
     }
 }
 
 @Composable
-fun StoresMenu(
+private fun StoresMenu(
     goToStoresList: () -> Unit
 ) {
     LazyColumn(
         Modifier
             .background(Color.White)
-            .wrapContentHeight()
+            .fillMaxHeight()
     ) {
-        setStores().forEach { store ->
-            item {
-                Spacer(modifier = Modifier.height(8.dp))
-                TextWithArrow(
-                    config = TextWithArrowConfig(
-                        text = store.name,
-                        clickOnItem = {
-                            goToStoresList.invoke()
-                        }
-                    )
+        items(setStores().size) {
+            Spacer(modifier = Modifier.height(8.dp))
+            TextWithArrow(
+                config = TextWithArrowConfig(
+                    text = setStores()[it].name,
+                    clickOnItem = goToStoresList
                 )
-            }
+            )
         }
     }
 }
@@ -102,6 +96,6 @@ private fun setAnimation(): Int {
 
 @Composable
 @Preview(showBackground = true)
-fun StoresScreenContentPreview(modifier: Modifier = Modifier) {
+private fun StoresScreenContentPreview() {
     StoresScreenContent(goToCategories = {})
 }

@@ -36,7 +36,7 @@ fun BranchInfoScreen(navController: NavController) {
 }
 
 @Composable
-fun BranchInfoScreenContent(
+private fun BranchInfoScreenContent(
     modifier: Modifier = Modifier,
     goToOurStaffScreen: () -> Unit,
     goTOServicesScreen: () -> Unit,
@@ -68,7 +68,7 @@ fun BranchInfoScreenContent(
 }
 
 @Composable
-fun BranchInfoMenu(
+private fun BranchInfoMenu(
     modifier: Modifier = Modifier,
     goToOurStaffScreen: () -> Unit,
     goTOServicesScreen: () -> Unit,
@@ -85,19 +85,21 @@ fun BranchInfoMenu(
             )
         }
         item {
-            TextWithArrow(config = TextWithArrowConfig(
-                text = stringResource(R.string.servicios)
-            ) {
-                goTOServicesScreen.invoke()
-            }
+            TextWithArrow(
+                config = TextWithArrowConfig(
+                    text = stringResource(R.string.servicios)
+                ) {
+                    goTOServicesScreen.invoke()
+                }
             )
         }
         item {
-            TextWithArrow(config = TextWithArrowConfig(
-                text = stringResource(R.string.ubicacion)
-            ) {
-                goToLocationScreen.invoke()
-            }
+            TextWithArrow(
+                config = TextWithArrowConfig(
+                    text = stringResource(R.string.ubicacion)
+                ) {
+                    goToLocationScreen.invoke()
+                }
             )
         }
     }
@@ -106,7 +108,7 @@ fun BranchInfoMenu(
 
 @Composable
 @Preview(showBackground = true)
-fun BranchInfoScreenContentPreview() {
+private fun BranchInfoScreenContentPreview() {
     BranchInfoScreenContent(
         goTOServicesScreen = {},
         goToLocationScreen = {},

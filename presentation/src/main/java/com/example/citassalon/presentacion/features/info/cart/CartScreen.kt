@@ -2,9 +2,15 @@ package com.example.citassalon.presentacion.features.info.cart
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
@@ -12,12 +18,12 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.livedata.observeAsState
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.citassalon.R
@@ -30,7 +36,8 @@ import com.example.domain.entities.toProductUiList
 
 @Composable
 fun CartScreen(
-    navController: NavController, viewModel: CartViewModel = hiltViewModel()
+    navController: NavController,
+    viewModel: CartViewModel = hiltViewModel()
 ) {
     val allProducts = viewModel.allIProducts.observeAsState()
     BaseComposeScreen(
@@ -44,26 +51,25 @@ fun CartScreen(
 
 @Composable
 private fun CartScreenContent(
-    modifier: Modifier = Modifier, products: List<ProductUi>?
+    modifier: Modifier = Modifier,
+    products: List<ProductUi>?
 ) {
-    ConstraintLayout(
+    LazyColumn(
         modifier = modifier
             .fillMaxSize()
             .background(Background)
     ) {
-        val (list) = createRefs()
-        LazyColumn(modifier = Modifier.constrainAs(list) {}) {
-            products?.let { listProducts ->
-                if (listProducts.isNotEmpty()) {
-                    listProducts.forEach { product ->
-                        item {
-                            ItemCart(productDb = product)
-                        }
+        products?.let { listProducts ->
+            if (listProducts.isNotEmpty()) {
+                listProducts.forEach { product ->
+                    item {
+                        ItemCart(productDb = product)
                     }
                 }
             }
         }
     }
+
 }
 
 @Composable
@@ -77,38 +83,29 @@ private fun ItemCart(productDb: ProductUi) {
             containerColor = AlwaysWhite
         )
     ) {
-        ConstraintLayout {
-            val (image, name, price) = createRefs()
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
             Image(
-                modifier = Modifier.constrainAs(image) {
-                    start.linkTo(parent.start, 8.dp)
-                    top.linkTo(parent.top, 8.dp)
-                    bottom.linkTo(parent.bottom, 8.dp)
-                    width = Dimension.value(100.dp)
-                    height = Dimension.value(100.dp)
-                },
-//                bitmap = productDb.image.base64StringToBitmap().asImageBitmap(),
-                //Todo add error handlir for image on previews
+                modifier = Modifier
+                    .padding(horizontal = 8.dp)
+                    .size(100.dp),
                 painter = painterResource(R.drawable.image15_mask),
                 contentDescription = "Image of product"
             )
+            Spacer(modifier = Modifier.width(16.dp))
             Text(
-                text = productDb.title, modifier = Modifier.constrainAs(name) {
-                    start.linkTo(image.end)
-                    top.linkTo(parent.top)
-                    end.linkTo(parent.end)
-                    bottom.linkTo(parent.bottom)
-                    width = Dimension.value(120.dp)
-                    height = Dimension.wrapContent
-                })
+                modifier = Modifier.weight(1f),
+                text = productDb.description
+            )
             Text(
-                text = "$ ${productDb.price}", modifier = Modifier.constrainAs(price) {
-                    linkTo(parent.top, parent.bottom)
-                    start.linkTo(name.end)
-                    end.linkTo(parent.end, 16.dp)
-                    width = Dimension.wrapContent
-                    height = Dimension.wrapContent
-                })
+                modifier = Modifier
+                    .padding(end = 8.dp)
+                    .weight(1f),
+                text = "$ ${productDb.price}",
+            )
         }
     }
 }
@@ -116,17 +113,24 @@ private fun ItemCart(productDb: ProductUi) {
 
 @Composable
 @Preview(showBackground = true)
-fun CartScreenContentPreview() {
-    ItemCart(
-        ProductUi(
-            id = 1,
-            title = "Usb",
-            price = 45.0,
-            description = "Usb",
-            category = "",
-            image = "",
-            imageBase64 = "",
-            rating = 1.0
+private fun CartScreenContentPreview() {
+    val product = ProductUi(
+        id = 1,
+        title = "Usb",
+        price = 45.0,
+        description = "WD 2TB Elements Portable External Hard Drive - USB 3.0",
+        category = "",
+        image = "",
+        imageBase64 = "",
+        rating = 1.0
+    )
+    CartScreenContent(
+        products = listOf(
+            product,
+            product,
+            product,
+            product,
+            product
         )
     )
 }

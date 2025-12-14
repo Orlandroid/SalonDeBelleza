@@ -31,6 +31,8 @@ sealed class ProductScreenEvents {
 sealed class ProductScreenEffects {
     object NavigateToCar : ProductScreenEffects()
     object ProductSaved : ProductScreenEffects()
+    object ProductsDeletedSuccessfully : ProductScreenEffects()
+    object NoProductsToDelete : ProductScreenEffects()
     data class NavigateToProductDetail(val product: Product) : ProductScreenEffects()
 }
 
@@ -68,11 +70,15 @@ class ProductsViewModel @Inject constructor(
     fun onEvents(event: ProductScreenEvents) {
         when (event) {
             is ProductScreenEvents.OnCarClicked -> {
-                sendEffect(ProductScreenEffects.NavigateToCar)
+                viewModelScope.launch {
+                    sendEffect(ProductScreenEffects.NavigateToCar)
+                }
             }
 
             is ProductScreenEvents.OnProductClicked -> {
-                sendEffect(NavigateToProductDetail(product = event.product))
+                viewModelScope.launch {
+                    sendEffect(NavigateToProductDetail(product = event.product))
+                }
             }
 
             is ProductScreenEvents.OnAddProduct -> {
@@ -113,10 +119,8 @@ class ProductsViewModel @Inject constructor(
         }
     }
 
-    private fun sendEffect(effect: ProductScreenEffects) {
-        viewModelScope.launch {
-            _effects.send(effect)
-        }
+    private suspend fun sendEffect(effect: ProductScreenEffects) {
+        _effects.send(effect)
     }
 
 }

@@ -44,6 +44,7 @@ import com.example.citassalon.presentacion.features.components.ButtonWithIcon
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
+import com.example.citassalon.presentacion.features.info.InfoNavigationScreens.*
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.entities.remote.Product
@@ -66,10 +67,15 @@ fun ProductsScreen(
                         }
 
                         is ProductScreenEffects.NavigateToProductDetail -> {
-                            navController.navigate(InfoNavigationScreens.DetailProductRoute(it.product))
+                            navController.navigate(DetailProductRoute(it.product))
                         }
 
                         ProductScreenEffects.ProductSaved -> {
+
+                        }
+
+                        ProductScreenEffects.NoProductsToDelete -> {}
+                        ProductScreenEffects.ProductsDeletedSuccessfully -> {
 
                         }
                     }
@@ -124,7 +130,7 @@ private fun ProductsScreenContent(
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
-        Products(products = products, onEvents = onEvents)
+        Products(products = products.orEmpty(), onEvents = onEvents)
     }
 }
 
@@ -142,10 +148,10 @@ private fun ContainerImageCart(
 
 @Composable
 private fun Products(
-    products: List<Product>?,
+    products: List<Product>,
     onEvents: (event: ProductScreenEvents) -> Unit
 ) {
-    products?.let { myProducts ->
+    products.let { myProducts ->
         LazyVerticalGrid(
             columns = GridCells.Fixed(2)
         ) {
