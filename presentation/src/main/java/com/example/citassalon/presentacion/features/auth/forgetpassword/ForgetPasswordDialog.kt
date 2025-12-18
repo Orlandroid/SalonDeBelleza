@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.auth.login
+package com.example.citassalon.presentacion.features.auth.forgetpassword
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -17,8 +17,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -28,19 +27,23 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.Orientation
 import com.example.citassalon.presentacion.features.base.SmallSpacer
 import com.example.citassalon.presentacion.features.dialogs.BaseCustomDialog
 import com.example.citassalon.presentacion.features.theme.Background
-import com.example.citassalon.presentacion.util.isValidEmail
+import com.example.citassalon.presentacion.features.theme.Danger
+import com.example.citassalon.presentacion.features.auth.forgetpassword.ForgetPasswordViewmodel.ForgetPasswordEvents as Events
 
 @Composable
-fun AlertDialogForgetPasswordScreen(
+fun ForgetPasswordDialog(
     modifier: Modifier = Modifier,
-    onDismissRequest: () -> Unit,
-    clickOnResetPassword: (email: String) -> Unit = {}
+    onDismissRequest: () -> Unit
 ) {
+    val viewmodel = hiltViewModel<ForgetPasswordViewmodel>()
+    val uiState by viewmodel.state.collectAsStateWithLifecycle()
     BaseCustomDialog(
         modifier = modifier,
         onDismissRequest = { }
@@ -48,7 +51,10 @@ fun AlertDialogForgetPasswordScreen(
         AlertDialogForgetPasswordContent(
             modifier = modifier,
             onDismissRequest = onDismissRequest,
-            clickOnResetPassword = clickOnResetPassword
+            email = uiState.userEmail.orEmpty(),
+            isEnableButton = uiState.enableButton,
+            showErrorEmail = uiState.showErrorInvalidEmail,
+            onEvents = viewmodel::onEvents
         )
     }
 }
@@ -57,12 +63,14 @@ fun AlertDialogForgetPasswordScreen(
 private fun AlertDialogForgetPasswordContent(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
-    clickOnResetPassword: (email: String) -> Unit
+    onEvents: (Events) -> Unit,
+    showErrorEmail: Boolean,
+    email: String,
+    isEnableButton: Boolean
 ) {
-    val userEmail = remember { mutableStateOf("") }
-    val isEnableButton = remember { mutableStateOf(false) }
     Column(
-        modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
+        modifier = modifier.fillMaxWidth(),
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         AlertHeader(onDismissRequest = onDismissRequest)
         SmallSpacer(orientation = Orientation.VERTICAL)
@@ -72,21 +80,36 @@ private fun AlertDialogForgetPasswordContent(
             textAlign = TextAlign.Center,
             modifier = Modifier.wrapContentWidth()
         )
-        InputEmail(userEmail.value) { email ->
-            userEmail.value = email
-            isEnableButton.value = isValidEmail(email)
-        }
+        InputEmail(
+            userEmail = email,
+            showErrorEmail = showErrorEmail,
+            onEvents = onEvents
+        )
         SmallSpacer(orientation = Orientation.VERTICAL)
-        Button(
-            enabled = isEnableButton.value,
-            onClick = { clickOnResetPassword.invoke(userEmail.value) }) {
-            Text(text = stringResource(id = R.string.reset_password))
-        }
+        ResetPasswordButton(isEnableButton = isEnableButton, onEvents = onEvents)
     }
 }
 
 @Composable
-private fun AlertHeader(onDismissRequest: () -> Unit) {
+private fun ResetPasswordButton(
+    isEnableButton: Boolean,
+    onEvents: (Events) -> Unit,
+) {
+    Button(
+        modifier = Modifier.padding(bottom = 8.dp),
+        enabled = isEnableButton,
+        onClick = {
+            onEvents(Events.OnResetPassword)
+        }
+    ) {
+        Text(text = stringResource(id = R.string.reset_password))
+    }
+}
+
+@Composable
+private fun AlertHeader(
+    onDismissRequest: () -> Unit
+) {
     Box(
         modifier = Modifier
             .fillMaxWidth()
@@ -116,8 +139,9 @@ private fun AlertHeader(onDismissRequest: () -> Unit) {
 
 @Composable
 private fun InputEmail(
+    showErrorEmail: Boolean,
     userEmail: String,
-    onValueChange: (String) -> Unit
+    onEvents: (Events) -> Unit
 ) {
     OutlinedTextField(
         modifier = Modifier
@@ -126,7 +150,7 @@ private fun InputEmail(
         singleLine = true,
         value = userEmail,
         onValueChange = {
-            onValueChange(it)
+            onEvents(Events.OnEmailChange(it))
         },
         leadingIcon = {
             Icon(
@@ -136,7 +160,12 @@ private fun InputEmail(
         label = {
             Text(text = stringResource(id = R.string.ingresa_tu_correo))
         },
-        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email)
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+        supportingText = {
+            if (showErrorEmail) {
+                Text(text = stringResource(R.string.error_email), color = Danger)
+            }
+        }
 
     )
 }
@@ -145,5 +174,5 @@ private fun InputEmail(
 @Composable
 @Preview(showBackground = true)
 private fun AlertDialogForgetPasswordPreview() {
-    AlertDialogForgetPasswordScreen(onDismissRequest = {})
+    ForgetPasswordDialog(onDismissRequest = {})
 }

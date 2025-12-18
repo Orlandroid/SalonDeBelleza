@@ -3,12 +3,10 @@ package com.example.citassalon.presentacion.features.auth.login
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.presentacion.features.base.BaseViewModel
-import com.example.citassalon.presentacion.features.base.BaseScreenState
-import com.example.citassalon.presentacion.main.NetworkHelper
+import com.example.citassalon.presentacion.util.isValidEmail
 import com.example.data.Repository
-import com.example.data.di.CoroutineDispatchers
 import com.example.data.preferences.LoginPreferences
 import com.example.domain.state.SessionStatus
 import com.google.firebase.auth.GoogleAuthProvider
@@ -23,33 +21,58 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
 
+
+sealed class LoginEvents {
+    data class OnUserNameChange(val name: String) : LoginEvents()
+    data class OnPasswordChange(val password: String) : LoginEvents()
+    data class OnRememberUserChecker(val isCheck: Boolean) : LoginEvents()
+    data class OnShowPassword(val show: Boolean) : LoginEvents()
+    data object OnLoginClick : LoginEvents()
+    data object OnForgetPasswordClick : LoginEvents()
+    data object OnCloseDialogForgetPassword : LoginEvents()
+    data object OnCloseErrorDialog : LoginEvents()
+    data object GoToSignUpScreen : LoginEvents()
+    data object OnSignUpWithGoogle : LoginEvents()
+}
+
+sealed class LoginSideEffects {
+    data object NavigateToHomeScreen : LoginSideEffects()
+    data object NavigateToSignUp : LoginSideEffects()
+    data object OnCloseFlow : LoginSideEffects()
+    data object NavigateToScheduleNav : LoginSideEffects()
+}
+
+data class LoginUiState(
+    val userName: String = "",
+    val password: String = "",
+    val rememberUserName: Boolean = false,
+    val isLoading: Boolean = false,
+    val showPassword: Boolean = false,
+    val showDialogForgetPassword: Boolean = false,
+    val isButtonLoginEnable: Boolean = false,
+    val showErrorPassword: Boolean = false,
+    val showErrorUserName: Boolean = false,
+    val showResetPasswordError: Boolean = false,
+    val showDialogPasswordOrEmailWrong: Boolean = false,
+)
+
 @HiltViewModel
 class LoginViewModel
 @Inject constructor(
-    networkHelper: NetworkHelper,
     private val repository: Repository,
-    coroutineDispatchers: CoroutineDispatchers,
-    private val loginPreferences: LoginPreferences,
-) : BaseViewModel(
-    coroutineDispatchers = coroutineDispatchers,
-    networkHelper = networkHelper
-) {
-    private val _forgetPasswordStatus = MutableLiveData<SessionStatus>()
-    val forgetPasswordStatus: LiveData<SessionStatus> get() = _forgetPasswordStatus
+    private val loginPreferences: LoginPreferences
+) : ViewModel() {
 
     private val _loginGoogleStatus = MutableLiveData<SessionStatus>()
     val loginGoogleStatus: LiveData<SessionStatus> get() = _loginGoogleStatus
 
-    private val _uiState: MutableStateFlow<LoginUiState> =
+    private val _state: MutableStateFlow<LoginUiState> =
         MutableStateFlow(LoginUiState().copy(userName = getUserEmailFromPreferences()))
-    val uiState = _uiState.asStateFlow()
-
-    private val _state: MutableStateFlow<BaseScreenState<Unit>> =
-        MutableStateFlow(BaseScreenState.Idle())
     val state = _state.asStateFlow()
 
-    private val _loginSideEffects = Channel<LoginSideEffects>()
-    val loginSideEffects = _loginSideEffects.receiveAsFlow()
+
+    private val _effects = Channel<LoginSideEffects>()
+    val effects = _effects.receiveAsFlow()
 
 
     private fun saveUserEmailToPreferences(userEmail: String) {
@@ -72,106 +95,85 @@ class LoginViewModel
         when (event) {
 
             is LoginEvents.OnUserNameChange -> {
-                _uiState.update { oldState -> oldState.copy(userName = event.name) }
+                _state.update { it.copy(userName = event.name) }
                 validateForm()
             }
 
             is LoginEvents.OnPasswordChange -> {
-                _uiState.update { oldState -> oldState.copy(password = event.password) }
+                _state.update { it.copy(password = event.password) }
                 validateForm()
             }
 
             is LoginEvents.OnRememberUserChecker -> {
-                _uiState.update { oldState -> oldState.copy(rememberUserName = event.isCheck) }
+                _state.update { it.copy(rememberUserName = event.isCheck) }
             }
 
             is LoginEvents.OnForgetPasswordClick -> {
-                _uiState.update { oldState -> oldState.copy(showDialogForgetPassword = true) }
+                _state.update { it.copy(showDialogForgetPassword = true) }
             }
 
             is LoginEvents.OnLoginClick -> {
-                login(
-                    email = uiState.value.userName,
-                    password = uiState.value.password
-                )
+                login(email = state.value.userName, password = state.value.password)
             }
 
             is LoginEvents.OnSignUpWithGoogle -> {
-//                firebaseAuthWithGoogle()
+                firebaseAuthWithGoogle("343333")
             }
 
             is LoginEvents.GoToSignUpScreen -> {
                 viewModelScope.launch {
-                    _loginSideEffects.send(LoginSideEffects.GoToSignUp)
+                    _effects.send(LoginSideEffects.NavigateToSignUp)
                 }
             }
 
             is LoginEvents.OnCloseDialogForgetPassword -> {
-                _uiState.update { oldState -> oldState.copy(showDialogForgetPassword = false) }
-            }
-
-            is LoginEvents.OnResetPassword -> {
-                forgetPassword(event.email)
+                _state.update { it.copy(showDialogForgetPassword = false) }
             }
 
             is LoginEvents.OnShowPassword -> {
-                _uiState.update { oldState -> oldState.copy(showPassword = event.show) }
+                _state.update { it.copy(showPassword = event.show) }
             }
 
-            LoginEvents.OnSuccessLogin -> {
-                viewModelScope.launch {
-                    _loginSideEffects.send(LoginSideEffects.NavigateToHomeScreen)
-                }
+            LoginEvents.OnCloseErrorDialog -> {
+                _state.update { it.copy(showDialogPasswordOrEmailWrong = false) }
             }
         }
     }
 
     private fun validateForm() {
-        if (uiState.value.userName.isEmpty()) {
-            _uiState.update { oldState -> oldState.copy(showErrorUserName = true) }
-            //Todo Add one error label in the login screen to say to the user that user name can,t be empty
+        _state.update { it.copy(showErrorUserName = false, showErrorPassword = false) }
+        if (!isValidEmail(state.value.userName)) {
+            _state.update { it.copy(showErrorUserName = true) }
             return
         }
-        if (uiState.value.password.isEmpty()) {
-            _uiState.update { oldState -> oldState.copy(showErrorPassword = true) }
-            //Todo Add one error label in the login screen to say to the user that password can,t be empty
-            return
+        if (!isValidPassword()) {
+            _state.update { it.copy(showErrorPassword = true) }
         }
-        _uiState.update { oldState -> oldState.copy(isButtonLoginEnable = true) }
+        _state.update { it.copy(isButtonLoginEnable = true) }
     }
 
-    private fun forgetPassword(email: String) {
-        _forgetPasswordStatus.value = SessionStatus.LOADING
-        if (!networkHelper.isNetworkConnected()) {
-            _forgetPasswordStatus.value = SessionStatus.NETWORKERROR
-            return
-        }
-        repository.forgetPassword(email).addOnCompleteListener {
-            if (it.isSuccessful) {
-                _forgetPasswordStatus.value = SessionStatus.SUCCESS
-            } else {
-                _forgetPasswordStatus.value = SessionStatus.ERROR
-            }
-        }
+    private fun isValidPassword(): Boolean {
+        val passwordLength = state.value.password.trim().length
+        return passwordLength > 8
     }
 
     fun login(email: String, password: String) = viewModelScope.launch {
-        _uiState.update { oldState -> oldState.copy(isLoading = true) }
+        _state.update { oldState -> oldState.copy(isLoading = true) }
         delay(1.seconds)
-        if (!networkHelper.isNetworkConnected()) {
-            _state.value = BaseScreenState.ErrorNetwork()
-            _uiState.update { oldState -> oldState.copy(isLoading = false) }
-        }
         repository.login(email = email, password = password).addOnCompleteListener { response ->
             if (response.isSuccessful) {
                 saveUserSession()
                 saveUserEmailToPreferences(email)
                 viewModelScope.launch {
-                    _loginSideEffects.send(LoginSideEffects.NavigateToHomeScreen)
+                    _effects.send(LoginSideEffects.NavigateToHomeScreen)
                 }
             } else {
-                _state.value = BaseScreenState.Error(Exception(response.exception?.message))
-                _uiState.update { oldState -> oldState.copy(isLoading = false) }
+                _state.update { oldState ->
+                    oldState.copy(
+                        isLoading = false,
+                        showDialogPasswordOrEmailWrong = true
+                    )
+                }
             }
         }
     }
@@ -182,10 +184,10 @@ class LoginViewModel
 
     fun firebaseAuthWithGoogle(idToken: String) {
         _loginGoogleStatus.value = SessionStatus.LOADING
-        if (!networkHelper.isNetworkConnected()) {
-            _loginGoogleStatus.value = SessionStatus.NETWORKERROR
-            return
-        }
+//        if (!networkHelper.isNetworkConnected()) {
+//            _loginGoogleStatus.value = SessionStatus.NETWORKERROR
+//            return
+//        }
         val credential = GoogleAuthProvider.getCredential(idToken, null)
         repository.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {

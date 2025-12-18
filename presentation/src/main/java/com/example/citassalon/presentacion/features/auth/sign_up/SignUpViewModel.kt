@@ -163,6 +163,7 @@ class SignUpViewModel @Inject constructor(
         }
     }
 
+    //Todo migrate to one use case
     private fun validateForm(): Boolean {
         resetErrorsInputs()
         val passwordText = uiState.value.password.trim()

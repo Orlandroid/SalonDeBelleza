@@ -1,5 +1,6 @@
 package com.example.citassalon.presentacion.features.auth.login
 
+import android.app.Activity
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -11,7 +12,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Person
 import androidx.compose.material.icons.filled.Visibility
@@ -31,6 +31,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
@@ -47,56 +48,83 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.base.BaseComposeScreenState
+import com.example.citassalon.presentacion.features.app_navigation.AppNavigationRoutes
+import com.example.citassalon.presentacion.features.app_navigation.MainActivityCompose
+import com.example.citassalon.presentacion.features.auth.AuthScreens
+import com.example.citassalon.presentacion.features.auth.forgetpassword.ForgetPasswordDialog
+import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.dialogs.AlertDialogMessagesConfig
+import com.example.citassalon.presentacion.features.dialogs.BaseAlertDialogMessages
+import com.example.citassalon.presentacion.features.dialogs.KindOfMessage
 import com.example.citassalon.presentacion.features.theme.Background
+import com.example.citassalon.presentacion.features.theme.Danger
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun LoginScreen(
     navController: NavController,
-    viewModel: LoginViewModel = hiltViewModel(),
-    navigateToScheduleNav: () -> Unit,
-    navigateToSignUpScreen: () -> Unit,
-    onCloseFlow: () -> Unit
+    viewModel: LoginViewModel = hiltViewModel()
 ) {
+    val activity = LocalContext.current as Activity
     BackHandler {
-        onCloseFlow()
+        (activity as MainActivityCompose).finish()
     }
-    val state = viewModel.state.collectAsStateWithLifecycle()
-    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by viewModel.state.collectAsStateWithLifecycle()
     val focusManager = LocalFocusManager.current
     LaunchedEffect(viewModel) {
-        viewModel.loginSideEffects.collect { effect ->
+        viewModel.effects.collectLatest { effect ->
             when (effect) {
-                LoginSideEffects.GoToSignUp -> {
-                    navigateToSignUpScreen.invoke()
+                LoginSideEffects.NavigateToSignUp -> {
+                    navController.navigate(AuthScreens.SingUpRoute)
                 }
 
                 LoginSideEffects.NavigateToHomeScreen -> {
-                    navigateToScheduleNav.invoke()
+                    navController.navigate(AppNavigationRoutes.ScheduleNavigationRoute)
+                }
+
+                LoginSideEffects.NavigateToScheduleNav -> {
+                    navController.navigate(AppNavigationRoutes.ScheduleNavigationRoute)
+                }
+
+                LoginSideEffects.OnCloseFlow -> {
+                    (activity as MainActivityCompose).finish()
                 }
             }
         }
     }
-    BaseComposeScreenState(
-        alertDialogMessagesConfig = AlertDialogMessagesConfig(
-            bodyMessage = stringResource(R.string.error_password_or_user)
-        ),
+    BaseComposeScreen(
         navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(showToolbar = false),
-        state = state.value
+        toolbarConfiguration = ToolbarConfiguration(showToolbar = false)
     ) {
-
-    }
-    LoginScreenContent(
-        uiState = uiState.value,
-        onEvents = { event ->
-            viewModel.onEvents(event)
-        }, clearFocus = {
-            focusManager.clearFocus()
+        if (uiState.showDialogForgetPassword) {
+            ForgetPasswordDialog(
+                onDismissRequest = {
+                    viewModel.onEvents(LoginEvents.OnCloseDialogForgetPassword)
+                }
+            )
         }
-    )
+        if (uiState.showDialogPasswordOrEmailWrong) {
+            val config = AlertDialogMessagesConfig(
+                kindOfMessage = KindOfMessage.ERROR,
+                title = R.string.error,
+                bodyMessage = "Error invalid user or password",
+                onConfirmation = {
+                    viewModel.onEvents(LoginEvents.OnCloseErrorDialog)
+                }
+            )
+            BaseAlertDialogMessages(alertDialogMessagesConfig = config)
+        }
+        LoginScreenContent(
+            uiState = uiState,
+            onEvents = { event ->
+                viewModel.onEvents(event)
+            },
+            clearFocus = {
+                focusManager.clearFocus()
+            }
+        )
+    }
 }
 
 @Composable
@@ -107,7 +135,7 @@ private fun LoginScreenContent(
     clearFocus: () -> Unit
 ) {
     Column(
-        modifier
+        modifier = modifier
             .fillMaxSize()
             .background(Background)
             .padding(8.dp)
@@ -116,35 +144,26 @@ private fun LoginScreenContent(
             },
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        LottieAnimation()
-        UserName(
+        ImageLogin()
+        InputUserName(
             userName = uiState.userName,
-            onValueChange = { userName ->
-                onEvents(LoginEvents.OnUserNameChange(name = userName))
-            }
+            showErrorUserName = uiState.showErrorUserName,
+            onEvents = onEvents
         )
-        Password(
+        InputPassword(
             userPassword = uiState.password,
             isPasswordVisible = uiState.showPassword,
-            onShowPasswordClick = { showPassword ->
-                onEvents(LoginEvents.OnShowPassword(show = showPassword))
-            },
-            onValueChange = { mPassword ->
-                onEvents(LoginEvents.OnPasswordChange(password = mPassword))
-            }
+            showPasswordError = uiState.showErrorPassword,
+            onEvents = onEvents
         )
         CheckRememberUser(
             checkedState = uiState.rememberUserName,
-            onCheckedChange = { isCheck ->
-                onEvents(LoginEvents.OnRememberUserChecker(isCheck = isCheck))
-            }
+            onEvents = onEvents
         )
         Spacer(modifier = Modifier.height(16.dp))
         LoginButton(
             isEnableButton = uiState.isButtonLoginEnable,
-            onClick = {
-                onEvents(LoginEvents.OnLoginClick)
-            },
+            onEvents = onEvents,
             isLoading = uiState.isLoading
         )
         Spacer(modifier = Modifier.height(16.dp))
@@ -156,40 +175,27 @@ private fun LoginScreenContent(
         )
         Spacer(modifier = Modifier.height(16.dp))
         TextOr()
-        SignUpButton {
-            onEvents(LoginEvents.GoToSignUpScreen)
-        }
+        SignUpButton(onClick = { onEvents(LoginEvents.GoToSignUpScreen) })
         GoogleButton()
-        if (uiState.showDialogForgetPassword) {
-            AlertDialogForgetPasswordScreen(
-                onDismissRequest = {
-                    onEvents(LoginEvents.OnCloseDialogForgetPassword)
-                },
-                clickOnResetPassword = { mEmail ->
-                    onEvents(LoginEvents.OnResetPassword(email = mEmail))
-                }
-            )
-        }
     }
 }
 
 @Composable
-private fun LottieAnimation(modifier: Modifier = Modifier) {
+private fun ImageLogin() {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.login_icon))
     LottieAnimation(
         iterations = LottieConstants.IterateForever,
         composition = composition,
-        modifier = modifier
-            .height(150.dp)
-            .width(150.dp)
+        modifier = Modifier.size(150.dp)
     )
 }
 
 @Composable
-private fun UserName(
+private fun InputUserName(
     modifier: Modifier = Modifier,
     userName: String,
-    onValueChange: (String) -> Unit
+    showErrorUserName: Boolean,
+    onEvents: (LoginEvents) -> Unit
 ) {
     OutlinedTextField(
         modifier = modifier
@@ -197,24 +203,30 @@ private fun UserName(
             .padding(0.dp, 20.dp, 0.dp, 0.dp),
         value = userName,
         onValueChange = {
-            onValueChange.invoke(it)
+            onEvents(LoginEvents.OnUserNameChange(name = it))
         },
         leadingIcon = {
             Icon(Icons.Default.Person, contentDescription = "person")
         },
         label = {
             Text(text = stringResource(R.string.username))
-        }
+        },
+        supportingText = {
+            if (showErrorUserName) {
+                Text(text = stringResource(R.string.error_email), color = Danger)
+            }
+        },
+        singleLine = true
     )
 }
 
 @Composable
-private fun Password(
+private fun InputPassword(
     modifier: Modifier = Modifier,
     userPassword: String,
     isPasswordVisible: Boolean,
-    onShowPasswordClick: (show: Boolean) -> Unit,
-    onValueChange: (String) -> Unit
+    showPasswordError: Boolean,
+    onEvents: (LoginEvents) -> Unit
 ) {
     OutlinedTextField(
         modifier = modifier
@@ -222,12 +234,13 @@ private fun Password(
             .padding(0.dp, 20.dp, 0.dp, 0.dp),
         value = userPassword,
         onValueChange = { mPassword ->
-            onValueChange.invoke(mPassword)
+            onEvents(LoginEvents.OnPasswordChange(password = mPassword))
         },
         leadingIcon = {
-            IconButton(onClick = {
-                onShowPasswordClick(!isPasswordVisible)
-            }
+            IconButton(
+                onClick = {
+                    onEvents(LoginEvents.OnShowPassword(show = !isPasswordVisible))
+                }
             ) {
                 Icon(
                     imageVector = if (isPasswordVisible) Icons.Filled.Visibility
@@ -240,7 +253,13 @@ private fun Password(
             Text(text = "password")
         },
         visualTransformation = if (isPasswordVisible) VisualTransformation.None
-        else PasswordVisualTransformation()
+        else PasswordVisualTransformation(),
+        supportingText = {
+            if (showPasswordError) {
+                Text(text = stringResource(R.string.error_passsword), color = Danger)
+            }
+        },
+        singleLine = true
     )
 }
 
@@ -249,7 +268,7 @@ private fun Password(
 private fun CheckRememberUser(
     modifier: Modifier = Modifier,
     checkedState: Boolean,
-    onCheckedChange: (check: Boolean) -> Unit
+    onEvents: (LoginEvents) -> Unit
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
@@ -258,7 +277,7 @@ private fun CheckRememberUser(
         Checkbox(
             checked = checkedState,
             onCheckedChange = {
-                onCheckedChange(it)
+                onEvents(LoginEvents.OnRememberUserChecker(it))
             }
         )
         Text(text = stringResource(id = R.string.recuerda_tu_usuario))
@@ -270,11 +289,11 @@ private fun LoginButton(
     modifier: Modifier = Modifier,
     isEnableButton: Boolean,
     isLoading: Boolean,
-    onClick: () -> Unit
+    onEvents: (LoginEvents) -> Unit
 ) {
     OutlinedButton(
         enabled = isEnableButton, onClick = {
-            onClick.invoke()
+            onEvents(LoginEvents.OnLoginClick)
         },
         modifier = modifier
             .fillMaxWidth()
@@ -296,9 +315,10 @@ private fun LoginButton(
 }
 
 @Composable
-private fun TextOr(modifier: Modifier = Modifier) {
+private fun TextOr() {
     Row(
-        verticalAlignment = Alignment.CenterVertically, modifier = Modifier.padding(8.dp)
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier.padding(8.dp)
     ) {
         Spacer(
             modifier = Modifier
@@ -308,7 +328,7 @@ private fun TextOr(modifier: Modifier = Modifier) {
         )
         Text(text = "OR", Modifier.padding(horizontal = 16.dp))
         Spacer(
-            modifier = modifier
+            modifier = Modifier
                 .height(1.dp)
                 .weight(1F)
                 .background(Color.Black)
@@ -318,7 +338,8 @@ private fun TextOr(modifier: Modifier = Modifier) {
 
 @Composable
 private fun SignUpButton(
-    modifier: Modifier = Modifier, onClick: () -> Unit = {}
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
 ) {
     Button(
         onClick = {
@@ -335,17 +356,21 @@ private fun SignUpButton(
 
 @Composable
 private fun GoogleButton(
-    modifier: Modifier = Modifier, onClick: () -> Unit = {}
+    modifier: Modifier = Modifier,
+    onClick: () -> Unit = {}
 ) {
     Button(
         onClick = {
             onClick.invoke()
         },
         colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(bottom = 8.dp)
     ) {
         Text(
-            text = stringResource(id = R.string.ingresar_con_google), color = Color.Black
+            text = stringResource(id = R.string.ingresar_con_google),
+            color = Color.Black
         )
     }
 }

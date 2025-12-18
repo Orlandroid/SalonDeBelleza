@@ -14,8 +14,7 @@ import com.example.citassalon.presentacion.features.auth.splashscreen.SplashScre
 
 fun NavGraphBuilder.authNavigationGraph(
     navController: NavHostController,
-    goToScheduleFlow: () -> Unit,
-    closeActivity: () -> Unit
+    goToScheduleFlow: () -> Unit
 ) {
     navigation<AppNavigationRoutes.AuthNavigationRoute>(
         startDestination = AuthScreens.SplashRoute
@@ -29,14 +28,7 @@ fun NavGraphBuilder.authNavigationGraph(
             )
         }
         composable<AuthScreens.LoginRoute> {
-            LoginScreen(
-                navController = navController,
-                navigateToScheduleNav = goToScheduleFlow,
-                navigateToSignUpScreen = {
-                    navController.navigate(AuthScreens.SingUpRoute)
-                },
-                onCloseFlow = closeActivity
-            )
+            LoginScreen(navController = navController)
         }
         composable<AuthScreens.SingUpRoute> {
             SignUpScreen(navController)
