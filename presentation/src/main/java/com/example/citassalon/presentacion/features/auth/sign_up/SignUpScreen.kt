@@ -3,6 +3,8 @@ package com.example.citassalon.presentacion.features.auth.sign_up
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -19,8 +21,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,15 +33,13 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.base.BaseComposeScreenState
+import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.BaseOutlinedTextField
 import com.example.citassalon.presentacion.features.components.InputError
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
-import com.example.citassalon.presentacion.features.extensions.dateFormat
-import com.example.citassalon.presentacion.features.extensions.getCurrentDateTime
-import com.example.citassalon.presentacion.features.extensions.toStringFormat
 import com.example.citassalon.presentacion.features.schedule_appointment.schedule.MyDatePickerDialog
 import com.example.citassalon.presentacion.features.theme.Background
+import kotlinx.coroutines.flow.collectLatest
 
 
 @Composable
@@ -50,59 +48,45 @@ fun SignUpScreen(
     signUpViewModel: SignUpViewModel = hiltViewModel(),
 ) {
     val state = signUpViewModel.state.collectAsStateWithLifecycle()
-    val uiState = signUpViewModel.uiState.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
-        //Todo we need to add SideEffect
+        signUpViewModel.effects.collectLatest {
+            when (it) {
+                SignUpSideEffects.NavigateToLoginScreen -> {
+                    navHostController.navigate("")
+                }
+            }
+        }
     }
-    BaseComposeScreenState(
-        navController = navHostController,
-        toolbarConfiguration = ToolbarConfiguration(
-            showToolbar = false,
-            title = stringResource(id = R.string.signUp)
-        ),
-        state = state.value
+    if (state.value.showDatePicker) {
+        MyDatePickerDialog(onDismiss = {
+            signUpViewModel.onEvents(SingUpEvents.OnCloseDatePicker)
+        }, onDateSelected = {
+            signUpViewModel.onEvents(SingUpEvents.OnDateSelected(birthday = it))
+        })
+    }
+    BaseComposeScreen(
+        navController = navHostController, toolbarConfiguration = ToolbarConfiguration(
+            showToolbar = false, title = stringResource(id = R.string.signUp)
+        )
     ) {
         SignUpScreenContent(
-            modifier = Modifier,
-            uiState = uiState.value,
-            onEvents = { event ->
+            modifier = Modifier, uiState = state.value, onEvents = { event ->
                 signUpViewModel.onEvents(event)
-            }
-        )
+            })
     }
 }
 
 @Composable
-fun SignUpScreenContent(
+private fun SignUpScreenContent(
     modifier: Modifier = Modifier,
     uiState: SignUpUiState,
     onEvents: (SingUpEvents) -> Unit,
 ) {
-    val showDatePickerDialog = remember { mutableStateOf(false) }
-    val date = remember { mutableStateOf(getCurrentDateTime().toStringFormat(dateFormat)) }
-    if (showDatePickerDialog.value) {
-        MyDatePickerDialog(
-            onDismiss = {
-                showDatePickerDialog.value = false
-            },
-            onDateSelected = {
-                date.value = it
-                onEvents(SingUpEvents.OnBirthDayChange(birthday = it))
-            }
-        )
-    }
-    Column(
-        modifier
-            .fillMaxSize()
-            .background(Background)
-            .padding(8.dp),
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    ContainerSignUp {
         val logoImage = painterResource(id = R.drawable.logo)
         Image(
             painter = logoImage,
-            contentDescription = "SkedulyImage",
-            modifier.size(150.dp)
+            contentDescription = "SkedulyImage", modifier.size(150.dp)
         )
         InputName(
             value = uiState.name,
@@ -133,12 +117,7 @@ fun SignUpScreenContent(
         )
         InputBirthday(
             value = uiState.birthday,
-            clickOnIcon = {
-                showDatePickerDialog.value = true
-            },
-            onValueChange = {
-                onEvents(SingUpEvents.OnBirthDayChange(birthday = it))
-            }
+            onEvents = onEvents
         )
         Spacer(modifier = Modifier.height(16.dp))
         ButtonSignUp(
@@ -147,6 +126,21 @@ fun SignUpScreenContent(
                 onEvents(SingUpEvents.OnSignUpClick)
             }
         )
+    }
+}
+
+@Composable
+private fun ContainerSignUp(
+    content: @Composable ColumnScope.() -> Unit
+) {
+    Column(
+        Modifier
+            .fillMaxSize()
+            .background(Background)
+            .padding(8.dp),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        content()
     }
 }
 
@@ -167,26 +161,27 @@ private fun ButtonSignUp(
 }
 
 @Composable
-fun InputName(
+private fun InputName(
     modifier: Modifier = Modifier, value: String, onValueChange: (value: String) -> Unit
 ) {
-    BaseOutlinedTextField(modifier = modifier,
+    BaseOutlinedTextField(
+        modifier = modifier,
         text = stringResource(R.string.nombre),
         value = value,
         onValueChange = { currentValue ->
             onValueChange.invoke(currentValue)
-        }
-    )
+        })
 }
 
 @Composable
-fun InputPhone(
+private fun InputPhone(
     modifier: Modifier = Modifier,
     value: String,
     showError: Boolean,
     onValueChange: (value: String) -> Unit
 ) {
-    BaseOutlinedTextField(modifier = modifier,
+    BaseOutlinedTextField(
+        modifier = modifier,
         inputError = if (showError) {
             InputError(
                 errorText = stringResource(R.string.error_phone),
@@ -204,13 +199,14 @@ fun InputPhone(
 }
 
 @Composable
-fun InputEmail(
+private fun InputEmail(
     modifier: Modifier = Modifier,
     value: String,
     showError: Boolean,
     onValueChange: (value: String) -> Unit
 ) {
-    BaseOutlinedTextField(modifier = modifier,
+    BaseOutlinedTextField(
+        modifier = modifier,
         inputError = if (showError) {
             InputError(
                 errorText = stringResource(R.string.error_email),
@@ -224,11 +220,12 @@ fun InputEmail(
         value = value,
         onValueChange = {
             onValueChange.invoke(it)
-        })
+        }
+    )
 }
 
 @Composable
-fun InputPassword(
+private fun InputPassword(
     modifier: Modifier = Modifier,
     value: String,
     showError: Boolean,
@@ -255,25 +252,26 @@ fun InputPassword(
 }
 
 @Composable
-fun InputBirthday(
+private fun InputBirthday(
     modifier: Modifier = Modifier,
     value: String,
-    clickOnIcon: () -> Unit = {},
-    onValueChange: (value: String) -> Unit
+    onEvents: (SingUpEvents) -> Unit
 ) {
-    BaseOutlinedTextField(modifier = modifier,
+    BaseOutlinedTextField(
+        modifier = modifier,
         text = "dd/mm/aaaa",
         imageVector = Icons.Filled.Cake,
         value = value,
         isEnable = false,
-        clickOnIcon = { clickOnIcon.invoke() },
-        onValueChange = { onValueChange.invoke(it) })
+        clickOnIcon = { onEvents(SingUpEvents.OnOpenDatePick) },
+        onValueChange = { onEvents(SingUpEvents.OnDateSelected(birthday = it)) }
+    )
 }
 
 
 @Composable
 @Preview(showBackground = true)
-fun SignUpScreenPreview(modifier: Modifier = Modifier) {
+private fun SignUpScreenPreview() {
     SignUpScreenContent(
         modifier = Modifier,
         uiState = SignUpUiState(),

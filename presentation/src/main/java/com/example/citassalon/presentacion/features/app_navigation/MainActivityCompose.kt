@@ -25,6 +25,7 @@ class MainActivityCompose : ComponentActivity() {
                 }
             }
         }
+        //Add something here for show one snakcbar or info when we don,t have internet
     }
 
     fun closeAndOpenActivity() {
