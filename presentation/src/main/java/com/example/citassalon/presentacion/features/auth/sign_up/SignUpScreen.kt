@@ -2,9 +2,9 @@ package com.example.citassalon.presentacion.features.auth.sign_up
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
-import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -18,6 +18,7 @@ import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -33,6 +34,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.citassalon.R
+import com.example.citassalon.presentacion.features.auth.AuthScreens
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.BaseOutlinedTextField
 import com.example.citassalon.presentacion.features.components.InputError
@@ -52,7 +54,7 @@ fun SignUpScreen(
         signUpViewModel.effects.collectLatest {
             when (it) {
                 SignUpSideEffects.NavigateToLoginScreen -> {
-                    navHostController.navigate("")
+                    navHostController.navigate(AuthScreens.LoginRoute)
                 }
             }
         }
@@ -119,9 +121,10 @@ private fun SignUpScreenContent(
             value = uiState.birthday,
             onEvents = onEvents
         )
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.weight(1f))
         ButtonSignUp(
             isEnable = uiState.isEnableButton,
+            isLoading = uiState.isLoading,
             onClick = {
                 onEvents(SingUpEvents.OnSignUpClick)
             }
@@ -134,10 +137,12 @@ private fun ContainerSignUp(
     content: @Composable ColumnScope.() -> Unit
 ) {
     Column(
-        Modifier
-            .fillMaxSize()
-            .background(Background)
-            .padding(8.dp),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(Background)
+                .padding(8.dp),
+        verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         content()
@@ -146,7 +151,10 @@ private fun ContainerSignUp(
 
 @Composable
 private fun ButtonSignUp(
-    modifier: Modifier = Modifier, isEnable: Boolean, onClick: () -> Unit
+    modifier: Modifier = Modifier,
+    isEnable: Boolean,
+    onClick: () -> Unit,
+    isLoading: Boolean
 ) {
     Button(
         modifier = modifier.fillMaxWidth(),
@@ -156,7 +164,11 @@ private fun ButtonSignUp(
         },
         colors = ButtonDefaults.buttonColors(containerColor = Color.White),
     ) {
-        Text(text = stringResource(id = R.string.registrarse), color = Color.Black)
+        if (isLoading) {
+            CircularProgressIndicator(Modifier.size(40.dp))
+        } else {
+            Text(text = stringResource(id = R.string.registrarse), color = Color.Black)
+        }
     }
 }
 
@@ -170,7 +182,8 @@ private fun InputName(
         value = value,
         onValueChange = { currentValue ->
             onValueChange.invoke(currentValue)
-        })
+        }
+    )
 }
 
 @Composable
@@ -195,7 +208,8 @@ private fun InputPhone(
         value = value,
         onValueChange = {
             onValueChange.invoke(it)
-        })
+        }
+    )
 }
 
 @Composable

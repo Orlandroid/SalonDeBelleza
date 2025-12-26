@@ -1,6 +1,5 @@
 package com.example.citassalon.presentacion.features.components
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.text.KeyboardOptions
@@ -82,10 +81,9 @@ fun BaseOutlinedTextField(
 }
 
 
-@SuppressLint("UnrememberedMutableState")
 @Composable
 @Preview(showBackground = true)
-fun BaseOutlinedTextFieldPreview() {
+private fun BaseOutlinedTextFieldPreview() {
     BaseOutlinedTextField(
         modifier = Modifier.padding(8.dp),
         text = "Email",

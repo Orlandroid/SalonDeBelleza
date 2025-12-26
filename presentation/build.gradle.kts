@@ -13,7 +13,6 @@ plugins {
     id("com.android.application")
     id("kotlin-android")
     id("kotlin-kapt")
-    id("androidx.navigation.safeargs.kotlin")
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
     id("com.google.gms.google-services")
@@ -25,8 +24,6 @@ android {
     buildToolsVersion = "30.0.3"
 
     buildFeatures {
-        viewBinding = true
-        dataBinding = true
         compose = true
     }
     composeOptions {
@@ -80,13 +77,12 @@ dependencies {
     firebase()
 
     implementation(libs.glide)
-    annotationProcessor(libs.glide)
+    annotationProcessor(libs.glideCompiler)
 
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:2.0.20")
-    implementation("com.google.android.gms:play-services-maps:19.1.0")
-
-    implementation("androidx.work:work-runtime-ktx:2.9.1")
-    implementation("androidx.startup:startup-runtime:1.2.0")
+    implementation(libs.kotlinStdlib)
+    implementation(libs.playServicesMaps)
+    implementation(libs.androidxWorkRuntimeKtx)
+    implementation(libs.androidxStartupRuntime)
 
     //Compose
     implementation("androidx.compose.ui:ui")

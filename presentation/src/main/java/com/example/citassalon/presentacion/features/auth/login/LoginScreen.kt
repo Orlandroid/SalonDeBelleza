@@ -184,6 +184,7 @@ private fun LoginScreenContent(
 private fun ImageLogin() {
     val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.login_icon))
     LottieAnimation(
+        enableMergePaths = true,
         iterations = LottieConstants.IterateForever,
         composition = composition,
         modifier = Modifier.size(150.dp)
