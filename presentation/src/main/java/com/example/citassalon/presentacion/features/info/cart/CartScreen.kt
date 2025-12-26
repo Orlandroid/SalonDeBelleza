@@ -3,7 +3,6 @@ package com.example.citassalon.presentacion.features.info.cart
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -23,7 +22,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.citassalon.R
@@ -37,7 +35,10 @@ import com.example.domain.entities.toProductUiList
 @Composable
 fun CartScreen(
     navController: NavController,
-    viewModel: CartViewModel = hiltViewModel()
+    viewModel: CartViewModel = hiltViewModel<
+            CartViewModel, CartViewModelFactory>(
+        creationCallback = { factory -> factory.create(1) }
+    )
 ) {
     val allProducts = viewModel.allIProducts.observeAsState()
     BaseComposeScreen(

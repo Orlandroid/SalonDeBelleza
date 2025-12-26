@@ -11,6 +11,8 @@ import com.example.data.di.IoDispatcher
 import com.example.domain.entities.db.ProductDb
 import com.example.domain.entities.remote.Cart
 import com.example.domain.entities.remote.Product
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -22,7 +24,6 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 
 sealed class CartEvents {
@@ -32,14 +33,14 @@ sealed class CartEvents {
 data class CartUiState(
     val cart: Cart? = null,
     val product: Product? = null,
-    
-)
 
-@HiltViewModel
-class CartViewModel @Inject constructor(
+    )
+
+@HiltViewModel(assistedFactory = CartViewModelFactory::class)
+class CartViewModel @AssistedInject constructor(
     private val repository: com.example.data.Repository,
-    private val networkHelper: NetworkHelper,
-    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
+    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    @Assisted private val cartId: Int
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<BaseScreenStateV2<CartUiState>> =
