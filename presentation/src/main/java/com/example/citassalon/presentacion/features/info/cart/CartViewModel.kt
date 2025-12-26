@@ -1,18 +1,12 @@
 package com.example.citassalon.presentacion.features.info.cart
 
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.base.BaseScreenStateV2
 import com.example.citassalon.presentacion.features.info.products.products.ProductScreenEffects
-import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.data.di.IoDispatcher
-import com.example.domain.entities.db.ProductDb
-import com.example.domain.entities.remote.Cart
-import com.example.domain.entities.remote.Product
-import dagger.assisted.Assisted
-import dagger.assisted.AssistedInject
+import com.example.domain.entities.ProductUi
+import com.example.domain.entities.toProductUiList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -24,6 +18,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 sealed class CartEvents {
@@ -31,22 +26,19 @@ sealed class CartEvents {
 }
 
 data class CartUiState(
-    val cart: Cart? = null,
-    val product: Product? = null,
+    val products: List<ProductUi> = emptyList()
+)
 
-    )
-
-@HiltViewModel(assistedFactory = CartViewModelFactory::class)
-class CartViewModel @AssistedInject constructor(
+@HiltViewModel
+class CartViewModel @Inject constructor(
     private val repository: com.example.data.Repository,
-    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    @Assisted private val cartId: Int
+    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<BaseScreenStateV2<CartUiState>> =
         MutableStateFlow(BaseScreenStateV2.OnLoading)
     val state = _state.onStart {
-        getCart(1) //Todo  Add injected assited
+        getAllProducts()
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
@@ -57,19 +49,10 @@ class CartViewModel @AssistedInject constructor(
     val effects = _effects.receiveAsFlow()
 
 
-    val allIProducts: LiveData<List<ProductDb>> = repository.getAllProducts().asLiveData()
-
-    fun getCart(id: Int) {
+    fun getAllProducts() {
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
-            val response = repository.getSingleCart(id)
-            _state.update { BaseScreenStateV2.OnContent(content = CartUiState(cart = response)) }
-        }
-    }
-
-    fun getSingleProduct(id: Int) {
-        viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
-            val response = repository.getSingleProduct(id)
-            _state.update { BaseScreenStateV2.OnContent(content = CartUiState(product = response)) }
+            val response = repository.getAllProducts()
+            _state.update { BaseScreenStateV2.OnContent(content = CartUiState(products = response.toProductUiList())) }
         }
     }
 

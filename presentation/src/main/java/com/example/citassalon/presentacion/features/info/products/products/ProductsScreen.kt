@@ -44,17 +44,18 @@ import com.example.citassalon.presentacion.features.components.ButtonWithIcon
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
-import com.example.citassalon.presentacion.features.info.InfoNavigationScreens.*
+import com.example.citassalon.presentacion.features.info.InfoNavigationScreens.DetailProductRoute
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.entities.remote.Product
-import com.example.domain.mappers.toProductDb
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun ProductsScreen(
     navController: NavController,
-    productsViewModel: ProductsViewModel = hiltViewModel()
+    category: String,
+    productsViewModel: ProductsViewModel = hiltViewModel(
+        creationCallback = { factory: ProductsViewModelFactory -> factory.create(category) })
 ) {
     val uiState by productsViewModel.state.collectAsStateWithLifecycle()
     when (uiState) {
@@ -213,7 +214,7 @@ private fun ButtonAdd(
         buttonText = stringResource(R.string.agregar),
         backgroundColor = Color.White,
         onClick = {
-            onEvents(ProductScreenEvents.OnAddProduct(product = product.toProductDb()))
+            onEvents(ProductScreenEvents.OnAddProduct(product = product))
         }
     )
 }

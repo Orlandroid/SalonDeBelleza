@@ -5,7 +5,6 @@ package com.example.domain
 import com.example.domain.entities.db.AppointmentDb
 import com.example.domain.entities.db.CategoryDb
 import com.example.domain.entities.db.ProductDb
-import kotlinx.coroutines.flow.Flow
 
 
 interface LocalDataSource {
@@ -16,7 +15,7 @@ interface LocalDataSource {
 
     suspend fun deleteAllProducts(): Int
 
-    fun getAllProducts(): Flow<List<ProductDb>>
+    fun getAllProducts(): List<ProductDb>
 
     fun getAllProductDbCache(): List<ProductDb>
 

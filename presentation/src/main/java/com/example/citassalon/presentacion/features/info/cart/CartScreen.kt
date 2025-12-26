@@ -16,36 +16,35 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
+import com.example.citassalon.presentacion.features.base.getContentOrNull
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.entities.ProductUi
-import com.example.domain.entities.toProductUiList
 
 @Composable
 fun CartScreen(
     navController: NavController,
-    viewModel: CartViewModel = hiltViewModel<
-            CartViewModel, CartViewModelFactory>(
-        creationCallback = { factory -> factory.create(1) }
-    )
+    viewModel: CartViewModel = hiltViewModel()
 ) {
-    val allProducts = viewModel.allIProducts.observeAsState()
+    val uiState = viewModel.state.collectAsStateWithLifecycle()
     BaseComposeScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(title = "8.0 $")
     ) {
-        CartScreenContent(products = allProducts.value?.toProductUiList())
+        uiState.value.getContentOrNull()?.let { state ->
+            CartScreenContent(products = state.products)
+        }
     }
 
 }
@@ -99,7 +98,7 @@ private fun ItemCart(productDb: ProductUi) {
             Spacer(modifier = Modifier.width(16.dp))
             Text(
                 modifier = Modifier.weight(1f),
-                text = productDb.description
+                text = productDb.title
             )
             Text(
                 modifier = Modifier

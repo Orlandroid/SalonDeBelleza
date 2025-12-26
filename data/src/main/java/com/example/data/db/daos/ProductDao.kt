@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 interface ProductDao {
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
-    suspend fun addProductDb(productDb: ProductDb):Long
+    suspend fun addProductDb(productDb: ProductDb): Long
 
     @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insertManyProductDb(productDb: List<ProductDb>)
@@ -21,7 +21,7 @@ interface ProductDao {
     suspend fun deleteProductDb(productDb: ProductDb): Int
 
     @Query("SELECT * FROM ProductDb")
-    fun getAllProductDb(): Flow<List<ProductDb>>
+    fun getAllProductDb(): List<ProductDb>
 
     @Query("SELECT * FROM ProductDb")
     fun getAllProductDbCache(): List<ProductDb>

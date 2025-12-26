@@ -8,6 +8,9 @@ import com.example.data.Repository
 import com.example.data.di.IoDispatcher
 import com.example.domain.entities.db.ProductDb
 import com.example.domain.entities.remote.Product
+import com.example.domain.mappers.toProductDb
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -19,11 +22,10 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 sealed class ProductScreenEvents {
     object OnCarClicked : ProductScreenEvents()
-    data class OnAddProduct(val product: ProductDb) : ProductScreenEvents()
+    data class OnAddProduct(val product: Product) : ProductScreenEvents()
     data class OnProductClicked(val product: Product) : ProductScreenEvents()
     data class OnDeleteAllTheProducts(val product: Product) : ProductScreenEvents()
 }
@@ -41,11 +43,11 @@ data class ProductsUiState(
 )
 
 
-@HiltViewModel
-class ProductsViewModel @Inject constructor(
+@HiltViewModel(assistedFactory = ProductsViewModelFactory::class)
+class ProductsViewModel @AssistedInject constructor(
     private val repository: Repository,
-    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
-//    category: String // Todo add assited viewmodel to pass the category from the other screen
+    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    @Assisted private val category: String
 ) : ViewModel() {
 
     companion object {
@@ -55,7 +57,7 @@ class ProductsViewModel @Inject constructor(
     private val _state: MutableStateFlow<BaseScreenStateV2<ProductsUiState>> =
         MutableStateFlow(BaseScreenStateV2.OnLoading)
     val state = _state.onStart {
-        getProducts("electronics")
+        getProducts(category)
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
@@ -82,7 +84,7 @@ class ProductsViewModel @Inject constructor(
             }
 
             is ProductScreenEvents.OnAddProduct -> {
-                insertProduct(event.product)
+                insertProduct(event.product.toProductDb())
             }
 
             is ProductScreenEvents.OnDeleteAllTheProducts -> {
@@ -115,7 +117,7 @@ class ProductsViewModel @Inject constructor(
 
     fun deleteAllProducts() {
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
-            repository.deleteAllProducts()//Todo add one effect if the date was removed succesfully
+            repository.deleteAllProducts()//Todo add one effect if the date was removed successfully
         }
     }
 
