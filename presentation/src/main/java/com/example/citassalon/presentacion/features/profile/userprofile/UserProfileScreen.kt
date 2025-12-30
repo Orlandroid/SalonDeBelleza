@@ -49,6 +49,7 @@ import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.base.BaseScreenStateV2
 import com.example.citassalon.presentacion.features.base.getContentOrNull
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
+import com.example.citassalon.presentacion.features.components.UserProfileScreenSkeleton
 import com.example.citassalon.presentacion.features.extensions.uriToBitmap
 import com.example.citassalon.presentacion.features.theme.Background
 
@@ -80,7 +81,7 @@ fun UserProfileScreen(
     ) {
         when (uiState.value) {
             BaseScreenStateV2.OnLoading -> {
-                //Added skeletons for the profile
+                UserProfileScreenSkeleton()
             }
 
             is BaseScreenStateV2.OnContent<*> -> {
@@ -225,7 +226,13 @@ private fun CircleStatus(statusColor: Color) {
 @Preview(showBackground = true)
 private fun UserProfileScreenContentPreview() {
     UserProfileScreenContent(
-        userProfileState = UserProfileUiState(),
+        userProfileState = UserProfileUiState(
+            name = "Orlando",
+            "1234567890",
+            email = "android@gmail.com",
+            money = "500"
+
+        ),
         launchGallery = {}
     )
 }

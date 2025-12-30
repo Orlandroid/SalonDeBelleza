@@ -164,6 +164,6 @@
     </string>
     <string name="name_user">Nombre del usuario</string>
     <string name="name">Nombre</string>
-    <string name="money">Telefono</string>
+    <string name="money">Dinero</string>
     <string name="label_email">Email</string>
 </resources>

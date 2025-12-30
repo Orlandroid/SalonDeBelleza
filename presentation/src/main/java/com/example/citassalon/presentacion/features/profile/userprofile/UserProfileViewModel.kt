@@ -4,21 +4,22 @@ package com.example.citassalon.presentacion.features.profile.userprofile
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.citassalon.presentacion.features.base.BaseScreenStateV2
 import com.example.data.di.IoDispatcher
-import com.example.domain.perfil.UserProfileResponse
 import com.example.domain.state.getContent
 import com.example.domain.state.isSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
+
+sealed class UserProfileEffects {
+    object OpenCamera : UserProfileEffects()
+}
 
 data class UserProfileUiState(
     val name: String? = null,
@@ -45,18 +46,6 @@ class UserProfileViewModel @Inject constructor(
         started = SharingStarted.WhileSubscribed(5000L),
         BaseScreenStateV2.OnLoading
     )
-
-    private val _infoUserState: MutableStateFlow<BaseScreenState<UserProfileResponse>> =
-        MutableStateFlow(BaseScreenState.Idle())
-    val infoUserState = _infoUserState.asStateFlow()
-
-    private val _remoteImageProfileState: MutableStateFlow<BaseScreenState<String>> =
-        MutableStateFlow(BaseScreenState.Idle())
-    val remoteImageProfileState = _remoteImageProfileState.asStateFlow()
-
-    private val _localImageState: MutableStateFlow<BaseScreenState<String>> =
-        MutableStateFlow(BaseScreenState.Idle())
-    val localImageState = _localImageState.asStateFlow()
 
 
     private suspend fun getUserInfo() {
