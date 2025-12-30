@@ -53,7 +53,8 @@ private fun HistoryDetailContent(
         modifier = modifier
             .fillMaxSize()
             .background(Background),
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Card(
             Modifier

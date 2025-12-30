@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.domain.perfil.Appointment
-import com.example.domain.state.getResult
+import com.example.domain.state.getContent
 import com.example.domain.state.isError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.delay
@@ -100,7 +100,7 @@ class AppointmentHistoryViewModel @Inject constructor(
         _state.update {
             AppointmentHistoryViewState.OnContent(
                 content = currentState.copy(
-                    appointments = appointmentsResult.getResult()
+                    appointments = appointmentsResult.getContent()
                 )
             )
         }

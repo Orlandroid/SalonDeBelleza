@@ -9,12 +9,15 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Named
 import javax.inject.Singleton
 
 
 @Module
 @InstallIn(SingletonComponent::class)
 object ModuleFirebase {
+
+    private const val IMAGE_USER = "imageUser"
 
 
     @Singleton
@@ -41,6 +44,17 @@ object ModuleFirebase {
     ): DatabaseReference {
         val uuidUser = firebaseAuth.uid
         return firebaseDatabase.reference.child("Appointment").child(uuidUser!!)
+    }
+
+    @Singleton
+    @Provides
+    @Named(IMAGE_USER)
+    fun provideFirebaseRealtimeImageReference(
+        firebaseDatabase: FirebaseDatabase,
+        firebaseAuth: FirebaseAuth
+    ): DatabaseReference {
+        val uuidUser = firebaseAuth.uid
+        return firebaseDatabase.reference.child(IMAGE_USER).child(uuidUser!!)
     }
 
 }

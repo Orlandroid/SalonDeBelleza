@@ -163,4 +163,7 @@
        dignissimos eligendi, facilis aspernatur ea! Maxime eius possimus.
     </string>
     <string name="name_user">Nombre del usuario</string>
+    <string name="name">Nombre</string>
+    <string name="money">Telefono</string>
+    <string name="label_email">Email</string>
 </resources>

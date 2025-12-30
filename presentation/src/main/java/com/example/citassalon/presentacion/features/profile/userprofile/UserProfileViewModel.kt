@@ -1,39 +1,50 @@
 package com.example.citassalon.presentacion.features.profile.userprofile
 
 
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.ui.graphics.Color
+import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.base.BaseScreenState
-import com.example.citassalon.presentacion.features.base.BaseViewModel
-import com.example.citassalon.presentacion.main.NetworkHelper
-import com.example.data.di.CoroutineDispatchers
-import com.example.data.preferences.LoginPreferences
-import com.example.domain.perfil.RandomUserResponse
-import com.example.domain.perfil.UserInfo
+import com.example.citassalon.presentacion.features.base.BaseScreenStateV2
+import com.example.data.di.IoDispatcher
 import com.example.domain.perfil.UserProfileResponse
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.example.domain.state.getContent
+import com.example.domain.state.isSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
 import javax.inject.Inject
+
+data class UserProfileUiState(
+    val name: String? = null,
+    val phone: String? = null,
+    val email: String? = null,
+    val uid: String? = null,
+    val money: String? = null,
+    val image: String? = null,
+    val statusColor: Color? = null
+)
 
 @HiltViewModel
 class UserProfileViewModel @Inject constructor(
-    coroutineDispatchers: CoroutineDispatchers,
-    networkHelper: NetworkHelper,
-    private val repository: com.example.data.Repository,
-    private val firebaseDatabase: FirebaseDatabase,
-    private val firebaseAuth: FirebaseAuth,
-    private val loginPreferences: LoginPreferences
-) : BaseViewModel(coroutineDispatchers, networkHelper) {
+    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    private val getUserInfoUseCase: GetUserInfoUseCase
+) : ViewModel() {
+
+    private val _state: MutableStateFlow<BaseScreenStateV2<UserProfileUiState>> =
+        MutableStateFlow(BaseScreenStateV2.OnLoading)
+    val state = _state.onStart {
+        getUserInfo()
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000L),
+        BaseScreenStateV2.OnLoading
+    )
 
     private val _infoUserState: MutableStateFlow<BaseScreenState<UserProfileResponse>> =
         MutableStateFlow(BaseScreenState.Idle())
@@ -48,124 +59,13 @@ class UserProfileViewModel @Inject constructor(
     val localImageState = _localImageState.asStateFlow()
 
 
-    private val _randomUserResponse = MutableLiveData<BaseScreenState<RandomUserResponse>>()
-    val randomUserResponse = _randomUserResponse
-
-    companion object {
-        private const val IMAGE_USER = "imageUser"
+    private suspend fun getUserInfo() {
+        val userInfo = getUserInfoUseCase.invoke()
+        if (userInfo.isSuccess()) {
+            _state.update { BaseScreenStateV2.OnContent(content = userInfo.getContent()) }
+            return
+        }
+        _state.update { BaseScreenStateV2.OnError(error = Throwable()) }
     }
-
-//    fun randomUser() = viewModelScope.launch {
-//        safeApiCallCompose(_randomUserResponse, coroutineDispatchers) {
-//            val response = repository.randomUser()
-//            withContext(Dispatchers.Main) {
-//                _randomUserResponse.value = BaseScreenState.Success(response)
-//            }
-//        }
-//    }
-
-    private fun getUserMoney() = loginPreferences.getUserMoney().toString()
-
-
-    private fun provideFirebaseRealtimeDatabaseReference(
-        firebaseDatabase: FirebaseDatabase, firebaseAuth: FirebaseAuth
-    ): DatabaseReference {
-        val uuidUser = firebaseAuth.uid
-        return firebaseDatabase.reference.child(IMAGE_USER).child(uuidUser!!)
-    }
-
-
-    fun getUserInfo() = viewModelScope.launch(Dispatchers.IO) {
-        withContext(Dispatchers.Main) {
-            _infoUserState.value = BaseScreenState.Loading()
-        }
-        if (!networkHelper.isNetworkConnected()) {
-            withContext(Dispatchers.Main) {
-                _infoUserState.value = BaseScreenState.ErrorNetwork()
-            }
-            return@launch
-        }
-        try {
-            val user = repository.getUser() ?: return@launch
-            val userInfo = HashMap<String, String>()
-            userInfo[USER_EMAIL] = user.email!!
-            userInfo[USER_UID] = user.uid
-            userInfo[USER_SESSION] = (repository.getUser() != null).toString()
-            withContext(Dispatchers.Main) {
-                val listUserInfo = arrayListOf<UserInfo>()
-                listUserInfo.add(UserInfo("Nombre", value = user.displayName ?: ""))
-                listUserInfo.add(UserInfo("Telefono"))
-                listUserInfo.add(UserInfo("correo", user.email ?: ""))
-                listUserInfo.add(UserInfo("uid", user.uid))
-                listUserInfo.add(
-                    UserInfo(
-                        "Money", "$ ${getUserMoney()}"
-                    )
-                )
-                _infoUserState.value = BaseScreenState.Success(
-                    UserProfileResponse(
-                        userInfo = listUserInfo,
-                        isUserSessionActive = repository.getUser() != null
-                    )
-                )
-            }
-        } catch (e: Exception) {
-            withContext(Dispatchers.Main) {
-                _infoUserState.value = BaseScreenState.Error(e)
-            }
-        }
-    }
-
-
-    fun getUserImage() = viewModelScope.launch {
-        _remoteImageProfileState.value = BaseScreenState.Loading()
-        if (!networkHelper.isNetworkConnected()) {
-            withContext(Dispatchers.Main) {
-                _remoteImageProfileState.value = BaseScreenState.ErrorNetwork()
-            }
-            return@launch
-        }
-        val databaseReference =
-            provideFirebaseRealtimeDatabaseReference(firebaseDatabase, firebaseAuth)
-        databaseReference.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                if (snapshot.value.toString() != "null") {
-                    val imageUser = snapshot.value.toString()
-                    _remoteImageProfileState.value = BaseScreenState.Success(imageUser)
-                } else {
-                    _remoteImageProfileState.value =
-                        BaseScreenState.Error(exception = Exception("error"))
-                }
-            }
-
-            override fun onCancelled(error: DatabaseError) {
-                _remoteImageProfileState.value =
-                    BaseScreenState.Error(exception = Exception(error.message))
-            }
-        })
-    }
-
-
-    fun saveImageUser(imageLikeBase64: String) = viewModelScope.launch(Dispatchers.IO) {
-        withContext(Dispatchers.Main) {
-            _localImageState.value = BaseScreenState.Loading()
-        }
-        if (!networkHelper.isNetworkConnected()) {
-            withContext(Dispatchers.Main) {
-                _localImageState.value = BaseScreenState.ErrorNetwork()
-            }
-            return@launch
-        }
-        val userUii = repository.getUser()?.uid ?: return@launch
-        firebaseDatabase.getReference(IMAGE_USER).child(userUii).setValue(imageLikeBase64)
-            .addOnCompleteListener {
-                if (it.isSuccessful) {
-                    _localImageState.value = BaseScreenState.Success(it.isSuccessful.toString())
-                } else {
-                    _localImageState.value = BaseScreenState.Error(exception = Exception())
-                }
-            }
-    }
-
 
 }

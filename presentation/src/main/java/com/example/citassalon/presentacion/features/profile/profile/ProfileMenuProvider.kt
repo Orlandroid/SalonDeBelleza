@@ -8,17 +8,17 @@ object ProfileMenuProvider {
 
     fun getMenusProfile(): List<ProfileItem> {
         val elementsMenu = arrayListOf<ProfileItem>()
-        val perfil = ProfileItem("Perfil", R.drawable.perfil, MENU.PROFILE)
-        val historial = ProfileItem("Historial de citas", R.drawable.historial_menu, MENU.HISTORY)
-        val contactanos = ProfileItem("Contactanos", R.drawable.contactos, MENU.CONTACTS)
+        val profile = ProfileItem("Perfil", R.drawable.perfil, MENU.PROFILE)
+        val history = ProfileItem("Historial de citas", R.drawable.historial_menu, MENU.HISTORY)
+        val contactUs = ProfileItem("Contactanos", R.drawable.contactos, MENU.CONTACTS)
         val terminos =
             ProfileItem("Terminos y condiciones", R.drawable.terminos, MENU.TERMS_AND_CONDITIONS)
-        val cerrarSesion = ProfileItem("Cerrar sesion", R.drawable.cerrar, MENU.CLOSE_SESSION)
-        elementsMenu.add(perfil)
-        elementsMenu.add(historial)
-        elementsMenu.add(contactanos)
+        val closeSession = ProfileItem("Cerrar sesion", R.drawable.cerrar, MENU.CLOSE_SESSION)
+        elementsMenu.add(profile)
+        elementsMenu.add(history)
+        elementsMenu.add(contactUs)
         elementsMenu.add(terminos)
-        elementsMenu.add(cerrarSesion)
+        elementsMenu.add(closeSession)
         return elementsMenu
     }
 }

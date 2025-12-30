@@ -122,26 +122,34 @@ fun ProfileScreen(
             }
         }
         if (uiState.showAlertCloseSession) {
-            BaseAlertDialogMessages(
-                onDismissRequest = {
-                    onEvents(ProfileEvents.OnDismissDialog)
-                },
-                alertDialogMessagesConfig = AlertDialogMessagesConfig(
-                    title = R.string.cerrar_session,
-                    bodyMessage = stringResource(R.string.seguro_que_deseas_cerrar_sesion),
-                    kindOfMessage = KindOfMessage.WARING,
-                    onConfirmation = {
-                        onEvents(ProfileEvents.OnConfirmClicked)
-                    },
-                    isTwoButtonsAlert = IsTwoButtonsAlert(
-                        clickOnCancel = {
-                            onEvents(ProfileEvents.OnCancel)
-                        }
-                    )
-                )
-            )
+            DialogCloseSession(onEvents = onEvents)
         }
     }
+}
+
+
+@Composable
+private fun DialogCloseSession(
+    onEvents: (event: ProfileEvents) -> Unit
+) {
+    BaseAlertDialogMessages(
+        onDismissRequest = {
+            onEvents(ProfileEvents.OnDismissDialog)
+        },
+        alertDialogMessagesConfig = AlertDialogMessagesConfig(
+            title = R.string.cerrar_session,
+            bodyMessage = stringResource(R.string.seguro_que_deseas_cerrar_sesion),
+            kindOfMessage = KindOfMessage.WARING,
+            onConfirmation = {
+                onEvents(ProfileEvents.OnConfirmClicked)
+            },
+            isTwoButtonsAlert = IsTwoButtonsAlert(
+                clickOnCancel = {
+                    onEvents(ProfileEvents.OnCancel)
+                }
+            )
+        )
+    )
 }
 
 @Composable
