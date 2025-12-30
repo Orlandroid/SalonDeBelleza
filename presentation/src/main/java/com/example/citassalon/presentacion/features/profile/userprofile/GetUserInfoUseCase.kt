@@ -1,10 +1,8 @@
 package com.example.citassalon.presentacion.features.profile.userprofile
 
 import androidx.compose.ui.graphics.Color
-import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.data.Repository
 import com.example.data.preferences.LoginPreferences
-import com.example.domain.perfil.UserProfileResponse
 import com.example.domain.state.ApiResult
 import com.example.domain.state.getResultOrNull
 import javax.inject.Inject

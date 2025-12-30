@@ -9,6 +9,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -16,15 +17,18 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.base.BaseComposeScreenState
+import com.example.citassalon.presentacion.features.base.BaseComposeScreen
+import com.example.citassalon.presentacion.features.base.BaseScreenStateV2
 import com.example.citassalon.presentacion.features.base.LongSpacer
 import com.example.citassalon.presentacion.features.base.MediumSpacer
 import com.example.citassalon.presentacion.features.base.Orientation
+import com.example.citassalon.presentacion.features.base.getContentOrNull
 import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
-import com.example.citassalon.presentacion.features.schedule_appointment.FlowMainViewModel
+import com.example.citassalon.presentacion.features.components.skeletons.BranchesScreenSkeletons
 import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
+import com.example.citassalon.presentacion.features.schedule_appointment.FlowMainViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentEvents
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentsSideEffects
@@ -37,9 +41,9 @@ import com.example.domain.entities.remote.migration.NegoInfo
 fun BranchesScreen(
     navController: NavController,
     mainViewModel: FlowMainViewModel,
-    branchViewModel: BranchViewModel = hiltViewModel(),
+    branchViewModel: BranchViewModel = hiltViewModel()
 ) {
-    val state = branchViewModel.state.collectAsStateWithLifecycle()
+    val uiState by branchViewModel.state.collectAsStateWithLifecycle()
     LaunchedEffect(mainViewModel) {
         mainViewModel.branchSideEffects.collect { effect ->
             when (effect) {
@@ -55,18 +59,31 @@ fun BranchesScreen(
             }
         }
     }
-    BaseComposeScreenState(
-        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.agendar_sucursal)),
-        navController = navController,
-        state = state.value
-    ) { result ->
-        BranchesScreenContent(
-            modifier = Modifier,
-            branches = result,
-            onEvents = { event ->
-                mainViewModel.onEvents(event)
+    when (uiState) {
+        BaseScreenStateV2.OnLoading -> {
+            BranchesScreenSkeletons()
+        }
+
+        is BaseScreenStateV2.OnContent -> {
+            uiState.getContentOrNull()?.let { state ->
+                BaseComposeScreen(
+                    toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.agendar_sucursal)),
+                    navController = navController
+                ) {
+                    BranchesScreenContent(
+                        modifier = Modifier,
+                        branches = state,
+                        onEvents = { event ->
+                            mainViewModel.onEvents(event)
+                        }
+                    )
+                }
             }
-        )
+        }
+
+        is BaseScreenStateV2.OnError -> {
+            //Add one screen for the error
+        }
     }
 }
 
@@ -112,12 +129,13 @@ private fun Branches(
             item {
                 MediumSpacer(orientation = Orientation.VERTICAL)
                 TextWithArrow(
-                    TextWithArrowConfig(
-                        text = branch.sucursal.name,
-                        clickOnItem = {
-                            currentBranch.invoke(branch)
-                        }
-                    )
+                    config =
+                        TextWithArrowConfig(
+                            text = branch.sucursal.name,
+                            clickOnItem = {
+                                currentBranch.invoke(branch)
+                            }
+                        )
                 )
             }
         }

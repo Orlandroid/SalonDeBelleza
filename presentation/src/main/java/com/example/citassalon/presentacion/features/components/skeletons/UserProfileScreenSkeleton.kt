@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.components
+package com.example.citassalon.presentacion.features.components.skeletons
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -27,6 +27,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.citassalon.R
+import com.example.citassalon.presentacion.features.components.shimmerBrush
 import com.example.citassalon.presentacion.features.theme.Background
 
 
@@ -54,7 +55,7 @@ fun UserProfileScreenSkeleton(
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                modifier = Modifier.background(shimmerBrush()),
+                modifier = Modifier.Companion.background(shimmerBrush()),
                 color = Color.Transparent,
                 text = stringResource(R.string.name_user),
                 fontSize = 24.sp

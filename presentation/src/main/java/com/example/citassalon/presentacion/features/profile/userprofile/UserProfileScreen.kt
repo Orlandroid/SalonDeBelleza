@@ -49,7 +49,7 @@ import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.base.BaseScreenStateV2
 import com.example.citassalon.presentacion.features.base.getContentOrNull
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
-import com.example.citassalon.presentacion.features.components.UserProfileScreenSkeleton
+import com.example.citassalon.presentacion.features.components.skeletons.UserProfileScreenSkeleton
 import com.example.citassalon.presentacion.features.extensions.uriToBitmap
 import com.example.citassalon.presentacion.features.theme.Background
 

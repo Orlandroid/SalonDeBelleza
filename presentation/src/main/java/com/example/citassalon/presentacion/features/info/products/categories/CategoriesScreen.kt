@@ -133,7 +133,7 @@ private fun Categories(
         categories.forEach { category ->
             item {
                 TextWithArrow(
-                    TextWithArrowConfig(
+                    config = TextWithArrowConfig(
                         text = category,
                         clickOnItem = {
                             goToProductsScreen(category)
