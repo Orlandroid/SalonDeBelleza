@@ -1,6 +1,8 @@
 package com.example.citassalon.presentacion.features.components
 
 import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -22,8 +24,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import com.example.citassalon.R
 
 @Composable
@@ -41,32 +41,28 @@ fun TextWithArrow(
             config.clickOnItem.invoke()
         }
     ) {
-        ConstraintLayout(
+        Column(
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(vertical = config.verticalPadding)
+                .padding(vertical = config.verticalPadding),
+            verticalArrangement = Arrangement.Center
         ) {
-            val (row, icon) = createRefs()
-            Row(verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier.constrainAs(row) {
-                    start.linkTo(parent.start)
-                    end.linkTo(icon.start, 16.dp)
-                    width = Dimension.matchParent
-                }
+            Row(
+                modifier = Modifier,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
                     text = config.text, fontSize = config.fontSize
                 )
+                Spacer(Modifier.weight(1f))
+                Icon(
+                    modifier = Modifier.padding(end = 16.dp),
+                    painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_24),
+                    contentDescription = null,
+                    tint = Color.Black,
+                )
             }
-            Icon(painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_24),
-                contentDescription = null,
-                tint = Color.Black,
-                modifier = Modifier.constrainAs(icon) {
-                    end.linkTo(parent.end, 16.dp)
-                    linkTo(parent.top, parent.bottom)
-                }
-            )
         }
     }
 }
