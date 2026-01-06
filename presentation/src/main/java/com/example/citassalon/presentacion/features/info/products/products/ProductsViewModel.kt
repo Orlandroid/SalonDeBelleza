@@ -2,7 +2,7 @@ package com.example.citassalon.presentacion.features.info.products.products
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.presentacion.features.base.BaseScreenStateV2
+import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.citassalon.presentacion.features.info.products.products.ProductScreenEffects.NavigateToProductDetail
 import com.example.data.Repository
 import com.example.data.di.IoDispatcher
@@ -54,14 +54,14 @@ class ProductsViewModel @AssistedInject constructor(
         private const val NOT_SAVE = -1
     }
 
-    private val _state: MutableStateFlow<BaseScreenStateV2<ProductsUiState>> =
-        MutableStateFlow(BaseScreenStateV2.OnLoading)
+    private val _state: MutableStateFlow<BaseScreenState<ProductsUiState>> =
+        MutableStateFlow(BaseScreenState.OnLoading)
     val state = _state.onStart {
         getProducts(category)
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
-        BaseScreenStateV2.OnLoading
+        BaseScreenState.OnLoading
     )
 
 
@@ -95,14 +95,14 @@ class ProductsViewModel @AssistedInject constructor(
 
 
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
-        _state.update { BaseScreenStateV2.OnError(error = exception) }
+        _state.update { BaseScreenState.OnError(error = exception) }
     }
 
 
     fun getProducts(categoria: String) {
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
             val response = repository.getProducts(categoria)
-            _state.update { BaseScreenStateV2.OnContent(content = ProductsUiState(response)) }
+            _state.update { BaseScreenState.OnContent(content = ProductsUiState(response)) }
         }
     }
 

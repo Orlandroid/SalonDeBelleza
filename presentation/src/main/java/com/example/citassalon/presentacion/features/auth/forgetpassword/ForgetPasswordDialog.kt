@@ -75,7 +75,7 @@ fun ForgetPasswordDialog(
         }
     ) {
         BaseCustomDialog(
-            modifier = modifier,
+            modifier = modifier.padding(it),
             onDismissRequest = { }
         ) {
             AlertDialogForgetPasswordContent(

@@ -4,7 +4,7 @@ package com.example.citassalon.presentacion.features.profile.userprofile
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.presentacion.features.base.BaseScreenStateV2
+import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.data.di.IoDispatcher
 import com.example.domain.state.getContent
 import com.example.domain.state.isSuccess
@@ -33,28 +33,27 @@ data class UserProfileUiState(
 
 @HiltViewModel
 class UserProfileViewModel @Inject constructor(
-    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
     private val getUserInfoUseCase: GetUserInfoUseCase
 ) : ViewModel() {
 
-    private val _state: MutableStateFlow<BaseScreenStateV2<UserProfileUiState>> =
-        MutableStateFlow(BaseScreenStateV2.OnLoading)
+    private val _state: MutableStateFlow<BaseScreenState<UserProfileUiState>> =
+        MutableStateFlow(BaseScreenState.OnLoading)
     val state = _state.onStart {
         getUserInfo()
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
-        BaseScreenStateV2.OnLoading
+        BaseScreenState.OnLoading
     )
 
 
     private suspend fun getUserInfo() {
         val userInfo = getUserInfoUseCase.invoke()
         if (userInfo.isSuccess()) {
-            _state.update { BaseScreenStateV2.OnContent(content = userInfo.getContent()) }
+            _state.update { BaseScreenState.OnContent(content = userInfo.getContent()) }
             return
         }
-        _state.update { BaseScreenStateV2.OnError(error = Throwable()) }
+        _state.update { BaseScreenState.OnError(error = Throwable()) }
     }
 
 }

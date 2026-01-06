@@ -21,7 +21,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
-import com.example.citassalon.presentacion.features.base.BaseScreenStateV2
+import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.citassalon.presentacion.features.base.ErrorState
 import com.example.citassalon.presentacion.features.base.MediumSpacer
 import com.example.citassalon.presentacion.features.base.Orientation
@@ -50,11 +50,11 @@ fun CategoriesScreen(
 ) {
     val uiState by viewmodel.state.collectAsStateWithLifecycle()
     when (uiState) {
-        BaseScreenStateV2.OnLoading -> {
+        BaseScreenState.OnLoading -> {
             ProgressDialog()
         }
 
-        is BaseScreenStateV2.OnContent<*> -> {
+        is BaseScreenState.OnContent<*> -> {
             LaunchedEffect(Unit) {
                 viewmodel.effects.collectLatest {
                     when (it) {
@@ -78,8 +78,8 @@ fun CategoriesScreen(
             }
         }
 
-        is BaseScreenStateV2.OnError -> {
-            ErrorState(AlertDialogMessagesConfig(bodyMessage = "Error${(uiState as BaseScreenStateV2.OnError).error}"))
+        is BaseScreenState.OnError -> {
+            ErrorState(AlertDialogMessagesConfig(bodyMessage = "Error${(uiState as BaseScreenState.OnError).error}"))
         }
     }
 }

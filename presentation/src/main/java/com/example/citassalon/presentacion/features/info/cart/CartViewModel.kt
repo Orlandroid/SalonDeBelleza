@@ -2,7 +2,7 @@ package com.example.citassalon.presentacion.features.info.cart
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.presentacion.features.base.BaseScreenStateV2
+import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.citassalon.presentacion.features.info.products.products.ProductScreenEffects
 import com.example.data.di.IoDispatcher
 import com.example.domain.entities.ProductUi
@@ -35,14 +35,14 @@ class CartViewModel @Inject constructor(
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    private val _state: MutableStateFlow<BaseScreenStateV2<CartUiState>> =
-        MutableStateFlow(BaseScreenStateV2.OnLoading)
+    private val _state: MutableStateFlow<BaseScreenState<CartUiState>> =
+        MutableStateFlow(BaseScreenState.OnLoading)
     val state = _state.onStart {
         getAllProducts()
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
-        BaseScreenStateV2.OnLoading
+        BaseScreenState.OnLoading
     )
 
     private val _effects = Channel<ProductScreenEffects>()
@@ -52,12 +52,12 @@ class CartViewModel @Inject constructor(
     fun getAllProducts() {
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
             val response = repository.getAllProducts()
-            _state.update { BaseScreenStateV2.OnContent(content = CartUiState(products = response.toProductUiList())) }
+            _state.update { BaseScreenState.OnContent(content = CartUiState(products = response.toProductUiList())) }
         }
     }
 
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
-        _state.update { BaseScreenStateV2.OnError(error = exception) }
+        _state.update { BaseScreenState.OnError(error = exception) }
     }
 
 

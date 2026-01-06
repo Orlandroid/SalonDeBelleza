@@ -46,7 +46,7 @@ import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
-import com.example.citassalon.presentacion.features.base.BaseScreenStateV2
+import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.citassalon.presentacion.features.base.getContentOrNull
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.components.skeletons.UserProfileScreenSkeleton
@@ -80,11 +80,11 @@ fun UserProfileScreen(
         )
     ) {
         when (uiState.value) {
-            BaseScreenStateV2.OnLoading -> {
+            BaseScreenState.OnLoading -> {
                 UserProfileScreenSkeleton()
             }
 
-            is BaseScreenStateV2.OnContent<*> -> {
+            is BaseScreenState.OnContent<*> -> {
                 uiState.value.getContentOrNull()?.let { state ->
                     Card(
                         Modifier
@@ -101,7 +101,7 @@ fun UserProfileScreen(
                 }
             }
 
-            is BaseScreenStateV2.OnError -> {
+            is BaseScreenState.OnError -> {
                 //OnError
             }
         }

@@ -3,7 +3,7 @@ package com.example.citassalon.presentacion.features.share_beetwen_sucursales
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.presentacion.features.base.BaseScreenStateV2
+import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.data.Repository
 import com.example.data.di.IoDispatcher
 import com.example.domain.entities.remote.migration.NegoInfo
@@ -27,23 +27,23 @@ class BranchViewModel @Inject constructor(
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
-    private val _state: MutableStateFlow<BaseScreenStateV2<List<NegoInfo>>> =
-        MutableStateFlow(BaseScreenStateV2.OnLoading)
+    private val _state: MutableStateFlow<BaseScreenState<List<NegoInfo>>> =
+        MutableStateFlow(BaseScreenState.OnLoading)
     val state = _state.onStart { getBranches() }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
-        BaseScreenStateV2.OnLoading
+        BaseScreenState.OnLoading
     )
 
 
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
-        _state.update { BaseScreenStateV2.OnError(error = exception) }
+        _state.update { BaseScreenState.OnError(error = exception) }
     }
 
     private fun getBranches() = viewModelScope.launch(coroutineExceptionHandler + ioDispatcher) {
         delay(1L.seconds)
         val response = repository.getSucursales()
-        _state.update { BaseScreenStateV2.OnContent(content = response.sucursales) }
+        _state.update { BaseScreenState.OnContent(content = response.sucursales) }
 
     }
 

@@ -2,7 +2,7 @@ package com.example.citassalon.presentacion.features.info.products.categories
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.presentacion.features.base.BaseScreenStateV2
+import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.data.Repository
 import com.example.data.di.IoDispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -40,14 +40,14 @@ class ListOfCategoriesViewModel @Inject constructor(
     private val _effects = Channel<CategoriesEffects>()
     val effects = _effects.receiveAsFlow()
 
-    private val _state: MutableStateFlow<BaseScreenStateV2<CategoriesUiState>> =
-        MutableStateFlow(BaseScreenStateV2.OnLoading)
+    private val _state: MutableStateFlow<BaseScreenState<CategoriesUiState>> =
+        MutableStateFlow(BaseScreenState.OnLoading)
     val state = _state.onStart {
         getCategoriesFakeStore()
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
-        BaseScreenStateV2.OnLoading
+        BaseScreenState.OnLoading
     )
 
     fun onEvents(event: CategoriesEvents) {
@@ -61,13 +61,13 @@ class ListOfCategoriesViewModel @Inject constructor(
     }
 
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
-        _state.update { BaseScreenStateV2.OnError(error = exception) }
+        _state.update { BaseScreenState.OnError(error = exception) }
     }
 
     private fun getCategoriesFakeStore() =
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
             val categories = repository.getCategories()
-            _state.update { BaseScreenStateV2.OnContent(content = CategoriesUiState(categories)) }
+            _state.update { BaseScreenState.OnContent(content = CategoriesUiState(categories)) }
         }
 
 }

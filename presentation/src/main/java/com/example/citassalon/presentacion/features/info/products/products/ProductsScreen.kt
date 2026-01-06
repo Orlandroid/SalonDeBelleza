@@ -38,7 +38,7 @@ import androidx.navigation.NavController
 import coil.compose.SubcomposeAsyncImage
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
-import com.example.citassalon.presentacion.features.base.BaseScreenStateV2
+import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.citassalon.presentacion.features.base.getContentOrNull
 import com.example.citassalon.presentacion.features.components.ButtonWithIcon
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
@@ -59,7 +59,7 @@ fun ProductsScreen(
 ) {
     val uiState by productsViewModel.state.collectAsStateWithLifecycle()
     when (uiState) {
-        is BaseScreenStateV2.OnContent -> {
+        is BaseScreenState.OnContent -> {
             LaunchedEffect(Unit) {
                 productsViewModel.effects.collectLatest {
                     when (it) {
@@ -97,11 +97,11 @@ fun ProductsScreen(
             }
         }
 
-        is BaseScreenStateV2.OnError -> {
+        is BaseScreenState.OnError -> {
 
         }
 
-        BaseScreenStateV2.OnLoading -> {
+        BaseScreenState.OnLoading -> {
             ProgressDialog()
         }
     }

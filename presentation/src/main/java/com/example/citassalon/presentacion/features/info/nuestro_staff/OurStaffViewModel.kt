@@ -3,7 +3,7 @@ package com.example.citassalon.presentacion.features.info.nuestro_staff
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.presentacion.features.base.BaseScreenStateV2
+import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.data.di.IoDispatcher
 import com.example.domain.entities.remote.dummyUsers.DummyUsersResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,22 +30,22 @@ class OurStaffViewModel @Inject constructor(
 
 
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
-        _state.update { BaseScreenStateV2.OnError(error = exception) }
+        _state.update { BaseScreenState.OnError(error = exception) }
     }
 
-    private val _state: MutableStateFlow<BaseScreenStateV2<OurStaffyUiState>> =
-        MutableStateFlow(BaseScreenStateV2.OnLoading)
+    private val _state: MutableStateFlow<BaseScreenState<OurStaffyUiState>> =
+        MutableStateFlow(BaseScreenState.OnLoading)
     val state = _state.onStart {
         getStaffsUsers()
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
-        BaseScreenStateV2.OnLoading
+        BaseScreenState.OnLoading
     )
 
     private fun getStaffsUsers() = viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
         val response = repository.getStaffUsers()
-        _state.update { BaseScreenStateV2.OnContent(content = OurStaffyUiState(staffs = response)) }
+        _state.update { BaseScreenState.OnContent(content = OurStaffyUiState(staffs = response)) }
     }
 
 

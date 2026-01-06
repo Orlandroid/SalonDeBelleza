@@ -18,7 +18,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
-import com.example.citassalon.presentacion.features.base.BaseScreenStateV2
+import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.citassalon.presentacion.features.base.LongSpacer
 import com.example.citassalon.presentacion.features.base.MediumSpacer
 import com.example.citassalon.presentacion.features.base.Orientation
@@ -60,11 +60,11 @@ fun BranchesScreen(
         }
     }
     when (uiState) {
-        BaseScreenStateV2.OnLoading -> {
+        BaseScreenState.OnLoading -> {
             BranchesScreenSkeletons()
         }
 
-        is BaseScreenStateV2.OnContent -> {
+        is BaseScreenState.OnContent -> {
             uiState.getContentOrNull()?.let { state ->
                 BaseComposeScreen(
                     toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.agendar_sucursal)),
@@ -81,7 +81,7 @@ fun BranchesScreen(
             }
         }
 
-        is BaseScreenStateV2.OnError -> {
+        is BaseScreenState.OnError -> {
             //Add one screen for the error
         }
     }

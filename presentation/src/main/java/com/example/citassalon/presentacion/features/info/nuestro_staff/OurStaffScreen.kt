@@ -31,7 +31,7 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
-import com.example.citassalon.presentacion.features.base.BaseScreenStateV2
+import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.citassalon.presentacion.features.base.getContentOrNull
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
@@ -45,11 +45,11 @@ fun OurStaffScreen(
     val uiState = ourStaffViewModel.state.collectAsStateWithLifecycle()
     when (uiState.value) {
 
-        BaseScreenStateV2.OnLoading -> {
+        BaseScreenState.OnLoading -> {
             ProgressDialog()
         }
 
-        is BaseScreenStateV2.OnContent -> {
+        is BaseScreenState.OnContent -> {
             BaseComposeScreen(
                 navController = navController,
                 toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.nuestro_staff)),
@@ -60,7 +60,7 @@ fun OurStaffScreen(
             }
         }
 
-        is BaseScreenStateV2.OnError -> {
+        is BaseScreenState.OnError -> {
 
         }
     }
