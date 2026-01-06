@@ -87,15 +87,15 @@ class ProfileViewModel @Inject constructor(
 
             ProfileEvents.OnDismissDialog -> {
                 _uiState.update { it.copy(showAlertCloseSession = false) }
+            }
+
+            ProfileEvents.OnConfirmClicked -> {
+                _uiState.update { it.copy(showAlertCloseSession = false) }
                 destroyUserSession()
                 logout()
                 viewModelScope.launch {
                     _effects.send(ProfileEffects.CloseAndOpenActivity)
                 }
-            }
-
-            ProfileEvents.OnConfirmClicked -> {
-                _uiState.update { it.copy(showAlertCloseSession = false) }
             }
 
             ProfileEvents.OnCancel -> {

@@ -37,6 +37,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.citassalon.R
+import com.example.citassalon.presentacion.features.app_navigation.MainActivityCompose
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.base.MediumSpacer
 import com.example.citassalon.presentacion.features.base.Orientation
@@ -56,14 +57,14 @@ fun ProfileScreen(
     navController: NavHostController,
     profileViewModel: ProfileViewModel = hiltViewModel()
 ) {
-    val activity = LocalContext.current as Activity
+    val activity = LocalContext.current as MainActivityCompose
     val onEvents = profileViewModel::onEvents
     val uiState by profileViewModel.uiState.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
         profileViewModel.effects.collectLatest {
             when (it) {
                 ProfileEffects.CloseAndOpenActivity -> {
-                    activity.finish()
+                    activity.closeAndOpenActivity()
                 }
 
                 ProfileEffects.NavigateToContacts -> {

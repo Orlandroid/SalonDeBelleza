@@ -74,7 +74,6 @@ class ForgetPasswordViewmodel @Inject constructor(
                 sendEffect(ForgetPasswordEffects.ShowSnackBar(message = "Error trying to updated password"))
             }
             _state.update { state -> state.copy(isLoading = false) }
-            print(it.exception?.message.toString())
         }
     }
 
