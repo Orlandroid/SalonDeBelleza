@@ -21,7 +21,7 @@ import androidx.compose.ui.window.DialogProperties
 fun BaseCustomDialog(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
-    content: @Composable () -> Unit,
+    content: @Composable () -> Unit
 ) {
     Dialog(
         onDismissRequest = onDismissRequest,

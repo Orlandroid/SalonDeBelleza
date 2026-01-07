@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -152,20 +153,18 @@ private fun Products(
     products: List<Product>,
     onEvents: (event: ProductScreenEvents) -> Unit
 ) {
-    products.let { myProducts ->
-        LazyVerticalGrid(
-            columns = GridCells.Fixed(2)
-        ) {
-            myProducts.forEach { product ->
-                item {
-                    ItemProduct(
-                        product = product,
-                        onEvents = onEvents
-                    )
-                }
-            }
+    LazyVerticalGrid(
+        verticalArrangement = Arrangement.Center,
+        columns = GridCells.Fixed(2)
+    ) {
+        items(products.size) {
+            ItemProduct(
+                product = products[it],
+                onEvents = onEvents
+            )
         }
     }
+
 }
 
 @Composable

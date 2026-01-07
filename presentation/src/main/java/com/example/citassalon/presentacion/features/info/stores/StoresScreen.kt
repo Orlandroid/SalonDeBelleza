@@ -49,6 +49,7 @@ private fun StoresScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(setAnimation()))
+        Spacer(Modifier.height(32.dp))
         LottieAnimation(
             modifier = Modifier
                 .height(250.dp)

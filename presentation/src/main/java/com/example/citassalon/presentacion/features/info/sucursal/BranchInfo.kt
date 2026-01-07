@@ -1,6 +1,8 @@
 package com.example.citassalon.presentacion.features.info.sucursal
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Card
@@ -10,8 +12,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.constraintlayout.compose.ConstraintLayout
-import androidx.constraintlayout.compose.Dimension
 import androidx.navigation.NavController
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
@@ -42,21 +42,15 @@ private fun BranchInfoScreenContent(
     goTOServicesScreen: () -> Unit,
     goToLocationScreen: () -> Unit
 ) {
-    ConstraintLayout(
-        modifier
-            .fillMaxSize()
+    Column(
+        modifier = modifier
             .background(Background)
+            .fillMaxSize()
     ) {
-        val myGuideline = createGuidelineFromTop(0.40f)
-        val (content) = createRefs()
+        Spacer(Modifier.weight(0.4f))
         Card(
-            Modifier.constrainAs(content) {
-                width = Dimension.fillToConstraints
-                height = Dimension.fillToConstraints
-                top.linkTo(myGuideline)
-                linkTo(parent.start, parent.end)
-                bottom.linkTo(parent.bottom)
-            }, colors = CardDefaults.cardColors(containerColor = Color.White)
+            modifier = Modifier.weight(1f),
+            colors = CardDefaults.cardColors(containerColor = Color.White)
         ) {
             BranchInfoMenu(
                 goToOurStaffScreen = goToOurStaffScreen,
@@ -78,28 +72,25 @@ private fun BranchInfoMenu(
         item {
             TextWithArrow(
                 config = TextWithArrowConfig(
-                    text = stringResource(R.string.staff)
-                ) {
-                    goToOurStaffScreen.invoke()
-                }
+                    text = stringResource(R.string.staff),
+                    clickOnItem = goToOurStaffScreen
+                )
             )
         }
         item {
             TextWithArrow(
                 config = TextWithArrowConfig(
-                    text = stringResource(R.string.servicios)
-                ) {
-                    goTOServicesScreen.invoke()
-                }
+                    text = stringResource(R.string.servicios),
+                    clickOnItem = goTOServicesScreen
+                )
             )
         }
         item {
             TextWithArrow(
                 config = TextWithArrowConfig(
-                    text = stringResource(R.string.ubicacion)
-                ) {
-                    goToLocationScreen.invoke()
-                }
+                    text = stringResource(R.string.ubicacion),
+                    clickOnItem = goToLocationScreen
+                )
             )
         }
     }

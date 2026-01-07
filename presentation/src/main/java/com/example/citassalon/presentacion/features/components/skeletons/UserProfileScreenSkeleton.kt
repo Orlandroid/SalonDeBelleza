@@ -55,7 +55,7 @@ fun UserProfileScreenSkeleton(
             horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                modifier = Modifier.Companion.background(shimmerBrush()),
+                modifier = Modifier.background(shimmerBrush()),
                 color = Color.Transparent,
                 text = stringResource(R.string.name_user),
                 fontSize = 24.sp

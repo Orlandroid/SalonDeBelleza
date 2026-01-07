@@ -41,7 +41,7 @@ fun BaseAlertDialogMessages(
         bodyMessage = stringResource(R.string.message_body),
         buttonText = R.string.aceptar,
     ),
-    onDismissRequest: () -> Unit = {},
+    onDismissRequest: () -> Unit = {}
 ) {
     BaseCustomDialog(
         modifier = modifier, onDismissRequest = onDismissRequest
