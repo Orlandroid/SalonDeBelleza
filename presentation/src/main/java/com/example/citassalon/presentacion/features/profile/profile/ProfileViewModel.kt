@@ -93,9 +93,7 @@ class ProfileViewModel @Inject constructor(
                 _uiState.update { it.copy(showAlertCloseSession = false) }
                 destroyUserSession()
                 logout()
-                viewModelScope.launch {
-                    _effects.send(ProfileEffects.CloseAndOpenActivity)
-                }
+                sendEffect(ProfileEffects.CloseAndOpenActivity)
             }
 
             ProfileEvents.OnCancel -> {

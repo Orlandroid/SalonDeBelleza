@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -187,7 +186,9 @@ private fun ItemProduct(
         ImageProduct(productImage = product.image)
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            modifier = Modifier.align(Alignment.CenterHorizontally),
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(all = 4.dp),
             text = product.title
         )
         Spacer(modifier = Modifier.height(16.dp))
@@ -236,10 +237,11 @@ private fun ColumnScope.ImageProduct(productImage: String) {
 private fun ProductsScreenContentPreview() {
     ProductsScreenContent(
         products = listOf(
-            Product.dummyProduct(),
-            Product.dummyProduct(),
-            Product.dummyProduct(),
             Product.dummyProduct()
+                .copy(title = "John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet"),
+            Product.dummyProduct(),
+            Product.dummyProduct(),
+            Product.dummyProduct().copy(title = "Solid Gold Petite Micropave")
         ),
         onEvents = {}
     )

@@ -26,8 +26,13 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
+import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.citassalon.presentacion.features.base.getContentOrNull
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
+import com.example.citassalon.presentacion.features.dialogs.AlertDialogMessagesConfig
+import com.example.citassalon.presentacion.features.dialogs.BaseAlertDialogMessages
+import com.example.citassalon.presentacion.features.dialogs.IsTwoButtonsAlert
+import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.entities.ProductUi
@@ -38,12 +43,46 @@ fun CartScreen(
     viewModel: CartViewModel = hiltViewModel()
 ) {
     val uiState = viewModel.state.collectAsStateWithLifecycle()
-    BaseComposeScreen(
-        navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(title = "8.0 $")
-    ) {
-        uiState.value.getContentOrNull()?.let { state ->
-            CartScreenContent(products = state.products)
+    when (uiState.value) {
+        is BaseScreenState.OnContent -> {
+            BaseComposeScreen(
+                navController = navController,
+                toolbarConfiguration = ToolbarConfiguration(
+                    title = uiState.value.getContentOrNull()?.userMoney.toString(),
+                    showDeleteIcon = true,
+                    clickOnDeleteIcon = {
+                        viewModel.onEvents(CartEvents.OnDeleteIconClicked)
+                    }
+                )
+            ) {
+                uiState.value.getContentOrNull()?.let { state ->
+                    if (state.showDeleteDialog) {
+                        BaseAlertDialogMessages(
+                            alertDialogMessagesConfig = AlertDialogMessagesConfig(
+                                bodyMessage = "Estas seguro que quieres eliminar todos los productos",
+                                isTwoButtonsAlert = IsTwoButtonsAlert(
+                                    clickOnAccept = {
+                                        viewModel.onEvents(CartEvents.OnConfirmationDialog)
+                                    },
+                                    clickOnCancel = {
+                                        viewModel.onEvents(CartEvents.OnCancelPressed)
+                                    }
+                                )
+                            ),
+                            onDismissRequest = { viewModel.onEvents(CartEvents.OnCancelPressed) }
+                        )
+                    }
+                    CartScreenContent(products = state.products)
+                }
+            }
+        }
+
+        is BaseScreenState.OnError -> {
+
+        }
+
+        BaseScreenState.OnLoading -> {
+            ProgressDialog()
         }
     }
 

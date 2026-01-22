@@ -4,6 +4,7 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -46,16 +47,9 @@ fun HistoryDetail(
 
 @Composable
 private fun HistoryDetailContent(
-    modifier: Modifier = Modifier,
     appointment: AppointmentObject
 ) {
-    Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Background),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
-    ) {
+    Container {
         Card(
             Modifier
                 .padding(all = 8.dp)
@@ -82,6 +76,20 @@ private fun HistoryDetailContent(
 
         }
     }
+}
+
+@Composable
+private fun Container(
+    content: @Composable ColumnScope.() -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Background),
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally,
+        content = content
+    )
 }
 
 @Composable

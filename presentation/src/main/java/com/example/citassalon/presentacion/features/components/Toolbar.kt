@@ -3,6 +3,7 @@ package com.example.citassalon.presentacion.features.components
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.filled.Delete
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
@@ -23,14 +24,14 @@ import com.example.citassalon.presentacion.features.theme.StatusBarColor
 @Composable
 fun Toolbar(
     navController: NavController,
-    toolbarConfiguration: ToolbarConfiguration,
+    toolbarConfiguration: ToolbarConfiguration
 ) {
     TopAppBar(
         colors =
-        topAppBarColors(
-            containerColor = toolbarConfiguration.toolbarBackgroundColor,
-            titleContentColor = toolbarConfiguration.toolbarTextColor,
-        ),
+            topAppBarColors(
+                containerColor = toolbarConfiguration.toolbarBackgroundColor,
+                titleContentColor = toolbarConfiguration.toolbarTextColor,
+            ),
         title = {
             Text(
                 toolbarConfiguration.title,
@@ -48,6 +49,19 @@ fun Toolbar(
                     )
                 }
             }
+        },
+        actions = {
+            if (toolbarConfiguration.showDeleteIcon) {
+                IconButton(
+                    onClick = toolbarConfiguration.clickOnDeleteIcon
+                ) {
+                    Icon(
+                        tint = AlwaysWhite,
+                        imageVector = Icons.Filled.Delete,
+                        contentDescription = "Go Back"
+                    )
+                }
+            }
         }
     )
 }
@@ -58,7 +72,9 @@ data class ToolbarConfiguration(
     val isWithBackIcon: Boolean = true,
     val toolbarBackgroundColor: Color = StatusBarColor,
     val toolbarTextColor: Color = AlwaysWhite,
-    val clickOnBackButton: () -> Unit = {}
+    val clickOnBackButton: () -> Unit = {},
+    val showDeleteIcon: Boolean = false,
+    val clickOnDeleteIcon: () -> Unit = {}
 )
 
 
@@ -67,6 +83,9 @@ data class ToolbarConfiguration(
 fun SimpleComposablePreview() {
     Toolbar(
         navController = rememberNavController(),
-        toolbarConfiguration = ToolbarConfiguration(title = "Android Developer"),
+        toolbarConfiguration = ToolbarConfiguration(
+            title = "Android Developer",
+            showDeleteIcon = true
+        ),
     )
 }
