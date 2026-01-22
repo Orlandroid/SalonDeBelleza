@@ -26,6 +26,7 @@ import com.example.citassalon.presentacion.features.base.ErrorState
 import com.example.citassalon.presentacion.features.base.MediumSpacer
 import com.example.citassalon.presentacion.features.base.Orientation
 import com.example.citassalon.presentacion.features.base.getContentOrNull
+import com.example.citassalon.presentacion.features.components.BaseErrorScreen
 import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
@@ -79,7 +80,7 @@ fun CategoriesScreen(
         }
 
         is BaseScreenState.OnError -> {
-            ErrorState(AlertDialogMessagesConfig(bodyMessage = "Error${(uiState as BaseScreenState.OnError).error}"))
+            BaseErrorScreen()
         }
     }
 }

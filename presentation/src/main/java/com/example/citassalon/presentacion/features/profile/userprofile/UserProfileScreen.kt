@@ -48,6 +48,7 @@ import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.citassalon.presentacion.features.base.getContentOrNull
+import com.example.citassalon.presentacion.features.components.BaseErrorScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.components.skeletons.UserProfileScreenSkeleton
 import com.example.citassalon.presentacion.features.extensions.uriToBitmap
@@ -102,7 +103,7 @@ fun UserProfileScreen(
             }
 
             is BaseScreenState.OnError -> {
-                //OnError
+                BaseErrorScreen()
             }
         }
     }

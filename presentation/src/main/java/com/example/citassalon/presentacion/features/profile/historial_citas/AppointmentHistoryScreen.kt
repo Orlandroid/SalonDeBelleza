@@ -35,6 +35,7 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.base.ErrorState
+import com.example.citassalon.presentacion.features.components.BaseErrorScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.dialogs.AlertDialogMessagesConfig
 import com.example.citassalon.presentacion.features.dialogs.BaseAlertDialogMessages
@@ -64,7 +65,7 @@ fun AppointmentHistoryScreen(
         }
 
         is AppointmentHistoryViewState.OnError -> {
-            ErrorState(AlertDialogMessagesConfig(bodyMessage = "Error"))//Todo migrate
+            BaseErrorScreen()
         }
 
     }

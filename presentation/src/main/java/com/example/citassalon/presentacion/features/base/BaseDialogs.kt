@@ -26,23 +26,3 @@ fun ErrorState(alertDialogMessagesConfig: AlertDialogMessagesConfig) {
         )
     }
 }
-
-@Composable
-fun ErrorNetworkState(alertDialogMessagesConfig: AlertDialogMessagesConfig) {
-    val shouldShowDialogNetworkError = remember { mutableStateOf(true) }
-    if (shouldShowDialogNetworkError.value) {
-        BaseAlertDialogMessages(
-            onDismissRequest = {
-
-            },
-            alertDialogMessagesConfig = alertDialogMessagesConfig.copy(kindOfMessage = KindOfMessage.ERROR,
-                title = R.string.network_error,
-                bodyMessage = stringResource(R.string.network_error_message),
-                onConfirmation = {
-                    alertDialogMessagesConfig.onConfirmation.invoke()
-                    shouldShowDialogNetworkError.value = false
-                }
-            )
-        )
-    }
-}
