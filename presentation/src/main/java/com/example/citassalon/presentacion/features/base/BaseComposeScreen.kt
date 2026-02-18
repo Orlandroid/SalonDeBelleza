@@ -25,7 +25,7 @@ fun BaseComposeScreen(
     toolbarConfiguration: ToolbarConfiguration = ToolbarConfiguration(),
     background: Color = Background,
     isLoading: Boolean = false,
-    content: @Composable () -> Unit,
+    content: @Composable () -> Unit
 ) {
     Scaffold(
         topBar = {
@@ -55,7 +55,7 @@ fun ContentScreen(
     modifier: Modifier = Modifier,
     paddingValues: PaddingValues,
     background: Color,
-    content: @Composable () -> Unit,
+    content: @Composable () -> Unit
 ) {
     Column(
         modifier

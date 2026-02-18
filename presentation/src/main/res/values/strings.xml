@@ -166,4 +166,5 @@
     <string name="name">Nombre</string>
     <string name="money">Dinero</string>
     <string name="label_email">Email</string>
+    <string name="delete_all_products_sure">Estas seguro que quieres eliminar todos los productos</string>
 </resources>

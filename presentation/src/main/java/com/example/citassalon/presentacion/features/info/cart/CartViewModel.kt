@@ -3,7 +3,6 @@ package com.example.citassalon.presentacion.features.info.cart
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.base.BaseScreenState
-import com.example.citassalon.presentacion.features.base.BaseScreenState.*
 import com.example.citassalon.presentacion.features.info.products.products.ProductScreenEffects
 import com.example.data.di.IoDispatcher
 import com.example.data.preferences.LoginPreferences
@@ -30,7 +29,7 @@ sealed class CartEffects{
 sealed class CartEvents {
     object OnProductSelect : CartEvents()
     object OnDeleteIconClicked : CartEvents()
-    object OnConfirmationDialog : CartEvents()
+    object OnAccept : CartEvents()
     object OnCancelPressed : CartEvents()
 }
 
@@ -48,14 +47,14 @@ class CartViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<BaseScreenState<CartUiState>> =
-        MutableStateFlow(OnLoading)
+        MutableStateFlow(BaseScreenState.OnLoading)
     val state = _state.onStart {
         getAllProducts()
         getUserMoney()
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
-        OnLoading
+        BaseScreenState.OnLoading
     )
 
     private val _effects = Channel<ProductScreenEffects>()
@@ -66,20 +65,34 @@ class CartViewModel @Inject constructor(
     fun onEvents(event: CartEvents) {
         when (event) {
             CartEvents.OnDeleteIconClicked -> {
-                _state.update { OnContent(content = CartUiState(products = cachedProducts, showDeleteDialog = true)) }
+                _state.update {
+                    BaseScreenState.OnContent(
+                        content = CartUiState(
+                            products = cachedProducts,
+                            showDeleteDialog = true
+                        )
+                    )
+                }
             }
 
             CartEvents.OnProductSelect -> {
 
             }
 
-            CartEvents.OnConfirmationDialog -> {
+            CartEvents.OnAccept -> {
                 deleteAllTheProducts()
-                _state.update { OnContent(content = CartUiState(products = cachedProducts, showDeleteDialog = false)) }
+                _state.update {
+                    BaseScreenState.OnContent(
+                        content = CartUiState(
+                            products = cachedProducts,
+                            showDeleteDialog = false
+                        )
+                    )
+                }
             }
 
             CartEvents.OnCancelPressed -> {
-                _state.update { OnContent(content = CartUiState(products = cachedProducts, showDeleteDialog = false)) }
+                _state.update { BaseScreenState.OnContent(content = CartUiState(products = cachedProducts, showDeleteDialog = false)) }
             }
 
         }
@@ -90,7 +103,7 @@ class CartViewModel @Inject constructor(
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
             val response = repository.getAllProducts()
             cachedProducts = response.toProductUiList()
-            _state.update { OnContent(content = CartUiState(products = cachedProducts)) }
+            _state.update { BaseScreenState.OnContent(content = CartUiState(products = cachedProducts)) }
         }
     }
 

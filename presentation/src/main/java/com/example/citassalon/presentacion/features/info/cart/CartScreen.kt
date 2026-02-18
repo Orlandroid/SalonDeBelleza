@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -28,6 +29,7 @@ import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.citassalon.presentacion.features.base.getContentOrNull
+import com.example.citassalon.presentacion.features.components.BaseErrorScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.dialogs.AlertDialogMessagesConfig
 import com.example.citassalon.presentacion.features.dialogs.BaseAlertDialogMessages
@@ -57,20 +59,7 @@ fun CartScreen(
             ) {
                 uiState.value.getContentOrNull()?.let { state ->
                     if (state.showDeleteDialog) {
-                        BaseAlertDialogMessages(
-                            alertDialogMessagesConfig = AlertDialogMessagesConfig(
-                                bodyMessage = "Estas seguro que quieres eliminar todos los productos",
-                                isTwoButtonsAlert = IsTwoButtonsAlert(
-                                    clickOnAccept = {
-                                        viewModel.onEvents(CartEvents.OnConfirmationDialog)
-                                    },
-                                    clickOnCancel = {
-                                        viewModel.onEvents(CartEvents.OnCancelPressed)
-                                    }
-                                )
-                            ),
-                            onDismissRequest = { viewModel.onEvents(CartEvents.OnCancelPressed) }
-                        )
+                        DialogDeleteAllProducts(onEvents = viewModel::onEvents)
                     }
                     CartScreenContent(products = state.products)
                 }
@@ -78,7 +67,7 @@ fun CartScreen(
         }
 
         is BaseScreenState.OnError -> {
-
+            BaseErrorScreen()
         }
 
         BaseScreenState.OnLoading -> {
@@ -86,6 +75,24 @@ fun CartScreen(
         }
     }
 
+}
+
+@Composable
+private fun DialogDeleteAllProducts(onEvents: (event: CartEvents) -> Unit) {
+    BaseAlertDialogMessages(
+        alertDialogMessagesConfig = AlertDialogMessagesConfig(
+            bodyMessage = stringResource(R.string.delete_all_products_sure),
+            isTwoButtonsAlert = IsTwoButtonsAlert(
+                clickOnAccept = {
+                    onEvents(CartEvents.OnAccept)
+                },
+                clickOnCancel = {
+                    onEvents(CartEvents.OnCancelPressed)
+                }
+            )
+        ),
+        onDismissRequest = { onEvents(CartEvents.OnCancelPressed) }
+    )
 }
 
 @Composable
