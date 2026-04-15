@@ -29,6 +29,7 @@ sealed class SingUpEvents {
 
 sealed class SignUpSideEffects {
     data object NavigateToLoginScreen : SignUpSideEffects()
+    data class ShowSnackBar(val message: String? = null) : SignUpSideEffects()
 }
 
 data class SignUpUiState(
@@ -125,6 +126,7 @@ class SignUpViewModel @Inject constructor(
             } else {
                 val error = Exception(it.exception?.message ?: "")
                 _state.update { state -> state.copy(error = error) }
+                sendEffect(SignUpSideEffects.ShowSnackBar("Error al crear cuenta: ${error.message}"))
             }
             _state.update { state -> state.copy(isLoading = false) }
         }
@@ -135,9 +137,9 @@ class SignUpViewModel @Inject constructor(
         val user = repository.getUser()?.uid ?: return
         firebaseDatabase.getReference("users").child(user).setValue(userP).addOnCompleteListener {
             if (it.isSuccessful) {
-                //Send one snackbar or some info to one dialog for show success
+                sendEffect(SignUpSideEffects.ShowSnackBar("Success"))
             } else {
-                //Send one snackbar or some info to one dialog for show error
+                sendEffect(SignUpSideEffects.ShowSnackBar("Error"))
             }
         }
     }

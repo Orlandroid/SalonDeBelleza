@@ -6,8 +6,11 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.SnackbarHost
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
@@ -23,11 +26,13 @@ import com.example.citassalon.presentacion.features.theme.Background
 fun BaseComposeScreen(
     navController: NavController,
     toolbarConfiguration: ToolbarConfiguration = ToolbarConfiguration(),
+    snackBarHostState: SnackbarHostState= remember { SnackbarHostState() },
     background: Color = Background,
     isLoading: Boolean = false,
     content: @Composable () -> Unit
 ) {
     Scaffold(
+        snackbarHost = {SnackbarHost(hostState = snackBarHostState)},
         topBar = {
             if (toolbarConfiguration.showToolbar) {
                 Toolbar(

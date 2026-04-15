@@ -18,9 +18,11 @@ import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -48,12 +50,17 @@ fun SignUpScreen(
     navHostController: NavHostController,
     signUpViewModel: SignUpViewModel = hiltViewModel(),
 ) {
+    val snackBarHostState = remember { SnackbarHostState() }
     val state = signUpViewModel.state.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
         signUpViewModel.effects.collectLatest {
             when (it) {
                 SignUpSideEffects.NavigateToLoginScreen -> {
                     navHostController.navigate(AuthScreens.LoginRoute)
+                }
+
+                is SignUpSideEffects.ShowSnackBar -> {
+                    it.message?.let { message -> snackBarHostState.showSnackbar(message) }
                 }
             }
         }
@@ -66,7 +73,9 @@ fun SignUpScreen(
         })
     }
     BaseComposeScreen(
-        navController = navHostController, toolbarConfiguration = ToolbarConfiguration(
+        snackBarHostState = snackBarHostState,
+        navController = navHostController,
+        toolbarConfiguration = ToolbarConfiguration(
             showToolbar = false, title = stringResource(id = R.string.signUp)
         )
     ) {
@@ -86,48 +95,32 @@ private fun SignUpScreenContent(
     ContainerSignUp {
         val logoImage = painterResource(id = R.drawable.logo)
         Image(
-            painter = logoImage,
-            contentDescription = "SkedulyImage", modifier.size(150.dp)
+            painter = logoImage, contentDescription = "SkedulyImage", modifier.size(150.dp)
         )
         InputName(
-            value = uiState.name,
-            onValueChange = {
+            value = uiState.name, onValueChange = {
                 onEvents(SingUpEvents.OnNameChange(name = it))
-            }
-        )
+            })
         InputPhone(
-            value = uiState.phone,
-            showError = uiState.showErrorPhone,
-            onValueChange = {
+            value = uiState.phone, showError = uiState.showErrorPhone, onValueChange = {
                 onEvents(SingUpEvents.OnPhoneChange(phone = it))
-            }
-        )
+            })
         InputEmail(
-            value = uiState.email,
-            showError = uiState.showErrorEmail,
-            onValueChange = {
+            value = uiState.email, showError = uiState.showErrorEmail, onValueChange = {
                 onEvents(SingUpEvents.OnEmailChange(email = it))
-            }
-        )
+            })
         InputPassword(
-            value = uiState.password,
-            showError = uiState.showErrorPassword,
-            onValueChange = {
+            value = uiState.password, showError = uiState.showErrorPassword, onValueChange = {
                 onEvents(SingUpEvents.OnPasswordChange(password = it))
-            }
-        )
+            })
         InputBirthday(
-            value = uiState.birthday,
-            onEvents = onEvents
+            value = uiState.birthday, onEvents = onEvents
         )
         Spacer(modifier = Modifier.weight(1f))
         ButtonSignUp(
-            isEnable = uiState.isEnableButton,
-            isLoading = uiState.isLoading,
-            onClick = {
+            isEnable = uiState.isEnableButton, isLoading = uiState.isLoading, onClick = {
                 onEvents(SingUpEvents.OnSignUpClick)
-            }
-        )
+            })
     }
 }
 
@@ -136,11 +129,10 @@ private fun ContainerSignUp(
     content: @Composable ColumnScope.() -> Unit
 ) {
     Column(
-        modifier =
-            Modifier
-                .fillMaxSize()
-                .background(Background)
-                .padding(8.dp),
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Background)
+            .padding(8.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
@@ -150,10 +142,7 @@ private fun ContainerSignUp(
 
 @Composable
 private fun ButtonSignUp(
-    modifier: Modifier = Modifier,
-    isEnable: Boolean,
-    onClick: () -> Unit,
-    isLoading: Boolean
+    modifier: Modifier = Modifier, isEnable: Boolean, onClick: () -> Unit, isLoading: Boolean
 ) {
     Button(
         modifier = modifier.fillMaxWidth(),
@@ -181,8 +170,7 @@ private fun InputName(
         value = value,
         onValueChange = { currentValue ->
             onValueChange.invoke(currentValue)
-        }
-    )
+        })
 }
 
 @Composable
@@ -207,8 +195,7 @@ private fun InputPhone(
         value = value,
         onValueChange = {
             onValueChange.invoke(it)
-        }
-    )
+        })
 }
 
 @Composable
@@ -233,8 +220,7 @@ private fun InputEmail(
         value = value,
         onValueChange = {
             onValueChange.invoke(it)
-        }
-    )
+        })
 }
 
 @Composable
@@ -260,15 +246,12 @@ private fun InputPassword(
         isInputPassword = true,
         onValueChange = {
             onValueChange.invoke(it)
-        }
-    )
+        })
 }
 
 @Composable
 private fun InputBirthday(
-    modifier: Modifier = Modifier,
-    value: String,
-    onEvents: (SingUpEvents) -> Unit
+    modifier: Modifier = Modifier, value: String, onEvents: (SingUpEvents) -> Unit
 ) {
     BaseOutlinedTextField(
         modifier = modifier,
@@ -277,8 +260,7 @@ private fun InputBirthday(
         value = value,
         isEnable = false,
         clickOnIcon = { onEvents(SingUpEvents.OnOpenDatePick) },
-        onValueChange = { onEvents(SingUpEvents.OnDateSelected(birthday = it)) }
-    )
+        onValueChange = { onEvents(SingUpEvents.OnDateSelected(birthday = it)) })
 }
 
 
@@ -286,8 +268,5 @@ private fun InputBirthday(
 @Preview(showBackground = true)
 private fun SignUpScreenPreview() {
     SignUpScreenContent(
-        modifier = Modifier,
-        uiState = SignUpUiState(),
-        onEvents = {}
-    )
+        modifier = Modifier, uiState = SignUpUiState(), onEvents = {})
 }

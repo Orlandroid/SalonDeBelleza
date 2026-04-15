@@ -33,6 +33,7 @@ import com.example.citassalon.presentacion.features.schedule_appointment.Schedul
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentsSideEffects
 import com.example.citassalon.presentacion.features.theme.BackgroundListsMainFlow
 import com.example.domain.entities.remote.migration.Staff
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun ScheduleStaffScreen(
@@ -41,7 +42,7 @@ fun ScheduleStaffScreen(
 ) {
     val uiState = mainViewModel.staffUiState.collectAsStateWithLifecycle()
     LaunchedEffect(mainViewModel) {
-        mainViewModel.branchSideEffects.collect { effect ->
+        mainViewModel.branchSideEffects.collectLatest { effect ->
             when (effect) {
                 is ScheduleAppointmentsSideEffects.GoToDetailStaffScreen -> {
                     navController.navigate(ScheduleAppointmentScreens.DetailStaffRoute)
