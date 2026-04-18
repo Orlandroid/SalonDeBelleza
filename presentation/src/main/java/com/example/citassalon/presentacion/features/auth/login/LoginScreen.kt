@@ -113,7 +113,9 @@ fun LoginScreen(
                     viewModel.onEvents(LoginEvents.OnCloseErrorDialog)
                 }
             )
-            BaseAlertDialogMessages(alertDialogMessagesConfig = config)
+            BaseAlertDialogMessages(
+                alertDialogMessagesConfig = config
+            )
         }
         LoginScreenContent(
             uiState = uiState,
@@ -176,6 +178,7 @@ private fun LoginScreenContent(
         Spacer(modifier = Modifier.height(16.dp))
         TextOr()
         SignUpButton(onClick = { onEvents(LoginEvents.GoToSignUpScreen) })
+        Spacer(modifier = Modifier.height(8.dp))
         GoogleButton()
     }
 }
@@ -343,9 +346,7 @@ private fun SignUpButton(
     onClick: () -> Unit = {}
 ) {
     Button(
-        onClick = {
-            onClick.invoke()
-        },
+        onClick = onClick,
         colors = ButtonDefaults.buttonColors(containerColor = Color.White),
         modifier = modifier.fillMaxWidth()
     ) {

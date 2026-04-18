@@ -53,14 +53,13 @@ data class LoginUiState(
     val showErrorPassword: Boolean = false,
     val showErrorUserName: Boolean = false,
     val showResetPasswordError: Boolean = false,
-    val showDialogPasswordOrEmailWrong: Boolean = false,
+    val showDialogPasswordOrEmailWrong: Boolean = false
 )
 
 @HiltViewModel
 class LoginViewModel
 @Inject constructor(
-    private val repository: Repository,
-    private val loginPreferences: LoginPreferences
+    private val repository: Repository, private val loginPreferences: LoginPreferences
 ) : ViewModel() {
 
     private val _loginGoogleStatus = MutableLiveData<SessionStatus>()
@@ -170,8 +169,7 @@ class LoginViewModel
             } else {
                 _state.update { oldState ->
                     oldState.copy(
-                        isLoading = false,
-                        showDialogPasswordOrEmailWrong = true
+                        isLoading = false, showDialogPasswordOrEmailWrong = true
                     )
                 }
             }

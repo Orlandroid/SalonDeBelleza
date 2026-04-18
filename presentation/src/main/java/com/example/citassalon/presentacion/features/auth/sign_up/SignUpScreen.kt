@@ -48,7 +48,7 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun SignUpScreen(
     navHostController: NavHostController,
-    signUpViewModel: SignUpViewModel = hiltViewModel(),
+    signUpViewModel: SignUpViewModel = hiltViewModel()
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val state = signUpViewModel.state.collectAsStateWithLifecycle()
