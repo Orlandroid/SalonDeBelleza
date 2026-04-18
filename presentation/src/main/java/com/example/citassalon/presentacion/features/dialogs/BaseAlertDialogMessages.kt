@@ -44,11 +44,12 @@ fun BaseAlertDialogMessages(
     onDismissRequest: () -> Unit = {}
 ) {
     BaseCustomDialog(
-        modifier = modifier, onDismissRequest = onDismissRequest
+        modifier = modifier,
+        onDismissRequest = onDismissRequest
     ) {
         BaseAlertDialogMessagesContent(
             onConfirmation = alertDialogMessagesConfig.onConfirmation,
-            alertDialogMessagesConfig = alertDialogMessagesConfig,
+            alertDialogMessagesConfig = alertDialogMessagesConfig
         )
     }
 }
@@ -98,9 +99,8 @@ private fun AlertButtonOrButtons(
     if (isTwoButtonsAlert == null) {
         AlertButton(
             modifier = modifier,
-            buttonMessage = acceptText, onClick = {
-                onAccept.invoke()
-            }
+            buttonMessage = acceptText,
+            onClick = onAccept
         )
     } else {
         Row(
@@ -112,9 +112,7 @@ private fun AlertButtonOrButtons(
                     .weight(1f)
                     .padding(start = 4.dp, bottom = 4.dp),
                 buttonMessage = acceptText,
-                onClick = {
-                    onAccept.invoke()
-                }
+                onClick = isTwoButtonsAlert.clickOnAccept
             )
             SmallSpacer(
                 orientation = Orientation.HORIZONTAL
@@ -125,9 +123,7 @@ private fun AlertButtonOrButtons(
                     .weight(1f)
                     .padding(end = 4.dp, bottom = 4.dp),
                 buttonMessage = isTwoButtonsAlert.cancelText,
-                onClick = {
-                    isTwoButtonsAlert.clickOnCancel.invoke()
-                }
+                onClick = isTwoButtonsAlert.clickOnCancel
             )
             SmallSpacer(orientation = Orientation.VERTICAL)
         }
