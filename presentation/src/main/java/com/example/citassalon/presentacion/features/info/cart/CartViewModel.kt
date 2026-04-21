@@ -6,6 +6,7 @@ import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.data.di.IoDispatcher
 import com.example.data.preferences.LoginPreferences
 import com.example.domain.entities.ProductUi
+import com.example.domain.entities.remote.Product
 import com.example.domain.entities.toProductUiList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -23,10 +24,11 @@ import javax.inject.Inject
 
 sealed class CartEffects {
     object OnProductsDeleted : CartEffects()
+    data class NavigateToProductDetail(val product: ProductUi) : CartEffects()
 }
 
 sealed class CartEvents {
-    object OnProductSelect : CartEvents()
+    data class OnProductSelect(val product: ProductUi) : CartEvents()
     object OnDeleteIconClicked : CartEvents()
     object OnAccept : CartEvents()
     object OnCancelPressed : CartEvents()
@@ -74,8 +76,10 @@ class CartViewModel @Inject constructor(
                 }
             }
 
-            CartEvents.OnProductSelect -> {
-
+            is CartEvents.OnProductSelect -> {
+                viewModelScope.launch {
+                    _effects.send(CartEffects.NavigateToProductDetail(event.product))
+                }
             }
 
             CartEvents.OnAccept -> {

@@ -38,9 +38,11 @@ import com.example.citassalon.presentacion.features.dialogs.AlertDialogMessagesC
 import com.example.citassalon.presentacion.features.dialogs.BaseAlertDialogMessages
 import com.example.citassalon.presentacion.features.dialogs.IsTwoButtonsAlert
 import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
+import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.entities.ProductUi
+import com.example.domain.entities.toProduct
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -55,6 +57,10 @@ fun CartScreen(
             when (it) {
                 CartEffects.OnProductsDeleted -> {
                     snackBarHostState.showSnackbar("Products deleted")
+                }
+
+                is CartEffects.NavigateToProductDetail -> {
+                    navController.navigate(InfoNavigationScreens.DetailProductRoute(it.product.toProduct()))
                 }
             }
         }
@@ -75,7 +81,7 @@ fun CartScreen(
                     if (state.showDeleteDialog) {
                         DialogDeleteAllProducts(onEvents = viewModel::onEvents)
                     }
-                    CartScreenContent(products = state.products)
+                    CartScreenContent(products = state.products, onEvents = viewModel::onEvents)
                 }
             }
         }
@@ -112,7 +118,8 @@ private fun DialogDeleteAllProducts(onEvents: (event: CartEvents) -> Unit) {
 @Composable
 private fun CartScreenContent(
     modifier: Modifier = Modifier,
-    products: List<ProductUi>?
+    products: List<ProductUi>?,
+    onEvents: (event: CartEvents) -> Unit
 ) {
     LazyColumn(
         modifier = modifier
@@ -123,7 +130,10 @@ private fun CartScreenContent(
             if (listProducts.isNotEmpty()) {
                 listProducts.forEach { product ->
                     item {
-                        ItemCart(productDb = product)
+                        ItemCart(
+                            product = product,
+                            onEvents = onEvents
+                        )
                     }
                 }
             }
@@ -133,12 +143,18 @@ private fun CartScreenContent(
 }
 
 @Composable
-private fun ItemCart(productDb: ProductUi) {
+private fun ItemCart(
+    product: ProductUi,
+    onEvents: (event: CartEvents) -> Unit
+) {
     Card(
-        Modifier
+        modifier = Modifier
             .fillMaxWidth()
             .padding(8.dp),
         shape = RoundedCornerShape(16.dp),
+        onClick = {
+            onEvents(CartEvents.OnProductSelect(product))
+        },
         colors = CardDefaults.cardColors(
             containerColor = AlwaysWhite
         )
@@ -158,13 +174,13 @@ private fun ItemCart(productDb: ProductUi) {
             Spacer(modifier = Modifier.width(16.dp))
             Text(
                 modifier = Modifier.weight(1f),
-                text = productDb.title
+                text = product.title
             )
             Text(
                 modifier = Modifier
                     .padding(end = 8.dp)
                     .weight(1f),
-                text = "$ ${productDb.price}",
+                text = "$ ${product.price}",
             )
         }
     }
@@ -191,7 +207,8 @@ private fun CartScreenContentPreview() {
             product,
             product,
             product
-        )
+        ),
+        onEvents = {}
     )
 }
 
