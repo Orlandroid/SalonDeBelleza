@@ -3,7 +3,6 @@ package com.example.citassalon.presentacion.features.info.cart
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.base.BaseScreenState
-import com.example.citassalon.presentacion.features.info.products.products.ProductScreenEffects
 import com.example.data.di.IoDispatcher
 import com.example.data.preferences.LoginPreferences
 import com.example.domain.entities.ProductUi
@@ -22,7 +21,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-sealed class CartEffects{
+sealed class CartEffects {
     object OnProductsDeleted : CartEffects()
 }
 
@@ -35,7 +34,7 @@ sealed class CartEvents {
 
 data class CartUiState(
     val products: List<ProductUi> = emptyList(),
-    val userMoney: String? = null,
+    val userMoney: String = "0",
     val showDeleteDialog: Boolean = false
 )
 
@@ -57,7 +56,7 @@ class CartViewModel @Inject constructor(
         BaseScreenState.OnLoading
     )
 
-    private val _effects = Channel<ProductScreenEffects>()
+    private val _effects = Channel<CartEffects>()
     val effects = _effects.receiveAsFlow()
 
     var cachedProducts: List<ProductUi> = emptyList()
@@ -80,7 +79,12 @@ class CartViewModel @Inject constructor(
             }
 
             CartEvents.OnAccept -> {
+                _state.update { BaseScreenState.OnLoading }
                 deleteAllTheProducts()
+                _state.update { BaseScreenState.OnContent(content = CartUiState()) }
+            }
+
+            CartEvents.OnCancelPressed -> {
                 _state.update {
                     BaseScreenState.OnContent(
                         content = CartUiState(
@@ -89,10 +93,6 @@ class CartViewModel @Inject constructor(
                         )
                     )
                 }
-            }
-
-            CartEvents.OnCancelPressed -> {
-                _state.update { BaseScreenState.OnContent(content = CartUiState(products = cachedProducts, showDeleteDialog = false)) }
             }
 
         }
@@ -122,6 +122,9 @@ class CartViewModel @Inject constructor(
     private fun deleteAllTheProducts() {
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
             val result = repository.deleteAllProducts()
+            if (result > 0) {
+                _effects.send(CartEffects.OnProductsDeleted)
+            }
         }
     }
 

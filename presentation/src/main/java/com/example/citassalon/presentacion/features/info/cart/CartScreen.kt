@@ -14,8 +14,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -38,6 +41,7 @@ import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.entities.ProductUi
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun CartScreen(
@@ -45,6 +49,16 @@ fun CartScreen(
     viewModel: CartViewModel = hiltViewModel()
 ) {
     val uiState = viewModel.state.collectAsStateWithLifecycle()
+    val snackBarHostState = remember { SnackbarHostState() }
+    LaunchedEffect(Unit) {
+        viewModel.effects.collectLatest {
+            when (it) {
+                CartEffects.OnProductsDeleted -> {
+                    snackBarHostState.showSnackbar("Products deleted")
+                }
+            }
+        }
+    }
     when (uiState.value) {
         is BaseScreenState.OnContent -> {
             BaseComposeScreen(

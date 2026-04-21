@@ -78,12 +78,12 @@ fun ProductsScreen(
                         }
 
                         ProductScreenEffects.ProductSaved -> {
-                            snackBarHostState.showSnackbar(context.getString(R.string.product_added))
+                            snackBarHostState.showSnackbar(message = context.getString(R.string.product_added))
                         }
 
                         ProductScreenEffects.NoProductsToDelete -> {}
                         ProductScreenEffects.ProductsDeletedSuccessfully -> {
-                            snackBarHostState.showSnackbar(context.getString(R.string. products_deleted))
+                            snackBarHostState.showSnackbar(context.getString(R.string.products_deleted))
                         }
                     }
                 }

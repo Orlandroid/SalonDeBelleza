@@ -57,7 +57,9 @@ class LoginPreferences @Inject constructor(sharedPreferences: SharedPreferences)
     }
 
     fun getUserMoney(): Int {
-        return preferences.getInt(USER_MONEY, 0)
+        val userMoney = (100..7500).random()
+        savePreferenceKey(USER_MONEY, userMoney)
+        return preferences.getInt(USER_MONEY, userMoney)
     }
 
 }
