@@ -55,7 +55,7 @@ fun NavGraphBuilder.infoNavigationGraph(navController: NavHostController) {
             typeMap = mapOf(typeOf<Product>() to CustomNavType.productType)
         ) {
             val arguments = it.toRoute<InfoNavigationScreens.DetailProductRoute>()
-            DetailProductScreen(navController = navController, product = arguments.product)
+            DetailProductScreen(navController = navController, productId = arguments.productId)
         }
         composable<InfoNavigationScreens.CartRoute> {
             CartScreen(navController = navController)

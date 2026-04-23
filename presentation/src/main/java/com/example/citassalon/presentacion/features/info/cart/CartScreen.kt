@@ -42,7 +42,6 @@ import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.entities.ProductUi
-import com.example.domain.entities.toProduct
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -60,7 +59,7 @@ fun CartScreen(
                 }
 
                 is CartEffects.NavigateToProductDetail -> {
-                    navController.navigate(InfoNavigationScreens.DetailProductRoute(it.product.toProduct()))
+                    navController.navigate(InfoNavigationScreens.DetailProductRoute(it.product.id))
                 }
             }
         }

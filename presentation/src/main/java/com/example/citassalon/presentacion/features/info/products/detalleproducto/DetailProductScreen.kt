@@ -26,10 +26,13 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
+import com.example.citassalon.presentacion.features.base.getContentOrNull
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.theme.AlwaysBlack
 import com.example.citassalon.presentacion.features.theme.Background
@@ -41,13 +44,18 @@ import com.gowtham.ratingbar.RatingBarStyle
 @Composable
 fun DetailProductScreen(
     navController: NavController,
-    product: Product
+    productId: Int,
+    productDetailViewModel: DetailProductViewModel = hiltViewModel(
+        creationCallback = { factory: ProductDetailViewModelFactory -> factory.create(productId = productId) })
 ) {
+    val uiState by productDetailViewModel.state.collectAsStateWithLifecycle()
     BaseComposeScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.detail_product))
     ) {
-        DetailProductScreenContent(product = product)
+        uiState.getContentOrNull()?.let { state ->
+            DetailProductScreenContent(product = state.product)
+        }
     }
 
 }
@@ -58,6 +66,7 @@ private fun DetailProductScreenContent(
     product: Product
 ) {
     var rating: Float by remember { mutableFloatStateOf(product.rating.rate.toFloat()) }
+
     Column(
         modifier
             .fillMaxSize()
