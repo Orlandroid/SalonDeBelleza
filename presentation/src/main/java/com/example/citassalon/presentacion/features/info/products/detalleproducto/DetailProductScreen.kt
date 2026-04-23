@@ -32,8 +32,11 @@ import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
+import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.citassalon.presentacion.features.base.getContentOrNull
+import com.example.citassalon.presentacion.features.components.BaseErrorScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
+import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.theme.AlwaysBlack
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.entities.remote.Product
@@ -49,14 +52,27 @@ fun DetailProductScreen(
         creationCallback = { factory: ProductDetailViewModelFactory -> factory.create(productId = productId) })
 ) {
     val uiState by productDetailViewModel.state.collectAsStateWithLifecycle()
-    BaseComposeScreen(
-        navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.detail_product))
-    ) {
-        uiState.getContentOrNull()?.let { state ->
-            DetailProductScreenContent(product = state.product)
+    when (uiState) {
+        is BaseScreenState.OnError -> {
+            BaseErrorScreen()
+        }
+
+        BaseScreenState.OnLoading -> {
+            ProgressDialog()
+        }
+
+        is BaseScreenState.OnContent<*> -> {
+            BaseComposeScreen(
+                navController = navController,
+                toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.detail_product))
+            ) {
+                uiState.getContentOrNull()?.let { state ->
+                    DetailProductScreenContent(product = state.product)
+                }
+            }
         }
     }
+
 
 }
 
