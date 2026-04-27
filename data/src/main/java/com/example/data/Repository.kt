@@ -1,11 +1,9 @@
 package com.example.data
 
 
-import com.example.domain.entities.db.AppointmentDb
-import com.example.domain.entities.db.ProductDb
-import com.example.domain.perfil.RandomUserResponse
 import com.example.domain.LocalDataSource
 import com.example.domain.RemoteDataSource
+import com.example.domain.entities.db.ProductDb
 import com.example.domain.entities.remote.Product
 import com.example.domain.mappers.toListCategoriesString
 import com.example.domain.mappers.toStringList
@@ -16,23 +14,6 @@ class Repository @Inject constructor(
     private val localDataSource: LocalDataSource,
     private val remoteDataSource: RemoteDataSource
 ) {
-
-    suspend fun addAppointment(appointment: AppointmentDb) =
-        localDataSource.addAppointment(appointment)
-
-    suspend fun addManyAppointment(appointment: List<AppointmentDb>) =
-        localDataSource.addManyAppointment(appointment)
-
-    suspend fun getAllAppointment(): List<AppointmentDb> = localDataSource.getAllAppointment()
-
-
-    suspend fun updateAppointment(appointment: AppointmentDb) =
-        localDataSource.updateAppointment(appointment)
-
-    suspend fun deleteAppointment(appointment: AppointmentDb): Int =
-        localDataSource.deleteAppointment(appointment)
-
-    suspend fun deleteAllAppointment() = localDataSource.deleteAllAppointment()
 
     suspend fun addProduct(productDb: ProductDb) = localDataSource.addProduct(productDb)
 
@@ -66,13 +47,9 @@ class Repository @Inject constructor(
         }
     }
 
-    suspend fun getSingleCart(id: Int) = remoteDataSource.getSingleCart(id)
 
     suspend fun getSucursales() = remoteDataSource.getSucursales()
 
-    suspend fun getStaffs() = remoteDataSource.getStaffs()
-
-    suspend fun getServices() = remoteDataSource.getServices()
 
     fun getUser() = remoteDataSource.getUser()
 
@@ -87,7 +64,6 @@ class Repository @Inject constructor(
 
     fun logout() = remoteDataSource.logout()
 
-    suspend fun randomUser(): RandomUserResponse = remoteDataSource.randomUser()
 
     suspend fun getStaffUsers() = remoteDataSource.getStaffUsers()
 
