@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.util.isValidEmail
 import com.example.data.Repository
 import com.example.data.preferences.LoginPreferences
+import com.example.data.remote.auth.AuthRepository
 import com.example.domain.state.SessionStatus
 import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -59,7 +60,9 @@ data class LoginUiState(
 @HiltViewModel
 class LoginViewModel
 @Inject constructor(
-    private val repository: Repository, private val loginPreferences: LoginPreferences
+    private val repository: Repository,
+    private val authRepository: AuthRepository,
+    private val loginPreferences: LoginPreferences
 ) : ViewModel() {
 
     private val _loginGoogleStatus = MutableLiveData<SessionStatus>()
@@ -159,7 +162,7 @@ class LoginViewModel
     fun login(email: String, password: String) = viewModelScope.launch {
         _state.update { oldState -> oldState.copy(isLoading = true) }
         delay(1.seconds)
-        repository.login(email = email, password = password).addOnCompleteListener { response ->
+        authRepository.login(email = email, password = password).addOnCompleteListener { response ->
             if (response.isSuccessful) {
                 saveUserSession()
                 saveUserEmailToPreferences(email)
@@ -177,7 +180,7 @@ class LoginViewModel
     }
 
     fun isUserActive(): Boolean {
-        return repository.getUser() != null
+        return authRepository.getUser() != null
     }
 
     fun firebaseAuthWithGoogle(idToken: String) {
@@ -187,7 +190,7 @@ class LoginViewModel
 //            return
 //        }
         val credential = GoogleAuthProvider.getCredential(idToken, null)
-        repository.signInWithCredential(credential).addOnCompleteListener {
+        authRepository.signInWithCredential(credential).addOnCompleteListener {
             if (it.isSuccessful) {
                 _loginGoogleStatus.value = SessionStatus.SUCCESS
             } else {

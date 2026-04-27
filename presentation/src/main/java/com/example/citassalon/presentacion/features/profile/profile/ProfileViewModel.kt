@@ -3,6 +3,7 @@ package com.example.citassalon.presentacion.features.profile.profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.data.preferences.LoginPreferences
+import com.example.data.remote.auth.AuthRepository
 import com.example.domain.perfil.ProfileItem
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -44,6 +45,7 @@ sealed class ProfileEffects {
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
     private val repository: com.example.data.Repository,
+    private val authRepository: AuthRepository,
     private val loginPreferences: LoginPreferences
 ) :
     ViewModel() {
@@ -52,7 +54,7 @@ class ProfileViewModel @Inject constructor(
         MutableStateFlow(ProfileUiState())
 
     val uiState = _uiState.onStart {
-        _uiState.update { it.copy(user = repository.getUser()?.email) }
+        _uiState.update { it.copy(user = authRepository.getUser()?.email) }
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(500L),
@@ -113,7 +115,7 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun logout() {
-        repository.logout()
+        authRepository.logout()
     }
 
 }

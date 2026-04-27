@@ -6,6 +6,7 @@ import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.citassalon.presentacion.features.info.products.products.ProductScreenEffects.NavigateToProductDetail
 import com.example.data.Repository
 import com.example.data.di.IoDispatcher
+import com.example.data.remote.fake_store.FakeStoreRepository
 import com.example.domain.entities.db.ProductDb
 import com.example.domain.entities.remote.Product
 import com.example.domain.mappers.toProductDb
@@ -45,6 +46,7 @@ data class ProductsUiState(
 
 @HiltViewModel(assistedFactory = ProductsViewModelFactory::class)
 class ProductsViewModel @AssistedInject constructor(
+    private val fakeStoreRepository: FakeStoreRepository,
     private val repository: Repository,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
     @Assisted private val category: String
@@ -101,7 +103,7 @@ class ProductsViewModel @AssistedInject constructor(
 
     fun getProducts(categoria: String) {
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
-            val response = repository.getProducts(categoria)
+            val response = fakeStoreRepository.getProducts(categoria)
             _state.update { BaseScreenState.OnContent(content = ProductsUiState(response)) }
         }
     }

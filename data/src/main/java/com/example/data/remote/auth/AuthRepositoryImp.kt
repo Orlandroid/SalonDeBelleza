@@ -1,14 +1,31 @@
 package com.example.data.remote.auth
 
 
-import com.example.data.api.DummyJsonApi
-import com.example.domain.entities.remote.products.ProductResponse
+import com.example.data.firebase.FireBaseSource
+import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.FirebaseUser
 
-class AuthRepositoryImp(private val api: DummyJsonApi) : AuthRepository {
+class AuthRepositoryImp(
+    private val fireBaseSource: FireBaseSource
+) : AuthRepository {
+    override fun getUser(): FirebaseUser? = fireBaseSource.getUser()
 
-    override suspend fun getProducts(): ProductResponse = api.getProducts()
+    override fun login(
+        email: String,
+        password: String
+    ) = fireBaseSource.login(email = email, password = password)
 
-    override suspend fun getSingleProduct(productId: Int) = api.getSingleProduct(productId)
+    override fun register(
+        email: String,
+        password: String
+    ) = fireBaseSource.register(email = email, password = password)
+
+    override fun forgetPassword(email: String) = fireBaseSource.forgetPassword(email = email)
+
+    override fun signInWithCredential(credential: AuthCredential) =
+        fireBaseSource.signInWithCredential(credential = credential)
+
+    override fun logout() = fireBaseSource.logout()
 
 
 }

@@ -4,18 +4,16 @@ package com.example.data.remote
 import com.example.data.api.FakeStoreService
 import com.example.data.api.WebServices
 import com.example.data.firebase.FireBaseSource
-import com.example.domain.perfil.RandomUserResponse
 import com.example.domain.RemoteDataSource
-import com.example.domain.entities.remote.Product
-import com.example.domain.entities.remote.dummyUsers.DummyUsersResponse
-import com.example.domain.entities.remote.migration.SucursalesResponse
-import com.google.firebase.auth.AuthCredential
-import com.google.firebase.auth.FirebaseUser
-import javax.inject.Inject
-import javax.inject.Singleton
 import com.example.domain.entities.remote.Cart
+import com.example.domain.entities.remote.Product
 import com.example.domain.entities.remote.Servicio
 import com.example.domain.entities.remote.Staff
+import com.example.domain.entities.remote.dummyUsers.DummyUsersResponse
+import com.example.domain.entities.remote.migration.SucursalesResponse
+import com.example.domain.perfil.RandomUserResponse
+import javax.inject.Inject
+import javax.inject.Singleton
 
 @Singleton
 class RemoteDataSourceImpl @Inject constructor(
@@ -38,19 +36,6 @@ class RemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getServices(): List<Servicio> = webServices.getServicios()
 
-    override fun getUser(): FirebaseUser? = fireBaseSource.getUser()
-
-    override fun login(email: String, password: String) = fireBaseSource.login(email, password)
-
-    override fun register(email: String, password: String) =
-        fireBaseSource.register(email, password)
-
-    override fun forgetPassword(email: String) = fireBaseSource.forgetPassword(email)
-
-    override fun signInWithCredential(credential: AuthCredential) =
-        fireBaseSource.signInWithCredential(credential)
-
-    override fun logout() = fireBaseSource.logout()
     override suspend fun randomUser(): RandomUserResponse =
         webServices.randomUser("https://randomuser.me/api/")
 

@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.extensions.dateFormat
 import com.example.citassalon.presentacion.features.extensions.getCurrentDateTime
 import com.example.citassalon.presentacion.features.extensions.toStringFormat
+import com.example.data.remote.auth.AuthRepository
 import com.example.domain.entities.remote.User
 import com.google.firebase.database.FirebaseDatabase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -51,6 +52,7 @@ data class SignUpUiState(
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val repository: com.example.data.Repository,
+    private val authRepository: AuthRepository,
     private val firebaseDatabase: FirebaseDatabase,
     private val useCaseValidateForm: UseCaseValidateFormSignUp
 ) : ViewModel() {
@@ -119,7 +121,7 @@ class SignUpViewModel @Inject constructor(
     private fun sinUp() {
         val user = _state.value.getUser()
         _state.update { it.copy(isLoading = true) }
-        repository.register(user.email, user.password).addOnCompleteListener {
+        authRepository.register(user.email, user.password).addOnCompleteListener {
             if (it.isSuccessful) {
                 saveUserInformation(user)
                 sendEffect(SignUpSideEffects.NavigateToLoginScreen)
@@ -134,7 +136,7 @@ class SignUpViewModel @Inject constructor(
     }
 
     private fun saveUserInformation(userP: User) {
-        val user = repository.getUser()?.uid ?: return
+        val user = authRepository.getUser()?.uid ?: return
         firebaseDatabase.getReference("users").child(user).setValue(userP).addOnCompleteListener {
             if (it.isSuccessful) {
                 sendEffect(SignUpSideEffects.ShowSnackBar("Success"))

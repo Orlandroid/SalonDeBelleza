@@ -30,17 +30,6 @@ interface RemoteDataSource {
 
     suspend fun getServices(): List<Servicio>
 
-    fun getUser(): FirebaseUser?
-
-    fun login(email: String, password: String): Task<AuthResult>
-
-    fun register(email: String, password: String): Task<AuthResult>
-
-    fun forgetPassword(email: String): Task<Void>
-
-    fun signInWithCredential(credential: AuthCredential): Task<AuthResult>
-
-    fun logout()
 
     suspend fun randomUser(): RandomUserResponse
 

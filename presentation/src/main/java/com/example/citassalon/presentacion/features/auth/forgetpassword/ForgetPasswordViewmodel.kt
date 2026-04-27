@@ -3,7 +3,7 @@ package com.example.citassalon.presentacion.features.auth.forgetpassword
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.util.isValidEmail
-import com.example.data.Repository
+import com.example.data.remote.auth.AuthRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ForgetPasswordViewmodel @Inject constructor(
-    private val repository: Repository
+    private val authRepository: AuthRepository,
 ) : ViewModel() {
 
 
@@ -67,7 +67,7 @@ class ForgetPasswordViewmodel @Inject constructor(
     }
 
     private fun forgetPassword(email: String) {
-        repository.forgetPassword(email).addOnCompleteListener {
+        authRepository.forgetPassword(email).addOnCompleteListener {
             if (it.isSuccessful) {
                 sendEffect(ForgetPasswordEffects.ShowSnackBar(message = "Password successful changed"))
             } else {
