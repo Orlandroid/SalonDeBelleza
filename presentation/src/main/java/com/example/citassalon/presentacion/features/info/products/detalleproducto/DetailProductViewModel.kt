@@ -3,8 +3,8 @@ package com.example.citassalon.presentacion.features.info.products.detalleproduc
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.base.BaseScreenState
-import com.example.data.Repository
 import com.example.data.di.IoDispatcher
+import com.example.data.remote.fake_store.FakeStoreRepository
 import com.example.domain.entities.remote.Product
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -25,7 +25,7 @@ data class ProductsDetailUiState(
 
 @HiltViewModel(assistedFactory = ProductDetailViewModelFactory::class)
 class DetailProductViewModel @AssistedInject constructor(
-    private val repository: Repository,
+    private val fakeStoreRepository: FakeStoreRepository,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
     @Assisted private val productId: Int
 ) : ViewModel() {
@@ -48,7 +48,7 @@ class DetailProductViewModel @AssistedInject constructor(
 
     private fun getSingleProduct(id: Int) {
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
-            val product = repository.getSingleProduct(id)
+            val product = fakeStoreRepository.getSingleProduct(id)
             _state.update { BaseScreenState.OnContent(content = ProductsDetailUiState(product = product)) }
         }
     }

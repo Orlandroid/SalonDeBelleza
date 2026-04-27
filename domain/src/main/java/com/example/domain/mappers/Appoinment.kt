@@ -5,12 +5,12 @@ import com.example.domain.entities.remote.AppointmentResponse
 import com.example.domain.perfil.AppointmentFirebase
 
 fun AppointmentResponse.toAppointmentRemote(idAppointment: String): AppointmentFirebase {
-    val establishment = this.establecimiento
-    val employee = this.empleado
-    val service = this.servicio
-    val date = this.fecha
+    val establishment = this.establishment
+    val employee = this.employee
+    val service = this.service
+    val date = this.date
     val hour = this.time
-    val total = this.idUser
+    val total = this.userId
     return AppointmentFirebase(idAppointment, establishment, employee, service, date, hour, total)
 }
 
@@ -21,7 +21,7 @@ fun AppointmentFirebase.toAppointmentResponse(): AppointmentResponse {
     val date = this.date
     val hour = this.hour
     val total = this.total
-    return AppointmentResponse(establishment, employee, service, date, hour, total)
+    return AppointmentResponse(establishment, employee, service, hour, date, total)
 }
 
 fun AppointmentFirebase.toAppointmentObject(): AppointmentObject {
@@ -34,5 +34,3 @@ fun AppointmentFirebase.toAppointmentObject(): AppointmentObject {
     val total = this.total
     return AppointmentObject(idAppointment, establishment, employee, service, date, hour, total)
 }
-
-

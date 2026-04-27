@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 @Parcelize
 data class Staff(
-    val nombre: String,
-    val sexo: String,
-    val valoracion: Float
+    val name: String,
+    val gender: String,
+    val rating: Float
 ) : Parcelable

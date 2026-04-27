@@ -64,13 +64,13 @@ data class Service(
 data class Staff(
     val id: String,
     val image_url: String,
-    val nombre: String,
-    val sexo: String,
-    val valoracion: Int
+    val name: String,
+    val gender: String,
+    val rating: Int
 ) {
     companion object {
         fun mockStaff() =
-            Staff(id = "", image_url = "", nombre = "Orlando", sexo = "Hombre", valoracion = 4)
+            Staff(id = "", image_url = "", name = "Orlando", gender = "Hombre", rating = 4)
 
         fun mockStaffList() = listOf(
             mockStaff(),
@@ -81,4 +81,3 @@ data class Staff(
         )
     }
 }
-

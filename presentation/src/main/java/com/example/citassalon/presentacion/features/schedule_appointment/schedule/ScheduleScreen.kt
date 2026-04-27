@@ -118,7 +118,7 @@ private fun ScheduleScreenContent(
     ) {
         StaffInfo(
             image = state.currentStaff?.image_url.orEmpty(),
-            name = state.currentStaff?.nombre.orEmpty(),
+            name = state.currentStaff?.name.orEmpty(),
             branch = state.branchName,
             services = state.listOfServices[0].name,
             price = state.listOfServices[0].precio.toString()
@@ -282,10 +282,10 @@ private fun ScheduleScreenContentPreview() {
             branchName = "Zacatecas",
             currentStaff = Staff(
                 id = "",
-                nombre = "Orlando",
-                sexo = "h",
+                name = "Orlando",
+                gender = "h",
                 image_url = "",
-                valoracion = 4
+                rating = 4
             ),
             listOfServices = listOf(Service(id = "", name = "Uñas", precio = 200))
         ),

@@ -2,7 +2,6 @@ package com.example.data.di
 
 
 import com.example.data.Repository
-import com.example.data.api.DummyJsonApi
 import com.example.data.api.FakeStoreService
 import com.example.data.firebase.FireBaseSource
 import com.example.data.remote.auth.AuthRepository
@@ -38,8 +37,11 @@ object ModuleRepository {
 
     @Singleton
     @Provides
-    fun provideFakeStoreRepository(api: FakeStoreService): FakeStoreRepository =
-        FakeStoreRepositoryImp(api)
+    fun provideFakeStoreRepository(
+        api: FakeStoreService,
+        localDataSource: LocalDataSource
+    ): FakeStoreRepository =
+        FakeStoreRepositoryImp(localDataSource = localDataSource, api = api)
 
 
 }

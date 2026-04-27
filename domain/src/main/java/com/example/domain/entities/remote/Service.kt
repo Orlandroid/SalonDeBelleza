@@ -5,4 +5,4 @@ import kotlinx.parcelize.Parcelize
 
 
 @Parcelize
-data class Servicio(val name: String, val precio: Int, var isSelect: Boolean = false) : Parcelable
+data class Service(val name: String, val price: Int, var isSelect: Boolean = false) : Parcelable

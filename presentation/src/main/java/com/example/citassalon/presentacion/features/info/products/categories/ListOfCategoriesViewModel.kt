@@ -3,8 +3,8 @@ package com.example.citassalon.presentacion.features.info.products.categories
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.base.BaseScreenState
-import com.example.data.Repository
 import com.example.data.di.IoDispatcher
+import com.example.data.remote.fake_store.FakeStoreRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -32,7 +32,7 @@ sealed class CategoriesEffects {
 
 @HiltViewModel
 class ListOfCategoriesViewModel @Inject constructor(
-    private val repository: Repository,
+    private val fakeStoreRepository: FakeStoreRepository,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
@@ -66,7 +66,7 @@ class ListOfCategoriesViewModel @Inject constructor(
 
     private fun getCategoriesFakeStore() =
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
-            val categories = repository.getCategories()
+            val categories = fakeStoreRepository.getCategories()
             _state.update { BaseScreenState.OnContent(content = CategoriesUiState(categories)) }
         }
 

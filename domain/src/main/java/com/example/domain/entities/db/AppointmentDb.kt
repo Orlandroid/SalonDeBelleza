@@ -9,10 +9,10 @@ import android.os.Parcelable
 data class AppointmentDb(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
-    val establecimeinto: String,
-    val empleado: String,
-    val servicio: String,
-    val fecha: String,
-    val hora: String,
+    val establishment: String,
+    val employee: String,
+    val service: String,
+    val date: String,
+    val time: String,
     val total: String
 ):Parcelable
