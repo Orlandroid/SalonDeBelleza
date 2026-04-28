@@ -17,7 +17,7 @@ espresso = "3.7.0"
 
 firebaseBom = "31.2.0"
 firebaseAuth = "21.1.0"
-googlePlayServices = "20.5.0"
+googlePlayServices = "21.5.1"
 
 gson = "2.9.0"
 okhttpLogging = "5.0.0-alpha.2"
