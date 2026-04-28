@@ -19,7 +19,7 @@ firebaseBom = "31.2.0"
 firebaseAuth = "21.1.0"
 googlePlayServices = "21.5.1"
 
-gson = "2.9.0"
+gson = "2.14.0"
 okhttpLogging = "5.0.0-alpha.2"
 kotlinxSerialization = "1.6.3"
 
