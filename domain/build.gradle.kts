@@ -2,16 +2,7 @@ import com.example.androidbase.presentation.ConfigData.COMPILE_SDK_VERSION
 import com.example.androidbase.presentation.ConfigData.MIN_SDK_VERSION
 import com.example.androidbase.presentation.ConfigData.TARGET_SDK_VERSION
 import com.example.androidbase.presentation.ConfigData.TEST_INSTRUMENTATION_RUNNER
-import com.example.androidbase.presentation.Dependencies.FIREBASE_ANALYTICS_KTX
-import com.example.androidbase.presentation.Dependencies.FIREBASE_AUTH_KTX
-import com.example.androidbase.presentation.Dependencies.FIREBASE_AUTH_V_KTX
-import com.example.androidbase.presentation.Dependencies.FIREBASE_DATABASE
-import com.example.androidbase.presentation.Dependencies.FIREBASE_PLAY_SERVICES
-import com.example.androidbase.presentation.Dependencies.ROOM_COMPILER
-import com.example.androidbase.presentation.Dependencies.ROOM_KTX
-import com.example.androidbase.presentation.Dependencies.ROOM_RUNTIME
 import com.example.androidbase.presentation.implementation
-import com.example.androidbase.presentation.kapt
 
 plugins {
     id("com.android.library")
@@ -61,13 +52,8 @@ dependencies {
     androidTestImplementation(libs.testJunit)
     androidTestImplementation(libs.espressoCore)
     implementation(platform(libs.firebaseBom))
-    implementation(FIREBASE_AUTH_KTX)
-    implementation(FIREBASE_AUTH_V_KTX)
-    implementation(FIREBASE_ANALYTICS_KTX)
-    implementation(FIREBASE_PLAY_SERVICES)
-    implementation(FIREBASE_DATABASE)
-    implementation(ROOM_KTX)
-    implementation(ROOM_RUNTIME)
-    kapt(ROOM_COMPILER)
+    implementation(libs.bundles.firebase)
+    implementation(libs.bundles.room)
+    kapt(libs.roomCompiler)
     implementation(libs.kotlinSerialization)
 }
