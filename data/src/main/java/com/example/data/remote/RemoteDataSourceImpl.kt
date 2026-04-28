@@ -25,7 +25,7 @@ class RemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getSingleCart(id: Int): Cart = fakeStoreService.getSingleCart(id)
 
-    override suspend fun getSucursales(): SucursalesResponse = webServices.getSucursales()
+    override suspend fun getBranches(): SucursalesResponse = webServices.getSucursales()
 
     override suspend fun getStaffs(): List<Staff> = webServices.getStaff()
 

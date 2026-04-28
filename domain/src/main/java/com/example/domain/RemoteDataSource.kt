@@ -16,7 +16,7 @@ interface RemoteDataSource {
 
     suspend fun getSingleCart(id: Int): Cart
 
-    suspend fun getSucursales(): SucursalesResponse
+    suspend fun getBranches(): SucursalesResponse
 
     suspend fun getStaffs(): List<Staff>
 

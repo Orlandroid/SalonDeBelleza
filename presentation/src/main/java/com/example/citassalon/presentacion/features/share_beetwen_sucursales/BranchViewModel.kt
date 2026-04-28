@@ -42,7 +42,7 @@ class BranchViewModel @Inject constructor(
 
     private fun getBranches() = viewModelScope.launch(coroutineExceptionHandler + ioDispatcher) {
         delay(1L.seconds)
-        val response = repository.getSucursales()
+        val response = repository.getBranches()
         _state.update { BaseScreenState.OnContent(content = response.sucursales) }
 
     }

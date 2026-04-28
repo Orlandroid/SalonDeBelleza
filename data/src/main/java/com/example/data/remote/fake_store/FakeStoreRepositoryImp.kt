@@ -9,7 +9,7 @@ import com.example.domain.mappers.toStringList
 
 class FakeStoreRepositoryImp(
     private val api: FakeStoreService,
-    private val localDataSource: LocalDataSource,
+    private val localDataSource: LocalDataSource
 ) : FakeStoreRepository {
 
     override suspend fun getProducts(category: String): List<Product> {

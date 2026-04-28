@@ -228,7 +228,7 @@ private fun ItemProfile(
                 contentDescription = null
             )
             MediumSpacer(orientation = Orientation.HORIZONTAL)
-            Text(text = elementProfile.name, fontSize = 20.sp)
+            Text(text = stringResource(id = elementProfile.nameResId), fontSize = 20.sp)
             Spacer(Modifier.weight(1f))
             Icon(
                 modifier = Modifier.padding(end = 16.dp),

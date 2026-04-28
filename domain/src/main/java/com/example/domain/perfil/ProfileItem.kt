@@ -1,13 +1,13 @@
 package com.example.domain.perfil
 
 data class ProfileItem(
-    val name: String,
+    val nameResId: Int,
     val image: Int,
     val menu: MENU
 ) {
     companion object {
         private fun mockProfile(image: Int) = ProfileItem(
-            name = "Proflie",
+            nameResId = 1,
             image = image,
             menu = MENU.PROFILE
         )

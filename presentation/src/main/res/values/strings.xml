@@ -66,7 +66,6 @@
     <string name="nombre_establecimiento">Nombre Establecimiento</string>
     <string name="network_error">Error de conexion</string>
     <string name="network_error_message">Revisa que tengas conexion a internet</string>
-    <string name="retry">Reintentar</string>
     <string name="more">more</string>
     <string name="notificacion_mensaje">Tu cita ha sido agendada con exito</string>
     <string name="selecciona_un_empleado">Debes de seleccionar un empleado para poder avanzar a la siguiente pantalla</string>
@@ -167,6 +166,19 @@
     <string name="money">Dinero</string>
     <string name="label_email">Email</string>
     <string name="delete_all_products_sure">Estas seguro que quieres eliminar todos los productos</string>
-    <string name="product_added">"Product added to cart"</string>
-    <string name="products_deleted">"Products deleted correctly</string>
+    <string name="product_added">Product added to cart"</string>
+    <string name="products_deleted">Products deleted correctly</string>
+    <string name="password_successfully_changed">Password successful changed</string>
+    <string name="error_updating_password">Error trying to updated password</string>
+    <string name="retry">Retry</string>
+    <string name="establishment_label">Establishment: %s</string>
+    <string name="employee_label">Employee: %s</string>
+    <string name="service_label">Service: %s</string>
+    <string name="hour_label">Hour: %s</string>
+    <string name="date_label">Date: %s</string>
+    <string name="profile">Profile</string>
+    <string name="appointment_history">Appointment History</string>
+    <string name="contact_us">Contact Us</string>
+    <string name="terms_and_conditions">Terms and Conditions</string>
+    <string name="logout">Logout</string>
 </resources>

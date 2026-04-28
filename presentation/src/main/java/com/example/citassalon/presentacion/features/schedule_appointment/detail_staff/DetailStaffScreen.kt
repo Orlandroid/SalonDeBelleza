@@ -46,7 +46,7 @@ fun DetailStaffScreen(
 private fun DetailStaffScreenContent(
     modifier: Modifier = Modifier, staff: Staff
 ) {
-    var rating: Float by remember { mutableFloatStateOf(staff.valoracion.toFloat()) }
+    var rating: Float by remember { mutableFloatStateOf(staff.rating.toFloat()) }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
@@ -63,7 +63,7 @@ private fun DetailStaffScreenContent(
         )
         Text(
             modifier = Modifier.padding(top = 32.dp), fontSize = 24.sp,
-            text = staff.nombre
+            text = staff.name
         )
         Text(
             modifier = Modifier.padding(top = 16.dp),

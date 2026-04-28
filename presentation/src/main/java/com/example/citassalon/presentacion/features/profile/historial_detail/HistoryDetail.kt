@@ -66,11 +66,11 @@ private fun HistoryDetailContent(
                     painter = painterResource(id = R.drawable.tienda),
                     contentDescription = "ImageEstablecimiento"
                 )
-                TextHistory(text = "Establecimiento: ${appointment.establishment}")
-                TextHistory(text = "Empleado: ${appointment.employee}")
-                TextHistory(text = "Servicio: ${appointment.service}")
-                TextHistory(text = "Hora: ${appointment.hour}")
-                TextHistory(text = "Fecha: ${appointment.date}")
+                TextHistory(text = stringResource(R.string.establishment_label, appointment.establishment))
+                TextHistory(text = stringResource(R.string.employee_label, appointment.employee))
+                TextHistory(text = stringResource(R.string.service_label, appointment.service))
+                TextHistory(text = stringResource(R.string.hour_label, appointment.hour))
+                TextHistory(text = stringResource(R.string.date_label, appointment.date))
                 Spacer(modifier = Modifier.height(16.dp))
             }
 
@@ -117,5 +117,3 @@ private fun HistoryDetailContentPreview() {
         )
     )
 }
-
-

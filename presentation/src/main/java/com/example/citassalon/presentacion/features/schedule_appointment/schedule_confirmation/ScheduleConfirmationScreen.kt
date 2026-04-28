@@ -120,7 +120,7 @@ private fun ScheduleConfirmationScreenContent(
             iconImage = R.drawable.place_24p_negro
         )
         ButtonImageAndText(
-            text = staffUiState.currentStaff?.nombre.orEmpty(),
+            text = staffUiState.currentStaff?.name.orEmpty(),
             iconImage = R.drawable.face_unlock_24px
         )
         ButtonImageAndText(

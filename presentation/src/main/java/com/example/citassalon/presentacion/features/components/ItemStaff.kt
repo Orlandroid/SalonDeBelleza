@@ -72,7 +72,7 @@ fun ItemStaff(
                 loading = { CircularProgressIndicator() },
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = staff.nombre, fontWeight = FontWeight.W900, fontSize = 18.sp)
+            Text(text = staff.name, fontWeight = FontWeight.W900, fontSize = 18.sp)
             branch?.let {
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(text = branch, fontWeight = FontWeight.W900, fontSize = 18.sp)
@@ -89,9 +89,10 @@ private fun ItemStaffPreview() {
         staff = Staff(
             id = "",
             image_url = "",
-            nombre = "Orlando",
-            sexo = "",
-            valoracion = 4
-        ), branch = "Zacatecas"
+            name = "Orlando",
+            gender = "",
+            rating = 4
+        ),
+        branch = "Zacatecas"
     )
 }
