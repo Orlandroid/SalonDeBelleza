@@ -1,13 +1,22 @@
-import com.example.androidbase.presentation.BuildModules.DATA
-import com.example.androidbase.presentation.BuildModules.DOMAIN
 import com.example.androidbase.presentation.ConfigData.COMPILE_SDK_VERSION
 import com.example.androidbase.presentation.ConfigData.MIN_SDK_VERSION
 import com.example.androidbase.presentation.ConfigData.TARGET_SDK_VERSION
 import com.example.androidbase.presentation.ConfigData.TEST_INSTRUMENTATION_RUNNER
+import com.example.androidbase.presentation.Dependencies.ANDROID_HILT_COMPILER
+import com.example.androidbase.presentation.Dependencies.ANDROID_HILT_WORK
+import com.example.androidbase.presentation.Dependencies.DAGGER_HILT
+import com.example.androidbase.presentation.Dependencies.DAGGER_HILT_COMPILER
+import com.example.androidbase.presentation.Dependencies.FIREBASE_ANALYTICS_KTX
+import com.example.androidbase.presentation.Dependencies.FIREBASE_AUTH_KTX
+import com.example.androidbase.presentation.Dependencies.FIREBASE_AUTH_V_KTX
 import com.example.androidbase.presentation.Dependencies.FIREBASE_BOM
-import com.example.androidbase.presentation.Dependencies.daggerHilt
-import com.example.androidbase.presentation.Dependencies.firebase
-import com.example.androidbase.presentation.Dependencies.room
+import com.example.androidbase.presentation.Dependencies.FIREBASE_DATABASE
+import com.example.androidbase.presentation.Dependencies.FIREBASE_PLAY_SERVICES
+import com.example.androidbase.presentation.Dependencies.ROOM_COMPILER
+import com.example.androidbase.presentation.Dependencies.ROOM_KTX
+import com.example.androidbase.presentation.Dependencies.ROOM_RUNTIME
+import com.example.androidbase.presentation.implementation
+import com.example.androidbase.presentation.kapt
 
 plugins {
     id("com.android.application")
@@ -60,21 +69,30 @@ android {
 }
 
 dependencies {
-    implementation(project(DATA))
-    implementation(project(DOMAIN))
+    implementation(project(":data"))
+    implementation(project(":domain"))
     implementation(libs.androidCoreKtx)
     implementation(libs.appcompat)
     implementation(libs.material)
     testImplementation(libs.junit4)
     androidTestImplementation(libs.testJunit)
     androidTestImplementation(libs.espressoCore)
-    room()
+    implementation(ROOM_KTX)
+    implementation(ROOM_RUNTIME)
+    kapt(ROOM_COMPILER)
     implementation(libs.bundles.retrofit)
     implementation(libs.gson)
-    daggerHilt()
+    implementation(DAGGER_HILT)
+    implementation(ANDROID_HILT_WORK)
+    kapt(ANDROID_HILT_COMPILER)
+    kapt(DAGGER_HILT_COMPILER)
     implementation(platform(FIREBASE_BOM))
 
-    firebase()
+    implementation(FIREBASE_AUTH_KTX)
+    implementation(FIREBASE_AUTH_V_KTX)
+    implementation(FIREBASE_ANALYTICS_KTX)
+    implementation(FIREBASE_PLAY_SERVICES)
+    implementation(FIREBASE_DATABASE)
 
     implementation(libs.glide)
     annotationProcessor(libs.glideCompiler)

@@ -1,7 +1,5 @@
 package com.example.androidbase.presentation
 
-import org.gradle.api.artifacts.dsl.DependencyHandler
-
 object Versions {
     const val ROOM_VERSION = "2.6.1"
 }
@@ -21,24 +19,4 @@ object Dependencies {
     const val ROOM_COMPILER = "androidx.room:room-compiler:${Versions.ROOM_VERSION}"
     const val ROOM_KTX = "androidx.room:room-ktx:${Versions.ROOM_VERSION}"
 
-    fun DependencyHandler.room() {
-        implementation(ROOM_KTX)
-        implementation(ROOM_RUNTIME)
-        kapt(ROOM_COMPILER)
-    }
-
-    fun DependencyHandler.daggerHilt() {
-        implementation(DAGGER_HILT)
-        implementation(ANDROID_HILT_WORK)
-        kapt(ANDROID_HILT_COMPILER)
-        kapt(DAGGER_HILT_COMPILER)
-    }
-
-    fun DependencyHandler.firebase() {
-        implementation(FIREBASE_AUTH_KTX)
-        implementation(FIREBASE_AUTH_V_KTX)
-        implementation(FIREBASE_ANALYTICS_KTX)
-        implementation(FIREBASE_PLAY_SERVICES)
-        implementation(FIREBASE_DATABASE)
-    }
 }
