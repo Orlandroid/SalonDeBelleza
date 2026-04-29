@@ -28,6 +28,12 @@ gmsMaps = "19.1.0"
 workManager = "2.9.1"
 startup = "1.2.0"
 
+#plugins versions
+agp = "8.13.0"
+hiltAndroidGradle = "2.57.1"
+jetbrainsKotlinJvm = "2.2.20"
+navigationUiKtx = "2.9.3"
+
 [libraries]
 
 material = { module = "com.google.android.material:material", version.ref = "material" }
@@ -79,5 +85,13 @@ room = ["roomRuntime", "roomKtx"]
 retrofit = ["retrofit", "retrofitConverterMoshi", "retrofitConverterGson","okhttpLogging"]
 daggerHilt = ["hiltAndroid", "androidxHiltWork"]
 firebase = ["firebaseAuth", "firebaseAuthV","firebaseAnalytics", "firebaseDatabase","googlePlayServicesAuth"]
+[plugins]
+android-application = { id = "com.android.application", version.ref = "agp" }
+kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+hilt-android-gradle = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroidGradle" }
+navigation-safe-gradle = { id = "androidx.navigation.safeargs", version.ref = "navigationUiKtx" }
+jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "jetbrainsKotlinJvm" }
+android-library = { id = "com.android.library", version.ref = "agp" }
 
 
