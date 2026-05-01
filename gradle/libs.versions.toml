@@ -28,6 +28,21 @@ gmsMaps = "19.1.0"
 workManager = "2.9.1"
 startup = "1.2.0"
 
+#Compose versions
+composeBom = "2025.03.00"
+activityCompose = "1.9.2"
+composeUi = "1.7.8"
+composeMaterial = "1.7.8"
+composeMaterial3 = "1.3.1"
+lifecycleViewmodelCompose = "2.8.7"
+constraintlayoutCompose = "1.1.1"
+lottieCompose = "4.0.0"
+hiltNavigationCompose = "1.2.0"
+coilCompose = "2.7.0"
+composeRatingbar = "1.3.4"
+navigationCompose = "2.8.9"
+mapsCompose = "4.3.3"
+
 #plugins versions
 agp = "8.13.0"
 hiltAndroidGradle = "2.57.1"
@@ -80,11 +95,33 @@ playServicesMaps = { group = "com.google.android.gms", name = "play-services-map
 androidxWorkRuntimeKtx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workManager" }
 androidxStartupRuntime = { group = "androidx.startup", name = "startup-runtime", version.ref = "startup" }
 
+# Compose dependencies
+composeBom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
+composeUi = { module = "androidx.compose.ui:ui", version.ref = "composeUi" }
+composeUiGraphics = { module = "androidx.compose.ui:ui-graphics", version.ref = "composeUi" }
+composeUiTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "composeUi" }
+composeUiToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "composeUi" }
+composeMaterial = { module = "androidx.compose.material:material", version.ref = "composeMaterial" }
+composeMaterialIconsExtended = { module = "androidx.compose.material:material-icons-extended", version.ref = "composeMaterial" }
+composeMaterial3 = { module = "androidx.compose.material3:material3", version.ref = "composeMaterial3" }
+composeRuntime = { module = "androidx.compose.runtime:runtime", version.ref = "composeBom" }
+composeRuntimeLivedata = { module = "androidx.compose.runtime:runtime-livedata", version.ref = "composeMaterial" }
+activityCompose = { module = "androidx.activity:activity-compose", version.ref = "activityCompose" }
+lifecycleViewmodelCompose = { module = "androidx.lifecycle:lifecycle-viewmodel-compose", version.ref = "lifecycleViewmodelCompose" }
+constraintlayoutCompose = { module = "androidx.constraintlayout:constraintlayout-compose", version.ref = "constraintlayoutCompose" }
+lottieCompose = { module = "com.airbnb.android:lottie-compose", version.ref = "lottieCompose" }
+hiltNavigationCompose = { module = "androidx.hilt:hilt-navigation-compose", version.ref = "hiltNavigationCompose" }
+coilCompose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" }
+composeRatingbar = { module = "com.github.a914-gowtham:compose-ratingbar", version.ref = "composeRatingbar" }
+navigationCompose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
+mapsCompose = { module = "com.google.maps.android:maps-compose", version.ref = "mapsCompose" }
+
 [bundles]
 room = ["roomRuntime", "roomKtx"]
 retrofit = ["retrofit", "retrofitConverterMoshi", "retrofitConverterGson","okhttpLogging"]
 daggerHilt = ["hiltAndroid", "androidxHiltWork"]
 firebase = ["firebaseAuth", "firebaseAuthV","firebaseAnalytics", "firebaseDatabase","googlePlayServicesAuth"]
+composeMaterial = ["composeMaterial", "composeMaterialIconsExtended","composeMaterial3"]
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
