@@ -82,7 +82,6 @@ dependencies {
     //Compose
     implementation("androidx.compose.runtime:runtime")
     implementation(platform(libs.composeBom))
-    implementation("androidx.compose.ui:ui-graphics")
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 

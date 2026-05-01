@@ -98,7 +98,6 @@ androidxStartupRuntime = { group = "androidx.startup", name = "startup-runtime",
 # Compose dependencies
 composeBom = { module = "androidx.compose:compose-bom", version.ref = "composeBom" }
 composeUi = { module = "androidx.compose.ui:ui", version.ref = "composeUi" }
-composeUiGraphics = { module = "androidx.compose.ui:ui-graphics", version.ref = "composeUi" }
 composeUiTooling = { module = "androidx.compose.ui:ui-tooling", version.ref = "composeUi" }
 composeUiToolingPreview = { module = "androidx.compose.ui:ui-tooling-preview", version.ref = "composeUi" }
 composeMaterial = { module = "androidx.compose.material:material", version.ref = "composeMaterial" }
