@@ -1,8 +1,5 @@
 package com.example.citassalon.presentacion.features.auth.splashscreen
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.tween
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -13,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -56,6 +54,15 @@ private fun SplashScreenContent(
     goToScheduleNav: () -> Unit,
     goToLogin: () -> Unit
 ) {
+    LaunchedEffect(Unit) {
+        kotlinx.coroutines.delay(2000)
+        if (isActiveSession) {
+            goToScheduleNav.invoke()
+        } else {
+            goToLogin.invoke()
+        }
+    }
+
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -82,16 +89,6 @@ private fun SplashScreenContent(
         )
         Spacer(Modifier.weight(1f))
         Spacer(Modifier.weight(1f))
-        AnimatedVisibility(
-            visible = true,
-            exit = fadeOut(animationSpec = tween(1000))
-        ) {
-            if (isActiveSession) {
-                goToScheduleNav.invoke()
-            } else {
-                goToLogin.invoke()
-            }
-        }
     }
 }
 
