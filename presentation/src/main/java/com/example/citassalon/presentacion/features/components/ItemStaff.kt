@@ -40,12 +40,12 @@ fun ItemStaff(
     onClick: ((ClickOnItemStaff) -> Unit?)? = null
 ) {
     Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(8.dp),
         onClick = {
             onClick?.invoke(ClickOnItemStaff.ClickOnItem)
-        },
-        modifier
-            .fillMaxWidth()
-            .padding(8.dp)
+        }
     ) {
         Column(
             Modifier.fillMaxWidth(),

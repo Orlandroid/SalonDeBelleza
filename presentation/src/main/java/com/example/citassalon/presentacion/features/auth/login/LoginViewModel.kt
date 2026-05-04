@@ -60,7 +60,6 @@ data class LoginUiState(
 @HiltViewModel
 class LoginViewModel
 @Inject constructor(
-    private val repository: Repository,
     private val authRepository: AuthRepository,
     private val loginPreferences: LoginPreferences
 ) : ViewModel() {

@@ -16,7 +16,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ForgetPasswordViewmodel @Inject constructor(
-    private val authRepository: AuthRepository,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
 

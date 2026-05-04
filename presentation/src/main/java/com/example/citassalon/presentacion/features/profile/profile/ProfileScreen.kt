@@ -140,12 +140,12 @@ private fun DialogCloseSession(
             title = R.string.cerrar_session,
             bodyMessage = stringResource(R.string.seguro_que_deseas_cerrar_sesion),
             kindOfMessage = KindOfMessage.WARING,
-            onConfirmation = {
-                onEvents(ProfileEvents.OnConfirmClicked)
-            },
             isTwoButtonsAlert = IsTwoButtonsAlert(
                 clickOnCancel = {
                     onEvents(ProfileEvents.OnCancel)
+                },
+                clickOnAccept = {
+                    onEvents(ProfileEvents.OnConfirmClicked)
                 }
             )
         )
