@@ -8,7 +8,7 @@ fun FlowMainViewModel.getAppointmentFirebase(): AppointmentFirebase {
     return AppointmentFirebase(
         idAppointment = UUID.randomUUID().toString(),
         establishment = sucursal.name,
-        employee = currentStaff.name,
+        employee = currentStaff.name.orEmpty(),
         service = listOfServices[0].name,
         date = dateAppointment,
         hour = hourAppointment,

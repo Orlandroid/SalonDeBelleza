@@ -134,7 +134,7 @@ private fun Branches(
                         TextWithArrowConfig(
                             text = branch.sucursal.name,
                             clickOnItem = {
-                                currentBranch.invoke(branch)
+                                currentBranch(branch)
                             }
                         )
                 )

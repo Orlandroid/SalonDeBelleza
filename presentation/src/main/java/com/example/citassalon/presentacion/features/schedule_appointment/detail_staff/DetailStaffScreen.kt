@@ -63,7 +63,7 @@ private fun DetailStaffScreenContent(
         )
         Text(
             modifier = Modifier.padding(top = 32.dp), fontSize = 24.sp,
-            text = staff.name
+            text = staff.name.orEmpty()
         )
         Text(
             modifier = Modifier.padding(top = 16.dp),

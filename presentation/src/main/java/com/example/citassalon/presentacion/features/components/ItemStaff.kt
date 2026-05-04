@@ -72,7 +72,7 @@ fun ItemStaff(
                 loading = { CircularProgressIndicator() },
             )
             Spacer(modifier = Modifier.height(16.dp))
-            Text(text = staff.name, fontWeight = FontWeight.W900, fontSize = 18.sp)
+            Text(text = staff.name.orEmpty(), fontWeight = FontWeight.W900, fontSize = 18.sp)
             branch?.let {
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(text = branch, fontWeight = FontWeight.W900, fontSize = 18.sp)

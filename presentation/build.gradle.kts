@@ -21,9 +21,6 @@ android {
     buildFeatures {
         compose = true
     }
-    composeOptions {
-        kotlinCompilerExtensionVersion = "1.5.10"
-    }
 
     defaultConfig {
         applicationId = "com.example.citassalon"
@@ -76,7 +73,6 @@ dependencies {
     annotationProcessor(libs.glideCompiler)
 
     implementation(libs.kotlinStdlib)
-    implementation(libs.playServicesMaps)
     implementation(libs.androidxWorkRuntimeKtx)
     implementation(libs.androidxStartupRuntime)
 

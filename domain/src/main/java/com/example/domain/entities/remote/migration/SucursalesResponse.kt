@@ -64,7 +64,7 @@ data class Service(
 data class Staff(
     val id: String,
     val image_url: String,
-    val name: String,
+    val name: String?,
     val gender: String,
     val rating: Int
 ) {
