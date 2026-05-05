@@ -2,10 +2,13 @@ package com.example.data.di
 
 
 import com.example.data.Repository
+import com.example.data.api.DummyJsonApi
 import com.example.data.api.FakeStoreService
 import com.example.data.firebase.FireBaseSource
 import com.example.data.remote.auth.AuthRepository
 import com.example.data.remote.auth.AuthRepositoryImp
+import com.example.data.remote.dummy_json.DummyJsonRepository
+import com.example.data.remote.dummy_json.DummyJsonRepositoryImp
 import com.example.data.remote.fake_store.FakeStoreRepository
 import com.example.data.remote.fake_store.FakeStoreRepositoryImp
 import com.example.domain.LocalDataSource
@@ -42,6 +45,13 @@ object ModuleRepository {
         localDataSource: LocalDataSource
     ): FakeStoreRepository =
         FakeStoreRepositoryImp(localDataSource = localDataSource, api = api)
+
+    @Singleton
+    @Provides
+    fun provideDummyJsonRepository(
+        api: DummyJsonApi
+    ): DummyJsonRepository =
+        DummyJsonRepositoryImp(api = api)
 
 
 }

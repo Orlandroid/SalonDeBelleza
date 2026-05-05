@@ -24,6 +24,7 @@ import com.example.citassalon.presentacion.features.schedule_appointment.branche
 import com.example.domain.entities.remote.CustomNavType
 import com.example.domain.entities.remote.Product
 import kotlin.reflect.typeOf
+import com.example.citassalon.presentacion.features.info.products.categories.KindOfStore
 
 
 fun NavGraphBuilder.infoNavigationGraph(navController: NavHostController) {
@@ -45,7 +46,11 @@ fun NavGraphBuilder.infoNavigationGraph(navController: NavHostController) {
             )
         }
         composable<InfoNavigationScreens.CategoriesRoute> {
-            CategoriesScreen(navController = navController)
+            val arguments = it.toRoute<InfoNavigationScreens.CategoriesRoute>()
+            CategoriesScreen(
+                navController = navController,
+                kindOfStore = arguments.kindOfStore
+            )
         }
         composable<InfoNavigationScreens.ProductsRoute> {
             val arguments = it.toRoute<InfoNavigationScreens.ProductsRoute>()

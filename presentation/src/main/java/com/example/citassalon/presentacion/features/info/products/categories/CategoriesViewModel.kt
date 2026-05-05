@@ -4,7 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.data.di.IoDispatcher
+import com.example.data.remote.dummy_json.DummyJsonRepository
 import com.example.data.remote.fake_store.FakeStoreRepository
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -16,7 +19,6 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import javax.inject.Inject
 
 data class CategoriesUiState(
     val categories: List<String> = emptyList()
@@ -30,10 +32,17 @@ sealed class CategoriesEffects {
     data class NavigateToProducts(val category: String) : CategoriesEffects()
 }
 
-@HiltViewModel
-class ListOfCategoriesViewModel @Inject constructor(
+enum class KindOfStore {
+    FAKE_STORE,
+    DUMMY_JSON
+}
+
+@HiltViewModel(assistedFactory = CategoriesViewModelFactory::class)
+class CategoriesViewModel @AssistedInject constructor(
     private val fakeStoreRepository: FakeStoreRepository,
-    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
+    private val dummyJsonRepository: DummyJsonRepository,
+    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    @Assisted private val store: KindOfStore
 ) : ViewModel() {
 
 
@@ -43,7 +52,15 @@ class ListOfCategoriesViewModel @Inject constructor(
     private val _state: MutableStateFlow<BaseScreenState<CategoriesUiState>> =
         MutableStateFlow(BaseScreenState.OnLoading)
     val state = _state.onStart {
-        getCategoriesFakeStore()
+        when (store) {
+            KindOfStore.FAKE_STORE -> {
+                getCategoriesFakeStore()
+            }
+
+            KindOfStore.DUMMY_JSON -> {
+                getCategoriesDummyJson()
+            }
+        }
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
@@ -67,6 +84,12 @@ class ListOfCategoriesViewModel @Inject constructor(
     private fun getCategoriesFakeStore() =
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
             val categories = fakeStoreRepository.getCategories()
+            _state.update { BaseScreenState.OnContent(content = CategoriesUiState(categories)) }
+        }
+
+    private fun getCategoriesDummyJson() =
+        viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
+            val categories = dummyJsonRepository.getCategories().map { it.name }
             _state.update { BaseScreenState.OnContent(content = CategoriesUiState(categories)) }
         }
 

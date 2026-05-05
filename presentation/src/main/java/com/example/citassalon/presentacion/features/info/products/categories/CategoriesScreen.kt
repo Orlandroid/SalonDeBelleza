@@ -31,6 +31,7 @@ import com.example.citassalon.presentacion.features.components.TextWithArrowConf
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
+import com.example.citassalon.presentacion.features.info.products.products.ProductsViewModelFactory
 import com.example.citassalon.presentacion.features.theme.Background
 import kotlinx.coroutines.flow.collectLatest
 
@@ -45,7 +46,9 @@ data class Store(
 @Composable
 fun CategoriesScreen(
     navController: NavController,
-    viewmodel: ListOfCategoriesViewModel = hiltViewModel()
+    kindOfStore: KindOfStore,
+    viewmodel: CategoriesViewModel = hiltViewModel(
+        creationCallback = { factory: CategoriesViewModelFactory -> factory.create(kindOfStore) })
 ) {
     val uiState by viewmodel.state.collectAsStateWithLifecycle()
     when (uiState) {

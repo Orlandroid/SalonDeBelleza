@@ -27,14 +27,15 @@ import com.example.citassalon.presentacion.features.components.TextWithArrowConf
 import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
 import com.example.citassalon.presentacion.features.info.products.categories.DUMMY_JSON
 import com.example.citassalon.presentacion.features.info.products.categories.FAKE_STORE
+import com.example.citassalon.presentacion.features.info.products.categories.KindOfStore
 import com.example.citassalon.presentacion.features.info.products.categories.Store
 import kotlin.random.Random
 
 @Composable
 fun StoresScreen(navController: NavController) {
     BaseComposeScreen(navController = navController) {
-        StoresScreenContent {
-            navController.navigate(InfoNavigationScreens.CategoriesRoute)
+        StoresScreenContent { store ->
+            navController.navigate(InfoNavigationScreens.CategoriesRoute(store))
         }
     }
 }
@@ -42,7 +43,7 @@ fun StoresScreen(navController: NavController) {
 @Composable
 private fun StoresScreenContent(
     modifier: Modifier = Modifier,
-    goToCategories: () -> Unit
+    goToCategories: (kindOfStore: KindOfStore) -> Unit
 ) {
     Column(
         modifier.fillMaxSize(),
@@ -55,7 +56,7 @@ private fun StoresScreenContent(
                 .height(250.dp)
                 .width(250.dp),
             composition = composition,
-            iterations = LottieConstants.IterateForever,
+            iterations = LottieConstants.IterateForever
         )
         StoresMenu(goToStoresList = goToCategories)
     }
@@ -63,10 +64,10 @@ private fun StoresScreenContent(
 
 @Composable
 private fun StoresMenu(
-    goToStoresList: () -> Unit
+    goToStoresList: (kindOfStore: KindOfStore) -> Unit
 ) {
     LazyColumn(
-        Modifier
+        modifier = Modifier
             .background(Color.White)
             .fillMaxHeight()
     ) {
@@ -75,7 +76,17 @@ private fun StoresMenu(
             TextWithArrow(
                 config = TextWithArrowConfig(
                     text = setStores()[it].name,
-                    clickOnItem = goToStoresList
+                    clickOnItem = {
+                        when (it) {
+                            0 -> {
+                                goToStoresList(KindOfStore.FAKE_STORE)
+                            }
+
+                            1 -> {
+                                goToStoresList(KindOfStore.DUMMY_JSON)
+                            }
+                        }
+                    }
                 )
             )
         }
