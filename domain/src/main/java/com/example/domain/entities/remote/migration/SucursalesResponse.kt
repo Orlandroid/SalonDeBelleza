@@ -64,8 +64,11 @@ data class Service(
 data class Staff(
     val id: String,
     val image_url: String,
+    @SerializedName("nombre")
     val name: String?,
+    @SerializedName("sexo")
     val gender: String,
+    @SerializedName("valoracion")
     val rating: Int
 ) {
     companion object {

@@ -31,7 +31,7 @@ import com.example.domain.entities.remote.migration.Staff
 fun ServiceScreen(
     navController: NavController,
     mainViewModel: FlowMainViewModel,
-    state: StaffUiState,
+    state: StaffUiState
 ) {
     BaseComposeScreen(
         navController = navController,
