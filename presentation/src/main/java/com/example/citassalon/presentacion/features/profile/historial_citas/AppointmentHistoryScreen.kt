@@ -48,27 +48,32 @@ fun AppointmentHistoryScreen(
     navController: NavHostController,
     viewModel: AppointmentHistoryViewModel = hiltViewModel()
 ) {
-    val viewState = viewModel.state.collectAsStateWithLifecycle()
-    when (viewState.value) {
-        AppointmentHistoryViewState.OnLoading -> {
+    val uiState = viewModel.state.collectAsStateWithLifecycle()
+    val state = uiState.value
+
+    when {
+        state.isLoading -> {
             ProgressDialog()
         }
 
-        is AppointmentHistoryViewState.OnContent -> {
-            //Todo when whe don,t have data add NotDatView
-            AppointmentHistoryScreenContent(
-                uiState = (viewState.value as AppointmentHistoryViewState.OnContent).content,
-                onEvents = viewModel::onEvents,
-                navHostController = navController
-            )
-        }
-
-        is AppointmentHistoryViewState.OnError -> {
+        state.error != null -> {
             BaseErrorScreen()
         }
 
+        else -> {
+            if (state.appointments.isEmpty()) {
+                NotDatView()
+            } else {
+                AppointmentHistoryScreenContent(
+                    uiState = state,
+                    onEvents = viewModel::onEvents,
+                    navHostController = navController
+                )
+            }
+        }
     }
 }
+
 
 @Composable
 private fun AppointmentHistoryScreenContent(
