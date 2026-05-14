@@ -2,6 +2,7 @@ package com.example.citassalon.presentacion.features.profile.historial_citas
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.domain.perfil.Appointment
 import com.example.domain.state.getContent
@@ -19,9 +20,7 @@ import javax.inject.Inject
 data class AppointmentHistoryUiState(
     val idAppointment: String? = null,
     val showDialog: Boolean = false,
-    val appointments: List<Appointment> = emptyList(),
-    val isLoading: Boolean = false,
-    val error: String? = null
+    val appointments: List<Appointment> = emptyList()
 )
 
 sealed class AppointmentHistoryEvents {
@@ -38,8 +37,8 @@ class AppointmentHistoryViewModel @Inject constructor(
 ) : ViewModel() {
 
 
-    private val _state: MutableStateFlow<AppointmentHistoryUiState> =
-        MutableStateFlow(AppointmentHistoryUiState())
+    private val _state: MutableStateFlow<BaseScreenState<AppointmentHistoryUiState>> =
+        MutableStateFlow(BaseScreenState.OnLoading)
     val state = _state.onStart {
         getAppointments()
     }.stateIn(
@@ -48,58 +47,62 @@ class AppointmentHistoryViewModel @Inject constructor(
         initialValue = AppointmentHistoryUiState()
     )
 
-    private val currentState: AppointmentHistoryUiState = AppointmentHistoryUiState()
+    private val currentState: BaseScreenState.OnContent<AppointmentHistoryUiState> =
+        BaseScreenState.OnContent(AppointmentHistoryUiState())
 
 
     fun onEvents(event: AppointmentHistoryEvents) {
         when (event) {
             is AppointmentHistoryEvents.OnAccept -> {
                 _state.update {
-                    it.copy(showDialog = false)
+                    BaseScreenState.OnContent(
+                        content = AppointmentHistoryUiState(
+                            showDialog = false,
+                            idAppointment = null
+                        )
+                    )
                 }
-                deleteAppointment(currentState.idAppointment.orEmpty())
             }
 
             AppointmentHistoryEvents.OnCancel -> {
                 _state.update {
-                    it.copy(showDialog = false)
+                    BaseScreenState.OnContent(
+                        content = AppointmentHistoryUiState(
+                            showDialog = false
+                        )
+                    )
                 }
             }
 
             is AppointmentHistoryEvents.OnRemove -> {
-                _state.update {
-                    it.copy(
-                        showDialog = false,
-                        idAppointment = event.idAppointment
-                    )
-                }
+                deleteAppointment(event.idAppointment)
             }
         }
     }
 
 
     private fun getAppointments() = viewModelScope.launch {
-        _state.update {
-            it.copy(isLoading = true)
-        }
+        _state.update { BaseScreenState.OnLoading }
+
         if (!networkHelper.isNetworkConnected()) {
             _state.update {
-                it.copy(error = "Network Error", isLoading = false)
+                BaseScreenState.OnError(error = Throwable("Network Error"))
             }
             return@launch
         }
         val appointmentsResult = getAppointmentsUse()
         if (appointmentsResult.isError()) {
             _state.update {
-                it.copy(error = "Network Error", isLoading = false)
+                BaseScreenState.OnError(error = Throwable("Network Error"))
             }
             return@launch
         }
         val appointments = appointmentsResult.getContent()
         _state.update {
-            it.copy(
-                appointments = appointments,
-                isLoading = false
+            BaseScreenState.OnContent(
+                content = AppointmentHistoryUiState(
+                    appointments = appointments
+                )
             )
         }
     }
@@ -108,7 +111,7 @@ class AppointmentHistoryViewModel @Inject constructor(
         val deleteAppointmentResult = deleteAppointmentUseCase(idAppointment)
         if (deleteAppointmentResult.isError()) {
             _state.update {
-                it.copy(error = "Error")
+                BaseScreenState.OnError(error = Throwable("Network Error"))
             }
             return@launch
         }

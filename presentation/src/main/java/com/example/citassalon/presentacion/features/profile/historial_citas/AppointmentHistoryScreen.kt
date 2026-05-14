@@ -34,6 +34,8 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
+import com.example.citassalon.presentacion.features.base.BaseScreenState
+import com.example.citassalon.presentacion.features.base.getContentOrNull
 import com.example.citassalon.presentacion.features.components.BaseErrorScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.dialogs.AlertDialogMessagesConfig
@@ -48,29 +50,32 @@ fun AppointmentHistoryScreen(
     navController: NavHostController,
     viewModel: AppointmentHistoryViewModel = hiltViewModel()
 ) {
-    val uiState = viewModel.state.collectAsStateWithLifecycle()
-    val state = uiState.value
+    val uiState by viewModel.state.collectAsStateWithLifecycle()
 
-    when {
-        state.isLoading -> {
+
+    when (uiState) {
+        is BaseScreenState.OnContent<*> -> {
+            (uiState as BaseScreenState.OnContent<*>).getContentOrNull().let { state ->
+                if (state == null) {
+                    NotDatView()
+                } else {
+                    AppointmentHistoryScreenContent(
+                        uiState = state as AppointmentHistoryUiState,
+                        onEvents = viewModel::onEvents,
+                        navHostController = navController
+                    )
+                }
+            }
+        }
+
+        is BaseScreenState.OnLoading -> {
             ProgressDialog()
         }
 
-        state.error != null -> {
+        is BaseScreenState.OnError -> {
             BaseErrorScreen()
         }
 
-        else -> {
-            if (state.appointments.isEmpty()) {
-                NotDatView()
-            } else {
-                AppointmentHistoryScreenContent(
-                    uiState = state,
-                    onEvents = viewModel::onEvents,
-                    navHostController = navController
-                )
-            }
-        }
     }
 }
 
