@@ -15,6 +15,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -24,23 +25,53 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
+import com.example.citassalon.presentacion.features.base.BaseScreenState
+import com.example.citassalon.presentacion.features.base.getContentOrNull
+import com.example.citassalon.presentacion.features.components.BaseErrorScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
+import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.entities.local.AppointmentObject
 
 @Composable
-fun HistoryDetail(
+fun HistoryDetailScreen(
     navController: NavController,
-    appointment: AppointmentObject
+    appointmentId: String,
+    viewModel: HistoryDetailViewModel = hiltViewModel(creationCallback = { factory: HistoryDetailViewModelFactory ->
+        factory.create(
+            appointmentId = appointmentId
+        )
+    })
 ) {
-    BaseComposeScreen(
-        navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.history_detail))
-    ) {
-        HistoryDetailContent(appointment = appointment)
+    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+
+    when (uiState) {
+        is BaseScreenState.OnContent<*> -> {
+            (uiState as BaseScreenState.OnContent<*>).getContentOrNull().let { state ->
+                if (state != null) {
+                    BaseComposeScreen(
+                        navController = navController,
+                        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.history_detail))
+                    ) {
+                        val appointment = (state as HistoryDetailUiState).appointment
+                        appointment?.let {
+                            HistoryDetailContent(appointment = it)
+                        }
+
+                    }
+                } else {
+                    BaseErrorScreen()
+                }
+            }
+        }
+
+        is BaseScreenState.OnLoading -> ProgressDialog()
+        is BaseScreenState.OnError -> BaseErrorScreen()
     }
 
 }
@@ -51,7 +82,7 @@ private fun HistoryDetailContent(
 ) {
     Container {
         Card(
-            Modifier
+            modifier = Modifier
                 .padding(all = 8.dp)
                 .fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
@@ -66,7 +97,12 @@ private fun HistoryDetailContent(
                     painter = painterResource(id = R.drawable.tienda),
                     contentDescription = "ImageEstablecimiento"
                 )
-                TextHistory(text = stringResource(R.string.establishment_label, appointment.establishment))
+                TextHistory(
+                    text = stringResource(
+                        R.string.establishment_label,
+                        appointment.establishment
+                    )
+                )
                 TextHistory(text = stringResource(R.string.employee_label, appointment.employee))
                 TextHistory(text = stringResource(R.string.service_label, appointment.service))
                 TextHistory(text = stringResource(R.string.hour_label, appointment.hour))

@@ -15,7 +15,7 @@ sealed class ProfileNavigationScreen {
     data object AppointmentHistoryRoute
 
     @Serializable
-    data class HistoryDetailRoute(val appointment: AppointmentObject)
+    data class HistoryDetailRoute(val appointmentId: String)
 
     @Serializable
     data object ContactsRoute

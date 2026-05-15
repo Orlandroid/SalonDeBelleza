@@ -121,7 +121,7 @@ private fun ProductsScreenContent(
     onEvents: (event: ProductScreenEvents) -> Unit
 ) {
     Column(
-        modifier
+        modifier = modifier
             .fillMaxSize()
             .background(Background)
     ) {
@@ -180,8 +180,8 @@ private fun ItemProduct(
     onEvents: (event: ProductScreenEvents) -> Unit
 ) {
     Card(
-        shape = RoundedCornerShape(8.dp),
         modifier = modifier.padding(4.dp),
+        shape = RoundedCornerShape(8.dp),
         onClick = {
             onEvents(ProductScreenEvents.OnProductClicked(product))
         },

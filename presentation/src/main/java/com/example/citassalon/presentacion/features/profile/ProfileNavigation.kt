@@ -9,7 +9,7 @@ import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.example.citassalon.presentacion.features.app_navigation.AppNavigationRoutes
 import com.example.citassalon.presentacion.features.profile.historial_citas.AppointmentHistoryScreen
-import com.example.citassalon.presentacion.features.profile.historial_detail.HistoryDetail
+import com.example.citassalon.presentacion.features.profile.historial_detail.HistoryDetailScreen
 import com.example.citassalon.presentacion.features.profile.profile.ProfileScreen
 import com.example.citassalon.presentacion.features.profile.userprofile.UserProfileScreen
 import com.example.domain.entities.local.AppointmentObject
@@ -34,7 +34,10 @@ fun NavGraphBuilder.profileNavigationGraph(navController: NavHostController) {
             typeMap = mapOf(typeOf<AppointmentObject>() to CustomNavType.appointmentObject)
         ) {
             val arguments = it.toRoute<ProfileNavigationScreen.HistoryDetailRoute>()
-            HistoryDetail(navController = navController, appointment = arguments.appointment)
+            HistoryDetailScreen(
+                navController = navController,
+                appointmentId = arguments.appointmentId
+            )
         }
         composable<ProfileNavigationScreen.ContactsRoute> {
             Text("Contacts")

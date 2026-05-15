@@ -6,7 +6,6 @@ import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.data.di.IoDispatcher
 import com.example.data.preferences.LoginPreferences
 import com.example.domain.entities.ProductUi
-import com.example.domain.entities.remote.Product
 import com.example.domain.entities.toProductUiList
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher

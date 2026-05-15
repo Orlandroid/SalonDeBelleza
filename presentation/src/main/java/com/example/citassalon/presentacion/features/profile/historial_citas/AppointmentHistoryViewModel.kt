@@ -3,14 +3,18 @@ package com.example.citassalon.presentacion.features.profile.historial_citas
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.base.BaseScreenState
+import com.example.citassalon.presentacion.features.base.BaseScreenState.OnContent
+import com.example.citassalon.presentacion.features.base.BaseScreenState.OnLoading
 import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.domain.perfil.Appointment
 import com.example.domain.state.getContent
 import com.example.domain.state.isError
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
@@ -27,6 +31,11 @@ sealed class AppointmentHistoryEvents {
     data class OnRemove(val idAppointment: String) : AppointmentHistoryEvents()
     object OnAccept : AppointmentHistoryEvents()
     object OnCancel : AppointmentHistoryEvents()
+    data class OnAppointmentClicked(val appointment: String) : AppointmentHistoryEvents()
+}
+
+sealed class AppointmentHistoryEffects {
+    data class NavigateToDetail(val idAppointment: String) : AppointmentHistoryEffects()
 }
 
 @HiltViewModel
@@ -38,7 +47,7 @@ class AppointmentHistoryViewModel @Inject constructor(
 
 
     private val _state: MutableStateFlow<BaseScreenState<AppointmentHistoryUiState>> =
-        MutableStateFlow(BaseScreenState.OnLoading)
+        MutableStateFlow(OnLoading)
     val state = _state.onStart {
         getAppointments()
     }.stateIn(
@@ -47,15 +56,15 @@ class AppointmentHistoryViewModel @Inject constructor(
         initialValue = AppointmentHistoryUiState()
     )
 
-    private val currentState: BaseScreenState.OnContent<AppointmentHistoryUiState> =
-        BaseScreenState.OnContent(AppointmentHistoryUiState())
+    private val _effects = Channel<AppointmentHistoryEffects>()
+    val effects = _effects.receiveAsFlow()
 
 
     fun onEvents(event: AppointmentHistoryEvents) {
         when (event) {
             is AppointmentHistoryEvents.OnAccept -> {
                 _state.update {
-                    BaseScreenState.OnContent(
+                    OnContent(
                         content = AppointmentHistoryUiState(
                             showDialog = false,
                             idAppointment = null
@@ -66,7 +75,7 @@ class AppointmentHistoryViewModel @Inject constructor(
 
             AppointmentHistoryEvents.OnCancel -> {
                 _state.update {
-                    BaseScreenState.OnContent(
+                    OnContent(
                         content = AppointmentHistoryUiState(
                             showDialog = false
                         )
@@ -77,12 +86,18 @@ class AppointmentHistoryViewModel @Inject constructor(
             is AppointmentHistoryEvents.OnRemove -> {
                 deleteAppointment(event.idAppointment)
             }
+
+            is AppointmentHistoryEvents.OnAppointmentClicked -> {
+                viewModelScope.launch {
+                    _effects.send(AppointmentHistoryEffects.NavigateToDetail(idAppointment = event.appointment))
+                }
+            }
         }
     }
 
 
     private fun getAppointments() = viewModelScope.launch {
-        _state.update { BaseScreenState.OnLoading }
+        _state.update { OnLoading }
 
         if (!networkHelper.isNetworkConnected()) {
             _state.update {
@@ -99,7 +114,7 @@ class AppointmentHistoryViewModel @Inject constructor(
         }
         val appointments = appointmentsResult.getContent()
         _state.update {
-            BaseScreenState.OnContent(
+            OnContent(
                 content = AppointmentHistoryUiState(
                     appointments = appointments
                 )

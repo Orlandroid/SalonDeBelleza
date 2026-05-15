@@ -16,6 +16,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -43,7 +44,9 @@ import com.example.citassalon.presentacion.features.dialogs.BaseAlertDialogMessa
 import com.example.citassalon.presentacion.features.dialogs.IsTwoButtonsAlert
 import com.example.citassalon.presentacion.features.dialogs.KindOfMessage
 import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
+import com.example.citassalon.presentacion.features.profile.ProfileNavigationScreen
 import com.example.domain.perfil.Appointment
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun AppointmentHistoryScreen(
@@ -51,8 +54,17 @@ fun AppointmentHistoryScreen(
     viewModel: AppointmentHistoryViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()
-
-
+    LaunchedEffect(Unit) {
+        viewModel.effects.collectLatest {
+            when (it) {
+                is AppointmentHistoryEffects.NavigateToDetail -> {
+                    navController.navigate(
+                        route = ProfileNavigationScreen.HistoryDetailRoute(appointmentId = it.idAppointment)
+                    )
+                }
+            }
+        }
+    }
     when (uiState) {
         is BaseScreenState.OnContent<*> -> {
             (uiState as BaseScreenState.OnContent<*>).getContentOrNull().let { state ->
@@ -142,6 +154,13 @@ private fun AppointHistoryList(
                         item {
                             ItemAppointment(
                                 appointment = appointment,
+                                onAppointmentClicked = { appointment ->
+                                    onEvents(
+                                        AppointmentHistoryEvents.OnAppointmentClicked(
+                                            appointment
+                                        )
+                                    )
+                                },
                                 onRemoveAppointment = {
                                     onEvents(AppointmentHistoryEvents.OnRemove(appointment.id))
                                 }
@@ -157,15 +176,20 @@ private fun AppointHistoryList(
 @Composable
 private fun ItemAppointment(
     appointment: Appointment,
-    onRemoveAppointment: () -> Unit
+    onRemoveAppointment: () -> Unit,
+    onAppointmentClicked: (appointmentId: String) -> Unit
 ) {
     Card(
         modifier = Modifier.padding(8.dp),
         elevation = CardDefaults.cardElevation(8.dp),
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(16.dp),
+        onClick = {
+            onAppointmentClicked(appointment.id)
+        }
     ) {
         Column(
-            Modifier.fillMaxWidth(), horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Image(
                 modifier = Modifier

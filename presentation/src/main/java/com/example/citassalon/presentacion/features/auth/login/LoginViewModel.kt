@@ -6,7 +6,6 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.util.isValidEmail
-import com.example.data.Repository
 import com.example.data.preferences.LoginPreferences
 import com.example.data.remote.auth.AuthRepository
 import com.example.domain.state.SessionStatus
