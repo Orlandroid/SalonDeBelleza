@@ -15,7 +15,6 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -48,9 +47,9 @@ fun HistoryDetailScreen(
         )
     })
 ) {
-    val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
-    when (uiState) {
+    when (uiState.value) {
         is BaseScreenState.OnContent<*> -> {
             (uiState as BaseScreenState.OnContent<*>).getContentOrNull().let { state ->
                 if (state != null) {

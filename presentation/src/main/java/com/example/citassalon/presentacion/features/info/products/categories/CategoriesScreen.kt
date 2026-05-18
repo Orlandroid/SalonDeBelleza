@@ -50,13 +50,13 @@ fun CategoriesScreen(
     viewmodel: CategoriesViewModel = hiltViewModel(
         creationCallback = { factory: CategoriesViewModelFactory -> factory.create(kindOfStore) })
 ) {
-    val uiState by viewmodel.state.collectAsStateWithLifecycle()
-    when (uiState) {
+    val uiState = viewmodel.state.collectAsStateWithLifecycle()
+    when (uiState.value) {
         BaseScreenState.OnLoading -> {
             ProgressDialog()
         }
 
-        is BaseScreenState.OnContent<*> -> {
+        is BaseScreenState.OnContent -> {
             LaunchedEffect(Unit) {
                 viewmodel.effects.collectLatest {
                     when (it) {
@@ -70,7 +70,7 @@ fun CategoriesScreen(
                 navController = navController,
                 toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.categorias))
             ) {
-                uiState.getContentOrNull()?.let { categoriesUiState ->
+                uiState.value.getContentOrNull()?.let { categoriesUiState ->
                     CategoriesScreenContent(
                         categories = categoriesUiState.categories,
                         store = Store(FAKE_STORE),

@@ -85,7 +85,7 @@ fun UserProfileScreen(
                 UserProfileScreenSkeleton()
             }
 
-            is BaseScreenState.OnContent<*> -> {
+            is BaseScreenState.OnContent -> {
                 uiState.value.getContentOrNull()?.let { state ->
                     Card(
                         Modifier

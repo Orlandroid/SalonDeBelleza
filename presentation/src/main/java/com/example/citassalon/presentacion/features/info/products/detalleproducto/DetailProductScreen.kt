@@ -51,8 +51,8 @@ fun DetailProductScreen(
     productDetailViewModel: DetailProductViewModel = hiltViewModel(
         creationCallback = { factory: ProductDetailViewModelFactory -> factory.create(productId = productId) })
 ) {
-    val uiState by productDetailViewModel.state.collectAsStateWithLifecycle()
-    when (uiState) {
+    val uiState = productDetailViewModel.state.collectAsStateWithLifecycle()
+    when (uiState.value) {
         is BaseScreenState.OnError -> {
             BaseErrorScreen()
         }
@@ -61,12 +61,12 @@ fun DetailProductScreen(
             ProgressDialog()
         }
 
-        is BaseScreenState.OnContent<*> -> {
+        is BaseScreenState.OnContent -> {
             BaseComposeScreen(
                 navController = navController,
                 toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.detail_product))
             ) {
-                uiState.getContentOrNull()?.let { state ->
+                uiState.value.getContentOrNull()?.let { state ->
                     DetailProductScreenContent(product = state.product)
                 }
             }
