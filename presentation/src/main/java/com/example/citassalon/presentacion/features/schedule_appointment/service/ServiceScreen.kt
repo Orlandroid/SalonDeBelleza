@@ -59,7 +59,9 @@ private fun ServiceScreenContent(
     navigateToDateScreen: () -> Unit,
     onEvents: (ScheduleAppointmentEvents) -> Unit
 ) {
-    Column(modifier.fillMaxSize()) {
+    Column(
+        modifier = modifier.fillMaxSize()
+    ) {
         MediumSpacer(orientation = Orientation.VERTICAL)
         ItemStaff(
             staff = staff,

@@ -94,7 +94,7 @@ private fun CategoriesScreenContent(
     onEvent: (event: CategoriesEvents) -> Unit
 ) {
     Column(
-        modifier
+        modifier = modifier
             .fillMaxSize()
             .background(Background),
         horizontalAlignment = Alignment.CenterHorizontally

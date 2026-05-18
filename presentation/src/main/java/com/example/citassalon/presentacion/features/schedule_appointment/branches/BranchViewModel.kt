@@ -1,5 +1,4 @@
-package com.example.citassalon.presentacion.features.share_beetwen_sucursales
-
+package com.example.citassalon.presentacion.features.schedule_appointment.branches
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -20,7 +19,6 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
 
-
 @HiltViewModel
 class BranchViewModel @Inject constructor(
     private val repository: Repository,
@@ -31,7 +29,7 @@ class BranchViewModel @Inject constructor(
         MutableStateFlow(BaseScreenState.OnLoading)
     val state = _state.onStart { getBranches() }.stateIn(
         scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000L),
+        started = SharingStarted.Companion.WhileSubscribed(5000L),
         BaseScreenState.OnLoading
     )
 

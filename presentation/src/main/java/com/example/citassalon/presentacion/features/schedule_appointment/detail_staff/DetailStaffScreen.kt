@@ -1,6 +1,7 @@
 package com.example.citassalon.presentacion.features.schedule_appointment.detail_staff
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -48,10 +49,11 @@ private fun DetailStaffScreenContent(
 ) {
     var rating: Float by remember { mutableFloatStateOf(staff.rating.toFloat()) }
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
         modifier = modifier
             .fillMaxSize()
-            .background(Background)
+            .background(Background),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center
     ) {
         AsyncImage(
             model = staff.image_url,

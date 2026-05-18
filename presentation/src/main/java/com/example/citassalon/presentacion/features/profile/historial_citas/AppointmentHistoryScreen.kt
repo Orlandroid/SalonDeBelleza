@@ -2,6 +2,7 @@ package com.example.citassalon.presentacion.features.profile.historial_citas
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -9,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -23,6 +25,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -189,7 +192,8 @@ private fun ItemAppointment(
     ) {
         Column(
             modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.Center
         ) {
             Image(
                 modifier = Modifier
@@ -198,7 +202,13 @@ private fun ItemAppointment(
                 painter = painterResource(id = R.drawable.tienda),
                 contentDescription = "ImageAppointment"
             )
-            Text(text = appointment.service, fontSize = 24.sp)
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(
+                modifier = Modifier.fillMaxWidth(),
+                text = appointment.service,
+                fontSize = 24.sp,
+                textAlign = TextAlign.Center
+            )
             Spacer(modifier = Modifier.height(16.dp))
             Text(text = appointment.branch, fontSize = 24.sp)
             Spacer(modifier = Modifier.height(16.dp))
@@ -207,9 +217,10 @@ private fun ItemAppointment(
                     onRemoveAppointment.invoke()
                 },
                 color = Color.Red.copy(alpha = .80f),
-                text = "Remove",
+                text = stringResource(R.string.remove),
                 fontSize = 24.sp,
             )
+            Spacer(modifier = Modifier.height(16.dp))
         }
     }
 }
@@ -220,11 +231,11 @@ private fun ItemAppointment(
 private fun AppointHistoryListPreview() {
     val mAppointment = Appointment(
         branch = "establishment",
-        service = "service",
+        service = "Delineado de barba y bigote, o cejas",
         id = ""
     )
     AppointHistoryList(
-        appointments = listOf(mAppointment, mAppointment),
+        appointments = listOf(mAppointment, mAppointment, mAppointment),
         onEvents = {}
     )
 }

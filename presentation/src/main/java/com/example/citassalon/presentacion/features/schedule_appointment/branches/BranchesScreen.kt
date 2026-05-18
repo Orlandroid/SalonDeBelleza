@@ -33,7 +33,7 @@ import com.example.citassalon.presentacion.features.schedule_appointment.FlowMai
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentEvents
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentsSideEffects
-import com.example.citassalon.presentacion.features.share_beetwen_sucursales.BranchViewModel
+import com.example.citassalon.presentacion.features.schedule_appointment.branches.BranchViewModel
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.citassalon.presentacion.features.theme.BackgroundListsMainFlow
 import com.example.domain.entities.remote.migration.NegoInfo

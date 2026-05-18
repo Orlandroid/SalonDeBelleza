@@ -29,8 +29,8 @@ fun ConfirmAppointmentDialog(
         onDismissRequest = { }
     ) {
         ConfirmAppointmentDialogContent(
-            clickOnAccept = { clickOnAccept.invoke() },
-            clickOnCancel = { clickOnCancel.invoke() }
+            clickOnAccept = clickOnAccept,
+            clickOnCancel = clickOnCancel
         )
     }
 }
@@ -42,7 +42,7 @@ private fun ConfirmAppointmentDialogContent(
     clickOnAccept: () -> Unit
 ) {
     Column(
-        modifier.fillMaxWidth(),
+        modifier =modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         LongSpacer(orientation = Orientation.VERTICAL)
@@ -50,18 +50,14 @@ private fun ConfirmAppointmentDialogContent(
         LongSpacer(orientation = Orientation.VERTICAL)
         Button(
             colors = ButtonDefaults.buttonColors(containerColor = BtnNext),
-            onClick = {
-                clickOnAccept.invoke()
-            }
+            onClick = clickOnAccept
         ) {
             Text(text = stringResource(R.string.confirmar))
         }
         LongSpacer(orientation = Orientation.VERTICAL)
         Button(
             colors = ButtonDefaults.buttonColors(containerColor = Cafe),
-            onClick = {
-                clickOnCancel.invoke()
-            }
+            onClick = clickOnCancel
         ) {
             Text(stringResource(R.string.cancelar))
         }

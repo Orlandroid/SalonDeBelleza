@@ -90,7 +90,8 @@ private fun HistoryDetailContent(
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
                 Image(
@@ -147,7 +148,7 @@ private fun HistoryDetailContentPreview() {
         appointment = AppointmentObject(
             establishment = "Zacatecas",
             employee = "Diego",
-            service = "Corte de pelo",
+            service = "Delineado de barba y bigote, o cejas",
             hour = "16:00 pm",
             date = "01/01/202"
         )
