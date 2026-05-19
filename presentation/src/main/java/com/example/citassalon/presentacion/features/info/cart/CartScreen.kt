@@ -15,6 +15,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import coil.compose.SubcomposeAsyncImage
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.base.BaseScreenState
@@ -161,12 +163,12 @@ private fun ItemCart(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center
         ) {
-            Image(
+            SubcomposeAsyncImage(
                 modifier = Modifier
-                    .padding(horizontal = 8.dp)
                     .size(100.dp),
-                painter = painterResource(R.drawable.image15_mask),
-                contentDescription = "Image of product"
+                model = product.image,
+                contentDescription = "ImageProduct",
+                loading = { CircularProgressIndicator(Modifier.padding(16.dp)) }
             )
             Spacer(modifier = Modifier.width(16.dp))
             Text(
