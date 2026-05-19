@@ -239,7 +239,7 @@ private fun InputPassword(
         } else {
             null
         },
-        text = "password",
+        text = stringResource(R.string.contraseña),
         keyboardType = KeyboardType.Password,
         imageVector = Icons.Filled.Lock,
         value = value,

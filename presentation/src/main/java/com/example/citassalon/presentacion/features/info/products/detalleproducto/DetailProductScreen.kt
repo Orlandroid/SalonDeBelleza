@@ -90,7 +90,7 @@ private fun DetailProductScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Card(
-            Modifier
+            modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = Color.White)

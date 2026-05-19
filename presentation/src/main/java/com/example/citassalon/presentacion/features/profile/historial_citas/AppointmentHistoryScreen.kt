@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -146,31 +147,44 @@ private fun AppointHistoryList(
     appointments: List<Appointment>,
     onEvents: (event: AppointmentHistoryEvents) -> Unit
 ) {
-    Column(modifier.fillMaxSize()) {
-        appointments.let { appointments ->
-            if (appointments.isEmpty()) {
-                NotDatView()
-            } else {
-                LazyColumn {
-                    appointments.forEach { appointment ->
-                        item {
-                            ItemAppointment(
-                                appointment = appointment,
-                                onAppointmentClicked = { appointment ->
-                                    onEvents(
-                                        AppointmentHistoryEvents.OnAppointmentClicked(
-                                            appointment
-                                        )
-                                    )
-                                },
-                                onRemoveAppointment = {
-                                    onEvents(AppointmentHistoryEvents.OnRemove(appointment.id))
-                                }
-                            )
-                        }
-                    }
+    Column(
+        modifier = modifier.fillMaxSize()
+    ) {
+        if (appointments.isEmpty()) {
+            NotDatView()
+        } else {
+            Appointments(
+                appointments = appointments,
+                onEvents = onEvents
+            )
+        }
+    }
+}
+
+
+@Composable
+private fun Appointments(
+    appointments: List<Appointment>,
+    onEvents: (event: AppointmentHistoryEvents) -> Unit
+) {
+    LazyColumn {
+        items(
+            items = appointments,
+            key = { it.id }
+        ) { appointment ->
+            ItemAppointment(
+                appointment = appointment,
+                onAppointmentClicked = { appointment ->
+                    onEvents(
+                        AppointmentHistoryEvents.OnAppointmentClicked(
+                            appointment
+                        )
+                    )
+                },
+                onRemoveAppointment = {
+                    onEvents(AppointmentHistoryEvents.OnRemove(appointment.id))
                 }
-            }
+            )
         }
     }
 }

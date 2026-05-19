@@ -36,9 +36,10 @@ fun UserProfileScreenSkeleton(
     modifier: Modifier = Modifier
 ) {
     Column(
-        modifier
-            .fillMaxSize()
-            .background(Background),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .background(Background),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center
     ) {

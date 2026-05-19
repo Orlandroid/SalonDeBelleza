@@ -2,6 +2,7 @@ package com.example.citassalon.presentacion.features.auth.login
 
 import android.app.Activity
 import androidx.activity.compose.BackHandler
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
@@ -33,6 +34,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
+import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
@@ -108,7 +111,7 @@ fun LoginScreen(
             val config = AlertDialogMessagesConfig(
                 kindOfMessage = KindOfMessage.ERROR,
                 title = R.string.error,
-                bodyMessage = "Error invalid user or password",
+                bodyMessage = stringResource(R.string.error_invalid_user_or_password),
                 onConfirmation = {
                     viewModel.onEvents(LoginEvents.OnCloseErrorDialog)
                 }
@@ -185,13 +188,25 @@ private fun LoginScreenContent(
 
 @Composable
 private fun ImageLogin() {
-    val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(R.raw.login_icon))
-    LottieAnimation(
-        enableMergePaths = true,
-        iterations = LottieConstants.IterateForever,
-        composition = composition,
-        modifier = Modifier.size(150.dp)
-    )
+    val isPreview = LocalInspectionMode.current
+    if (isPreview) {
+        Image(
+            painter = painterResource(id = R.drawable.logo),
+            contentDescription = null,
+            modifier = Modifier.size(150.dp)
+        )
+    } else {
+        val composition by rememberLottieComposition(
+            LottieCompositionSpec.RawRes(R.raw.login_icon)
+        )
+        LottieAnimation(
+            enableMergePaths = true,
+            iterations = LottieConstants.IterateForever,
+            composition = composition,
+            modifier = Modifier
+                .size(150.dp)
+        )
+    }
 }
 
 @Composable
@@ -254,7 +269,7 @@ private fun InputPassword(
             }
         },
         label = {
-            Text(text = "password")
+            Text(text = stringResource(R.string.contraseña))
         },
         visualTransformation = if (isPasswordVisible) VisualTransformation.None
         else PasswordVisualTransformation(),
@@ -330,7 +345,7 @@ private fun TextOr() {
                 .weight(1F)
                 .background(Color.Black)
         )
-        Text(text = "OR", Modifier.padding(horizontal = 16.dp))
+        Text(text = stringResource(R.string.or), Modifier.padding(horizontal = 16.dp))
         Spacer(
             modifier = Modifier
                 .height(1.dp)

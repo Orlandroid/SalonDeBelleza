@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Text
@@ -77,7 +78,7 @@ private fun OurStaffScreenContent(
             .fillMaxSize()
             .background(Background)
     ) {
-        Column(Modifier.fillMaxHeight(0.15f)) {
+        Column(modifier = Modifier.fillMaxHeight(0.15f)) {
             Text(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -94,10 +95,8 @@ private fun OurStaffScreenContent(
             )
         ) {
             LazyColumn {
-                users.forEach { user ->
-                    item {
-                        OurStaffItem(user)
-                    }
+                items(items = users, key = { it.email }) { user ->
+                    OurStaffItem(user)
                 }
             }
         }

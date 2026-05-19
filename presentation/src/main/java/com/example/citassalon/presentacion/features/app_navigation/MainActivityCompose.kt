@@ -49,11 +49,12 @@ class MainActivityCompose : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     AppNavigation()
-                    AnimatedVisibility(visible = !isConnected, enter = fadeIn(), exit = fadeOut()) {
-
-                        NoInternetScreen(
-                            onRetry = { mainViewModel.checkConnection() }
-                        )
+                    AnimatedVisibility(
+                        visible = !isConnected,
+                        enter = fadeIn(),
+                        exit = fadeOut()
+                    ) {
+                        NoInternetScreen(onRetry = { mainViewModel.checkConnection() })
                     }
                 }
             }

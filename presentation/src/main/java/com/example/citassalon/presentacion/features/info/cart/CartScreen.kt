@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -117,7 +118,7 @@ private fun DialogDeleteAllProducts(onEvents: (event: CartEvents) -> Unit) {
 @Composable
 private fun CartScreenContent(
     modifier: Modifier = Modifier,
-    products: List<ProductUi>?,
+    products: List<ProductUi>,
     onEvents: (event: CartEvents) -> Unit
 ) {
     LazyColumn(
@@ -125,17 +126,14 @@ private fun CartScreenContent(
             .fillMaxSize()
             .background(Background)
     ) {
-        products?.let { listProducts ->
-            if (listProducts.isNotEmpty()) {
-                listProducts.forEach { product ->
-                    item {
-                        ItemCart(
-                            product = product,
-                            onEvents = onEvents
-                        )
-                    }
-                }
-            }
+        items(
+            items = products,
+            key = { it.id }
+        ) { product ->
+            ItemCart(
+                product = product,
+                onEvents = onEvents
+            )
         }
     }
 

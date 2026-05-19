@@ -7,9 +7,9 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -31,7 +31,6 @@ import com.example.citassalon.presentacion.features.components.TextWithArrowConf
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
-import com.example.citassalon.presentacion.features.info.products.products.ProductsViewModelFactory
 import com.example.citassalon.presentacion.features.theme.Background
 import kotlinx.coroutines.flow.collectLatest
 
@@ -132,17 +131,16 @@ private fun Categories(
     goToProductsScreen: (category: String) -> Unit
 ) {
     LazyColumn {
-        categories.forEach { category ->
-            item {
-                TextWithArrow(
-                    config = TextWithArrowConfig(
-                        text = category,
-                        clickOnItem = {
-                            goToProductsScreen(category)
-                        }
-                    )
+
+        items(items = categories, key = { it }) { category ->
+            TextWithArrow(
+                config = TextWithArrowConfig(
+                    text = category,
+                    clickOnItem = {
+                        goToProductsScreen(category)
+                    }
                 )
-            }
+            )
         }
     }
 
