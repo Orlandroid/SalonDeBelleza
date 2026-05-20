@@ -65,7 +65,7 @@ class HistoryDetailViewModel @AssistedInject constructor(
                 is ApiResult.Error -> {
                     _uiState.update {
                         BaseScreenState.OnError(
-                            error = Throwable("Error al obtener la cita")
+                            error = Throwable("Error get appointment")
                         )
                     }
                 }

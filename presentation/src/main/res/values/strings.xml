@@ -184,4 +184,5 @@
     <string name="remove">Remove</string>
     <string name="or">OR</string>
     <string name="error_invalid_user_or_password">Error invalid user or password"</string>
+    <string name="personal_information">Personal information</string>
 </resources>

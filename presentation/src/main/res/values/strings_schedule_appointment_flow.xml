@@ -4,7 +4,7 @@
     <string name="cita_agendada">Tu cita ha sido \n agendada con exito.</string>
     <string name="detail_staff">Detail Staff</string>
     <string name="evaluacion">Evaluacion</string>
-    <string name="agendar_button">Agendar</string>
+    <string name="agendar_button">Book an Appointment</string>
     <string name="agendar_hora">Agendar Hora</string>
     <string name="add_date">Selecciona la fecha de tu cita</string>
     <string name="selecciona_la_hora_de_tu_cita">Selecciona la hora de tu cita</string>
