@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.schedule_appointment.staff
+package com.example.citassalon.presentacion.features.schedule_appointment.schedule_staff
 
 import com.example.domain.entities.remote.migration.Service
 import com.example.domain.entities.remote.migration.Staff

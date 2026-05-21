@@ -18,7 +18,7 @@ import com.example.citassalon.presentacion.features.schedule_appointment.home.Ho
 import com.example.citassalon.presentacion.features.schedule_appointment.schedule.ScheduleScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.schedule_confirmation.ScheduleConfirmationScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.service.ServiceScreen
-import com.example.citassalon.presentacion.features.schedule_appointment.staff.ScheduleStaffScreen
+import com.example.citassalon.presentacion.features.schedule_appointment.schedule_staff.ScheduleStaffScreen
 import com.example.domain.entities.remote.migration.Staff
 
 

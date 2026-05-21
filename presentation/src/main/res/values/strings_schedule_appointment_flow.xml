@@ -16,6 +16,12 @@
     <string name="Total">Total</string>
     <string name="confirma_cita">Confirma cita</string>
     <string name="agendar_servicio">Agendar Servicio</string>
-    <string name="agendar_staff">Agendar Staff</string>
+    <string name="agendar_staff">Schedule Staff</string>
     <string name="estilista_aleatorio">Estilista  aleatorio</string>
+    <string name="choose_your_stylist">Choose your stylist</string>
+    <string name="all_stylists">All stylists</string>
+    <string name="stylists">stylists</string>
+    <string name="surprise_me">Surprise me</string>
+    <string name="pick_random_stylist">Pick a random stylist</string>
+    <string name="select">Select</string>
 </resources>

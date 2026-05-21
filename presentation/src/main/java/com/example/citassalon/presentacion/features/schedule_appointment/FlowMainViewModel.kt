@@ -3,7 +3,7 @@ package com.example.citassalon.presentacion.features.schedule_appointment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.schedule_appointment.branches.BranchFlow
-import com.example.citassalon.presentacion.features.schedule_appointment.staff.StaffUiState
+import com.example.citassalon.presentacion.features.schedule_appointment.schedule_staff.StaffUiState
 import com.example.domain.entities.remote.migration.NegoInfo
 import com.example.domain.entities.remote.migration.Service
 import com.example.domain.entities.remote.migration.Staff
