@@ -48,6 +48,11 @@ hiltAndroidGradle = "2.57.1"
 jetbrainsKotlinJvm = "2.2.20"
 navigationUiKtx = "2.9.8"
 
+mockk = "1.14.9"
+corutinesTest = "1.11.0"
+#turbine = "1.2.1"
+
+
 [libraries]
 
 material = { module = "com.google.android.material:material", version.ref = "material" }
@@ -112,6 +117,9 @@ coilCompose = { module = "io.coil-kt:coil-compose", version.ref = "coilCompose" 
 composeRatingbar = { module = "com.github.a914-gowtham:compose-ratingbar", version.ref = "composeRatingbar" }
 navigationCompose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 mapsCompose = { module = "com.google.maps.android:maps-compose", version.ref = "mapsCompose" }
+mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
+jetbrains-kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "corutinesTest" }
+#turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 [bundles]
 room = ["roomRuntime", "roomKtx"]
