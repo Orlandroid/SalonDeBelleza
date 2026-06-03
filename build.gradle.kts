@@ -6,7 +6,7 @@ buildscript {
         maven(url = "https://jitpack.io")
     }
     dependencies {
-        val kotlinVersion = "2.2.20"
+        val kotlinVersion = "2.2.21"
         classpath("com.android.tools.build:gradle:8.13.2")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
         classpath("com.google.gms:google-services:4.4.4")
