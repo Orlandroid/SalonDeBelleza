@@ -1,12 +1,12 @@
 [versions]
 retrofit = "2.9.0"
-room = "2.6.1"
+room = "2.8.4"
 
 material = "1.13.0"
 appcompat = "1.7.1"
 coreKtx = "1.8.0"
 
-hilt = "2.49"
+hilt = "2.57.1"
 androidxHilt = "1.0.0"
 
 glide = "5.0.7"
@@ -23,7 +23,7 @@ gson = "2.14.0"
 okhttpLogging = "5.0.0-alpha.2"
 kotlinxSerialization = "1.6.3"
 
-kotlin = "2.0.20"
+kotlin = "2.2.20"
 workManager = "2.9.1"
 startup = "1.2.0"
 
