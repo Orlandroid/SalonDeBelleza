@@ -1,22 +1,21 @@
 package com.example.data.remote.auth
 
-import com.google.android.gms.tasks.Task
+import com.example.domain.state.ApiResult
 import com.google.firebase.auth.AuthCredential
-import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseUser
 
 
 interface AuthRepository {
 
-    fun getUser(): FirebaseUser?
+    fun getUser(): ApiResult<FirebaseUser?>
 
-    fun login(email: String, password: String): Task<AuthResult>
+    suspend fun login(email: String, password: String): ApiResult<Unit>
 
-    fun register(email: String, password: String): Task<AuthResult>
+    suspend fun register(email: String, password: String): ApiResult<Unit>
 
-    fun forgetPassword(email: String): Task<Void>
+    suspend fun forgetPassword(email: String): ApiResult<Unit>
 
-    fun signInWithCredential(credential: AuthCredential): Task<AuthResult>
+    suspend fun signInWithCredential(credential: AuthCredential): ApiResult<Unit>
 
-    fun logout()
+    suspend fun logout(): ApiResult<Unit>
 }

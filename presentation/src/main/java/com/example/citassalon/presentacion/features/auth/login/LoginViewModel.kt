@@ -9,6 +9,8 @@ import com.example.citassalon.presentacion.util.isValidEmail
 import com.example.data.preferences.LoginPreferences
 import com.example.data.remote.auth.AuthRepository
 import com.example.domain.state.SessionStatus
+import com.example.domain.state.getResultOrNull
+import com.example.domain.state.isSuccess
 import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -117,7 +119,7 @@ class LoginViewModel
             }
 
             is LoginEvents.OnSignUpWithGoogle -> {
-                firebaseAuthWithGoogle("343333")
+//                firebaseAuthWithGoogle("343333")
             }
 
             is LoginEvents.GoToSignUpScreen -> {
@@ -160,43 +162,45 @@ class LoginViewModel
     fun login(email: String, password: String) = viewModelScope.launch {
         _state.update { oldState -> oldState.copy(isLoading = true) }
         delay(1.seconds)
-        authRepository.login(email = email, password = password).addOnCompleteListener { response ->
-            if (response.isSuccessful) {
-                saveUserSession()
-                saveUserEmailToPreferences(email)
-                viewModelScope.launch {
-                    _effects.send(LoginSideEffects.NavigateToHomeScreen)
-                }
-            } else {
-                _state.update { oldState ->
-                    oldState.copy(
-                        isLoading = false, showDialogPasswordOrEmailWrong = true
-                    )
-                }
+        val loginResult = authRepository.login(email = email, password = password)
+
+        if (loginResult.isSuccess()) {
+            saveUserSession()
+            saveUserEmailToPreferences(email)
+            _effects.send(LoginSideEffects.NavigateToHomeScreen)
+        } else {
+            _state.update { oldState ->
+                oldState.copy(
+                    isLoading = false, showDialogPasswordOrEmailWrong = true
+                )
             }
         }
     }
 
     fun isUserActive(): Boolean {
-        return authRepository.getUser() != null
-    }
-
-    fun firebaseAuthWithGoogle(idToken: String) {
-        _loginGoogleStatus.value = SessionStatus.LOADING
-//        if (!networkHelper.isNetworkConnected()) {
-//            _loginGoogleStatus.value = SessionStatus.NETWORKERROR
-//            return
-//        }
-        val credential = GoogleAuthProvider.getCredential(idToken, null)
-        authRepository.signInWithCredential(credential).addOnCompleteListener {
-            if (it.isSuccessful) {
-                _loginGoogleStatus.value = SessionStatus.SUCCESS
-            } else {
-                _loginGoogleStatus.value = SessionStatus.ERROR
-
-            }
+        val userResult = authRepository.getUser()
+        if (userResult.isSuccess()) {
+            return userResult.getResultOrNull() != null
         }
+        return false
     }
+
+//    fun firebaseAuthWithGoogle(idToken: String) {
+//        _loginGoogleStatus.value = SessionStatus.LOADING
+////        if (!networkHelper.isNetworkConnected()) {
+////            _loginGoogleStatus.value = SessionStatus.NETWORKERROR
+////            return
+////        }
+//        val credential = GoogleAuthProvider.getCredential(idToken, null)
+//        authRepository.signInWithCredential(credential).addOnCompleteListener {
+//            if (it.isSuccessful) {
+//                _loginGoogleStatus.value = SessionStatus.SUCCESS
+//            } else {
+//                _loginGoogleStatus.value = SessionStatus.ERROR
+//
+//            }
+//        }
+//    }
 
 
 }

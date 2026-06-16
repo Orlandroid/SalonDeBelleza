@@ -96,7 +96,7 @@ dependencies {
     implementation(libs.hiltNavigationCompose)
     implementation(libs.composeUiTooling)
     implementation(libs.activityCompose)
-//    testImplementation(libs.mockk)
-//    testImplementation(libs.jetbrains.kotlinx.coroutines.test)
-//    testImplementation(libs.turbine)
+    testImplementation(libs.mockk)
+    testImplementation(libs.jetbrains.kotlinx.coroutines.test)
+    testImplementation(libs.turbine)
 }

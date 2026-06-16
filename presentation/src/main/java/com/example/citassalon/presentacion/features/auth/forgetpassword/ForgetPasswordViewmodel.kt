@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.util.isValidEmail
 import com.example.data.remote.auth.AuthRepository
+import com.example.domain.state.isSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -67,8 +68,9 @@ class ForgetPasswordViewmodel @Inject constructor(
     }
 
     private fun forgetPassword(email: String) {
-        authRepository.forgetPassword(email).addOnCompleteListener {
-            if (it.isSuccessful) {
+        viewModelScope.launch {
+            val result = authRepository.forgetPassword(email)
+            if (result.isSuccess()) {
                 sendEffect(ForgetPasswordEffects.ShowSnackBar(message = "Password successful changed"))
             } else {
                 sendEffect(ForgetPasswordEffects.ShowSnackBar(message = "Error trying to updated password"))

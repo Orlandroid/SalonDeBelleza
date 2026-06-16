@@ -16,3 +16,11 @@ fun <T> ApiResult<T>.getResultOrNull() =
     }
 
 fun <T> ApiResult<T>.getContent() = (this as ApiResult.Success).result
+
+fun <T> ApiResult<T>.getErrorMessage(): String? {
+
+    if ((this as ApiResult.Error).error != null) {
+        return this.error
+    }
+    return "An error occurred"
+}

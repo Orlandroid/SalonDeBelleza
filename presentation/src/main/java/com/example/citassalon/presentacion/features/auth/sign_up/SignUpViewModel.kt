@@ -7,6 +7,9 @@ import com.example.citassalon.presentacion.features.extensions.getCurrentDateTim
 import com.example.citassalon.presentacion.features.extensions.toStringFormat
 import com.example.data.remote.auth.AuthRepository
 import com.example.domain.entities.remote.User
+import com.example.domain.state.getErrorMessage
+import com.example.domain.state.isError
+import com.example.domain.state.isSuccess
 import com.google.firebase.database.FirebaseDatabase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -30,6 +33,7 @@ sealed class SingUpEvents {
 
 sealed class SignUpSideEffects {
     data object NavigateToLoginScreen : SignUpSideEffects()
+
     //Change message to enum with types of messages
     data class ShowSnackBar(val message: String? = null) : SignUpSideEffects()
 }
@@ -120,30 +124,43 @@ class SignUpViewModel @Inject constructor(
 
 
     private fun sinUp() {
-        val user = _state.value.getUser()
-        _state.update { it.copy(isLoading = true) }
-        authRepository.register(user.email, user.password).addOnCompleteListener {
-            if (it.isSuccessful) {
+        viewModelScope.launch {
+            val user = _state.value.getUser()
+            _state.update { it.copy(isLoading = true) }
+            val authResult = authRepository.register(user.email, user.password)
+
+            if (authResult.isSuccess()) {
                 saveUserInformation(user)
                 sendEffect(SignUpSideEffects.NavigateToLoginScreen)
             } else {
-                val error = Exception(it.exception?.message ?: "")
+                val error = Exception(authResult.getErrorMessage())
                 _state.update { state -> state.copy(error = error) }
                 sendEffect(SignUpSideEffects.ShowSnackBar("Error al crear cuenta: ${error.message}"))
             }
             _state.update { state -> state.copy(isLoading = false) }
-        }
 
+        }
     }
 
     private fun saveUserInformation(userP: User) {
-        val user = authRepository.getUser()?.uid ?: return
-        firebaseDatabase.getReference("users").child(user).setValue(userP).addOnCompleteListener {
-            if (it.isSuccessful) {
+        viewModelScope.launch {
+            val getUserResult = authRepository.getUser()
+
+            if (getUserResult.isSuccess()) {
                 sendEffect(SignUpSideEffects.ShowSnackBar("Success"))
             } else {
                 sendEffect(SignUpSideEffects.ShowSnackBar("Error"))
             }
+
+//            val user = authRepository.getUser()?.uid ?: return
+//            firebaseDatabase.getReference("users").child(user).setValue(userP)
+//                .addOnCompleteListener {
+//                    if (it.isSuccessful) {
+//                        sendEffect(SignUpSideEffects.ShowSnackBar("Success"))
+//                    } else {
+//                        sendEffect(SignUpSideEffects.ShowSnackBar("Error"))
+//                    }
+//                }
         }
     }
 

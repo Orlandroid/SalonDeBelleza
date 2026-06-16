@@ -16,7 +16,7 @@ testJunit = "1.3.0"
 espresso = "3.7.0"
 
 firebaseBom = "31.2.0"
-firebaseAuth = "21.1.0"
+firebaseAuth = "23.2.1"
 googlePlayServices = "21.6.0"
 
 gson = "2.14.0"
@@ -30,7 +30,7 @@ startup = "1.2.0"
 #Compose versions
 composeBom = "2026.05.01"
 activityCompose = "1.13.0"
-composeUi = "1.7.8"
+composeUi = "1.11.2"
 composeMaterial = "1.7.8"
 composeMaterial3 = "1.4.0"
 lifecycleViewmodelCompose = "2.10.0"
@@ -50,7 +50,7 @@ navigationUiKtx = "2.9.8"
 
 mockk = "1.14.11"
 corutinesTest = "1.11.0"
-#turbine = "1.2.1"
+turbine = "1.2.1"
 
 
 [libraries]
@@ -119,7 +119,7 @@ navigationCompose = { module = "androidx.navigation:navigation-compose", version
 mapsCompose = { module = "com.google.maps.android:maps-compose", version.ref = "mapsCompose" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 jetbrains-kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "corutinesTest" }
-#turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 
 [bundles]
 room = ["roomRuntime", "roomKtx"]
