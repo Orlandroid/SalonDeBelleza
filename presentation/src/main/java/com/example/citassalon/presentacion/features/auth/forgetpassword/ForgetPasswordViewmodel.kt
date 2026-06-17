@@ -2,10 +2,13 @@ package com.example.citassalon.presentacion.features.auth.forgetpassword
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.citassalon.presentacion.util.EmailValidator
 import com.example.citassalon.presentacion.util.isValidEmail
+import com.example.data.di.IoDispatcher
 import com.example.data.remote.auth.AuthRepository
 import com.example.domain.state.isSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -17,7 +20,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class ForgetPasswordViewmodel @Inject constructor(
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    private val emailValidator: EmailValidator
 ) : ViewModel() {
 
 
@@ -60,7 +65,7 @@ class ForgetPasswordViewmodel @Inject constructor(
 
     private fun validateEmail(email: String) {
         _state.update { it.copy(showErrorInvalidEmail = false, enableButton = false) }
-        if (!isValidEmail(email)) {
+        if (!emailValidator.isValidEmail(email)) {
             _state.update { it.copy(showErrorInvalidEmail = true) }
             return
         }
@@ -68,7 +73,7 @@ class ForgetPasswordViewmodel @Inject constructor(
     }
 
     private fun forgetPassword(email: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(ioDispatcher) {
             val result = authRepository.forgetPassword(email)
             if (result.isSuccess()) {
                 sendEffect(ForgetPasswordEffects.ShowSnackBar(message = "Password successful changed"))
@@ -80,7 +85,7 @@ class ForgetPasswordViewmodel @Inject constructor(
     }
 
     private fun sendEffect(effect: ForgetPasswordEffects) {
-        viewModelScope.launch {
+        viewModelScope.launch(ioDispatcher) {
             _effects.send(effect)
         }
     }

@@ -1,11 +1,12 @@
 package com.example.citassalon.presentacion.features.auth.forgetpassword
 
 import app.cash.turbine.test
-import com.google.android.gms.tasks.Task
-import io.mockk.every
+import com.example.citassalon.presentacion.util.EmailValidator
+import com.example.data.remote.auth.AuthRepository
+import com.example.domain.state.ApiResult
+import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
-import io.mockk.spyk
-import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -15,7 +16,6 @@ import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
-import com.example.data.remote.auth.AuthRepository
 
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -24,14 +24,18 @@ class ForgetPasswordViewmodelTest {
     private lateinit var viewModel: ForgetPasswordViewmodel
     private lateinit var authRepository: AuthRepository
     private val testDispatcher = StandardTestDispatcher()
+    private val emailValidator = mockk<EmailValidator>()
 
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
 
         authRepository = mockk(relaxed = true)
-        viewModel =
-            spyk(objToCopy = ForgetPasswordViewmodel(authRepository), recordPrivateCalls = true)
+        viewModel = ForgetPasswordViewmodel(
+            authRepository,
+            ioDispatcher = testDispatcher,
+            emailValidator = emailValidator
+        )
     }
 
     @After
@@ -50,22 +54,112 @@ class ForgetPasswordViewmodelTest {
     }
 
     @Test
-    fun `on ResetPassword should update state`() = runTest(testDispatcher) {
+    fun onResetPassword_whenRepositoryReturnsSuccess_shouldUpdateLoadingAndShowEffect() =
+        runTest(testDispatcher) {
 
-        val mockTask = mockk<Task<Void>>()
-        every { mockTask.isSuccessful } returns false
+            val messageSnackBar = "Password successful changed"
+
+            coEvery { authRepository.forgetPassword(any()) } returns ApiResult.Success(Unit)
+
+            viewModel.state.test {
+
+                assertEquals(false, awaitItem().isLoading)
+
+                viewModel.onEvents(
+                    ForgetPasswordViewmodel.ForgetPasswordEvents.OnResetPassword
+                )
+
+                assertEquals(true, awaitItem().isLoading)
 
 
-        viewModel.onEvents(ForgetPasswordViewmodel.ForgetPasswordEvents.OnResetPassword)
+                assertEquals(false, awaitItem().isLoading)
 
-        val state = viewModel.state.value
+                cancelAndIgnoreRemainingEvents()
+            }
 
-        assertEquals(true, state.isLoading)
-        verify(exactly = 1) { authRepository.forgetPassword(any()) }
+            viewModel.effects.test {
+                val effect = awaitItem()
 
-        viewModel.effects.test {
-            val effect = awaitItem()
-            assert(effect is ForgetPasswordViewmodel.ForgetPasswordEffects.ShowSnackBar)
+                assert(effect is ForgetPasswordViewmodel.ForgetPasswordEffects.ShowSnackBar)
+
+                assertEquals(
+                    messageSnackBar,
+                    (effect as ForgetPasswordViewmodel.ForgetPasswordEffects.ShowSnackBar).message
+                )
+
+                cancelAndIgnoreRemainingEvents()
+            }
+
+            coVerify(exactly = 1) {
+                authRepository.forgetPassword(any())
+            }
         }
+
+    @Test
+    fun onResetPassword_whenRepositoryReturnsError_shouldUpdateLoadingAndShowErrorEffect() =
+        runTest(testDispatcher) {
+
+            val errorMessage = "Error"
+            val snackBarMessage = "Error trying to updated password"
+
+            coEvery {
+                authRepository.forgetPassword(any())
+            } returns ApiResult.Error(errorMessage)
+
+            viewModel.effects.test {
+
+                viewModel.state.test {
+
+                    assertEquals(false, awaitItem().isLoading)
+
+                    viewModel.onEvents(
+                        ForgetPasswordViewmodel.ForgetPasswordEvents.OnResetPassword
+                    )
+
+                    assertEquals(true, awaitItem().isLoading)
+
+                    assertEquals(false, awaitItem().isLoading)
+
+                    cancelAndIgnoreRemainingEvents()
+                }
+
+                val effect = awaitItem()
+
+                assert(effect is ForgetPasswordViewmodel.ForgetPasswordEffects.ShowSnackBar)
+
+                assertEquals(
+                    snackBarMessage,
+                    (effect as ForgetPasswordViewmodel.ForgetPasswordEffects.ShowSnackBar).message
+                )
+
+                cancelAndIgnoreRemainingEvents()
+            }
+
+            coVerify(exactly = 1) {
+                authRepository.forgetPassword(any())
+            }
+        }
+
+    @Test
+    fun onValidEmail_whenValidEmailProvided_shouldEnableButton() {
+        coEvery { emailValidator.isValidEmail(any()) } returns true
+
+        viewModel.onEvents(ForgetPasswordViewmodel.ForgetPasswordEvents.OnEmailChange("test@example.com"))
+
+        val updatedState = viewModel.state.value
+        assertEquals(true, updatedState.enableButton)
+        assertEquals(false, updatedState.showErrorInvalidEmail)
     }
+
+    @Test
+    fun onValidEmail_whenInvalidEmailProvided_shouldDisableButton() {
+        coEvery { emailValidator.isValidEmail(any()) } returns false
+
+        viewModel.onEvents(ForgetPasswordViewmodel.ForgetPasswordEvents.OnEmailChange("invalid-email"))
+
+        val updatedState = viewModel.state.value
+        assertEquals(false, updatedState.enableButton)
+        assertEquals(true, updatedState.showErrorInvalidEmail)
+    }
+
 }
