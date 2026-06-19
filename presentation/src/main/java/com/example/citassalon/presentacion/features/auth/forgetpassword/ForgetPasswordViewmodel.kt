@@ -3,7 +3,6 @@ package com.example.citassalon.presentacion.features.auth.forgetpassword
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.util.EmailValidator
-import com.example.citassalon.presentacion.util.isValidEmail
 import com.example.data.di.IoDispatcher
 import com.example.data.remote.auth.AuthRepository
 import com.example.domain.state.isSuccess

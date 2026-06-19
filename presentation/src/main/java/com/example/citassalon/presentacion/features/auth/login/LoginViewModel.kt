@@ -5,13 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.presentacion.util.isValidEmail
 import com.example.data.preferences.LoginPreferences
 import com.example.data.remote.auth.AuthRepository
 import com.example.domain.state.SessionStatus
 import com.example.domain.state.getResultOrNull
 import com.example.domain.state.isSuccess
-import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
@@ -22,6 +20,12 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
+import com.example.citassalon.presentacion.util.EmailValidator
+import com.example.citassalon.presentacion.util.PasswordValidator
+import com.example.data.di.IoDispatcher
+import com.example.domain.state.isError
+import com.google.firebase.auth.GoogleAuthProvider
+import kotlinx.coroutines.CoroutineDispatcher
 
 
 sealed class LoginEvents {
@@ -62,7 +66,10 @@ data class LoginUiState(
 class LoginViewModel
 @Inject constructor(
     private val authRepository: AuthRepository,
-    private val loginPreferences: LoginPreferences
+    private val loginPreferences: LoginPreferences,
+    private val emailValidator: EmailValidator,
+    private val passwordValidator: PasswordValidator,
+    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
     private val _loginGoogleStatus = MutableLiveData<SessionStatus>()
@@ -119,7 +126,7 @@ class LoginViewModel
             }
 
             is LoginEvents.OnSignUpWithGoogle -> {
-//                firebaseAuthWithGoogle("343333")
+                firebaseAuthWithGoogle("619340747074-93lsb31bhcsp1nkptvkve9rlhecbclnd.apps.googleusercontent.com")
             }
 
             is LoginEvents.GoToSignUpScreen -> {
@@ -144,22 +151,20 @@ class LoginViewModel
 
     private fun validateForm() {
         _state.update { it.copy(showErrorUserName = false, showErrorPassword = false) }
-        if (!isValidEmail(state.value.userName)) {
+        if (!emailValidator.isValidEmail(state.value.userName)) {
             _state.update { it.copy(showErrorUserName = true) }
             return
         }
-        if (!isValidPassword()) {
+        if (!passwordValidator.isValidPassword(state.value.password)) {
             _state.update { it.copy(showErrorPassword = true) }
         }
         _state.update { it.copy(isButtonLoginEnable = true) }
     }
 
-    private fun isValidPassword(): Boolean {
-        val passwordLength = state.value.password.trim().length
-        return passwordLength > 8
-    }
-
-    fun login(email: String, password: String) = viewModelScope.launch {
+    fun login(
+        email: String,
+        password: String
+    ) = viewModelScope.launch {
         _state.update { oldState -> oldState.copy(isLoading = true) }
         delay(1.seconds)
         val loginResult = authRepository.login(email = email, password = password)
@@ -171,7 +176,8 @@ class LoginViewModel
         } else {
             _state.update { oldState ->
                 oldState.copy(
-                    isLoading = false, showDialogPasswordOrEmailWrong = true
+                    isLoading = false,
+                    showDialogPasswordOrEmailWrong = true
                 )
             }
         }
@@ -185,22 +191,20 @@ class LoginViewModel
         return false
     }
 
-//    fun firebaseAuthWithGoogle(idToken: String) {
-//        _loginGoogleStatus.value = SessionStatus.LOADING
-////        if (!networkHelper.isNetworkConnected()) {
-////            _loginGoogleStatus.value = SessionStatus.NETWORKERROR
-////            return
-////        }
-//        val credential = GoogleAuthProvider.getCredential(idToken, null)
-//        authRepository.signInWithCredential(credential).addOnCompleteListener {
-//            if (it.isSuccessful) {
-//                _loginGoogleStatus.value = SessionStatus.SUCCESS
-//            } else {
-//                _loginGoogleStatus.value = SessionStatus.ERROR
-//
-//            }
-//        }
-//    }
+    fun firebaseAuthWithGoogle(idToken: String) {
+        viewModelScope.launch(ioDispatcher) {
+            val credential = GoogleAuthProvider.getCredential(
+                idToken,
+                null
+            )
+            val authResult = authRepository.signInWithCredential(credential)
+            if (authResult.isError()) {
+                print("Error al iniciar sesión con Google")
+                return@launch
+            }
+            print("Sesión iniciada con Google")
+        }
+    }
 
 
 }

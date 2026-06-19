@@ -53,7 +53,7 @@ class AuthRepositoryImp(
 
     override suspend fun signInWithCredential(credential: AuthCredential): ApiResult<Unit> {
         return try {
-            fireBaseSource.signInWithCredential(credential = credential)
+            fireBaseSource.signInWithCredential(credential = credential).await()
             ApiResult.Success(Unit)
         } catch (e: Exception) {
             ApiResult.Error(e.message ?: "An error occurred")

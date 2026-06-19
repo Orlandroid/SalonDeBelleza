@@ -1,10 +1,10 @@
 package com.example.citassalon.presentacion.features.auth.sign_up
 
 
-import com.example.citassalon.presentacion.util.isValidEmail
+import com.example.citassalon.presentacion.util.EmailValidator
 import javax.inject.Inject
 
-class UseCaseValidateFormSignUp @Inject constructor() {
+class UseCaseValidateFormSignUp @Inject constructor(private val emailValidator: EmailValidator) {
 
     data class FormValidationResult(
         val isValidPhone: Boolean,
@@ -48,7 +48,7 @@ class UseCaseValidateFormSignUp @Inject constructor() {
         if (!isValidPassword(password = password)) {
             isValidPassword = false
         }
-        if (!isValidEmail(email)) {
+        if (!emailValidator.isValidEmail(email)) {
             isValidEmail = false
         }
         return FormValidationResult(

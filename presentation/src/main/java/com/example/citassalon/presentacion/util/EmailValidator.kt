@@ -16,11 +16,3 @@ class AndroidEmailValidator : EmailValidator {
         }
     }
 }
-
-fun isValidEmail(target: CharSequence): Boolean {
-    return if (TextUtils.isEmpty(target)) {
-        false
-    } else {
-        Patterns.EMAIL_ADDRESS.matcher(target).matches()
-    }
-}

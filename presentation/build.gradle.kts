@@ -99,4 +99,5 @@ dependencies {
     testImplementation(libs.mockk)
     testImplementation(libs.jetbrains.kotlinx.coroutines.test)
     testImplementation(libs.turbine)
+    testImplementation("com.google.truth:truth:1.4.4")
 }
