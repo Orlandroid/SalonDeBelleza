@@ -5,13 +5,13 @@ import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.extensions.dateFormat
 import com.example.citassalon.presentacion.features.extensions.getCurrentDateTime
 import com.example.citassalon.presentacion.features.extensions.toStringFormat
+import com.example.data.di.IoDispatcher
 import com.example.data.remote.auth.AuthRepository
 import com.example.domain.entities.remote.User
 import com.example.domain.state.getErrorMessage
-import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
-import com.google.firebase.database.FirebaseDatabase
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -56,10 +56,9 @@ data class SignUpUiState(
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val repository: com.example.data.Repository,
     private val authRepository: AuthRepository,
-    private val firebaseDatabase: FirebaseDatabase,
-    private val useCaseValidateForm: UseCaseValidateFormSignUp
+    private val useCaseValidateForm: UseCaseValidateFormSignUp,
+    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
 
@@ -124,7 +123,7 @@ class SignUpViewModel @Inject constructor(
 
 
     private fun sinUp() {
-        viewModelScope.launch {
+        viewModelScope.launch(ioDispatcher) {
             val user = _state.value.getUser()
             _state.update { it.copy(isLoading = true) }
             val authResult = authRepository.register(user.email, user.password)
@@ -143,7 +142,7 @@ class SignUpViewModel @Inject constructor(
     }
 
     private fun saveUserInformation(userP: User) {
-        viewModelScope.launch {
+        viewModelScope.launch(ioDispatcher) {
             val getUserResult = authRepository.getUser()
 
             if (getUserResult.isSuccess()) {
@@ -165,7 +164,7 @@ class SignUpViewModel @Inject constructor(
     }
 
     private fun sendEffect(effect: SignUpSideEffects) {
-        viewModelScope.launch {
+        viewModelScope.launch(ioDispatcher) {
             _effects.send(effect)
         }
     }
