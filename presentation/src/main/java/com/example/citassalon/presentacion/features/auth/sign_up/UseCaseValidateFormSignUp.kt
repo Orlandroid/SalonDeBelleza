@@ -4,17 +4,10 @@ package com.example.citassalon.presentacion.features.auth.sign_up
 import com.example.citassalon.presentacion.util.EmailValidator
 import javax.inject.Inject
 
-class UseCaseValidateFormSignUp @Inject constructor(private val emailValidator: EmailValidator) {
+class UseCaseValidateFormSignUp @Inject constructor(
+    private val emailValidator: EmailValidator
+) {
 
-    data class FormValidationResult(
-        val isValidPhone: Boolean,
-        val isValidEmail: Boolean,
-        val isValidPassword: Boolean,
-        val hasEmptyFields: Boolean
-    ) {
-        val isFormValid: Boolean
-            get() = isValidPhone && isValidEmail && isValidPassword && !hasEmptyFields
-    }
 
     companion object {
         private const val MINIMAL_CHARACTERS_PASSWORD = 8
@@ -79,6 +72,16 @@ class UseCaseValidateFormSignUp @Inject constructor(private val emailValidator: 
         val passwordIsEmpty = password.trim().isEmpty()
         val birthDayIsEmpty = birthDay.trim().isEmpty()
         return nameIsEmpty or phoneIsEmpty or emailIsEmpty or passwordIsEmpty or birthDayIsEmpty
+    }
+
+    data class FormValidationResult(
+        val isValidPhone: Boolean,
+        val isValidEmail: Boolean,
+        val isValidPassword: Boolean,
+        val hasEmptyFields: Boolean
+    ) {
+        val isFormValid: Boolean
+            get() = isValidPhone && isValidEmail && isValidPassword && !hasEmptyFields
     }
 
 }
