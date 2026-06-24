@@ -42,7 +42,7 @@ private fun ConfirmAppointmentDialogContent(
     clickOnAccept: () -> Unit
 ) {
     Column(
-        modifier =modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
         LongSpacer(orientation = Orientation.VERTICAL)

@@ -1,7 +1,7 @@
 package com.example.citassalon.presentacion.features.schedule_appointment
 
-import android.app.Activity
-import androidx.compose.ui.platform.LocalContext
+import androidx.activity.compose.LocalActivity
+import androidx.compose.runtime.collectAsState
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -17,8 +17,8 @@ import com.example.citassalon.presentacion.features.schedule_appointment.home.Ho
 import com.example.citassalon.presentacion.features.schedule_appointment.home.HomeScreenEvents
 import com.example.citassalon.presentacion.features.schedule_appointment.schedule.ScheduleScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.schedule_confirmation.ScheduleConfirmationScreen
-import com.example.citassalon.presentacion.features.schedule_appointment.service.ServiceScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.schedule_staff.ScheduleStaffScreen
+import com.example.citassalon.presentacion.features.schedule_appointment.service.ServiceScreen
 import com.example.domain.entities.remote.migration.Staff
 
 
@@ -31,7 +31,7 @@ fun NavGraphBuilder.scheduleNavigationGraph(
         startDestination = ScheduleAppointmentScreens.HomeRoute
     ) {
         composable<ScheduleAppointmentScreens.HomeRoute> {
-            val activity = LocalContext.current as Activity
+            val activity = LocalActivity.current
             HomeScreen(
                 event = { event ->
                     when (event) {
@@ -79,7 +79,7 @@ fun NavGraphBuilder.scheduleNavigationGraph(
             ServiceScreen(
                 mainViewModel = mainViewModel,
                 navController = navController,
-                state = mainViewModel.staffUiState.value
+                state = mainViewModel.staffUiState.collectAsState().value
             )
         }
         composable<ScheduleAppointmentScreens.ScheduleRoute> {
@@ -96,7 +96,7 @@ fun NavGraphBuilder.scheduleNavigationGraph(
             }
         }
         composable<ScheduleAppointmentScreens.AppointmentScheduledRoute> {
-            val activity = LocalContext.current as Activity
+            val activity = LocalActivity.current
             AppointmentScheduledScreen(navController = navController) {
                 (activity as MainActivityCompose).closeAndOpenActivity()
             }

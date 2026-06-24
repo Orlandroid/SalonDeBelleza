@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.data.preferences.LoginPreferences
 import com.example.data.remote.auth.AuthRepository
 import com.example.domain.perfil.ProfileItem
+import com.example.domain.state.getContent
 import com.example.domain.state.isSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -55,7 +56,10 @@ class ProfileViewModel @Inject constructor(
         MutableStateFlow(ProfileUiState())
 
     val uiState = _uiState.onStart {
-//        _uiState.update { it.copy(user = authRepository.getUser()?.email) }
+        val authResult = authRepository.getUser()
+        if (authResult.isSuccess()) {
+            _uiState.update { it.copy(user = authResult.getContent()?.email) }
+        }
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(500L),

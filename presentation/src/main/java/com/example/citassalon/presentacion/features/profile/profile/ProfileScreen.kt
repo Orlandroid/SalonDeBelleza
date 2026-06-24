@@ -1,5 +1,6 @@
 package com.example.citassalon.presentacion.features.profile.profile
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -27,7 +28,6 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -57,7 +57,7 @@ fun ProfileScreen(
     navController: NavHostController,
     profileViewModel: ProfileViewModel = hiltViewModel()
 ) {
-    val activity = LocalContext.current as MainActivityCompose
+    val activity = LocalActivity.current as MainActivityCompose
     val onEvents = profileViewModel::onEvents
     val uiState by profileViewModel.uiState.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {

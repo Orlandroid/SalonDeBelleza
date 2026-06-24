@@ -81,7 +81,7 @@ class ConfirmScheduleViewModel @Inject constructor(
             .child(uuidUser!!)
     }
 
-    //Migrate for the moment the employee is hardcoded, in the future we will get it from the database
+
     private fun saveAppointment(appointment: AppointmentFirebase) {
         appointment.employee = "Orlando"
         val databaseReference =
