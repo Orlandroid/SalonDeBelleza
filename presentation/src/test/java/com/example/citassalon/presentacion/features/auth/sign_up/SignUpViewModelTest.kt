@@ -23,7 +23,7 @@ class SignUpViewModelTest {
     private val testDispatcher = StandardTestDispatcher()
     private lateinit var viewModel: SignUpViewModel
     private val authRepository: AuthRepository = mockk()
-    private val useCaseValidateForm: UseCaseValidateFormSignUp = mockk()
+    private val useCaseValidateForm: ValidateFormSignUpUseCase = mockk()
 
     companion object {
         const val ACCOUNT_CREATION_ERROR_MESSAGE = "Error creating account"
@@ -61,7 +61,7 @@ class SignUpViewModelTest {
                 any(),
                 any()
             )
-        } returns UseCaseValidateFormSignUp.FormValidationResult(
+        } returns ValidateFormSignUpUseCase.FormValidationResult(
             isValidPhone = isValidPhone,
             isValidEmail = isValidEmail,
             isValidPassword = isValidPassword,

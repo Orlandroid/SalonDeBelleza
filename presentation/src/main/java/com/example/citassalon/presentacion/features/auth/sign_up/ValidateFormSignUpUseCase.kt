@@ -4,7 +4,7 @@ package com.example.citassalon.presentacion.features.auth.sign_up
 import com.example.citassalon.presentacion.util.EmailValidator
 import javax.inject.Inject
 
-class UseCaseValidateFormSignUp @Inject constructor(
+class ValidateFormSignUpUseCase @Inject constructor(
     private val emailValidator: EmailValidator
 ) {
 

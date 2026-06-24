@@ -15,7 +15,7 @@ import org.junit.Test
 
 class UseCaseValidateFormSignUpTest {
 
-    private lateinit var useCaseValidateFormSignUp: UseCaseValidateFormSignUp
+    private lateinit var useCaseValidateFormSignUp: ValidateFormSignUpUseCase
     private val testDispatcher = StandardTestDispatcher()
     private val emailValidator: EmailValidator = mockk()
 
@@ -24,7 +24,7 @@ class UseCaseValidateFormSignUpTest {
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        useCaseValidateFormSignUp = UseCaseValidateFormSignUp(
+        useCaseValidateFormSignUp = ValidateFormSignUpUseCase(
             emailValidator = emailValidator
         )
     }

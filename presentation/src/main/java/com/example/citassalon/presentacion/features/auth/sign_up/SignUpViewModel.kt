@@ -8,7 +8,9 @@ import com.example.citassalon.presentacion.features.extensions.toStringFormat
 import com.example.data.di.IoDispatcher
 import com.example.data.remote.auth.AuthRepository
 import com.example.domain.entities.remote.User
+import com.example.domain.state.getContent
 import com.example.domain.state.getErrorMessage
+import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -57,7 +59,8 @@ data class SignUpUiState(
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val authRepository: AuthRepository,
-    private val useCaseValidateForm: UseCaseValidateFormSignUp,
+    private val useCaseValidateForm: ValidateFormSignUpUseCase,
+    private val saveUserInfoUseCase: SaveUserInfoUseCase,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
@@ -143,23 +146,32 @@ class SignUpViewModel @Inject constructor(
 
     private fun saveUserInformation(userP: User) {
         viewModelScope.launch(ioDispatcher) {
+
             val getUserResult = authRepository.getUser()
 
-            if (getUserResult.isSuccess()) {
-                sendEffect(SignUpSideEffects.ShowSnackBar("Success"))
-            } else {
+            val uid = getUserResult.getContent()?.uid
+
+            if (uid == null) {
                 sendEffect(SignUpSideEffects.ShowSnackBar("Error"))
+                return@launch
             }
 
-//            val user = authRepository.getUser()?.uid ?: return
-//            firebaseDatabase.getReference("users").child(user).setValue(userP)
-//                .addOnCompleteListener {
-//                    if (it.isSuccessful) {
-//                        sendEffect(SignUpSideEffects.ShowSnackBar("Success"))
-//                    } else {
-//                        sendEffect(SignUpSideEffects.ShowSnackBar("Error"))
-//                    }
-//                }
+            if (getUserResult.isError()) {
+                sendEffect(SignUpSideEffects.ShowSnackBar("Error"))
+                return@launch
+            }
+
+            val userInfoUseCaseResult = saveUserInfoUseCase.invoke(
+                userId = getUserResult.getContent()?.uid.toString(),
+                user = userP
+            )
+
+            if (userInfoUseCaseResult.isError()) {
+                sendEffect(SignUpSideEffects.ShowSnackBar("Error"))
+                return@launch
+            }
+
+            sendEffect(SignUpSideEffects.ShowSnackBar("Success"))
         }
     }
 
