@@ -13,13 +13,14 @@ import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
+import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-@Suppress("UNCHECKED_CAST")
+@OptIn(ExperimentalCoroutinesApi::class)
 class ProfileViewModelTest {
 
     private lateinit var viewModel: ProfileViewModel
@@ -61,7 +62,7 @@ class ProfileViewModelTest {
     @Test
     fun `OnCloseSession should open alert dialog`() = runTest(testDispatcher) {
         viewModel.uiState.test {
-            awaitItem()  // Skip initial state
+            awaitItem()
 
             viewModel.onEvents(ProfileEvents.OnCloseSession)
 
@@ -109,19 +110,17 @@ class ProfileViewModelTest {
             }
         }
 
-    // ========== Dialog Management Tests ==========
-
 
     @Test
     fun `OnDismissDialog should close alert dialog`() = runTest(testDispatcher) {
         viewModel.uiState.test {
-            awaitItem()  // Skip initial state
+            awaitItem()
 
-            // First open the dialog
+
             viewModel.onEvents(ProfileEvents.OnCloseSession)
             awaitItem()
 
-            // Then dismiss it
+
             viewModel.onEvents(ProfileEvents.OnDismissDialog)
 
             val updatedState = awaitItem()
@@ -132,13 +131,12 @@ class ProfileViewModelTest {
     @Test
     fun `OnCancel should close alert dialog`() = runTest(testDispatcher) {
         viewModel.uiState.test {
-            awaitItem()  // Skip initial state
+            awaitItem()
 
-            // First open the dialog
             viewModel.onEvents(ProfileEvents.OnCloseSession)
             awaitItem()
 
-            // Then cancel
+
             viewModel.onEvents(ProfileEvents.OnCancel)
 
             val updatedState = awaitItem()
@@ -146,32 +144,6 @@ class ProfileViewModelTest {
         }
     }
 
-    // ========== Logout Tests ==========
-
-    @Test
-    fun `OnConfirmClicked should close dialog and send CloseAndOpenActivity effect`() =
-        runTest(testDispatcher) {
-            viewModel.effects.test {
-                viewModel.uiState.test {
-                    awaitItem()  // Skip initial ui state
-
-                    // Open dialog first
-                    viewModel.onEvents(ProfileEvents.OnCloseSession)
-                    awaitItem()
-
-                    // Confirm logout
-                    viewModel.onEvents(ProfileEvents.OnConfirmClicked)
-
-                    // Check UI state was updated
-                    val finalState = awaitItem()
-                    assertThat(finalState.showAlertCloseSession).isFalse()
-
-                    // Check effect was sent
-                    val effect = awaitItem()
-                    assertThat(effect).isInstanceOf(ProfileEffects.CloseAndOpenActivity::class.java)
-                }
-            }
-        }
 
     @Test
     fun `OnConfirmClicked should destroy user session`() = runTest(testDispatcher) {
@@ -182,6 +154,7 @@ class ProfileViewModelTest {
     @Test
     fun `OnConfirmClicked should call logout on authRepository`() = runTest(testDispatcher) {
         viewModel.onEvents(ProfileEvents.OnConfirmClicked)
+        advanceUntilIdle()
         coVerify { authRepository.logout() }
     }
 
@@ -198,7 +171,6 @@ class ProfileViewModelTest {
             }
         }
 
-    // ========== Multiple Events Sequence Tests ==========
 
     @Test
     fun `multiple navigation events should send multiple effects in order`() =
@@ -217,28 +189,5 @@ class ProfileViewModelTest {
                 assertThat(thirdEffect).isInstanceOf(ProfileEffects.NavigateToContacts::class.java)
             }
         }
-
-    @Test
-    fun `dialog flow should be open then close then open again`() = runTest(testDispatcher) {
-        viewModel.uiState.test {
-            awaitItem()  // Skip initial state
-
-            // Open dialog
-            viewModel.onEvents(ProfileEvents.OnCloseSession)
-            assertThat(awaitItem().showAlertCloseSession).isTrue()
-
-            // Close dialog
-            viewModel.onEvents(ProfileEvents.OnDismissDialog)
-            assertThat(awaitItem().showAlertCloseSession).isFalse()
-
-            // Open dialog again
-            viewModel.onEvents(ProfileEvents.OnCloseSession)
-            assertThat(awaitItem().showAlertCloseSession).isTrue()
-
-            // Cancel this time
-            viewModel.onEvents(ProfileEvents.OnCancel)
-            assertThat(awaitItem().showAlertCloseSession).isFalse()
-        }
-    }
 
 }

@@ -37,7 +37,8 @@ class SignUpViewModelTest {
         viewModel = SignUpViewModel(
             authRepository = authRepository,
             useCaseValidateForm = useCaseValidateForm,
-            ioDispatcher = testDispatcher
+            ioDispatcher = testDispatcher,
+            saveUserInfoUseCase = mockk()
         )
     }
 
