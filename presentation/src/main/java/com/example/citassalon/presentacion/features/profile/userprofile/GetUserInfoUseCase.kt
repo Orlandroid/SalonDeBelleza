@@ -4,15 +4,18 @@ import androidx.compose.ui.graphics.Color
 import com.example.data.preferences.LoginPreferences
 import com.example.data.remote.auth.AuthRepository
 import com.example.domain.state.ApiResult
+import com.example.domain.state.getContent
 import com.example.domain.state.getErrorMessage
 import com.example.domain.state.getResultOrNull
 import com.example.domain.state.isError
+import com.example.domain.state.isSuccess
 import javax.inject.Inject
 
 class GetUserInfoUseCase @Inject constructor(
     private val authRepository: AuthRepository,
     private val loginPreferences: LoginPreferences,
-    private val getUserImage: GetUserImageUseCase
+    private val getUserImage: GetUserImageUseCase,
+    private val getNameAndPhoneUseCase: GetNameAndPhoneUseCase
 ) {
 
     //Todo add use for get random info for this fake api https://randomuser.me/
@@ -25,11 +28,18 @@ class GetUserInfoUseCase @Inject constructor(
         val user = userResult.getResultOrNull() ?: return ApiResult.Error("User not found")
         val money = loginPreferences.getUserMoney().toString()
         val image = getUserImage.invoke().getResultOrNull()
+        val nameAndPhone = getNameAndPhoneUseCase.invoke()
+        var name = ""
+        var phone = ""
+        if (nameAndPhone.isSuccess()) {
+            name = nameAndPhone.getContent().name
+            phone = nameAndPhone.getContent().phone
+        }
         val userInfo = UserProfileUiState().copy(
-            name = user.displayName,
+            name = name,
             email = user.email,
             uid = user.uid,
-            phone = user.phoneNumber,
+            phone = phone,
             money = money,
             image = image,
             statusColor = getUserSessionStatus()

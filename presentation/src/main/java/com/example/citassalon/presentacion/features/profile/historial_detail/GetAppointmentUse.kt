@@ -8,9 +8,11 @@ import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.getValue
 import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
+import javax.inject.Named
 import kotlin.coroutines.resume
 
 class GetAppointmentUseCase @Inject constructor(
+    @param:Named("Appointment")
     private val databaseReference: DatabaseReference
 ) {
 

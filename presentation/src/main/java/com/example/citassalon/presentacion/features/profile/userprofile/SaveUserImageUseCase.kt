@@ -17,7 +17,7 @@ class SaveUserImageUseCase @Inject constructor(
             databaseReference.setValue(imageLikeBase64).await()
             return ApiResult.Success(Any())
         } catch (e: Exception) {
-            return ApiResult.Success(Any())
+            return ApiResult.Error(e.message)
         }
     }
 }

@@ -18,6 +18,8 @@ import javax.inject.Singleton
 object ModuleFirebase {
 
     private const val IMAGE_USER = "imageUser"
+    private const val APPOINTMENT_PATH = "Appointment"
+    private const val USERS_PATH = "users"
 
 
     @Singleton
@@ -38,12 +40,24 @@ object ModuleFirebase {
 
     @Singleton
     @Provides
-    fun provideFirebaseRealtimeDatabaseReference(
+    @Named(APPOINTMENT_PATH)
+    fun provideFirebaseRealtimeDatabaseReferenceAppointment(
         firebaseDatabase: FirebaseDatabase,
         firebaseAuth: FirebaseAuth
     ): DatabaseReference {
         val uuidUser = firebaseAuth.uid
-        return firebaseDatabase.reference.child("Appointment").child(uuidUser!!)
+        return firebaseDatabase.reference.child(APPOINTMENT_PATH).child(uuidUser!!)
+    }
+
+    @Singleton
+    @Provides
+    @Named(USERS_PATH)
+    fun provideFirebaseRealtimeDatabaseReferenceUsers(
+        firebaseDatabase: FirebaseDatabase,
+        firebaseAuth: FirebaseAuth
+    ): DatabaseReference {
+        val uuidUser = firebaseAuth.uid
+        return firebaseDatabase.reference.child(USERS_PATH).child(uuidUser!!)
     }
 
     @Singleton

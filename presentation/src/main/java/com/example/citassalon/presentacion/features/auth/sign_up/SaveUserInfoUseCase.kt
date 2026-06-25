@@ -10,12 +10,16 @@ class SaveUserInfoUseCase @Inject constructor(
     private val firebaseDatabase: FirebaseDatabase
 ) {
 
+    companion object {
+        const val USERS_PATH = "users"
+    }
+
     suspend fun invoke(
         userId: String,
         user: User
     ): ApiResult<Any> {
         return try {
-            firebaseDatabase.getReference("users").child(userId).setValue(user).await()
+            firebaseDatabase.getReference(USERS_PATH).child(userId).setValue(user).await()
             ApiResult.Success(Any())
         } catch (e: Exception) {
             ApiResult.Error(error = e.message.orEmpty())
