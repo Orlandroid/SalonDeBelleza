@@ -1,8 +1,7 @@
 package com.example.citassalon.presentacion.features.profile.historial_citas
 
 import com.example.citassalon.presentacion.main.NetworkHelper
-import com.example.domain.use_cases.DeleteAppointmentUseCase
-import com.example.domain.use_cases.GetAppointmentsUseCase
+import com.example.data.remote.appointments.AppointmentsRepository
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -17,8 +16,7 @@ class AppointmentHistoryViewModelTest {
     private lateinit var viewModel: AppointmentHistoryViewModel
     private val testDispatcher = StandardTestDispatcher()
     private val networkHelper: NetworkHelper = mockk()
-    private val getAppointmentsUse: GetAppointmentsUseCase = mockk()
-    private val deleteAppointmentUseCase: DeleteAppointmentUseCase = mockk()
+    private val appointmentsRepository: AppointmentsRepository = mockk()
 
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -27,8 +25,7 @@ class AppointmentHistoryViewModelTest {
         Dispatchers.setMain(testDispatcher)
         viewModel = AppointmentHistoryViewModel(
             networkHelper = networkHelper,
-            getAppointmentsUse = getAppointmentsUse,
-            deleteAppointmentUseCase = deleteAppointmentUseCase
+            appointmentsRepository = appointmentsRepository
         )
     }
 
