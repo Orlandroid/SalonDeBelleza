@@ -9,7 +9,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Named
 import javax.inject.Singleton
 
 
@@ -40,7 +39,7 @@ object ModuleFirebase {
 
     @Singleton
     @Provides
-    @Named(APPOINTMENT_PATH)
+    @AppointmentsRef
     fun provideFirebaseRealtimeDatabaseReferenceAppointment(
         firebaseDatabase: FirebaseDatabase,
         firebaseAuth: FirebaseAuth
@@ -51,7 +50,7 @@ object ModuleFirebase {
 
     @Singleton
     @Provides
-    @Named(USERS_PATH)
+    @UsersRef
     fun provideFirebaseRealtimeDatabaseReferenceUsers(
         firebaseDatabase: FirebaseDatabase,
         firebaseAuth: FirebaseAuth
@@ -62,7 +61,7 @@ object ModuleFirebase {
 
     @Singleton
     @Provides
-    @Named(IMAGE_USER)
+    @ImagesRef
     fun provideFirebaseRealtimeImageReference(
         firebaseDatabase: FirebaseDatabase,
         firebaseAuth: FirebaseAuth

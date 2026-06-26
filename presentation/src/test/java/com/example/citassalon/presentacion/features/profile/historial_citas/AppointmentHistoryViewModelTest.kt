@@ -1,6 +1,7 @@
 package com.example.citassalon.presentacion.features.profile.historial_citas
 
 import com.example.citassalon.presentacion.main.NetworkHelper
+import com.example.domain.use_cases.DeleteAppointmentUseCase
 import com.example.domain.use_cases.GetAppointmentsUseCase
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers

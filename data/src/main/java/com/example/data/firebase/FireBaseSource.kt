@@ -4,7 +4,9 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import javax.inject.Inject
 
-class FireBaseSource @Inject constructor(private val firebaseAuth: FirebaseAuth) {
+class FireBaseSource @Inject constructor(
+    private val firebaseAuth: FirebaseAuth
+) {
 
 
     fun getUser() = firebaseAuth.currentUser
