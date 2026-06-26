@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.profile.historial_citas
+package com.example.domain.use_cases
 
 import com.example.domain.perfil.Appointment
 import com.example.domain.perfil.AppointmentFirebase

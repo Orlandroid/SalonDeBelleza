@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.profile.historial_detail
+package com.example.domain.use_cases
 
 import com.example.domain.entities.local.AppointmentObject
 import com.example.domain.mappers.toAppointmentObject

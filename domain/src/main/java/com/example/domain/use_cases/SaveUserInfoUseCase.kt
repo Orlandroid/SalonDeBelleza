@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.auth.sign_up
+package com.example.domain.use_cases
 
 import com.example.domain.entities.remote.User
 import com.example.domain.state.ApiResult

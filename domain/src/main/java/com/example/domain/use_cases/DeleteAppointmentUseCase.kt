@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.profile.historial_citas
+package com.example.domain.use_cases
 
 import com.example.domain.state.ApiResult
 import com.google.firebase.database.DatabaseReference

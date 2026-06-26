@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.domain.entities.local.AppointmentObject
 import com.example.domain.state.ApiResult
+import com.example.domain.use_cases.GetAppointmentUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel

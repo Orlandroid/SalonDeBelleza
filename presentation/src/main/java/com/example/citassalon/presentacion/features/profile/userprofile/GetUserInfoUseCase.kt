@@ -9,6 +9,8 @@ import com.example.domain.state.getErrorMessage
 import com.example.domain.state.getResultOrNull
 import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
+import com.example.domain.use_cases.GetNameAndPhoneUseCase
+import com.example.domain.use_cases.GetUserImageUseCase
 import javax.inject.Inject
 
 class GetUserInfoUseCase @Inject constructor(
