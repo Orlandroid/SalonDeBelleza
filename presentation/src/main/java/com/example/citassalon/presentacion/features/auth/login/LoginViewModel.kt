@@ -1,16 +1,19 @@
 package com.example.citassalon.presentacion.features.auth.login
 
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.validation.EmailValidator
+import com.example.domain.validation.PasswordValidator
+import com.example.data.di.IoDispatcher
 import com.example.data.preferences.LoginPreferences
 import com.example.data.remote.auth.AuthRepository
-import com.example.domain.state.SessionStatus
 import com.example.domain.state.getResultOrNull
+import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
+import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -20,12 +23,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
-import com.example.citassalon.presentacion.util.EmailValidator
-import com.example.citassalon.presentacion.util.PasswordValidator
-import com.example.data.di.IoDispatcher
-import com.example.domain.state.isError
-import com.google.firebase.auth.GoogleAuthProvider
-import kotlinx.coroutines.CoroutineDispatcher
 
 
 sealed class LoginEvents {
@@ -71,9 +68,6 @@ class LoginViewModel
     private val passwordValidator: PasswordValidator,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
-
-    private val _loginGoogleStatus = MutableLiveData<SessionStatus>()
-    val loginGoogleStatus: LiveData<SessionStatus> get() = _loginGoogleStatus
 
     private val _state: MutableStateFlow<LoginUiState> =
         MutableStateFlow(LoginUiState().copy(userName = getUserEmailFromPreferences()))

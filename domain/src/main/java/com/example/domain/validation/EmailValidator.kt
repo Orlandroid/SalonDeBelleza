@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.util
+package com.example.domain.validation
 
 import android.text.TextUtils
 import android.util.Patterns

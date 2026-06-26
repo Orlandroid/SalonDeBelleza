@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.util
+package com.example.domain.validation
 
 interface PasswordValidator {
     fun isValidPassword(password: String): Boolean

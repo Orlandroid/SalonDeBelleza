@@ -1,8 +1,8 @@
 package com.example.citassalon.presentacion.features.auth.login
 
 import app.cash.turbine.test
-import com.example.citassalon.presentacion.util.EmailValidator
-import com.example.citassalon.presentacion.util.PasswordValidator
+import com.example.domain.validation.EmailValidator
+import com.example.domain.validation.PasswordValidator
 import com.example.data.preferences.LoginPreferences
 import com.example.data.remote.auth.AuthRepository
 import com.example.domain.state.ApiResult

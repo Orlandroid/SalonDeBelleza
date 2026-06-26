@@ -1,6 +1,7 @@
 package com.example.citassalon.presentacion.features.auth.sign_up
 
-import com.example.citassalon.presentacion.util.EmailValidator
+import com.example.domain.validation.EmailValidator
+import com.example.domain.use_cases.ValidateFormSignUpUseCase
 import com.google.common.truth.Truth.assertThat
 import io.mockk.every
 import io.mockk.mockk

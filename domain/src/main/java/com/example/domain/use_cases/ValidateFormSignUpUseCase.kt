@@ -1,7 +1,6 @@
-package com.example.citassalon.presentacion.features.auth.sign_up
+package com.example.domain.use_cases
 
-
-import com.example.citassalon.presentacion.util.EmailValidator
+import com.example.domain.validation.EmailValidator
 import javax.inject.Inject
 
 class ValidateFormSignUpUseCase @Inject constructor(

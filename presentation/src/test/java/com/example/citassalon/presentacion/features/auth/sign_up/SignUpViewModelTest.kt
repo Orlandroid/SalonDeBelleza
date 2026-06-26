@@ -3,6 +3,7 @@ package com.example.citassalon.presentacion.features.auth.sign_up
 import app.cash.turbine.test
 import com.example.data.remote.auth.AuthRepository
 import com.example.domain.state.ApiResult
+import com.example.domain.use_cases.ValidateFormSignUpUseCase
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.every

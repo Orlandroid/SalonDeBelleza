@@ -1,7 +1,7 @@
 package com.example.citassalon.presentacion.features.auth.forgetpassword
 
 import app.cash.turbine.test
-import com.example.citassalon.presentacion.util.EmailValidator
+import com.example.domain.validation.EmailValidator
 import com.example.data.remote.auth.AuthRepository
 import com.example.domain.state.ApiResult
 import io.mockk.coEvery

@@ -13,6 +13,7 @@ import com.example.domain.state.getContent
 import com.example.domain.state.getErrorMessage
 import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
+import com.example.domain.use_cases.ValidateFormSignUpUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.Channel
