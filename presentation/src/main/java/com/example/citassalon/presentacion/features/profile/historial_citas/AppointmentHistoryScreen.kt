@@ -69,13 +69,13 @@ fun AppointmentHistoryScreen(
         }
     }
     when (uiState.value) {
-        is BaseScreenState.OnContent<*> -> {
-            (uiState as BaseScreenState.OnContent<*>).getContentOrNull().let { state ->
+        is BaseScreenState.OnContent -> {
+            (uiState.value).getContentOrNull().let { state ->
                 if (state == null) {
                     NotDatView()
                 } else {
                     AppointmentHistoryScreenContent(
-                        uiState = state as AppointmentHistoryUiState,
+                        uiState = state,
                         onEvents = viewModel::onEvents,
                         navHostController = navController
                     )

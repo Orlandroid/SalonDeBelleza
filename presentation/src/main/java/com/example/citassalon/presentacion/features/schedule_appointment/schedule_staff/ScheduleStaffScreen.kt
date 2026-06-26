@@ -41,8 +41,6 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
-import com.example.citassalon.presentacion.features.components.ClickOnItemStaff
-import com.example.citassalon.presentacion.features.components.ItemStaff
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.schedule_appointment.FlowMainViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentEvents

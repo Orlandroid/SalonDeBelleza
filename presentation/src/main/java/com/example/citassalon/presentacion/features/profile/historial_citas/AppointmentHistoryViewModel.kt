@@ -53,7 +53,7 @@ class AppointmentHistoryViewModel @Inject constructor(
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
-        initialValue = AppointmentHistoryUiState()
+        initialValue = BaseScreenState.OnLoading
     )
 
     private val _effects = Channel<AppointmentHistoryEffects>()
