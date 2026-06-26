@@ -1,6 +1,9 @@
-package com.example.data.di
+package com.example.data.di.modules
 
 
+import com.example.data.di.AppointmentsRef
+import com.example.data.di.ImagesRef
+import com.example.data.di.UsersRef
 import com.example.data.firebase.FireBaseSource
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference

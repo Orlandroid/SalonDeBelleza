@@ -7,12 +7,12 @@ import com.example.citassalon.presentacion.features.extensions.getCurrentDateTim
 import com.example.citassalon.presentacion.features.extensions.toStringFormat
 import com.example.data.di.IoDispatcher
 import com.example.data.remote.auth.AuthRepository
+import com.example.data.remote.user.UserRepository
 import com.example.domain.entities.remote.User
 import com.example.domain.state.getContent
 import com.example.domain.state.getErrorMessage
 import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
-import com.example.domain.use_cases.SaveUserInfoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.Channel
@@ -60,8 +60,8 @@ data class SignUpUiState(
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
     private val authRepository: AuthRepository,
+    private val userRepository: UserRepository,
     private val useCaseValidateForm: ValidateFormSignUpUseCase,
-    private val saveUserInfoUseCase: SaveUserInfoUseCase,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
@@ -162,7 +162,7 @@ class SignUpViewModel @Inject constructor(
                 return@launch
             }
 
-            val userInfoUseCaseResult = saveUserInfoUseCase.invoke(
+            val userInfoUseCaseResult = userRepository.saveUserInfo(
                 userId = getUserResult.getContent()?.uid.toString(),
                 user = userP
             )

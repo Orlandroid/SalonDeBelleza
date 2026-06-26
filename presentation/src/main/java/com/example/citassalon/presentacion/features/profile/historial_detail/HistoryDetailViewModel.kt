@@ -3,9 +3,9 @@ package com.example.citassalon.presentacion.features.profile.historial_detail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.base.BaseScreenState
+import com.example.data.remote.appointments.AppointmentsRepository
 import com.example.domain.entities.local.AppointmentObject
 import com.example.domain.state.ApiResult
-import com.example.domain.use_cases.GetAppointmentUseCase
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -27,7 +27,7 @@ sealed class HistoryDetailEvents {
 
 @HiltViewModel(assistedFactory = HistoryDetailViewModelFactory::class)
 class HistoryDetailViewModel @AssistedInject constructor(
-    private val getAppointmentUse: GetAppointmentUseCase,
+    private val appointmentsRepository: AppointmentsRepository,
     @Assisted private val appointmentId: String
 ) :
     ViewModel() {
@@ -54,7 +54,7 @@ class HistoryDetailViewModel @AssistedInject constructor(
 
     private fun getAppointment(appointmentId: String) {
         viewModelScope.launch {
-            when (val result = getAppointmentUse(appointmentId)) {
+            when (val result = appointmentsRepository.getSingleAppointment(appointmentId)) {
                 is ApiResult.Success -> {
                     _uiState.update {
                         BaseScreenState.OnContent(

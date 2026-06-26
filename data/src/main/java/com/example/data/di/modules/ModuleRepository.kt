@@ -1,18 +1,25 @@
-package com.example.data.di
+package com.example.data.di.modules
 
 
 import com.example.data.Repository
 import com.example.data.api.DummyJsonApi
 import com.example.data.api.FakeStoreService
+import com.example.data.di.AppointmentsRef
+import com.example.data.di.UsersRef
 import com.example.data.firebase.FireBaseSource
+import com.example.data.remote.appointments.AppointmentsRepository
+import com.example.data.remote.appointments.AppointmentsRepositoryImpl
 import com.example.data.remote.auth.AuthRepository
 import com.example.data.remote.auth.AuthRepositoryImp
 import com.example.data.remote.dummy_json.DummyJsonRepository
 import com.example.data.remote.dummy_json.DummyJsonRepositoryImp
 import com.example.data.remote.fake_store.FakeStoreRepository
 import com.example.data.remote.fake_store.FakeStoreRepositoryImp
+import com.example.data.remote.user.UserRepository
+import com.example.data.remote.user.UserRepositoryImpl
 import com.example.domain.LocalDataSource
 import com.example.domain.RemoteDataSource
+import com.google.firebase.database.DatabaseReference
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -52,6 +59,20 @@ object ModuleRepository {
         api: DummyJsonApi
     ): DummyJsonRepository =
         DummyJsonRepositoryImp(api = api)
+
+    @Singleton
+    @Provides
+    fun provideAppointmentsRepository(
+        @AppointmentsRef databaseReference: DatabaseReference
+    ): AppointmentsRepository =
+        AppointmentsRepositoryImpl(databaseReference = databaseReference)
+
+    @Singleton
+    @Provides
+    fun provideUserRepository(
+        @UsersRef databaseReference: DatabaseReference
+    ): UserRepository =
+        UserRepositoryImpl(databaseReference = databaseReference)
 
 
 }

@@ -4,11 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.citassalon.presentacion.main.NetworkHelper
+import com.example.data.remote.appointments.AppointmentsRepository
 import com.example.domain.perfil.Appointment
 import com.example.domain.state.getContent
 import com.example.domain.state.isError
-import com.example.domain.use_cases.DeleteAppointmentUseCase
-import com.example.domain.use_cases.GetAppointmentsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -41,8 +40,7 @@ sealed class AppointmentHistoryEffects {
 @HiltViewModel
 class AppointmentHistoryViewModel @Inject constructor(
     private val networkHelper: NetworkHelper,
-    private val getAppointmentsUse: GetAppointmentsUseCase,
-    private val deleteAppointmentUseCase: DeleteAppointmentUseCase
+    private val appointmentsRepository: AppointmentsRepository
 ) : ViewModel() {
 
 
@@ -105,7 +103,7 @@ class AppointmentHistoryViewModel @Inject constructor(
             }
             return@launch
         }
-        val appointmentsResult = getAppointmentsUse()
+        val appointmentsResult = appointmentsRepository.getAppointments()
         if (appointmentsResult.isError()) {
             _state.update {
                 BaseScreenState.OnError(error = Throwable("Network Error"))
@@ -123,7 +121,7 @@ class AppointmentHistoryViewModel @Inject constructor(
     }
 
     private fun deleteAppointment(idAppointment: String) = viewModelScope.launch {
-        val deleteAppointmentResult = deleteAppointmentUseCase(idAppointment)
+        val deleteAppointmentResult = appointmentsRepository.deleteAppointment(idAppointment)
         if (deleteAppointmentResult.isError()) {
             _state.update {
                 BaseScreenState.OnError(error = Throwable("Network Error"))

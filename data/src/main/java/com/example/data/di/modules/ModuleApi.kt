@@ -1,4 +1,4 @@
-package com.example.data.di
+package com.example.data.di.modules
 
 
 import com.example.data.api.DummyJsonApi

@@ -3,21 +3,19 @@ package com.example.citassalon.presentacion.features.profile.userprofile
 import androidx.compose.ui.graphics.Color
 import com.example.data.preferences.LoginPreferences
 import com.example.data.remote.auth.AuthRepository
+import com.example.data.remote.user.UserRepository
 import com.example.domain.state.ApiResult
 import com.example.domain.state.getContent
 import com.example.domain.state.getErrorMessage
 import com.example.domain.state.getResultOrNull
 import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
-import com.example.domain.use_cases.GetNameAndPhoneUseCase
-import com.example.domain.use_cases.GetUserImageUseCase
 import javax.inject.Inject
 
 class GetUserInfoUseCase @Inject constructor(
     private val authRepository: AuthRepository,
     private val loginPreferences: LoginPreferences,
-    private val getUserImage: GetUserImageUseCase,
-    private val getNameAndPhoneUseCase: GetNameAndPhoneUseCase
+    private val userRepository: UserRepository
 ) {
 
     //Todo add use for get random info for this fake api https://randomuser.me/
@@ -29,8 +27,8 @@ class GetUserInfoUseCase @Inject constructor(
         }
         val user = userResult.getResultOrNull() ?: return ApiResult.Error("User not found")
         val money = loginPreferences.getUserMoney().toString()
-        val image = getUserImage.invoke().getResultOrNull()
-        val nameAndPhone = getNameAndPhoneUseCase.invoke()
+        val image = userRepository.getUserImage().getContent()
+        val nameAndPhone = userRepository.getNameAndPhone()
         var name = ""
         var phone = ""
         if (nameAndPhone.isSuccess()) {
