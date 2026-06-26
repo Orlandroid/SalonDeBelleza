@@ -8,9 +8,10 @@ import com.example.domain.entities.remote.Cart
 import com.example.domain.entities.remote.Product
 import com.example.domain.entities.remote.Service
 import com.example.domain.entities.remote.Staff
-import com.example.domain.entities.remote.dummyUsers.DummyUsersResponse
+import com.example.domain.entities.remote.dummyUsers.User
 import com.example.domain.entities.remote.migration.SucursalesResponse
 import com.example.domain.perfil.RandomUserResponse
+import com.example.domain.state.ApiResult
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -34,7 +35,14 @@ class RemoteDataSourceImpl @Inject constructor(
     override suspend fun randomUser(): RandomUserResponse =
         webServices.randomUser("https://randomuser.me/api/")
 
-    override suspend fun getStaffUsers(): DummyUsersResponse =
-        webServices.getStaffUsers("https://dummyjson.com/users")
+    override suspend fun getStaffUsers(): ApiResult<List<User>> {
+        val resultStaffs = runCatching { webServices.getStaffUsers("https://dummyjson.com/users") }
+        if (resultStaffs.isSuccess) {
+            val response = resultStaffs.getOrNull()?.users
+            return ApiResult.Success(result = response ?: emptyList())
+        } else {
+            return ApiResult.Error(error = resultStaffs.exceptionOrNull()?.message)
+        }
+    }
 
 }

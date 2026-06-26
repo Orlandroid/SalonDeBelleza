@@ -57,7 +57,7 @@ fun OurStaffScreen(
                 toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.nuestro_staff)),
             ) {
                 uiState.value.getContentOrNull()?.let {
-                    OurStaffScreenContent(users = it.staffs.users.toUserUiList())
+                    OurStaffScreenContent(users = it.staffs.toUserUiList())
                 }
             }
         }

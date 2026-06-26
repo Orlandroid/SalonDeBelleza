@@ -5,7 +5,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.data.di.IoDispatcher
-import com.example.domain.entities.remote.dummyUsers.DummyUsersResponse
+import com.example.domain.entities.remote.dummyUsers.User
+import com.example.domain.state.getContent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -19,7 +20,7 @@ import javax.inject.Inject
 
 
 data class OurStaffyUiState(
-    val staffs: DummyUsersResponse
+    val staffs: List<User>
 )
 
 @HiltViewModel
@@ -45,7 +46,7 @@ class OurStaffViewModel @Inject constructor(
 
     private fun getStaffsUsers() = viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
         val response = repository.getStaffUsers()
-        _state.update { BaseScreenState.OnContent(content = OurStaffyUiState(staffs = response)) }
+        _state.update { BaseScreenState.OnContent(content = OurStaffyUiState(staffs = response.getContent())) }
     }
 
 
