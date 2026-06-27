@@ -51,13 +51,13 @@ fun HistoryDetailScreen(
 
     when (uiState.value) {
         is BaseScreenState.OnContent<*> -> {
-            (uiState as BaseScreenState.OnContent<*>).getContentOrNull().let { state ->
+            uiState.value.getContentOrNull().let { state ->
                 if (state != null) {
                     BaseComposeScreen(
                         navController = navController,
                         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.history_detail))
                     ) {
-                        val appointment = (state as HistoryDetailUiState).appointment
+                        val appointment = state.appointment
                         appointment?.let {
                             HistoryDetailContent(appointment = it)
                         }

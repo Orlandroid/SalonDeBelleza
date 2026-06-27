@@ -40,7 +40,7 @@ class HistoryDetailViewModel @AssistedInject constructor(
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(500L),
-        initialValue = HistoryDetailUiState()
+        initialValue = BaseScreenState.OnLoading
     )
 
 
