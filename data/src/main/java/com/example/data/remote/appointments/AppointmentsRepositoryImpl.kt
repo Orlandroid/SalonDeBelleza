@@ -67,8 +67,13 @@ class AppointmentsRepositoryImpl @Inject constructor(
         }
 
 
-    override suspend fun saveAppointment(): ApiResult<Any> {
-        TODO("Not yet implemented")
+    override suspend fun saveAppointment(appointment: AppointmentFirebase): ApiResult<Any> {
+        runCatching {
+            databaseReference.child(appointment.idAppointment).setValue(appointment).await()
+            return ApiResult.Success(Any())
+        }.getOrElse {
+            return ApiResult.Error(it.message)
+        }
     }
 
 }
