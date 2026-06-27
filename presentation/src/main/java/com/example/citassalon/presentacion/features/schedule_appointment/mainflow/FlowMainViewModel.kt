@@ -1,7 +1,8 @@
-package com.example.citassalon.presentacion.features.schedule_appointment
+package com.example.citassalon.presentacion.features.schedule_appointment.mainflow
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentsSideEffects
 import com.example.citassalon.presentacion.features.schedule_appointment.branches.BranchFlow
 import com.example.citassalon.presentacion.features.schedule_appointment.schedule_staff.StaffUiState
 import com.example.domain.entities.remote.migration.NegoInfo
@@ -42,6 +43,7 @@ class FlowMainViewModel : ViewModel() {
 
             is ScheduleAppointmentEvents.ClickOnStaff -> {
                 _staffUiState.update { oldState -> oldState.copy(currentStaff = event.staff) }
+                currentStaff = event.staff
                 sentEvent(ScheduleAppointmentsSideEffects.GoToScheduleService)
             }
 
