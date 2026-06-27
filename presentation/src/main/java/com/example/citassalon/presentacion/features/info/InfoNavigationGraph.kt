@@ -8,7 +8,7 @@ import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.example.citassalon.presentacion.features.app_navigation.AppNavigationRoutes
 import com.example.citassalon.presentacion.features.extensions.sharedViewModel
-import com.example.citassalon.presentacion.features.schedule_appointment.FlowMainViewModel
+import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.FlowMainViewModel
 import com.example.citassalon.presentacion.features.info.cart.CartScreen
 import com.example.citassalon.presentacion.features.info.establishing.EstablishingScreen
 import com.example.citassalon.presentacion.features.info.nuestro_staff.OurStaffScreen
@@ -24,7 +24,6 @@ import com.example.citassalon.presentacion.features.schedule_appointment.branche
 import com.example.domain.entities.remote.CustomNavType
 import com.example.domain.entities.remote.Product
 import kotlin.reflect.typeOf
-import com.example.citassalon.presentacion.features.info.products.categories.KindOfStore
 
 
 fun NavGraphBuilder.infoNavigationGraph(navController: NavHostController) {

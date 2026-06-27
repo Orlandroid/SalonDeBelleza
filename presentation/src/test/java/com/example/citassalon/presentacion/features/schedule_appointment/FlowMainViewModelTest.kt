@@ -1,6 +1,6 @@
 package com.example.citassalon.presentacion.features.schedule_appointment
 
-import org.junit.Assert.*
+import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.FlowMainViewModel
 
 class FlowMainViewModelTest {
 

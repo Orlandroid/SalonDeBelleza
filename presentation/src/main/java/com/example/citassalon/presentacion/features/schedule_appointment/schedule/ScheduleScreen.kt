@@ -42,7 +42,7 @@ import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.extensions.getHourFormat
-import com.example.citassalon.presentacion.features.schedule_appointment.FlowMainViewModel
+import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.FlowMainViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
 import com.example.citassalon.presentacion.features.schedule_appointment.schedule_staff.StaffUiState
 import com.example.citassalon.presentacion.features.theme.Background

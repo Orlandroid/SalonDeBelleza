@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.schedule_appointment
+package com.example.citassalon.presentacion.features.schedule_appointment.mainflow
 
 import com.example.domain.entities.remote.migration.NegoInfo
 import com.example.domain.entities.remote.migration.Service

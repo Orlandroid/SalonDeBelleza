@@ -15,6 +15,7 @@ import com.example.citassalon.presentacion.features.schedule_appointment.cita_ag
 import com.example.citassalon.presentacion.features.schedule_appointment.detail_staff.DetailStaffScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.home.HomeScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.home.HomeScreenEvents
+import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.FlowMainViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.schedule.ScheduleScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.schedule_confirmation.ScheduleConfirmationScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.schedule_staff.ScheduleStaffScreen

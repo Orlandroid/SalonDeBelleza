@@ -20,8 +20,8 @@ import com.example.citassalon.presentacion.features.components.ItemStaff
 import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
-import com.example.citassalon.presentacion.features.schedule_appointment.FlowMainViewModel
-import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentEvents
+import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.FlowMainViewModel
+import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.ScheduleAppointmentEvents
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
 import com.example.citassalon.presentacion.features.schedule_appointment.schedule_staff.StaffUiState
 import com.example.citassalon.presentacion.features.theme.BackgroundListsMainFlow
