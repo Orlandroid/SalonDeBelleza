@@ -20,10 +20,10 @@ import com.example.citassalon.presentacion.features.components.ItemStaff
 import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
-import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.FlowMainViewModel
-import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.ScheduleAppointmentEvents
+import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
-import com.example.citassalon.presentacion.features.schedule_appointment.schedule_staff.StaffUiState
+import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.ScheduleAppointmentEvents
+import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowUiState
 import com.example.citassalon.presentacion.features.theme.BackgroundListsMainFlow
 import com.example.domain.entities.remote.migration.Service
 import com.example.domain.entities.remote.migration.Staff
@@ -31,8 +31,8 @@ import com.example.domain.entities.remote.migration.Staff
 @Composable
 fun ServiceScreen(
     navController: NavController,
-    mainViewModel: FlowMainViewModel,
-    state: StaffUiState
+    mainViewModel: AppointmentFlowViewModel,
+    state: AppointmentFlowUiState
 ) {
     BaseComposeScreen(
         navController = navController,
@@ -42,7 +42,7 @@ fun ServiceScreen(
             modifier = Modifier,
             staff = state.currentStaff ?: Staff.mockStaff(),
             branch = state.branchName,
-            listOfServices = mainViewModel.listOfServices,
+            listOfServices = state.listOfServices,
             navigateToDateScreen = {
                 navController.navigate(ScheduleAppointmentScreens.ScheduleRoute)
             },

@@ -29,7 +29,7 @@ class BranchViewModel @Inject constructor(
         MutableStateFlow(BaseScreenState.OnLoading)
     val state = _state.onStart { getBranches() }.stateIn(
         scope = viewModelScope,
-        started = SharingStarted.Companion.WhileSubscribed(5000L),
+        started = SharingStarted.WhileSubscribed(5000L),
         BaseScreenState.OnLoading
     )
 
@@ -42,7 +42,6 @@ class BranchViewModel @Inject constructor(
         delay(1L.seconds)
         val response = repository.getBranches()
         _state.update { BaseScreenState.OnContent(content = response.sucursales) }
-
     }
 
 }

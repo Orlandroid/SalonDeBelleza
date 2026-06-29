@@ -15,7 +15,7 @@ import com.example.citassalon.presentacion.features.schedule_appointment.cita_ag
 import com.example.citassalon.presentacion.features.schedule_appointment.detail_staff.DetailStaffScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.home.HomeScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.home.HomeScreenEvents
-import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.FlowMainViewModel
+import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.schedule.ScheduleScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.schedule_confirmation.ScheduleConfirmationScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.schedule_staff.ScheduleStaffScreen
@@ -57,7 +57,7 @@ fun NavGraphBuilder.scheduleNavigationGraph(
 
         }
         composable<ScheduleAppointmentScreens.ChoseBranchRoute> {
-            val mainViewModel = it.sharedViewModel<FlowMainViewModel>(navController = navController)
+            val mainViewModel = it.sharedViewModel<AppointmentFlowViewModel>(navController = navController)
             mainViewModel.currentFlowBranch = BranchFlow.SCHEDULE_APPOINTMENT
             BranchesScreen(
                 navController = navController,
@@ -65,18 +65,18 @@ fun NavGraphBuilder.scheduleNavigationGraph(
             )
         }
         composable<ScheduleAppointmentScreens.ScheduleStaffRoute> {
-            val mainViewModel = it.sharedViewModel<FlowMainViewModel>(navController = navController)
+            val mainViewModel = it.sharedViewModel<AppointmentFlowViewModel>(navController = navController)
             ScheduleStaffScreen(navController = navController, mainViewModel = mainViewModel)
         }
         composable<ScheduleAppointmentScreens.DetailStaffRoute> {
-            val mainViewModel = it.sharedViewModel<FlowMainViewModel>(navController = navController)
+            val mainViewModel = it.sharedViewModel<AppointmentFlowViewModel>(navController = navController)
             DetailStaffScreen(
                 navController = navController,
                 currentStaff = mainViewModel.staffUiState.value.currentStaff ?: Staff.mockStaff()
             )
         }
         composable<ScheduleAppointmentScreens.ServicesRoute> {
-            val mainViewModel = it.sharedViewModel<FlowMainViewModel>(navController = navController)
+            val mainViewModel = it.sharedViewModel<AppointmentFlowViewModel>(navController = navController)
             ServiceScreen(
                 mainViewModel = mainViewModel,
                 navController = navController,
@@ -84,11 +84,11 @@ fun NavGraphBuilder.scheduleNavigationGraph(
             )
         }
         composable<ScheduleAppointmentScreens.ScheduleRoute> {
-            val mainViewModel = it.sharedViewModel<FlowMainViewModel>(navController = navController)
+            val mainViewModel = it.sharedViewModel<AppointmentFlowViewModel>(navController = navController)
             ScheduleScreen(flowMainViewModel = mainViewModel, navController = navController)
         }
         composable<ScheduleAppointmentScreens.ScheduleConfirmationRoute> {
-            val mainViewModel = it.sharedViewModel<FlowMainViewModel>(navController = navController)
+            val mainViewModel = it.sharedViewModel<AppointmentFlowViewModel>(navController = navController)
             ScheduleConfirmationScreen(
                 navController = navController,
                 flowMainViewModel = mainViewModel

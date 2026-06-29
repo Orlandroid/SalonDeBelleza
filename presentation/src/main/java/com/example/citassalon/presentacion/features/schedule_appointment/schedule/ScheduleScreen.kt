@@ -42,9 +42,10 @@ import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.extensions.getHourFormat
-import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.FlowMainViewModel
+import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
-import com.example.citassalon.presentacion.features.schedule_appointment.schedule_staff.StaffUiState
+import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowUiState
+import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.ScheduleAppointmentEvents
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.entities.remote.migration.Service
 import com.example.domain.entities.remote.migration.Staff
@@ -54,12 +55,10 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun ScheduleScreen(
     navController: NavController,
-    flowMainViewModel: FlowMainViewModel,
+    flowMainViewModel: AppointmentFlowViewModel,
     scheduleScreenViewmodel: ScheduleScreenViewmodel = hiltViewModel()
 ) {
     val uiState by scheduleScreenViewmodel.uiState.collectAsStateWithLifecycle()
-    flowMainViewModel.hourAppointment = uiState.hourAppointment
-    flowMainViewModel.dateAppointment = uiState.dateAppointment
     val state = flowMainViewModel.staffUiState.collectAsStateWithLifecycle()
     val onEvents = scheduleScreenViewmodel::onEvents
     LaunchedEffect(Unit) {
@@ -80,7 +79,9 @@ fun ScheduleScreen(
                 onDismiss = {
                     onEvents(ScheduleScreenEvents.OnDismissTime)
                 }, onConfirm = {
-                    onEvents(ScheduleScreenEvents.OnConfirmTime(time = it.getHourFormat()))
+                    val time = it.getHourFormat()
+                    onEvents(ScheduleScreenEvents.OnConfirmTime(time = time))
+                    flowMainViewModel.onEvents(ScheduleAppointmentEvents.TimeSelected(time = time))
                 }
             )
         }
@@ -91,6 +92,7 @@ fun ScheduleScreen(
                 },
                 onDateSelected = { dateSelected ->
                     onEvents(ScheduleScreenEvents.OnConfirmDate(dateSelected))
+                    flowMainViewModel.onEvents(ScheduleAppointmentEvents.DateSelected(dateSelected))
                 }
             )
         }
@@ -106,7 +108,7 @@ fun ScheduleScreen(
 @Composable
 private fun ScheduleScreenContent(
     modifier: Modifier = Modifier,
-    state: StaffUiState,
+    state: AppointmentFlowUiState,
     date: String,
     time: String,
     onEvents: (event: ScheduleScreenEvents) -> Unit
@@ -278,7 +280,7 @@ private fun ScheduleScreenContentPreview() {
     ScheduleScreenContent(
         date = "12/07/2024",
         time = "15:42",
-        state = StaffUiState(
+        state = AppointmentFlowUiState(
             branchName = "Zacatecas",
             currentStaff = Staff(
                 id = "",

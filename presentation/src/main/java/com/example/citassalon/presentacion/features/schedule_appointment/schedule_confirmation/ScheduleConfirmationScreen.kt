@@ -36,8 +36,8 @@ import androidx.navigation.NavController
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
-import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.FlowMainViewModel
-import com.example.citassalon.presentacion.features.schedule_appointment.schedule_staff.StaffUiState
+import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowViewModel
+import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowUiState
 import com.example.citassalon.presentacion.features.theme.AlwaysBlack
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
@@ -49,7 +49,7 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun ScheduleConfirmationScreen(
     navController: NavController,
-    flowMainViewModel: FlowMainViewModel,
+    flowMainViewModel: AppointmentFlowViewModel,
     confirmScheduleViewModel: ConfirmScheduleViewModel = hiltViewModel(),
     navigateToAppointmentSchedule: () -> Unit
 ) {
@@ -71,9 +71,9 @@ fun ScheduleConfirmationScreen(
         ScheduleConfirmationScreenContent(
             staffUiState = uiState.value,
             scheduleState = scheduleState.value,
-            servicePrice = flowMainViewModel.listOfServices[0].precio.toString(),
-            dateAppointment = flowMainViewModel.dateAppointment,
-            hourAppointment = flowMainViewModel.hourAppointment,
+            servicePrice = uiState.value.listOfServices[0].precio.toString(),
+            dateAppointment = uiState.value.dateAppointment,
+            hourAppointment = uiState.value.timeAppointment,
             appointment = flowMainViewModel.getAppointmentFirebase(),
             event = confirmScheduleViewModel::onEvents
         )
@@ -85,7 +85,7 @@ fun ScheduleConfirmationScreen(
 private fun ScheduleConfirmationScreenContent(
     modifier: Modifier = Modifier,
     appointment: AppointmentFirebase,
-    staffUiState: StaffUiState,
+    staffUiState: AppointmentFlowUiState,
     scheduleState: ScheduleAppointmentState,
     servicePrice: String,
     dateAppointment: String,
@@ -219,7 +219,7 @@ private fun ScheduleConfirmationScreenContentPreview() {
         servicePrice = "150",
         dateAppointment = "12/09/2024",
         hourAppointment = "12:30 am",
-        staffUiState = StaffUiState(
+        staffUiState = AppointmentFlowUiState(
             branchName = "Zacatecas",
             currentStaff = Staff.mockStaff(),
             listOfServices = listOf(Service("", "paint hair", 14, true))

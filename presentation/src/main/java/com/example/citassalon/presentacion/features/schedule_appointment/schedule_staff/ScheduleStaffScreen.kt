@@ -42,10 +42,11 @@ import androidx.navigation.NavController
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
-import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.FlowMainViewModel
-import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.ScheduleAppointmentEvents
+import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
-import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentsSideEffects
+import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.ScheduleAppointmentEvents
+import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.ScheduleAppointmentsSideEffects
+import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowUiState
 import com.example.citassalon.presentacion.features.theme.BackgroundListsMainFlow
 import com.example.domain.entities.remote.migration.Staff
 import kotlinx.coroutines.flow.collectLatest
@@ -68,7 +69,7 @@ private val avatarBackgrounds = listOf(
 @Composable
 fun ScheduleStaffScreen(
     navController: NavController,
-    mainViewModel: FlowMainViewModel
+    mainViewModel: AppointmentFlowViewModel
 ) {
     val uiState = mainViewModel.staffUiState.collectAsStateWithLifecycle()
     LaunchedEffect(mainViewModel) {
@@ -104,7 +105,7 @@ fun ScheduleStaffScreen(
 @Composable
 private fun ScheduleStaffScreenContent(
     modifier: Modifier = Modifier,
-    uiState: StaffUiState,
+    uiState: AppointmentFlowUiState,
     onEvents: (ScheduleAppointmentEvents) -> Unit
 ) {
     Column(
@@ -355,7 +356,7 @@ private fun ButtonRandomStaff(onClick: () -> Unit) {
 @Preview(showBackground = true)
 private fun ScheduleStaffScreenContentPreview() {
     ScheduleStaffScreenContent(
-        uiState = StaffUiState(
+        uiState = AppointmentFlowUiState(
             listOfStaffs = Staff.mockStaffList(),
             branchName = "Zacatecas"
         ),

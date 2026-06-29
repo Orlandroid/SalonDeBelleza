@@ -2,13 +2,10 @@ package com.example.citassalon.presentacion.features.schedule_appointment.mainfl
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentsSideEffects
 import com.example.citassalon.presentacion.features.schedule_appointment.branches.BranchFlow
-import com.example.citassalon.presentacion.features.schedule_appointment.schedule_staff.StaffUiState
 import com.example.domain.entities.remote.migration.NegoInfo
 import com.example.domain.entities.remote.migration.Service
 import com.example.domain.entities.remote.migration.Staff
-import com.example.domain.entities.remote.migration.Sucursal
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,20 +14,32 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class FlowMainViewModel : ViewModel() {
-    var listOfStaffs: List<Staff> = arrayListOf()
-    var listOfServices: List<Service> = arrayListOf()
-    var sucursal: Sucursal = Sucursal(id = "", lat = "", long = "", name = "")
-    var currentStaff = Staff("", "", "", "", 0)
-    var dateAppointment = ""
-    var hourAppointment = ""
+sealed class ScheduleAppointmentEvents {
+    data class ClickOnBranch(val branch: NegoInfo) : ScheduleAppointmentEvents()
+    data class ClickOnStaff(val staff: Staff) : ScheduleAppointmentEvents()
+    data object OnRandomStaff : ScheduleAppointmentEvents()
+    data class ClickOnImageStaff(val staff: Staff) : ScheduleAppointmentEvents()
+    data class ClickOnService(val service: Service) : ScheduleAppointmentEvents()
+    data class TimeSelected(val time: String) : ScheduleAppointmentEvents()
+    data class DateSelected(val date: String) : ScheduleAppointmentEvents()
+}
+
+sealed class ScheduleAppointmentsSideEffects {
+    data object GotoBranchInfo : ScheduleAppointmentsSideEffects()
+    data object GoToScheduleStaff : ScheduleAppointmentsSideEffects()
+    data object GoToDetailStaffScreen : ScheduleAppointmentsSideEffects()
+    data object GoToScheduleService : ScheduleAppointmentsSideEffects()
+}
+
+class AppointmentFlowViewModel : ViewModel() {
+
     var currentFlowBranch: BranchFlow? = null
 
     private val _branchSideEffects = Channel<ScheduleAppointmentsSideEffects>()
     val branchSideEffects = _branchSideEffects.receiveAsFlow()
 
-    private val _staffUiState: MutableStateFlow<StaffUiState> =
-        MutableStateFlow(StaffUiState(listOfStaffs = listOfStaffs, branchName = sucursal.name))
+    private val _staffUiState: MutableStateFlow<AppointmentFlowUiState> =
+        MutableStateFlow(AppointmentFlowUiState())
     val staffUiState = _staffUiState.asStateFlow()
 
 
@@ -43,14 +52,13 @@ class FlowMainViewModel : ViewModel() {
 
             is ScheduleAppointmentEvents.ClickOnStaff -> {
                 _staffUiState.update { oldState -> oldState.copy(currentStaff = event.staff) }
-                currentStaff = event.staff
                 sentEvent(ScheduleAppointmentsSideEffects.GoToScheduleService)
             }
 
 
             is ScheduleAppointmentEvents.OnRandomStaff -> {
-                val randomStaff = listOfStaffs.indices.random()
-                currentStaff = listOfStaffs[randomStaff]
+                val randomStaff = staffUiState.value.listOfStaffs.indices.random()
+                _staffUiState.update { it.copy(currentStaff = staffUiState.value.listOfStaffs[randomStaff]) }
                 sentEvent(ScheduleAppointmentsSideEffects.GoToScheduleService)
             }
 
@@ -60,11 +68,16 @@ class FlowMainViewModel : ViewModel() {
             }
 
             is ScheduleAppointmentEvents.ClickOnService -> {
-                _staffUiState.update { it.copy(listOfServices = listOf(event.service)) }
+                //todo make Nabigation to service screen
             }
 
-            is ScheduleAppointmentEvents.ClickOnDate -> {}
-            is ScheduleAppointmentEvents.ClickOnTime -> {}
+            is ScheduleAppointmentEvents.DateSelected -> {
+                _staffUiState.update { oldState -> oldState.copy(dateAppointment = event.date) }
+            }
+
+            is ScheduleAppointmentEvents.TimeSelected -> {
+                _staffUiState.update { oldState -> oldState.copy(timeAppointment = event.time) }
+            }
         }
     }
 
@@ -89,13 +102,14 @@ class FlowMainViewModel : ViewModel() {
         }
     }
 
-    private fun FlowMainViewModel.setCurrentBranch(branch: NegoInfo) {
+    private fun AppointmentFlowViewModel.setCurrentBranch(branch: NegoInfo) {
         _staffUiState.update { oldState ->
-            oldState.copy(listOfStaffs = branch.staffs, branchName = branch.sucursal.name)
+            oldState.copy(
+                listOfStaffs = branch.staffs,
+                branchName = branch.sucursal.name,
+                listOfServices = branch.services
+            )
         }
-        sucursal = branch.sucursal
-        listOfStaffs = branch.staffs
-        listOfServices = branch.services
     }
 
 }

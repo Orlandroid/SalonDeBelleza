@@ -8,7 +8,7 @@ import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.example.citassalon.presentacion.features.app_navigation.AppNavigationRoutes
 import com.example.citassalon.presentacion.features.extensions.sharedViewModel
-import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.FlowMainViewModel
+import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowViewModel
 import com.example.citassalon.presentacion.features.info.cart.CartScreen
 import com.example.citassalon.presentacion.features.info.establishing.EstablishingScreen
 import com.example.citassalon.presentacion.features.info.nuestro_staff.OurStaffScreen
@@ -37,7 +37,7 @@ fun NavGraphBuilder.infoNavigationGraph(navController: NavHostController) {
             StoresScreen(navController = navController)
         }
         composable<InfoNavigationScreens.BranchesRoute> {
-            val mainViewModel = it.sharedViewModel<FlowMainViewModel>(navController = navController)
+            val mainViewModel = it.sharedViewModel<AppointmentFlowViewModel>(navController = navController)
             mainViewModel.currentFlowBranch = BranchFlow.INFO
             BranchesScreen(
                 navController = navController,

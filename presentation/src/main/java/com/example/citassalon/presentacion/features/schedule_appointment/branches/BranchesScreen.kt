@@ -43,10 +43,10 @@ import com.example.citassalon.presentacion.features.components.TextWithArrowConf
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.components.skeletons.BranchesScreenSkeletons
 import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
-import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.FlowMainViewModel
-import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.ScheduleAppointmentEvents
+import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
-import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentsSideEffects
+import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.ScheduleAppointmentEvents
+import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.ScheduleAppointmentsSideEffects
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.citassalon.presentacion.features.theme.BackgroundListsMainFlow
 import com.example.domain.entities.remote.migration.NegoInfo
@@ -57,7 +57,7 @@ private val RedClosed = Color(0xFFDC2626)
 @Composable
 fun BranchesScreen(
     navController: NavController,
-    mainViewModel: FlowMainViewModel,
+    mainViewModel: AppointmentFlowViewModel,
     branchViewModel: BranchViewModel = hiltViewModel()
 ) {
     val uiState by branchViewModel.state.collectAsStateWithLifecycle()
