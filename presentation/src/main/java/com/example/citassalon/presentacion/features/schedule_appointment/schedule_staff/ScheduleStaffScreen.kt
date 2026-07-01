@@ -155,6 +155,7 @@ private fun ListStaffs(
         colors = CardDefaults.cardColors(containerColor = BackgroundListsMainFlow)
     ) {
         LazyVerticalGrid(
+            modifier = Modifier.padding(8.dp),
             columns = GridCells.Fixed(2),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
             verticalArrangement = Arrangement.spacedBy(10.dp)
