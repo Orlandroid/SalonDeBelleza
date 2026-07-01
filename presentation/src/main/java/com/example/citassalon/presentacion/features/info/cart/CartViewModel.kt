@@ -61,6 +61,12 @@ class CartViewModel @Inject constructor(
     val effects = _effects.receiveAsFlow()
 
     var cachedProducts: List<ProductUi> = emptyList()
+    private var cachedUserMoney: String = "0"
+
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
+        _state.update { BaseScreenState.OnError(error = exception) }
+    }
+
 
     fun onEvents(event: CartEvents) {
         when (event) {
@@ -106,17 +112,24 @@ class CartViewModel @Inject constructor(
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
             val response = repository.getAllProducts()
             cachedProducts = response.toProductUiList()
-            _state.update { BaseScreenState.OnContent(content = CartUiState(products = cachedProducts)) }
+            _state.update {
+                BaseScreenState.OnContent(
+                    content = CartUiState(
+                        products = cachedProducts,
+                        userMoney = cachedUserMoney
+                    )
+                )
+            }
         }
     }
 
     fun getUserMoney() {
-        val userMoney = loginPreferences.getUserMoney().toString()
+        cachedUserMoney = loginPreferences.getUserMoney().toString()
         _state.update {
             BaseScreenState.OnContent(
                 content = CartUiState(
                     products = cachedProducts,
-                    userMoney = userMoney
+                    userMoney = cachedUserMoney
                 )
             )
         }
@@ -129,10 +142,6 @@ class CartViewModel @Inject constructor(
                 _effects.send(CartEffects.OnProductsDeleted)
             }
         }
-    }
-
-    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
-        _state.update { BaseScreenState.OnError(error = exception) }
     }
 
 
