@@ -41,11 +41,13 @@ import com.example.domain.entities.local.AppointmentObject
 fun HistoryDetailScreen(
     navController: NavController,
     appointmentId: String,
-    viewModel: HistoryDetailViewModel = hiltViewModel(creationCallback = { factory: HistoryDetailViewModelFactory ->
-        factory.create(
-            appointmentId = appointmentId
-        )
-    })
+    viewModel: HistoryDetailViewModel = hiltViewModel(
+        creationCallback = { factory: HistoryDetailViewModelFactory ->
+            factory.create(
+                appointmentId = appointmentId
+            )
+        }
+    )
 ) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -95,7 +97,7 @@ private fun HistoryDetailContent(
                 Spacer(modifier = Modifier.height(16.dp))
                 Image(
                     painter = painterResource(id = R.drawable.tienda),
-                    contentDescription = "ImageEstablecimiento"
+                    contentDescription = stringResource(R.string.cd_establishment_image)
                 )
                 TextHistory(
                     text = stringResource(

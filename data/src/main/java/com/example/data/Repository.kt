@@ -17,8 +17,6 @@ class Repository @Inject constructor(
 
     fun getAllProducts() = localDataSource.getAllProducts()
 
-    suspend fun getBranches() = remoteDataSource.getBranches()
-
 
     suspend fun getStaffUsers() = remoteDataSource.getStaffUsers()
 

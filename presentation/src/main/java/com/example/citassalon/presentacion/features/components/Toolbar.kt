@@ -68,7 +68,7 @@ fun Toolbar(
 
 data class ToolbarConfiguration(
     val showToolbar: Boolean = true,
-    val title: String = "Android Developer",
+    val title: String = "",
     val isWithBackIcon: Boolean = true,
     val toolbarBackgroundColor: Color = StatusBarColor,
     val toolbarTextColor: Color = AlwaysWhite,

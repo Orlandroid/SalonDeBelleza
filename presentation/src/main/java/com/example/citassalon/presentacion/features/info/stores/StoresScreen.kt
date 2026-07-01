@@ -24,6 +24,7 @@ import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
+import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
 import com.example.citassalon.presentacion.features.info.products.categories.DUMMY_JSON
 import com.example.citassalon.presentacion.features.info.products.categories.FAKE_STORE
@@ -33,7 +34,10 @@ import kotlin.random.Random
 
 @Composable
 fun StoresScreen(navController: NavController) {
-    BaseComposeScreen(navController = navController) {
+    BaseComposeScreen(
+        navController = navController,
+        toolbarConfiguration = ToolbarConfiguration(title = "Stores")
+    ) {
         StoresScreenContent { store ->
             navController.navigate(InfoNavigationScreens.CategoriesRoute(store))
         }
@@ -42,12 +46,10 @@ fun StoresScreen(navController: NavController) {
 
 @Composable
 private fun StoresScreenContent(
-    modifier: Modifier = Modifier,
-    goToCategories: (kindOfStore: KindOfStore) -> Unit
+    modifier: Modifier = Modifier, goToCategories: (kindOfStore: KindOfStore) -> Unit
 ) {
     Column(
-        modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(setAnimation()))
         Spacer(Modifier.height(32.dp))
@@ -75,8 +77,7 @@ private fun StoresMenu(
             Spacer(modifier = Modifier.height(8.dp))
             TextWithArrow(
                 config = TextWithArrowConfig(
-                    text = setStores()[it].name,
-                    clickOnItem = {
+                    text = setStores()[it].name, clickOnItem = {
                         when (it) {
                             0 -> {
                                 goToStoresList(KindOfStore.FAKE_STORE)
@@ -86,8 +87,7 @@ private fun StoresMenu(
                                 goToStoresList(KindOfStore.DUMMY_JSON)
                             }
                         }
-                    }
-                )
+                    })
             )
         }
     }

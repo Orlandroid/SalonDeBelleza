@@ -6,10 +6,7 @@ import com.example.data.api.WebServices
 import com.example.domain.RemoteDataSource
 import com.example.domain.entities.remote.Cart
 import com.example.domain.entities.remote.Product
-import com.example.domain.entities.remote.Service
-import com.example.domain.entities.remote.Staff
 import com.example.domain.entities.remote.dummyUsers.User
-import com.example.domain.entities.remote.migration.SucursalesResponse
 import com.example.domain.perfil.RandomUserResponse
 import com.example.domain.state.ApiResult
 import javax.inject.Inject
@@ -26,11 +23,6 @@ class RemoteDataSourceImpl @Inject constructor(
 
     override suspend fun getSingleCart(id: Int): Cart = fakeStoreService.getSingleCart(id)
 
-    override suspend fun getBranches(): SucursalesResponse = webServices.getSucursales()
-
-    override suspend fun getStaffs(): List<Staff> = webServices.getStaff()
-
-    override suspend fun getServices(): List<Service> = webServices.getServicios()
 
     override suspend fun randomUser(): RandomUserResponse =
         webServices.randomUser("https://randomuser.me/api/")

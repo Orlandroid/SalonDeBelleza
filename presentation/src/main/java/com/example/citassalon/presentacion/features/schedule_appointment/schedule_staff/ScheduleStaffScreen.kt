@@ -44,9 +44,9 @@ import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
+import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowUiState
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.ScheduleAppointmentEvents
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.ScheduleAppointmentsSideEffects
-import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowUiState
 import com.example.citassalon.presentacion.features.theme.BackgroundListsMainFlow
 import com.example.domain.entities.remote.migration.Staff
 import kotlinx.coroutines.flow.collectLatest
@@ -184,11 +184,6 @@ private fun StaffCard(
     onSelectClick: () -> Unit
 ) {
     val (bgColor, initialsColor) = avatarBackgrounds[colorIndex]
-    val initials = staff.name ?: "Or"
-        .split(" ")
-        .take(2)
-        .mapNotNull { it.firstOrNull()?.uppercaseChar() }
-        .joinToString("")
 
     Surface(
         shape = RoundedCornerShape(16.dp),
@@ -211,7 +206,7 @@ private fun StaffCard(
                     contentAlignment = Alignment.Center
                 ) {
                     Text(
-                        text = initials,
+                        text = staff.initials,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = Color.White

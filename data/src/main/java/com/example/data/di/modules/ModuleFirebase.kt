@@ -58,8 +58,8 @@ object ModuleFirebase {
         firebaseDatabase: FirebaseDatabase,
         firebaseAuth: FirebaseAuth
     ): DatabaseReference {
-        val uuidUser = firebaseAuth.uid
-        return firebaseDatabase.reference.child(USERS_PATH).child(uuidUser!!)
+        val uuidUser = firebaseAuth.uid ?: ""
+        return firebaseDatabase.reference.child(USERS_PATH).child(uuidUser)
     }
 
     @Singleton

@@ -4,6 +4,7 @@ package com.example.data.di.modules
 import com.example.data.Repository
 import com.example.data.api.DummyJsonApi
 import com.example.data.api.FakeStoreService
+import com.example.data.api.WebServices
 import com.example.data.di.AppointmentsRef
 import com.example.data.di.UsersRef
 import com.example.data.firebase.FireBaseSource
@@ -63,9 +64,10 @@ object ModuleRepository {
     @Singleton
     @Provides
     fun provideAppointmentsRepository(
-        @AppointmentsRef databaseReference: DatabaseReference
+        @AppointmentsRef databaseReference: DatabaseReference,
+        api: WebServices,
     ): AppointmentsRepository =
-        AppointmentsRepositoryImpl(databaseReference = databaseReference)
+        AppointmentsRepositoryImpl(databaseReference = databaseReference, webServices = api)
 
     @Singleton
     @Provides

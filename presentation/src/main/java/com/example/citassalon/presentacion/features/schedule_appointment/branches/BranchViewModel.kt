@@ -3,9 +3,10 @@ package com.example.citassalon.presentacion.features.schedule_appointment.branch
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.base.BaseScreenState
-import com.example.data.Repository
 import com.example.data.di.IoDispatcher
+import com.example.data.remote.appointments.AppointmentsRepository
 import com.example.domain.entities.remote.migration.NegoInfo
+import com.example.domain.state.getContent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -21,7 +22,7 @@ import kotlin.time.Duration.Companion.seconds
 
 @HiltViewModel
 class BranchViewModel @Inject constructor(
-    private val repository: Repository,
+    private val repository: AppointmentsRepository,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
@@ -40,8 +41,8 @@ class BranchViewModel @Inject constructor(
 
     private fun getBranches() = viewModelScope.launch(coroutineExceptionHandler + ioDispatcher) {
         delay(1L.seconds)
-        val response = repository.getBranches()
-        _state.update { BaseScreenState.OnContent(content = response.sucursales) }
+        val response = repository.getBranches().getContent()
+        _state.update { BaseScreenState.OnContent(content = response) }
     }
 
 }

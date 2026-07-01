@@ -22,8 +22,8 @@ import com.example.citassalon.presentacion.features.components.TextWithArrowConf
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
-import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.ScheduleAppointmentEvents
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowUiState
+import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.ScheduleAppointmentEvents
 import com.example.citassalon.presentacion.features.theme.BackgroundListsMainFlow
 import com.example.domain.entities.remote.migration.Service
 import com.example.domain.entities.remote.migration.Staff

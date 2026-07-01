@@ -1,7 +1,11 @@
 package com.example.data.remote.appointments
 
+import com.example.data.api.WebServices
 import com.example.data.di.AppointmentsRef
 import com.example.domain.entities.local.AppointmentObject
+import com.example.domain.entities.remote.Service
+import com.example.domain.entities.remote.Staff
+import com.example.domain.entities.remote.migration.NegoInfo
 import com.example.domain.mappers.toAppointmentObject
 import com.example.domain.perfil.Appointment
 import com.example.domain.perfil.AppointmentFirebase
@@ -18,7 +22,8 @@ import javax.inject.Inject
 import kotlin.coroutines.resume
 
 class AppointmentsRepositoryImpl @Inject constructor(
-    @param:AppointmentsRef private val databaseReference: DatabaseReference
+    @param:AppointmentsRef private val databaseReference: DatabaseReference,
+    private val webServices: WebServices
 ) :
     AppointmentsRepository {
 
@@ -74,6 +79,48 @@ class AppointmentsRepositoryImpl @Inject constructor(
         }.getOrElse {
             return ApiResult.Error(it.message)
         }
+    }
+
+    override suspend fun getBranches(): ApiResult<List<NegoInfo>> {
+        return runCatching {
+            val branches = webServices.getSucursales().sucursales.map { branch ->
+                branch.copy(
+                    staffs = branch.staffs.map { staff ->
+                        staff.copy(
+                            initials = getInitials(staff.name)
+                        )
+                    }
+                )
+            }
+            ApiResult.Success(branches)
+        }.getOrElse {
+            ApiResult.Error(it.message.orEmpty())
+        }
+    }
+
+    override suspend fun getStaffs(): ApiResult<List<Staff>> {
+        return runCatching {
+            ApiResult.Success(webServices.getStaff())
+        }.getOrElse {
+            ApiResult.Error(it.message.orEmpty())
+        }
+    }
+
+    override suspend fun getServices(): ApiResult<List<Service>> {
+        return runCatching {
+            ApiResult.Success(webServices.getServicios())
+        }.getOrElse {
+            ApiResult.Error(it.message.orEmpty())
+        }
+    }
+
+    private fun getInitials(name: String?): String {
+        return name
+            ?.split(" ")
+            ?.filter { it.isNotBlank() }
+            ?.take(2)
+            ?.joinToString("") { it.first().uppercase() }
+            .orEmpty()
     }
 
 }

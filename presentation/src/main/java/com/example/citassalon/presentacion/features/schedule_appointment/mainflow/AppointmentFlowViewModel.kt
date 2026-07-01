@@ -2,6 +2,10 @@ package com.example.citassalon.presentacion.features.schedule_appointment.mainfl
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.citassalon.presentacion.features.extensions.dateFormat
+import com.example.citassalon.presentacion.features.extensions.getCurrentDateTime
+import com.example.citassalon.presentacion.features.extensions.getInitialTime
+import com.example.citassalon.presentacion.features.extensions.toStringFormat
 import com.example.citassalon.presentacion.features.schedule_appointment.branches.BranchFlow
 import com.example.domain.entities.remote.migration.NegoInfo
 import com.example.domain.entities.remote.migration.Service
@@ -13,6 +17,16 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+
+
+data class AppointmentFlowUiState(
+    val listOfStaffs: List<Staff> = emptyList(),
+    val branchName: String = "",
+    val currentStaff: Staff? = null,
+    val listOfServices: List<Service> = emptyList(),
+    val dateAppointment: String = getCurrentDateTime().toStringFormat(dateFormat),
+    val timeAppointment: String = getInitialTime()
+)
 
 sealed class ScheduleAppointmentEvents {
     data class ClickOnBranch(val branch: NegoInfo) : ScheduleAppointmentEvents()
@@ -58,13 +72,11 @@ class AppointmentFlowViewModel : ViewModel() {
 
             is ScheduleAppointmentEvents.OnRandomStaff -> {
                 val randomStaff = staffUiState.value.listOfStaffs.indices.random()
-                _staffUiState.update { it.copy(currentStaff = staffUiState.value.listOfStaffs[randomStaff]) }
-                sentEvent(ScheduleAppointmentsSideEffects.GoToScheduleService)
+                selectStaffAndContinue(staffUiState.value.listOfStaffs[randomStaff])
             }
 
             is ScheduleAppointmentEvents.ClickOnImageStaff -> {
-                _staffUiState.update { oldState -> oldState.copy(currentStaff = event.staff) }
-                sentEvent(ScheduleAppointmentsSideEffects.GoToDetailStaffScreen)
+                selectStaffAndContinue(event.staff)
             }
 
             is ScheduleAppointmentEvents.ClickOnService -> {
@@ -79,6 +91,16 @@ class AppointmentFlowViewModel : ViewModel() {
                 _staffUiState.update { oldState -> oldState.copy(timeAppointment = event.time) }
             }
         }
+    }
+
+
+    private fun selectStaffAndContinue(staff: Staff) {
+        _staffUiState.update { oldState ->
+            oldState.copy(
+                currentStaff = staff
+            )
+        }
+        sentEvent(ScheduleAppointmentsSideEffects.GoToScheduleService)
     }
 
     private fun clickOnBranch(branch: NegoInfo) {

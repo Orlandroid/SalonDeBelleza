@@ -62,6 +62,7 @@ data class Service(
 }
 
 data class Staff(
+    val initials: String = "",
     val id: String,
     val image_url: String,
     @SerializedName("nombre")
