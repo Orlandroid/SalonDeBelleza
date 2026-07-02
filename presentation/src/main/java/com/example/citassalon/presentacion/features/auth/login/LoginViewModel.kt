@@ -87,7 +87,7 @@ class LoginViewModel
     private val _effects = Channel<LoginSideEffects>()
     val effects = _effects.receiveAsFlow()
 
-    val isUserLoginStatus = loginPreferences.isUserLoggedIn
+    val isUserLoginStatus = false
 
 
     private fun saveUserEmailToPreferences(userEmail: String) {

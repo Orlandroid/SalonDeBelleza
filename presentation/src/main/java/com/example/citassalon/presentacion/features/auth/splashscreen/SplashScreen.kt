@@ -10,7 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -21,48 +21,44 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.auth.AuthScreens
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
+import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.theme.StatusBarColor
 
 
 @Composable
 fun SplashScreen(
+    viewModel: SplashScreenViewModel = hiltViewModel(),
     navController: NavController,
-    isActiveSession: Boolean = false,
     goToScheduleNav: () -> Unit
 ) {
+    val state by viewModel.state.collectAsStateWithLifecycle()
+    if (state.isLoading) {
+        ProgressDialog()
+    } else {
+        if (state.isUserLoggedIn) {
+            goToScheduleNav.invoke()
+        } else {
+            navController.navigate(AuthScreens.LoginRoute)
+        }
+    }
     BaseComposeScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(showToolbar = false)
     ) {
-        SplashScreenContent(
-            isActiveSession = isActiveSession,
-            goToLogin = { navController.navigate(AuthScreens.LoginRoute) },
-            goToScheduleNav = goToScheduleNav
-        )
+        SplashScreenContent()
     }
 }
 
 
 @Composable
-private fun SplashScreenContent(
-    isActiveSession: Boolean = false,
-    goToScheduleNav: () -> Unit,
-    goToLogin: () -> Unit
-) {
-    LaunchedEffect(Unit) {
-        kotlinx.coroutines.delay(2000)
-        if (isActiveSession) {
-            goToScheduleNav.invoke()
-        } else {
-            goToLogin.invoke()
-        }
-    }
-
+private fun SplashScreenContent() {
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -96,11 +92,7 @@ private fun SplashScreenContent(
 @Composable
 @Preview(showBackground = true)
 fun SplashScreenContentPreview() {
-    SplashScreenContent(
-        isActiveSession = true,
-        goToLogin = {},
-        goToScheduleNav = {}
-    )
+    SplashScreenContent()
 }
 
 

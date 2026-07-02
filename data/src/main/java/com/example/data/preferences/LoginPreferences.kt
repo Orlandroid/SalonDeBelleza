@@ -46,10 +46,12 @@ class LoginPreferences @Inject constructor(
     val userLogged = booleanPreferencesKey("userLogged")
 
 
-    val isUserLoggedIn: Flow<Boolean> = context.dataStore.data
-        .map { preferences ->
+    suspend fun isUserLoggedIn(): Boolean {
+        val userMoney = context.dataStore.data.map { preferences ->
             preferences[userLogged] ?: false
-        }
+        }.firstOrNull() ?: false
+        return userMoney
+    }
 
     suspend fun saveRandomUserResponse(randomUserResponse: String) {
         savePreferenceKey(RANDOM_USER_RESPONSE, randomUserResponse)

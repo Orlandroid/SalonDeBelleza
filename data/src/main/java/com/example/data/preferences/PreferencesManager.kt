@@ -2,6 +2,7 @@ package com.example.data.preferences
 
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.doublePreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
@@ -21,6 +22,7 @@ open class PreferencesManager @Inject constructor(
                 is String -> preferences[stringPreferencesKey(key)] = value
                 is Boolean -> preferences[booleanPreferencesKey(key)] = value
                 is Int -> preferences[intPreferencesKey(key)] = value
+                is Double -> preferences[doublePreferencesKey(key)] = value
                 else -> throw IllegalArgumentException("Unsupported preference type")
             }
         }
@@ -31,6 +33,7 @@ open class PreferencesManager @Inject constructor(
             preferences.remove(stringPreferencesKey(key))
             preferences.remove(booleanPreferencesKey(key))
             preferences.remove(intPreferencesKey(key))
+            preferences.remove(doublePreferencesKey(key))
         }
     }
 
