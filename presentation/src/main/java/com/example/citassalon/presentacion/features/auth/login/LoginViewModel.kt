@@ -14,15 +14,18 @@ import com.example.domain.state.isSuccess
 import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.time.Duration.Companion.seconds
 
 
 sealed class LoginEvents {
@@ -70,29 +73,39 @@ class LoginViewModel
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<LoginUiState> =
-        MutableStateFlow(LoginUiState().copy(userName = getUserEmailFromPreferences()))
-    val state = _state.asStateFlow()
+        MutableStateFlow(LoginUiState().copy(userName = "getUserEmailFromPreferences()"))
+    val state = _state.onStart {
+        val userEmail = getUserEmailFromPreferences().await()
+        _state.update { it.copy(userName = userEmail) }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = LoginUiState()
+    )
 
 
     private val _effects = Channel<LoginSideEffects>()
     val effects = _effects.receiveAsFlow()
 
+    val isUserLoginStatus = loginPreferences.isUserLoggedIn
+
 
     private fun saveUserEmailToPreferences(userEmail: String) {
-        loginPreferences.saveUserEmail(userEmail)
+        viewModelScope.launch {
+            loginPreferences.saveUserEmail(userEmail)
+        }
     }
 
-    private fun getUserEmailFromPreferences(): String {
-        return loginPreferences.getUserEmail() ?: ""
+    private fun getUserEmailFromPreferences(): Deferred<String> {
+        return viewModelScope.async { loginPreferences.getUserEmail() ?: "" }
     }
 
     private fun saveUserSession() {
-        loginPreferences.saveUserSession()
+        viewModelScope.launch {
+            loginPreferences.saveUserLogged()
+        }
     }
 
-    fun getUserSession(): Boolean {
-        return loginPreferences.getUserSession()
-    }
 
     fun onEvents(event: LoginEvents) {
         when (event) {
@@ -160,7 +173,6 @@ class LoginViewModel
         password: String
     ) = viewModelScope.launch {
         _state.update { oldState -> oldState.copy(isLoading = true) }
-        delay(1.seconds)
         val loginResult = authRepository.login(email = email, password = password)
 
         if (loginResult.isSuccess()) {

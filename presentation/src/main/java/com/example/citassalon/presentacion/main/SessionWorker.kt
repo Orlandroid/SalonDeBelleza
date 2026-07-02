@@ -27,7 +27,7 @@ class SessionWorker @AssistedInject constructor(
     }
 
     private fun deleteSessionUser() {
-        loginPreferences.destroyUserSession()
+//        loginPreferences.destroyUserSession()
     }
 
 }

@@ -1,13 +1,16 @@
 package com.example.citassalon.presentacion.features.info.cart
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.data.di.IoDispatcher
 import com.example.data.preferences.LoginPreferences
 import com.example.domain.entities.ProductUi
 import com.example.domain.entities.toProductUiList
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.channels.Channel
@@ -22,7 +25,7 @@ import javax.inject.Inject
 
 
 sealed class CartEffects {
-    object OnProductsDeleted : CartEffects()
+    data class OnProductsDeleted(val message: String) : CartEffects()
     data class NavigateToProductDetail(val product: ProductUi) : CartEffects()
 }
 
@@ -43,7 +46,8 @@ data class CartUiState(
 class CartViewModel @Inject constructor(
     private val repository: com.example.data.Repository,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val loginPreferences: LoginPreferences
+    private val loginPreferences: LoginPreferences,
+    @param:ApplicationContext private val context: Context
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<BaseScreenState<CartUiState>> =
@@ -124,14 +128,16 @@ class CartViewModel @Inject constructor(
     }
 
     fun getUserMoney() {
-        cachedUserMoney = loginPreferences.getUserMoney().toString()
-        _state.update {
-            BaseScreenState.OnContent(
-                content = CartUiState(
-                    products = cachedProducts,
-                    userMoney = cachedUserMoney
+        viewModelScope.launch {
+            cachedUserMoney = loginPreferences.getUserMoney().toString()
+            _state.update {
+                BaseScreenState.OnContent(
+                    content = CartUiState(
+                        products = cachedProducts,
+                        userMoney = cachedUserMoney
+                    )
                 )
-            )
+            }
         }
     }
 
@@ -139,7 +145,7 @@ class CartViewModel @Inject constructor(
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
             val result = repository.deleteAllProducts()
             if (result > 0) {
-                _effects.send(CartEffects.OnProductsDeleted)
+                _effects.send(CartEffects.OnProductsDeleted(message = context.getString(R.string.products_deleted)))
             }
         }
     }

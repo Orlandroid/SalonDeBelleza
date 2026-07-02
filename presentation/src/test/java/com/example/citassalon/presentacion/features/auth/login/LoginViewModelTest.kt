@@ -3,7 +3,6 @@ package com.example.citassalon.presentacion.features.auth.login
 import app.cash.turbine.test
 import com.example.domain.validation.EmailValidator
 import com.example.domain.validation.PasswordValidator
-import com.example.data.preferences.LoginPreferences
 import com.example.data.remote.auth.AuthRepository
 import com.example.domain.state.ApiResult
 import com.google.common.truth.Truth.assertThat
@@ -28,7 +27,7 @@ class LoginViewModelTest {
     private val authRepository: AuthRepository = mockk()
     private val emailValidator: EmailValidator = mockk()
     private val passwordValidator: PasswordValidator = mockk()
-    private val loginPreferences: LoginPreferences = mockk(relaxed = true)
+    private val loginPreferences: LoginPreferencesOld = mockk(relaxed = true)
 
 
     @OptIn(ExperimentalCoroutinesApi::class)

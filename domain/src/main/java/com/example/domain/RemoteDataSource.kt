@@ -14,9 +14,6 @@ interface RemoteDataSource {
 
     suspend fun getSingleCart(id: Int): Cart
 
-
-
-
     suspend fun randomUser(): RandomUserResponse
 
     suspend fun getStaffUsers(): ApiResult<List<User>>

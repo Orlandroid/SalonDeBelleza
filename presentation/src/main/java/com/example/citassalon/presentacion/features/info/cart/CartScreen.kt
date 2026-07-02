@@ -1,6 +1,5 @@
 package com.example.citassalon.presentacion.features.info.cart
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
@@ -45,7 +44,6 @@ import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.entities.ProductUi
 import kotlinx.coroutines.flow.collectLatest
-import androidx.compose.ui.platform.LocalContext
 
 
 @Composable
@@ -55,12 +53,11 @@ fun CartScreen(
 ) {
     val uiState = viewModel.state.collectAsStateWithLifecycle()
     val snackBarHostState = remember { SnackbarHostState() }
-    val context = LocalContext.current
     LaunchedEffect(Unit) {
         viewModel.effects.collectLatest {
             when (it) {
-                CartEffects.OnProductsDeleted -> {
-                    snackBarHostState.showSnackbar(context.getString(R.string.products_deleted))
+                is CartEffects.OnProductsDeleted -> {
+                    snackBarHostState.showSnackbar(it.message)
                 }
 
                 is CartEffects.NavigateToProductDetail -> {

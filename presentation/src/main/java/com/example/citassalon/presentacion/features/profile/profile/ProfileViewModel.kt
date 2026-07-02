@@ -46,7 +46,6 @@ sealed class ProfileEffects {
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
-    private val repository: com.example.data.Repository,
     private val authRepository: AuthRepository,
     private val loginPreferences: LoginPreferences
 ) :
@@ -116,7 +115,9 @@ class ProfileViewModel @Inject constructor(
     }
 
     private fun destroyUserSession() {
-        loginPreferences.destroyUserSession()
+        viewModelScope.launch {
+            loginPreferences.destroyUserSession()
+        }
     }
 
     private fun logout() {

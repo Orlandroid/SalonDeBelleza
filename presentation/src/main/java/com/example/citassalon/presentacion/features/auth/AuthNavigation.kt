@@ -1,5 +1,6 @@
 package com.example.citassalon.presentacion.features.auth
 
+import androidx.compose.runtime.collectAsState
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -21,9 +22,10 @@ fun NavGraphBuilder.authNavigationGraph(
     ) {
         composable<AuthScreens.SplashRoute> {
             val loginViewModel: LoginViewModel = hiltViewModel()
+            val isUserLoggedIn = loginViewModel.isUserLoginStatus.collectAsState(initial = false)
             SplashScreen(
                 navController = navController,
-                isActiveSession = loginViewModel.getUserSession(),
+                isActiveSession = isUserLoggedIn.value,
                 goToScheduleNav = goToScheduleFlow
             )
         }

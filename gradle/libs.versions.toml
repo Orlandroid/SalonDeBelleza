@@ -50,6 +50,7 @@ navigationUiKtx = "2.9.8"
 mockk = "1.14.11"
 corutinesTest = "1.11.0"
 turbine = "1.2.1"
+dataStore = "1.2.1"
 
 
 [libraries]
@@ -119,6 +120,7 @@ mapsCompose = { module = "com.google.maps.android:maps-compose", version.ref = "
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 jetbrains-kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "corutinesTest" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
+preferencesDataStore = { module = "androidx.datastore:datastore-preferences", version.ref = "dataStore" }
 
 [bundles]
 room = ["roomRuntime", "roomKtx"]

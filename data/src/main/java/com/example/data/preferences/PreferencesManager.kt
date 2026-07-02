@@ -1,23 +1,37 @@
 package com.example.data.preferences
 
-import android.content.SharedPreferences
+import android.content.Context
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
+import androidx.datastore.preferences.preferencesDataStore
 import javax.inject.Inject
-import androidx.core.content.edit
 
-open class PreferencesManager @Inject constructor(protected val preferences: SharedPreferences) {
+open class PreferencesManager @Inject constructor(
+    protected val context: Context
+) {
+
+    protected val Context.dataStore by preferencesDataStore(name = "AppPreferences")
 
 
-    open fun savePreferenceKey(key: String, value: Any) {
-        when (value) {
-            is String -> preferences.edit { putString(key, value) }
-            is Boolean -> preferences.edit { putBoolean(key, value) }
-            is Float -> preferences.edit { putFloat(key, value) }
-            is Int -> preferences.edit { putInt(key, value) }
+    protected suspend fun savePreferenceKey(key: String, value: Any) {
+        context.dataStore.edit { preferences ->
+            when (value) {
+                is String -> preferences[stringPreferencesKey(key)] = value
+                is Boolean -> preferences[booleanPreferencesKey(key)] = value
+                is Int -> preferences[intPreferencesKey(key)] = value
+                else -> throw IllegalArgumentException("Unsupported preference type")
+            }
         }
     }
 
-    open fun removePreferenceKey(key: String) {
-        preferences.edit { remove(key) }
+    protected suspend fun removePreferenceKey(key: String) {
+        context.dataStore.edit { preferences ->
+            preferences.remove(stringPreferencesKey(key))
+            preferences.remove(booleanPreferencesKey(key))
+            preferences.remove(intPreferencesKey(key))
+        }
     }
 
 }

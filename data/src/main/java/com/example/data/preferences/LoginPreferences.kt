@@ -1,65 +1,80 @@
 package com.example.data.preferences
 
-import android.content.SharedPreferences
-import android.util.Log
-import com.example.domain.perfil.RandomUserResponse
-import com.google.gson.Gson
+import android.content.Context
+import androidx.datastore.preferences.core.booleanPreferencesKey
+import androidx.datastore.preferences.core.doublePreferencesKey
+import androidx.datastore.preferences.core.stringPreferencesKey
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.map
 import javax.inject.Inject
 
-class LoginPreferences @Inject constructor(sharedPreferences: SharedPreferences) :
-    PreferencesManager(sharedPreferences) {
+class LoginPreferences @Inject constructor(
+    @ApplicationContext context: Context
+) : PreferencesManager(context = context) {
 
     companion object {
         const val USER_EMAIL = "email"
-        const val USER_LOEGED = "userLoged"
+        const val USER_LOGGED = "userLogged"
         const val RANDOM_USER_RESPONSE = "RandomUser"
         const val USER_MONEY = "userMoney"
     }
 
-    fun saveUserSession() {
-        savePreferenceKey(USER_LOEGED, true)
+    suspend fun saveUserEmail(email: String) {
+        savePreferenceKey(USER_EMAIL, email)
     }
 
-    fun destroyUserSession() {
-        removePreferenceKey(USER_LOEGED)
+    suspend fun removeUserEmail() {
+        removePreferenceKey(USER_EMAIL)
     }
 
-
-    fun getUserSession(): Boolean {
-        return preferences.getBoolean(USER_LOEGED, false)
+    suspend fun getUserEmail(): String? {
+        return context.dataStore.data.map { preferences ->
+            preferences[stringPreferencesKey(USER_EMAIL)]
+        }.firstOrNull()
     }
 
-
-    fun saveUserEmail(userEmail: String) {
-        savePreferenceKey(USER_EMAIL, userEmail)
+    suspend fun saveUserLogged() {
+        savePreferenceKey(USER_LOGGED, true)
     }
 
-    fun getUserEmail(): String? {
-        return preferences.getString(USER_EMAIL, "")
+    suspend fun destroyUserSession() {
+        removePreferenceKey(USER_LOGGED)
     }
 
-    fun saveUserRandomResponse(randomUser: RandomUserResponse) {
-        Gson().toJson(randomUser)
-        savePreferenceKey(RANDOM_USER_RESPONSE, randomUser)
-        val userMoney = (100..7500).random()
-        savePreferenceKey(USER_MONEY, userMoney)
-        Log.w("Android","USER MONEY $userMoney")
+    val userLogged = booleanPreferencesKey("userLogged")
+
+
+    val isUserLoggedIn: Flow<Boolean> = context.dataStore.data
+        .map { preferences ->
+            preferences[userLogged] ?: false
+        }
+
+    suspend fun saveRandomUserResponse(randomUserResponse: String) {
+        savePreferenceKey(RANDOM_USER_RESPONSE, randomUserResponse)
     }
 
-    // 88742
-    private fun getLastNumberPostCode(postCode: String): Int {
-        return postCode[4].code
+    suspend fun removeRandomUserResponse() {
+        removePreferenceKey(RANDOM_USER_RESPONSE)
     }
 
-    fun getUserRandomResponse(): RandomUserResponse? {
-        val user = preferences.getString(RANDOM_USER_RESPONSE, null)
-        return Gson().fromJson(user, RandomUserResponse::class.java)
+    suspend fun saveUserMoney(userMoney: Double) {
+        savePreferenceKey(USER_MONEY, userMoney.toInt())
     }
 
-    fun getUserMoney(): Int {
-        val userMoney = (100..7500).random()
-        savePreferenceKey(USER_MONEY, userMoney)
-        return preferences.getInt(USER_MONEY, userMoney)
+    suspend fun removeUserMoney() {
+        removePreferenceKey(USER_MONEY)
     }
+
+    val userMoneyKey = doublePreferencesKey(USER_MONEY)
+
+    suspend fun getUserMoney(): Double {
+        val userMoney = context.dataStore.data.map { preferences ->
+            preferences[userMoneyKey] ?: 0
+        }.firstOrNull() ?: 0
+        return userMoney.toDouble()
+    }
+
 
 }

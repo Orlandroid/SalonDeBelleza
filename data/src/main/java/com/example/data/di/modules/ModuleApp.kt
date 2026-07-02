@@ -25,14 +25,16 @@ object ModuleApp {
 
     @Singleton
     @Provides
-    fun providePreferencesManager(sharedPreferences: SharedPreferences): PreferencesManager {
-        return PreferencesManager(sharedPreferences)
+    fun providePreferencesManager(
+        @ApplicationContext context: Context,
+    ): PreferencesManager {
+        return PreferencesManager(context = context)
     }
 
     @Singleton
     @Provides
-    fun provideLoginPreferences(sharedPreferences: SharedPreferences): LoginPreferences {
-        return LoginPreferences(sharedPreferences)
+    fun provideLoginPreferences(@ApplicationContext context: Context): LoginPreferences {
+        return LoginPreferences(context = context)
     }
 
 
