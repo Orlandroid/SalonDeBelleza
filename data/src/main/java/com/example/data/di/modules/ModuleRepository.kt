@@ -7,7 +7,6 @@ import com.example.data.api.FakeStoreService
 import com.example.data.api.WebServices
 import com.example.data.di.AppointmentsRef
 import com.example.data.di.UsersRef
-import com.example.data.firebase.FireBaseSource
 import com.example.data.remote.appointments.AppointmentsRepository
 import com.example.data.remote.appointments.AppointmentsRepositoryImpl
 import com.example.data.remote.auth.AuthRepository
@@ -20,6 +19,7 @@ import com.example.data.remote.user.UserRepository
 import com.example.data.remote.user.UserRepositoryImpl
 import com.example.domain.LocalDataSource
 import com.example.domain.RemoteDataSource
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import dagger.Module
 import dagger.Provides
@@ -43,7 +43,7 @@ object ModuleRepository {
 
     @Singleton
     @Provides
-    fun provideAuthRepository(firebaseSource: FireBaseSource): AuthRepository =
+    fun provideAuthRepository(firebaseSource: FirebaseAuth): AuthRepository =
         AuthRepositoryImp(firebaseSource)
 
     @Singleton

@@ -4,7 +4,6 @@ package com.example.data.di.modules
 import com.example.data.di.AppointmentsRef
 import com.example.data.di.ImagesRef
 import com.example.data.di.UsersRef
-import com.example.data.firebase.FireBaseSource
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -28,12 +27,6 @@ object ModuleFirebase {
     @Provides
     fun provideFirebaseInstance(): FirebaseAuth =
         FirebaseAuth.getInstance()
-
-    @Singleton
-    @Provides
-    fun provideFirebaseSource(firebaseAuth: FirebaseAuth): FireBaseSource =
-        FireBaseSource(firebaseAuth)
-
 
     @Singleton
     @Provides

@@ -6,6 +6,7 @@ import com.example.citassalon.presentacion.features.extensions.dateFormat
 import com.example.citassalon.presentacion.features.extensions.getCurrentDateTime
 import com.example.citassalon.presentacion.features.extensions.getInitialTime
 import com.example.citassalon.presentacion.features.extensions.toStringFormat
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
