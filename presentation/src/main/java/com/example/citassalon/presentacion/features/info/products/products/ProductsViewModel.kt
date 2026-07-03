@@ -1,7 +1,9 @@
 package com.example.citassalon.presentacion.features.info.products.products
 
+import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.citassalon.presentacion.features.info.products.products.ProductScreenEffects.NavigateToProductDetail
 import com.example.data.Repository
@@ -10,9 +12,11 @@ import com.example.data.remote.fake_store.FakeStoreRepository
 import com.example.domain.entities.db.ProductDb
 import com.example.domain.entities.remote.Product
 import com.example.domain.mappers.toProductDb
+import com.example.domain.state.isError
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.channels.Channel
@@ -33,8 +37,8 @@ sealed class ProductScreenEvents {
 
 sealed class ProductScreenEffects {
     object NavigateToCar : ProductScreenEffects()
-    object ProductSaved : ProductScreenEffects()
-    object ProductsDeletedSuccessfully : ProductScreenEffects()
+    data class ProductSaved(val message: String) : ProductScreenEffects()
+    data class ProductsDeletedSuccessfully(val message: String) : ProductScreenEffects()
     object NoProductsToDelete : ProductScreenEffects()
     data class NavigateToProductDetail(val product: Product) : ProductScreenEffects()
 }
@@ -47,6 +51,7 @@ data class ProductsUiState(
 @HiltViewModel(assistedFactory = ProductsViewModelFactory::class)
 class ProductsViewModel @AssistedInject constructor(
     private val fakeStoreRepository: FakeStoreRepository,
+    @param:ApplicationContext private val context: Context,
     private val repository: Repository,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
     @Assisted private val category: String
@@ -112,14 +117,19 @@ class ProductsViewModel @AssistedInject constructor(
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
             val id = repository.addProduct(item).toInt()
             if (id != NOT_SAVE) {
-                _effects.send(ProductScreenEffects.ProductSaved)
+                _effects.send(ProductScreenEffects.ProductSaved(context.getString(R.string.product_added)))
             }
         }
     }
 
     fun deleteAllProducts() {
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
-            repository.deleteAllProducts()//Todo add one effect if the date was removed successfully
+            val deleteProductsResult = repository.deleteAllProducts()
+            if (deleteProductsResult.isError()) {
+                _effects.send(ProductScreenEffects.NoProductsToDelete)
+                return@launch
+            }
+            _effects.send(ProductScreenEffects.ProductsDeletedSuccessfully(context.getString(R.string.products_deleted)))
         }
     }
 

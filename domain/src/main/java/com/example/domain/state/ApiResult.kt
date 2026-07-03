@@ -8,14 +8,18 @@ sealed class ApiResult<T> {
 fun <T> ApiResult<T>.isSuccess(): Boolean = this is ApiResult.Success
 fun <T> ApiResult<T>.isError(): Boolean = this is ApiResult.Error
 
-fun <T> ApiResult<T>.getResultOrNull() =
-    if (this.isSuccess()) {
-        (this as ApiResult.Success).result
-    } else {
-        null
-    }
+fun <T> ApiResult<T>.getResultOrNull() = if (this.isSuccess()) {
+    (this as ApiResult.Success).result
+} else {
+    null
+}
 
-fun <T> ApiResult<T>.getContent() = (this as ApiResult.Success).result
+fun <T> ApiResult<T>.getContent(): T {
+    if (this is ApiResult.Error) {
+        throw IllegalStateException("Cannot get content from an error result")
+    }
+    return (this as ApiResult.Success).result
+}
 
 fun <T> ApiResult<T>.getErrorMessage(): String? {
 

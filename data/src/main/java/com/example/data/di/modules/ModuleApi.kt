@@ -46,27 +46,22 @@ object ModuleApi {
     private const val RETROFIT_FAKE_STORE = "FakeStore"
     private const val RETROFIT_DUMMY_JSON = "DummyJson"
 
+
+    //Todo add bulid config for only intercept in debug mode
     @Singleton
     @Provides
     fun provideOkHttpClient(): OkHttpClient {
         val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
-        return OkHttpClient.Builder()
-            .connectTimeout(60, TimeUnit.SECONDS)
-            .readTimeout(60, TimeUnit.SECONDS)
-            .writeTimeout(30, TimeUnit.SECONDS)
-            .addInterceptor(httpLoggingInterceptor)
-            .retryOnConnectionFailure(true)
-            .build()
+        return OkHttpClient.Builder().connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS).writeTimeout(30, TimeUnit.SECONDS)
+            .addInterceptor(httpLoggingInterceptor).retryOnConnectionFailure(true).build()
     }
 
     private fun createGenericRetrofit(okHttpClient: OkHttpClient, baseUrl: String) =
-        Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(okHttpClient)
-            .build()
+        Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create())
+            .client(okHttpClient).build()
 
     @Singleton
     @Provides

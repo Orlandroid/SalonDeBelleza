@@ -19,7 +19,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
-data class OurStaffyUiState(
+data class OurStaffUiState(
     val staffs: List<User>
 )
 
@@ -34,7 +34,7 @@ class OurStaffViewModel @Inject constructor(
         _state.update { BaseScreenState.OnError(error = exception) }
     }
 
-    private val _state: MutableStateFlow<BaseScreenState<OurStaffyUiState>> =
+    private val _state: MutableStateFlow<BaseScreenState<OurStaffUiState>> =
         MutableStateFlow(BaseScreenState.OnLoading)
     val state = _state.onStart {
         getStaffsUsers()
@@ -46,7 +46,7 @@ class OurStaffViewModel @Inject constructor(
 
     private fun getStaffsUsers() = viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
         val response = repository.getStaffUsers()
-        _state.update { BaseScreenState.OnContent(content = OurStaffyUiState(staffs = response.getContent())) }
+        _state.update { BaseScreenState.OnContent(content = OurStaffUiState(staffs = response.getContent())) }
     }
 
 

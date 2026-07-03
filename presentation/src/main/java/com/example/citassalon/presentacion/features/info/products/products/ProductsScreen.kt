@@ -29,7 +29,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
@@ -61,7 +60,6 @@ fun ProductsScreen(
     productsViewModel: ProductsViewModel = hiltViewModel(
         creationCallback = { factory: ProductsViewModelFactory -> factory.create(category) })
 ) {
-    val context = LocalContext.current
     val uiState by productsViewModel.state.collectAsStateWithLifecycle()
     val snackBarHostState = remember { SnackbarHostState() }
     when (uiState) {
@@ -77,13 +75,13 @@ fun ProductsScreen(
                             navController.navigate(DetailProductRoute(it.product.id))
                         }
 
-                        ProductScreenEffects.ProductSaved -> {
-                            snackBarHostState.showSnackbar(message = context.getString(R.string.product_added))
+                        is ProductScreenEffects.ProductSaved -> {
+                            snackBarHostState.showSnackbar(message = it.message)
                         }
 
-                        ProductScreenEffects.NoProductsToDelete -> {}
-                        ProductScreenEffects.ProductsDeletedSuccessfully -> {
-                            snackBarHostState.showSnackbar(context.getString(R.string.products_deleted))
+                        is ProductScreenEffects.NoProductsToDelete -> {}
+                        is ProductScreenEffects.ProductsDeletedSuccessfully -> {
+                            snackBarHostState.showSnackbar(message = it.message)
                         }
                     }
                 }
