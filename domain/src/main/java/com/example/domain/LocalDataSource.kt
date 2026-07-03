@@ -1,7 +1,6 @@
 package com.example.domain
 
 
-
 import com.example.domain.entities.db.AppointmentDb
 import com.example.domain.entities.db.CategoryDb
 import com.example.domain.entities.db.ProductDb
@@ -16,8 +15,7 @@ interface LocalDataSource {
     suspend fun deleteAllProducts(): Int
 
     fun getAllProducts(): List<ProductDb>
-
-    fun getAllProductDbCache(): List<ProductDb>
+    
 
     suspend fun addAppointment(appointment: AppointmentDb)
 

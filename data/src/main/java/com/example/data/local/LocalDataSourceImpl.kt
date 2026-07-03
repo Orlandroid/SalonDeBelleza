@@ -26,8 +26,6 @@ class LocalDataSourceImpl @Inject constructor(
 
     override fun getAllProducts() = productDao.getAllProductDb()
 
-    override fun getAllProductDbCache(): List<ProductDb> = productDao.getAllProductDbCache()
-
     override suspend fun addAppointment(appointment: AppointmentDb) = appointmentDao.insertAppointment(appointment)
 
     override suspend fun addManyAppointment(appointment: List<AppointmentDb>) = appointmentDao.insertManyAppointment(appointment)

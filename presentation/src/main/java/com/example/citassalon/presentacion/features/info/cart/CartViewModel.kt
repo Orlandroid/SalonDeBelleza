@@ -9,6 +9,7 @@ import com.example.data.di.IoDispatcher
 import com.example.data.preferences.LoginPreferences
 import com.example.domain.entities.ProductUi
 import com.example.domain.entities.toProductUiList
+import com.example.domain.state.isSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
@@ -144,7 +145,7 @@ class CartViewModel @Inject constructor(
     private fun deleteAllTheProducts() {
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
             val result = repository.deleteAllProducts()
-            if (result > 0) {
+            if (result.isSuccess()) {
                 _effects.send(CartEffects.OnProductsDeleted(message = context.getString(R.string.products_deleted)))
             }
         }

@@ -23,9 +23,6 @@ interface ProductDao {
     @Query("SELECT * FROM ProductDb")
     fun getAllProductDb(): List<ProductDb>
 
-    @Query("SELECT * FROM ProductDb")
-    fun getAllProductDbCache(): List<ProductDb>
-
     @Query("SELECT * FROM ProductDb WHERE id =:id")
     fun getProductDbById(id: Int): Flow<ProductDb>
 
