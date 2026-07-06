@@ -4,7 +4,7 @@ package com.example.data.di.modules
 import com.example.data.api.DummyJsonApi
 import com.example.data.api.FakeStoreService
 import com.example.data.api.WebServices
-import com.example.data.local.LocalDataSourceImpl
+import com.example.data.local.RoomLocalDataSource
 import com.example.data.remote.RemoteDataSourceImpl
 import com.example.domain.LocalDataSource
 import com.example.domain.RemoteDataSource
@@ -30,7 +30,7 @@ abstract class DataModule {
     abstract fun bindRemoteDataSource(impl: RemoteDataSourceImpl): RemoteDataSource
 
     @Binds
-    abstract fun bindLocalDataSource(impl: LocalDataSourceImpl): LocalDataSource
+    abstract fun bindLocalDataSource(impl: RoomLocalDataSource): LocalDataSource
 
 }
 

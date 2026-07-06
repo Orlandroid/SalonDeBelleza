@@ -3,14 +3,14 @@ package com.example.citassalon.presentacion.features.auth.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.validation.EmailValidator
-import com.example.domain.validation.PasswordValidator
 import com.example.data.di.IoDispatcher
 import com.example.data.preferences.LoginPreferences
 import com.example.data.remote.auth.AuthRepository
 import com.example.domain.state.getResultOrNull
 import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
+import com.example.domain.validation.EmailValidator
+import com.example.domain.validation.PasswordValidator
 import com.google.firebase.auth.GoogleAuthProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
@@ -19,7 +19,6 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
@@ -73,7 +72,7 @@ class LoginViewModel
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<LoginUiState> =
-        MutableStateFlow(LoginUiState().copy(userName = "getUserEmailFromPreferences()"))
+        MutableStateFlow(LoginUiState())
     val state = _state.onStart {
         val userEmail = getUserEmailFromPreferences().await()
         _state.update { it.copy(userName = userEmail) }
@@ -83,12 +82,8 @@ class LoginViewModel
         initialValue = LoginUiState()
     )
 
-
     private val _effects = Channel<LoginSideEffects>()
     val effects = _effects.receiveAsFlow()
-
-    val isUserLoginStatus = false
-
 
     private fun saveUserEmailToPreferences(userEmail: String) {
         viewModelScope.launch {

@@ -1,12 +1,14 @@
 package com.example.citassalon.presentacion.features.auth.login
 
 import app.cash.turbine.test
+import com.example.data.preferences.LoginPreferences
 import com.example.domain.validation.EmailValidator
 import com.example.domain.validation.PasswordValidator
 import com.example.data.remote.auth.AuthRepository
 import com.example.domain.state.ApiResult
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
@@ -27,7 +29,7 @@ class LoginViewModelTest {
     private val authRepository: AuthRepository = mockk()
     private val emailValidator: EmailValidator = mockk()
     private val passwordValidator: PasswordValidator = mockk()
-    private val loginPreferences: LoginPreferencesOld = mockk(relaxed = true)
+    private val loginPreferences: LoginPreferences = mockk(relaxed = true)
 
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -143,8 +145,8 @@ class LoginViewModelTest {
 
         advanceUntilIdle()
 
-        verify(exactly = 1) { loginPreferences.saveUserSession() }
-        verify(exactly = 1) { loginPreferences.saveUserEmail(any()) }
+        coVerify(exactly = 1) { loginPreferences.saveUserLogged() }
+        coVerify(exactly = 1) { loginPreferences.saveUserEmail(any()) }
 
         viewModel.effects.test {
             val effect = awaitItem()
@@ -169,8 +171,8 @@ class LoginViewModelTest {
 
         advanceUntilIdle()
 
-        verify(exactly = 0) { loginPreferences.saveUserSession() }
-        verify(exactly = 0) { loginPreferences.saveUserEmail(any()) }
+        coVerify(exactly = 0) { loginPreferences.saveUserLogged() }
+        coVerify(exactly = 0) { loginPreferences.saveUserEmail(any()) }
 
         val finalState = viewModel.state.value
         assertThat(finalState.isLoading).isFalse()

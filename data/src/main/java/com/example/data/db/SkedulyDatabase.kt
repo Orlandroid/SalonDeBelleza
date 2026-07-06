@@ -8,10 +8,11 @@ import com.example.data.db.daos.CategoriesDao
 import com.example.data.db.daos.ProductDao
 import com.example.domain.entities.db.CategoryDb
 import com.example.domain.entities.db.ProductDb
+import com.example.domain.entities.db.AppointmentDb
 
 
 @Database(
-    entities = [com.example.domain.entities.db.AppointmentDb::class, ProductDb::class, CategoryDb::class],
+    entities = [AppointmentDb::class, ProductDb::class, CategoryDb::class],
     version = 5,
     exportSchema = false
 )

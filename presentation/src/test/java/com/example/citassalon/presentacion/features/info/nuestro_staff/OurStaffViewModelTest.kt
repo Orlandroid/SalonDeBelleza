@@ -73,7 +73,7 @@ class OurStaffViewModelTest {
 
             assertThat(content).isInstanceOf(BaseScreenState.OnContent::class.java)
             assertThat((content as BaseScreenState.OnContent).content).isEqualTo(
-                OurStaffyUiState(
+                OurStaffUiState(
                     staffs = users
                 )
             )

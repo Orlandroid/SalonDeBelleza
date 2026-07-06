@@ -1,14 +1,13 @@
 package com.example.citassalon.presentacion.features.profile.profile
 
 import app.cash.turbine.test
+import com.example.data.preferences.LoginPreferences
 import com.example.data.remote.auth.AuthRepository
 import com.example.domain.state.ApiResult
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
-import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -24,19 +23,17 @@ class ProfileViewModelTest {
 
     private lateinit var viewModel: ProfileViewModel
     private val testDispatcher = StandardTestDispatcher()
-    private val repository: com.example.data.Repository = mockk()
     private val authRepository: AuthRepository = mockk()
-    private val loginPreferences: LoginPreferencesOld = mockk()
+    private val loginPreferences: LoginPreferences = mockk()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
         coEvery { authRepository.getUser() } returns ApiResult.Success(null)
-        every { loginPreferences.destroyUserSession() } returns Unit
+        coEvery { loginPreferences.destroyUserSession() } returns Unit
         coEvery { authRepository.logout() } returns ApiResult.Success(Unit)
         viewModel = ProfileViewModel(
-            repository = repository,
             authRepository = authRepository,
             loginPreferences = loginPreferences
         )
@@ -147,7 +144,8 @@ class ProfileViewModelTest {
     @Test
     fun `OnConfirmClicked should destroy user session`() = runTest(testDispatcher) {
         viewModel.onEvents(ProfileEvents.OnConfirmClicked)
-        verify { loginPreferences.destroyUserSession() }
+        advanceUntilIdle()
+        coVerify { loginPreferences.destroyUserSession() }
     }
 
     @Test

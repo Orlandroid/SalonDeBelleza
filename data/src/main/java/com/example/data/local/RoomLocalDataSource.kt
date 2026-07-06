@@ -12,7 +12,7 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-class LocalDataSourceImpl @Inject constructor(
+class RoomLocalDataSource @Inject constructor(
     private val appointmentDao: AppointmentDao,
     private val productDao: ProductDao,
     private val categoriesDao: CategoriesDao
