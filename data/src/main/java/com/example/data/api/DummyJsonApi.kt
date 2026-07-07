@@ -3,7 +3,7 @@ package com.example.data.api
 
 import com.example.domain.entities.remote.categories.Category
 import com.example.domain.entities.remote.products.Product
-import com.example.domain.entities.remote.products.ProductResponse
+import com.example.domain.entities.remote.products.ProductsResponse
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -11,7 +11,7 @@ import retrofit2.http.Path
 interface DummyJsonApi {
 
     @GET("products")
-    suspend fun getProducts(): ProductResponse
+    suspend fun getProducts(): ProductsResponse
 
 
     @GET("products/categories")

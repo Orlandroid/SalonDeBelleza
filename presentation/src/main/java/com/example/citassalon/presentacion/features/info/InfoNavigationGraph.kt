@@ -22,7 +22,7 @@ import com.example.citassalon.presentacion.features.info.ubicacion.LocationScree
 import com.example.citassalon.presentacion.features.schedule_appointment.branches.BranchesScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.branches.BranchFlow
 import com.example.domain.entities.remote.CustomNavType
-import com.example.domain.entities.remote.Product
+import com.example.domain.entities.remote.FakeStoreProduct
 import kotlin.reflect.typeOf
 
 
@@ -56,7 +56,7 @@ fun NavGraphBuilder.infoNavigationGraph(navController: NavHostController) {
             ProductsScreen(navController = navController, category = arguments.category)
         }
         composable<InfoNavigationScreens.DetailProductRoute>(
-            typeMap = mapOf(typeOf<Product>() to CustomNavType.productType)
+            typeMap = mapOf(typeOf<FakeStoreProduct>() to CustomNavType.productType)
         ) {
             val arguments = it.toRoute<InfoNavigationScreens.DetailProductRoute>()
             DetailProductScreen(navController = navController, productId = arguments.productId)

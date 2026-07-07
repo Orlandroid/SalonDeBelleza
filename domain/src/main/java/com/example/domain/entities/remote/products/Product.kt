@@ -1,12 +1,5 @@
 package com.example.domain.entities.remote.products
 
-data class ProductResponse(
-    val total: Int,
-    val skip: Int,
-    val limit: Int,
-    val products: List<Product>
-)
-
 data class Product(
     val id: Int,
     val title: String,

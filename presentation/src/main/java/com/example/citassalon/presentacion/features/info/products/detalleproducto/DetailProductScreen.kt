@@ -39,7 +39,7 @@ import com.example.citassalon.presentacion.features.components.ToolbarConfigurat
 import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.theme.AlwaysBlack
 import com.example.citassalon.presentacion.features.theme.Background
-import com.example.domain.entities.remote.Product
+import com.example.domain.entities.remote.FakeStoreProduct
 import com.gowtham.ratingbar.RatingBar
 import com.gowtham.ratingbar.RatingBarStyle
 
@@ -79,7 +79,7 @@ fun DetailProductScreen(
 @Composable
 private fun DetailProductScreenContent(
     modifier: Modifier = Modifier,
-    product: Product
+    product: FakeStoreProduct
 ) {
     var rating: Float by remember { mutableFloatStateOf(product.rating.rate.toFloat()) }
 
@@ -148,7 +148,7 @@ fun DText(
 @Composable
 @Preview(showBackground = true)
 fun DetailProductScreenContentPreview() {
-    DetailProductScreenContent(product = Product.dummyProduct())
+    DetailProductScreenContent(product = FakeStoreProduct.dummyProduct())
 
 }
 

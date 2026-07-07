@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.data.di.IoDispatcher
 import com.example.data.remote.fake_store.FakeStoreRepository
-import com.example.domain.entities.remote.Product
+import com.example.domain.entities.remote.FakeStoreProduct
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 
 
 data class ProductsDetailUiState(
-    val product: Product
+    val product: FakeStoreProduct
 )
 
 @HiltViewModel(assistedFactory = ProductDetailViewModelFactory::class)

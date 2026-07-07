@@ -50,7 +50,7 @@ import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
 import com.example.citassalon.presentacion.features.info.InfoNavigationScreens.DetailProductRoute
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
-import com.example.domain.entities.remote.Product
+import com.example.domain.entities.remote.FakeStoreProduct
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -72,7 +72,7 @@ fun ProductsScreen(
                         }
 
                         is ProductScreenEffects.NavigateToProductDetail -> {
-                            navController.navigate(DetailProductRoute(it.product.id))
+//                            navController.navigate(DetailProductRoute(it.product.id))
                         }
 
                         is ProductScreenEffects.ProductSaved -> {
@@ -115,7 +115,7 @@ fun ProductsScreen(
 @Composable
 private fun ProductsScreenContent(
     modifier: Modifier = Modifier,
-    products: List<Product>?,
+    products: List<FakeStoreProduct>?,
     onEvents: (event: ProductScreenEvents) -> Unit
 ) {
     Column(
@@ -154,7 +154,7 @@ private fun ContainerImageCart(
 
 @Composable
 private fun Products(
-    products: List<Product>,
+    products: List<FakeStoreProduct>,
     onEvents: (event: ProductScreenEvents) -> Unit
 ) {
     LazyVerticalGrid(
@@ -174,7 +174,7 @@ private fun Products(
 @Composable
 private fun ItemProduct(
     modifier: Modifier = Modifier,
-    product: Product,
+    product: FakeStoreProduct,
     onEvents: (event: ProductScreenEvents) -> Unit
 ) {
     Card(
@@ -208,7 +208,7 @@ private fun ItemProduct(
 
 @Composable
 private fun ButtonAdd(
-    product: Product,
+    product: FakeStoreProduct,
     onEvents: (event: ProductScreenEvents) -> Unit
 ) {
     ButtonWithIcon(
@@ -242,11 +242,11 @@ private fun ColumnScope.ImageProduct(productImage: String) {
 private fun ProductsScreenContentPreview() {
     ProductsScreenContent(
         products = listOf(
-            Product.dummyProduct()
+            FakeStoreProduct.dummyProduct()
                 .copy(title = "John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet"),
-            Product.dummyProduct(),
-            Product.dummyProduct(),
-            Product.dummyProduct().copy(title = "Solid Gold Petite Micropave")
+            FakeStoreProduct.dummyProduct(),
+            FakeStoreProduct.dummyProduct(),
+            FakeStoreProduct.dummyProduct().copy(title = "Solid Gold Petite Micropave")
         ),
         onEvents = {}
     )

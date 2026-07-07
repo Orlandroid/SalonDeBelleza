@@ -1,7 +1,7 @@
 package com.example.domain.entities
 
 import com.example.domain.entities.db.ProductDb
-import com.example.domain.entities.remote.Product
+import com.example.domain.entities.remote.FakeStoreProduct
 
 data class ProductUi(
     val id: Int,
@@ -14,7 +14,7 @@ data class ProductUi(
     val imageBase64: String? = ""
 )
 
-fun ProductUi.toProduct() = Product(
+fun ProductUi.toProduct() = FakeStoreProduct(
     id = id,
     title = title,
     price = price,

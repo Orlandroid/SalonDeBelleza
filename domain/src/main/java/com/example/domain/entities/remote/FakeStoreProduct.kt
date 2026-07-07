@@ -6,12 +6,11 @@ import android.os.Bundle
 import androidx.navigation.NavType
 import com.example.domain.entities.local.AppointmentObject
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 @SuppressLint("UnsafeOptInUsageError")
 @Serializable
-data class Product(
+data class FakeStoreProduct(
     val id: Int,
     val title: String,
     val price: Double,
@@ -22,7 +21,7 @@ data class Product(
     var imageBase64: String? = ""
 ) {
     companion object {
-        fun dummyProduct() = Product(
+        fun dummyProduct() = FakeStoreProduct(
             id = 1,
             title = "Product",
             price = 5.00,
@@ -45,22 +44,22 @@ data class Rating(
 object CustomNavType {
 
 
-    val productType = object : NavType<Product>(
+    val productType = object : NavType<FakeStoreProduct>(
         isNullableAllowed = false
     ) {
-        override fun get(bundle: Bundle, key: String): Product? {
+        override fun get(bundle: Bundle, key: String): FakeStoreProduct? {
             return Json.decodeFromString(bundle.getString(key) ?: return null)
         }
 
-        override fun parseValue(value: String): Product {
+        override fun parseValue(value: String): FakeStoreProduct {
             return Json.decodeFromString(Uri.decode(value))
         }
 
-        override fun serializeAsValue(value: Product): String {
+        override fun serializeAsValue(value: FakeStoreProduct): String {
             return Uri.encode(Json.encodeToString(value))
         }
 
-        override fun put(bundle: Bundle, key: String, value: Product) {
+        override fun put(bundle: Bundle, key: String, value: FakeStoreProduct) {
             bundle.putString(key, Json.encodeToString(value))
         }
     }

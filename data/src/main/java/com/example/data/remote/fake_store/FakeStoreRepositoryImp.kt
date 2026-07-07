@@ -3,7 +3,7 @@ package com.example.data.remote.fake_store
 import com.example.data.api.FakeStoreService
 import com.example.domain.LocalDataSource
 import com.example.domain.entities.remote.Cart
-import com.example.domain.entities.remote.Product
+import com.example.domain.entities.remote.FakeStoreProduct
 import com.example.domain.mappers.toListCategoriesString
 import com.example.domain.mappers.toStringList
 
@@ -12,11 +12,11 @@ class FakeStoreRepositoryImp(
     private val localDataSource: LocalDataSource
 ) : FakeStoreRepository {
 
-    override suspend fun getProducts(category: String): List<Product> {
+    override suspend fun getProducts(category: String): List<FakeStoreProduct> {
         return api.getProducts(categoria = category)
     }
 
-    override suspend fun getSingleProduct(id: Int): Product {
+    override suspend fun getSingleProduct(id: Int): FakeStoreProduct {
         return api.getSingleProduct(id = id)
     }
 
