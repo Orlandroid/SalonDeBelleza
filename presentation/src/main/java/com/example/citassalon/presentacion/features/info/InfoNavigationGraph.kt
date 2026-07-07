@@ -8,7 +8,6 @@ import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.example.citassalon.presentacion.features.app_navigation.AppNavigationRoutes
 import com.example.citassalon.presentacion.features.extensions.sharedViewModel
-import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowViewModel
 import com.example.citassalon.presentacion.features.info.cart.CartScreen
 import com.example.citassalon.presentacion.features.info.establishing.EstablishingScreen
 import com.example.citassalon.presentacion.features.info.nuestro_staff.OurStaffScreen
@@ -19,10 +18,11 @@ import com.example.citassalon.presentacion.features.info.services.ServicesScreen
 import com.example.citassalon.presentacion.features.info.stores.StoresScreen
 import com.example.citassalon.presentacion.features.info.sucursal.BranchInfoScreen
 import com.example.citassalon.presentacion.features.info.ubicacion.LocationScreen
-import com.example.citassalon.presentacion.features.schedule_appointment.branches.BranchesScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.branches.BranchFlow
-import com.example.domain.entities.remote.CustomNavType
-import com.example.domain.entities.remote.FakeStoreProduct
+import com.example.citassalon.presentacion.features.schedule_appointment.branches.BranchesScreen
+import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowViewModel
+import com.example.data.remote.products.fakestore.FakeStoreProduct
+import com.example.domain.CustomNavType
 import kotlin.reflect.typeOf
 
 

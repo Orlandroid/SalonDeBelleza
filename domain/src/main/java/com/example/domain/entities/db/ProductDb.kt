@@ -11,10 +11,8 @@ data class ProductDb(
     val title: String,
     val price: Double,
     val description: String,
-    val category: String,
     val image: String,
     val rate: Double,
-    val count: Int,
     @ColumnInfo(defaultValue = "")
     val userUi: String
 ) {
@@ -25,18 +23,9 @@ data class ProductDb(
             title = "Producto 1",
             price = 100.00,
             description = "Description",
-            category = "Category",
             image = "",
             rate = 4.0,
-            count = 4,
             userUi = ""
-        )
-
-        fun mockProductDbList() = listOf(
-            mockProductDb(),
-            mockProductDb(),
-            mockProductDb(),
-            mockProductDb(),
         )
     }
 }

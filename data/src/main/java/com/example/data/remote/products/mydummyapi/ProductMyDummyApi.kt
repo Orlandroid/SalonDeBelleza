@@ -1,5 +1,4 @@
-package com.example.domain.entities.remote.products
-
+package com.example.data.remote.products.mydummyapi
 
 data class ProductMyDummyApi(
     val id: Int,

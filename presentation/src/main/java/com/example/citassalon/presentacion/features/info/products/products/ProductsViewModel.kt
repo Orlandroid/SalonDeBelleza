@@ -10,7 +10,7 @@ import com.example.data.Repository
 import com.example.data.di.IoDispatcher
 import com.example.data.remote.fake_store.FakeStoreRepository
 import com.example.domain.entities.db.ProductDb
-import com.example.domain.entities.remote.FakeStoreProduct
+import com.example.data.remote.products.fakestore.FakeStoreProduct
 import com.example.domain.mappers.toProductDb
 import com.example.domain.state.isError
 import dagger.assisted.Assisted
@@ -91,7 +91,8 @@ class ProductsViewModel @AssistedInject constructor(
             }
 
             is ProductScreenEvents.OnAddProduct -> {
-                insertProduct(event.product.toProductDb())
+//                insertProduct(event.product.toProductDb())
+                //map to productDb for save the product in the database of products of the cart
             }
 
             is ProductScreenEvents.OnDeleteAllTheProducts -> {

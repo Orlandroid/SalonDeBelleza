@@ -1,28 +1,23 @@
 package com.example.domain.mappers
 
 import com.example.domain.entities.db.ProductDb
-import com.example.domain.entities.remote.FakeStoreProduct
-import com.example.domain.entities.remote.Rating
+import com.example.domain.entities.remote.products.Product
 
-fun FakeStoreProduct.toProductDb(): ProductDb = ProductDb(
+fun Product.toProductDb(): ProductDb = ProductDb(
     id = id,
     title = title,
     price = price,
     description = description,
-    category = category,
     image = image,
-    rate = rating.rate,
-    count = rating.count,
+    rate = rating,
     userUi = ""
 )
 
-fun ProductDb.toProduct() = FakeStoreProduct(
+fun ProductDb.toProduct() = Product(
     id = id,
     title = title,
     price = price,
     description = description,
-    category = category,
-    image = image,
-    imageBase64 = image,
-    rating = Rating(rate, count)
+    rating = rate,
+    image = image
 )

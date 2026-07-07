@@ -13,7 +13,7 @@ import com.example.citassalon.presentacion.features.profile.historial_detail.His
 import com.example.citassalon.presentacion.features.profile.profile.ProfileScreen
 import com.example.citassalon.presentacion.features.profile.userprofile.UserProfileScreen
 import com.example.domain.entities.local.AppointmentObject
-import com.example.domain.entities.remote.CustomNavType
+import com.example.domain.CustomNavType
 import kotlin.reflect.typeOf
 
 

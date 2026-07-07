@@ -43,6 +43,7 @@ import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.domain.entities.ProductUi
+import com.example.domain.entities.remote.products.Product
 import kotlinx.coroutines.flow.collectLatest
 
 
@@ -119,7 +120,7 @@ private fun DialogDeleteAllProducts(onEvents: (event: CartEvents) -> Unit) {
 @Composable
 private fun CartScreenContent(
     modifier: Modifier = Modifier,
-    products: List<ProductUi>,
+    products: List<Product>,
     onEvents: (event: CartEvents) -> Unit
 ) {
     LazyColumn(
@@ -142,7 +143,7 @@ private fun CartScreenContent(
 
 @Composable
 private fun ItemCart(
-    product: ProductUi,
+    product: Product,
     onEvents: (event: CartEvents) -> Unit
 ) {
     Card(
@@ -188,15 +189,13 @@ private fun ItemCart(
 @Composable
 @Preview(showBackground = true)
 private fun CartScreenContentPreview() {
-    val product = ProductUi(
+    val product = Product(
         id = 1,
         title = "Usb",
         price = 45.0,
         description = "WD 2TB Elements Portable External Hard Drive - USB 3.0",
-        category = "",
+        rating = 1.0,
         image = "",
-        imageBase64 = "",
-        rating = 1.0
     )
     CartScreenContent(
         products = listOf(

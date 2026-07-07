@@ -1,7 +1,7 @@
 package com.example.data.remote.fake_store
 
 import com.example.domain.entities.remote.Cart
-import com.example.domain.entities.remote.FakeStoreProduct
+import com.example.data.remote.products.fakestore.FakeStoreProduct
 
 interface FakeStoreRepository {
 

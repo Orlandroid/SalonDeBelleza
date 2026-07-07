@@ -1,8 +1,8 @@
 package com.example.data.api
 
-import com.example.domain.entities.remote.products.ProductMyDummyApi
-import com.example.domain.entities.remote.products.ProductsResponse
-import com.example.domain.entities.remote.products.ProductPlatzi
+import com.example.data.remote.products.mydummyapi.ProductMyDummyApi
+import com.example.data.remote.products.dummyjson.ProductsResponse
+import com.example.data.remote.products.platzy.ProductPlatzi
 import retrofit2.http.Url
 
 interface Products {

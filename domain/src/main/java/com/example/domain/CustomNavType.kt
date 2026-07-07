@@ -1,65 +1,31 @@
-package com.example.domain.entities.remote
+package com.example.domain
 
-import android.annotation.SuppressLint
 import android.net.Uri
 import android.os.Bundle
 import androidx.navigation.NavType
 import com.example.domain.entities.local.AppointmentObject
-import kotlinx.serialization.Serializable
+import com.example.domain.entities.remote.products.Product
 import kotlinx.serialization.json.Json
-
-@SuppressLint("UnsafeOptInUsageError")
-@Serializable
-data class FakeStoreProduct(
-    val id: Int,
-    val title: String,
-    val price: Double,
-    val description: String,
-    val category: String,
-    val image: String,
-    val rating: Rating,
-    var imageBase64: String? = ""
-) {
-    companion object {
-        fun dummyProduct() = FakeStoreProduct(
-            id = 1,
-            title = "Product",
-            price = 5.00,
-            description = "Description",
-            category = "Category",
-            image = "",
-            rating = Rating(rate = 2.0, count = 1),
-            imageBase64 = ""
-        )
-    }
-}
-
-@SuppressLint("UnsafeOptInUsageError")
-@Serializable
-data class Rating(
-    val rate: Double,
-    val count: Int
-)
 
 object CustomNavType {
 
 
-    val productType = object : NavType<FakeStoreProduct>(
+    val productType = object : NavType<Product>(
         isNullableAllowed = false
     ) {
-        override fun get(bundle: Bundle, key: String): FakeStoreProduct? {
+        override fun get(bundle: Bundle, key: String): Product? {
             return Json.decodeFromString(bundle.getString(key) ?: return null)
         }
 
-        override fun parseValue(value: String): FakeStoreProduct {
+        override fun parseValue(value: String): Product {
             return Json.decodeFromString(Uri.decode(value))
         }
 
-        override fun serializeAsValue(value: FakeStoreProduct): String {
+        override fun serializeAsValue(value: Product): String {
             return Uri.encode(Json.encodeToString(value))
         }
 
-        override fun put(bundle: Bundle, key: String, value: FakeStoreProduct) {
+        override fun put(bundle: Bundle, key: String, value: Product) {
             bundle.putString(key, Json.encodeToString(value))
         }
     }
@@ -85,4 +51,3 @@ object CustomNavType {
         }
     }
 }
-

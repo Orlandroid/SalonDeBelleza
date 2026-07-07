@@ -2,7 +2,7 @@ package com.example.data.api
 
 
 import com.example.domain.entities.remote.Cart
-import com.example.domain.entities.remote.FakeStoreProduct
+import com.example.data.remote.products.fakestore.FakeStoreProduct
 import retrofit2.http.GET
 import retrofit2.http.Path
 

@@ -1,4 +1,4 @@
-package com.example.domain.entities.remote.products
+package com.example.data.remote.products.platzy
 
 
 data class ProductPlatzi(

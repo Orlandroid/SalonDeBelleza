@@ -47,10 +47,9 @@ import com.example.citassalon.presentacion.features.components.ButtonWithIcon
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
-import com.example.citassalon.presentacion.features.info.InfoNavigationScreens.DetailProductRoute
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
-import com.example.domain.entities.remote.FakeStoreProduct
+import com.example.data.remote.products.fakestore.FakeStoreProduct
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable

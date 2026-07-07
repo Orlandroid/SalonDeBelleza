@@ -5,10 +5,11 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseScreenState
+import com.example.data.Repository
 import com.example.data.di.IoDispatcher
 import com.example.data.preferences.LoginPreferences
-import com.example.domain.entities.ProductUi
-import com.example.domain.entities.toProductUiList
+import com.example.domain.entities.remote.products.Product
+import com.example.domain.entities.toProduct
 import com.example.domain.state.isSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -27,25 +28,25 @@ import javax.inject.Inject
 
 sealed class CartEffects {
     data class OnProductsDeleted(val message: String) : CartEffects()
-    data class NavigateToProductDetail(val product: ProductUi) : CartEffects()
+    data class NavigateToProductDetail(val product: Product) : CartEffects()
 }
 
 sealed class CartEvents {
-    data class OnProductSelect(val product: ProductUi) : CartEvents()
+    data class OnProductSelect(val product: Product) : CartEvents()
     object OnDeleteIconClicked : CartEvents()
     object OnAccept : CartEvents()
     object OnCancelPressed : CartEvents()
 }
 
 data class CartUiState(
-    val products: List<ProductUi> = emptyList(),
+    val products: List<Product> = emptyList(),
     val userMoney: String = "0",
     val showDeleteDialog: Boolean = false
 )
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
-    private val repository: com.example.data.Repository,
+    private val repository: Repository,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
     private val loginPreferences: LoginPreferences,
     @param:ApplicationContext private val context: Context
@@ -65,7 +66,7 @@ class CartViewModel @Inject constructor(
     private val _effects = Channel<CartEffects>()
     val effects = _effects.receiveAsFlow()
 
-    var cachedProducts: List<ProductUi> = emptyList()
+    var cachedProducts: List<Product> = emptyList()
     private var cachedUserMoney: String = "0"
 
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
@@ -116,7 +117,7 @@ class CartViewModel @Inject constructor(
     fun getAllProducts() {
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
             val response = repository.getAllProducts()
-            cachedProducts = response.toProductUiList()
+            cachedProducts = response.map { it.toProduct() }
             _state.update {
                 BaseScreenState.OnContent(
                     content = CartUiState(

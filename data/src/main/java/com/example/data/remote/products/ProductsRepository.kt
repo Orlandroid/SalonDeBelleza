@@ -1,6 +1,6 @@
 package com.example.data.remote.products
 
-import com.example.domain.entities.remote.FakeStoreProduct
+import com.example.data.remote.products.fakestore.FakeStoreProduct
 
 interface ProductsRepository {
 
