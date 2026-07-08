@@ -49,15 +49,16 @@ import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
-import com.example.data.remote.products.fakestore.FakeStoreProduct
+import com.example.data.remote.products.commons.ProductSource
+import com.example.domain.entities.remote.products.Product
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun ProductsScreen(
     navController: NavController,
-    category: String,
+    source: ProductSource,
     productsViewModel: ProductsViewModel = hiltViewModel(
-        creationCallback = { factory: ProductsViewModelFactory -> factory.create(category) })
+        creationCallback = { factory: ProductsViewModelFactory -> factory.create(source) })
 ) {
     val uiState by productsViewModel.state.collectAsStateWithLifecycle()
     val snackBarHostState = remember { SnackbarHostState() }
@@ -114,7 +115,7 @@ fun ProductsScreen(
 @Composable
 private fun ProductsScreenContent(
     modifier: Modifier = Modifier,
-    products: List<FakeStoreProduct>?,
+    products: List<Product>?,
     onEvents: (event: ProductScreenEvents) -> Unit
 ) {
     Column(
@@ -153,7 +154,7 @@ private fun ContainerImageCart(
 
 @Composable
 private fun Products(
-    products: List<FakeStoreProduct>,
+    products: List<Product>,
     onEvents: (event: ProductScreenEvents) -> Unit
 ) {
     LazyVerticalGrid(
@@ -173,7 +174,7 @@ private fun Products(
 @Composable
 private fun ItemProduct(
     modifier: Modifier = Modifier,
-    product: FakeStoreProduct,
+    product: Product,
     onEvents: (event: ProductScreenEvents) -> Unit
 ) {
     Card(
@@ -187,7 +188,7 @@ private fun ItemProduct(
         Spacer(modifier = Modifier.height(16.dp))
         ButtonAdd(product = product, onEvents = onEvents)
         Spacer(modifier = Modifier.height(16.dp))
-        ImageProduct(productImage = product.image)
+        ImageProduct(productImage = product.image.orEmpty())
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             modifier = Modifier
@@ -207,7 +208,7 @@ private fun ItemProduct(
 
 @Composable
 private fun ButtonAdd(
-    product: FakeStoreProduct,
+    product: Product,
     onEvents: (event: ProductScreenEvents) -> Unit
 ) {
     ButtonWithIcon(
@@ -241,11 +242,11 @@ private fun ColumnScope.ImageProduct(productImage: String) {
 private fun ProductsScreenContentPreview() {
     ProductsScreenContent(
         products = listOf(
-            FakeStoreProduct.dummyProduct()
+            Product.dummyProduct()
                 .copy(title = "John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet"),
-            FakeStoreProduct.dummyProduct(),
-            FakeStoreProduct.dummyProduct(),
-            FakeStoreProduct.dummyProduct().copy(title = "Solid Gold Petite Micropave")
+            Product.dummyProduct(),
+            Product.dummyProduct(),
+            Product.dummyProduct().copy(title = "Solid Gold Petite Micropave")
         ),
         onEvents = {}
     )

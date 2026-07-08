@@ -8,10 +8,10 @@ import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.citassalon.presentacion.features.info.products.products.ProductScreenEffects.NavigateToProductDetail
 import com.example.data.Repository
 import com.example.data.di.IoDispatcher
-import com.example.data.remote.fake_store.FakeStoreRepository
+import com.example.data.remote.products.ProductRepository
+import com.example.data.remote.products.commons.ProductSource
 import com.example.domain.entities.db.ProductDb
-import com.example.data.remote.products.fakestore.FakeStoreProduct
-import com.example.domain.mappers.toProductDb
+import com.example.domain.entities.remote.products.Product
 import com.example.domain.state.isError
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -30,9 +30,9 @@ import kotlinx.coroutines.launch
 
 sealed class ProductScreenEvents {
     object OnCarClicked : ProductScreenEvents()
-    data class OnAddProduct(val product: FakeStoreProduct) : ProductScreenEvents()
-    data class OnProductClicked(val product: FakeStoreProduct) : ProductScreenEvents()
-    data class OnDeleteAllTheProducts(val product: FakeStoreProduct) : ProductScreenEvents()
+    data class OnAddProduct(val product: Product) : ProductScreenEvents()
+    data class OnProductClicked(val product: Product) : ProductScreenEvents()
+    data class OnDeleteAllTheProducts(val product: Product) : ProductScreenEvents()
 }
 
 sealed class ProductScreenEffects {
@@ -40,21 +40,21 @@ sealed class ProductScreenEffects {
     data class ProductSaved(val message: String) : ProductScreenEffects()
     data class ProductsDeletedSuccessfully(val message: String) : ProductScreenEffects()
     object NoProductsToDelete : ProductScreenEffects()
-    data class NavigateToProductDetail(val product: FakeStoreProduct) : ProductScreenEffects()
+    data class NavigateToProductDetail(val product: Product) : ProductScreenEffects()
 }
 
 data class ProductsUiState(
-    val products: List<FakeStoreProduct>
+    val products: List<Product>
 )
 
 
 @HiltViewModel(assistedFactory = ProductsViewModelFactory::class)
 class ProductsViewModel @AssistedInject constructor(
-    private val fakeStoreRepository: FakeStoreRepository,
+    private val productRepository: ProductRepository,
     @param:ApplicationContext private val context: Context,
     private val repository: Repository,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    @Assisted private val category: String
+    @Assisted private val source: ProductSource
 ) : ViewModel() {
 
     companion object {
@@ -64,7 +64,7 @@ class ProductsViewModel @AssistedInject constructor(
     private val _state: MutableStateFlow<BaseScreenState<ProductsUiState>> =
         MutableStateFlow(BaseScreenState.OnLoading)
     val state = _state.onStart {
-        getProducts(category)
+        getProducts(source)
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
@@ -107,9 +107,9 @@ class ProductsViewModel @AssistedInject constructor(
     }
 
 
-    fun getProducts(categoria: String) {
+    fun getProducts(source: ProductSource) {
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
-            val response = fakeStoreRepository.getProducts(categoria)
+            val response = productRepository.getProducts(source)
             _state.update { BaseScreenState.OnContent(content = ProductsUiState(response)) }
         }
     }

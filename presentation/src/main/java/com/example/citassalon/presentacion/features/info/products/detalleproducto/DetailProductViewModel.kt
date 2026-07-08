@@ -5,7 +5,8 @@ import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.data.di.IoDispatcher
 import com.example.data.remote.fake_store.FakeStoreRepository
-import com.example.data.remote.products.fakestore.FakeStoreProduct
+import com.example.data.remote.products.ProductRepository
+import com.example.domain.entities.remote.products.Product
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,12 +21,12 @@ import kotlinx.coroutines.launch
 
 
 data class ProductsDetailUiState(
-    val product: FakeStoreProduct
+    val product: Product
 )
 
 @HiltViewModel(assistedFactory = ProductDetailViewModelFactory::class)
 class DetailProductViewModel @AssistedInject constructor(
-    private val fakeStoreRepository: FakeStoreRepository,
+    private val productsRepository: ProductRepository,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
     @Assisted private val productId: Int
 ) : ViewModel() {
@@ -48,8 +49,8 @@ class DetailProductViewModel @AssistedInject constructor(
 
     private fun getSingleProduct(id: Int) {
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
-            val product = fakeStoreRepository.getSingleProduct(id)
-            _state.update { BaseScreenState.OnContent(content = ProductsDetailUiState(product = product)) }
+//            val product = productsRepository.getProducts(id)
+            _state.update { BaseScreenState.OnContent(content = ProductsDetailUiState(product = Product.dummyProduct())) }
         }
     }
 }

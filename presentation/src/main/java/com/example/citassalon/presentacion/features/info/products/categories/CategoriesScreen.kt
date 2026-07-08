@@ -60,7 +60,7 @@ fun CategoriesScreen(
                 viewmodel.effects.collectLatest {
                     when (it) {
                         is CategoriesEffects.NavigateToProducts -> {
-                            navController.navigate(InfoNavigationScreens.ProductsRoute(category = it.category))
+                            navController.navigate(InfoNavigationScreens.ProductsRoute(source = it.source))
                         }
                     }
                 }
@@ -111,7 +111,7 @@ private fun CategoriesScreenContent(
             when (store.name) {
                 FAKE_STORE -> {
                     Categories(categories = categories) { category ->
-                        onEvent(CategoriesEvents.OnCategoryClicked(category))
+//                        onEvent(CategoriesEvents.OnCategoryClicked(category))
                     }
                 }
 

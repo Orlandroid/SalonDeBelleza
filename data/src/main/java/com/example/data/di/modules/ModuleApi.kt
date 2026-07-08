@@ -6,6 +6,10 @@ import com.example.data.api.FakeStoreService
 import com.example.data.api.WebServices
 import com.example.data.local.RoomLocalDataSource
 import com.example.data.remote.RemoteDataSourceImpl
+import com.example.data.remote.products.dummyjson.DummyJsonApiV2
+import com.example.data.remote.products.fakestore.FakeStoreApi
+import com.example.data.remote.products.mydummyapi.MyDummyApi
+import com.example.data.remote.products.platzy.PlatzyApi
 import com.example.domain.LocalDataSource
 import com.example.domain.RemoteDataSource
 import dagger.Binds
@@ -93,6 +97,26 @@ object ModuleApi {
     @Provides
     fun provideFakeStoreService(@Named(RETROFIT_FAKE_STORE) retrofit: Retrofit) =
         retrofit.create(FakeStoreService::class.java)
+
+    @Singleton
+    @Provides
+    fun provideDummyJsonApiV2(@Named(RETROFIT_DUMMY_JSON) retrofit: Retrofit) =
+        retrofit.create(DummyJsonApiV2::class.java)
+
+    @Singleton
+    @Provides
+    fun provideFakeStoreApi(@Named(RETROFIT_FAKE_STORE) retrofit: Retrofit) =
+        retrofit.create(FakeStoreApi::class.java)
+
+    @Singleton
+    @Provides
+    fun provideMyDummyApi(@Named(RETROFIT_FAKE_STORE) retrofit: Retrofit) =
+        retrofit.create(MyDummyApi::class.java)
+
+    @Singleton
+    @Provides
+    fun providePlatzyApi(@Named(RETROFIT_FAKE_STORE) retrofit: Retrofit) =
+        retrofit.create(PlatzyApi::class.java)
 
 
 }

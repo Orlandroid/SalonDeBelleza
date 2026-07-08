@@ -6,6 +6,7 @@ import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.data.di.IoDispatcher
 import com.example.data.remote.dummy_json.DummyJsonRepository
 import com.example.data.remote.fake_store.FakeStoreRepository
+import com.example.data.remote.products.commons.ProductSource
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,11 +26,11 @@ data class CategoriesUiState(
 )
 
 sealed class CategoriesEvents {
-    data class OnCategoryClicked(val category: String) : CategoriesEvents()
+    data class OnCategoryClicked(val source: ProductSource) : CategoriesEvents()
 }
 
 sealed class CategoriesEffects {
-    data class NavigateToProducts(val category: String) : CategoriesEffects()
+    data class NavigateToProducts(val source: ProductSource) : CategoriesEffects()
 }
 
 enum class KindOfStore {
@@ -71,7 +72,7 @@ class CategoriesViewModel @AssistedInject constructor(
         when (event) {
             is CategoriesEvents.OnCategoryClicked -> {
                 viewModelScope.launch {
-                    _effects.send(CategoriesEffects.NavigateToProducts(event.category))
+                    _effects.send(CategoriesEffects.NavigateToProducts(event.source))
                 }
             }
         }

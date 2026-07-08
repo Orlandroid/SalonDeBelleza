@@ -8,8 +8,8 @@ fun Product.toProductDb(): ProductDb = ProductDb(
     title = title,
     price = price,
     description = description,
-    image = image,
-    rate = rating,
+    image = image.orEmpty(),
+    rate = rating ?: 0.0,
     userUi = ""
 )
 

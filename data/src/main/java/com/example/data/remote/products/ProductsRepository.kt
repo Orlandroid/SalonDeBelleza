@@ -1,10 +1,11 @@
 package com.example.data.remote.products
 
-import com.example.data.remote.products.fakestore.FakeStoreProduct
+import com.example.data.remote.products.commons.ProductSource
+import com.example.domain.entities.remote.products.Product
 
-interface ProductsRepository {
+interface ProductRepository {
 
     suspend fun getProducts(
-        category: String
-    ): List<FakeStoreProduct>
+        source: ProductSource
+    ): List<Product>
 }

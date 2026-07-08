@@ -15,6 +15,9 @@ import com.example.data.remote.dummy_json.DummyJsonRepository
 import com.example.data.remote.dummy_json.DummyJsonRepositoryImp
 import com.example.data.remote.fake_store.FakeStoreRepository
 import com.example.data.remote.fake_store.FakeStoreRepositoryImp
+import com.example.data.remote.products.ProductRepository
+import com.example.data.remote.products.ProductRepositoryImpl
+import com.example.data.remote.products.commons.ProductProviderResolver
 import com.example.data.remote.user.UserRepository
 import com.example.data.remote.user.UserRepositoryImpl
 import com.example.domain.LocalDataSource
@@ -75,6 +78,13 @@ object ModuleRepository {
         @UsersRef databaseReference: DatabaseReference
     ): UserRepository =
         UserRepositoryImpl(databaseReference = databaseReference)
+
+    @Singleton
+    @Provides
+    fun provideProductsRepository(
+        resolver: ProductProviderResolver
+    ): ProductRepository =
+        ProductRepositoryImpl(resolver = resolver)
 
 
 }
