@@ -45,10 +45,14 @@ object ModuleApi {
 
     private const val BASE_URL_FAKE_STORE = "https://fakestoreapi.com/"
     private const val BASE_URL_DUMMY_JSON = "https://dummyjson.com/"
+    private const val BASE_URL_PLATZY = "https://api.escuelajs.co/"
+    private const val BASE_URL_MY_DUMMY_JSON = "https://api.mydummyapi.com/categories/"
     private const val BASE_URL =
         "https://raw.githubusercontent.com/Orlandroid/Resources_Repos/main/fakesResponsesApis/"
     private const val RETROFIT_FAKE_STORE = "FakeStore"
     private const val RETROFIT_DUMMY_JSON = "DummyJson"
+    private const val RETROFIT_PLATZY = "Platzy"
+    private const val RETROFIT_MY_DUMMY_JSON = "MyDummyJson"
 
 
     //Todo add bulid config for only intercept in debug mode
@@ -86,6 +90,18 @@ object ModuleApi {
 
     @Singleton
     @Provides
+    @Named(RETROFIT_PLATZY)
+    fun provideRetrofitPlatzy(okHttpClient: OkHttpClient): Retrofit =
+        createGenericRetrofit(okHttpClient, BASE_URL_PLATZY)
+
+    @Singleton
+    @Provides
+    @Named(RETROFIT_MY_DUMMY_JSON)
+    fun provideRetroMyDummyJson(okHttpClient: OkHttpClient): Retrofit =
+        createGenericRetrofit(okHttpClient, BASE_URL_MY_DUMMY_JSON)
+
+    @Singleton
+    @Provides
     fun provideWebService(retrofit: Retrofit) = retrofit.create(WebServices::class.java)
 
     @Singleton
@@ -110,12 +126,12 @@ object ModuleApi {
 
     @Singleton
     @Provides
-    fun provideMyDummyApi(@Named(RETROFIT_FAKE_STORE) retrofit: Retrofit) =
+    fun provideMyDummyApi(@Named(RETROFIT_MY_DUMMY_JSON) retrofit: Retrofit) =
         retrofit.create(MyDummyApi::class.java)
 
     @Singleton
     @Provides
-    fun providePlatzyApi(@Named(RETROFIT_FAKE_STORE) retrofit: Retrofit) =
+    fun providePlatzyApi(@Named(RETROFIT_PLATZY) retrofit: Retrofit) =
         retrofit.create(PlatzyApi::class.java)
 
 

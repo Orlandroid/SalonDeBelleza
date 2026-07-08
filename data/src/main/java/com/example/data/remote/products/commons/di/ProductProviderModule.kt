@@ -56,7 +56,7 @@ object ProductProviderModule {
 
     @Provides
     @IntoMap
-    @ProductSourceKey(ProductSource.PRODUCTS_API)
+    @ProductSourceKey(ProductSource.MY_DUMMY_API)
     fun provideProductsApiProvider(
         api: MyDummyApi
     ): ProductProvider =

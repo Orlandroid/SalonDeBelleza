@@ -11,6 +11,12 @@ data class FakeStoreProduct(
     val description: String,
     val category: String,
     val image: String,
-    val rating: Double,
+    val rating: FakeStoreProductRating,
     var imageBase64: String? = ""
+)
+
+@Serializable
+data class FakeStoreProductRating(
+    val rate: Double,
+    val count: Int
 )

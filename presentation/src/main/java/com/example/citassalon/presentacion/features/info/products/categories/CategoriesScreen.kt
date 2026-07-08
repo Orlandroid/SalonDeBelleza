@@ -36,6 +36,9 @@ import kotlinx.coroutines.flow.collectLatest
 
 const val FAKE_STORE = "Fake store"
 const val DUMMY_JSON = "DummyJSON"
+const val PLATZY = "Platzy"
+const val MyDummy = "MyDummy"
+
 
 
 data class Store(

@@ -19,7 +19,7 @@ class ProductProviderResolver @Inject constructor(
             ProductSource.DUMMY_JSON -> dummyProvider
             ProductSource.FAKE_STORE -> fakeProvider
             ProductSource.PLATZI -> platziProvider
-            ProductSource.PRODUCTS_API -> productsApiProvider
+            ProductSource.MY_DUMMY_API -> productsApiProvider
         }
     }
 }

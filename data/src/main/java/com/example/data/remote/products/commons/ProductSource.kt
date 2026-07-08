@@ -4,5 +4,5 @@ enum class ProductSource {
     DUMMY_JSON,
     FAKE_STORE,
     PLATZI,
-    PRODUCTS_API
+    MY_DUMMY_API
 }

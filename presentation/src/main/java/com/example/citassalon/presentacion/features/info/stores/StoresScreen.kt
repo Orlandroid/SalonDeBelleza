@@ -28,8 +28,10 @@ import com.example.citassalon.presentacion.features.components.ToolbarConfigurat
 import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
 import com.example.citassalon.presentacion.features.info.products.categories.DUMMY_JSON
 import com.example.citassalon.presentacion.features.info.products.categories.FAKE_STORE
-import com.example.citassalon.presentacion.features.info.products.categories.KindOfStore
+import com.example.citassalon.presentacion.features.info.products.categories.MyDummy
+import com.example.citassalon.presentacion.features.info.products.categories.PLATZY
 import com.example.citassalon.presentacion.features.info.products.categories.Store
+import com.example.data.remote.products.commons.ProductSource
 import kotlin.random.Random
 
 @Composable
@@ -38,15 +40,16 @@ fun StoresScreen(navController: NavController) {
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(title = "Stores")
     ) {
-        StoresScreenContent { store ->
-            navController.navigate(InfoNavigationScreens.CategoriesRoute(store))
+        StoresScreenContent { source ->
+            navController.navigate(InfoNavigationScreens.ProductsRoute(source = source))
         }
     }
 }
 
 @Composable
 private fun StoresScreenContent(
-    modifier: Modifier = Modifier, goToCategories: (kindOfStore: KindOfStore) -> Unit
+    modifier: Modifier = Modifier,
+    goToCategories: (source: ProductSource) -> Unit
 ) {
     Column(
         modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally
@@ -66,7 +69,7 @@ private fun StoresScreenContent(
 
 @Composable
 private fun StoresMenu(
-    goToStoresList: (kindOfStore: KindOfStore) -> Unit
+    goToStoresList: (source: ProductSource) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier
@@ -80,11 +83,19 @@ private fun StoresMenu(
                     text = setStores()[it].name, clickOnItem = {
                         when (it) {
                             0 -> {
-                                goToStoresList(KindOfStore.FAKE_STORE)
+                                goToStoresList(ProductSource.FAKE_STORE)
                             }
 
                             1 -> {
-                                goToStoresList(KindOfStore.DUMMY_JSON)
+                                goToStoresList(ProductSource.DUMMY_JSON)
+                            }
+
+                            2 -> {
+                                goToStoresList(ProductSource.PLATZI)
+                            }
+
+                            3 -> {
+                                goToStoresList(ProductSource.MY_DUMMY_API)
                             }
                         }
                     })
@@ -94,7 +105,7 @@ private fun StoresMenu(
 }
 
 private fun setStores() = listOf(
-    Store(name = FAKE_STORE), Store(name = DUMMY_JSON)
+    Store(name = FAKE_STORE), Store(name = DUMMY_JSON), Store(name = PLATZY), Store(name = MyDummy)
 )
 
 private fun setAnimation(): Int {

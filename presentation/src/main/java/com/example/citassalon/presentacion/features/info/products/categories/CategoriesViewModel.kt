@@ -35,7 +35,9 @@ sealed class CategoriesEffects {
 
 enum class KindOfStore {
     FAKE_STORE,
-    DUMMY_JSON
+    DUMMY_JSON,
+    PLATZY,
+    MyDummy
 }
 
 @HiltViewModel(assistedFactory = CategoriesViewModelFactory::class)
@@ -60,6 +62,14 @@ class CategoriesViewModel @AssistedInject constructor(
 
             KindOfStore.DUMMY_JSON -> {
                 getCategoriesDummyJson()
+            }
+
+            KindOfStore.PLATZY -> {
+//                getCategoriesPlatzy()
+            }
+
+            KindOfStore.MyDummy -> {
+//                getCategoriesMyDummy()
             }
         }
     }.stateIn(
