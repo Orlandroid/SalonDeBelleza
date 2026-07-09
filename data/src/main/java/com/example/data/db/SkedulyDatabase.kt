@@ -13,7 +13,7 @@ import com.example.domain.entities.db.AppointmentDb
 
 @Database(
     entities = [AppointmentDb::class, ProductDb::class, CategoryDb::class],
-    version = 5,
+    version = 6,
     exportSchema = false
 )
 

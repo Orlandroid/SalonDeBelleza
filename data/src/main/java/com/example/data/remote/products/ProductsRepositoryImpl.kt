@@ -15,4 +15,7 @@ class ProductRepositoryImpl(
             .resolve(source)
             .getProducts()
     }
+
+    override suspend fun getSingleProduct(source: ProductSource, id: Int) = resolver.resolve(source).getSingleProduct(id)
+
 }

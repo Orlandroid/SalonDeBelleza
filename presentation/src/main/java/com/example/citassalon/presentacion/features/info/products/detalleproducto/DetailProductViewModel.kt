@@ -4,8 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.data.di.IoDispatcher
-import com.example.data.remote.fake_store.FakeStoreRepository
 import com.example.data.remote.products.ProductRepository
+import com.example.data.remote.products.commons.ProductSource
 import com.example.domain.entities.remote.products.Product
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -28,7 +28,8 @@ data class ProductsDetailUiState(
 class DetailProductViewModel @AssistedInject constructor(
     private val productsRepository: ProductRepository,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    @Assisted private val productId: Int
+    @Assisted private val productId: Int,
+    @Assisted private val source: ProductSource
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<BaseScreenState<ProductsDetailUiState>> =
@@ -49,8 +50,8 @@ class DetailProductViewModel @AssistedInject constructor(
 
     private fun getSingleProduct(id: Int) {
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
-//            val product = productsRepository.getProducts(id)
-            _state.update { BaseScreenState.OnContent(content = ProductsDetailUiState(product = Product.dummyProduct())) }
+            val product = productsRepository.getSingleProduct(source = source, id = id)
+            _state.update { BaseScreenState.OnContent(content = ProductsDetailUiState(product = product)) }
         }
     }
 }

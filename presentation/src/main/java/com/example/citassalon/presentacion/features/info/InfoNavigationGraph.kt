@@ -37,7 +37,8 @@ fun NavGraphBuilder.infoNavigationGraph(navController: NavHostController) {
             StoresScreen(navController = navController)
         }
         composable<InfoNavigationScreens.BranchesRoute> {
-            val mainViewModel = it.sharedViewModel<AppointmentFlowViewModel>(navController = navController)
+            val mainViewModel =
+                it.sharedViewModel<AppointmentFlowViewModel>(navController = navController)
             mainViewModel.currentFlowBranch = BranchFlow.INFO
             BranchesScreen(
                 navController = navController,
@@ -59,7 +60,11 @@ fun NavGraphBuilder.infoNavigationGraph(navController: NavHostController) {
             typeMap = mapOf(typeOf<FakeStoreProduct>() to CustomNavType.productType)
         ) {
             val arguments = it.toRoute<InfoNavigationScreens.DetailProductRoute>()
-            DetailProductScreen(navController = navController, productId = arguments.productId)
+            DetailProductScreen(
+                navController = navController,
+                productId = arguments.productId,
+                source = arguments.source
+            )
         }
         composable<InfoNavigationScreens.CartRoute> {
             CartScreen(navController = navController)

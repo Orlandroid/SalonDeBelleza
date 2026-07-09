@@ -72,7 +72,7 @@ fun ProductsScreen(
                         }
 
                         is ProductScreenEffects.NavigateToProductDetail -> {
-//                            navController.navigate(DetailProductRoute(it.product.id))
+                            navController.navigate(InfoNavigationScreens.DetailProductRoute(productId = it.product.id, source = it.source))
                         }
 
                         is ProductScreenEffects.ProductSaved -> {

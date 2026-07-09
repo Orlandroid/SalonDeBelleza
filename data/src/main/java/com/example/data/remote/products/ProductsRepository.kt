@@ -8,4 +8,9 @@ interface ProductRepository {
     suspend fun getProducts(
         source: ProductSource
     ): List<Product>
+
+    suspend fun getSingleProduct(
+        source: ProductSource,
+        id: Int
+    ): Product
 }

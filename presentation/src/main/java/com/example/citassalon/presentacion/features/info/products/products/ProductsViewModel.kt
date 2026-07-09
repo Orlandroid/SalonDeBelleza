@@ -5,13 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseScreenState
-import com.example.citassalon.presentacion.features.info.products.products.ProductScreenEffects.NavigateToProductDetail
 import com.example.data.Repository
 import com.example.data.di.IoDispatcher
 import com.example.data.remote.products.ProductRepository
 import com.example.data.remote.products.commons.ProductSource
 import com.example.domain.entities.db.ProductDb
 import com.example.domain.entities.remote.products.Product
+import com.example.domain.mappers.toProductDb
 import com.example.domain.state.isError
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -40,7 +40,8 @@ sealed class ProductScreenEffects {
     data class ProductSaved(val message: String) : ProductScreenEffects()
     data class ProductsDeletedSuccessfully(val message: String) : ProductScreenEffects()
     object NoProductsToDelete : ProductScreenEffects()
-    data class NavigateToProductDetail(val product: Product) : ProductScreenEffects()
+    data class NavigateToProductDetail(val product: Product, val source: ProductSource) :
+        ProductScreenEffects()
 }
 
 data class ProductsUiState(
@@ -86,13 +87,17 @@ class ProductsViewModel @AssistedInject constructor(
 
             is ProductScreenEvents.OnProductClicked -> {
                 viewModelScope.launch {
-                    sendEffect(NavigateToProductDetail(product = event.product))
+                    sendEffect(
+                        ProductScreenEffects.NavigateToProductDetail(
+                            product = event.product,
+                            source = source
+                        )
+                    )
                 }
             }
 
             is ProductScreenEvents.OnAddProduct -> {
-//                insertProduct(event.product.toProductDb())
-                //map to productDb for save the product in the database of products of the cart
+                insertProduct(event.product.toProductDb())
             }
 
             is ProductScreenEvents.OnDeleteAllTheProducts -> {
@@ -116,7 +121,7 @@ class ProductsViewModel @AssistedInject constructor(
 
     fun insertProduct(item: ProductDb) {
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
-            val id = repository.addProduct(item).toInt()
+            val id = repository.addProduct(productDb = item).toInt()
             if (id != NOT_SAVE) {
                 _effects.send(ProductScreenEffects.ProductSaved(context.getString(R.string.product_added)))
             }

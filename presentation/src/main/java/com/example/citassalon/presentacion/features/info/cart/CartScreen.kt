@@ -62,7 +62,7 @@ fun CartScreen(
                 }
 
                 is CartEffects.NavigateToProductDetail -> {
-                    navController.navigate(InfoNavigationScreens.DetailProductRoute(it.product.id))
+                    navController.navigate(InfoNavigationScreens.DetailProductRoute(productId = it.product.id, source = it.source))
                 }
             }
         }
@@ -152,7 +152,7 @@ private fun ItemCart(
             .padding(8.dp),
         shape = RoundedCornerShape(16.dp),
         onClick = {
-            onEvents(CartEvents.OnProductSelect(product))
+//            onEvents(CartEvents.OnProductSelect(product))
         },
         colors = CardDefaults.cardColors(
             containerColor = AlwaysWhite

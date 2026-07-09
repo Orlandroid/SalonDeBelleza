@@ -39,7 +39,7 @@ import com.example.citassalon.presentacion.features.components.ToolbarConfigurat
 import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.theme.AlwaysBlack
 import com.example.citassalon.presentacion.features.theme.Background
-import com.example.data.remote.products.fakestore.FakeStoreProduct
+import com.example.data.remote.products.commons.ProductSource
 import com.example.domain.entities.remote.products.Product
 import com.gowtham.ratingbar.RatingBar
 import com.gowtham.ratingbar.RatingBarStyle
@@ -49,8 +49,9 @@ import com.gowtham.ratingbar.RatingBarStyle
 fun DetailProductScreen(
     navController: NavController,
     productId: Int,
+    source: ProductSource,
     productDetailViewModel: DetailProductViewModel = hiltViewModel(
-        creationCallback = { factory: ProductDetailViewModelFactory -> factory.create(productId = productId) })
+        creationCallback = { factory: ProductDetailViewModelFactory -> factory.create(source = source, productId = productId) })
 ) {
     val uiState = productDetailViewModel.state.collectAsStateWithLifecycle()
     when (uiState.value) {

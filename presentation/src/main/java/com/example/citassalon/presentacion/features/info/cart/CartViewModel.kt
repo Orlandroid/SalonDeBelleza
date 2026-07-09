@@ -8,6 +8,7 @@ import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.data.Repository
 import com.example.data.di.IoDispatcher
 import com.example.data.preferences.LoginPreferences
+import com.example.data.remote.products.commons.ProductSource
 import com.example.domain.entities.remote.products.Product
 import com.example.domain.entities.toProduct
 import com.example.domain.state.isSuccess
@@ -28,11 +29,12 @@ import javax.inject.Inject
 
 sealed class CartEffects {
     data class OnProductsDeleted(val message: String) : CartEffects()
-    data class NavigateToProductDetail(val product: Product) : CartEffects()
+    data class NavigateToProductDetail(val source: ProductSource, val product: Product) :
+        CartEffects()
 }
 
 sealed class CartEvents {
-    data class OnProductSelect(val product: Product) : CartEvents()
+    data class OnProductSelect(val source: ProductSource, val product: Product) : CartEvents()
     object OnDeleteIconClicked : CartEvents()
     object OnAccept : CartEvents()
     object OnCancelPressed : CartEvents()
@@ -89,7 +91,12 @@ class CartViewModel @Inject constructor(
 
             is CartEvents.OnProductSelect -> {
                 viewModelScope.launch {
-                    _effects.send(CartEffects.NavigateToProductDetail(event.product))
+                    _effects.send(
+                        CartEffects.NavigateToProductDetail(
+                            source = event.source,
+                            product = event.product
+                        )
+                    )
                 }
             }
 

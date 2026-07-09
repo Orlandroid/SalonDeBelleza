@@ -7,4 +7,7 @@ class DummyJsonProductProvider @Inject constructor(
     private val api: DummyJsonApiV2
 ) : ProductProvider {
     override suspend fun getProducts() = api.getProducts().toDomain()
+
+    override suspend fun getSingleProduct(id: Int) = api.getProducts().toDomain().first { it.id == id }
+
 }
