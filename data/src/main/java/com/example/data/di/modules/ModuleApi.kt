@@ -4,6 +4,10 @@ package com.example.data.di.modules
 import com.example.data.api.DummyJsonApi
 import com.example.data.api.FakeStoreService
 import com.example.data.api.WebServices
+import com.example.data.di.FakeStoreRetrofit
+import com.example.data.di.MyDummyJson
+import com.example.data.di.MyDummyRetrofit
+import com.example.data.di.PlatzyRetrofit
 import com.example.data.local.RoomLocalDataSource
 import com.example.data.remote.RemoteDataSourceImpl
 import com.example.data.remote.products.dummyjson.DummyJsonApiV2
@@ -46,13 +50,16 @@ object ModuleApi {
     private const val BASE_URL_FAKE_STORE = "https://fakestoreapi.com/"
     private const val BASE_URL_DUMMY_JSON = "https://dummyjson.com/"
     private const val BASE_URL_PLATZY = "https://api.escuelajs.co/"
-    private const val BASE_URL_MY_DUMMY_JSON = "https://api.mydummyapi.com/categories/"
+    private const val BASE_URL_MY_DUMMY = "https://api.mydummyapi.com/categories/"
     private const val BASE_URL =
         "https://raw.githubusercontent.com/Orlandroid/Resources_Repos/main/fakesResponsesApis/"
-    private const val RETROFIT_FAKE_STORE = "FakeStore"
     private const val RETROFIT_DUMMY_JSON = "DummyJson"
-    private const val RETROFIT_PLATZY = "Platzy"
-    private const val RETROFIT_MY_DUMMY_JSON = "MyDummyJson"
+    private const val CONNECT_TIMEOUT = 60L
+    private const val READ_TIMEOUT = 60L
+    private const val WRITE_TIMEOUT = 30L
+
+    private inline fun <reified T> Retrofit.createApi(): T =
+        create(T::class.java)
 
 
     //Todo add bulid config for only intercept in debug mode
@@ -62,43 +69,50 @@ object ModuleApi {
         val httpLoggingInterceptor = HttpLoggingInterceptor().apply {
             level = HttpLoggingInterceptor.Level.BODY
         }
-        return OkHttpClient.Builder().connectTimeout(60, TimeUnit.SECONDS)
-            .readTimeout(60, TimeUnit.SECONDS).writeTimeout(30, TimeUnit.SECONDS)
+        return OkHttpClient.Builder().connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+            .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
+            .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
             .addInterceptor(httpLoggingInterceptor).retryOnConnectionFailure(true).build()
     }
 
-    private fun createGenericRetrofit(okHttpClient: OkHttpClient, baseUrl: String) =
+    private fun createRetrofit(okHttpClient: OkHttpClient, baseUrl: String) =
         Retrofit.Builder().baseUrl(baseUrl).addConverterFactory(GsonConverterFactory.create())
             .client(okHttpClient).build()
 
     @Singleton
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
-        createGenericRetrofit(okHttpClient, BASE_URL)
+        createRetrofit(okHttpClient, BASE_URL)
 
     @Singleton
     @Provides
-    @Named(RETROFIT_FAKE_STORE)
+    @FakeStoreRetrofit
     fun provideRetrofitFakeStore(okHttpClient: OkHttpClient): Retrofit =
-        createGenericRetrofit(okHttpClient, BASE_URL_FAKE_STORE)
+        createRetrofit(okHttpClient, BASE_URL_FAKE_STORE)
 
     @Singleton
     @Provides
     @Named(RETROFIT_DUMMY_JSON)
     fun provideRetroDummyJson(okHttpClient: OkHttpClient): Retrofit =
-        createGenericRetrofit(okHttpClient, BASE_URL_DUMMY_JSON)
+        createRetrofit(okHttpClient, BASE_URL_DUMMY_JSON)
 
     @Singleton
     @Provides
-    @Named(RETROFIT_PLATZY)
+    @PlatzyRetrofit
     fun provideRetrofitPlatzy(okHttpClient: OkHttpClient): Retrofit =
-        createGenericRetrofit(okHttpClient, BASE_URL_PLATZY)
+        createRetrofit(okHttpClient, BASE_URL_PLATZY)
 
     @Singleton
     @Provides
-    @Named(RETROFIT_MY_DUMMY_JSON)
+    @MyDummyRetrofit
+    fun provideRetroMyDummy(okHttpClient: OkHttpClient): Retrofit =
+        createRetrofit(okHttpClient, BASE_URL_MY_DUMMY)
+
+    @Singleton
+    @Provides
+    @MyDummyJson
     fun provideRetroMyDummyJson(okHttpClient: OkHttpClient): Retrofit =
-        createGenericRetrofit(okHttpClient, BASE_URL_MY_DUMMY_JSON)
+        createRetrofit(okHttpClient, BASE_URL_DUMMY_JSON)
 
     @Singleton
     @Provides
@@ -106,32 +120,39 @@ object ModuleApi {
 
     @Singleton
     @Provides
-    fun provideDummyJsonApi(@Named(RETROFIT_DUMMY_JSON) retrofit: Retrofit) =
-        retrofit.create(DummyJsonApi::class.java)
+    fun provideDummyJsonApi(
+        @MyDummyJson retrofit: Retrofit
+    ) =
+        retrofit.createApi<DummyJsonApi>()
 
     @Singleton
     @Provides
-    fun provideFakeStoreService(@Named(RETROFIT_FAKE_STORE) retrofit: Retrofit) =
-        retrofit.create(FakeStoreService::class.java)
+    fun provideDummyJsonApiV2(
+        @MyDummyJson retrofit: Retrofit
+    ) =
+        retrofit.createApi<DummyJsonApiV2>()
 
     @Singleton
     @Provides
-    fun provideDummyJsonApiV2(@Named(RETROFIT_DUMMY_JSON) retrofit: Retrofit) =
-        retrofit.create(DummyJsonApiV2::class.java)
+    fun provideFakeStoreService(
+        @FakeStoreRetrofit retrofit: Retrofit
+    ) =
+        retrofit.createApi<FakeStoreService>()
+
 
     @Singleton
     @Provides
-    fun provideFakeStoreApi(@Named(RETROFIT_FAKE_STORE) retrofit: Retrofit) =
-        retrofit.create(FakeStoreApi::class.java)
+    fun provideFakeStoreApi(@FakeStoreRetrofit retrofit: Retrofit) =
+        retrofit.createApi<FakeStoreApi>()
 
     @Singleton
     @Provides
-    fun provideMyDummyApi(@Named(RETROFIT_MY_DUMMY_JSON) retrofit: Retrofit) =
-        retrofit.create(MyDummyApi::class.java)
+    fun provideMyDummyApi(@MyDummyRetrofit retrofit: Retrofit) =
+        retrofit.createApi<MyDummyApi>()
 
     @Singleton
     @Provides
-    fun providePlatzyApi(@Named(RETROFIT_PLATZY) retrofit: Retrofit) =
+    fun providePlatzyApi(@PlatzyRetrofit retrofit: Retrofit) =
         retrofit.create(PlatzyApi::class.java)
 
 
