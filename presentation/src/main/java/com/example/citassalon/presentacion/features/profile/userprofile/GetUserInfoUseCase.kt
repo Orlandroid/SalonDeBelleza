@@ -27,7 +27,11 @@ class GetUserInfoUseCase @Inject constructor(
         }
         val user = userResult.getResultOrNull() ?: return ApiResult.Error("User not found")
         val money = loginPreferences.getUserMoney().toString()
-        val image = userRepository.getUserImage().getContent()
+        var image: String? = null
+        val imageResult = userRepository.getUserImage()
+        if (imageResult.isSuccess()) {
+            image = imageResult.getContent()
+        }
         val nameAndPhone = userRepository.getNameAndPhone()
         var name = ""
         var phone = ""

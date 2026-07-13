@@ -13,6 +13,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
@@ -36,10 +37,12 @@ import com.example.data.remote.products.commons.product.toCategorySource
 import kotlin.random.Random
 
 @Composable
-fun StoresScreen(navController: NavController) {
+fun StoresScreen(
+    navController: NavController
+) {
     BaseComposeScreen(
         navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(title = "Stores")
+        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.stores))
     ) {
         StoresScreenContent { source ->
             if (source.supportsCategories) {
@@ -105,7 +108,8 @@ private fun StoresMenu(
                                 goToStoresList(ProductSource.MY_DUMMY_API)
                             }
                         }
-                    })
+                    }
+                )
             )
         }
     }

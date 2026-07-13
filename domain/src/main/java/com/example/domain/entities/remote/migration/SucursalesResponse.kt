@@ -53,10 +53,10 @@ data class Service(
 
         fun mockListServices() = listOf(
             mockService(),
-            mockService(),
-            mockService(),
-            mockService(),
-            mockService()
+            mockService().copy(id = "1"),
+            mockService().copy(id = "2"),
+            mockService().copy(id = "3"),
+            mockService().copy(id = "4")
         )
     }
 }

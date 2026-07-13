@@ -186,4 +186,5 @@
     <string name="error_invalid_user_or_password">Error invalid user or password"</string>
     <string name="personal_information">Personal information</string>
     <string name="cd_establishment_image">Establishment image</string>
+    <string name="stores">Store</string>
 </resources>
