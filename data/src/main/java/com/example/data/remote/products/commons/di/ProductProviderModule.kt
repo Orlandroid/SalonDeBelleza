@@ -1,9 +1,9 @@
 package com.example.data.remote.products.commons.di
 
 
-import com.example.data.remote.products.commons.ProductProvider
-import com.example.data.remote.products.commons.ProductProviderResolver
-import com.example.data.remote.products.commons.ProductSource
+import com.example.data.remote.products.commons.product.ProductProvider
+import com.example.data.remote.products.commons.product.ProductProviderResolver
+import com.example.data.remote.products.commons.product.ProductSource
 import com.example.data.remote.products.dummyjson.DummyJsonApiV2
 import com.example.data.remote.products.dummyjson.DummyJsonProductProvider
 import com.example.data.remote.products.fakestore.FakeStoreApi

@@ -1,4 +1,4 @@
-package com.example.data.remote.products.commons
+package com.example.data.remote.products.commons.product
 
 import com.example.data.remote.products.dummyjson.DummyJsonProductProvider
 import com.example.data.remote.products.fakestore.FakeStoreProductProvider

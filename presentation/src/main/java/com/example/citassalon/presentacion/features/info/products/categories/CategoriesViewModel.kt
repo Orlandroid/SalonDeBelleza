@@ -4,9 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.data.di.IoDispatcher
-import com.example.data.remote.dummy_json.DummyJsonRepository
-import com.example.data.remote.fake_store.FakeStoreRepository
-import com.example.data.remote.products.commons.ProductSource
+import com.example.data.remote.products.CategoryRepository
+import com.example.data.remote.products.commons.product.ProductSource
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -33,19 +32,11 @@ sealed class CategoriesEffects {
     data class NavigateToProducts(val source: ProductSource) : CategoriesEffects()
 }
 
-enum class KindOfStore {
-    FAKE_STORE,
-    DUMMY_JSON,
-    PLATZY,
-    MyDummy
-}
-
 @HiltViewModel(assistedFactory = CategoriesViewModelFactory::class)
 class CategoriesViewModel @AssistedInject constructor(
-    private val fakeStoreRepository: FakeStoreRepository,
-    private val dummyJsonRepository: DummyJsonRepository,
+    private val categoryRepository: CategoryRepository,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    @Assisted private val store: KindOfStore
+    @Assisted private val source: ProductSource
 ) : ViewModel() {
 
 
@@ -55,23 +46,7 @@ class CategoriesViewModel @AssistedInject constructor(
     private val _state: MutableStateFlow<BaseScreenState<CategoriesUiState>> =
         MutableStateFlow(BaseScreenState.OnLoading)
     val state = _state.onStart {
-        when (store) {
-            KindOfStore.FAKE_STORE -> {
-                getCategoriesFakeStore()
-            }
-
-            KindOfStore.DUMMY_JSON -> {
-                getCategoriesDummyJson()
-            }
-
-            KindOfStore.PLATZY -> {
-//                getCategoriesPlatzy()
-            }
-
-            KindOfStore.MyDummy -> {
-//                getCategoriesMyDummy()
-            }
-        }
+        getCategories(source)
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
@@ -92,16 +67,10 @@ class CategoriesViewModel @AssistedInject constructor(
         _state.update { BaseScreenState.OnError(error = exception) }
     }
 
-    private fun getCategoriesFakeStore() =
+    private fun getCategories(source: ProductSource) =
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
-            val categories = fakeStoreRepository.getCategories()
-            _state.update { BaseScreenState.OnContent(content = CategoriesUiState(categories)) }
-        }
-
-    private fun getCategoriesDummyJson() =
-        viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
-            val categories = dummyJsonRepository.getCategories().map { it.name }
-            _state.update { BaseScreenState.OnContent(content = CategoriesUiState(categories)) }
+            val categories = categoryRepository.getCategories(source)
+            _state.update { BaseScreenState.OnContent(content = CategoriesUiState(categories.map { it.name })) }
         }
 
 }

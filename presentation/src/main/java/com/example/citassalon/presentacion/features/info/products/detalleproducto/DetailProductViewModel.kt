@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.data.di.IoDispatcher
 import com.example.data.remote.products.ProductRepository
-import com.example.data.remote.products.commons.ProductSource
+import com.example.data.remote.products.commons.product.ProductSource
 import com.example.domain.entities.remote.products.Product
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject

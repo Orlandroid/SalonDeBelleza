@@ -39,7 +39,7 @@ import com.example.citassalon.presentacion.features.components.ToolbarConfigurat
 import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.theme.AlwaysBlack
 import com.example.citassalon.presentacion.features.theme.Background
-import com.example.data.remote.products.commons.ProductSource
+import com.example.data.remote.products.commons.product.ProductSource
 import com.example.domain.entities.remote.products.Product
 import com.gowtham.ratingbar.RatingBar
 import com.gowtham.ratingbar.RatingBarStyle

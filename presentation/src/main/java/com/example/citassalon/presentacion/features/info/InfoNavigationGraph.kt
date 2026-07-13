@@ -49,7 +49,7 @@ fun NavGraphBuilder.infoNavigationGraph(navController: NavHostController) {
             val arguments = it.toRoute<InfoNavigationScreens.CategoriesRoute>()
             CategoriesScreen(
                 navController = navController,
-                kindOfStore = arguments.kindOfStore
+                source = arguments.source
             )
         }
         composable<InfoNavigationScreens.ProductsRoute> {

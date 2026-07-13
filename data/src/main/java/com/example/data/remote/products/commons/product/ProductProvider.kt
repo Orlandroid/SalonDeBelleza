@@ -1,4 +1,4 @@
-package com.example.data.remote.products.commons
+package com.example.data.remote.products.commons.product
 
 import com.example.domain.entities.remote.products.Product
 

@@ -32,13 +32,13 @@ import com.example.citassalon.presentacion.features.components.ToolbarConfigurat
 import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
 import com.example.citassalon.presentacion.features.theme.Background
+import com.example.data.remote.products.commons.product.ProductSource
 import kotlinx.coroutines.flow.collectLatest
 
 const val FAKE_STORE = "Fake store"
 const val DUMMY_JSON = "DummyJSON"
 const val PLATZY = "Platzy"
 const val MyDummy = "MyDummy"
-
 
 
 data class Store(
@@ -48,9 +48,9 @@ data class Store(
 @Composable
 fun CategoriesScreen(
     navController: NavController,
-    kindOfStore: KindOfStore,
+    source: ProductSource,
     viewmodel: CategoriesViewModel = hiltViewModel(
-        creationCallback = { factory: CategoriesViewModelFactory -> factory.create(kindOfStore) })
+        creationCallback = { factory: CategoriesViewModelFactory -> factory.create(source) })
 ) {
     val uiState = viewmodel.state.collectAsStateWithLifecycle()
     when (uiState.value) {

@@ -8,7 +8,7 @@ import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.data.Repository
 import com.example.data.di.IoDispatcher
 import com.example.data.remote.products.ProductRepository
-import com.example.data.remote.products.commons.ProductSource
+import com.example.data.remote.products.commons.product.ProductSource
 import com.example.domain.entities.db.ProductDb
 import com.example.domain.entities.remote.products.Product
 import com.example.domain.mappers.toProductDb

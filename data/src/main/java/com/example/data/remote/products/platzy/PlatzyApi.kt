@@ -8,6 +8,9 @@ interface PlatzyApi {
     @GET("api/v1/products")
     suspend fun getProducts(): List<ProductPlatzi>
 
-    @GET("products/{id}")
+    @GET("api/v1/products/{id}")
     suspend fun getSingleProduct(@Path("id")id: Int): ProductPlatzi
+
+    @GET("api/v1/categories")
+    suspend fun getCategories(): List<PlaztlyCategory>
 }

@@ -1,6 +1,6 @@
 package com.example.data.remote.products.mydummyapi
 
-import com.example.data.remote.products.commons.ProductProvider
+import com.example.data.remote.products.commons.product.ProductProvider
 import javax.inject.Inject
 
 class MyDummyProductProvider @Inject constructor(
