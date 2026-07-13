@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.data.di.IoDispatcher
 import com.example.data.remote.products.CategoryRepository
+import com.example.data.remote.products.commons.category.CategorySource
 import com.example.data.remote.products.commons.product.ProductSource
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -36,7 +37,7 @@ sealed class CategoriesEffects {
 class CategoriesViewModel @AssistedInject constructor(
     private val categoryRepository: CategoryRepository,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    @Assisted private val source: ProductSource
+    @Assisted private val source: CategorySource
 ) : ViewModel() {
 
 
@@ -67,7 +68,7 @@ class CategoriesViewModel @AssistedInject constructor(
         _state.update { BaseScreenState.OnError(error = exception) }
     }
 
-    private fun getCategories(source: ProductSource) =
+    private fun getCategories(source: CategorySource) =
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
             val categories = categoryRepository.getCategories(source)
             _state.update { BaseScreenState.OnContent(content = CategoriesUiState(categories.map { it.name })) }

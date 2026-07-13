@@ -32,6 +32,7 @@ import com.example.citassalon.presentacion.features.components.ToolbarConfigurat
 import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
 import com.example.citassalon.presentacion.features.theme.Background
+import com.example.data.remote.products.commons.category.CategorySource
 import com.example.data.remote.products.commons.product.ProductSource
 import kotlinx.coroutines.flow.collectLatest
 
@@ -48,7 +49,7 @@ data class Store(
 @Composable
 fun CategoriesScreen(
     navController: NavController,
-    source: ProductSource,
+    source: CategorySource,
     viewmodel: CategoriesViewModel = hiltViewModel(
         creationCallback = { factory: CategoriesViewModelFactory -> factory.create(source) })
 ) {

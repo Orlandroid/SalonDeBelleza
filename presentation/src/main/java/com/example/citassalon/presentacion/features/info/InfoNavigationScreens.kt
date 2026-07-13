@@ -1,5 +1,6 @@
 package com.example.citassalon.presentacion.features.info
 
+import com.example.data.remote.products.commons.category.CategorySource
 import com.example.data.remote.products.commons.product.ProductSource
 import kotlinx.serialization.Serializable
 
@@ -17,7 +18,7 @@ sealed class InfoNavigationScreens {
     data object BranchInfoRoute
 
     @Serializable
-    data class CategoriesRoute(val source: ProductSource)
+    data class CategoriesRoute(val source: CategorySource)
 
     @Serializable
     data class ProductsRoute(val source: ProductSource)

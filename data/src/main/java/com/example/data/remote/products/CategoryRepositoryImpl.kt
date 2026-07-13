@@ -1,11 +1,12 @@
 package com.example.data.remote.products
 
-import com.example.data.remote.products.commons.category.CategoryProvider
-import com.example.data.remote.products.commons.product.ProductSource
+import com.example.data.remote.products.commons.category.CategoryProviderResolver
+import com.example.data.remote.products.commons.category.CategorySource
 
 class CategoryRepositoryImpl(
-    private val categoryResolver: CategoryProvider
+    private val categoryResolver: CategoryProviderResolver
 ) : CategoryRepository {
 
-    override suspend fun getCategories(source: ProductSource) = categoryResolver.getCategories()
+    override suspend fun getCategories(source: CategorySource) =
+        categoryResolver.resolve(source = source).getCategories()
 }

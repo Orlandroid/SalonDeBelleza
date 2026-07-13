@@ -19,9 +19,8 @@ import com.example.data.remote.products.CategoryRepository
 import com.example.data.remote.products.CategoryRepositoryImpl
 import com.example.data.remote.products.ProductRepository
 import com.example.data.remote.products.ProductRepositoryImpl
-import com.example.data.remote.products.commons.category.CategoryProvider
+import com.example.data.remote.products.commons.category.CategoryProviderResolver
 import com.example.data.remote.products.commons.product.ProductProviderResolver
-import com.example.data.remote.products.platzy.PlatzyCategoryProvider
 import com.example.data.remote.user.UserRepository
 import com.example.data.remote.user.UserRepositoryImpl
 import com.example.domain.LocalDataSource
@@ -94,7 +93,7 @@ object ModuleRepository {
     @Singleton
     @Provides
     fun provideCategoriesRepository(
-        categoryResolver: PlatzyCategoryProvider
+        categoryResolver: CategoryProviderResolver
     ): CategoryRepository =
         CategoryRepositoryImpl(categoryResolver = categoryResolver)
 

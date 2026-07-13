@@ -32,6 +32,7 @@ import com.example.citassalon.presentacion.features.info.products.categories.MyD
 import com.example.citassalon.presentacion.features.info.products.categories.PLATZY
 import com.example.citassalon.presentacion.features.info.products.categories.Store
 import com.example.data.remote.products.commons.product.ProductSource
+import com.example.data.remote.products.commons.product.toCategorySource
 import kotlin.random.Random
 
 @Composable
@@ -42,7 +43,9 @@ fun StoresScreen(navController: NavController) {
     ) {
         StoresScreenContent { source ->
             if (source.supportsCategories) {
-                navController.navigate(InfoNavigationScreens.CategoriesRoute(source = source))
+                source.toCategorySource()?.let { categorySource ->
+                    navController.navigate(InfoNavigationScreens.CategoriesRoute(source = categorySource))
+                }
             } else {
                 navController.navigate(InfoNavigationScreens.ProductsRoute(source = source))
             }
