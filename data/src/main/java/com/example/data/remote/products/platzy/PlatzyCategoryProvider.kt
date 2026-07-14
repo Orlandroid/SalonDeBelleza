@@ -16,6 +16,7 @@ class PlatzyCategoryProvider @Inject constructor(
         )
     }
 
-    override suspend fun getProductsByCategory(category: String): List<Product> = emptyList()
+    override suspend fun getProductsByCategory(category: String): List<Product> =
+        api.getProductsByCategory(category).map { it.toDomain() }
 
 }

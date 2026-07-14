@@ -33,6 +33,7 @@ import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.data.remote.products.commons.category.CategorySource
+import com.example.domain.entities.remote.products.Category
 import kotlinx.coroutines.flow.collectLatest
 
 const val FAKE_STORE = "Fake store"
@@ -95,7 +96,7 @@ fun CategoriesScreen(
 @Composable
 private fun CategoriesScreenContent(
     modifier: Modifier = Modifier,
-    categories: List<String>,
+    categories: List<Category>,
     onEvent: (event: CategoriesEvents) -> Unit
 ) {
     Column(
@@ -121,17 +122,17 @@ private fun CategoriesScreenContent(
 
 @Composable
 private fun Categories(
-    categories: List<String>,
+    categories: List<Category>,
     goToProductsScreen: (category: String) -> Unit
 ) {
     LazyColumn {
 
-        items(items = categories, key = { it }) { category ->
+        items(items = categories, key = { it.id }) { category ->
             TextWithArrow(
                 config = TextWithArrowConfig(
-                    text = category,
+                    text = category.name,
                     clickOnItem = {
-                        goToProductsScreen(category)
+                        goToProductsScreen(category.name)
                     }
                 )
             )
@@ -146,9 +147,9 @@ private fun Categories(
 private fun CategoriesScreenContentPreview() {
     CategoriesScreenContent(
         categories = listOf(
-            "electronics",
-            "jewelery",
-            "men,s clothing"
+            Category(id = "0", name = "One"),
+            Category(id = "1", name = "One"),
+            Category(id = "2", name = "One")
         ),
         onEvent = {}
     )

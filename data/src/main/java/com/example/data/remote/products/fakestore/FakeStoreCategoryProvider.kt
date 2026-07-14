@@ -2,7 +2,6 @@ package com.example.data.remote.products.fakestore
 
 import com.example.data.remote.products.commons.category.CategoryProvider
 import com.example.domain.entities.remote.products.Category
-import com.example.domain.entities.remote.products.Product
 import javax.inject.Inject
 
 

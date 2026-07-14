@@ -8,6 +8,7 @@ import com.example.data.remote.products.CategoryRepository
 import com.example.data.remote.products.commons.category.CategorySource
 import com.example.data.remote.products.commons.category.toProductSource
 import com.example.data.remote.products.commons.product.ProductSource
+import com.example.domain.entities.remote.products.Category
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -23,7 +24,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 data class CategoriesUiState(
-    val categories: List<String> = emptyList()
+    val categories: List<Category> = emptyList()
 )
 
 sealed class CategoriesEvents {
@@ -80,7 +81,16 @@ class CategoriesViewModel @AssistedInject constructor(
     private fun getCategories(source: CategorySource) =
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
             val categories = categoryRepository.getCategories(source)
-            _state.update { BaseScreenState.OnContent(content = CategoriesUiState(categories.map { it.name })) }
+            _state.update {
+                BaseScreenState.OnContent(content = CategoriesUiState(categories.map {
+                    Category(
+                        id = it.id,
+                        name = it.name
+                    )
+                }
+                )
+                )
+            }
         }
 
 }

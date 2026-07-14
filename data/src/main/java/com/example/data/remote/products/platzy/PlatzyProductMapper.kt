@@ -9,6 +9,7 @@ fun ProductPlatzi.toDomain(): Product {
         title = title,
         description = description,
         price = price.toDouble(),
-        image = images.firstOrNull()
+        image = images.firstOrNull(),
+        category = category.name
     )
 }
