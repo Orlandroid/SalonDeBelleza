@@ -6,6 +6,7 @@ import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.data.di.IoDispatcher
 import com.example.data.remote.products.CategoryRepository
 import com.example.data.remote.products.commons.category.CategorySource
+import com.example.data.remote.products.commons.category.toProductSource
 import com.example.data.remote.products.commons.product.ProductSource
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -26,11 +27,14 @@ data class CategoriesUiState(
 )
 
 sealed class CategoriesEvents {
-    data class OnCategoryClicked(val source: ProductSource) : CategoriesEvents()
+    data class OnCategoryClicked(val category: String) : CategoriesEvents()
 }
 
 sealed class CategoriesEffects {
-    data class NavigateToProducts(val source: ProductSource) : CategoriesEffects()
+    data class NavigateToProducts(
+        val source: ProductSource,
+        val category: String
+    ) : CategoriesEffects()
 }
 
 @HiltViewModel(assistedFactory = CategoriesViewModelFactory::class)
@@ -58,7 +62,12 @@ class CategoriesViewModel @AssistedInject constructor(
         when (event) {
             is CategoriesEvents.OnCategoryClicked -> {
                 viewModelScope.launch {
-                    _effects.send(CategoriesEffects.NavigateToProducts(event.source))
+                    _effects.send(
+                        CategoriesEffects.NavigateToProducts(
+                            source = source.toProductSource(),
+                            category = event.category
+                        )
+                    )
                 }
             }
         }

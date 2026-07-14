@@ -13,4 +13,7 @@ interface FakeStoreApi {
 
     @GET("products/categories")
     suspend fun getCategories(): List<String>
+
+    @GET("/products/category/{categoria}")
+    suspend fun getProducts(@Path("categoria") categoria: String): List<FakeStoreProduct>
 }

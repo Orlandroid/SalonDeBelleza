@@ -1,6 +1,5 @@
 package com.example.data.remote.products
 
-import com.example.data.remote.products.commons.category.CategoryProvider
 import com.example.data.remote.products.commons.product.ProductProviderResolver
 import com.example.data.remote.products.commons.product.ProductSource
 import com.example.domain.entities.remote.products.Product

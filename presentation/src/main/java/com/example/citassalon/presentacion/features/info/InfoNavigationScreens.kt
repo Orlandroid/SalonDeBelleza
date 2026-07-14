@@ -21,7 +21,7 @@ sealed class InfoNavigationScreens {
     data class CategoriesRoute(val source: CategorySource)
 
     @Serializable
-    data class ProductsRoute(val source: ProductSource)
+    data class ProductsRoute(val source: ProductSource, val category: String? = null)
 
     @Serializable
     data class DetailProductRoute(val source: ProductSource, val productId: Int)

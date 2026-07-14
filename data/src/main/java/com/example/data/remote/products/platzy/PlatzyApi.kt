@@ -13,4 +13,7 @@ interface PlatzyApi {
 
     @GET("api/v1/categories")
     suspend fun getCategories(): List<PlaztlyCategory>
+
+    @GET("api/v1/products")
+    suspend fun getProductByCategory(): List<ProductPlatzi>
 }

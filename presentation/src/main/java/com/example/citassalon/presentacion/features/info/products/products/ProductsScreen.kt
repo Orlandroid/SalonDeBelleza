@@ -56,9 +56,16 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun ProductsScreen(
     navController: NavController,
+    category: String? = null,
     source: ProductSource,
     productsViewModel: ProductsViewModel = hiltViewModel(
-        creationCallback = { factory: ProductsViewModelFactory -> factory.create(source) })
+        creationCallback = { factory: ProductsViewModelFactory ->
+            factory.create(
+                source = source,
+                category = category
+            )
+        }
+    )
 ) {
     val uiState by productsViewModel.state.collectAsStateWithLifecycle()
     val snackBarHostState = remember { SnackbarHostState() }
@@ -72,7 +79,12 @@ fun ProductsScreen(
                         }
 
                         is ProductScreenEffects.NavigateToProductDetail -> {
-                            navController.navigate(InfoNavigationScreens.DetailProductRoute(productId = it.product.id, source = it.source))
+                            navController.navigate(
+                                InfoNavigationScreens.DetailProductRoute(
+                                    productId = it.product.id,
+                                    source = it.source
+                                )
+                            )
                         }
 
                         is ProductScreenEffects.ProductSaved -> {

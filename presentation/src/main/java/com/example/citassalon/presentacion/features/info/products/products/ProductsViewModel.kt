@@ -7,8 +7,10 @@ import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.data.Repository
 import com.example.data.di.IoDispatcher
+import com.example.data.remote.products.CategoryRepository
 import com.example.data.remote.products.ProductRepository
 import com.example.data.remote.products.commons.product.ProductSource
+import com.example.data.remote.products.commons.product.toCategorySource
 import com.example.domain.entities.db.ProductDb
 import com.example.domain.entities.remote.products.Product
 import com.example.domain.mappers.toProductDb
@@ -52,10 +54,12 @@ data class ProductsUiState(
 @HiltViewModel(assistedFactory = ProductsViewModelFactory::class)
 class ProductsViewModel @AssistedInject constructor(
     private val productRepository: ProductRepository,
+    private val categoryRepository: CategoryRepository,
     @param:ApplicationContext private val context: Context,
     private val repository: Repository,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    @Assisted private val source: ProductSource
+    @Assisted private val source: ProductSource,
+    @Assisted private val category: String? = null
 ) : ViewModel() {
 
     companion object {
@@ -65,7 +69,11 @@ class ProductsViewModel @AssistedInject constructor(
     private val _state: MutableStateFlow<BaseScreenState<ProductsUiState>> =
         MutableStateFlow(BaseScreenState.OnLoading)
     val state = _state.onStart {
-        getProducts(source)
+        if (category.isNullOrEmpty()) {
+            getProducts()
+        } else {
+            getProductByCategory()
+        }
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
@@ -112,9 +120,21 @@ class ProductsViewModel @AssistedInject constructor(
     }
 
 
-    fun getProducts(source: ProductSource) {
+    fun getProducts() {
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
             val response = productRepository.getProducts(source)
+            _state.update { BaseScreenState.OnContent(content = ProductsUiState(response)) }
+        }
+    }
+
+    fun getProductByCategory() {
+        val categorySource = source.toCategorySource() ?: return
+        if (category == null) return
+        viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
+            val response = categoryRepository.getProductByCategory(
+                source = categorySource,
+                category = category
+            )
             _state.update { BaseScreenState.OnContent(content = ProductsUiState(response)) }
         }
     }

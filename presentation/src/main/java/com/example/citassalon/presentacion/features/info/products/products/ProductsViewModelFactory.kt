@@ -6,5 +6,8 @@ import dagger.assisted.AssistedFactory
 
 @AssistedFactory
 interface ProductsViewModelFactory {
-    fun create(source: ProductSource): ProductsViewModel
+    fun create(
+        source: ProductSource,
+        category: String? = null
+    ): ProductsViewModel
 }

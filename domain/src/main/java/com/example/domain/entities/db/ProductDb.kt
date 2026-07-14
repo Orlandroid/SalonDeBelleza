@@ -15,17 +15,4 @@ data class ProductDb(
     val rate: Double,
     @ColumnInfo(defaultValue = "")
     val userUi: String
-) {
-
-    companion object {
-        private fun mockProductDb() = ProductDb(
-            id = 1,
-            title = "Producto 1",
-            price = 100.00,
-            description = "Description",
-            image = "",
-            rate = 4.0,
-            userUi = ""
-        )
-    }
-}
+)

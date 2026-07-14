@@ -10,6 +10,7 @@ fun FakeStoreProduct.toDomain(): Product {
         description = description,
         price = price,
         rating = rating.rate,
-        image = image
+        image = image,
+        category = category
     )
 }

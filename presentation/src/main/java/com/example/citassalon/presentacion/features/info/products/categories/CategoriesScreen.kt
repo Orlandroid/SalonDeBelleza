@@ -33,7 +33,6 @@ import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.data.remote.products.commons.category.CategorySource
-import com.example.data.remote.products.commons.product.ProductSource
 import kotlinx.coroutines.flow.collectLatest
 
 const val FAKE_STORE = "Fake store"
@@ -49,9 +48,9 @@ data class Store(
 @Composable
 fun CategoriesScreen(
     navController: NavController,
-    source: CategorySource,
+    categorySource: CategorySource,
     viewmodel: CategoriesViewModel = hiltViewModel(
-        creationCallback = { factory: CategoriesViewModelFactory -> factory.create(source) })
+        creationCallback = { factory: CategoriesViewModelFactory -> factory.create(categorySource) })
 ) {
     val uiState = viewmodel.state.collectAsStateWithLifecycle()
     when (uiState.value) {
@@ -64,7 +63,12 @@ fun CategoriesScreen(
                 viewmodel.effects.collectLatest {
                     when (it) {
                         is CategoriesEffects.NavigateToProducts -> {
-                            navController.navigate(InfoNavigationScreens.ProductsRoute(source = it.source))
+                            navController.navigate(
+                                InfoNavigationScreens.ProductsRoute(
+                                    source = it.source,
+                                    category = it.category
+                                )
+                            )
                         }
                     }
                 }
@@ -76,7 +80,6 @@ fun CategoriesScreen(
                 uiState.value.getContentOrNull()?.let { categoriesUiState ->
                     CategoriesScreenContent(
                         categories = categoriesUiState.categories,
-                        store = Store(FAKE_STORE),
                         onEvent = viewmodel::onEvents
                     )
                 }
@@ -93,7 +96,6 @@ fun CategoriesScreen(
 private fun CategoriesScreenContent(
     modifier: Modifier = Modifier,
     categories: List<String>,
-    store: Store,
     onEvent: (event: CategoriesEvents) -> Unit
 ) {
     Column(
@@ -111,21 +113,9 @@ private fun CategoriesScreenContent(
             contentDescription = null
         )
         MediumSpacer(orientation = Orientation.VERTICAL)
-        store.let { store ->
-            when (store.name) {
-                FAKE_STORE -> {
-                    Categories(categories = categories) { category ->
-//                        onEvent(CategoriesEvents.OnCategoryClicked(category))
-                    }
-                }
-
-                DUMMY_JSON -> {
-                    //Todo Add the dummyProduct json api
-//                  ShowCategories(categories = categoriesDummyjson)
-                }
-            }
+        Categories(categories = categories) { category ->
+            onEvent(CategoriesEvents.OnCategoryClicked(category))
         }
-
     }
 }
 
@@ -160,7 +150,6 @@ private fun CategoriesScreenContentPreview() {
             "jewelery",
             "men,s clothing"
         ),
-        store = Store(FAKE_STORE),
         onEvent = {}
     )
 }

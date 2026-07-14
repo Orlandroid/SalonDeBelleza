@@ -4,6 +4,7 @@ import com.example.data.remote.products.commons.category.CategoryProvider
 import com.example.data.remote.products.commons.product.ProductProvider
 import javax.inject.Inject
 import com.example.domain.entities.remote.products.Category
+import com.example.domain.entities.remote.products.Product
 
 class PlatzyProductProvider @Inject constructor(
     private val api: PlatzyApi
@@ -19,4 +20,6 @@ class PlatzyProductProvider @Inject constructor(
                 slug = it.slug
             )
         }
+
+    override suspend fun getProductsByCategory(category: String) = emptyList<Product>()
 }

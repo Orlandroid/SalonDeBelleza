@@ -6,7 +6,8 @@ data class Product(
     val description: String,
     val price: Double,
     val rating: Double? = null,
-    val image: String? = null
+    val image: String? = null,
+    val category: String? = null
 ) {
 
     companion object {

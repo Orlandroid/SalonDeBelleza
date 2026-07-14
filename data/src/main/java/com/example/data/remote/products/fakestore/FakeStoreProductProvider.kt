@@ -4,6 +4,7 @@ import com.example.data.remote.products.commons.category.CategoryProvider
 import com.example.data.remote.products.commons.product.ProductProvider
 import javax.inject.Inject
 import com.example.domain.entities.remote.products.Category
+import com.example.domain.entities.remote.products.Product
 
 class FakeStoreProductProvider @Inject constructor(
     private val api: FakeStoreApi
@@ -12,5 +13,7 @@ class FakeStoreProductProvider @Inject constructor(
 
     override suspend fun getSingleProduct(id: Int) = api.getSingleProduct(id).toDomain()
     override suspend fun getCategories() = api.getCategories().map { Category(id = it, name = it) }
+    override suspend fun getProductsByCategory(category: String) =
+        api.getProducts(categoria = category).map { it.toDomain() }
 
 }

@@ -49,12 +49,16 @@ fun NavGraphBuilder.infoNavigationGraph(navController: NavHostController) {
             val arguments = it.toRoute<InfoNavigationScreens.CategoriesRoute>()
             CategoriesScreen(
                 navController = navController,
-                source = arguments.source
+                categorySource = arguments.source
             )
         }
         composable<InfoNavigationScreens.ProductsRoute> {
             val arguments = it.toRoute<InfoNavigationScreens.ProductsRoute>()
-            ProductsScreen(navController = navController, source = arguments.source)
+            ProductsScreen(
+                navController = navController,
+                source = arguments.source,
+                category = arguments.category
+            )
         }
         composable<InfoNavigationScreens.DetailProductRoute>(
             typeMap = mapOf(typeOf<FakeStoreProduct>() to CustomNavType.productType)
