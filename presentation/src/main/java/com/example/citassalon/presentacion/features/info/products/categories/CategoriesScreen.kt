@@ -123,16 +123,19 @@ private fun CategoriesScreenContent(
 @Composable
 private fun Categories(
     categories: List<Category>,
-    goToProductsScreen: (category: String) -> Unit
+    goToProductsScreen: (category: Category) -> Unit
 ) {
     LazyColumn {
 
-        items(items = categories, key = { it.id }) { category ->
+        items(
+            items = categories,
+            key = { it.id }
+        ) { category ->
             TextWithArrow(
                 config = TextWithArrowConfig(
                     text = category.name,
                     clickOnItem = {
-                        goToProductsScreen(category.name)
+                        goToProductsScreen(category)
                     }
                 )
             )
@@ -147,9 +150,9 @@ private fun Categories(
 private fun CategoriesScreenContentPreview() {
     CategoriesScreenContent(
         categories = listOf(
-            Category(id = "0", name = "One"),
-            Category(id = "1", name = "One"),
-            Category(id = "2", name = "One")
+            Category(id = "0", name = "Category 1"),
+            Category(id = "1", name = "Category 2"),
+            Category(id = "2", name = "Category 3")
         ),
         onEvent = {}
     )

@@ -28,7 +28,7 @@ data class CategoriesUiState(
 )
 
 sealed class CategoriesEvents {
-    data class OnCategoryClicked(val category: String) : CategoriesEvents()
+    data class OnCategoryClicked(val category: Category) : CategoriesEvents()
 }
 
 sealed class CategoriesEffects {
@@ -66,10 +66,22 @@ class CategoriesViewModel @AssistedInject constructor(
                     _effects.send(
                         CategoriesEffects.NavigateToProducts(
                             source = source.toProductSource(),
-                            category = event.category
+                            category = getCategory(event.category)
                         )
                     )
                 }
+            }
+        }
+    }
+
+    private fun getCategory(category: Category): String {
+        return when (source) {
+            CategorySource.FAKE_STORE -> {
+                category.name
+            }
+
+            CategorySource.PLATZI -> {
+                category.id
             }
         }
     }
