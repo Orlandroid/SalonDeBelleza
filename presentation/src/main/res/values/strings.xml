@@ -187,4 +187,14 @@
     <string name="personal_information">Personal information</string>
     <string name="cd_establishment_image">Establishment image</string>
     <string name="stores">Store</string>
+    <string name="contact_us_welcome">Get in Touch</string>
+    <string name="contact_us_subtitle">We're here to help! Reach out to us through any of the following channels</string>
+    <string name="contact_phone">Phone</string>
+    <string name="contact_email">Email</string>
+    <string name="contact_location">Location</string>
+    <string name="call_now">Call</string>
+    <string name="send_email">Email</string>
+    <string name="open_map">Maps</string>
+    <string name="business_hours">Business Hours</string>
+    <string name="follow_us">Follow Us on Social Media</string>
 </resources>

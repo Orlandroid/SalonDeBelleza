@@ -42,6 +42,9 @@ fun EstablishingScreen(
             },
             navigateToBranches = {
                 navController.navigate(InfoNavigationScreens.BranchesRoute)
+            },
+            navigateToContactUs = {
+                navController.navigate(InfoNavigationScreens.ContactUsRoute)
             }
         )
     }
@@ -51,7 +54,8 @@ fun EstablishingScreen(
 private fun EstablishingScreenContent(
     modifier: Modifier = Modifier,
     navigateToStore: () -> Unit,
-    navigateToBranches: () -> Unit
+    navigateToBranches: () -> Unit,
+    navigateToContactUs: () -> Unit
 ) {
     Column(
         modifier
@@ -76,7 +80,8 @@ private fun EstablishingScreenContent(
         ) {
             MenuBranch(
                 clickOnBranches = navigateToBranches,
-                clickOnStore = navigateToStore
+                clickOnStore = navigateToStore,
+                clickOnContactUs = navigateToContactUs
             )
         }
     }
@@ -85,7 +90,8 @@ private fun EstablishingScreenContent(
 @Composable
 private fun MenuBranch(
     clickOnBranches: () -> Unit,
-    clickOnStore: () -> Unit
+    clickOnStore: () -> Unit,
+    clickOnContactUs: () -> Unit
 ) {
     LazyColumn {
         item {
@@ -108,6 +114,16 @@ private fun MenuBranch(
                 )
             )
         }
+        item {
+            TextWithArrow(
+                config = TextWithArrowConfig(
+                    text = stringResource(id = R.string.contact_us),
+                    clickOnItem = {
+                        clickOnContactUs.invoke()
+                    }
+                )
+            )
+        }
     }
 }
 
@@ -116,6 +132,7 @@ private fun MenuBranch(
 private fun EstablishingScreenPreview() {
     EstablishingScreenContent(
         navigateToBranches = {},
-        navigateToStore = {}
+        navigateToStore = {},
+        navigateToContactUs = {}
     )
 }

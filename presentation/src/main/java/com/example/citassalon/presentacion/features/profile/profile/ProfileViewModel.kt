@@ -97,9 +97,7 @@ class ProfileViewModel @Inject constructor(
 
             ProfileEvents.OnConfirmClicked -> {
                 _uiState.update { it.copy(showAlertCloseSession = false) }
-                destroyUserSession()
                 logout()
-                sendEffect(ProfileEffects.CloseAndOpenActivity)
             }
 
             ProfileEvents.OnCancel -> {
@@ -124,9 +122,8 @@ class ProfileViewModel @Inject constructor(
         viewModelScope.launch {
             val loginResult = authRepository.logout()
             if (loginResult.isSuccess()) {
-                // Logout successful
-            } else {
-                // Handle logout failure if needed
+                destroyUserSession()
+                sendEffect(ProfileEffects.CloseAndOpenActivity)
             }
         }
     }
