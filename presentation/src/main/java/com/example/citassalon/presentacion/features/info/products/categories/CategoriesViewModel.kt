@@ -66,7 +66,7 @@ class CategoriesViewModel @AssistedInject constructor(
                     _effects.send(
                         CategoriesEffects.NavigateToProducts(
                             source = source.toProductSource(),
-                            category = getCategory(event.category)
+                            category = getKindOfCategory(event.category)
                         )
                     )
                 }
@@ -74,7 +74,7 @@ class CategoriesViewModel @AssistedInject constructor(
         }
     }
 
-    private fun getCategory(category: Category): String {
+    private fun getKindOfCategory(category: Category): String {
         return when (source) {
             CategorySource.FAKE_STORE -> {
                 category.name
@@ -94,13 +94,15 @@ class CategoriesViewModel @AssistedInject constructor(
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
             val categories = categoryRepository.getCategories(source)
             _state.update {
-                BaseScreenState.OnContent(content = CategoriesUiState(categories.map {
-                    Category(
-                        id = it.id,
-                        name = it.name
+                BaseScreenState.OnContent(
+                    content = CategoriesUiState(
+                        categories.map {
+                            Category(
+                                id = it.id,
+                                name = it.name
+                            )
+                        }
                     )
-                }
-                )
                 )
             }
         }
