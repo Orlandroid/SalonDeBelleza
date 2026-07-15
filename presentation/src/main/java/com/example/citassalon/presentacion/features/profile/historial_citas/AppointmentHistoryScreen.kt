@@ -38,8 +38,6 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
-import com.example.citassalon.presentacion.features.base.BaseScreenState
-import com.example.citassalon.presentacion.features.base.getContentOrNull
 import com.example.citassalon.presentacion.features.components.BaseErrorScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.dialogs.AlertDialogMessagesConfig
@@ -68,29 +66,22 @@ fun AppointmentHistoryScreen(
             }
         }
     }
-    when (uiState.value) {
-        is BaseScreenState.OnContent -> {
-            (uiState.value).getContentOrNull().let { state ->
-                if (state == null) {
-                    NotDatView()
-                } else {
-                    AppointmentHistoryScreenContent(
-                        uiState = state,
-                        onEvents = viewModel::onEvents,
-                        navHostController = navController
-                    )
-                }
-            }
-        }
-
-        is BaseScreenState.OnLoading -> {
+    when {
+        uiState.value.isLoading -> {
             ProgressDialog()
         }
 
-        is BaseScreenState.OnError -> {
+        uiState.value.error != null -> {
             BaseErrorScreen()
         }
 
+        else -> {
+            AppointmentHistoryScreenContent(
+                uiState = uiState.value,
+                onEvents = viewModel::onEvents,
+                navHostController = navController
+            )
+        }
     }
 }
 

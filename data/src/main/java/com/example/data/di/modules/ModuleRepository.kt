@@ -5,8 +5,8 @@ import com.example.data.Repository
 import com.example.data.api.DummyJsonApi
 import com.example.data.api.FakeStoreService
 import com.example.data.api.WebServices
-import com.example.data.di.AppointmentsRef
-import com.example.data.di.UsersRef
+import com.example.data.di.qualifiers.AppointmentsRef
+import com.example.data.di.qualifiers.UsersRef
 import com.example.data.remote.appointments.AppointmentsRepository
 import com.example.data.remote.appointments.AppointmentsRepositoryImpl
 import com.example.data.remote.auth.AuthRepository

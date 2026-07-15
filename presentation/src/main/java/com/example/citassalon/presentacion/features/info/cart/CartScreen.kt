@@ -42,7 +42,6 @@ import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
-import com.example.domain.entities.ProductUi
 import com.example.domain.entities.remote.products.Product
 import kotlinx.coroutines.flow.collectLatest
 

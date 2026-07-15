@@ -4,10 +4,10 @@ package com.example.data.di.modules
 import com.example.data.api.DummyJsonApi
 import com.example.data.api.FakeStoreService
 import com.example.data.api.WebServices
-import com.example.data.di.FakeStoreRetrofit
-import com.example.data.di.MyDummyJson
-import com.example.data.di.MyDummyRetrofit
-import com.example.data.di.PlatzyRetrofit
+import com.example.data.di.qualifiers.FakeStoreRetrofit
+import com.example.data.di.qualifiers.MyDummyJson
+import com.example.data.di.qualifiers.MyDummyRetrofit
+import com.example.data.di.qualifiers.PlatzyRetrofit
 import com.example.data.local.RoomLocalDataSource
 import com.example.data.remote.RemoteDataSourceImpl
 import com.example.data.remote.products.dummyjson.DummyJsonApiV2

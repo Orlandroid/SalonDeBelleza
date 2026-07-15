@@ -1,7 +1,7 @@
 package com.example.data.remote.appointments
 
 import com.example.data.api.WebServices
-import com.example.data.di.AppointmentsRef
+import com.example.data.di.qualifiers.AppointmentsRef
 import com.example.domain.entities.local.AppointmentObject
 import com.example.domain.entities.remote.Service
 import com.example.domain.entities.remote.Staff

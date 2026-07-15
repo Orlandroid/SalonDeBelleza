@@ -2,11 +2,10 @@ package com.example.citassalon.presentacion.features.profile.historial_citas
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.presentacion.features.base.BaseScreenState
-import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.data.remote.appointments.AppointmentsRepository
 import com.example.domain.perfil.Appointment
 import com.example.domain.state.getContent
+import com.example.domain.state.getErrorMessage
 import com.example.domain.state.isError
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -23,7 +22,9 @@ import javax.inject.Inject
 data class AppointmentHistoryUiState(
     val idAppointment: String? = null,
     val showDialog: Boolean = false,
-    val appointments: List<Appointment> = emptyList()
+    val appointments: List<Appointment> = emptyList(),
+    val isLoading: Boolean = false,
+    val error: String? = null
 )
 
 sealed class AppointmentHistoryEvents {
@@ -39,19 +40,18 @@ sealed class AppointmentHistoryEffects {
 
 @HiltViewModel
 class AppointmentHistoryViewModel @Inject constructor(
-    private val networkHelper: NetworkHelper,
     private val appointmentsRepository: AppointmentsRepository
 ) : ViewModel() {
 
 
-    private val _state: MutableStateFlow<BaseScreenState<AppointmentHistoryUiState>> =
-        MutableStateFlow(BaseScreenState.OnLoading)
+    private val _state: MutableStateFlow<AppointmentHistoryUiState> =
+        MutableStateFlow(AppointmentHistoryUiState())
     val state = _state.onStart {
         getAppointments()
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000L),
-        initialValue = BaseScreenState.OnLoading
+        initialValue = AppointmentHistoryUiState()
     )
 
     private val _effects = Channel<AppointmentHistoryEffects>()
@@ -61,23 +61,14 @@ class AppointmentHistoryViewModel @Inject constructor(
     fun onEvents(event: AppointmentHistoryEvents) {
         when (event) {
             is AppointmentHistoryEvents.OnAccept -> {
-                _state.update {
-                    BaseScreenState.OnContent(
-                        content = AppointmentHistoryUiState(
-                            showDialog = false,
-                            idAppointment = null
-                        )
-                    )
+                _state.update { state ->
+                    state.copy(showDialog = false, idAppointment = null)
                 }
             }
 
             AppointmentHistoryEvents.OnCancel -> {
-                _state.update {
-                    BaseScreenState.OnContent(
-                        content = AppointmentHistoryUiState(
-                            showDialog = false
-                        )
-                    )
+                _state.update { state ->
+                    state.copy(showDialog = false)
                 }
             }
 
@@ -95,36 +86,25 @@ class AppointmentHistoryViewModel @Inject constructor(
 
 
     private fun getAppointments() = viewModelScope.launch {
-        _state.update { BaseScreenState.OnLoading }
-
-        if (!networkHelper.isNetworkConnected()) {
-            _state.update {
-                BaseScreenState.OnError(error = Throwable("Network Error"))
-            }
-            return@launch
-        }
+        _state.update { it.copy(isLoading = true) }
         val appointmentsResult = appointmentsRepository.getAppointments()
         if (appointmentsResult.isError()) {
-            _state.update {
-                BaseScreenState.OnError(error = Throwable("Network Error"))
+            _state.update { state ->
+                state.copy(error = appointmentsResult.getErrorMessage())
             }
             return@launch
         }
         val appointments = appointmentsResult.getContent()
-        _state.update {
-            BaseScreenState.OnContent(
-                content = AppointmentHistoryUiState(
-                    appointments = appointments
-                )
-            )
+        _state.update { state ->
+            state.copy(appointments = appointments, isLoading = false)
         }
     }
 
     private fun deleteAppointment(idAppointment: String) = viewModelScope.launch {
         val deleteAppointmentResult = appointmentsRepository.deleteAppointment(idAppointment)
         if (deleteAppointmentResult.isError()) {
-            _state.update {
-                BaseScreenState.OnError(error = Throwable("Network Error"))
+            _state.update { state ->
+                state.copy(error = deleteAppointmentResult.getErrorMessage())
             }
             return@launch
         }

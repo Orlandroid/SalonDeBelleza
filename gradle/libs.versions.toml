@@ -43,7 +43,7 @@ navigationCompose = "2.9.8"
 mapsCompose = "8.3.0"
 
 #plugins versions
-agp = "9.2.1"
+android_gradle_plugin = "9.2.1"
 hiltAndroidGradle = "2.57.1"
 navigationUiKtx = "2.9.8"
 
@@ -129,12 +129,12 @@ daggerHilt = ["hiltAndroid", "androidxHiltWork"]
 firebase = ["firebaseAuth", "firebaseAuthV","firebaseAnalytics", "firebaseDatabase","googlePlayServicesAuth"]
 composeMaterial = ["composeMaterial", "composeMaterialIconsExtended","composeMaterial3"]
 [plugins]
-android-application = { id = "com.android.application", version.ref = "agp" }
+android-application = { id = "com.android.application", version.ref = "android_gradle_plugin" }
 kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 hilt-android-gradle = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroidGradle" }
 navigation-safe-gradle = { id = "androidx.navigation.safeargs", version.ref = "navigationUiKtx" }
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
-android-library = { id = "com.android.library", version.ref = "agp" }
+android-library = { id = "com.android.library", version.ref = "android_gradle_plugin" }
 
 
