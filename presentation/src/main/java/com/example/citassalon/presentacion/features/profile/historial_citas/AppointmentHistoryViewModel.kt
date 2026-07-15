@@ -43,6 +43,7 @@ class AppointmentHistoryViewModel @Inject constructor(
     private val appointmentsRepository: AppointmentsRepository
 ) : ViewModel() {
 
+    private var idAppointment: String? = null
 
     private val _state: MutableStateFlow<AppointmentHistoryUiState> =
         MutableStateFlow(AppointmentHistoryUiState())
@@ -61,8 +62,14 @@ class AppointmentHistoryViewModel @Inject constructor(
     fun onEvents(event: AppointmentHistoryEvents) {
         when (event) {
             is AppointmentHistoryEvents.OnAccept -> {
+                idAppointment?.let {
+                    deleteAppointment(it)
+                }
                 _state.update { state ->
                     state.copy(showDialog = false, idAppointment = null)
+                }
+                viewModelScope.launch {
+                    getAppointments()
                 }
             }
 
@@ -73,7 +80,8 @@ class AppointmentHistoryViewModel @Inject constructor(
             }
 
             is AppointmentHistoryEvents.OnRemove -> {
-                deleteAppointment(event.idAppointment)
+                idAppointment = event.idAppointment
+                _state.update { it.copy(showDialog = true) }
             }
 
             is AppointmentHistoryEvents.OnAppointmentClicked -> {

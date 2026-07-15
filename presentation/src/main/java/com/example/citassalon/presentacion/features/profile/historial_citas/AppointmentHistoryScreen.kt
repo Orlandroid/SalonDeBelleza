@@ -120,12 +120,12 @@ private fun ShowDialogDeleteAppointment(
             title = R.string.warning,
             bodyMessage = stringResource(R.string.delete_row_message),
             kindOfMessage = KindOfMessage.WARING,
-            onConfirmation = {
-                onEvents(AppointmentHistoryEvents.OnAccept)
-            },
             isTwoButtonsAlert = IsTwoButtonsAlert(
                 clickOnCancel = {
                     onEvents(AppointmentHistoryEvents.OnCancel)
+                },
+                clickOnAccept = {
+                    onEvents(AppointmentHistoryEvents.OnAccept)
                 }
             )
         )
