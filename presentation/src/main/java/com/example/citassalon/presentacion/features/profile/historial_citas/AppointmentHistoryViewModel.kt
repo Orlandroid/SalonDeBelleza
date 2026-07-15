@@ -68,9 +68,7 @@ class AppointmentHistoryViewModel @Inject constructor(
                 _state.update { state ->
                     state.copy(showDialog = false, idAppointment = null)
                 }
-                viewModelScope.launch {
-                    getAppointments()
-                }
+                getAppointments()
             }
 
             AppointmentHistoryEvents.OnCancel -> {
