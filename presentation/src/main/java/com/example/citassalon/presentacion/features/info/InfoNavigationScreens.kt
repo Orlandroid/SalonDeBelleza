@@ -37,8 +37,4 @@ sealed class InfoNavigationScreens {
 
     @Serializable
     data object LocationRoute
-
-    @Serializable
-    data object ContactUsRoute
 }
-

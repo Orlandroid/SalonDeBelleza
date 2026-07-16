@@ -1,4 +1,5 @@
-package com.example.citassalon.presentacion.features.info.contactus
+package com.example.citassalon.presentacion.features.profile.contact_us
+
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
@@ -26,7 +27,6 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -37,7 +37,6 @@ import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.theme.Background
-import com.example.citassalon.presentacion.features.theme.Primary
 
 @Composable
 fun ContactUsScreen(
@@ -65,7 +64,7 @@ private fun ContactUsScreenContent(
         item {
             Spacer(modifier = Modifier.height(16.dp))
 
-            // Welcome Text
+
             Text(
                 text = stringResource(R.string.contact_us_welcome),
                 fontSize = 18.sp,
@@ -89,12 +88,12 @@ private fun ContactUsScreenContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 24.dp),
-                color = Primary.copy(alpha = 0.3f)
+                color = Color.Red
             )
         }
 
         item {
-            // Phone Contact Card
+
             ContactCard(
                 icon = Icons.Default.Call,
                 title = stringResource(R.string.contact_phone),
@@ -109,7 +108,7 @@ private fun ContactUsScreenContent(
         }
 
         item {
-            // Email Contact Card
+
             ContactCard(
                 icon = Icons.Default.Email,
                 title = stringResource(R.string.contact_email),
@@ -124,7 +123,7 @@ private fun ContactUsScreenContent(
         }
 
         item {
-            // Location Card
+
             ContactCard(
                 icon = Icons.Default.LocationOn,
                 title = stringResource(R.string.contact_location),
@@ -137,12 +136,10 @@ private fun ContactUsScreenContent(
         item {
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Business Hours Section
             BusinessHoursSection()
 
             Spacer(modifier = Modifier.height(24.dp))
 
-            // Follow Us Section
             FollowUsSection()
 
             Spacer(modifier = Modifier.height(24.dp))
@@ -172,17 +169,17 @@ private fun ContactCard(
                 .padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            // Icon
+
             Icon(
                 imageVector = icon,
                 contentDescription = title,
-                tint = Primary,
+                tint = Color.Red,
                 modifier = Modifier.width(24.dp)
             )
 
             Spacer(modifier = Modifier.width(16.dp))
 
-            // Content
+
             Column(
                 modifier = Modifier
                     .weight(1f)
@@ -201,7 +198,7 @@ private fun ContactCard(
                 )
             }
 
-            // Action Button
+
             IconButton(
                 onClick = { onAction(value) },
                 modifier = Modifier
@@ -211,7 +208,7 @@ private fun ContactCard(
                 Icon(
                     imageVector = Icons.Default.Share,
                     contentDescription = actionLabel,
-                    tint = Primary
+                    tint = Color.Red
                 )
             }
         }
@@ -270,7 +267,7 @@ private fun BusinessHourRow(
         Text(
             text = hours,
             fontSize = 12.sp,
-            color = Primary,
+            color = Color.Red,
             fontWeight = FontWeight.SemiBold
         )
     }
@@ -323,9 +320,9 @@ private fun SocialMediaButton(
 ) {
     Card(
         modifier = Modifier
-            .background(Primary)
+            .background(Color.White)
             .padding(4.dp),
-        colors = CardDefaults.cardColors(containerColor = Primary),
+        colors = CardDefaults.cardColors(containerColor = Color.Red),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Text(
@@ -340,13 +337,11 @@ private fun SocialMediaButton(
 }
 
 private fun callPhone(phone: String) {
-    // In a real app, you would implement intent to call
-    // val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phone"))
+    //Todo add action to call to the phone
 }
 
 private fun sendEmail(email: String) {
-    // In a real app, you would implement intent to send email
-    // val intent = Intent(Intent.ACTION_SENDTO, Uri.parse("mailto:$email"))
+    //Todo add action to send one email
 }
 
 @Composable
