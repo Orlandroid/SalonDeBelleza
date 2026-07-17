@@ -1,11 +1,11 @@
 package com.example.data.remote.fake_store
 
 import com.example.data.api.FakeStoreService
-import com.example.domain.LocalDataSource
+import com.example.data.database.local.LocalDataSource
+import com.example.data.database.mappers.toListCategoriesString
+import com.example.data.database.mappers.toStringList
 import com.example.domain.entities.remote.Cart
 import com.example.data.remote.products.fakestore.FakeStoreProduct
-import com.example.domain.mappers.toListCategoriesString
-import com.example.domain.mappers.toStringList
 
 class FakeStoreRepositoryImp(
     private val api: FakeStoreService,

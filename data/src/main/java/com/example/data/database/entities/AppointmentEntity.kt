@@ -1,12 +1,13 @@
-package com.example.domain.entities.db
+package com.example.data.database.entities
 
+import android.os.Parcelable
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
 
-@kotlinx.parcelize.Parcelize
+@Parcelize
 @Entity
-data class AppointmentDb(
+data class AppointmentEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val establishment: String,
@@ -15,4 +16,4 @@ data class AppointmentDb(
     val date: String,
     val time: String,
     val total: String
-):Parcelable
+): Parcelable

@@ -10,7 +10,6 @@ import com.example.data.di.IoDispatcher
 import com.example.data.preferences.LoginPreferences
 import com.example.data.remote.products.commons.product.ProductSource
 import com.example.domain.entities.remote.products.Product
-import com.example.domain.entities.toProduct
 import com.example.domain.state.isSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -124,7 +123,7 @@ class CartViewModel @Inject constructor(
     fun getAllProducts() {
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
             val response = repository.getAllProducts()
-            cachedProducts = response.map { it.toProduct() }
+            cachedProducts = response
             _state.update {
                 BaseScreenState.OnContent(
                     content = CartUiState(

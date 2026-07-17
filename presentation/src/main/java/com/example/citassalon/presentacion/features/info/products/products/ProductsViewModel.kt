@@ -11,9 +11,7 @@ import com.example.data.remote.products.CategoryRepository
 import com.example.data.remote.products.ProductRepository
 import com.example.data.remote.products.commons.product.ProductSource
 import com.example.data.remote.products.commons.product.toCategorySource
-import com.example.domain.entities.db.ProductDb
 import com.example.domain.entities.remote.products.Product
-import com.example.domain.mappers.toProductDb
 import com.example.domain.state.isError
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -105,7 +103,7 @@ class ProductsViewModel @AssistedInject constructor(
             }
 
             is ProductScreenEvents.OnAddProduct -> {
-                insertProduct(event.product.toProductDb())
+                insertProduct(event.product)
             }
 
             is ProductScreenEvents.OnDeleteAllTheProducts -> {
@@ -139,9 +137,9 @@ class ProductsViewModel @AssistedInject constructor(
         }
     }
 
-    fun insertProduct(item: ProductDb) {
+    fun insertProduct(item: Product) {
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
-            val id = repository.addProduct(productDb = item).toInt()
+            val id = repository.addProduct(product = item).toInt()
             if (id != NOT_SAVE) {
                 _effects.send(ProductScreenEffects.ProductSaved(context.getString(R.string.product_added)))
             }

@@ -1,11 +1,11 @@
-package com.example.domain.entities.db
+package com.example.data.database.entities
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity
-data class ProductDb(
+data class ProductEntity(
     @PrimaryKey(autoGenerate = true)
     val id: Int,
     val title: String,

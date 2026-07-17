@@ -24,7 +24,6 @@ class AppointmentHistoryViewModelTest {
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
         viewModel = AppointmentHistoryViewModel(
-            networkHelper = networkHelper,
             appointmentsRepository = appointmentsRepository
         )
     }

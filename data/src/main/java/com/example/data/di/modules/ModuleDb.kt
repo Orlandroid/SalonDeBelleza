@@ -2,7 +2,7 @@ package com.example.data.di.modules
 
 import android.content.Context
 import androidx.room.Room
-import com.example.data.db.SkedulyDatabase
+import com.example.data.database.SkedulyDatabase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

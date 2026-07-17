@@ -1,9 +1,11 @@
 package com.example.data
 
 
-import com.example.domain.LocalDataSource
+import com.example.data.database.local.LocalDataSource
+import com.example.data.database.mappers.toProduct
+import com.example.data.database.mappers.toProductEntity
 import com.example.domain.RemoteDataSource
-import com.example.domain.entities.db.ProductDb
+import com.example.domain.entities.remote.products.Product
 import com.example.domain.state.ApiResult
 import javax.inject.Inject
 
@@ -12,7 +14,8 @@ class Repository @Inject constructor(
     private val remoteDataSource: RemoteDataSource
 ) {
 
-    suspend fun addProduct(productDb: ProductDb) = localDataSource.addProduct(productDb)
+    suspend fun addProduct(product: Product) = localDataSource.addProduct(product.toProductEntity())
+
 
     suspend fun deleteAllProducts(): ApiResult<Unit> {
         val deletedRows = localDataSource.deleteAllProducts()
@@ -23,7 +26,9 @@ class Repository @Inject constructor(
         }
     }
 
-    fun getAllProducts() = localDataSource.getAllProducts()
+    fun getAllProducts(): List<Product> {
+        return localDataSource.getAllProducts().map { it.toProduct() }
+    }
 
 
     suspend fun getStaffUsers() = remoteDataSource.getStaffUsers()

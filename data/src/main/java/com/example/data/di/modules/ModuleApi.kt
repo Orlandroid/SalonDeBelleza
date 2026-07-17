@@ -14,7 +14,7 @@ import com.example.data.remote.products.dummyjson.DummyJsonApiV2
 import com.example.data.remote.products.fakestore.FakeStoreApi
 import com.example.data.remote.products.mydummyapi.MyDummyApi
 import com.example.data.remote.products.platzy.PlatzyApi
-import com.example.domain.LocalDataSource
+import com.example.data.database.local.LocalDataSource
 import com.example.domain.RemoteDataSource
 import dagger.Binds
 import dagger.Module

@@ -23,7 +23,7 @@ import com.example.data.remote.products.commons.category.CategoryProviderResolve
 import com.example.data.remote.products.commons.product.ProductProviderResolver
 import com.example.data.remote.user.UserRepository
 import com.example.data.remote.user.UserRepositoryImpl
-import com.example.domain.LocalDataSource
+import com.example.data.database.local.LocalDataSource
 import com.example.domain.RemoteDataSource
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
