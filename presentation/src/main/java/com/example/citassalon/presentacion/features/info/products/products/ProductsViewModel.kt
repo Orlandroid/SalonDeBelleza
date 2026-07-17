@@ -13,6 +13,7 @@ import com.example.data.remote.products.commons.product.ProductSource
 import com.example.data.remote.products.commons.product.toCategorySource
 import com.example.domain.entities.remote.products.Product
 import com.example.domain.state.isError
+import com.example.domain.state.isSuccess
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -139,8 +140,8 @@ class ProductsViewModel @AssistedInject constructor(
 
     fun insertProduct(item: Product) {
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
-            val id = repository.addProduct(product = item).toInt()
-            if (id != NOT_SAVE) {
+            val addProductResponse = repository.addProduct(product = item)
+            if (addProductResponse.isSuccess()) {
                 _effects.send(ProductScreenEffects.ProductSaved(context.getString(R.string.product_added)))
             }
         }

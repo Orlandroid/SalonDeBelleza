@@ -14,7 +14,27 @@ class Repository @Inject constructor(
     private val remoteDataSource: RemoteDataSource
 ) {
 
-    suspend fun addProduct(product: Product) = localDataSource.addProduct(product.toProductEntity())
+    companion object {
+        private const val NOT_SAVE = -1
+    }
+
+
+    suspend fun addProduct(product: Product): ApiResult<Unit> {
+        return runCatching {
+            localDataSource.addProduct(product.toProductEntity())
+        }.fold(
+            onSuccess = { id ->
+                if (id == NOT_SAVE.toLong()) {
+                    ApiResult.Error("Product could not be saved")
+                } else {
+                    ApiResult.Success(Unit)
+                }
+            },
+            onFailure = {
+                ApiResult.Error(it.message ?: "Unknown error")
+            }
+        )
+    }
 
 
     suspend fun deleteAllProducts(): ApiResult<Unit> {
@@ -26,11 +46,29 @@ class Repository @Inject constructor(
         }
     }
 
-    fun getAllProducts(): List<Product> {
-        return localDataSource.getAllProducts().map { it.toProduct() }
+    fun getAllProducts(): ApiResult<List<Product>> {
+        return runCatching {
+            localDataSource.getAllProducts().map { it.toProduct() }
+        }.fold(
+            onSuccess = {
+                ApiResult.Success(it)
+            },
+            onFailure = {
+                ApiResult.Error(it.message)
+            }
+        )
     }
 
 
-    suspend fun getStaffUsers() = remoteDataSource.getStaffUsers()
+    suspend fun getStaffUsers() = runCatching {
+        remoteDataSource.getStaffUsers()
+    }.fold(
+        onSuccess = {
+            ApiResult.Success(it)
+        },
+        onFailure = {
+            ApiResult.Error(it.message)
+        }
+    )
 
 }
