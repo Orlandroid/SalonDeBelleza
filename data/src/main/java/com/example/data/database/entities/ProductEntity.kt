@@ -1,6 +1,5 @@
 package com.example.data.database.entities
 
-import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 
@@ -12,7 +11,5 @@ data class ProductEntity(
     val price: Double,
     val description: String,
     val image: String,
-    val rate: Double,
-    @ColumnInfo(defaultValue = "")
-    val userUi: String
+    val rate: Double
 )

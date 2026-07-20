@@ -123,7 +123,7 @@ private fun BranchesScreenContent(
         ) {
             Text(
                 modifier = Modifier.padding(start = 16.dp),
-                text = "Available locations",
+                text = stringResource(R.string.avalible_locations),
                 fontSize = 20.sp
             )
             Spacer(modifier = Modifier.weight(1f))

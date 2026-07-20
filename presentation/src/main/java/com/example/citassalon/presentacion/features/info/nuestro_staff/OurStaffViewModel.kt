@@ -7,6 +7,7 @@ import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.data.di.IoDispatcher
 import com.example.domain.entities.remote.dummyUsers.User
 import com.example.domain.state.getContent
+import com.example.domain.state.isSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -46,7 +47,10 @@ class OurStaffViewModel @Inject constructor(
 
     private fun getStaffsUsers() = viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
         val response = repository.getStaffUsers()
-        _state.update { BaseScreenState.OnContent(content = OurStaffUiState(staffs = response.getContent())) }
+        if (response.isSuccess()) {
+            _state.update { BaseScreenState.OnContent(content = OurStaffUiState(staffs = response.getContent())) }
+        }
+
     }
 
 

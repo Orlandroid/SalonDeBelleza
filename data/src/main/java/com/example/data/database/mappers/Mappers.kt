@@ -19,8 +19,7 @@ fun Product.toProductEntity() = ProductEntity(
     price = price,
     description = description,
     image = image ?: "",
-    rate = rating ?: 0.0,
-    userUi = ""
+    rate = rating ?: 0.0
 )
 
 fun CategoryEntity.toStringCategory(): String {

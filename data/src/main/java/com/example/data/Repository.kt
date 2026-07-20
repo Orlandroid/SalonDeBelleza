@@ -60,15 +60,6 @@ class Repository @Inject constructor(
     }
 
 
-    suspend fun getStaffUsers() = runCatching {
-        remoteDataSource.getStaffUsers()
-    }.fold(
-        onSuccess = {
-            ApiResult.Success(it)
-        },
-        onFailure = {
-            ApiResult.Error(it.message)
-        }
-    )
+    suspend fun getStaffUsers() = remoteDataSource.getStaffUsers()
 
 }
