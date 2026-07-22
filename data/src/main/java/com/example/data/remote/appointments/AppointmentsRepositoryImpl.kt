@@ -11,6 +11,7 @@ import com.example.domain.perfil.Appointment
 import com.example.domain.perfil.AppointmentFirebase
 import com.example.domain.perfil.toAppointment
 import com.example.domain.state.ApiResult
+import com.example.domain.use_cases.IsBranchOpenUseCase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -23,7 +24,8 @@ import kotlin.coroutines.resume
 
 class AppointmentsRepositoryImpl @Inject constructor(
     @param:AppointmentsRef private val databaseReference: DatabaseReference,
-    private val webServices: WebServices
+    private val webServices: WebServices,
+    private val isBranchOpenUseCase: IsBranchOpenUseCase
 ) :
     AppointmentsRepository {
 
@@ -89,7 +91,8 @@ class AppointmentsRepositoryImpl @Inject constructor(
                         staff.copy(
                             initials = getInitials(staff.name)
                         )
-                    }
+                    },
+                    sucursal = branch.sucursal.copy(isOpen = isBranchOpenUseCase.invoke(branch.sucursal.schedule))
                 )
             }
             ApiResult.Success(branches)

@@ -31,6 +31,13 @@ fun convertMillisToDate(millis: Long): String {
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
-fun TimePickerState.getHourFormat() ="${this.hour}:${this.minute}"
+fun TimePickerState.getHourFormat() = "${this.hour}:${this.minute}"
 
 const val dateFormat = "dd/MM/yyyy"
+
+fun nowInMinutes(): Int {
+    val calendar = Calendar.getInstance()
+
+    return calendar.get(Calendar.HOUR_OF_DAY) * 60 +
+            calendar.get(Calendar.MINUTE)
+}

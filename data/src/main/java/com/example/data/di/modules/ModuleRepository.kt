@@ -25,6 +25,7 @@ import com.example.data.remote.user.UserRepository
 import com.example.data.remote.user.UserRepositoryImpl
 import com.example.data.database.local.LocalDataSource
 import com.example.domain.RemoteDataSource
+import com.example.domain.use_cases.IsBranchOpenUseCase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import dagger.Module
@@ -72,8 +73,9 @@ object ModuleRepository {
     fun provideAppointmentsRepository(
         @AppointmentsRef databaseReference: DatabaseReference,
         api: WebServices,
+        isBranchOpenUseCase: IsBranchOpenUseCase
     ): AppointmentsRepository =
-        AppointmentsRepositoryImpl(databaseReference = databaseReference, webServices = api)
+        AppointmentsRepositoryImpl(databaseReference = databaseReference, webServices = api, isBranchOpenUseCase = isBranchOpenUseCase)
 
     @Singleton
     @Provides

@@ -42,6 +42,7 @@ import com.example.citassalon.presentacion.features.components.BaseErrorScreen
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.components.skeletons.BranchesScreenSkeletons
+import com.example.citassalon.presentacion.features.extensions.nowInMinutes
 import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
@@ -165,7 +166,8 @@ private fun Branches(
                             clickOnItem = {
                                 currentBranch(branch)
                             }
-                        )
+                        ),
+                    isOpen = branch.sucursal.isOpen
                 )
             }
         }
@@ -190,7 +192,8 @@ private fun OpenBadge(isOpen: Boolean) {
 
 @Composable
 fun BranchItem(
-    config: TextWithArrowConfig
+    config: TextWithArrowConfig,
+    isOpen: Boolean
 ) {
     Card(
         colors = CardDefaults.cardColors(containerColor = BackgroundListsMainFlow),

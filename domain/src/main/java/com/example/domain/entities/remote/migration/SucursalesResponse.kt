@@ -19,6 +19,9 @@ data class NegoInfo(
             mockBusiness(),
             mockBusiness(),
             mockBusiness(),
+            mockBusiness(),
+            mockBusiness(),
+            mockBusiness(),
         )
 
         private fun mockBusiness() = NegoInfo(
@@ -34,12 +37,37 @@ data class Sucursal(
     val id: String,
     val lat: String,
     val long: String,
-    var name: String
+    var name: String,
+    val schedule: Schedule,
+    val isOpen: Boolean = false
 ) {
     companion object {
-        fun mockBranch() = Sucursal(id = "", lat = "", long = "", name = "dummyBranch")
+        fun mockBranch() =
+            Sucursal(
+                id = "",
+                lat = "",
+                long = "",
+                name = "dummyBranch",
+                schedule = Schedule(
+                    morningOpen = "",
+                    morningClose = "",
+                    afternoonOpen = "",
+                    afternoonClose = ""
+                )
+            )
     }
 }
+
+data class Schedule(
+    @SerializedName("morning_open")
+    val morningOpen: String,
+    @SerializedName("morning_close")
+    val morningClose: String,
+    @SerializedName("afternoon_open")
+    val afternoonOpen: String,
+    @SerializedName("afternoon_close")
+    val afternoonClose: String,
+)
 
 
 data class Service(
