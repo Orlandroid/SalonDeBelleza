@@ -8,6 +8,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
@@ -20,10 +21,11 @@ import com.example.citassalon.presentacion.features.components.ItemStaff
 import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
-import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowUiState
+import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.ScheduleAppointmentEvents
+import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.ScheduleAppointmentsSideEffects
 import com.example.citassalon.presentacion.features.theme.BackgroundListsMainFlow
 import com.example.domain.entities.remote.migration.Service
 import com.example.domain.entities.remote.migration.Staff
@@ -34,6 +36,17 @@ fun ServiceScreen(
     mainViewModel: AppointmentFlowViewModel,
     state: AppointmentFlowUiState
 ) {
+    LaunchedEffect(mainViewModel) {
+        mainViewModel.branchSideEffects.collect { effect ->
+            when (effect) {
+                ScheduleAppointmentsSideEffects.NavigateToScheduleAppointment -> {
+                    navController.navigate(ScheduleAppointmentScreens.ScheduleRoute)
+                }
+
+                else -> {}
+            }
+        }
+    }
     BaseComposeScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.agendar_servicio))
@@ -43,9 +56,6 @@ fun ServiceScreen(
             staff = state.currentStaff ?: Staff.mockStaff(),
             branch = state.branchName,
             listOfServices = state.listOfServices,
-            navigateToDateScreen = {
-                navController.navigate(ScheduleAppointmentScreens.ScheduleRoute)
-            },
             onEvents = { events -> mainViewModel.onEvents(events) }
         )
     }
@@ -57,7 +67,6 @@ private fun ServiceScreenContent(
     staff: Staff,
     branch: String,
     listOfServices: List<Service>,
-    navigateToDateScreen: () -> Unit,
     onEvents: (ScheduleAppointmentEvents) -> Unit
 ) {
     Column(
@@ -75,7 +84,6 @@ private fun ServiceScreenContent(
             ListServices(
                 listOfServices = listOfServices,
                 clickOnItem = {
-                    navigateToDateScreen()
                     onEvents(ScheduleAppointmentEvents.ClickOnService(it))
                 }
             )
@@ -113,7 +121,6 @@ private fun ServiceScreenContentPreview() {
         staff = Staff.mockStaff(),
         branch = "Zacatecas",
         listOfServices = Service.mockListServices(),
-        navigateToDateScreen = {},
         onEvents = {}
     )
 }

@@ -44,6 +44,8 @@ sealed class ScheduleAppointmentsSideEffects {
     data object GoToScheduleStaff : ScheduleAppointmentsSideEffects()
     data object GoToDetailStaffScreen : ScheduleAppointmentsSideEffects()
     data object GoToScheduleService : ScheduleAppointmentsSideEffects()
+
+    data object NavigateToScheduleAppointment : ScheduleAppointmentsSideEffects()
 }
 
 class AppointmentFlowViewModel : ViewModel() {
@@ -67,7 +69,7 @@ class AppointmentFlowViewModel : ViewModel() {
 
             is ScheduleAppointmentEvents.ClickOnStaff -> {
                 _staffUiState.update { oldState -> oldState.copy(currentStaff = event.staff) }
-                sentEvent(ScheduleAppointmentsSideEffects.GoToScheduleService)
+                sentEffect(ScheduleAppointmentsSideEffects.GoToScheduleService)
             }
 
 
@@ -81,7 +83,7 @@ class AppointmentFlowViewModel : ViewModel() {
             }
 
             is ScheduleAppointmentEvents.ClickOnService -> {
-                //todo make Nabigation to service screen
+                sentEffect(ScheduleAppointmentsSideEffects.NavigateToScheduleAppointment)
             }
 
             is ScheduleAppointmentEvents.DateSelected -> {
@@ -101,25 +103,25 @@ class AppointmentFlowViewModel : ViewModel() {
                 currentStaff = staff
             )
         }
-        sentEvent(ScheduleAppointmentsSideEffects.GoToScheduleService)
+        sentEffect(ScheduleAppointmentsSideEffects.GoToScheduleService)
     }
 
     private fun clickOnBranch(branch: NegoInfo) {
         setCurrentBranch(branch = branch)
         when (currentFlowBranch) {
             BranchFlow.SCHEDULE_APPOINTMENT -> {
-                sentEvent(ScheduleAppointmentsSideEffects.GoToScheduleStaff)
+                sentEffect(ScheduleAppointmentsSideEffects.GoToScheduleStaff)
             }
 
             BranchFlow.INFO -> {
-                sentEvent(ScheduleAppointmentsSideEffects.GotoBranchInfo)
+                sentEffect(ScheduleAppointmentsSideEffects.GotoBranchInfo)
             }
 
             null -> {}
         }
     }
 
-    private fun sentEvent(effects: ScheduleAppointmentsSideEffects) {
+    private fun sentEffect(effects: ScheduleAppointmentsSideEffects) {
         viewModelScope.launch(Dispatchers.IO) {
             _branchSideEffects.send(effects)
         }
