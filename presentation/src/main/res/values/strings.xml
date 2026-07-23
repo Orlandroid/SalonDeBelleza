@@ -199,4 +199,9 @@
     <string name="business_hours">Business Hours</string>
     <string name="follow_us">Follow Us on Social Media</string>
     <string name="avalible_locations">Available locations</string>
+    <string name="sucursal_label">Sucursal</string>
+    <string name="especialista_label">Especialista</string>
+    <string name="servicio_label">Servicio</string>
+    <string name="fecha_label">Fecha</string>
+    <string name="hora_label">Hora</string>
 </resources>

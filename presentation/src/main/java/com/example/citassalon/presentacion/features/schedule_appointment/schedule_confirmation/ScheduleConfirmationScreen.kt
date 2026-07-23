@@ -18,18 +18,21 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.HorizontalDivider
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -80,7 +83,6 @@ fun ScheduleConfirmationScreen(
     }
 }
 
-
 @Composable
 private fun ScheduleConfirmationScreenContent(
     modifier: Modifier = Modifier,
@@ -104,59 +106,93 @@ private fun ScheduleConfirmationScreenContent(
             }
         )
     }
+
     Column(
         modifier = modifier
             .fillMaxSize()
-            .background(Background),
+            .background(Background)
+            .padding(horizontal = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.SpaceBetween
+        verticalArrangement = Arrangement.Top
     ) {
-        Spacer(modifier = Modifier.height(32.dp))
-        Text(text = stringResource(id = R.string.confirmacionDeCita), fontSize = 20.sp)
-        Spacer(modifier = Modifier.weight(1F))
-        Spacer(modifier = Modifier.height(8.dp))
-        ButtonImageAndText(
-            text = staffUiState.branchName,
-            iconImage = R.drawable.place_24p_negro
-        )
-        ButtonImageAndText(
-            text = staffUiState.currentStaff?.name.orEmpty(),
-            iconImage = R.drawable.face_unlock_24px
-        )
-        ButtonImageAndText(
-            text = staffUiState.listOfServices[0].name,
-            iconImage = R.drawable.stars_24px
-        )
-        ButtonImageAndText(
-            text = dateAppointment,
-            iconImage = R.drawable.insert_invitation_24px
-        )
-        ButtonImageAndText(
-            text = hourAppointment,
-            iconImage = R.drawable.watch_later_24px
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Text(
+            text = stringResource(id = R.string.confirmacionDeCita),
+            style = MaterialTheme.typography.titleLarge,
+            color = AlwaysBlack
         )
 
-        Spacer(modifier = Modifier.weight(1f))
-        Row(
-            horizontalArrangement = Arrangement.Absolute.SpaceAround,
-            modifier = Modifier.fillMaxWidth()
+        Spacer(modifier = Modifier.height(24.dp))
+
+        Card(
+            modifier = Modifier.fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = AlwaysWhite),
+            elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+            shape = RoundedCornerShape(20.dp)
         ) {
-            Text(
-                text =
-                    stringResource(id = R.string.Total),
-                fontSize = 20.sp
-            )
-            Text(
-                text = servicePrice,
-                fontSize = 20.sp
-            )
+            Column(modifier = Modifier.padding(vertical = 8.dp)) {
+                DetailRow(
+                    label = stringResource(id = R.string.sucursal_label),
+                    value = staffUiState.branchName,
+                    iconImage = R.drawable.place_24p_negro
+                )
+                DetailRow(
+                    label = stringResource(id = R.string.especialista_label),
+                    value = staffUiState.currentStaff?.name.orEmpty(),
+                    iconImage = R.drawable.face_unlock_24px
+                )
+                DetailRow(
+                    label = stringResource(id = R.string.servicio_label),
+                    value = staffUiState.listOfServices[0].name,
+                    iconImage = R.drawable.stars_24px
+                )
+                DetailRow(
+                    label = stringResource(id = R.string.fecha_label),
+                    value = dateAppointment,
+                    iconImage = R.drawable.insert_invitation_24px
+                )
+                DetailRow(
+                    label = stringResource(id = R.string.hora_label),
+                    value = hourAppointment,
+                    iconImage = R.drawable.watch_later_24px,
+                    showDivider = false
+                )
+
+                HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                    color = AlwaysBlack.copy(alpha = 0.1f)
+                )
+
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 16.dp, vertical = 8.dp),
+                    horizontalArrangement = Arrangement.SpaceBetween,
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Text(
+                        text = stringResource(id = R.string.Total),
+                        style = MaterialTheme.typography.titleMedium,
+                        color = AlwaysBlack
+                    )
+                    Text(
+                        text = "$$servicePrice",
+                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                        color = Color(0xff051721)
+                    )
+                }
+            }
         }
-        Spacer(modifier = Modifier.height(32.dp))
-        ConfirmButton {
+
+        Spacer(modifier = Modifier.weight(1f))
+
+        ConfirmButton(
+            modifier = Modifier.padding(bottom = 24.dp)
+        ) {
             event(ScheduleAppointmentEvents.OnSaveAppointment)
         }
     }
-
 }
 
 @Composable
@@ -167,49 +203,63 @@ private fun ConfirmButton(
     Button(
         modifier = modifier
             .fillMaxWidth()
-            .padding(16.dp),
-        colors = ButtonDefaults.buttonColors(containerColor = Color(0xff051721)),
-        onClick = {
-            onClick.invoke()
-        }
+            .height(52.dp),
+        shape = RoundedCornerShape(16.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color(0xff051721),
+            contentColor = AlwaysWhite
+        ),
+        onClick = { onClick.invoke() }
     ) {
-        Text(text = stringResource(id = R.string.confirma_cita))
+        Text(
+            text = stringResource(id = R.string.confirma_cita),
+            style = MaterialTheme.typography.labelLarge
+        )
     }
 }
 
 @Composable
-private fun ButtonImageAndText(
-    text: String,
-    sizeIcon: Dp = 24.dp,
-    @DrawableRes iconImage: Int
+private fun DetailRow(
+    label: String,
+    value: String,
+    sizeIcon: Dp = 22.dp,
+    @DrawableRes iconImage: Int,
+    showDivider: Boolean = true
 ) {
-    Card(
-        colors = CardDefaults.cardColors(containerColor = AlwaysWhite),
-        modifier = Modifier
-            .padding(horizontal = 16.dp)
-            .fillMaxWidth(),
-        onClick = {},
-        shape = RoundedCornerShape(24.dp)
-    ) {
+    Column {
         Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 16.dp, vertical = 12.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
-                painterResource(id = iconImage),
-                contentDescription = null,
-                modifier = Modifier
-                    .padding(start = 16.dp)
-                    .size(sizeIcon)
+                painter = painterResource(id = iconImage),
+                contentDescription = label,
+                colorFilter = ColorFilter.tint(Color(0xff051721)),
+                modifier = Modifier.size(sizeIcon)
             )
-            Spacer(modifier = Modifier.width(32.dp))
-            Text(
-                modifier = Modifier.padding(start = 10.dp, top = 8.dp, bottom = 8.dp),
-                text = text,
-                color = AlwaysBlack
+            Spacer(modifier = Modifier.width(16.dp))
+            Column {
+                Text(
+                    text = label,
+                    style = MaterialTheme.typography.labelSmall,
+                    color = AlwaysBlack.copy(alpha = 0.6f)
+                )
+                Text(
+                    text = value,
+                    style = MaterialTheme.typography.bodyLarge,
+                    color = AlwaysBlack
+                )
+            }
+        }
+        if (showDivider) {
+            HorizontalDivider(
+                modifier = Modifier.padding(start = 54.dp, end = 16.dp),
+                color = AlwaysBlack.copy(alpha = 0.08f)
             )
         }
     }
-
 }
 
 @Composable
