@@ -6,6 +6,7 @@ import com.example.domain.entities.local.AppointmentObject
 import com.example.domain.entities.remote.Service
 import com.example.domain.entities.remote.Staff
 import com.example.domain.entities.remote.migration.NegoInfo
+import com.example.domain.extension.toInitials
 import com.example.domain.mappers.toAppointmentObject
 import com.example.domain.perfil.Appointment
 import com.example.domain.perfil.AppointmentFirebase
@@ -89,7 +90,7 @@ class AppointmentsRepositoryImpl @Inject constructor(
                 branch.copy(
                     staffs = branch.staffs.map { staff ->
                         staff.copy(
-                            initials = getInitials(staff.name)
+                            initials = staff.name.toInitials()
                         )
                     },
                     sucursal = branch.sucursal.copy(isOpen = isBranchOpenUseCase.invoke(branch.sucursal.schedule))
@@ -115,15 +116,6 @@ class AppointmentsRepositoryImpl @Inject constructor(
         }.getOrElse {
             ApiResult.Error(it.message.orEmpty())
         }
-    }
-
-    private fun getInitials(name: String?): String {
-        return name
-            ?.split(" ")
-            ?.filter { it.isNotBlank() }
-            ?.take(2)
-            ?.joinToString("") { it.first().uppercase() }
-            .orEmpty()
     }
 
 }

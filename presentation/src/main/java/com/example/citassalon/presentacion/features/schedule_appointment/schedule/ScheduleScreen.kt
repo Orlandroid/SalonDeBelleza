@@ -1,36 +1,43 @@
 package com.example.citassalon.presentacion.features.schedule_appointment.schedule
 
-import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.CalendarToday
+import androidx.compose.material.icons.filled.ContentCut
+import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedCard
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.OutlinedTextFieldDefaults
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -114,10 +121,13 @@ private fun ScheduleScreenContent(
     onEvents: (event: ScheduleScreenEvents) -> Unit
 ) {
     Column(
-        modifier
+        modifier = modifier
             .fillMaxSize()
             .background(Background)
+            .padding(horizontal = 16.dp),
+        verticalArrangement = Arrangement.Center
     ) {
+        Spacer(modifier = Modifier.height(24.dp))
         StaffInfo(
             image = state.currentStaff?.image_url.orEmpty(),
             name = state.currentStaff?.name.orEmpty(),
@@ -125,6 +135,7 @@ private fun ScheduleScreenContent(
             services = state.listOfServices[0].name,
             price = state.listOfServices[0].precio.toString()
         )
+        Spacer(modifier = Modifier.height(24.dp))
         ScheduleInputs(date = date, time = time, onEvents = onEvents)
     }
 }
@@ -139,46 +150,70 @@ private fun StaffInfo(
     price: String
 ) {
     ElevatedCard(
-        elevation = CardDefaults.cardElevation(
-            defaultElevation = 8.dp
-        ),
-        shape = MaterialTheme.shapes.medium,
-        modifier = Modifier.padding(start = 16.dp, end = 16.dp, top = 32.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
+        shape = MaterialTheme.shapes.large,
+        modifier = Modifier.fillMaxWidth()
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.SpaceEvenly,
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(vertical = 24.dp, horizontal = 16.dp)
         ) {
             AsyncImage(
                 model = image,
-                contentDescription = "imageStaff",
+                contentDescription = "Foto de $name",
                 modifier = Modifier
-                    .height(150.dp)
-                    .size(150.dp)
-                    .padding(top = 24.dp)
+                    .size(96.dp)
+                    .clip(CircleShape)
+                    .background(MaterialTheme.colorScheme.surfaceVariant)
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
-                fontSize = 30.sp,
-                text = name
+                text = name,
+                style = MaterialTheme.typography.headlineSmall,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurface
             )
+            Spacer(modifier = Modifier.height(4.dp))
+            InfoRow(icon = Icons.Default.Place, text = branch)
+            Spacer(modifier = Modifier.height(4.dp))
+            InfoRow(icon = Icons.Default.ContentCut, text = services)
+
+            Spacer(modifier = Modifier.height(16.dp))
+            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
+            Spacer(modifier = Modifier.height(12.dp))
+
             Text(
-                fontSize = 30.sp,
-                text = branch
-            )
-            Text(
-                fontSize = 30.sp,
-                text = services
-            )
-            Text(
-                modifier = Modifier.padding(bottom = 8.dp),
-                fontSize = 30.sp,
-                text = price
+                text = "$$price",
+                style = MaterialTheme.typography.titleLarge,
+                fontWeight = FontWeight.Bold,
+                color = MaterialTheme.colorScheme.primary
             )
         }
     }
 }
+
+@Composable
+private fun InfoRow(icon: androidx.compose.ui.graphics.vector.ImageVector, text: String) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement = Arrangement.spacedBy(6.dp)
+    ) {
+        Icon(
+            imageVector = icon,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.size(16.dp)
+        )
+        Text(
+            text = text,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+    }
+}
+
 
 @Composable
 private fun ScheduleInputs(
@@ -187,14 +222,17 @@ private fun ScheduleInputs(
     onEvents: (event: ScheduleScreenEvents) -> Unit
 ) {
     OutlinedCard(
-        shape = RoundedCornerShape(topStart = 32.dp, topEnd = 32.dp),
-        modifier = Modifier.padding(top = 32.dp),
-        border = BorderStroke(2.dp, Color.Black)
+        shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
+        modifier = Modifier.fillMaxWidth(),
+        colors = CardDefaults.outlinedCardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        )
     ) {
         Column(
-            Modifier.fillMaxSize(),
-            verticalArrangement = Arrangement.SpaceEvenly,
-            horizontalAlignment = Alignment.CenterHorizontally
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             InputDate(currentDate = date) {
                 onEvents(ScheduleScreenEvents.OnDateClicked)
@@ -202,75 +240,95 @@ private fun ScheduleInputs(
             InputTime(currentTime = time) {
                 onEvents(ScheduleScreenEvents.OnTimeClicked)
             }
-            NextButton {
+            Spacer(modifier = Modifier.height(4.dp))
+            NextButton(enabled = date.isNotBlank() && time.isNotBlank()) {
                 onEvents(ScheduleScreenEvents.OnNextButtonClicked)
             }
         }
-
     }
 }
-
 
 @Composable
 private fun InputDate(
     currentDate: String,
     clickOnIcon: () -> Unit
 ) {
-    TextField(
+    OutlinedTextField(
         enabled = false,
+        readOnly = true,
         value = currentDate,
-        onValueChange = {
-
-        },
-        placeholder = {
-            Text(stringResource(id = R.string.add_date))
-        },
+        onValueChange = {},
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { clickOnIcon() },
+        shape = MaterialTheme.shapes.medium,
+        placeholder = { Text(stringResource(id = R.string.add_date)) },
         trailingIcon = {
             Icon(
                 imageVector = Icons.Default.CalendarToday,
                 contentDescription = null,
-                modifier = Modifier.clickable {
-                    clickOnIcon.invoke()
-                }
+                modifier = Modifier.clickable { clickOnIcon() }
             )
-        }
+        },
+        colors = OutlinedTextFieldDefaults.colors(
+            disabledTextColor = MaterialTheme.colorScheme.onSurface,
+            disabledBorderColor = MaterialTheme.colorScheme.outline,
+            disabledTrailingIconColor = MaterialTheme.colorScheme.primary,
+            disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     )
 }
 
 @Composable
 private fun InputTime(
-    currentTime: String, clickOnIconTime: () -> Unit
+    currentTime: String,
+    clickOnIconTime: () -> Unit
 ) {
-    TextField(
-        modifier = Modifier.clickable { },
+    OutlinedTextField(
         enabled = false,
+        readOnly = true,
         value = currentTime,
-        onValueChange = {
-
-        },
+        onValueChange = {},
+        modifier = Modifier
+            .fillMaxWidth()
+            .clickable { clickOnIconTime() },
+        shape = MaterialTheme.shapes.medium,
         placeholder = { Text(stringResource(id = R.string.selecciona_la_hora_de_tu_cita)) },
         trailingIcon = {
             Icon(
                 imageVector = Icons.Default.AccessTime,
                 contentDescription = null,
-                modifier = Modifier.clickable {
-                    clickOnIconTime()
-                }
+                modifier = Modifier.clickable { clickOnIconTime() }
             )
-        }
+        },
+        colors = OutlinedTextFieldDefaults.colors(
+            disabledTextColor = MaterialTheme.colorScheme.onSurface,
+            disabledBorderColor = MaterialTheme.colorScheme.outline,
+            disabledTrailingIconColor = MaterialTheme.colorScheme.primary,
+            disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     )
 }
 
 @Composable
 private fun NextButton(
+    enabled: Boolean,
     goToConfirmationScreen: () -> Unit
 ) {
     Button(
-        onClick = {
-            goToConfirmationScreen.invoke()
-        }
+        onClick = { goToConfirmationScreen() },
+        enabled = enabled,
+        modifier = Modifier
+            .fillMaxWidth()
+            .height(52.dp),
+        shape = MaterialTheme.shapes.medium,
+        colors = ButtonDefaults.buttonColors()
     ) {
-        Text(text = stringResource(id = R.string.next))
+        Text(
+            text = stringResource(id = R.string.next),
+            fontSize = 16.sp,
+            fontWeight = FontWeight.SemiBold
+        )
     }
 }
 

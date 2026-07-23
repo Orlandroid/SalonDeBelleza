@@ -245,7 +245,7 @@ fun BranchItem(
                     fontSize = 16.sp
                 )
                 Spacer(modifier = Modifier.width(16.dp))
-                OpenBadge(isOpen = true)
+                OpenBadge(isOpen = isOpen)
             }
         }
     }

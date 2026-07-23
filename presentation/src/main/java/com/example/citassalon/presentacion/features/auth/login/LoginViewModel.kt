@@ -159,6 +159,7 @@ class LoginViewModel
         }
         if (!passwordValidator.isValidPassword(state.value.password)) {
             _state.update { it.copy(showErrorPassword = true) }
+            return
         }
         _state.update { it.copy(isButtonLoginEnable = true) }
     }

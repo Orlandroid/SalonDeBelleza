@@ -9,6 +9,7 @@ import com.example.domain.state.ApiResult
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
@@ -61,8 +62,8 @@ class LoginViewModelTest {
     fun onUserNameChange_shouldUpdateUserNameAndValidateForm() = runTest {
         viewModel.state.test {
             //Given
-            coEvery { emailValidator.isValidEmail(any()) } returns true
-            coEvery { passwordValidator.isValidPassword(any()) } returns true
+            every { emailValidator.isValidEmail(any()) } returns true
+            every { passwordValidator.isValidPassword(any()) } returns true
 
             val initialState = awaitItem()
             assert(initialState.userName.isEmpty())
@@ -72,6 +73,7 @@ class LoginViewModelTest {
             val userName = "test@example.com"
             //When
             viewModel.onEvents(LoginEvents.OnUserNameChange(userName))
+
             val secondState = awaitItem()
             val thirdState = awaitItem()
             assertThat(secondState.userName).isEqualTo(userName)
