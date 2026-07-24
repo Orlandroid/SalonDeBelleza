@@ -1,34 +1,43 @@
 package com.example.citassalon.presentacion.features.profile.historial_citas
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.DeleteOutline
+import androidx.compose.material.icons.outlined.Storefront
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
-import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
@@ -85,7 +94,6 @@ fun AppointmentHistoryScreen(
     }
 }
 
-
 @Composable
 private fun AppointmentHistoryScreenContent(
     uiState: AppointmentHistoryUiState,
@@ -139,7 +147,9 @@ private fun AppointHistoryList(
     onEvents: (event: AppointmentHistoryEvents) -> Unit
 ) {
     Column(
-        modifier = modifier.fillMaxSize()
+        modifier = modifier
+            .fillMaxSize()
+            .background(MaterialTheme.colorScheme.surfaceContainerLowest)
     ) {
         if (appointments.isEmpty()) {
             NotDatView()
@@ -152,23 +162,29 @@ private fun AppointHistoryList(
     }
 }
 
-
 @Composable
 private fun Appointments(
     appointments: List<Appointment>,
     onEvents: (event: AppointmentHistoryEvents) -> Unit
 ) {
-    LazyColumn {
+    LazyColumn(
+        modifier = Modifier.fillMaxSize(),
+        contentPadding = PaddingValues(
+            horizontal = 16.dp,
+            vertical = 12.dp
+        ),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
+    ) {
         items(
             items = appointments,
             key = { it.id }
         ) { appointment ->
             ItemAppointment(
                 appointment = appointment,
-                onAppointmentClicked = { appointment ->
+                onAppointmentClicked = { appointmentId ->
                     onEvents(
                         AppointmentHistoryEvents.OnAppointmentClicked(
-                            appointment
+                            appointmentId
                         )
                     )
                 },
@@ -187,61 +203,81 @@ private fun ItemAppointment(
     onAppointmentClicked: (appointmentId: String) -> Unit
 ) {
     Card(
-        modifier = Modifier.padding(8.dp),
-        elevation = CardDefaults.cardElevation(8.dp),
-        shape = RoundedCornerShape(16.dp),
-        onClick = {
-            onAppointmentClicked(appointment.id)
-        }
+        modifier = Modifier
+            .fillMaxWidth(),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        shape = RoundedCornerShape(20.dp),
+        onClick = { onAppointmentClicked(appointment.id) }
     ) {
-        Column(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.Center
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(12.dp),
+            verticalAlignment = Alignment.CenterVertically
         ) {
-            Image(
-                modifier = Modifier
-                    .height(150.dp)
-                    .width(150.dp),
-                painter = painterResource(id = R.drawable.tienda),
-                contentDescription = "ImageAppointment"
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                modifier = Modifier.fillMaxWidth(),
-                text = appointment.service,
-                fontSize = 24.sp,
-                textAlign = TextAlign.Center
-            )
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(text = appointment.branch, fontSize = 24.sp)
-            Spacer(modifier = Modifier.height(16.dp))
-            Text(
-                modifier = Modifier.clickable {
-                    onRemoveAppointment.invoke()
-                },
-                color = Color.Red.copy(alpha = .80f),
-                text = stringResource(R.string.remove),
-                fontSize = 24.sp,
-            )
-            Spacer(modifier = Modifier.height(16.dp))
+            Surface(
+                shape = RoundedCornerShape(16.dp),
+                color = MaterialTheme.colorScheme.surfaceContainerHigh
+            ) {
+                Image(
+                    modifier = Modifier.size(72.dp),
+                    painter = painterResource(id = R.drawable.tienda),
+                    contentDescription = null
+                )
+            }
+
+            Spacer(modifier = Modifier.width(16.dp))
+
+
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+                Text(
+                    text = appointment.service,
+                    style = MaterialTheme.typography.titleMedium,
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.onSurface,
+                    maxLines = 2,
+                    overflow = TextOverflow.Ellipsis
+                )
+                Spacer(modifier = Modifier.height(6.dp))
+                BranchRow(branchName = appointment.branch)
+            }
+
+            Spacer(modifier = Modifier.width(4.dp))
+
+            IconButton(onClick = onRemoveAppointment) {
+                Icon(
+                    imageVector = Icons.Outlined.DeleteOutline,
+                    contentDescription = stringResource(R.string.remove),
+                    tint = MaterialTheme.colorScheme.error.copy(alpha = 0.85f)
+                )
+            }
         }
     }
 }
 
-
 @Composable
-@Preview(showBackground = true)
-private fun AppointHistoryListPreview() {
-    val mAppointment = Appointment(
-        branch = "establishment",
-        service = "Delineado de barba y bigote, o cejas",
-        id = ""
-    )
-    AppointHistoryList(
-        appointments = listOf(mAppointment, mAppointment, mAppointment),
-        onEvents = {}
-    )
+private fun BranchRow(branchName: String) {
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Icon(
+            imageVector = Icons.Outlined.Storefront,
+            contentDescription = null,
+            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+            modifier = Modifier.size(16.dp)
+        )
+        Spacer(modifier = Modifier.width(4.dp))
+        Text(
+            text = branchName,
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            maxLines = 1,
+            overflow = TextOverflow.Ellipsis
+        )
+    }
 }
 
 @Composable
@@ -251,26 +287,49 @@ private fun NotDatView() {
             getRandomNoDataAnimation()
         )
     )
-    Box(Modifier.fillMaxSize()) {
-        LottieAnimation(
-            modifier = Modifier
-                .height(250.dp)
-                .width(250.dp),
-            iterations = LottieConstants.IterateForever,
-            composition = composition,
-            alignment = Alignment.Center
-        )
+    Box(
+        modifier = Modifier.fillMaxSize(),
+        contentAlignment = Alignment.Center
+    ) {
+        Column(horizontalAlignment = Alignment.CenterHorizontally) {
+            LottieAnimation(
+                modifier = Modifier
+                    .height(220.dp)
+                    .width(220.dp),
+                iterations = LottieConstants.IterateForever,
+                composition = composition,
+                alignment = Alignment.Center
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Text(
+                text = stringResource(R.string.no_appointments_yet),
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
+        }
     }
 }
 
 private fun getRandomNoDataAnimation(): Int = when ((1..3).random()) {
-    1 -> {
-        R.raw.no_data_animation
-    }
-
-    2 -> {
-        R.raw.no_data_available
-    }
-
+    1 -> R.raw.no_data_animation
+    2 -> R.raw.no_data_available
     else -> R.raw.no_data_found
+}
+
+@Composable
+@Preview(showBackground = true)
+private fun AppointHistoryListPreview() {
+    val mAppointment = Appointment(
+        branch = "Sucursal Centro",
+        service = "Delineado de barba y bigote, o cejas",
+        id = "1"
+    )
+    AppointHistoryList(
+        appointments = listOf(
+            mAppointment,
+            mAppointment.copy(id = "2"),
+            mAppointment.copy(id = "3")
+        ),
+        onEvents = {}
+    )
 }

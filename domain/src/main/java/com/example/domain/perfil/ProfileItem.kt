@@ -4,23 +4,7 @@ data class ProfileItem(
     val nameResId: Int,
     val image: Int,
     val menu: MENU
-) {
-    companion object {
-        private fun mockProfile(image: Int) = ProfileItem(
-            nameResId = 1,
-            image = image,
-            menu = MENU.PROFILE
-        )
-
-        fun mockProfileList(image: Int) = listOf(
-            mockProfile(image),
-            mockProfile(image),
-            mockProfile(image),
-            mockProfile(image),
-        )
-    }
-
-}
+)
 
 enum class MENU {
     PROFILE,

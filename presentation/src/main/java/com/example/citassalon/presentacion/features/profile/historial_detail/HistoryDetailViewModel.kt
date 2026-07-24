@@ -21,10 +21,6 @@ data class HistoryDetailUiState(
     val appointment: AppointmentObject? = null
 )
 
-sealed class HistoryDetailEvents {
-    object OnProfileClicked : HistoryDetailEvents()
-}
-
 @HiltViewModel(assistedFactory = HistoryDetailViewModelFactory::class)
 class HistoryDetailViewModel @AssistedInject constructor(
     private val appointmentsRepository: AppointmentsRepository,
@@ -43,14 +39,6 @@ class HistoryDetailViewModel @AssistedInject constructor(
         initialValue = BaseScreenState.OnLoading
     )
 
-
-    fun onEvents(event: HistoryDetailEvents) {
-        when (event) {
-            HistoryDetailEvents.OnProfileClicked -> {
-
-            }
-        }
-    }
 
     private fun getAppointment(appointmentId: String) {
         viewModelScope.launch {

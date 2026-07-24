@@ -204,4 +204,5 @@
     <string name="servicio_label">Servicio</string>
     <string name="fecha_label">Fecha</string>
     <string name="hora_label">Hora</string>
+    <string name="no_appointments_yet">You don\'t have any appointments yet</string>
 </resources>
