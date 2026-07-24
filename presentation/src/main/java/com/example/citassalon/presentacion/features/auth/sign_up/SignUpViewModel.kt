@@ -6,8 +6,8 @@ import com.example.citassalon.presentacion.features.extensions.dateFormat
 import com.example.citassalon.presentacion.features.extensions.getCurrentDateTime
 import com.example.citassalon.presentacion.features.extensions.toStringFormat
 import com.example.data.di.IoDispatcher
-import com.example.data.remote.auth.AuthRepository
-import com.example.data.remote.user.UserRepository
+import com.example.domain.repository.AuthRepository
+import com.example.domain.repository.UserRepository
 import com.example.domain.entities.remote.User
 import com.example.domain.state.getContent
 import com.example.domain.state.getErrorMessage

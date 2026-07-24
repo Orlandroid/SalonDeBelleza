@@ -2,7 +2,7 @@ package com.example.citassalon.presentacion.features.profile.profile
 
 import app.cash.turbine.test
 import com.example.data.preferences.LoginPreferences
-import com.example.data.remote.auth.AuthRepository
+import com.example.domain.repository.AuthRepository
 import com.example.domain.state.ApiResult
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery

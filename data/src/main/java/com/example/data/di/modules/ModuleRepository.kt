@@ -9,7 +9,7 @@ import com.example.data.di.qualifiers.AppointmentsRef
 import com.example.data.di.qualifiers.UsersRef
 import com.example.data.remote.appointments.AppointmentsRepository
 import com.example.data.remote.appointments.AppointmentsRepositoryImpl
-import com.example.data.remote.auth.AuthRepository
+import com.example.domain.repository.AuthRepository
 import com.example.data.remote.auth.AuthRepositoryImp
 import com.example.data.remote.dummy_json.DummyJsonRepository
 import com.example.data.remote.dummy_json.DummyJsonRepositoryImp
@@ -21,9 +21,10 @@ import com.example.data.remote.products.ProductRepository
 import com.example.data.remote.products.ProductRepositoryImpl
 import com.example.data.remote.products.commons.category.CategoryProviderResolver
 import com.example.data.remote.products.commons.product.ProductProviderResolver
-import com.example.data.remote.user.UserRepository
+import com.example.domain.repository.UserRepository
 import com.example.data.remote.user.UserRepositoryImpl
 import com.example.data.database.local.LocalDataSource
+import com.example.data.preferences.LoginPreferences
 import com.example.domain.RemoteDataSource
 import com.example.domain.use_cases.IsBranchOpenUseCase
 import com.google.firebase.auth.FirebaseAuth
@@ -75,14 +76,19 @@ object ModuleRepository {
         api: WebServices,
         isBranchOpenUseCase: IsBranchOpenUseCase
     ): AppointmentsRepository =
-        AppointmentsRepositoryImpl(databaseReference = databaseReference, webServices = api, isBranchOpenUseCase = isBranchOpenUseCase)
+        AppointmentsRepositoryImpl(
+            databaseReference = databaseReference,
+            webServices = api,
+            isBranchOpenUseCase = isBranchOpenUseCase
+        )
 
     @Singleton
     @Provides
     fun provideUserRepository(
-        @UsersRef databaseReference: DatabaseReference
+        @UsersRef databaseReference: DatabaseReference,
+        preferences: LoginPreferences
     ): UserRepository =
-        UserRepositoryImpl(databaseReference = databaseReference)
+        UserRepositoryImpl(databaseReference = databaseReference, loginPreferences = preferences)
 
     @Singleton
     @Provides

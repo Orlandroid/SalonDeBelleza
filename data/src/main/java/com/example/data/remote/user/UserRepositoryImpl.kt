@@ -2,8 +2,10 @@ package com.example.data.remote.user
 
 
 import com.example.data.di.qualifiers.UsersRef
+import com.example.data.preferences.LoginPreferences
 import com.example.domain.entities.remote.User
 import com.example.domain.perfil.UserInfoFirebase
+import com.example.domain.repository.UserRepository
 import com.example.domain.state.ApiResult
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -15,7 +17,8 @@ import javax.inject.Inject
 import kotlin.coroutines.resume
 
 class UserRepositoryImpl @Inject constructor(
-    @param:UsersRef private val databaseReference: DatabaseReference
+    @param:UsersRef private val databaseReference: DatabaseReference,
+    private val loginPreferences: LoginPreferences
 ) :
     UserRepository {
 
@@ -72,6 +75,15 @@ class UserRepositoryImpl @Inject constructor(
             ApiResult.Success(Any())
         } catch (e: Exception) {
             ApiResult.Error(error = e.message.orEmpty())
+        }
+    }
+
+    override suspend fun getUserMoney(): ApiResult<String> {
+        runCatching {
+            val userMoney = loginPreferences.getUserMoney()
+            return ApiResult.Success(userMoney.toString())
+        }.getOrElse {
+            return ApiResult.Error(it.message)
         }
     }
 

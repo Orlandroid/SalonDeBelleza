@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.validation.EmailValidator
 import com.example.data.di.IoDispatcher
-import com.example.data.remote.auth.AuthRepository
+import com.example.domain.repository.AuthRepository
 import com.example.domain.state.isSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher

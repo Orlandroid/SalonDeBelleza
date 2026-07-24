@@ -5,8 +5,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.base.BaseScreenState
+import com.example.citassalon.presentacion.features.mappers.toUiState
 import com.example.domain.state.getContent
 import com.example.domain.state.isSuccess
+import com.example.domain.use_cases.GetUserInfoUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -48,7 +50,7 @@ class UserProfileViewModel @Inject constructor(
     private suspend fun getUserInfo() {
         val userInfo = getUserInfoUseCase.invoke()
         if (userInfo.isSuccess()) {
-            _state.update { BaseScreenState.OnContent(content = userInfo.getContent()) }
+            _state.update { BaseScreenState.OnContent(content = userInfo.getContent().toUiState()) }
             return
         }
         _state.update { BaseScreenState.OnError(error = Throwable()) }

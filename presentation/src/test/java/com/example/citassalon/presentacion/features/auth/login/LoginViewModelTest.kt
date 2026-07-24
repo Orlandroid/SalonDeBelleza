@@ -4,14 +4,13 @@ import app.cash.turbine.test
 import com.example.data.preferences.LoginPreferences
 import com.example.domain.validation.EmailValidator
 import com.example.domain.validation.PasswordValidator
-import com.example.data.remote.auth.AuthRepository
+import com.example.domain.repository.AuthRepository
 import com.example.domain.state.ApiResult
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
 import io.mockk.mockk
-import io.mockk.verify
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher

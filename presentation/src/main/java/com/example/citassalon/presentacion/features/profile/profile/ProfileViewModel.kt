@@ -3,7 +3,7 @@ package com.example.citassalon.presentacion.features.profile.profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.data.preferences.LoginPreferences
-import com.example.data.remote.auth.AuthRepository
+import com.example.domain.repository.AuthRepository
 import com.example.domain.perfil.ProfileItem
 import com.example.domain.state.getContent
 import com.example.domain.state.isSuccess
