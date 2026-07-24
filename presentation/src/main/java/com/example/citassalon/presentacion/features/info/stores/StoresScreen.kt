@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -27,11 +28,6 @@ import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
-import com.example.citassalon.presentacion.features.info.products.categories.DUMMY_JSON
-import com.example.citassalon.presentacion.features.info.products.categories.FAKE_STORE
-import com.example.citassalon.presentacion.features.info.products.categories.MyDummy
-import com.example.citassalon.presentacion.features.info.products.categories.PLATZY
-import com.example.citassalon.presentacion.features.info.products.categories.Store
 import com.example.data.remote.products.commons.product.ProductSource
 import com.example.data.remote.products.commons.product.toCategorySource
 import kotlin.random.Random
@@ -86,28 +82,13 @@ private fun StoresMenu(
             .background(Color.White)
             .fillMaxHeight()
     ) {
-        items(setStores().size) {
+        items(stores) { store ->
             Spacer(modifier = Modifier.height(8.dp))
             TextWithArrow(
                 config = TextWithArrowConfig(
-                    text = setStores()[it].name, clickOnItem = {
-                        when (it) {
-                            0 -> {
-                                goToStoresList(ProductSource.FAKE_STORE)
-                            }
-
-                            1 -> {
-                                goToStoresList(ProductSource.DUMMY_JSON)
-                            }
-
-                            2 -> {
-                                goToStoresList(ProductSource.PLATZI)
-                            }
-
-                            3 -> {
-                                goToStoresList(ProductSource.MY_DUMMY_API)
-                            }
-                        }
+                    text = store.name,
+                    clickOnItem = {
+                        goToStoresList(store.source)
                     }
                 )
             )
@@ -115,8 +96,23 @@ private fun StoresMenu(
     }
 }
 
-private fun setStores() = listOf(
-    Store(name = FAKE_STORE), Store(name = DUMMY_JSON), Store(name = PLATZY), Store(name = MyDummy)
+private val stores = listOf(
+    Store(
+        name = FAKE_STORE,
+        source = ProductSource.FAKE_STORE
+    ),
+    Store(
+        name = DUMMY_JSON,
+        source = ProductSource.DUMMY_JSON
+    ),
+    Store(
+        name = PLATZY,
+        source = ProductSource.PLATZI
+    ),
+    Store(
+        name = MyDummy,
+        source = ProductSource.MY_DUMMY_API
+    )
 )
 
 private fun setAnimation(): Int {

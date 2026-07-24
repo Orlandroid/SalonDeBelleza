@@ -19,7 +19,6 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 data class OurStaffUiState(
     val staffs: List<User>
 )
@@ -29,7 +28,6 @@ class OurStaffViewModel @Inject constructor(
     private val repository: com.example.data.Repository,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
-
 
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
         _state.update { BaseScreenState.OnError(error = exception) }

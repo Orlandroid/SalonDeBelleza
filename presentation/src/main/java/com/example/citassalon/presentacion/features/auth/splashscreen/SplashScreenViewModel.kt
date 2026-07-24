@@ -22,8 +22,7 @@ data class SplashScreenUiState(
 @HiltViewModel
 class SplashScreenViewModel
 @Inject constructor(
-    private val loginPreferences: LoginPreferences,
-    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
+    private val loginPreferences: LoginPreferences
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<SplashScreenUiState> =

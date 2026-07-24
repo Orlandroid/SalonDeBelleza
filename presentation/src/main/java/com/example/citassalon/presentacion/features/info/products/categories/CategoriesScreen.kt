@@ -33,18 +33,11 @@ import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.data.remote.products.commons.category.CategorySource
+import com.example.data.remote.products.commons.product.ProductSource
 import com.example.domain.entities.remote.products.Category
 import kotlinx.coroutines.flow.collectLatest
 
-const val FAKE_STORE = "Fake store"
-const val DUMMY_JSON = "DummyJSON"
-const val PLATZY = "Platzy"
-const val MyDummy = "MyDummy"
 
-
-data class Store(
-    val name: String = ""
-)
 
 @Composable
 fun CategoriesScreen(
@@ -152,7 +145,8 @@ private fun CategoriesScreenContentPreview() {
         categories = listOf(
             Category(id = "0", name = "Category 1"),
             Category(id = "1", name = "Category 2"),
-            Category(id = "2", name = "Category 3")
+            Category(id = "2", name = "Category 3"),
+            Category(id = "3", name = "Category 4"),
         ),
         onEvent = {}
     )
