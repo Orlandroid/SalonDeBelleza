@@ -12,8 +12,7 @@ import com.example.domain.state.isSuccess
 import javax.inject.Inject
 
 class GetUserInfoUseCase @Inject constructor(
-    private val authRepository: AuthRepository,
-    private val userRepository: UserRepository
+    private val authRepository: AuthRepository, private val userRepository: UserRepository
 ) {
 
     //Todo add use for get random info for this fake api https://randomuser.me/
@@ -24,7 +23,12 @@ class GetUserInfoUseCase @Inject constructor(
             return ApiResult.Error(userResult.getErrorMessage())
         }
         val user = userResult.getResultOrNull() ?: return ApiResult.Error("User not found")
-        val money = userRepository.getUserMoney().toString()
+        val moneyResult = userRepository.getUserMoney()
+        val money = if (moneyResult.isSuccess()) {
+            moneyResult.getContent()
+        } else {
+            "0"
+        }
         var image: String? = null
         val imageResult = userRepository.getUserImage()
         if (imageResult.isSuccess()) {
@@ -50,8 +54,7 @@ class GetUserInfoUseCase @Inject constructor(
     }
 
     enum class UserSessionStatus {
-        ACTIVE,
-        INACTIVE
+        ACTIVE, INACTIVE
     }
 
     private fun getUserSessionStatus(): UserSessionStatus {

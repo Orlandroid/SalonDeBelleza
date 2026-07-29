@@ -107,7 +107,7 @@ fun ScheduleScreen(
             date = uiState.dateAppointment,
             time = uiState.hourAppointment,
             onEvents = onEvents,
-            state = state.value,
+            state = state.value
         )
     }
 }
