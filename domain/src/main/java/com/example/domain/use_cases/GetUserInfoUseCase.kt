@@ -12,10 +12,10 @@ import com.example.domain.state.isSuccess
 import javax.inject.Inject
 
 class GetUserInfoUseCase @Inject constructor(
-    private val authRepository: AuthRepository, private val userRepository: UserRepository
+    private val authRepository: AuthRepository,
+    private val userRepository: UserRepository
 ) {
 
-    //Todo add use for get random info for this fake api https://randomuser.me/
 
     suspend fun invoke(): ApiResult<UserProfile> {
         val userResult = authRepository.getUser()
