@@ -54,10 +54,13 @@ dependencies {
     implementation("androidx.navigation:navigation-common-ktx:2.8.1")
     testImplementation(libs.junit4)
     androidTestImplementation(libs.testJunit)
+    testImplementation(libs.mockk)
     androidTestImplementation(libs.espressoCore)
+    testImplementation(libs.jetbrains.kotlinx.coroutines.test)
     implementation(platform(libs.firebaseBom))
     implementation(libs.bundles.firebase)
     implementation(libs.bundles.room)
     kapt(libs.roomCompiler)
+    testImplementation(libs.truth)
     implementation(libs.kotlinSerialization)
 }

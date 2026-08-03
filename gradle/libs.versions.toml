@@ -51,6 +51,7 @@ mockk = "1.14.11"
 corutinesTest = "1.11.0"
 turbine = "1.2.1"
 dataStore = "1.2.1"
+truth = "1.4.5"
 
 
 [libraries]
@@ -121,6 +122,7 @@ mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 jetbrains-kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-coroutines-test", version.ref = "corutinesTest" }
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 preferencesDataStore = { module = "androidx.datastore:datastore-preferences", version.ref = "dataStore" }
+truth = { module = "com.google.truth:truth", version.ref = "truth" }
 
 [bundles]
 room = ["roomRuntime", "roomKtx"]

@@ -1,9 +1,9 @@
 package com.example.citassalon.presentacion.features.auth.forgetpassword
 
 import app.cash.turbine.test
-import com.example.domain.validation.EmailValidator
 import com.example.domain.repository.AuthRepository
 import com.example.domain.state.ApiResult
+import com.example.domain.validation.EmailValidator
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -24,8 +24,6 @@ class ForgetPasswordViewmodelTest {
     private lateinit var viewModel: ForgetPasswordViewmodel
     private lateinit var authRepository: AuthRepository
     private val testDispatcher = StandardTestDispatcher()
-    private val emailValidator = mockk<EmailValidator>()
-
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
@@ -52,6 +50,9 @@ class ForgetPasswordViewmodelTest {
         assertEquals(false, initialState.showErrorInvalidEmail)
         assertEquals(false, initialState.isLoading)
     }
+    private val emailValidator = mockk<EmailValidator>()
+
+
 
     @Test
     fun onResetPassword_whenRepositoryReturnsSuccess_shouldUpdateLoadingAndShowEffect() =
