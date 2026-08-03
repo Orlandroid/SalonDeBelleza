@@ -6,11 +6,11 @@ buildscript {
         maven(url = "https://jitpack.io")
     }
     dependencies {
-        val kotlinVersion = "2.2.21"
+        val kotlinVersion = "2.4.10"
         classpath("com.android.tools.build:gradle:9.3.1")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlinVersion")
-        classpath("com.google.gms:google-services:4.4.4")
-        classpath("com.google.dagger:hilt-android-gradle-plugin:2.57.2")
+        classpath("com.google.gms:google-services:4.5.0")
+        classpath("com.google.dagger:hilt-android-gradle-plugin:2.60.1")
         classpath("org.jetbrains.kotlin:kotlin-serialization:$kotlinVersion")
         classpath("org.jetbrains.kotlin.plugin.compose:org.jetbrains.kotlin.plugin.compose.gradle.plugin:$kotlinVersion")
     }
