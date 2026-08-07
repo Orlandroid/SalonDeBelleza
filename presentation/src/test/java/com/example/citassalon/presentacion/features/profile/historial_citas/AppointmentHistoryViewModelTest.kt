@@ -1,6 +1,5 @@
 package com.example.citassalon.presentacion.features.profile.historial_citas
 
-import com.example.citassalon.presentacion.main.NetworkHelper
 import com.example.data.remote.appointments.AppointmentsRepository
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers

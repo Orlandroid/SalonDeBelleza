@@ -12,7 +12,8 @@ plugins {
     id("kotlin-parcelize")
     id("com.google.gms.google-services")
     id("org.jetbrains.kotlin.plugin.compose")
-    kotlin("plugin.serialization")
+    alias(libs.plugins.kotlin.serialization)
+
 }
 
 android {
