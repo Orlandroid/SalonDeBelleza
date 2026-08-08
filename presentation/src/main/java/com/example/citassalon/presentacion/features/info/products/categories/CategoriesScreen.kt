@@ -30,13 +30,11 @@ import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
-import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
 import com.example.citassalon.presentacion.features.theme.Background
-import com.example.data.remote.products.commons.category.CategorySource
-import com.example.data.remote.products.commons.product.ProductSource
+import com.example.core.info.InfoNavigationScreens
+import com.example.domain.CategorySource
 import com.example.domain.entities.remote.products.Category
 import kotlinx.coroutines.flow.collectLatest
-
 
 
 @Composable

@@ -1,7 +1,7 @@
 package com.example.data.remote.products
 
 import com.example.data.remote.products.commons.category.CategoryProviderResolver
-import com.example.data.remote.products.commons.category.CategorySource
+import com.example.domain.CategorySource
 import com.example.domain.entities.remote.products.Product
 
 class CategoryRepositoryImpl(

@@ -5,10 +5,10 @@ import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.data.di.IoDispatcher
 import com.example.data.remote.products.CategoryRepository
-import com.example.data.remote.products.commons.category.CategorySource
-import com.example.data.remote.products.commons.category.toProductSource
-import com.example.data.remote.products.commons.product.ProductSource
+import com.example.domain.CategorySource
+import com.example.domain.ProductSource
 import com.example.domain.entities.remote.products.Category
+import com.example.domain.toProductSource
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel

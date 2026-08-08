@@ -1,6 +1,6 @@
 package com.example.citassalon.presentacion.features.info.stores
 
-import com.example.data.remote.products.commons.product.ProductSource
+import com.example.domain.ProductSource
 
 
 const val FAKE_STORE = "Fake store"

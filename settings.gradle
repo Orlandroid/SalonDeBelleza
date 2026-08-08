@@ -18,3 +18,4 @@ rootProject.name = "CitasSalon"
 include ':presentation'
 include ':domain'
 include ':data'
+include ':core'

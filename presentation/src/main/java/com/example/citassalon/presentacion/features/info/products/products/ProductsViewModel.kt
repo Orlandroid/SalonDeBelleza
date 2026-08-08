@@ -9,11 +9,11 @@ import com.example.data.Repository
 import com.example.data.di.IoDispatcher
 import com.example.data.remote.products.CategoryRepository
 import com.example.data.remote.products.ProductRepository
-import com.example.data.remote.products.commons.product.ProductSource
-import com.example.data.remote.products.commons.product.toCategorySource
+import com.example.domain.ProductSource
 import com.example.domain.entities.remote.products.Product
 import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
+import com.example.domain.toCategorySource
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel

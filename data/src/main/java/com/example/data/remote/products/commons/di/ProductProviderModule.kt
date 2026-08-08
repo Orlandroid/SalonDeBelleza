@@ -3,7 +3,6 @@ package com.example.data.remote.products.commons.di
 
 import com.example.data.remote.products.commons.product.ProductProvider
 import com.example.data.remote.products.commons.product.ProductProviderResolver
-import com.example.data.remote.products.commons.product.ProductSource
 import com.example.data.remote.products.dummyjson.DummyJsonApiV2
 import com.example.data.remote.products.dummyjson.DummyJsonProductProvider
 import com.example.data.remote.products.fakestore.FakeStoreApi
@@ -12,6 +11,7 @@ import com.example.data.remote.products.mydummyapi.MyDummyApi
 import com.example.data.remote.products.mydummyapi.MyDummyProductProvider
 import com.example.data.remote.products.platzy.PlatzyApi
 import com.example.data.remote.products.platzy.PlatzyProductProvider
+import com.example.domain.ProductSource
 import dagger.MapKey
 import dagger.Module
 import dagger.Provides

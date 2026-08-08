@@ -2,11 +2,11 @@ package com.example.data.remote.products.commons.di
 
 import com.example.data.remote.products.commons.category.CategoryProvider
 import com.example.data.remote.products.commons.category.CategoryProviderResolver
-import com.example.data.remote.products.commons.category.CategorySource
 import com.example.data.remote.products.fakestore.FakeStoreApi
 import com.example.data.remote.products.fakestore.FakeStoreCategoryProvider
 import com.example.data.remote.products.platzy.PlatzyApi
 import com.example.data.remote.products.platzy.PlatzyCategoryProvider
+import com.example.domain.CategorySource
 import dagger.MapKey
 import dagger.Module
 import dagger.Provides

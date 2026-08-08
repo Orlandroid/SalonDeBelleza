@@ -6,7 +6,6 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.example.citassalon.presentacion.features.app_navigation.AppNavigationRoutes
 import com.example.citassalon.presentacion.features.app_navigation.MainActivityCompose
 import com.example.citassalon.presentacion.features.extensions.sharedViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.branches.BranchFlow
@@ -20,6 +19,7 @@ import com.example.citassalon.presentacion.features.schedule_appointment.schedul
 import com.example.citassalon.presentacion.features.schedule_appointment.schedule_confirmation.ScheduleConfirmationScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.schedule_staff.ScheduleStaffScreen
 import com.example.citassalon.presentacion.features.schedule_appointment.service.ServiceScreen
+import com.example.core.navigation.AppNavigationRoutes
 import com.example.domain.entities.remote.migration.Staff
 
 

@@ -4,10 +4,11 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.example.citassalon.presentacion.features.app_navigation.AppNavigationRoutes
 import com.example.citassalon.presentacion.features.auth.login.LoginScreen
 import com.example.citassalon.presentacion.features.auth.sign_up.SignUpScreen
 import com.example.citassalon.presentacion.features.auth.splashscreen.SplashScreen
+import com.example.core.auth.AuthNavigationRoutes
+import com.example.core.navigation.AppNavigationRoutes
 
 
 fun NavGraphBuilder.authNavigationGraph(
@@ -15,18 +16,18 @@ fun NavGraphBuilder.authNavigationGraph(
     goToScheduleFlow: () -> Unit
 ) {
     navigation<AppNavigationRoutes.AuthNavigationRoute>(
-        startDestination = AuthScreens.SplashRoute
+        startDestination = AuthNavigationRoutes.SplashRoute
     ) {
-        composable<AuthScreens.SplashRoute> {
+        composable<AuthNavigationRoutes.SplashRoute> {
             SplashScreen(
                 navController = navController,
                 goToScheduleNav = goToScheduleFlow
             )
         }
-        composable<AuthScreens.LoginRoute> {
+        composable<AuthNavigationRoutes.LoginRoute> {
             LoginScreen(navController = navController)
         }
-        composable<AuthScreens.SingUpRoute> {
+        composable<AuthNavigationRoutes.SingUpRoute> {
             SignUpScreen(navController)
         }
     }

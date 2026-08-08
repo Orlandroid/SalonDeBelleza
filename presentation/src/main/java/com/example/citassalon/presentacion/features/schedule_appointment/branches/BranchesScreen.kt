@@ -42,13 +42,13 @@ import com.example.citassalon.presentacion.features.components.BaseErrorScreen
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.components.skeletons.BranchesScreenSkeletons
-import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.ScheduleAppointmentEvents
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.ScheduleAppointmentsSideEffects
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.citassalon.presentacion.features.theme.BackgroundListsMainFlow
+import com.example.core.info.InfoNavigationScreens
 import com.example.domain.entities.remote.migration.NegoInfo
 
 private val GreenOpen = Color(0xFF059669)

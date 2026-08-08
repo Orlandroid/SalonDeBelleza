@@ -60,6 +60,7 @@ android {
 dependencies {
     implementation(project(":data"))
     implementation(project(":domain"))
+    implementation(project(":core"))
     implementation(libs.androidCoreKtx)
     implementation(libs.appcompat)
     implementation(libs.material)
@@ -83,27 +84,12 @@ dependencies {
     implementation(libs.androidxStartupRuntime)
 
     //Compose
-    implementation("androidx.compose.runtime:runtime")
     implementation(platform(libs.composeBom))
-    implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
 
 
-    implementation(libs.composeUi)
     implementation(libs.bundles.composeMaterial)
-    implementation(libs.constraintlayoutCompose)
-    implementation(libs.lottieCompose)
-    implementation(libs.coilCompose)
-    implementation(libs.composeRuntimeLivedata)
-    implementation(libs.lifecycleViewmodelCompose)
-    implementation(libs.composeRatingbar)
-    implementation(libs.mapsCompose)
-    implementation(libs.navigationCompose)
-    implementation(libs.hiltNavigationCompose)
-    implementation(libs.composeUiTooling)
-    implementation(libs.activityCompose)
-    testImplementation(libs.mockk)
-    testImplementation(libs.jetbrains.kotlinx.coroutines.test)
-    testImplementation(libs.turbine)
-    testImplementation(libs.truth)
+    implementation(libs.bundles.composeUi)
+    implementation(libs.bundles.compose)
+    implementation(libs.bundles.baseTesting)
 }

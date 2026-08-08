@@ -1,6 +1,6 @@
 package com.example.citassalon.presentacion.features.info.products.categories
 
-import com.example.data.remote.products.commons.category.CategorySource
+import com.example.domain.CategorySource
 import dagger.assisted.AssistedFactory
 
 

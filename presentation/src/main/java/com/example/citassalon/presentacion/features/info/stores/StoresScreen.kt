@@ -27,9 +27,9 @@ import com.example.citassalon.presentacion.features.base.BaseComposeScreen
 import com.example.citassalon.presentacion.features.components.TextWithArrow
 import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
 import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
-import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
-import com.example.data.remote.products.commons.product.ProductSource
-import com.example.data.remote.products.commons.product.toCategorySource
+import com.example.core.info.InfoNavigationScreens
+import com.example.domain.ProductSource
+import com.example.domain.toCategorySource
 import kotlin.random.Random
 
 @Composable

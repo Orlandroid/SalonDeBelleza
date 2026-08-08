@@ -39,9 +39,9 @@ import com.example.citassalon.presentacion.features.dialogs.AlertDialogMessagesC
 import com.example.citassalon.presentacion.features.dialogs.BaseAlertDialogMessages
 import com.example.citassalon.presentacion.features.dialogs.IsTwoButtonsAlert
 import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
-import com.example.citassalon.presentacion.features.info.InfoNavigationScreens
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
+import com.example.core.info.InfoNavigationScreens
 import com.example.domain.entities.remote.products.Product
 import kotlinx.coroutines.flow.collectLatest
 
