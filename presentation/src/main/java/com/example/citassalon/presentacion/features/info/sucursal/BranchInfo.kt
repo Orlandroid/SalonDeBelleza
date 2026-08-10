@@ -14,12 +14,12 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.base.BaseComposeScreen
-import com.example.citassalon.presentacion.features.components.TextWithArrow
-import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
-import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.core.info.InfoNavigationScreens
+import com.example.core.ui.base.BaseComposeScreen
+import com.example.core.ui.components.TextWithArrow
+import com.example.core.ui.components.TextWithArrowConfig
+import com.example.core.ui.components.ToolbarConfiguration
 
 @Composable
 fun BranchInfoScreen(navController: NavController) {

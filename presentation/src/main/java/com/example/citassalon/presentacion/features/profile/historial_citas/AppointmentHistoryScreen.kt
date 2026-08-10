@@ -46,15 +46,15 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.base.BaseComposeScreen
-import com.example.citassalon.presentacion.features.components.BaseErrorScreen
-import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
-import com.example.citassalon.presentacion.features.dialogs.AlertDialogMessagesConfig
-import com.example.citassalon.presentacion.features.dialogs.BaseAlertDialogMessages
-import com.example.citassalon.presentacion.features.dialogs.IsTwoButtonsAlert
-import com.example.citassalon.presentacion.features.dialogs.KindOfMessage
-import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.profile.ProfileNavigationScreen
+import com.example.core.ui.base.BaseComposeScreen
+import com.example.core.ui.components.BaseErrorScreen
+import com.example.core.ui.components.ToolbarConfiguration
+import com.example.core.ui.dialogs.AlertDialogMessagesConfig
+import com.example.core.ui.dialogs.BaseAlertDialogMessages
+import com.example.core.ui.dialogs.IsTwoButtonsAlert
+import com.example.core.ui.dialogs.KindOfMessage
+import com.example.core.ui.dialogs.ProgressDialog
 import com.example.domain.perfil.Appointment
 import kotlinx.coroutines.flow.collectLatest
 

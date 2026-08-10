@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.components
+package com.example.core.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Box
@@ -25,7 +25,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.citassalon.R
+import com.example.core.R
 
 @Composable
 fun ButtonWithIcon(

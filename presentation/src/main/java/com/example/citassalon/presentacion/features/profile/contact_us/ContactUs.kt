@@ -34,9 +34,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.base.BaseComposeScreen
-import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.theme.Background
+import com.example.core.ui.base.BaseComposeScreen
+import com.example.core.ui.components.ToolbarConfiguration
 
 @Composable
 fun ContactUsScreen(

@@ -4,7 +4,7 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.base.BaseScreenState
+import com.example.core.ui.base.BaseScreenState
 import com.example.data.Repository
 import com.example.data.remote.products.CategoryRepository
 import com.example.data.remote.products.ProductRepository

@@ -4,6 +4,7 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.serialization)
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {
@@ -37,5 +38,8 @@ dependencies {
     testImplementation(libs.junit4)
     androidTestImplementation(libs.espressoCore)
     androidTestImplementation(libs.testJunit)
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+    implementation(libs.kotlinSerializationJson)
+    implementation(libs.bundles.composeMaterial)
+    implementation(libs.bundles.composeUi)
+    implementation(libs.bundles.compose)
 }

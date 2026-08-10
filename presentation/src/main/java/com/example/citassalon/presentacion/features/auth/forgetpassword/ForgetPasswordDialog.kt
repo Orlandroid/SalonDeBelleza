@@ -40,11 +40,11 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.base.Orientation
-import com.example.citassalon.presentacion.features.base.SmallSpacer
-import com.example.citassalon.presentacion.features.dialogs.BaseCustomDialog
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.citassalon.presentacion.features.theme.Danger
+import com.example.core.ui.base.Orientation
+import com.example.core.ui.base.SmallSpacer
+import com.example.core.ui.dialogs.BaseCustomDialog
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 import com.example.citassalon.presentacion.features.auth.forgetpassword.ForgetPasswordViewmodel.ForgetPasswordEvents as Events

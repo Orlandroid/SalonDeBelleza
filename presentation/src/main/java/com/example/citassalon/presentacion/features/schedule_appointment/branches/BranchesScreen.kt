@@ -33,15 +33,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.base.BaseComposeScreen
-import com.example.citassalon.presentacion.features.base.BaseScreenState
-import com.example.citassalon.presentacion.features.base.LongSpacer
-import com.example.citassalon.presentacion.features.base.Orientation
-import com.example.citassalon.presentacion.features.base.getContentOrNull
-import com.example.citassalon.presentacion.features.components.BaseErrorScreen
-import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
-import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
-import com.example.citassalon.presentacion.features.components.skeletons.BranchesScreenSkeletons
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.ScheduleAppointmentEvents
@@ -49,6 +40,15 @@ import com.example.citassalon.presentacion.features.schedule_appointment.mainflo
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.citassalon.presentacion.features.theme.BackgroundListsMainFlow
 import com.example.core.info.InfoNavigationScreens
+import com.example.core.ui.base.BaseComposeScreen
+import com.example.core.ui.base.BaseScreenState
+import com.example.core.ui.base.LongSpacer
+import com.example.core.ui.base.Orientation
+import com.example.core.ui.base.getContentOrNull
+import com.example.core.ui.components.BaseErrorScreen
+import com.example.core.ui.components.TextWithArrowConfig
+import com.example.core.ui.components.ToolbarConfiguration
+import com.example.core.ui.components.skeletons.BranchesScreenSkeletons
 import com.example.domain.entities.remote.migration.NegoInfo
 
 private val GreenOpen = Color(0xFF059669)

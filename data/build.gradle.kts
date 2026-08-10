@@ -61,7 +61,6 @@ dependencies {
     ksp(libs.androidxHiltCompiler)
     implementation(platform(libs.firebaseBom))
     implementation(libs.bundles.firebase)
-    implementation(libs.kotlinSerialization)
+    implementation(libs.kotlinSerializationJson)
     implementation(libs.preferencesDataStore)
-    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
 }

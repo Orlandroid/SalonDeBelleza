@@ -31,18 +31,18 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.base.BaseComposeScreen
-import com.example.citassalon.presentacion.features.base.MediumSpacer
-import com.example.citassalon.presentacion.features.base.Orientation
-import com.example.citassalon.presentacion.features.components.ItemStaff
-import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
-import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowUiState
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.ScheduleAppointmentEvents
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.ScheduleAppointmentsSideEffects
 import com.example.citassalon.presentacion.features.theme.BackgroundListsMainFlow
+import com.example.core.ui.base.BaseComposeScreen
+import com.example.core.ui.base.MediumSpacer
+import com.example.core.ui.base.Orientation
+import com.example.core.ui.components.ItemStaff
+import com.example.core.ui.components.TextWithArrowConfig
+import com.example.core.ui.components.ToolbarConfiguration
 import com.example.domain.entities.remote.migration.Service
 import com.example.domain.entities.remote.migration.Staff
 

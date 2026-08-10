@@ -2,7 +2,6 @@ package com.example.citassalon.presentacion.features.info.products.categories
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.data.remote.products.CategoryRepository
 import com.example.di.IoDispatcher
 import com.example.domain.CategorySource
@@ -22,6 +21,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import com.example.core.ui.base.BaseScreenState
 
 data class CategoriesUiState(
     val categories: List<Category> = emptyList()

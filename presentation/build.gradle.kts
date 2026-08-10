@@ -85,7 +85,7 @@ dependencies {
 
     //Compose
     implementation(platform(libs.composeBom))
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+    implementation(libs.kotlinSerializationJson)
 
 
     implementation(libs.bundles.composeMaterial)

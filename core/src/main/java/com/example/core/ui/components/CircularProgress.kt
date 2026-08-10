@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.components
+package com.example.core.ui.components
 
 import androidx.compose.foundation.layout.width
 import androidx.compose.material3.CircularProgressIndicator

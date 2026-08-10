@@ -14,8 +14,8 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.citassalon.presentacion.features.components.NoInternetScreen
 import com.example.citassalon.presentacion.features.theme.SkedulyComposeTheme
+import com.example.core.ui.components.NoInternetScreen
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

@@ -2,7 +2,6 @@ package com.example.citassalon.presentacion.features.profile.historial_detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.presentacion.features.base.BaseScreenState
 import com.example.data.remote.appointments.AppointmentsRepository
 import com.example.domain.entities.local.AppointmentObject
 import com.example.domain.state.ApiResult
@@ -15,6 +14,7 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import com.example.core.ui.base.BaseScreenState
 
 
 data class HistoryDetailUiState(

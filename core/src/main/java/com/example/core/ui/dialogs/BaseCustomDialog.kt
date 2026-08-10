@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.dialogs
+package com.example.core.ui.dialogs
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.detectTapGestures

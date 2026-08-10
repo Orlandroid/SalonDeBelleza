@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.components
+package com.example.core.ui.components
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode

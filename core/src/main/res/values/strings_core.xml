@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="name_user">Nombre del usuario</string>
+    <string name="phone">Phone</string>
+    <string name="label_email">Email</string>
+    <string name="money">Dinero</string>
+    <string name="retry">Retry</string>
+    <string name="sucursales">Sucursales</string>
+    <string name="title">Title</string>
+    <string name="aceptar">Aceptar</string>
+    <string name="cancelar_alert">Cancelar</string>
+    <string name="message_body">Message Body</string>
+</resources>

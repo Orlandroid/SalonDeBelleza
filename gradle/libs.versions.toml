@@ -58,6 +58,7 @@ kotlinGradlePlugin = "2.4.10"
 agp = "9.3.1"
 googleServices = "4.5.0"
 ksp = "2.3.10"
+kotlinSerializationJson = "1.11.0"
 
 
 [libraries]
@@ -100,7 +101,6 @@ roomRuntime = { module = "androidx.room:room-runtime", version.ref = "room" }
 roomKtx = { module = "androidx.room:room-ktx", version.ref = "room" }
 roomCompiler = { module = "androidx.room:room-compiler", version.ref = "room" }
 
-kotlinSerialization = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
 kotlinStdlib = { group = "org.jetbrains.kotlin", name = "kotlin-stdlib", version.ref = "kotlin" }
 androidxWorkRuntimeKtx = { group = "androidx.work", name = "work-runtime-ktx", version.ref = "workManager" }
 androidxStartupRuntime = { group = "androidx.startup", name = "startup-runtime", version.ref = "startup" }
@@ -128,7 +128,7 @@ jetbrains-kotlinx-coroutines-test = { module = "org.jetbrains.kotlinx:kotlinx-co
 turbine = { module = "app.cash.turbine:turbine", version.ref = "turbine" }
 preferencesDataStore = { module = "androidx.datastore:datastore-preferences", version.ref = "dataStore" }
 truth = { module = "com.google.truth:truth", version.ref = "truth" }
-kotlin-gradle-plugin = { group = "org.jetbrains.kotlin", name = "kotlin-gradle-plugin", version.ref = "kotlinGradlePlugin" }
+kotlinSerializationJson = { module = "org.jetbrains.kotlinx:kotlinx-serialization-json", version.ref = "kotlinSerializationJson" }
 
 [bundles]
 room = ["roomRuntime", "roomKtx"]

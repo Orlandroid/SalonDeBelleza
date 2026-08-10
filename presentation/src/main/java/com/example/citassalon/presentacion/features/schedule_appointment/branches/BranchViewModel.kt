@@ -2,7 +2,7 @@ package com.example.citassalon.presentacion.features.schedule_appointment.branch
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.presentacion.features.base.BaseScreenState
+import com.example.core.ui.base.BaseScreenState
 import com.example.data.remote.appointments.AppointmentsRepository
 import com.example.di.IoDispatcher
 import com.example.domain.entities.remote.migration.NegoInfo

@@ -4,7 +4,7 @@ package com.example.citassalon.presentacion.features.profile.userprofile
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.presentacion.features.base.BaseScreenState
+import com.example.core.ui.base.BaseScreenState
 import com.example.citassalon.presentacion.features.mappers.toUiState
 import com.example.domain.state.getContent
 import com.example.domain.state.isSuccess

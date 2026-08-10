@@ -2,7 +2,7 @@ package com.example.citassalon.presentacion.features.info.products.detalleproduc
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.presentacion.features.base.BaseScreenState
+import com.example.core.ui.base.BaseScreenState
 import com.example.data.remote.products.ProductRepository
 import com.example.di.IoDispatcher
 import com.example.domain.ProductSource

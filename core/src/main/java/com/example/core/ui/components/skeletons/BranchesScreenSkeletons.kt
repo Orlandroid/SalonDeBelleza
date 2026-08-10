@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.components.skeletons
+package com.example.core.ui.components.skeletons
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -17,12 +17,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import com.example.citassalon.presentacion.features.base.LongSpacer
-import com.example.citassalon.presentacion.features.base.MediumSpacer
-import com.example.citassalon.presentacion.features.base.Orientation
-import com.example.citassalon.presentacion.features.components.shimmerBrush
-import com.example.citassalon.presentacion.features.theme.Background
-import com.example.citassalon.presentacion.features.theme.BackgroundListsMainFlow
+import com.example.core.ui.base.LongSpacer
+import com.example.core.ui.base.MediumSpacer
+import com.example.core.ui.base.Orientation
+import com.example.core.ui.components.shimmerBrush
+import com.example.core.ui.theme.Background
+import com.example.core.ui.theme.BackgroundListsMainFlow
 
 
 @Composable

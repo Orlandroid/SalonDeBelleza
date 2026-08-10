@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.components
+package com.example.core.ui.components
 
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.material.icons.Icons
@@ -17,8 +17,8 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import com.example.citassalon.presentacion.features.theme.AlwaysWhite
-import com.example.citassalon.presentacion.features.theme.StatusBarColor
+import com.example.core.ui.theme.AlwaysWhite
+import com.example.core.ui.theme.StatusBarColor
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable

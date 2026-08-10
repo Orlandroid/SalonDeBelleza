@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.components.skeletons
+package com.example.core.ui.components.skeletons
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -26,9 +26,9 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.components.shimmerBrush
-import com.example.citassalon.presentacion.features.theme.Background
+import com.example.core.ui.components.shimmerBrush
+import com.example.core.ui.theme.Background
+import com.example.core.R
 
 
 @Composable

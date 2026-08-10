@@ -25,11 +25,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.base.BaseComposeScreen
-import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
-import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.theme.StatusBarColor
 import com.example.core.auth.AuthNavigationRoutes
+import com.example.core.ui.base.BaseComposeScreen
+import com.example.core.ui.components.ToolbarConfiguration
+import com.example.core.ui.dialogs.ProgressDialog
 
 
 @Composable

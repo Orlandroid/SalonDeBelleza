@@ -53,15 +53,15 @@ import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.app_navigation.MainActivityCompose
 import com.example.citassalon.presentacion.features.auth.forgetpassword.ForgetPasswordDialog
-import com.example.citassalon.presentacion.features.base.BaseComposeScreen
-import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
-import com.example.citassalon.presentacion.features.dialogs.AlertDialogMessagesConfig
-import com.example.citassalon.presentacion.features.dialogs.BaseAlertDialogMessages
-import com.example.citassalon.presentacion.features.dialogs.KindOfMessage
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.citassalon.presentacion.features.theme.Danger
 import com.example.core.auth.AuthNavigationRoutes
 import com.example.core.navigation.AppNavigationRoutes
+import com.example.core.ui.base.BaseComposeScreen
+import com.example.core.ui.components.ToolbarConfiguration
+import com.example.core.ui.dialogs.AlertDialogMessagesConfig
+import com.example.core.ui.dialogs.BaseAlertDialogMessages
+import com.example.core.ui.dialogs.KindOfMessage
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable

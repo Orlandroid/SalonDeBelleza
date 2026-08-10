@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.components
+package com.example.core.ui.components
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.layout.Arrangement
@@ -24,7 +24,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.citassalon.R
+import com.example.core.R
 
 @Composable
 fun TextWithArrow(

@@ -30,18 +30,18 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.SubcomposeAsyncImage
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.base.BaseComposeScreen
-import com.example.citassalon.presentacion.features.base.BaseScreenState
-import com.example.citassalon.presentacion.features.base.getContentOrNull
-import com.example.citassalon.presentacion.features.components.BaseErrorScreen
-import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
-import com.example.citassalon.presentacion.features.dialogs.AlertDialogMessagesConfig
-import com.example.citassalon.presentacion.features.dialogs.BaseAlertDialogMessages
-import com.example.citassalon.presentacion.features.dialogs.IsTwoButtonsAlert
-import com.example.citassalon.presentacion.features.dialogs.ProgressDialog
 import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.citassalon.presentacion.features.theme.Background
 import com.example.core.info.InfoNavigationScreens
+import com.example.core.ui.base.BaseComposeScreen
+import com.example.core.ui.base.BaseScreenState
+import com.example.core.ui.base.getContentOrNull
+import com.example.core.ui.components.BaseErrorScreen
+import com.example.core.ui.components.ToolbarConfiguration
+import com.example.core.ui.dialogs.AlertDialogMessagesConfig
+import com.example.core.ui.dialogs.BaseAlertDialogMessages
+import com.example.core.ui.dialogs.IsTwoButtonsAlert
+import com.example.core.ui.dialogs.ProgressDialog
 import com.example.domain.entities.remote.products.Product
 import kotlinx.coroutines.flow.collectLatest
 

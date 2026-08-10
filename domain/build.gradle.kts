@@ -50,7 +50,7 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.gson)
-    implementation("androidx.navigation:navigation-common-ktx:2.8.1")
+    implementation("androidx.navigation:navigation-common-ktx:2.9.8")
     testImplementation(libs.junit4)
     androidTestImplementation(libs.testJunit)
     testImplementation(libs.mockk)
@@ -61,5 +61,5 @@ dependencies {
     implementation(libs.bundles.room)
     ksp(libs.roomCompiler)
     testImplementation(libs.truth)
-    implementation(libs.kotlinSerialization)
+    implementation(libs.kotlinSerializationJson)
 }

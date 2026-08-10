@@ -45,14 +45,14 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.base.BaseComposeScreen
-import com.example.citassalon.presentacion.features.base.BaseScreenState
-import com.example.citassalon.presentacion.features.base.getContentOrNull
-import com.example.citassalon.presentacion.features.components.BaseErrorScreen
-import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
-import com.example.citassalon.presentacion.features.components.skeletons.UserProfileScreenSkeleton
 import com.example.citassalon.presentacion.features.extensions.uriToBitmap
 import com.example.citassalon.presentacion.features.theme.Background
+import com.example.core.ui.base.BaseComposeScreen
+import com.example.core.ui.base.BaseScreenState
+import com.example.core.ui.base.getContentOrNull
+import com.example.core.ui.components.BaseErrorScreen
+import com.example.core.ui.components.ToolbarConfiguration
+import com.example.core.ui.components.skeletons.UserProfileScreenSkeleton
 
 
 @Composable

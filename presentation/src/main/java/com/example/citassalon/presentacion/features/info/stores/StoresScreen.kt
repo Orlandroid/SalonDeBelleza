@@ -23,11 +23,11 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.base.BaseComposeScreen
-import com.example.citassalon.presentacion.features.components.TextWithArrow
-import com.example.citassalon.presentacion.features.components.TextWithArrowConfig
-import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.core.info.InfoNavigationScreens
+import com.example.core.ui.base.BaseComposeScreen
+import com.example.core.ui.components.TextWithArrow
+import com.example.core.ui.components.TextWithArrowConfig
+import com.example.core.ui.components.ToolbarConfiguration
 import com.example.domain.ProductSource
 import com.example.domain.toCategorySource
 import kotlin.random.Random

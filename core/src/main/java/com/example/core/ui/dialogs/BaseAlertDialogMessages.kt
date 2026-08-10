@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.dialogs
+package com.example.core.ui.dialogs
 
 import androidx.annotation.StringRes
 import androidx.compose.foundation.clickable
@@ -21,17 +21,18 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.base.MediumSpacer
-import com.example.citassalon.presentacion.features.base.Orientation
-import com.example.citassalon.presentacion.features.base.SmallSpacer
-import com.example.citassalon.presentacion.features.theme.AlwaysBlack
-import com.example.citassalon.presentacion.features.theme.AlwaysWhite
-import com.example.citassalon.presentacion.features.theme.Azul
-import com.example.citassalon.presentacion.features.theme.Danger
-import com.example.citassalon.presentacion.features.theme.Info
-import com.example.citassalon.presentacion.features.theme.Success
-import com.example.citassalon.presentacion.features.theme.Waring
+import com.example.core.R
+import com.example.core.ui.base.MediumSpacer
+import com.example.core.ui.base.Orientation
+import com.example.core.ui.base.SmallSpacer
+import com.example.core.ui.theme.AlwaysBlack
+import com.example.core.ui.theme.AlwaysWhite
+import com.example.core.ui.theme.Azul
+import com.example.core.ui.theme.Danger
+import com.example.core.ui.theme.Info
+import com.example.core.ui.theme.Success
+import com.example.core.ui.theme.Waring
+
 
 @Composable
 fun BaseAlertDialogMessages(

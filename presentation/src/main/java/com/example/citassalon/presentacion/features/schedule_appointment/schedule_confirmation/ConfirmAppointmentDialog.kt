@@ -12,11 +12,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.base.LongSpacer
-import com.example.citassalon.presentacion.features.base.Orientation
-import com.example.citassalon.presentacion.features.dialogs.BaseCustomDialog
 import com.example.citassalon.presentacion.features.theme.BtnNext
 import com.example.citassalon.presentacion.features.theme.Cafe
+import com.example.core.ui.base.LongSpacer
+import com.example.core.ui.base.Orientation
+import com.example.core.ui.dialogs.BaseCustomDialog
 
 @Composable
 fun ConfirmAppointmentDialog(

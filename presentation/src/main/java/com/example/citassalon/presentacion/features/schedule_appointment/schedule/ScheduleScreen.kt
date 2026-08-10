@@ -46,14 +46,14 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.base.BaseComposeScreen
-import com.example.citassalon.presentacion.features.components.ToolbarConfiguration
 import com.example.citassalon.presentacion.features.extensions.getHourFormat
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowUiState
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.ScheduleAppointmentEvents
 import com.example.citassalon.presentacion.features.theme.Background
+import com.example.core.ui.base.BaseComposeScreen
+import com.example.core.ui.components.ToolbarConfiguration
 import com.example.domain.entities.remote.migration.Service
 import com.example.domain.entities.remote.migration.Staff
 import kotlinx.coroutines.flow.collectLatest
