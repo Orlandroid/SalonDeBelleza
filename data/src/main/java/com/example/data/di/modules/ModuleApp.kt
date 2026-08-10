@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.SharedPreferences
 import com.example.data.preferences.LoginPreferences
 import com.example.data.preferences.PreferencesManager
+import com.example.domain.UserPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -33,7 +34,7 @@ object ModuleApp {
 
     @Singleton
     @Provides
-    fun provideLoginPreferences(@ApplicationContext context: Context): LoginPreferences {
+    fun provideLoginPreferences(@ApplicationContext context: Context): UserPreferences {
         return LoginPreferences(context = context)
     }
 

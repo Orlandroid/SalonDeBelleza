@@ -1,9 +1,9 @@
-package com.example.citassalon.presentacion.features.auth.splashscreen
+package com.example.auth.splashscreen
 
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.data.preferences.LoginPreferences
+import com.example.domain.UserPreferences
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -20,13 +20,13 @@ data class SplashScreenUiState(
 @HiltViewModel
 class SplashScreenViewModel
 @Inject constructor(
-    private val loginPreferences: LoginPreferences
+    private val userPreferences: UserPreferences
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<SplashScreenUiState> =
         MutableStateFlow(SplashScreenUiState())
     val state = _state.onStart {
-        val isUserLoggedIn = loginPreferences.isUserLoggedIn()
+        val isUserLoggedIn = userPreferences.isUserLoggedIn()
         _state.update { it.copy(isUserLoggedIn = isUserLoggedIn, isLoading = false) }
     }.stateIn(
         scope = viewModelScope,

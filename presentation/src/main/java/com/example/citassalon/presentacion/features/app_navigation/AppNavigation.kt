@@ -4,7 +4,7 @@ package com.example.citassalon.presentacion.features.app_navigation
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
-import com.example.citassalon.presentacion.features.auth.authNavigationGraph
+import com.example.auth.authNavigationGraph
 import com.example.citassalon.presentacion.features.info.infoNavigationGraph
 import com.example.citassalon.presentacion.features.profile.profileNavigationGraph
 import com.example.citassalon.presentacion.features.schedule_appointment.scheduleNavigationGraph

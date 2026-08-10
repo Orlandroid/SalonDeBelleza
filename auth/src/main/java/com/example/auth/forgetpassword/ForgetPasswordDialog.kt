@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.auth.forgetpassword
+package com.example.auth.forgetpassword
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -39,15 +39,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.theme.Background
-import com.example.citassalon.presentacion.features.theme.Danger
+import com.example.auth.R
 import com.example.core.ui.base.Orientation
 import com.example.core.ui.base.SmallSpacer
 import com.example.core.ui.dialogs.BaseCustomDialog
+import com.example.core.ui.theme.Background
+import com.example.core.ui.theme.Danger
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
-import com.example.citassalon.presentacion.features.auth.forgetpassword.ForgetPasswordViewmodel.ForgetPasswordEvents as Events
+import com.example.auth.forgetpassword.ForgetPasswordViewmodel.ForgetPasswordEvents as Events
 
 @Composable
 fun ForgetPasswordDialog(

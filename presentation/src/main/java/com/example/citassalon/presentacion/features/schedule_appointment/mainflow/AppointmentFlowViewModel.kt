@@ -2,11 +2,11 @@ package com.example.citassalon.presentacion.features.schedule_appointment.mainfl
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.citassalon.presentacion.features.extensions.dateFormat
-import com.example.citassalon.presentacion.features.extensions.getCurrentDateTime
-import com.example.citassalon.presentacion.features.extensions.getInitialTime
-import com.example.citassalon.presentacion.features.extensions.toStringFormat
 import com.example.citassalon.presentacion.features.schedule_appointment.branches.BranchFlow
+import com.example.core.util.dateFormat
+import com.example.core.util.getCurrentDateTime
+import com.example.core.util.getInitialTime
+import com.example.core.util.toStringFormat
 import com.example.domain.entities.remote.migration.NegoInfo
 import com.example.domain.entities.remote.migration.Service
 import com.example.domain.entities.remote.migration.Staff

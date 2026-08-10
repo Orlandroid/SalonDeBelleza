@@ -1,10 +1,10 @@
-package com.example.citassalon.presentacion.features.auth.login
+package com.example.auth.login
 
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.data.preferences.LoginPreferences
 import com.example.di.IoDispatcher
+import com.example.domain.UserPreferences
 import com.example.domain.repository.AuthRepository
 import com.example.domain.state.getResultOrNull
 import com.example.domain.state.isError
@@ -65,7 +65,7 @@ data class LoginUiState(
 class LoginViewModel
 @Inject constructor(
     private val authRepository: AuthRepository,
-    private val loginPreferences: LoginPreferences,
+    private val userPreferences: UserPreferences,
     private val emailValidator: EmailValidator,
     private val passwordValidator: PasswordValidator,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
@@ -87,17 +87,17 @@ class LoginViewModel
 
     private fun saveUserEmailToPreferences(userEmail: String) {
         viewModelScope.launch {
-            loginPreferences.saveUserEmail(userEmail)
+            userPreferences.saveUserEmail(userEmail)
         }
     }
 
     private fun getUserEmailFromPreferences(): Deferred<String> {
-        return viewModelScope.async { loginPreferences.getUserEmail() ?: "" }
+        return viewModelScope.async { userPreferences.getUserEmail() ?: "" }
     }
 
     private fun saveUserSession() {
         viewModelScope.launch {
-            loginPreferences.saveUserLogged()
+            userPreferences.saveUserLogged()
         }
     }
 

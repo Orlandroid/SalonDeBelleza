@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.extensions
+package com.example.core.util
 
 import android.annotation.SuppressLint
 import androidx.compose.material3.ExperimentalMaterial3Api

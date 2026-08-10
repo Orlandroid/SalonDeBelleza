@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.schedule_appointment.schedule
+package com.example.core.ui.base
 
 import androidx.compose.material3.Button
 import androidx.compose.material3.DatePicker
@@ -9,7 +9,7 @@ import androidx.compose.material3.Text
 import androidx.compose.material3.rememberDatePickerState
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.citassalon.presentacion.features.extensions.convertMillisToDate
+import com.example.core.util.convertMillisToDate
 
 
 @OptIn(ExperimentalMaterial3Api::class)

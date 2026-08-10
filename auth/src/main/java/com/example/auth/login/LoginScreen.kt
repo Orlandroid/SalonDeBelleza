@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.auth.login
+package com.example.auth.login
 
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.LocalActivity
@@ -50,11 +50,8 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.app_navigation.MainActivityCompose
-import com.example.citassalon.presentacion.features.auth.forgetpassword.ForgetPasswordDialog
-import com.example.citassalon.presentacion.features.theme.Background
-import com.example.citassalon.presentacion.features.theme.Danger
+import com.example.auth.R
+import com.example.auth.forgetpassword.ForgetPasswordDialog
 import com.example.core.auth.AuthNavigationRoutes
 import com.example.core.navigation.AppNavigationRoutes
 import com.example.core.ui.base.BaseComposeScreen
@@ -62,16 +59,18 @@ import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.dialogs.AlertDialogMessagesConfig
 import com.example.core.ui.dialogs.BaseAlertDialogMessages
 import com.example.core.ui.dialogs.KindOfMessage
+import com.example.core.ui.theme.Background
+import com.example.core.ui.theme.Danger
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun LoginScreen(
     navController: NavController,
+    onCloseApplication: () -> Unit,
     viewModel: LoginViewModel = hiltViewModel()
 ) {
-    val activity = LocalActivity.current
     BackHandler {
-        activity?.finish()
+        onCloseApplication()
     }
     val uiState by viewModel.state.collectAsStateWithLifecycle()
     val focusManager = LocalFocusManager.current
@@ -91,7 +90,7 @@ fun LoginScreen(
                 }
 
                 LoginSideEffects.OnCloseFlow -> {
-                    (activity as MainActivityCompose).finish()
+                    onCloseApplication()
                 }
             }
         }

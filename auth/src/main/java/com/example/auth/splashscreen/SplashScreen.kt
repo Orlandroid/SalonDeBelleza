@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.auth.splashscreen
+package com.example.auth.splashscreen
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -24,12 +24,12 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.theme.StatusBarColor
+import com.example.auth.R
 import com.example.core.auth.AuthNavigationRoutes
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.dialogs.ProgressDialog
+import com.example.core.ui.theme.StatusBarColor
 
 
 @Composable

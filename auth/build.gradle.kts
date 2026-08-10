@@ -5,6 +5,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.android.library)
     id("dagger.hilt.android.plugin")
+    id("com.google.gms.google-services")
     id("org.jetbrains.kotlin.plugin.compose")
 }
 
@@ -32,6 +33,9 @@ android {
 }
 
 dependencies {
+    implementation(project(":domain"))
+    implementation(project(":core"))
+    implementation(project(":di"))
     implementation(libs.androidCoreKtx)
     implementation(libs.appcompat)
     implementation(libs.material)
@@ -45,4 +49,6 @@ dependencies {
     implementation(libs.bundles.composeUi)
     implementation(libs.bundles.compose)
     implementation(libs.bundles.baseTesting)
+    implementation(platform(libs.firebaseBom))
+    implementation(libs.bundles.firebase)
 }

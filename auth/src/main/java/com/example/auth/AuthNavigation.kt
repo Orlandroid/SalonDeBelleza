@@ -1,12 +1,12 @@
-package com.example.citassalon.presentacion.features.auth
+package com.example.auth
 
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
-import com.example.citassalon.presentacion.features.auth.login.LoginScreen
-import com.example.citassalon.presentacion.features.auth.sign_up.SignUpScreen
-import com.example.citassalon.presentacion.features.auth.splashscreen.SplashScreen
+import com.example.auth.login.LoginScreen
+import com.example.auth.sign_up.SignUpScreen
+import com.example.auth.splashscreen.SplashScreen
 import com.example.core.auth.AuthNavigationRoutes
 import com.example.core.navigation.AppNavigationRoutes
 
@@ -25,7 +25,9 @@ fun NavGraphBuilder.authNavigationGraph(
             )
         }
         composable<AuthNavigationRoutes.LoginRoute> {
-            LoginScreen(navController = navController)
+            LoginScreen(
+                navController = navController,
+                onCloseApplication = {})//Todo add onCloseApplication
         }
         composable<AuthNavigationRoutes.SingUpRoute> {
             SignUpScreen(navController)

@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.auth.sign_up
+package com.example.auth.sign_up
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -34,14 +34,14 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.schedule_appointment.schedule.MyDatePickerDialog
-import com.example.citassalon.presentacion.features.theme.Background
+import com.example.auth.R
 import com.example.core.auth.AuthNavigationRoutes
 import com.example.core.ui.base.BaseComposeScreen
+import com.example.core.ui.base.MyDatePickerDialog
 import com.example.core.ui.components.BaseOutlinedTextField
 import com.example.core.ui.components.InputError
 import com.example.core.ui.components.ToolbarConfiguration
+import com.example.core.ui.theme.Background
 import kotlinx.coroutines.flow.collectLatest
 
 

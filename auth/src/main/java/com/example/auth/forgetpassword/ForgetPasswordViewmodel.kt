@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.auth.forgetpassword
+package com.example.auth.forgetpassword
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
