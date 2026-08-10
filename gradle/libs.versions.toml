@@ -57,7 +57,7 @@ truth = "1.4.5"
 kotlinGradlePlugin = "2.4.10"
 agp = "9.3.1"
 googleServices = "4.5.0"
-androidBuiltInKotlin = "9.3.1"
+ksp = "2.3.10"
 
 
 [libraries]
@@ -153,7 +153,6 @@ baseTesting = ["mockk", "turbine", "truth", "jetbrains-kotlinx-coroutines-test"]
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 hilt-android-gradle = { id = "com.google.dagger.hilt.android", version.ref = "hiltAndroidGradle" }
 navigation-safe-gradle = { id = "androidx.navigation.safeargs", version.ref = "navigationUiKtx" }
@@ -161,6 +160,5 @@ kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", versi
 jetbrains-kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
 android-library = { id = "com.android.library", version.ref = "agp" }
 google-services = { id = "com.google.gms.google-services", version.ref = "googleServices" }
-android-built-in1-kotlin = { id = "com.android.built-in-kotlin", version.ref = "androidBuiltInKotlin" }
-
+ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 

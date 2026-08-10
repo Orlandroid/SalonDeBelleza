@@ -2,13 +2,13 @@ import com.example.androidbase.presentation.ConfigData.MIN_SDK_VERSION
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
+    alias(libs.plugins.ksp)
     alias(libs.plugins.android.library)
     id("dagger.hilt.android.plugin")
-    alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "com.example.di"
+    namespace = "com.example.auth"
     compileSdk {
         version = release(37)
     }
@@ -40,6 +40,4 @@ dependencies {
     implementation(libs.bundles.daggerHilt)
     ksp(libs.hiltAndroidCompiler)
     ksp(libs.androidxHiltCompiler)
-    implementation(libs.bundles.retrofit)
-    implementation(libs.androidxWorkRuntimeKtx)
 }

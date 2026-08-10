@@ -6,9 +6,8 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("com.android.library")
-    id("org.jetbrains.kotlin.android")
     id("kotlin-parcelize")
-    id("kotlin-kapt")
+    alias(libs.plugins.ksp)
     alias(libs.plugins.kotlin.serialization)
 }
 
@@ -60,7 +59,7 @@ dependencies {
     implementation(platform(libs.firebaseBom))
     implementation(libs.bundles.firebase)
     implementation(libs.bundles.room)
-    kapt(libs.roomCompiler)
+    ksp(libs.roomCompiler)
     testImplementation(libs.truth)
     implementation(libs.kotlinSerialization)
 }
