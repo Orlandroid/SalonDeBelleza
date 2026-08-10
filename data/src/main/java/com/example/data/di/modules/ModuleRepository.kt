@@ -5,8 +5,6 @@ import com.example.data.Repository
 import com.example.data.api.DummyJsonApi
 import com.example.data.api.FakeStoreService
 import com.example.data.api.WebServices
-import com.example.data.di.qualifiers.AppointmentsRef
-import com.example.data.di.qualifiers.UsersRef
 import com.example.data.remote.appointments.AppointmentsRepository
 import com.example.data.remote.appointments.AppointmentsRepositoryImpl
 import com.example.domain.repository.AuthRepository
@@ -25,6 +23,8 @@ import com.example.domain.repository.UserRepository
 import com.example.data.remote.user.UserRepositoryImpl
 import com.example.data.database.local.LocalDataSource
 import com.example.data.preferences.LoginPreferences
+import com.example.di.qualifiers.AppointmentsRef
+import com.example.di.qualifiers.UsersRef
 import com.example.domain.RemoteDataSource
 import com.example.domain.use_cases.IsBranchOpenUseCase
 import com.google.firebase.auth.FirebaseAuth

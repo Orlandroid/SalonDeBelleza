@@ -3,8 +3,8 @@ package com.example.citassalon.presentacion.features.info.products.categories
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.base.BaseScreenState
-import com.example.data.di.IoDispatcher
 import com.example.data.remote.products.CategoryRepository
+import com.example.di.IoDispatcher
 import com.example.domain.CategorySource
 import com.example.domain.ProductSource
 import com.example.domain.entities.remote.products.Category

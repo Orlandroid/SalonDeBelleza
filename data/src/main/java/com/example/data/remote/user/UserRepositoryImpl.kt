@@ -1,8 +1,8 @@
 package com.example.data.remote.user
 
 
-import com.example.data.di.qualifiers.UsersRef
 import com.example.data.preferences.LoginPreferences
+import com.example.di.qualifiers.UsersRef
 import com.example.domain.entities.remote.User
 import com.example.domain.perfil.UserInfoFirebase
 import com.example.domain.repository.UserRepository

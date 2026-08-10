@@ -8,5 +8,5 @@ plugins {
     alias(libs.plugins.jetbrains.kotlin.jvm) apply false
     alias(libs.plugins.android.library) apply false
     alias(libs.plugins.google.services) apply false
-    alias(libs.plugins.android.built.in1.kotlin) apply false
+//    alias(libs.plugins.android.built.in1.kotlin) apply false
 }

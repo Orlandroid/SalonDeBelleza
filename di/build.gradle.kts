@@ -4,12 +4,12 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
-//    alias(libs.plugins.android.built.in1.kotlin)
-    alias(libs.plugins.kotlin.serialization)
+    id("dagger.hilt.android.plugin")
+    id("kotlin-kapt")
 }
 
 android {
-    namespace = "com.example.core"
+    namespace = "com.example.di"
     compileSdk {
         version = release(37)
     }
@@ -32,12 +32,13 @@ android {
 }
 
 dependencies {
-    implementation(project(":domain"))
     implementation(libs.androidCoreKtx)
     implementation(libs.appcompat)
     implementation(libs.material)
     testImplementation(libs.junit4)
     androidTestImplementation(libs.espressoCore)
     androidTestImplementation(libs.testJunit)
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+    implementation(libs.bundles.daggerHilt)
+    kapt(libs.hiltAndroidCompiler)
+    kapt(libs.androidxHiltCompiler)
 }

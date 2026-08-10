@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.extensions.dateFormat
 import com.example.citassalon.presentacion.features.extensions.getCurrentDateTime
 import com.example.citassalon.presentacion.features.extensions.toStringFormat
-import com.example.data.di.IoDispatcher
+import com.example.di.IoDispatcher
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.UserRepository
 import com.example.domain.entities.remote.User

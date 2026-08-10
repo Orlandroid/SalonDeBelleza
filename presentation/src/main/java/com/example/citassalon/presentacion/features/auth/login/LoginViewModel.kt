@@ -3,8 +3,8 @@ package com.example.citassalon.presentacion.features.auth.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.data.di.IoDispatcher
 import com.example.data.preferences.LoginPreferences
+import com.example.di.IoDispatcher
 import com.example.domain.repository.AuthRepository
 import com.example.domain.state.getResultOrNull
 import com.example.domain.state.isError

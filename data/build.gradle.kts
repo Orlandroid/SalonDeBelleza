@@ -48,6 +48,7 @@ android {
 dependencies {
 
     implementation(project(":domain"))
+    implementation(project(":di"))
     implementation(libs.androidCoreKtx)
     testImplementation(libs.junit4)
     testImplementation(libs.appcompat)

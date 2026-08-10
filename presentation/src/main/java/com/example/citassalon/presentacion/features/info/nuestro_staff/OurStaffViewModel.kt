@@ -4,7 +4,7 @@ package com.example.citassalon.presentacion.features.info.nuestro_staff
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.citassalon.presentacion.features.base.BaseScreenState
-import com.example.data.di.IoDispatcher
+import com.example.di.IoDispatcher
 import com.example.domain.entities.remote.dummyUsers.User
 import com.example.domain.state.getContent
 import com.example.domain.state.isSuccess

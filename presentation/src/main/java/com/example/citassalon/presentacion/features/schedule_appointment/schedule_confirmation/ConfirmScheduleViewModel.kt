@@ -2,8 +2,8 @@ package com.example.citassalon.presentacion.features.schedule_appointment.schedu
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.data.di.IoDispatcher
 import com.example.data.remote.appointments.AppointmentsRepository
+import com.example.di.IoDispatcher
 import com.example.domain.perfil.AppointmentFirebase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher

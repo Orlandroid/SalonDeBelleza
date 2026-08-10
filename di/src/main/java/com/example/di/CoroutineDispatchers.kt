@@ -1,4 +1,4 @@
-package com.example.data.di
+package com.example.di
 
 import kotlinx.coroutines.CoroutineDispatcher
 import javax.inject.Inject
