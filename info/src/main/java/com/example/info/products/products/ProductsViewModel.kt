@@ -1,0 +1,162 @@
+package com.example.info.products.products
+
+import android.content.Context
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.info.R
+import com.example.core.ui.base.BaseScreenState
+import com.example.di.IoDispatcher
+import com.example.domain.ProductSource
+import com.example.domain.entities.remote.products.Product
+import com.example.domain.repository.BusinessRepository
+import com.example.domain.repository.CategoryRepository
+import com.example.domain.repository.ProductRepository
+import com.example.domain.state.isError
+import com.example.domain.state.isSuccess
+import com.example.domain.toCategorySource
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
+import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+
+sealed class ProductScreenEvents {
+    object OnCarClicked : ProductScreenEvents()
+    data class OnAddProduct(val product: Product) : ProductScreenEvents()
+    data class OnProductClicked(val product: Product) : ProductScreenEvents()
+    data class OnDeleteAllTheProducts(val product: Product) : ProductScreenEvents()
+}
+
+sealed class ProductScreenEffects {
+    object NavigateToCar : ProductScreenEffects()
+    data class ProductSaved(val message: String) : ProductScreenEffects()
+    data class ProductsDeletedSuccessfully(val message: String) : ProductScreenEffects()
+    object NoProductsToDelete : ProductScreenEffects()
+    data class NavigateToProductDetail(val product: Product, val source: ProductSource) :
+        ProductScreenEffects()
+}
+
+data class ProductsUiState(
+    val products: List<Product>
+)
+
+
+@HiltViewModel(assistedFactory = ProductsViewModelFactory::class)
+class ProductsViewModel @AssistedInject constructor(
+    private val productRepository: ProductRepository,
+    private val categoryRepository: CategoryRepository,
+    @param:ApplicationContext private val context: Context,
+    private val repository: BusinessRepository,
+    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    @Assisted private val source: ProductSource,
+    @Assisted private val category: String? = null
+) : ViewModel() {
+
+
+    private val _state: MutableStateFlow<BaseScreenState<ProductsUiState>> =
+        MutableStateFlow(BaseScreenState.OnLoading)
+    val state = _state.onStart {
+        if (category.isNullOrEmpty()) {
+            getProducts()
+        } else {
+            getProductByCategory()
+        }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000L),
+        BaseScreenState.OnLoading
+    )
+
+
+    private val _effects = Channel<ProductScreenEffects>()
+    val effects = _effects.receiveAsFlow()
+
+
+    fun onEvents(event: ProductScreenEvents) {
+        when (event) {
+            is ProductScreenEvents.OnCarClicked -> {
+                viewModelScope.launch {
+                    sendEffect(ProductScreenEffects.NavigateToCar)
+                }
+            }
+
+            is ProductScreenEvents.OnProductClicked -> {
+                viewModelScope.launch {
+                    sendEffect(
+                        ProductScreenEffects.NavigateToProductDetail(
+                            product = event.product,
+                            source = source
+                        )
+                    )
+                }
+            }
+
+            is ProductScreenEvents.OnAddProduct -> {
+                insertProduct(event.product)
+            }
+
+            is ProductScreenEvents.OnDeleteAllTheProducts -> {
+                deleteAllProducts()
+            }
+        }
+    }
+
+
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
+        _state.update { BaseScreenState.OnError(error = exception) }
+    }
+
+
+    fun getProducts() {
+        viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
+            val response = productRepository.getProducts(source)
+            _state.update { BaseScreenState.OnContent(content = ProductsUiState(response)) }
+        }
+    }
+
+    fun getProductByCategory() {
+        val categorySource = source.toCategorySource() ?: return
+        if (category == null) return
+        viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
+            val response = categoryRepository.getProductByCategory(
+                source = categorySource,
+                category = category
+            )
+            _state.update { BaseScreenState.OnContent(content = ProductsUiState(response)) }
+        }
+    }
+
+    fun insertProduct(item: Product) {
+        viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
+            val addProductResponse = repository.addProduct(product = item)
+            if (addProductResponse.isSuccess()) {
+                _effects.send(ProductScreenEffects.ProductSaved(context.getString(R.string.product_added)))
+            }
+        }
+    }
+
+    fun deleteAllProducts() {
+        viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
+            val deleteProductsResult = repository.deleteAllProducts()
+            if (deleteProductsResult.isError()) {
+                _effects.send(ProductScreenEffects.NoProductsToDelete)
+                return@launch
+            }
+            _effects.send(ProductScreenEffects.ProductsDeletedSuccessfully(context.getString(R.string.products_deleted)))
+        }
+    }
+
+    private suspend fun sendEffect(effect: ProductScreenEffects) {
+        _effects.send(effect)
+    }
+
+}

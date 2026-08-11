@@ -1,0 +1,211 @@
+package com.example.info.cart
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import coil.compose.SubcomposeAsyncImage
+import com.example.info.R
+import com.example.core.info.InfoNavigationScreens
+import com.example.core.ui.base.BaseComposeScreen
+import com.example.core.ui.base.BaseScreenState
+import com.example.core.ui.base.getContentOrNull
+import com.example.core.ui.components.BaseErrorScreen
+import com.example.core.ui.components.ToolbarConfiguration
+import com.example.core.ui.dialogs.AlertDialogMessagesConfig
+import com.example.core.ui.dialogs.BaseAlertDialogMessages
+import com.example.core.ui.dialogs.IsTwoButtonsAlert
+import com.example.core.ui.dialogs.ProgressDialog
+import com.example.core.ui.theme.AlwaysWhite
+import com.example.core.ui.theme.Background
+import com.example.domain.entities.remote.products.Product
+import kotlinx.coroutines.flow.collectLatest
+
+
+@Composable
+fun CartScreen(
+    navController: NavController,
+    viewModel: CartViewModel = hiltViewModel()
+) {
+    val uiState = viewModel.state.collectAsStateWithLifecycle()
+    val snackBarHostState = remember { SnackbarHostState() }
+    LaunchedEffect(Unit) {
+        viewModel.effects.collectLatest {
+            when (it) {
+                is CartEffects.OnProductsDeleted -> {
+                    snackBarHostState.showSnackbar(it.message)
+                }
+
+                is CartEffects.NavigateToProductDetail -> {
+                    navController.navigate(InfoNavigationScreens.DetailProductRoute(productId = it.product.id, source = it.source))
+                }
+            }
+        }
+    }
+    when (uiState.value) {
+        is BaseScreenState.OnContent -> {
+            BaseComposeScreen(
+                navController = navController,
+                toolbarConfiguration = ToolbarConfiguration(
+                    title = uiState.value.getContentOrNull()?.userMoney.toString(),
+                    showDeleteIcon = true,
+                    clickOnDeleteIcon = {
+                        viewModel.onEvents(CartEvents.OnDeleteIconClicked)
+                    }
+                )
+            ) {
+                uiState.value.getContentOrNull()?.let { state ->
+                    if (state.showDeleteDialog) {
+                        DialogDeleteAllProducts(onEvents = viewModel::onEvents)
+                    }
+                    CartScreenContent(products = state.products, onEvents = viewModel::onEvents)
+                }
+            }
+        }
+
+        is BaseScreenState.OnError -> {
+            BaseErrorScreen()
+        }
+
+        BaseScreenState.OnLoading -> {
+            ProgressDialog()
+        }
+    }
+
+}
+
+@Composable
+private fun DialogDeleteAllProducts(onEvents: (event: CartEvents) -> Unit) {
+    BaseAlertDialogMessages(
+        alertDialogMessagesConfig = AlertDialogMessagesConfig(
+            bodyMessage = stringResource(R.string.delete_all_products_sure),
+            isTwoButtonsAlert = IsTwoButtonsAlert(
+                clickOnAccept = {
+                    onEvents(CartEvents.OnAccept)
+                },
+                clickOnCancel = {
+                    onEvents(CartEvents.OnCancelPressed)
+                }
+            )
+        ),
+        onDismissRequest = { onEvents(CartEvents.OnCancelPressed) }
+    )
+}
+
+@Composable
+private fun CartScreenContent(
+    modifier: Modifier = Modifier,
+    products: List<Product>,
+    onEvents: (event: CartEvents) -> Unit
+) {
+    LazyColumn(
+        modifier = modifier
+            .fillMaxSize()
+            .background(Background)
+    ) {
+        items(
+            items = products,
+            key = { it.id }
+        ) { product ->
+            ItemCart(
+                product = product,
+                onEvents = onEvents
+            )
+        }
+    }
+
+}
+
+@Composable
+private fun ItemCart(
+    product: Product,
+    onEvents: (event: CartEvents) -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        shape = RoundedCornerShape(16.dp),
+        onClick = {
+//            onEvents(CartEvents.OnProductSelect(product))
+        },
+        colors = CardDefaults.cardColors(
+            containerColor = AlwaysWhite
+        )
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
+        ) {
+            SubcomposeAsyncImage(
+                modifier = Modifier
+                    .size(100.dp),
+                model = product.image,
+                contentDescription = "ImageProduct",
+                loading = { CircularProgressIndicator(Modifier.padding(16.dp)) }
+            )
+            Spacer(modifier = Modifier.width(16.dp))
+            Text(
+                modifier = Modifier.weight(1f),
+                text = product.title
+            )
+            Text(
+                modifier = Modifier
+                    .padding(end = 8.dp)
+                    .weight(1f),
+                text = "$ ${product.price}",
+            )
+        }
+    }
+}
+
+
+@Composable
+@Preview(showBackground = true)
+private fun CartScreenContentPreview() {
+    val product = Product(
+        id = 1,
+        title = "Usb",
+        price = 45.0,
+        description = "WD 2TB Elements Portable External Hard Drive - USB 3.0",
+        rating = 1.0,
+        image = "",
+    )
+    CartScreenContent(
+        products = listOf(
+            product,
+            product.copy(id = 2, title = "Mouse"),
+            product.copy(id = 3, title = "Keyboard"),
+            product.copy(id = 4, title = "Monitor"),
+            product.copy(id = 5, title = "Laptop")
+        ),
+        onEvents = {}
+    )
+}
+
+

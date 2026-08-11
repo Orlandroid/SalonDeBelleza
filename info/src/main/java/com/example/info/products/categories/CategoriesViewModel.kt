@@ -1,0 +1,110 @@
+package com.example.info.products.categories
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.di.IoDispatcher
+import com.example.domain.CategorySource
+import com.example.domain.ProductSource
+import com.example.domain.entities.remote.products.Category
+import com.example.domain.toProductSource
+import dagger.assisted.Assisted
+import dagger.assisted.AssistedInject
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import com.example.core.ui.base.BaseScreenState
+import com.example.domain.repository.CategoryRepository
+
+data class CategoriesUiState(
+    val categories: List<Category> = emptyList()
+)
+
+sealed class CategoriesEvents {
+    data class OnCategoryClicked(val category: Category) : CategoriesEvents()
+}
+
+sealed class CategoriesEffects {
+    data class NavigateToProducts(
+        val source: ProductSource,
+        val category: String
+    ) : CategoriesEffects()
+}
+
+@HiltViewModel(assistedFactory = CategoriesViewModelFactory::class)
+class CategoriesViewModel @AssistedInject constructor(
+    private val categoryRepository: CategoryRepository,
+    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    @Assisted private val source: CategorySource
+) : ViewModel() {
+
+
+    private val _effects = Channel<CategoriesEffects>()
+    val effects = _effects.receiveAsFlow()
+
+    private val _state: MutableStateFlow<BaseScreenState<CategoriesUiState>> =
+        MutableStateFlow(BaseScreenState.OnLoading)
+    val state = _state.onStart {
+        getCategories(source)
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000L),
+        BaseScreenState.OnLoading
+    )
+
+    fun onEvents(event: CategoriesEvents) {
+        when (event) {
+            is CategoriesEvents.OnCategoryClicked -> {
+                viewModelScope.launch {
+                    _effects.send(
+                        CategoriesEffects.NavigateToProducts(
+                            source = source.toProductSource(),
+                            category = getKindOfCategory(event.category)
+                        )
+                    )
+                }
+            }
+        }
+    }
+
+    private fun getKindOfCategory(category: Category): String {
+        return when (source) {
+            CategorySource.FAKE_STORE -> {
+                category.name
+            }
+
+            CategorySource.PLATZI -> {
+                category.id
+            }
+        }
+    }
+
+    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
+        _state.update { BaseScreenState.OnError(error = exception) }
+    }
+
+    private fun getCategories(source: CategorySource) =
+        viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
+            val categories = categoryRepository.getCategories(source)
+            _state.update {
+                BaseScreenState.OnContent(
+                    content = CategoriesUiState(
+                        categories.map {
+                            Category(
+                                id = it.id,
+                                name = it.name
+                            )
+                        }
+                    )
+                )
+            }
+        }
+
+}

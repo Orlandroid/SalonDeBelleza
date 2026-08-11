@@ -37,11 +37,9 @@
     <string name="terminosCondiciones">Términos y condiciones</string>
     <string name="cerrarSesion">Cerrar sesión</string>
     <string name="usuario">Usuario</string>
-    <string name="staff">Staff</string>
     <string name="regresar">regresar</string>
     <string name="home">home</string>
     <string name="hora">Hora</string>
-    <string name="sucursales">Sucursales</string>
     <string name="acerca_de">Acerca de</string>
     <string name="share">share</string>
     <string name="informacion">informacion</string>
@@ -56,7 +54,6 @@
     <string name="_400">400</string>
     <string name="nombre_staff">Nombre staff</string>
     <string name="sucursal">Sucursal</string>
-    <string name="nombre_establecimiento">Nombre Establecimiento</string>
     <string name="network_error">Error de conexion</string>
     <string name="network_error_message">Revisa que tengas conexion a internet</string>
     <string name="more">more</string>
@@ -67,10 +64,6 @@
     <string name="selecciona_hora_fecha">Debes de seleccionar hora y fecha poder avanzar a la siguiente pantalla</string>
     <string name="aviso">aviso</string>
     <string name="cancelar_alert">Cancelar</string>
-    <string name="productos">Productos</string>
-    <string name="servicios">Servicios</string>
-    <string name="ubicacion">Ubicacion</string>
-    <string name="nustro_staff">Nuestro Staff</string>
     <string name="correo_electronico">correo electronico</string>
     <string name="fecha">fecha</string>
     <string name="iniciar_session">Iniciar session</string>
@@ -79,13 +72,11 @@
     <string name="example_email_com">example@email.com</string>
     <string name="next">Next</string>
     <string name="aun_no_tienes_registros">Aun no tienes registros</string>
-    <string name="agregar">Agregar</string>
     <string name="producto">Producto</string>
     <string name="_000_00">$ 000.00</string>
     <string name="pagar">Pagar</string>
     <string name="total">Total</string>
     <string name="a_n_no_has_agregado_productos">Aún no has agregado productos</string>
-    <string name="categorias">Categorías</string>
     <string name="message_add_product">¿Estás seguro que deseas agregar el producto?</string>
     <string name="product_add">El producto se agregó correctamente</string>
     <string name="cantidad">Cantidad %d</string>
@@ -96,13 +87,10 @@
     <string name="error_internet">Verifica tu conexión de internet</string>
     <string name="message_succes">La operación se realizó con éxito</string>
     <string name="skeduly">Skeduly</string>
-    <string name="nuestro_staff">"Nuestro Staff"</string>
     <string name="terry_medhurst_smitham">Terry Medhurst Smitham</string>
     <string name="atuny0_sohu_com">atuny0@sohu.com</string>
     <string name="_1745_t_street_southeast">1745 T Street Southeast</string>
-    <string name="tiendas">Tiendas</string>
     <string name="reset_password">Reset Password</string>
-    <string name="detail_product">Detail Product</string>
     <string name="detail">Detail</string>
     <string name="Ingresa">Ingresar</string>
     <string name="title">Title</string>
@@ -143,14 +131,10 @@
       libero quibusdam reiciendis quis beatae pariatur animi inventore quod
        dignissimos eligendi, facilis aspernatur ea! Maxime eius possimus.
     </string>
-    <string name="delete_all_products_sure">Estas seguro que quieres eliminar todos los productos</string>
-    <string name="product_added">Product added to cart"</string>
-    <string name="products_deleted">Products deleted correctly</string>
     <string name="password_successfully_changed">Password successful changed</string>
     <string name="error_updating_password">Error trying to updated password</string>
     <string name="retry">Retry</string>
     <string name="personal_information">Personal information</string>
-    <string name="stores">Store</string>
     <string name="call_now">Call</string>
     <string name="avalible_locations">Available locations</string>
     <string name="sucursal_label">Sucursal</string>

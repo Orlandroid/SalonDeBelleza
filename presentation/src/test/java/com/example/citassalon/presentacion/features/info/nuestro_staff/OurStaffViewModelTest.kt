@@ -2,7 +2,6 @@ package com.example.citassalon.presentacion.features.info.nuestro_staff
 
 import app.cash.turbine.test
 import com.example.citassalon.presentacion.features.base.BaseScreenState
-import com.example.data.Repository
 import com.example.domain.entities.remote.dummyUsers.User
 import com.example.domain.state.ApiResult
 import com.google.common.truth.Truth.assertThat

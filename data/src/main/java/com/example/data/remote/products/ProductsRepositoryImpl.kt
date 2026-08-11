@@ -3,6 +3,7 @@ package com.example.data.remote.products
 import com.example.data.remote.products.commons.product.ProductProviderResolver
 import com.example.domain.ProductSource
 import com.example.domain.entities.remote.products.Product
+import com.example.domain.repository.ProductRepository
 
 class ProductRepositoryImpl(
     private val resolver: ProductProviderResolver

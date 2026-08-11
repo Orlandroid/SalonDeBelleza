@@ -1,31 +1,32 @@
 package com.example.data.di.modules
 
 
-import com.example.data.Repository
 import com.example.data.api.DummyJsonApi
 import com.example.data.api.FakeStoreService
 import com.example.data.api.WebServices
-import com.example.domain.repository.AppointmentsRepository
+import com.example.data.database.daos.ProductDao
+import com.example.data.database.local.LocalDataSource
+import com.example.data.preferences.LoginPreferences
 import com.example.data.remote.appointments.AppointmentsRepositoryImpl
-import com.example.domain.repository.AuthRepository
 import com.example.data.remote.auth.AuthRepositoryImp
 import com.example.data.remote.dummy_json.DummyJsonRepository
 import com.example.data.remote.dummy_json.DummyJsonRepositoryImp
 import com.example.data.remote.fake_store.FakeStoreRepository
 import com.example.data.remote.fake_store.FakeStoreRepositoryImp
-import com.example.data.remote.products.CategoryRepository
+import com.example.data.remote.info.DefaultBusinessRepository
+import com.example.domain.repository.CategoryRepository
 import com.example.data.remote.products.CategoryRepositoryImpl
-import com.example.data.remote.products.ProductRepository
+import com.example.domain.repository.ProductRepository
 import com.example.data.remote.products.ProductRepositoryImpl
 import com.example.data.remote.products.commons.category.CategoryProviderResolver
 import com.example.data.remote.products.commons.product.ProductProviderResolver
-import com.example.domain.repository.UserRepository
 import com.example.data.remote.user.UserRepositoryImpl
-import com.example.data.database.local.LocalDataSource
-import com.example.data.preferences.LoginPreferences
 import com.example.di.qualifiers.AppointmentsRef
 import com.example.di.qualifiers.UsersRef
-import com.example.domain.RemoteDataSource
+import com.example.domain.repository.AppointmentsRepository
+import com.example.domain.repository.AuthRepository
+import com.example.domain.repository.BusinessRepository
+import com.example.domain.repository.UserRepository
 import com.example.domain.use_cases.IsBranchOpenUseCase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
@@ -40,13 +41,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 
 object ModuleRepository {
-
-    @Singleton
-    @Provides
-    fun provideRepository(
-        localDataSource: LocalDataSource,
-        remoteDataSource: RemoteDataSource
-    ): Repository = Repository(localDataSource, remoteDataSource)
 
 
     @Singleton
@@ -104,6 +98,14 @@ object ModuleRepository {
         categoryResolver: CategoryProviderResolver
     ): CategoryRepository =
         CategoryRepositoryImpl(categoryResolver = categoryResolver)
+
+    @Singleton
+    @Provides
+    fun provideBusinessRepository(
+        productDao: ProductDao,
+        webServices: WebServices
+    ): BusinessRepository =
+        DefaultBusinessRepository(productDao = productDao, webServices = webServices)
 
 
 }

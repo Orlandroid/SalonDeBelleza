@@ -1,0 +1,267 @@
+package com.example.info.products.products
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.SnackbarHostState
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import coil.compose.SubcomposeAsyncImage
+import com.example.info.R
+import com.example.core.info.InfoNavigationScreens
+import com.example.core.ui.base.BaseComposeScreen
+import com.example.core.ui.base.BaseScreenState
+import com.example.core.ui.base.getContentOrNull
+import com.example.core.ui.components.BaseErrorScreen
+import com.example.core.ui.components.ButtonWithIcon
+import com.example.core.ui.components.ToolbarConfiguration
+import com.example.domain.ProductSource
+import com.example.domain.entities.remote.products.Product
+import kotlinx.coroutines.flow.collectLatest
+import  com.example.core.ui.dialogs.ProgressDialog
+import com.example.core.ui.theme.AlwaysWhite
+import com.example.core.ui.theme.Background
+
+@Composable
+fun ProductsScreen(
+    navController: NavController,
+    category: String? = null,
+    source: ProductSource,
+    productsViewModel: ProductsViewModel = hiltViewModel(
+        creationCallback = { factory: ProductsViewModelFactory ->
+            factory.create(
+                source = source,
+                category = category
+            )
+        }
+    )
+) {
+    val uiState by productsViewModel.state.collectAsStateWithLifecycle()
+    val snackBarHostState = remember { SnackbarHostState() }
+    when (uiState) {
+        is BaseScreenState.OnContent -> {
+            LaunchedEffect(Unit) {
+                productsViewModel.effects.collectLatest {
+                    when (it) {
+                        is ProductScreenEffects.NavigateToCar -> {
+                            navController.navigate(InfoNavigationScreens.CartRoute)
+                        }
+
+                        is ProductScreenEffects.NavigateToProductDetail -> {
+                            navController.navigate(
+                                InfoNavigationScreens.DetailProductRoute(
+                                    productId = it.product.id,
+                                    source = it.source
+                                )
+                            )
+                        }
+
+                        is ProductScreenEffects.ProductSaved -> {
+                            snackBarHostState.showSnackbar(message = it.message)
+                        }
+
+                        is ProductScreenEffects.NoProductsToDelete -> {}
+                        is ProductScreenEffects.ProductsDeletedSuccessfully -> {
+                            snackBarHostState.showSnackbar(message = it.message)
+                        }
+                    }
+                }
+            }
+            BaseComposeScreen(
+                snackBarHostState = snackBarHostState,
+                navController = navController,
+                toolbarConfiguration = ToolbarConfiguration(
+                    title = stringResource(R.string.productos)
+                )
+            ) {
+                uiState.getContentOrNull()?.let { uiState ->
+                    ProductsScreenContent(
+                        products = uiState.products,
+                        onEvents = productsViewModel::onEvents
+                    )
+                }
+            }
+        }
+
+        is BaseScreenState.OnError -> {
+            BaseErrorScreen()
+        }
+
+        BaseScreenState.OnLoading -> {
+            ProgressDialog()
+        }
+    }
+}
+
+@Composable
+private fun ProductsScreenContent(
+    modifier: Modifier = Modifier,
+    products: List<Product>?,
+    onEvents: (event: ProductScreenEvents) -> Unit
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(Background)
+    ) {
+        ContainerImageCart {
+            Image(
+                modifier = Modifier
+                    .padding(end = 8.dp, top = 8.dp)
+                    .size(50.dp)
+                    .clickable {
+                        onEvents(ProductScreenEvents.OnCarClicked)
+                    },
+                painter = painterResource(id = R.drawable.shopping_cart),
+                contentDescription = "ImageCart"
+            )
+        }
+        Spacer(modifier = Modifier.height(16.dp))
+        Products(products = products.orEmpty(), onEvents = onEvents)
+    }
+}
+
+@Composable
+private fun ContainerImageCart(
+    content: @Composable () -> Unit
+) {
+    Row(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.End
+    ) {
+        content()
+    }
+}
+
+@Composable
+private fun Products(
+    products: List<Product>,
+    onEvents: (event: ProductScreenEvents) -> Unit
+) {
+    LazyVerticalGrid(
+        verticalArrangement = Arrangement.Center,
+        columns = GridCells.Fixed(2)
+    ) {
+        items(products.size) {
+            ItemProduct(
+                product = products[it],
+                onEvents = onEvents
+            )
+        }
+    }
+
+}
+
+@Composable
+private fun ItemProduct(
+    modifier: Modifier = Modifier,
+    product: Product,
+    onEvents: (event: ProductScreenEvents) -> Unit
+) {
+    Card(
+        modifier = modifier.padding(4.dp),
+        shape = RoundedCornerShape(8.dp),
+        onClick = {
+            onEvents(ProductScreenEvents.OnProductClicked(product))
+        },
+        colors = CardDefaults.cardColors(containerColor = AlwaysWhite)
+    ) {
+        Spacer(modifier = Modifier.height(16.dp))
+        ButtonAdd(product = product, onEvents = onEvents)
+        Spacer(modifier = Modifier.height(16.dp))
+        ImageProduct(productImage = product.image.orEmpty())
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(all = 4.dp),
+            text = product.title
+        )
+        Spacer(modifier = Modifier.height(16.dp))
+        Text(
+            modifier = Modifier
+                .align(Alignment.CenterHorizontally)
+                .padding(bottom = 16.dp),
+            text = product.price.toString(),
+        )
+    }
+}
+
+@Composable
+private fun ButtonAdd(
+    product: Product,
+    onEvents: (event: ProductScreenEvents) -> Unit
+) {
+    ButtonWithIcon(
+        modifier = Modifier.padding(horizontal = 8.dp),
+        imageVector = ImageVector.vectorResource(
+            id = R.drawable.ic_baseline_add_24
+        ),
+        buttonText = stringResource(R.string.agregar),
+        backgroundColor = Color.White,
+        onClick = {
+            onEvents(ProductScreenEvents.OnAddProduct(product = product))
+        }
+    )
+}
+
+@Composable
+private fun ColumnScope.ImageProduct(productImage: String) {
+    SubcomposeAsyncImage(
+        modifier = Modifier
+            .size(100.dp)
+            .align(Alignment.CenterHorizontally),
+        model = productImage,
+        contentDescription = "ImageProduct",
+        loading = { CircularProgressIndicator(Modifier.padding(16.dp)) }
+    )
+}
+
+
+@Composable
+@Preview(showBackground = true)
+private fun ProductsScreenContentPreview() {
+    ProductsScreenContent(
+        products = listOf(
+            Product.dummyProduct()
+                .copy(title = "John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet"),
+            Product.dummyProduct(),
+            Product.dummyProduct(),
+            Product.dummyProduct().copy(title = "Solid Gold Petite Micropave")
+        ),
+        onEvents = {}
+    )
+}
+
+

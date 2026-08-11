@@ -63,6 +63,7 @@ dependencies {
     implementation(project(":di"))
     implementation(project(":auth"))
     implementation(project(":profile"))
+    implementation(project(":info"))
     implementation(libs.androidCoreKtx)
     implementation(libs.appcompat)
     implementation(libs.material)
