@@ -25,12 +25,12 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.animateLottieCompositionAsState
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.theme.AlwaysBlack
-import com.example.citassalon.presentacion.features.theme.AlwaysWhite
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.base.LongSpacer
 import com.example.core.ui.base.Orientation
 import com.example.core.ui.components.ToolbarConfiguration
+import com.example.core.ui.theme.AlwaysBlack
+import com.example.core.ui.theme.AlwaysWhite
 
 @Composable
 fun AppointmentScheduledScreen(

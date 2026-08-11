@@ -5,7 +5,7 @@ import com.example.data.Repository
 import com.example.data.api.DummyJsonApi
 import com.example.data.api.FakeStoreService
 import com.example.data.api.WebServices
-import com.example.data.remote.appointments.AppointmentsRepository
+import com.example.domain.repository.AppointmentsRepository
 import com.example.data.remote.appointments.AppointmentsRepositoryImpl
 import com.example.domain.repository.AuthRepository
 import com.example.data.remote.auth.AuthRepositoryImp

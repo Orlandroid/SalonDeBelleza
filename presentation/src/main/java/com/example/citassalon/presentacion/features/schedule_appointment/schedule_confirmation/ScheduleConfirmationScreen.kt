@@ -39,11 +39,11 @@ import androidx.navigation.NavController
 import com.example.citassalon.R
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowUiState
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowViewModel
-import com.example.citassalon.presentacion.features.theme.AlwaysBlack
-import com.example.citassalon.presentacion.features.theme.AlwaysWhite
-import com.example.citassalon.presentacion.features.theme.Background
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.components.ToolbarConfiguration
+import com.example.core.ui.theme.AlwaysBlack
+import com.example.core.ui.theme.AlwaysWhite
+import com.example.core.ui.theme.Background
 import com.example.domain.entities.remote.migration.Service
 import com.example.domain.entities.remote.migration.Staff
 import com.example.domain.perfil.AppointmentFirebase

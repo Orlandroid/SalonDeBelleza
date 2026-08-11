@@ -36,13 +36,13 @@ import com.example.citassalon.presentacion.features.schedule_appointment.mainflo
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowViewModel
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.ScheduleAppointmentEvents
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.ScheduleAppointmentsSideEffects
-import com.example.citassalon.presentacion.features.theme.BackgroundListsMainFlow
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.base.MediumSpacer
 import com.example.core.ui.base.Orientation
 import com.example.core.ui.components.ItemStaff
 import com.example.core.ui.components.TextWithArrowConfig
 import com.example.core.ui.components.ToolbarConfiguration
+import com.example.core.ui.theme.BackgroundListsMainFlow
 import com.example.domain.entities.remote.migration.Service
 import com.example.domain.entities.remote.migration.Staff
 

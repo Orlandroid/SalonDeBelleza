@@ -11,6 +11,7 @@ import com.example.domain.mappers.toAppointmentObject
 import com.example.domain.perfil.Appointment
 import com.example.domain.perfil.AppointmentFirebase
 import com.example.domain.perfil.toAppointment
+import com.example.domain.repository.AppointmentsRepository
 import com.example.domain.state.ApiResult
 import com.example.domain.use_cases.IsBranchOpenUseCase
 import com.google.firebase.database.DataSnapshot

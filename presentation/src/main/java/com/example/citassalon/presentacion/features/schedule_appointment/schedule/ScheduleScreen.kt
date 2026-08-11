@@ -50,10 +50,10 @@ import com.example.citassalon.presentacion.features.schedule_appointment.mainflo
 import com.example.citassalon.presentacion.features.schedule_appointment.ScheduleAppointmentScreens
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowUiState
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.ScheduleAppointmentEvents
-import com.example.citassalon.presentacion.features.theme.Background
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.base.MyDatePickerDialog
 import com.example.core.ui.components.ToolbarConfiguration
+import com.example.core.ui.theme.Background
 import com.example.core.util.getHourFormat
 import com.example.domain.entities.remote.migration.Service
 import com.example.domain.entities.remote.migration.Staff

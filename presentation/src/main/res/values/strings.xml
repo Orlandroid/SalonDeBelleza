@@ -32,7 +32,6 @@
     <string name="muy_bien">!MUY BIEN¡</string>
     <string name="aceptar">Aceptar</string>
     <string name="cancelar_dialog">Cancelar</string>
-    <string name="userProfile">Perfil Usuario</string>
     <string name="historial">Historial de citas</string>
     <string name="contactanos">Contáctanos</string>
     <string name="terminosCondiciones">Términos y condiciones</string>
@@ -51,7 +50,6 @@
     <string name="aplicaci_n_de_tinte">Aplicación de tinte</string>
     <string name="agosto_2021">Agosto 2021</string>
     <string name="corte_de_cabello">Corte de cabello</string>
-    <string name="agenla">Agenla</string>
     <string name="baustista">Baustista</string>
     <string name="zona_norte">zona norte</string>
     <string name="servicio">Servicio</string>
@@ -145,45 +143,19 @@
       libero quibusdam reiciendis quis beatae pariatur animi inventore quod
        dignissimos eligendi, facilis aspernatur ea! Maxime eius possimus.
     </string>
-    <string name="name_user">Nombre del usuario</string>
-    <string name="name">Nombre</string>
-    <string name="money">Dinero</string>
-    <string name="label_email">Email</string>
     <string name="delete_all_products_sure">Estas seguro que quieres eliminar todos los productos</string>
     <string name="product_added">Product added to cart"</string>
     <string name="products_deleted">Products deleted correctly</string>
     <string name="password_successfully_changed">Password successful changed</string>
     <string name="error_updating_password">Error trying to updated password</string>
     <string name="retry">Retry</string>
-    <string name="establishment_label">Establishment: %s</string>
-    <string name="employee_label">Employee: %s</string>
-    <string name="service_label">Service: %s</string>
-    <string name="hour_label">Hour: %s</string>
-    <string name="date_label">Date: %s</string>
-    <string name="profile">Profile</string>
-    <string name="appointment_history">Appointment History</string>
-    <string name="contact_us">Contact Us</string>
-    <string name="terms_and_conditions">Terms and Conditions</string>
-    <string name="logout">Logout</string>
-    <string name="remove">Remove</string>
     <string name="personal_information">Personal information</string>
-    <string name="cd_establishment_image">Establishment image</string>
     <string name="stores">Store</string>
-    <string name="contact_us_welcome">Get in Touch</string>
-    <string name="contact_us_subtitle">We\'re here to help! Reach out to us through any of the following channels</string>
-    <string name="contact_phone">Phone</string>
-    <string name="contact_email">Email</string>
-    <string name="contact_location">Location</string>
     <string name="call_now">Call</string>
-    <string name="send_email">Email</string>
-    <string name="open_map">Maps</string>
-    <string name="business_hours">Business Hours</string>
-    <string name="follow_us">Follow Us on Social Media</string>
     <string name="avalible_locations">Available locations</string>
     <string name="sucursal_label">Sucursal</string>
     <string name="especialista_label">Especialista</string>
     <string name="servicio_label">Servicio</string>
     <string name="fecha_label">Fecha</string>
     <string name="hora_label">Hora</string>
-    <string name="no_appointments_yet">You don\'t have any appointments yet</string>
 </resources>

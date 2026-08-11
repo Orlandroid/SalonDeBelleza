@@ -28,10 +28,10 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.theme.AlwaysBlack
-import com.example.citassalon.presentacion.features.theme.AlwaysWhite
-import com.example.citassalon.presentacion.features.theme.Background
-import com.example.citassalon.presentacion.features.theme.StatusBarColor
+import com.example.core.ui.theme.AlwaysBlack
+import com.example.core.ui.theme.AlwaysWhite
+import com.example.core.ui.theme.Background
+import com.example.core.ui.theme.StatusBarColor
 
 
 @Composable

@@ -19,12 +19,12 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.theme.Background
 import com.example.core.info.InfoNavigationScreens
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.components.TextWithArrow
 import com.example.core.ui.components.TextWithArrowConfig
 import com.example.core.ui.components.ToolbarConfiguration
+import com.example.core.ui.theme.Background
 
 @Composable
 fun EstablishingScreen(

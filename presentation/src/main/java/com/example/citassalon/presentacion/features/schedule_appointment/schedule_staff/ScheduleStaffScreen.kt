@@ -45,9 +45,9 @@ import com.example.citassalon.presentacion.features.schedule_appointment.Schedul
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.AppointmentFlowUiState
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.ScheduleAppointmentEvents
 import com.example.citassalon.presentacion.features.schedule_appointment.mainflow.ScheduleAppointmentsSideEffects
-import com.example.citassalon.presentacion.features.theme.BackgroundListsMainFlow
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.components.ToolbarConfiguration
+import com.example.core.ui.theme.BackgroundListsMainFlow
 import com.example.domain.entities.remote.migration.Staff
 import kotlinx.coroutines.flow.collectLatest
 

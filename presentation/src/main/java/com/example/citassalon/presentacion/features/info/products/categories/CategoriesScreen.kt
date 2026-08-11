@@ -20,7 +20,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import com.example.citassalon.R
-import com.example.citassalon.presentacion.features.theme.Background
 import com.example.core.info.InfoNavigationScreens
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.base.BaseScreenState
@@ -32,6 +31,7 @@ import com.example.core.ui.components.TextWithArrow
 import com.example.core.ui.components.TextWithArrowConfig
 import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.dialogs.ProgressDialog
+import com.example.core.ui.theme.Background
 import com.example.domain.CategorySource
 import com.example.domain.entities.remote.products.Category
 import kotlinx.coroutines.flow.collectLatest
