@@ -30,7 +30,6 @@
     <string name="mi_mensaje"><![CDATA[Este es un <u>Mamut chiquito</u>]]></string>
     <string name="zahara_norte">Zahara norte</string>
     <string name="muy_bien">!MUY BIEN¡</string>
-    <string name="aceptar">Aceptar</string>
     <string name="cancelar_dialog">Cancelar</string>
     <string name="historial">Historial de citas</string>
     <string name="contactanos">Contáctanos</string>
@@ -70,7 +69,6 @@
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="example_email_com">example@email.com</string>
-    <string name="next">Next</string>
     <string name="aun_no_tienes_registros">Aun no tienes registros</string>
     <string name="producto">Producto</string>
     <string name="_000_00">$ 000.00</string>
@@ -91,7 +89,6 @@
     <string name="atuny0_sohu_com">atuny0@sohu.com</string>
     <string name="_1745_t_street_southeast">1745 T Street Southeast</string>
     <string name="reset_password">Reset Password</string>
-    <string name="detail">Detail</string>
     <string name="Ingresa">Ingresar</string>
     <string name="title">Title</string>
     <string name="message_body">Message Body</string>
@@ -136,10 +133,4 @@
     <string name="retry">Retry</string>
     <string name="personal_information">Personal information</string>
     <string name="call_now">Call</string>
-    <string name="avalible_locations">Available locations</string>
-    <string name="sucursal_label">Sucursal</string>
-    <string name="especialista_label">Especialista</string>
-    <string name="servicio_label">Servicio</string>
-    <string name="fecha_label">Fecha</string>
-    <string name="hora_label">Hora</string>
 </resources>

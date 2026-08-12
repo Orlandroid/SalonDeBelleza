@@ -64,6 +64,7 @@ dependencies {
     implementation(project(":auth"))
     implementation(project(":profile"))
     implementation(project(":info"))
+    implementation(project(":scheduleappointment"))
     implementation(libs.androidCoreKtx)
     implementation(libs.appcompat)
     implementation(libs.material)

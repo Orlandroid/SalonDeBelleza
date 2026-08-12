@@ -45,7 +45,7 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.example.core.profile.ProfileNavigationRoutes
+import com.example.core.navigation.profile.ProfileNavigationRoutes
 import com.example.profile.R
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.components.BaseErrorScreen

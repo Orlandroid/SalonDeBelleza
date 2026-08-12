@@ -19,7 +19,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
 import com.example.info.R
-import com.example.core.info.InfoNavigationScreens
+import com.example.core.navigation.info.InfoNavigationScreens
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.components.TextWithArrow
 import com.example.core.ui.components.TextWithArrowConfig

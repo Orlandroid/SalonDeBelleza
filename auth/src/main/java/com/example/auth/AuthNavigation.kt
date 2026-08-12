@@ -7,7 +7,7 @@ import androidx.navigation.navigation
 import com.example.auth.login.LoginScreen
 import com.example.auth.sign_up.SignUpScreen
 import com.example.auth.splashscreen.SplashScreen
-import com.example.core.auth.AuthNavigationRoutes
+import com.example.core.navigation.auth.AuthNavigationRoutes
 import com.example.core.navigation.AppNavigationRoutes
 
 

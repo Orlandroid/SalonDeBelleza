@@ -35,7 +35,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.auth.R
-import com.example.core.auth.AuthNavigationRoutes
+import com.example.core.navigation.auth.AuthNavigationRoutes
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.base.MyDatePickerDialog
 import com.example.core.ui.components.BaseOutlinedTextField

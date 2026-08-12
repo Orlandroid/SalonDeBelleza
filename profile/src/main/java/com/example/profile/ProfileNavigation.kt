@@ -8,7 +8,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.example.core.navigation.AppNavigationRoutes
-import com.example.core.profile.ProfileNavigationRoutes
+import com.example.core.navigation.profile.ProfileNavigationRoutes
 import com.example.domain.CustomNavType
 import com.example.domain.entities.local.AppointmentObject
 import com.example.profile.contact_us.ContactUsScreen

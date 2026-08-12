@@ -1,7 +1,6 @@
 package com.example.auth.login
 
 import androidx.activity.compose.BackHandler
-import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -52,7 +51,7 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.auth.R
 import com.example.auth.forgetpassword.ForgetPasswordDialog
-import com.example.core.auth.AuthNavigationRoutes
+import com.example.core.navigation.auth.AuthNavigationRoutes
 import com.example.core.navigation.AppNavigationRoutes
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.components.ToolbarConfiguration

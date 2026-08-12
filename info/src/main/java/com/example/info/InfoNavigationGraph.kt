@@ -6,7 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
-import com.example.core.info.InfoNavigationScreens
+import com.example.core.navigation.info.InfoNavigationScreens
 import com.example.core.navigation.AppNavigationRoutes
 import com.example.info.cart.CartScreen
 import com.example.info.establishing.EstablishingScreen

@@ -1,6 +1,5 @@
 package com.example.profile.profile
 
-import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -36,7 +35,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.example.core.profile.ProfileNavigationRoutes
+import com.example.core.navigation.profile.ProfileNavigationRoutes
 import com.example.profile.R
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.base.MediumSpacer
