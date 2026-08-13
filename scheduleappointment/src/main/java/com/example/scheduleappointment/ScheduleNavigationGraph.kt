@@ -26,13 +26,13 @@ import com.example.scheduleappointment.schedule_confirmation.ScheduleConfirmatio
 fun NavGraphBuilder.scheduleNavigationGraph(
     navController: NavHostController,
     goToInfoNavigation: () -> Unit,
-    goToProfileNavigation: () -> Unit
+    goToProfileNavigation: () -> Unit,
+    onRestart: () -> Unit
 ) {
     navigation<AppNavigationRoutes.ScheduleNavigationRoute>(
         startDestination = ScheduleNavigationRoutes.HomeRoute
     ) {
         composable<ScheduleNavigationRoutes.HomeRoute> {
-            val activity = LocalActivity.current
             HomeScreen(
                 event = { event ->
                     when (event) {
@@ -49,7 +49,7 @@ fun NavGraphBuilder.scheduleNavigationGraph(
                         }
 
                         HomeScreenEvents.OnCloseScreen -> {
-//                            (activity as MainActivityCompose).finish()
+                            onRestart()
                         }
                     }
                 }
@@ -103,9 +103,8 @@ fun NavGraphBuilder.scheduleNavigationGraph(
             }
         }
         composable<ScheduleNavigationRoutes.AppointmentScheduledRoute> {
-            val activity = LocalActivity.current
             AppointmentScheduledScreen(navController = navController) {
-//                (activity as MainActivityCompose).closeAndOpenActivity()
+                onRestart()
             }
         }
     }

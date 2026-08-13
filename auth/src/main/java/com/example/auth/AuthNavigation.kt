@@ -13,7 +13,8 @@ import com.example.core.navigation.AppNavigationRoutes
 
 fun NavGraphBuilder.authNavigationGraph(
     navController: NavHostController,
-    goToScheduleFlow: () -> Unit
+    goToScheduleFlow: () -> Unit,
+    onRestart: () -> Unit
 ) {
     navigation<AppNavigationRoutes.AuthNavigationRoute>(
         startDestination = AuthNavigationRoutes.SplashRoute
@@ -27,7 +28,8 @@ fun NavGraphBuilder.authNavigationGraph(
         composable<AuthNavigationRoutes.LoginRoute> {
             LoginScreen(
                 navController = navController,
-                onCloseApplication = {})//Todo add onCloseApplication
+                onCloseApplication = onRestart
+            )
         }
         composable<AuthNavigationRoutes.SingUpRoute> {
             SignUpScreen(navController)
