@@ -1,7 +1,7 @@
 package com.example.citassalon.presentacion.features.profile.historial_citas
 
-import com.example.citassalon.presentacion.main.NetworkHelper
-import com.example.data.remote.appointments.AppointmentsRepository
+import com.example.domain.repository.AppointmentsRepository
+import com.example.profile.historial_citas.AppointmentHistoryViewModel
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -15,7 +15,6 @@ class AppointmentHistoryViewModelTest {
 
     private lateinit var viewModel: AppointmentHistoryViewModel
     private val testDispatcher = StandardTestDispatcher()
-    private val networkHelper: NetworkHelper = mockk()
     private val appointmentsRepository: AppointmentsRepository = mockk()
 
 

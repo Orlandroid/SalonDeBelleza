@@ -4,10 +4,6 @@ package com.example.data.di.modules
 import com.example.data.api.DummyJsonApi
 import com.example.data.api.FakeStoreService
 import com.example.data.api.WebServices
-import com.example.data.di.qualifiers.FakeStoreRetrofit
-import com.example.data.di.qualifiers.MyDummyJson
-import com.example.data.di.qualifiers.MyDummyRetrofit
-import com.example.data.di.qualifiers.PlatzyRetrofit
 import com.example.data.local.RoomLocalDataSource
 import com.example.data.remote.RemoteDataSourceImpl
 import com.example.data.remote.products.dummyjson.DummyJsonApiV2
@@ -15,6 +11,10 @@ import com.example.data.remote.products.fakestore.FakeStoreApi
 import com.example.data.remote.products.mydummyapi.MyDummyApi
 import com.example.data.remote.products.platzy.PlatzyApi
 import com.example.data.database.local.LocalDataSource
+import com.example.di.qualifiers.FakeStoreRetrofit
+import com.example.di.qualifiers.MyDummyJson
+import com.example.di.qualifiers.MyDummyRetrofit
+import com.example.di.qualifiers.PlatzyRetrofit
 import com.example.domain.RemoteDataSource
 import dagger.Binds
 import dagger.Module

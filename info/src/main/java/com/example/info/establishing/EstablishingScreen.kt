@@ -1,0 +1,121 @@
+package com.example.info.establishing
+
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import com.example.info.R
+import com.example.core.navigation.info.InfoNavigationScreens
+import com.example.core.ui.base.BaseComposeScreen
+import com.example.core.ui.components.TextWithArrow
+import com.example.core.ui.components.TextWithArrowConfig
+import com.example.core.ui.components.ToolbarConfiguration
+import com.example.core.ui.theme.Background
+
+@Composable
+fun EstablishingScreen(
+    modifier: Modifier = Modifier,
+    navController: NavHostController
+) {
+    BaseComposeScreen(
+        navController = navController,
+        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.nombre_establecimiento))
+    ) {
+        EstablishingScreenContent(
+            modifier = modifier,
+            navigateToStore = {
+                navController.navigate(InfoNavigationScreens.StoresRoute)
+            },
+            navigateToBranches = {
+                navController.navigate(InfoNavigationScreens.BranchesRoute)
+            }
+        )
+    }
+}
+
+@Composable
+private fun EstablishingScreenContent(
+    modifier: Modifier = Modifier,
+    navigateToStore: () -> Unit,
+    navigateToBranches: () -> Unit
+) {
+    Column(
+        modifier
+            .fillMaxSize()
+            .background(Background)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxHeight(0.4f)
+                .fillMaxWidth(),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = stringResource(id = R.string.nombre_establecimiento),
+                fontSize = 18.sp,
+            )
+        }
+        Card(
+            modifier = Modifier.fillMaxHeight(),
+            colors = CardDefaults.cardColors(containerColor = Color.White)
+        ) {
+            MenuBranch(
+                clickOnBranches = navigateToBranches,
+                clickOnStore = navigateToStore
+            )
+        }
+    }
+}
+
+@Composable
+private fun MenuBranch(
+    clickOnBranches: () -> Unit,
+    clickOnStore: () -> Unit
+) {
+    LazyColumn {
+        item {
+            TextWithArrow(
+                config = TextWithArrowConfig(
+                    text = stringResource(id = R.string.sucursales),
+                    clickOnItem = {
+                        clickOnBranches.invoke()
+                    }
+                )
+            )
+        }
+        item {
+            TextWithArrow(
+                config = TextWithArrowConfig(
+                    text = stringResource(id = R.string.tiendas),
+                    clickOnItem = {
+                        clickOnStore.invoke()
+                    }
+                )
+            )
+        }
+    }
+}
+
+@Composable
+@Preview(showBackground = true)
+private fun EstablishingScreenPreview() {
+    EstablishingScreenContent(
+        navigateToBranches = {},
+        navigateToStore = {}
+    )
+}

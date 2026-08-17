@@ -10,6 +10,4 @@ interface RemoteDataSource {
 
 
     suspend fun randomUser(): RandomUserResponse
-
-    suspend fun getStaffUsers(): ApiResult<List<User>>
 }

@@ -6,10 +6,9 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("com.android.library")
-    id("org.jetbrains.kotlin.android")
     id("kotlin-parcelize")
-    id("kotlin-kapt")
-    kotlin("plugin.serialization")
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -51,7 +50,7 @@ dependencies {
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.gson)
-    implementation("androidx.navigation:navigation-common-ktx:2.8.1")
+    implementation("androidx.navigation:navigation-common-ktx:2.9.8")
     testImplementation(libs.junit4)
     androidTestImplementation(libs.testJunit)
     testImplementation(libs.mockk)
@@ -60,7 +59,7 @@ dependencies {
     implementation(platform(libs.firebaseBom))
     implementation(libs.bundles.firebase)
     implementation(libs.bundles.room)
-    kapt(libs.roomCompiler)
+    ksp(libs.roomCompiler)
     testImplementation(libs.truth)
-    implementation(libs.kotlinSerialization)
+    implementation(libs.kotlinSerializationJson)
 }

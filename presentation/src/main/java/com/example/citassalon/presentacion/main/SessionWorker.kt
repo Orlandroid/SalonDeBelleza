@@ -19,14 +19,14 @@ class SessionWorker @AssistedInject constructor(
 
     override fun doWork(): Result {
         return try {
-            deleteSessionUser()
+//            deleteSessionUser()
             Result.success()
         } catch (e: Exception) {
             Result.failure()
         }
     }
 
-    private fun deleteSessionUser() {
+    private suspend fun deleteSessionUser() {
 //        loginPreferences.destroyUserSession()
     }
 

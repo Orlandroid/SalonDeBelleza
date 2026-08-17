@@ -1,0 +1,218 @@
+package com.example.auth.sign_up
+
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.core.util.dateFormat
+import com.example.core.util.getCurrentDateTime
+import com.example.core.util.toStringFormat
+import com.example.di.IoDispatcher
+import com.example.domain.repository.AuthRepository
+import com.example.domain.repository.UserRepository
+import com.example.domain.entities.remote.User
+import com.example.domain.state.getContent
+import com.example.domain.state.getErrorMessage
+import com.example.domain.state.isError
+import com.example.domain.state.isSuccess
+import com.example.domain.use_cases.ValidateFormSignUpUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.CoroutineDispatcher
+import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
+import javax.inject.Inject
+
+sealed class SingUpEvents {
+    data object OnSignUpClick : SingUpEvents()
+    data class OnNameChange(val name: String) : SingUpEvents()
+    data class OnPhoneChange(val phone: String) : SingUpEvents()
+    data class OnEmailChange(val email: String) : SingUpEvents()
+    data class OnPasswordChange(val password: String) : SingUpEvents()
+    object OnOpenDatePick : SingUpEvents()
+    object OnCloseDatePicker : SingUpEvents()
+    data class OnDateSelected(val birthday: String) : SingUpEvents()
+}
+
+sealed class SignUpSideEffects {
+    data object NavigateToLoginScreen : SignUpSideEffects()
+
+    //Change message to enum with types of messages
+    data class ShowSnackBar(val message: String? = null) : SignUpSideEffects()
+}
+
+data class SignUpUiState(
+    val name: String = "",
+    val phone: String = "",
+    val email: String = "",
+    val password: String = "",
+    val birthday: String = getCurrentDateTime().toStringFormat(dateFormat),
+    var showErrorPhone: Boolean = false,
+    var showErrorEmail: Boolean = false,
+    var showErrorPassword: Boolean = false,
+    var isEnableButton: Boolean = false,
+    val isLoading: Boolean = false,
+    val error: Exception? = null,
+    val showDatePicker: Boolean = false
+)
+
+
+@HiltViewModel
+class SignUpViewModel @Inject constructor(
+    private val authRepository: AuthRepository,
+    private val userRepository: UserRepository,
+    private val useCaseValidateForm: ValidateFormSignUpUseCase,
+    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
+) : ViewModel() {
+
+
+    private val _state: MutableStateFlow<SignUpUiState> = MutableStateFlow(SignUpUiState())
+    val state = _state.asStateFlow()
+
+
+    private val _effects = Channel<SignUpSideEffects>()
+
+    val effects = _effects.receiveAsFlow()
+
+    private fun SignUpUiState.getUser(): User {
+        return User(
+            name = name,
+            phone = phone,
+            email = email,
+            password = password,
+            birthDay = birthday
+        )
+    }
+
+    fun onEvents(event: SingUpEvents) {
+        when (event) {
+            is SingUpEvents.OnNameChange -> {
+                _state.update { it.copy(name = event.name) }
+                validateForm()
+            }
+
+            is SingUpEvents.OnPhoneChange -> {
+                _state.update { it.copy(phone = event.phone) }
+                validateForm()
+            }
+
+            is SingUpEvents.OnEmailChange -> {
+                _state.update { it.copy(email = event.email) }
+                validateForm()
+            }
+
+            is SingUpEvents.OnPasswordChange -> {
+                _state.update { it.copy(password = event.password) }
+                validateForm()
+            }
+
+            is SingUpEvents.OnSignUpClick -> {
+                sinUp()
+            }
+
+            SingUpEvents.OnOpenDatePick -> {
+                _state.update { it.copy(showDatePicker = true) }
+            }
+
+            SingUpEvents.OnCloseDatePicker -> {
+                _state.update { it.copy(showDatePicker = false) }
+            }
+
+            is SingUpEvents.OnDateSelected -> {
+                _state.update { it.copy(birthday = event.birthday) }
+                validateForm()
+            }
+        }
+    }
+
+
+    private fun sinUp() {
+        viewModelScope.launch(ioDispatcher) {
+            val user = _state.value.getUser()
+            _state.update { it.copy(isLoading = true) }
+            val authResult = authRepository.register(user.email, user.password)
+
+            if (authResult.isSuccess()) {
+                saveUserInformation(user)
+                sendEffect(SignUpSideEffects.NavigateToLoginScreen)
+            } else {
+                val error = Exception(authResult.getErrorMessage())
+                _state.update { state -> state.copy(error = error) }
+                sendEffect(SignUpSideEffects.ShowSnackBar("Error al crear cuenta: ${error.message}"))
+            }
+            _state.update { state -> state.copy(isLoading = false) }
+
+        }
+    }
+
+    private fun saveUserInformation(userP: User) {
+        viewModelScope.launch(ioDispatcher) {
+
+            val getUserResult = authRepository.getUser()
+
+            val uid = getUserResult.getContent()?.uid
+
+            if (uid == null) {
+                sendEffect(SignUpSideEffects.ShowSnackBar("Error"))
+                return@launch
+            }
+
+            if (getUserResult.isError()) {
+                sendEffect(SignUpSideEffects.ShowSnackBar("Error"))
+                return@launch
+            }
+
+            val userInfoUseCaseResult = userRepository.saveUserInfo(
+                userId = getUserResult.getContent()?.uid.toString(),
+                user = userP
+            )
+
+            if (userInfoUseCaseResult.isError()) {
+                sendEffect(SignUpSideEffects.ShowSnackBar("Error"))
+                return@launch
+            }
+
+            sendEffect(SignUpSideEffects.ShowSnackBar("Success"))
+        }
+    }
+
+    private fun sendEffect(effect: SignUpSideEffects) {
+        viewModelScope.launch(ioDispatcher) {
+            _effects.send(effect)
+        }
+    }
+
+
+    private fun resetErrorsInputs() {
+        _state.update {
+            it.copy(
+                showErrorPassword = false,
+                showErrorEmail = false,
+                showErrorPhone = false,
+                isEnableButton = false
+            )
+        }
+    }
+
+    private fun validateForm() {
+        resetErrorsInputs()
+        val resultForm = useCaseValidateForm.invoke(
+            birthDay = state.value.birthday,
+            name = state.value.name,
+            password = state.value.password,
+            email = state.value.email,
+            phone = state.value.phone
+        )
+        _state.update {
+            it.copy(
+                showErrorPhone = !resultForm.isValidPhone,
+                showErrorPassword = !resultForm.isValidPassword,
+                showErrorEmail = !resultForm.isValidEmail,
+                isEnableButton = resultForm.isFormValid
+            )
+        }
+    }
+
+
+}

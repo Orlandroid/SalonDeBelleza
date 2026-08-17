@@ -1,4 +1,26 @@
+pluginManagement {
+    repositories {
+        gradlePluginPortal()
+        google()
+        mavenCentral()
+        maven { url = uri("https://jitpack.io") }
+    }
+}
+dependencyResolutionManagement {
+    repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+    repositories {
+        google()
+        mavenCentral()
+        maven { url = uri("https://jitpack.io") }
+    }
+}
 rootProject.name = "CitasSalon"
 include ':presentation'
 include ':domain'
 include ':data'
+include ':core'
+include ':di'
+include ':auth'
+include ':profile'
+include ':info'
+include ':scheduleappointment'

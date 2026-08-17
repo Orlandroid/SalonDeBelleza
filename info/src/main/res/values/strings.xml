@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="delete_all_products_sure">Estas seguro que quieres eliminar todos los productos</string>
+    <string name="products_deleted">Products deleted correctly</string>
+    <string name="nombre_establecimiento">Nombre Establecimiento</string>
+    <string name="sucursales">Sucursales</string>
+    <string name="tiendas">Tiendas</string>
+    <string name="nuestro_staff">"Nuestro Staff"</string>
+    <string name="ubicacion">Ubicacion</string>
+    <string name="staff">Staff</string>
+    <string name="servicios">Servicios</string>
+    <string name="stores">Store</string>
+    <string name="product_added">Product added to cart"</string>
+    <string name="categorias">Categorías</string>
+    <string name="detail_product">Detail Product</string>
+    <string name="productos">Productos</string>
+    <string name="nustro_staff">Nuestro Staff</string>
+    <string name="agregar">Agregar</string>
+
+</resources>

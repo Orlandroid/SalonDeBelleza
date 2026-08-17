@@ -6,13 +6,13 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("com.android.application")
-    id("kotlin-android")
-    id("kotlin-kapt")
+    alias(libs.plugins.ksp)
     id("dagger.hilt.android.plugin")
     id("kotlin-parcelize")
     id("com.google.gms.google-services")
     id("org.jetbrains.kotlin.plugin.compose")
-    kotlin("plugin.serialization")
+    alias(libs.plugins.kotlin.serialization)
+
 }
 
 android {
@@ -59,6 +59,12 @@ android {
 dependencies {
     implementation(project(":data"))
     implementation(project(":domain"))
+    implementation(project(":core"))
+    implementation(project(":di"))
+    implementation(project(":auth"))
+    implementation(project(":profile"))
+    implementation(project(":info"))
+    implementation(project(":scheduleappointment"))
     implementation(libs.androidCoreKtx)
     implementation(libs.appcompat)
     implementation(libs.material)
@@ -66,12 +72,12 @@ dependencies {
     androidTestImplementation(libs.testJunit)
     androidTestImplementation(libs.espressoCore)
     implementation(libs.bundles.room)
-    kapt(libs.roomCompiler)
+    ksp(libs.roomCompiler)
     implementation(libs.bundles.retrofit)
     implementation(libs.gson)
     implementation(libs.bundles.daggerHilt)
-    kapt(libs.hiltAndroidCompiler)
-    kapt(libs.androidxHiltCompiler)
+    ksp(libs.hiltAndroidCompiler)
+    ksp(libs.androidxHiltCompiler)
     implementation(platform(libs.firebaseBom))
     implementation(libs.bundles.firebase)
     implementation(libs.glide)
@@ -82,27 +88,12 @@ dependencies {
     implementation(libs.androidxStartupRuntime)
 
     //Compose
-    implementation("androidx.compose.runtime:runtime")
     implementation(platform(libs.composeBom))
-    implementation("androidx.compose.ui:ui-tooling-preview")
-    implementation("org.jetbrains.kotlinx:kotlinx-serialization-json:1.6.3")
+    implementation(libs.kotlinSerializationJson)
 
 
-    implementation(libs.composeUi)
     implementation(libs.bundles.composeMaterial)
-    implementation(libs.constraintlayoutCompose)
-    implementation(libs.lottieCompose)
-    implementation(libs.coilCompose)
-    implementation(libs.composeRuntimeLivedata)
-    implementation(libs.lifecycleViewmodelCompose)
-    implementation(libs.composeRatingbar)
-    implementation(libs.mapsCompose)
-    implementation(libs.navigationCompose)
-    implementation(libs.hiltNavigationCompose)
-    implementation(libs.composeUiTooling)
-    implementation(libs.activityCompose)
-    testImplementation(libs.mockk)
-    testImplementation(libs.jetbrains.kotlinx.coroutines.test)
-    testImplementation(libs.turbine)
-    testImplementation("com.google.truth:truth:1.4.5")
+    implementation(libs.bundles.composeUi)
+    implementation(libs.bundles.compose)
+    implementation(libs.bundles.baseTesting)
 }

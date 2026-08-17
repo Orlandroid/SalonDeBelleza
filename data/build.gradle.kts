@@ -5,10 +5,9 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     id("com.android.library")
-    id("org.jetbrains.kotlin.android")
-    id("kotlin-kapt")
+    alias(libs.plugins.ksp)
     id("kotlin-parcelize")
-    kotlin("plugin.serialization")
+    alias(libs.plugins.kotlin.serialization)
 }
 
 android {
@@ -48,6 +47,7 @@ android {
 dependencies {
 
     implementation(project(":domain"))
+    implementation(project(":di"))
     implementation(libs.androidCoreKtx)
     testImplementation(libs.junit4)
     testImplementation(libs.appcompat)
@@ -55,13 +55,12 @@ dependencies {
     androidTestImplementation(libs.espressoCore)
     implementation(libs.bundles.retrofit)
     implementation(libs.bundles.room)
-    kapt(libs.roomCompiler)
+    ksp(libs.roomCompiler)
     implementation(libs.bundles.daggerHilt)
-    kapt(libs.hiltAndroidCompiler)
-    kapt(libs.androidxHiltCompiler)
+    ksp(libs.hiltAndroidCompiler)
+    ksp(libs.androidxHiltCompiler)
     implementation(platform(libs.firebaseBom))
     implementation(libs.bundles.firebase)
-    implementation(libs.kotlinSerialization)
+    implementation(libs.kotlinSerializationJson)
     implementation(libs.preferencesDataStore)
-    implementation("com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:1.0.0")
 }

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="olvidaste_contraseña">Forgot your password?</string>
+    <string name="reset_password">Reset Password</string>
+    <string name="ingresa_tu_correo">ingresa tu correo</string>
+    <string name="error">Error</string>
+    <string name="error_invalid_user_or_password">Error invalid user or password"</string>
+    <string name="username">username</string>
+    <string name="contraseña">password</string>
+    <string name="sing_up">Sign Up</string>
+    <string name="or">OR</string>
+    <string name="log_in">Log In</string>
+    <string name="error_password_or_user">Usuario o contraseña incorrectos</string>
+    <string name="recuerda_tu_usuario">remember your username</string>
+    <string name="ingresar_con_google">Sign in with Google</string>
+    <string name="error_passsword">The password must be at least 8 characters long.</string>
+    <string name="signUp">SignUp</string>
+    <string name="registrarse">Registrarse</string>
+    <string name="nombre">Nombre</string>
+    <string name="phone">Phone</string>
+    <string name="skeduly">Skeduly</string>
+    <string name="error_phone">Debes de ingresar un telefono valido</string>
+    <string name="error_email">Enter a valid email address.</string>
+</resources>

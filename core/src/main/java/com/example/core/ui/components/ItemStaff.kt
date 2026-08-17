@@ -1,0 +1,98 @@
+package com.example.core.ui.components
+
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.Card
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.Text
+import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import coil.compose.SubcomposeAsyncImage
+import coil.imageLoader
+import coil.util.DebugLogger
+import com.example.domain.entities.remote.migration.Staff
+
+
+sealed class ClickOnItemStaff {
+    data object ClickOnItem : ClickOnItemStaff()
+}
+
+@Composable
+fun ItemStaff(
+    modifier: Modifier = Modifier,
+    staff: Staff,
+    branch: String? = null,
+    headerText: String? = null,
+    clickOnHeaderText: (() -> Unit?)? = null,
+    onClick: ((ClickOnItemStaff) -> Unit?)? = null
+) {
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(8.dp),
+        onClick = {
+            onClick?.invoke(ClickOnItemStaff.ClickOnItem)
+        }
+    ) {
+        Column(
+            Modifier.fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            headerText?.let {
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(
+                    modifier = Modifier.clickable { clickOnHeaderText?.invoke() },
+                    text = headerText,
+                    fontWeight = FontWeight.Bold
+                )
+            }
+            val imageLoader =
+                LocalContext.current.imageLoader.newBuilder().logger(DebugLogger()).build()
+            Spacer(modifier = Modifier.height(16.dp))
+            SubcomposeAsyncImage(
+                imageLoader = imageLoader,
+                modifier = Modifier
+                    .clip(CircleShape)
+                    .size(150.dp),
+                model = staff.image_url,
+                contentDescription = "ImageStaff",
+                loading = { CircularProgressIndicator() },
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            Text(text = staff.name.orEmpty(), fontWeight = FontWeight.W900, fontSize = 18.sp)
+            branch?.let {
+                Spacer(modifier = Modifier.height(16.dp))
+                Text(text = branch, fontWeight = FontWeight.W900, fontSize = 18.sp)
+                Spacer(modifier = Modifier.height(16.dp))
+            }
+        }
+    }
+}
+
+@Composable
+@Preview(showBackground = true)
+private fun ItemStaffPreview() {
+    ItemStaff(
+        staff = Staff(
+            id = "",
+            image_url = "",
+            name = "Orlando",
+            gender = "",
+            rating = 4
+        ),
+        branch = "Zacatecas"
+    )
+}

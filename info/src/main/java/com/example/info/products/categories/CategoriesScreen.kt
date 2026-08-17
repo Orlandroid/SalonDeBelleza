@@ -1,0 +1,165 @@
+package com.example.info.products.categories
+
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import androidx.navigation.NavController
+import com.example.info.R
+import com.example.core.navigation.info.InfoNavigationScreens
+import com.example.core.ui.base.BaseComposeScreen
+import com.example.core.ui.base.BaseScreenState
+import com.example.core.ui.base.MediumSpacer
+import com.example.core.ui.base.Orientation
+import com.example.core.ui.base.getContentOrNull
+import com.example.core.ui.components.BaseErrorScreen
+import com.example.core.ui.components.TextWithArrow
+import com.example.core.ui.components.TextWithArrowConfig
+import com.example.core.ui.components.ToolbarConfiguration
+import com.example.core.ui.dialogs.ProgressDialog
+import com.example.core.ui.theme.Background
+import com.example.domain.CategorySource
+import com.example.domain.entities.remote.products.Category
+import kotlinx.coroutines.flow.collectLatest
+
+
+@Composable
+fun CategoriesScreen(
+    navController: NavController,
+    categorySource: CategorySource,
+    viewmodel: CategoriesViewModel = hiltViewModel(
+        creationCallback = { factory: CategoriesViewModelFactory -> factory.create(categorySource) })
+) {
+    val uiState = viewmodel.state.collectAsStateWithLifecycle()
+    when (uiState.value) {
+        BaseScreenState.OnLoading -> {
+            ProgressDialog()
+        }
+
+        is BaseScreenState.OnContent -> {
+            LaunchedEffect(Unit) {
+                viewmodel.effects.collectLatest {
+                    when (it) {
+                        is CategoriesEffects.NavigateToProducts -> {
+                            navController.navigate(
+                                InfoNavigationScreens.ProductsRoute(
+                                    source = it.source,
+                                    category = it.category
+                                )
+                            )
+                        }
+                    }
+                }
+            }
+            BaseComposeScreen(
+                navController = navController,
+                toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.categorias))
+            ) {
+                uiState.value.getContentOrNull()?.let { categoriesUiState ->
+                    CategoriesScreenContent(
+                        categories = categoriesUiState.categories,
+                        onEvent = viewmodel::onEvents
+                    )
+                }
+            }
+        }
+
+        is BaseScreenState.OnError -> {
+            BaseErrorScreen()
+        }
+    }
+}
+
+@Composable
+private fun CategoriesScreenContent(
+    modifier: Modifier = Modifier,
+    categories: List<Category>,
+    onEvent: (event: CategoriesEvents) -> Unit
+) {
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .background(Background),
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        MediumSpacer(orientation = Orientation.VERTICAL)
+        Image(
+            modifier = Modifier
+                .height(150.dp)
+                .width(150.dp),
+            painter = painterResource(id = R.drawable.estar),
+            contentDescription = null
+        )
+        MediumSpacer(orientation = Orientation.VERTICAL)
+        Categories(categories = categories) { category ->
+            onEvent(CategoriesEvents.OnCategoryClicked(category))
+        }
+    }
+}
+
+@Composable
+private fun Categories(
+    categories: List<Category>,
+    goToProductsScreen: (category: Category) -> Unit
+) {
+    LazyColumn {
+
+        items(
+            items = categories,
+            key = { it.id }
+        ) { category ->
+            TextWithArrow(
+                config = TextWithArrowConfig(
+                    text = category.name,
+                    clickOnItem = {
+                        goToProductsScreen(category)
+                    }
+                )
+            )
+        }
+    }
+
+}
+
+
+@Composable
+@Preview(showBackground = true)
+private fun CategoriesScreenContentPreview() {
+    CategoriesScreenContent(
+        categories = listOf(
+            Category(id = "0", name = "Category 1"),
+            Category(id = "1", name = "Category 2"),
+            Category(id = "2", name = "Category 3"),
+            Category(id = "3", name = "Category 4"),
+        ),
+        onEvent = {}
+    )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="contact_us">Contact Us</string>
+    <string name="contact_us_welcome">Get in Touch</string>
+    <string name="contact_us_subtitle">We\'re here to help! Reach out to us through any of the following channels</string>
+    <string name="contact_phone">Phone</string>
+    <string name="contact_email">Email</string>
+    <string name="contact_location">Location</string>
+    <string name="call_now">Call Now</string>
+    <string name="send_email">Email</string>
+    <string name="open_map">Maps</string>
+    <string name="business_hours">Business Hours</string>
+    <string name="follow_us">Follow Us on Social Media</string>
+    <string name="warning">Warning</string>
+    <string name="delete_row_message">Estas seguro que deseas eliminar el registro</string>
+    <string name="historiasl_de_citas">Historial de citas</string>
+    <string name="history_detail">History Detail</string>
+    <string name="perfil">Perfil</string>
+    <string name="cerrar_session">Cerrar session</string>
+    <string name="seguro_que_deseas_cerrar_sesion">¿Seguro que deseas cerrar sesion?</string>
+    <string name="remove">Remove</string>
+    <string name="no_appointments_yet">You don\'t have any appointments yet</string>
+    <string name="cd_establishment_image">Establishment image</string>
+    <string name="establishment_label">Establishment: %s</string>
+    <string name="employee_label">Employee: %s</string>
+    <string name="service_label">Service: %s</string>
+    <string name="hour_label">Hour: %s</string>
+    <string name="date_label">Date: %s</string>
+    <string name="profile">Profile</string>
+    <string name="appointment_history">Appointment History</string>
+    <string name="agenla">Agenla</string>
+    <string name="terms_and_conditions">Terms and Conditions</string>
+    <string name="logout">Logout</string>
+    <string name="userProfile">Perfil Usuario</string>
+    <string name="name_user">Nombre del usuario</string>
+    <string name="name">Nombre</string>
+    <string name="money">Dinero</string>
+    <string name="label_email">Email</string>
+    <string name="phone">Phone</string>
+</resources>
