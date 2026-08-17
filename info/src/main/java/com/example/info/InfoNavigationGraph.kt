@@ -10,7 +10,7 @@ import com.example.core.navigation.info.InfoNavigationScreens
 import com.example.core.navigation.AppNavigationRoutes
 import com.example.info.cart.CartScreen
 import com.example.info.establishing.EstablishingScreen
-import com.example.info.nuestro_staff.OurStaffScreen
+import com.example.info.our_sttaf.OurStaffScreen
 import com.example.info.products.categories.CategoriesScreen
 import com.example.info.products.detalleproducto.DetailProductScreen
 import com.example.info.products.products.ProductsScreen

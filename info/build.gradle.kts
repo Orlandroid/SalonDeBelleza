@@ -40,4 +40,5 @@ dependencies {
     implementation(libs.bundles.composeUi)
     implementation(libs.bundles.compose)
     implementation(libs.bundles.composeMaterial)
+    implementation(libs.bundles.baseTesting)
 }

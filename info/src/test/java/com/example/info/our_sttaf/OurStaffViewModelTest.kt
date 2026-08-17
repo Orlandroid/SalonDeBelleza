@@ -1,10 +1,10 @@
-package com.example.citassalon.presentacion.features.info.nuestro_staff
+package com.example.info.our_sttaf
 
 import app.cash.turbine.test
-import com.example.citassalon.presentacion.features.base.BaseScreenState
+import com.example.core.ui.base.BaseScreenState
 import com.example.domain.entities.remote.dummyUsers.User
+import com.example.domain.repository.BusinessRepository
 import com.example.domain.state.ApiResult
-import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every
@@ -24,7 +24,7 @@ class OurStaffViewModelTest {
 
 
     private val testDispatcher = StandardTestDispatcher()
-    private val repository: Repository = mockk()
+    private val repository: BusinessRepository = mockk()
     private lateinit var viewModel: OurStaffViewModel
 
     val users = List(6) { index ->
@@ -55,7 +55,8 @@ class OurStaffViewModelTest {
 
 
         viewModel.state.test {
-            assertThat(awaitItem()).isInstanceOf(BaseScreenState.OnLoading::class.java)
+            com.google.common.truth.Truth.assertThat(awaitItem())
+                .isInstanceOf(BaseScreenState.OnLoading::class.java)
         }
     }
 
@@ -66,16 +67,19 @@ class OurStaffViewModelTest {
 
         viewModel.state.test {
 
-            assertThat(awaitItem()).isInstanceOf(BaseScreenState.OnLoading::class.java)
+            com.google.common.truth.Truth.assertThat(awaitItem())
+                .isInstanceOf(BaseScreenState.OnLoading::class.java)
 
             val content = awaitItem()
 
-            assertThat(content).isInstanceOf(BaseScreenState.OnContent::class.java)
-            assertThat((content as BaseScreenState.OnContent).content).isEqualTo(
-                OurStaffUiState(
-                    staffs = users
+            com.google.common.truth.Truth.assertThat(content)
+                .isInstanceOf(BaseScreenState.OnContent::class.java)
+            com.google.common.truth.Truth.assertThat((content as BaseScreenState.OnContent).content)
+                .isEqualTo(
+                    OurStaffUiState(
+                        staffs = users
+                    )
                 )
-            )
             coVerify(exactly = 1) { repository.getStaffUsers() }
         }
     }
@@ -99,11 +103,14 @@ class OurStaffViewModelTest {
 
         viewModel.state.test {
 
-            assertThat(awaitItem()).isInstanceOf(BaseScreenState.OnLoading::class.java)
+            com.google.common.truth.Truth.assertThat(awaitItem())
+                .isInstanceOf(BaseScreenState.OnLoading::class.java)
 
             val error = awaitItem()
-            assertThat(error).isInstanceOf(BaseScreenState.OnError::class.java)
-            assertThat(exception).isEqualTo((error as BaseScreenState.OnError).error)
+            com.google.common.truth.Truth.assertThat(error)
+                .isInstanceOf(BaseScreenState.OnError::class.java)
+            com.google.common.truth.Truth.assertThat(exception)
+                .isEqualTo((error as BaseScreenState.OnError).error)
             coVerify(exactly = 1) { repository.getStaffUsers() }
 
         }
