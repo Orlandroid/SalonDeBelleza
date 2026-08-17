@@ -49,10 +49,9 @@ import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.components.skeletons.BranchesScreenSkeletons
 import com.example.core.ui.theme.Background
 import com.example.core.ui.theme.BackgroundListsMainFlow
+import com.example.core.ui.theme.GreenOpen
+import com.example.core.ui.theme.RedClosed
 import com.example.domain.entities.remote.migration.NegoInfo
-
-private val GreenOpen = Color(0xFF059669)
-private val RedClosed = Color(0xFFDC2626)
 
 @Composable
 fun BranchesScreen(

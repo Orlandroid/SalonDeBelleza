@@ -48,23 +48,17 @@ import com.example.core.navigation.schedule.ScheduleNavigationRoutes
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.theme.BackgroundListsMainFlow
+import com.example.core.ui.theme.CardBorder
+import com.example.core.ui.theme.Purple
+import com.example.core.ui.theme.PurpleBorder
+import com.example.core.ui.theme.PurpleLight
+import com.example.core.ui.theme.StarColor
+import com.example.core.ui.theme.TextMuted
+import com.example.core.ui.theme.TextPrimary
+import com.example.core.ui.theme.avatarBackgrounds
 import com.example.domain.entities.remote.migration.Staff
 import kotlinx.coroutines.flow.collectLatest
 
-private val Purple = Color(0xFF7C3AED)
-private val PurpleLight = Color(0xFFF5F3FF)
-private val PurpleBorder = Color(0xFFDDD6FE)
-private val TextPrimary = Color(0xFF1A1A1A)
-private val TextMuted = Color(0xFF888888)
-private val StarColor = Color(0xFFF59E0B)
-private val CardBorder = Color(0xFFE8E6E0)
-
-private val avatarBackgrounds = listOf(
-    Color(0xFFEDE9FE) to Color(0xFF7C3AED),
-    Color(0xFFFCE7F3) to Color(0xFFDB2777),
-    Color(0xFFD1FAE5) to Color(0xFF059669),
-    Color(0xFFFEF3C7) to Color(0xFFD97706),
-)
 
 @Composable
 fun ScheduleStaffScreen(
