@@ -46,4 +46,5 @@ dependencies {
     implementation(libs.bundles.firebase)
     implementation(libs.bundles.daggerHilt)
     ksp(libs.hiltAndroidCompiler)
+    implementation(libs.bundles.baseTesting)
 }

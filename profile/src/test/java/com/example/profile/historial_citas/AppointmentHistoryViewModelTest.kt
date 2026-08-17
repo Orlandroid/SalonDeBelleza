@@ -1,7 +1,6 @@
-package com.example.citassalon.presentacion.features.profile.historial_citas
+package com.example.profile.historial_citas
 
 import com.example.domain.repository.AppointmentsRepository
-import com.example.profile.historial_citas.AppointmentHistoryViewModel
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

@@ -1,7 +1,7 @@
-package com.example.citassalon.presentacion.features.profile.profile
+package com.example.profile.profile
 
 import app.cash.turbine.test
-import com.example.data.preferences.LoginPreferences
+import com.example.domain.UserPreferences
 import com.example.domain.repository.AuthRepository
 import com.example.domain.state.ApiResult
 import com.google.common.truth.Truth.assertThat
@@ -24,7 +24,7 @@ class ProfileViewModelTest {
     private lateinit var viewModel: ProfileViewModel
     private val testDispatcher = StandardTestDispatcher()
     private val authRepository: AuthRepository = mockk()
-    private val loginPreferences: LoginPreferences = mockk()
+    private val loginPreferences: UserPreferences = mockk()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
