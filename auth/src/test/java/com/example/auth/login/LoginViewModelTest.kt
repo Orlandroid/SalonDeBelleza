@@ -1,7 +1,7 @@
-package com.example.citassalon.presentacion.features.auth.login
+package com.example.auth.login
 
 import app.cash.turbine.test
-import com.example.data.preferences.LoginPreferences
+import com.example.domain.UserPreferences
 import com.example.domain.validation.EmailValidator
 import com.example.domain.validation.PasswordValidator
 import com.example.domain.repository.AuthRepository
@@ -29,7 +29,7 @@ class LoginViewModelTest {
     private val authRepository: AuthRepository = mockk()
     private val emailValidator: EmailValidator = mockk()
     private val passwordValidator: PasswordValidator = mockk()
-    private val loginPreferences: LoginPreferences = mockk(relaxed = true)
+    private val loginPreferences: UserPreferences = mockk(relaxed = true)
 
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -40,7 +40,7 @@ class LoginViewModelTest {
             authRepository = authRepository,
             emailValidator = emailValidator,
             ioDispatcher = testDispatcher,
-            loginPreferences = loginPreferences,
+            userPreferences = loginPreferences,
             passwordValidator = passwordValidator
         )
     }

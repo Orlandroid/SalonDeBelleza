@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.auth.forgetpassword
+package com.example.auth.forgetpassword
 
 import app.cash.turbine.test
 import com.example.domain.repository.AuthRepository

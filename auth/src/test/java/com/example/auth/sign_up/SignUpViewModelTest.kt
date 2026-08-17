@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.auth.sign_up
+package com.example.auth.sign_up
 
 import app.cash.turbine.test
 import com.example.domain.repository.AuthRepository

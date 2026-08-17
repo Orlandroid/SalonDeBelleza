@@ -1,4 +1,4 @@
-package com.example.citassalon.presentacion.features.auth.sign_up
+package com.example.auth.sign_up
 
 import com.example.domain.validation.EmailValidator
 import com.example.domain.use_cases.ValidateFormSignUpUseCase
