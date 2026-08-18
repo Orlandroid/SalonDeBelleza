@@ -7,6 +7,7 @@ import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.tasks.await
+import com.google.firebase.auth.AuthResult
 
 class AuthRepositoryImp(
     private val firebaseAuth: FirebaseAuth
@@ -34,10 +35,10 @@ class AuthRepositoryImp(
     override suspend fun register(
         email: String,
         password: String
-    ): ApiResult<Unit> {
+    ): ApiResult<AuthResult> {
         return try {
-            firebaseAuth.createUserWithEmailAndPassword(email, password).await()
-            ApiResult.Success(Unit)
+            val authResult = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
+            ApiResult.Success(authResult)
         } catch (e: Exception) {
             ApiResult.Error(e.message ?: "error registering user")
         }

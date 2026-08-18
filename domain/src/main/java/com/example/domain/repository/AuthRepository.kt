@@ -2,6 +2,7 @@ package com.example.domain.repository
 
 import com.example.domain.state.ApiResult
 import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseUser
 
 interface AuthRepository {
@@ -10,7 +11,7 @@ interface AuthRepository {
 
     suspend fun login(email: String, password: String): ApiResult<Unit>
 
-    suspend fun register(email: String, password: String): ApiResult<Unit>
+    suspend fun register(email: String, password: String): ApiResult<AuthResult>
 
     suspend fun forgetPassword(email: String): ApiResult<Unit>
 

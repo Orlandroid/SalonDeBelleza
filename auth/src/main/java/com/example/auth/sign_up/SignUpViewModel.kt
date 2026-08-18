@@ -13,7 +13,9 @@ import com.example.domain.state.getContent
 import com.example.domain.state.getErrorMessage
 import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
+import com.example.domain.use_cases.CreateWalletUseCase
 import com.example.domain.use_cases.ValidateFormSignUpUseCase
+import com.example.domain.wallet.WalletRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.Channel
@@ -63,6 +65,7 @@ class SignUpViewModel @Inject constructor(
     private val authRepository: AuthRepository,
     private val userRepository: UserRepository,
     private val useCaseValidateForm: ValidateFormSignUpUseCase,
+    private val createWalletUseCase: CreateWalletUseCase,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
 ) : ViewModel() {
 
@@ -132,18 +135,22 @@ class SignUpViewModel @Inject constructor(
             val user = _state.value.getUser()
             _state.update { it.copy(isLoading = true) }
             val authResult = authRepository.register(user.email, user.password)
-
             if (authResult.isSuccess()) {
+                val userUid = authResult.getContent().user?.uid.orEmpty()
                 saveUserInformation(user)
+                createWalletUseCase.invoke(userUid)
                 sendEffect(SignUpSideEffects.NavigateToLoginScreen)
             } else {
-                val error = Exception(authResult.getErrorMessage())
-                _state.update { state -> state.copy(error = error) }
-                sendEffect(SignUpSideEffects.ShowSnackBar("Error al crear cuenta: ${error.message}"))
+                handleError(authResult.getErrorMessage().orEmpty())
             }
             _state.update { state -> state.copy(isLoading = false) }
-
         }
+    }
+
+    private fun handleError(error: String) {
+        val error = Exception(error)
+        _state.update { state -> state.copy(error = error) }
+        sendEffect(SignUpSideEffects.ShowSnackBar("Error creating your account: ${error.message}"))
     }
 
     private fun saveUserInformation(userP: User) {
