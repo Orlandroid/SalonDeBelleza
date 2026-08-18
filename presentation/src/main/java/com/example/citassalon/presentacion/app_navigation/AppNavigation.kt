@@ -36,6 +36,8 @@ fun AppNavigation() {
             onRestart = { activity.closeAndOpenActivity() }
         )
         infoNavigationGraph(navController = navController)
-        profileNavigationGraph(navController = navController)
+        profileNavigationGraph(
+            navController = navController,
+            onRestart = { activity.closeAndOpenActivity() })
     }
 }

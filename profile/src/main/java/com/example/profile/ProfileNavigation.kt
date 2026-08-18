@@ -19,12 +19,12 @@ import com.example.profile.userprofile.UserProfileScreen
 import kotlin.reflect.typeOf
 
 
-fun NavGraphBuilder.profileNavigationGraph(navController: NavHostController) {
+fun NavGraphBuilder.profileNavigationGraph(navController: NavHostController, onRestart: () -> Unit) {
     navigation<AppNavigationRoutes.ProfileNavigationRoute>(
         startDestination = ProfileNavigationRoutes.ProfileRoute
     ) {
         composable<ProfileNavigationRoutes.ProfileRoute> {
-            ProfileScreen(navController = navController, onCloseApp = {})
+            ProfileScreen(navController = navController, onCloseApp = onRestart)
         }
         composable<ProfileNavigationRoutes.UserProfileRoute> {
             UserProfileScreen(navController = navController)
