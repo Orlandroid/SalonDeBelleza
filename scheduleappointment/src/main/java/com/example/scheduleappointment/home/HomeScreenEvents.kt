@@ -6,4 +6,5 @@ sealed class HomeScreenEvents {
     object NavigateToChoseBranch : HomeScreenEvents()
     object NavigateToProfile : HomeScreenEvents()
     object OnCloseScreen : HomeScreenEvents()
+    object NavigateToWallet : HomeScreenEvents()
 }

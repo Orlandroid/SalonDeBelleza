@@ -6,6 +6,7 @@ import com.example.domain.wallet.TransactionType
 import com.example.domain.wallet.Wallet
 import com.example.domain.wallet.WalletRepository
 import com.example.domain.wallet.WalletTransaction
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -19,11 +20,17 @@ import javax.inject.Inject
 import kotlin.coroutines.resume
 
 class WalletRepositoryImplement @Inject constructor(
-    @param:WalletReference private val databaseReference: DatabaseReference
+    @param:WalletReference private val databaseReference: DatabaseReference,
+    private val firebaseAuth: FirebaseAuth
 ) :
     WalletRepository {
-    override suspend fun getWallet(userId: String): ApiResult<Wallet> =
+    override suspend fun getWallet(): ApiResult<Wallet> =
         suspendCancellableCoroutine { continuation ->
+            val userId = firebaseAuth.uid
+            if (userId == null) {
+                continuation.resume(ApiResult.Error("Error"))
+                return@suspendCancellableCoroutine
+            }
             databaseReference
                 .child(userId)
                 .addListenerForSingleValueEvent(

@@ -17,7 +17,7 @@ class GetUserInfoUseCase @Inject constructor(
 ) {
 
 
-    suspend fun invoke(): ApiResult<UserProfile> {
+    suspend operator fun invoke(): ApiResult<UserProfile> {
         val userResult = authRepository.getUser()
         if (userResult is ApiResult.Error) {
             return ApiResult.Error(userResult.getErrorMessage())

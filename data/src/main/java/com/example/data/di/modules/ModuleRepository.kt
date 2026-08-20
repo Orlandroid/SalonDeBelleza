@@ -113,9 +113,13 @@ object ModuleRepository {
     @Singleton
     @Provides
     fun provideWalletRepository(
-        @WalletReference databaseReference: DatabaseReference
+        @WalletReference databaseReference: DatabaseReference,
+        firebaseAuth: FirebaseAuth
     ): WalletRepository =
-        WalletRepositoryImplement(databaseReference = databaseReference)
+        WalletRepositoryImplement(
+            databaseReference = databaseReference,
+            firebaseAuth = firebaseAuth
+        )
 
 
 }

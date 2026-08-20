@@ -3,6 +3,8 @@ package com.example.scheduleappointment.home
 import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.RowScope
@@ -12,7 +14,13 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.AccountBalanceWallet
+import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
@@ -31,11 +39,13 @@ import com.example.scheduleappointment.R
 import com.example.core.ui.theme.AlwaysBlack
 import com.example.core.ui.theme.AlwaysWhite
 import com.example.core.ui.theme.Background
+import com.example.core.ui.theme.BackgroundListsMainFlow
 import com.example.core.ui.theme.StatusBarColor
 
 
 @Composable
 fun HomeScreen(
+    walletBalance: String = "$450.00 USD",
     event: (HomeScreenEvents) -> Unit
 ) {
     BackHandler {
@@ -43,6 +53,7 @@ fun HomeScreen(
     }
     HomeScreenContent(
         modifier = Modifier,
+        walletBalance = walletBalance,
         event = event
     )
 }
@@ -50,6 +61,7 @@ fun HomeScreen(
 @Composable
 private fun HomeScreenContent(
     modifier: Modifier = Modifier,
+    walletBalance: String,
     event: (HomeScreenEvents) -> Unit
 ) {
     Column(
@@ -63,13 +75,13 @@ private fun HomeScreenContent(
             contentDescription = null,
             modifier = Modifier
                 .background(StatusBarColor)
-                .fillMaxHeight(0.4f)
+                .fillMaxHeight(0.3f)
                 .fillMaxWidth()
                 .padding(24.dp)
         )
         Spacer(
             Modifier
-                .weight(1f)
+                .weight(0.6f)
                 .fillMaxWidth()
         )
         Text(
@@ -85,7 +97,21 @@ private fun HomeScreenContent(
         )
         Spacer(
             Modifier
-                .weight(1f)
+                .weight(0.4f)
+                .fillMaxWidth()
+        )
+        WalletCard(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 24.dp),
+            balance = walletBalance,
+            onClick = {
+                event(HomeScreenEvents.NavigateToWallet)
+            }
+        )
+        Spacer(
+            Modifier
+                .weight(0.6f)
                 .fillMaxWidth()
         )
         ButtonSchedule(
@@ -96,15 +122,22 @@ private fun HomeScreenContent(
         )
         Spacer(
             Modifier
-                .weight(1f)
+                .weight(0.6f)
                 .fillMaxWidth()
         )
         ContainerFloatingButtons {
-            Spacer(Modifier.width(32.dp))
+            Spacer(Modifier.width(24.dp))
             FloatingButtonInfo(
                 modifier = Modifier,
                 goToInfoNavigation = {
                     event(HomeScreenEvents.NavigateToInfoNavigationFlow)
+                }
+            )
+            Spacer(Modifier.weight(1f))
+            FloatingButtonWallet(
+                modifier = Modifier,
+                goToWalletNavigation = {
+                    event(HomeScreenEvents.NavigateToWallet)
                 }
             )
             Spacer(Modifier.weight(1f))
@@ -114,11 +147,62 @@ private fun HomeScreenContent(
                     event(HomeScreenEvents.NavigateToProfile)
                 }
             )
-            Spacer(Modifier.width(32.dp))
+            Spacer(Modifier.width(24.dp))
         }
     }
 }
 
+@Composable
+private fun WalletCard(
+    modifier: Modifier = Modifier,
+    balance: String,
+    onClick: () -> Unit
+) {
+    Card(
+        modifier = modifier.clickable { onClick() },
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = BackgroundListsMainFlow
+        ),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp)
+        ) {
+            Text(
+                text = "My Wallet",
+                fontSize = 16.sp,
+                fontWeight = FontWeight.Medium,
+                color = AlwaysBlack
+            )
+            Spacer(Modifier.padding(top = 12.dp))
+            Text(
+                text = balance,
+                fontSize = 24.sp,
+                fontWeight = FontWeight.Bold,
+                color = AlwaysBlack
+            )
+            Spacer(Modifier.padding(top = 12.dp))
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
+            ) {
+                Text(
+                    text = "View wallet",
+                    fontSize = 14.sp,
+                    color = AlwaysBlack
+                )
+                Icon(
+                    imageVector = Icons.Filled.ArrowForward,
+                    contentDescription = null,
+                    modifier = Modifier.padding(start = 2.dp)
+                )
+            }
+        }
+    }
+}
 
 @Composable
 private fun ContainerFloatingButtons(
@@ -172,6 +256,22 @@ private fun FloatingButtonInfo(
 }
 
 @Composable
+private fun FloatingButtonWallet(
+    modifier: Modifier = Modifier,
+    goToWalletNavigation: () -> Unit
+) {
+    FloatingActionButton(
+        modifier = modifier,
+        onClick = goToWalletNavigation
+    ) {
+        Icon(
+            imageVector = Icons.Filled.AccountBalanceWallet,
+            contentDescription = null
+        )
+    }
+}
+
+@Composable
 private fun FloatingButtonProfile(
     modifier: Modifier = Modifier,
     goToProfileNavigation: () -> Unit
@@ -191,6 +291,7 @@ private fun FloatingButtonProfile(
 @Preview(showBackground = true)
 private fun HomeScreenPreview() {
     HomeScreenContent(
+        walletBalance = "$450.00 USD",
         event = {}
     )
 }

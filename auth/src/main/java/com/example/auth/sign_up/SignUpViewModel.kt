@@ -80,11 +80,7 @@ class SignUpViewModel @Inject constructor(
 
     private fun SignUpUiState.getUser(): User {
         return User(
-            name = name,
-            phone = phone,
-            email = email,
-            password = password,
-            birthDay = birthday
+            name = name, phone = phone, email = email, password = password, birthDay = birthday
         )
     }
 
@@ -153,35 +149,33 @@ class SignUpViewModel @Inject constructor(
         sendEffect(SignUpSideEffects.ShowSnackBar("Error creating your account: ${error.message}"))
     }
 
-    private fun saveUserInformation(userP: User) {
-        viewModelScope.launch(ioDispatcher) {
+    private suspend fun saveUserInformation(userP: User) {
 
-            val getUserResult = authRepository.getUser()
+        val getUserResult = authRepository.getUser()
 
-            val uid = getUserResult.getContent()?.uid
+        val uid = getUserResult.getContent()?.uid
 
-            if (uid == null) {
-                sendEffect(SignUpSideEffects.ShowSnackBar("Error"))
-                return@launch
-            }
-
-            if (getUserResult.isError()) {
-                sendEffect(SignUpSideEffects.ShowSnackBar("Error"))
-                return@launch
-            }
-
-            val userInfoUseCaseResult = userRepository.saveUserInfo(
-                userId = getUserResult.getContent()?.uid.toString(),
-                user = userP
-            )
-
-            if (userInfoUseCaseResult.isError()) {
-                sendEffect(SignUpSideEffects.ShowSnackBar("Error"))
-                return@launch
-            }
-
-            sendEffect(SignUpSideEffects.ShowSnackBar("Success"))
+        if (uid == null) {
+            sendEffect(SignUpSideEffects.ShowSnackBar("Error"))
+            return
         }
+
+        if (getUserResult.isError()) {
+            sendEffect(SignUpSideEffects.ShowSnackBar("Error"))
+            return
+        }
+
+        val userInfoUseCaseResult = userRepository.saveUserInfo(
+            userId = getUserResult.getContent()?.uid.toString(), user = userP
+        )
+
+        if (userInfoUseCaseResult.isError()) {
+            sendEffect(SignUpSideEffects.ShowSnackBar("Error"))
+            return
+        }
+
+        sendEffect(SignUpSideEffects.ShowSnackBar("Success"))
+
     }
 
     private fun sendEffect(effect: SignUpSideEffects) {

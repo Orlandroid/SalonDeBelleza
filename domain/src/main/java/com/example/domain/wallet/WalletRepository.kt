@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 
 interface WalletRepository {
 
-    suspend fun getWallet(userId: String): ApiResult<Wallet>
+    suspend fun getWallet(): ApiResult<Wallet>
 
     suspend fun createWallet(wallet: Wallet): ApiResult<Unit>
 

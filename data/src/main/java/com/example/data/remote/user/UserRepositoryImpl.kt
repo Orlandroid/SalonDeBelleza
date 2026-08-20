@@ -32,10 +32,11 @@ class UserRepositoryImpl @Inject constructor(
 
                         if (userInfo == null) {
                             continuation.resume(ApiResult.Error(""))
+                            return
                         }
                         continuation.resume(
                             ApiResult.Success(
-                                userInfo!!
+                                userInfo
                             )
                         )
                     }
