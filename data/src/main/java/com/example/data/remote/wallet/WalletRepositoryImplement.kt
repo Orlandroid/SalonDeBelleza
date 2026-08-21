@@ -26,17 +26,23 @@ class WalletRepositoryImplement @Inject constructor(
     WalletRepository {
     override suspend fun getWallet(): ApiResult<Wallet> =
         suspendCancellableCoroutine { continuation ->
+
             val userId = firebaseAuth.uid
+
             if (userId == null) {
-                continuation.resume(ApiResult.Error("Error"))
+                continuation.resume(
+                    ApiResult.Error("User is not authenticated")
+                )
                 return@suspendCancellableCoroutine
             }
+
             databaseReference
                 .child(userId)
                 .addListenerForSingleValueEvent(
                     object : ValueEventListener {
 
                         override fun onDataChange(snapshot: DataSnapshot) {
+
                             if (!snapshot.exists()) {
                                 continuation.resume(
                                     ApiResult.Error("Wallet not found")
@@ -69,11 +75,11 @@ class WalletRepositoryImplement @Inject constructor(
 
 
     override suspend fun createWallet(wallet: Wallet): ApiResult<Unit> {
-        runCatching {
+        return runCatching {
             databaseReference.child(wallet.userId).setValue(wallet).await()
-            return ApiResult.Success(Unit)
+            ApiResult.Success(Unit)
         }.getOrElse {
-            return ApiResult.Error(it.message)
+            ApiResult.Error(it.message)
         }
     }
 

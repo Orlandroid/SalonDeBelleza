@@ -50,11 +50,9 @@ object ModuleFirebase {
     @Provides
     @UsersRef
     fun provideFirebaseRealtimeDatabaseReferenceUsers(
-        firebaseDatabase: FirebaseDatabase,
-        firebaseAuth: FirebaseAuth
+        firebaseDatabase: FirebaseDatabase
     ): DatabaseReference {
-        val uuidUser = firebaseAuth.uid ?: ""
-        return firebaseDatabase.reference.child(USERS_PATH).child(uuidUser)
+        return firebaseDatabase.reference.child(USERS_PATH)
     }
 
     @Singleton
@@ -72,11 +70,9 @@ object ModuleFirebase {
     @Provides
     @WalletReference
     fun provideFirebaseRealtimeWalletReference(
-        firebaseDatabase: FirebaseDatabase,
-        firebaseAuth: FirebaseAuth
+        firebaseDatabase: FirebaseDatabase
     ): DatabaseReference {
-        val uuidUser = firebaseAuth.uid ?: ""
-        return firebaseDatabase.reference.child(WALLET).child(uuidUser)
+        return firebaseDatabase.reference.child(WALLET)
     }
 
 }

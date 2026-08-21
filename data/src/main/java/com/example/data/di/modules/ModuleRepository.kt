@@ -83,9 +83,14 @@ object ModuleRepository {
     @Provides
     fun provideUserRepository(
         @UsersRef databaseReference: DatabaseReference,
-        preferences: LoginPreferences
+        preferences: LoginPreferences,
+        firebaseAuth: FirebaseAuth
     ): UserRepository =
-        UserRepositoryImpl(databaseReference = databaseReference, loginPreferences = preferences)
+        UserRepositoryImpl(
+            databaseReference = databaseReference,
+            loginPreferences = preferences,
+            firebaseAuth = firebaseAuth
+        )
 
     @Singleton
     @Provides

@@ -43,7 +43,7 @@ class BalanceViewmodel
                 BaseScreenState.OnContent(
                     content = BalanceUiState(
                         balance = wallet.balance,
-                        userName = "",
+                        userName = wallet.userName,
                         currency = wallet.currency,
                         createdAtMillis = wallet.createdAtMillis,
                         initialsFrom = initialsFrom(wallet.userName)

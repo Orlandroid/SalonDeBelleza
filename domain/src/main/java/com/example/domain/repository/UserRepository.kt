@@ -17,6 +17,4 @@ interface UserRepository {
         user: User
     ): ApiResult<Any>
 
-    suspend fun getUserMoney(): ApiResult<String>
-
 }

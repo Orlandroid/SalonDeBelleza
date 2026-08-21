@@ -23,7 +23,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
-import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -33,6 +32,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.SolidColor
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -40,7 +40,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import androidx.navigation.compose.rememberNavController
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.base.BaseScreenState
 import com.example.core.ui.base.getContentOrNull
@@ -54,6 +53,8 @@ import com.example.core.ui.theme.StatusBarColor
 import com.example.core.ui.theme.TextMuted
 import com.example.core.ui.theme.TextPrimary
 import com.example.core.ui.theme.TextSecondary
+import com.example.core.util.toCurrencyString
+import com.example.wallet.R
 import com.example.domain.wallet.Currency
 import java.text.NumberFormat
 import java.text.SimpleDateFormat
@@ -76,7 +77,7 @@ fun WalletScreen(
 
             viewState.getContentOrNull()?.let { state ->
                 BaseComposeScreen(
-                    toolbarConfiguration = ToolbarConfiguration(title = "Balance"),
+                    toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.balance)),
                     navController = navController
                 ) {
                     WalletScreenContent(state = state)
@@ -130,7 +131,11 @@ private fun WalletScreenContent(
                     modifier = Modifier.size(18.dp)
                 )
                 Spacer(modifier = Modifier.width(6.dp))
-                Text("Top up", fontSize = 14.sp, fontWeight = FontWeight.Medium)
+                Text(
+                    text = stringResource(R.string.top_up),
+                    fontSize = 14.sp,
+                    fontWeight = FontWeight.Medium
+                )
             }
 
             OutlinedButton(
@@ -169,7 +174,7 @@ private fun WalletHeader(userName: String) {
     ) {
         Column {
             Text(
-                text = "Good evening",
+                text = stringResource(R.string.good_evening),
                 fontSize = 13.sp,
                 color = TextSecondary
             )
@@ -208,7 +213,7 @@ private fun WalletBalanceCard(state: BalanceUiState) {
             .padding(top = 20.dp, start = 20.dp, end = 20.dp)
     ) {
         Text(
-            text = "WALLET BALANCE",
+            text = stringResource(R.string.wallet_balance),
             fontSize = 12.sp,
             letterSpacing = 0.06.sp,
             color = TextMuted
@@ -218,7 +223,7 @@ private fun WalletBalanceCard(state: BalanceUiState) {
 
         Row(verticalAlignment = Alignment.Bottom) {
             Text(
-                text = formatBalance(state.balance),
+                text = state.balance.toCurrencyString(Currency.USD),
                 fontSize = 34.sp,
                 fontWeight = FontWeight.Medium,
                 color = TextPrimary
@@ -232,7 +237,7 @@ private fun WalletBalanceCard(state: BalanceUiState) {
         }
 
         Text(
-            text = state.currency.name,//
+            text = state.currency.name,
             fontSize = 12.sp,
             color = TextMuted
         )
@@ -295,8 +300,6 @@ private fun initialsFrom(name: String): String =
         .take(2)
         .joinToString("") { it.first().uppercase() }
 
-private fun formatBalance(balance: Long): String =
-    NumberFormat.getNumberInstance(Locale.US).format(balance).let { "$$it" }
 
 private fun formatCreatedAt(millis: Long): String =
     SimpleDateFormat("MMM yyyy", Locale.getDefault()).format(Date(millis))

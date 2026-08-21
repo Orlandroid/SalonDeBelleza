@@ -149,7 +149,9 @@ class SignUpViewModel @Inject constructor(
         sendEffect(SignUpSideEffects.ShowSnackBar("Error creating your account: ${error.message}"))
     }
 
-    private suspend fun saveUserInformation(userP: User) {
+    private suspend fun saveUserInformation(
+        userP: User
+    ) {
 
         val getUserResult = authRepository.getUser()
 

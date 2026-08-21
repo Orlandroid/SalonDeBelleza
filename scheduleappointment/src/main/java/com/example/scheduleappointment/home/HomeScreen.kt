@@ -26,6 +26,7 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
@@ -35,25 +36,30 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.example.scheduleappointment.R
 import com.example.core.ui.theme.AlwaysBlack
 import com.example.core.ui.theme.AlwaysWhite
 import com.example.core.ui.theme.Background
 import com.example.core.ui.theme.BackgroundListsMainFlow
 import com.example.core.ui.theme.StatusBarColor
+import com.example.core.util.toCurrencyString
+import com.example.domain.wallet.Currency
 
 
 @Composable
 fun HomeScreen(
-    walletBalance: String = "$450.00 USD",
+    viewModel: HomeViewModel = hiltViewModel(),
     event: (HomeScreenEvents) -> Unit
 ) {
+    val uiState by viewModel.state.collectAsStateWithLifecycle()
     BackHandler {
         event(HomeScreenEvents.OnCloseScreen)
     }
     HomeScreenContent(
         modifier = Modifier,
-        walletBalance = walletBalance,
+        walletBalance = uiState.balance.toCurrencyString(Currency.USD),
         event = event
     )
 }
