@@ -3,19 +3,18 @@ package com.example.info.cart
 import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.core.ui.base.BaseScreenState
-import com.example.core.ui.base.BaseScreenState.*
-import com.example.core.ui.base.getContentOrNull
 import com.example.di.IoDispatcher
 import com.example.domain.ProductSource
-import com.example.domain.UserPreferences
 import com.example.domain.entities.remote.products.Product
 import com.example.domain.repository.BusinessRepository
 import com.example.domain.state.getContent
+import com.example.domain.state.getErrorMessage
+import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
+import com.example.domain.use_cases.GetCartInfoUseCase
 import com.example.domain.use_cases.PurchaseProductsUseCase
 import com.example.info.R
-import com.example.info.cart.CartEffects.*
+import com.example.info.cart.CartEffects.NavigateToProductDetail
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
@@ -46,40 +45,41 @@ sealed class CartEvents {
     object OnRemoveProductClicked : CartEvents()
 }
 
+sealed class PurchaseProductsError {
+    data object InsufficientBalance : PurchaseProductsError()
+    data object BalanceUpdateFailed : PurchaseProductsError()
+    data object TransactionCreationFailed : PurchaseProductsError()
+}
+
 data class CartUiState(
     val products: List<Product> = emptyList(),
-    val userMoney: String = "0",
-    val showDeleteDialog: Boolean = false
+    val userMoney: Long = 0L,
+    val showDeleteDialog: Boolean = false,
+    val isLoading: Boolean = true,
+    val error: String? = null
 )
 
 @HiltViewModel
 class CartViewModel @Inject constructor(
-    private val repository: BusinessRepository,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val loginPreferences: UserPreferences,
     @param:ApplicationContext private val context: Context,
-    private val purchaseProductsUseCase: PurchaseProductsUseCase
+    private val repository: BusinessRepository,
+    private val purchaseProductsUseCase: PurchaseProductsUseCase,
+    private val getCartInfoUseCase: GetCartInfoUseCase
 ) : ViewModel() {
 
-    private val _state: MutableStateFlow<BaseScreenState<CartUiState>> =
-        MutableStateFlow(BaseScreenState.OnLoading)
+    private val _state: MutableStateFlow<CartUiState> = MutableStateFlow(CartUiState())
     val state = _state.onStart {
-        getAllProducts()
-        getUserMoney()
+        getCartInfo()
     }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000L),
-        BaseScreenState.OnLoading
+        scope = viewModelScope, started = SharingStarted.WhileSubscribed(5000L), CartUiState()
     )
 
     private val _effects = Channel<CartEffects>()
     val effects = _effects.receiveAsFlow()
 
-    var cachedProducts: List<Product> = emptyList()
-    private var cachedUserMoney: String = "0"
-
     private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
-        _state.update { BaseScreenState.OnError(error = exception) }
+        _state.update { it.copy(error = exception.message) }
     }
 
 
@@ -87,12 +87,7 @@ class CartViewModel @Inject constructor(
         when (event) {
             CartEvents.OnDeleteIconClicked -> {
                 _state.update {
-                    OnContent(
-                        content = CartUiState(
-                            products = cachedProducts,
-                            showDeleteDialog = true
-                        )
-                    )
+                    it.copy(showDeleteDialog = true)
                 }
             }
 
@@ -100,37 +95,31 @@ class CartViewModel @Inject constructor(
                 viewModelScope.launch {
                     _effects.send(
                         NavigateToProductDetail(
-                            source = event.source,
-                            product = event.product
+                            source = event.source, product = event.product
                         )
                     )
                 }
             }
 
             CartEvents.OnAccept -> {
-                _state.update { BaseScreenState.OnLoading }
                 deleteAllTheProducts()
-                _state.update { OnContent(content = CartUiState()) }
             }
 
             CartEvents.OnCancelPressed -> {
                 _state.update {
-                    OnContent(
-                        content = CartUiState(
-                            products = cachedProducts,
-                            showDeleteDialog = false
-                        )
-                    )
+                    it.copy(showDeleteDialog = false)
                 }
             }
 
             CartEvents.OnPay -> {
                 viewModelScope.launch {
-                    state.value.getContentOrNull()?.let { content ->
-                        purchaseProductsUseCase.invoke(
-                            products = content.products,
-                            description = ""
-                        )
+                    val purchaseResult = purchaseProductsUseCase.invoke(
+                        products = state.value.products, description = ""
+                    )
+                    if (purchaseResult.isSuccess()) {
+                        //Show animation of succes
+                    } else {
+                        //Show one kinkd or message error
                     }
                 }
             }
@@ -142,32 +131,17 @@ class CartViewModel @Inject constructor(
     }
 
 
-    fun getAllProducts() {
+    fun getCartInfo() {
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
-            val response = repository.getAllProducts()
-            if (response.isSuccess()) {
-                cachedProducts = response.getContent()
-                _state.update {
-                    BaseScreenState.OnContent(
-                        content = CartUiState(
-                            products = cachedProducts,
-                            userMoney = cachedUserMoney
-                        )
-                    )
-                }
+            val userInfoResult = getCartInfoUseCase()
+            if (userInfoResult.isError()) {
+                _state.update { it.copy(error = userInfoResult.getErrorMessage()) }
+                return@launch
             }
-        }
-    }
-
-    fun getUserMoney() {
-        viewModelScope.launch {
-            cachedUserMoney = loginPreferences.getUserMoney().toString()
+            val userInfo = userInfoResult.getContent()
             _state.update {
-                BaseScreenState.OnContent(
-                    content = CartUiState(
-                        products = cachedProducts,
-                        userMoney = cachedUserMoney
-                    )
+                it.copy(
+                    isLoading = false, products = userInfo.products, userMoney = userInfo.userMoney
                 )
             }
         }
@@ -175,9 +149,17 @@ class CartViewModel @Inject constructor(
 
     private fun deleteAllTheProducts() {
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
+            _state.update { it.copy(isLoading = true) }
             val result = repository.deleteAllProducts()
             if (result.isSuccess()) {
                 _effects.send(CartEffects.OnProductsDeleted(message = context.getString(R.string.products_deleted)))
+                _state.update {
+                    it.copy(
+                        isLoading = false,
+                        showDeleteDialog = false,
+                        products = emptyList()
+                    )
+                }
             }
         }
     }

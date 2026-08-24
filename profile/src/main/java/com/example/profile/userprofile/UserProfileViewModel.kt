@@ -7,7 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.core.ui.base.BaseScreenState
 import com.example.domain.state.getContent
 import com.example.domain.state.isSuccess
-import com.example.domain.use_cases.GetBalanceUseCase
 import com.example.domain.use_cases.GetUserInfoUseCase
 import com.example.profile.mappers.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel

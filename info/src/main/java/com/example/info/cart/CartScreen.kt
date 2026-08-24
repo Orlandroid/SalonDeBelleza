@@ -67,7 +67,7 @@ fun CartScreen(
     navController: NavController,
     viewModel: CartViewModel = hiltViewModel()
 ) {
-    val uiState = viewModel.state.collectAsStateWithLifecycle()
+    val uiState by viewModel.state.collectAsStateWithLifecycle()
     val snackBarHostState = remember { SnackbarHostState() }
     LaunchedEffect(Unit) {
         viewModel.effects.collectLatest {
@@ -87,36 +87,39 @@ fun CartScreen(
             }
         }
     }
-    when (uiState.value) {
-        is BaseScreenState.OnContent -> {
+    when {
+        uiState.isLoading -> {
+            ProgressDialog()
+        }
+
+        uiState.error != null -> {
+            BaseErrorScreen()
+        }
+
+        else -> {
             BaseComposeScreen(
                 navController = navController,
                 toolbarConfiguration = ToolbarConfiguration(
-                    title = uiState.value.getContentOrNull()?.userMoney.toString(),
+                    title = uiState.userMoney.toCurrencyString(Currency.USD),
                     showDeleteIcon = true,
                     clickOnDeleteIcon = {
                         viewModel.onEvents(CartEvents.OnDeleteIconClicked)
                     }
                 )
             ) {
-                uiState.value.getContentOrNull()?.let { state ->
-                    if (state.showDeleteDialog) {
-                        DialogDeleteAllProducts(onEvents = viewModel::onEvents)
-                    }
-                    CartScreenContent(products = state.products, onEvents = viewModel::onEvents)
+                if (uiState.showDeleteDialog) {
+                    DialogDeleteAllProducts(
+                        onEvents = viewModel::onEvents
+                    )
                 }
+
+                CartScreenContent(
+                    products = uiState.products,
+                    onEvents = viewModel::onEvents
+                )
             }
         }
-
-        is BaseScreenState.OnError -> {
-            BaseErrorScreen()
-        }
-
-        BaseScreenState.OnLoading -> {
-            ProgressDialog()
-        }
     }
-
 }
 
 @Composable
