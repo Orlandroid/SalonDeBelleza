@@ -7,6 +7,7 @@ import androidx.navigation.navigation
 import com.example.core.navigation.AppNavigationRoutes
 import com.example.core.navigation.wallet.WalletNavigationRoutes
 import com.example.wallet.balance.WalletScreen
+import com.example.wallet.transactions.TransactionsScreen
 
 fun NavGraphBuilder.walletNavigationGraph(
     navController: NavHostController,
@@ -17,6 +18,9 @@ fun NavGraphBuilder.walletNavigationGraph(
     ) {
         composable<WalletNavigationRoutes.Balance> {
             WalletScreen(navController = navController)
+        }
+        composable<WalletNavigationRoutes.Transactions> {
+            TransactionsScreen(navController = navController)
         }
     }
 }

@@ -140,13 +140,6 @@ private fun HomeScreenContent(
                 }
             )
             Spacer(Modifier.weight(1f))
-            FloatingButtonWallet(
-                modifier = Modifier,
-                goToWalletNavigation = {
-                    event(HomeScreenEvents.NavigateToWallet)
-                }
-            )
-            Spacer(Modifier.weight(1f))
             FloatingButtonProfile(
                 modifier = Modifier,
                 goToProfileNavigation = {

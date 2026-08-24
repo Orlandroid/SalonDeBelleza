@@ -4,6 +4,8 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.ui.base.BaseScreenState
+import com.example.core.ui.base.BaseScreenState.*
+import com.example.core.ui.base.getContentOrNull
 import com.example.di.IoDispatcher
 import com.example.domain.ProductSource
 import com.example.domain.UserPreferences
@@ -11,7 +13,9 @@ import com.example.domain.entities.remote.products.Product
 import com.example.domain.repository.BusinessRepository
 import com.example.domain.state.getContent
 import com.example.domain.state.isSuccess
+import com.example.domain.use_cases.PurchaseProductsUseCase
 import com.example.info.R
+import com.example.info.cart.CartEffects.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
@@ -38,6 +42,8 @@ sealed class CartEvents {
     object OnDeleteIconClicked : CartEvents()
     object OnAccept : CartEvents()
     object OnCancelPressed : CartEvents()
+    object OnPay : CartEvents()
+    object OnRemoveProductClicked : CartEvents()
 }
 
 data class CartUiState(
@@ -51,7 +57,8 @@ class CartViewModel @Inject constructor(
     private val repository: BusinessRepository,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
     private val loginPreferences: UserPreferences,
-    @param:ApplicationContext private val context: Context
+    @param:ApplicationContext private val context: Context,
+    private val purchaseProductsUseCase: PurchaseProductsUseCase
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<BaseScreenState<CartUiState>> =
@@ -80,7 +87,7 @@ class CartViewModel @Inject constructor(
         when (event) {
             CartEvents.OnDeleteIconClicked -> {
                 _state.update {
-                    BaseScreenState.OnContent(
+                    OnContent(
                         content = CartUiState(
                             products = cachedProducts,
                             showDeleteDialog = true
@@ -92,7 +99,7 @@ class CartViewModel @Inject constructor(
             is CartEvents.OnProductSelect -> {
                 viewModelScope.launch {
                     _effects.send(
-                        CartEffects.NavigateToProductDetail(
+                        NavigateToProductDetail(
                             source = event.source,
                             product = event.product
                         )
@@ -103,12 +110,12 @@ class CartViewModel @Inject constructor(
             CartEvents.OnAccept -> {
                 _state.update { BaseScreenState.OnLoading }
                 deleteAllTheProducts()
-                _state.update { BaseScreenState.OnContent(content = CartUiState()) }
+                _state.update { OnContent(content = CartUiState()) }
             }
 
             CartEvents.OnCancelPressed -> {
                 _state.update {
-                    BaseScreenState.OnContent(
+                    OnContent(
                         content = CartUiState(
                             products = cachedProducts,
                             showDeleteDialog = false
@@ -117,6 +124,20 @@ class CartViewModel @Inject constructor(
                 }
             }
 
+            CartEvents.OnPay -> {
+                viewModelScope.launch {
+                    state.value.getContentOrNull()?.let { content ->
+                        purchaseProductsUseCase.invoke(
+                            products = content.products,
+                            description = ""
+                        )
+                    }
+                }
+            }
+
+            CartEvents.OnRemoveProductClicked -> {
+
+            }
         }
     }
 

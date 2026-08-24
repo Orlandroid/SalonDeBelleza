@@ -2,10 +2,11 @@ package com.example.data.remote.wallet
 
 import com.example.di.qualifiers.WalletReference
 import com.example.domain.state.ApiResult
-import com.example.domain.wallet.TransactionType
+import com.example.domain.state.getContent
+import com.example.domain.state.isError
+import com.example.domain.transaction.TransactionType
 import com.example.domain.wallet.Wallet
 import com.example.domain.wallet.WalletRepository
-import com.example.domain.wallet.WalletTransaction
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -83,21 +84,21 @@ class WalletRepositoryImplement @Inject constructor(
         }
     }
 
-    override fun observeWallet(userId: String): Flow<Wallet?> {
-        return emptyFlow()
-    }
 
-    override fun observeTransactions(userId: String): Flow<List<WalletTransaction>> {
-        return emptyFlow()
-    }
-
-    override suspend fun spendMoney(
-        userId: String,
-        amount: Long,
-        type: TransactionType,
-        description: String
+    override suspend fun updateBalance(
+        newBalance: Long
     ): ApiResult<Unit> {
-        return ApiResult.Error()
+        return runCatching {
+            val userId = firebaseAuth.uid
+            userId ?: return ApiResult.Error("")
+            databaseReference.child(userId)
+                .child("balance")
+                .setValue(newBalance)
+                .await()
+            ApiResult.Success(Unit)
+        }.getOrElse {
+            ApiResult.Error(it.message)
+        }
     }
 
     override suspend fun addMoney(
@@ -107,6 +108,10 @@ class WalletRepositoryImplement @Inject constructor(
         description: String
     ): ApiResult<Unit> {
         return ApiResult.Error()
+    }
+
+    override fun observeWallet(userId: String): Flow<Wallet?> {
+        return emptyFlow()
     }
 
 

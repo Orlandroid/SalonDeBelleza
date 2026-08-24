@@ -16,5 +16,6 @@
     <string name="productos">Productos</string>
     <string name="nustro_staff">Nuestro Staff</string>
     <string name="agregar">Agregar</string>
+    <string name="remove">remove</string>
 
 </resources>

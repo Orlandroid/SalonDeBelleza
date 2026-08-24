@@ -1,6 +1,7 @@
 package com.example.domain.wallet
 
 import com.example.domain.state.ApiResult
+import com.example.domain.transaction.TransactionType
 import kotlinx.coroutines.flow.Flow
 
 interface WalletRepository {
@@ -11,15 +12,9 @@ interface WalletRepository {
 
     fun observeWallet(userId: String): Flow<Wallet?>
 
-    fun observeTransactions(
-        userId: String
-    ): Flow<List<WalletTransaction>>
 
-    suspend fun spendMoney(
-        userId: String,
-        amount: Long,
-        type: TransactionType,
-        description: String
+    suspend fun updateBalance(
+        newBalance: Long
     ): ApiResult<Unit>
 
     suspend fun addMoney(

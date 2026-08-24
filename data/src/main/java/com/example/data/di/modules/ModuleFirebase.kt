@@ -3,6 +3,7 @@ package com.example.data.di.modules
 
 import com.example.di.qualifiers.AppointmentsRef
 import com.example.di.qualifiers.ImagesRef
+import com.example.di.qualifiers.TransactionReference
 import com.example.di.qualifiers.UsersRef
 import com.example.di.qualifiers.WalletReference
 import com.google.firebase.auth.FirebaseAuth
@@ -23,12 +24,12 @@ object ModuleFirebase {
     private const val APPOINTMENT_PATH = "Appointment"
     private const val USERS_PATH = "users"
     private const val WALLET = "wallets"
+    private const val TRANSACTIONS = "transactions"
 
 
     @Singleton
     @Provides
-    fun provideFirebaseInstance(): FirebaseAuth =
-        FirebaseAuth.getInstance()
+    fun provideFirebaseInstance(): FirebaseAuth = FirebaseAuth.getInstance()
 
     @Singleton
     @Provides
@@ -39,8 +40,7 @@ object ModuleFirebase {
     @Provides
     @AppointmentsRef
     fun provideFirebaseRealtimeDatabaseReferenceAppointment(
-        firebaseDatabase: FirebaseDatabase,
-        firebaseAuth: FirebaseAuth
+        firebaseDatabase: FirebaseDatabase, firebaseAuth: FirebaseAuth
     ): DatabaseReference {
         val uuidUser = firebaseAuth.uid
         return firebaseDatabase.reference.child(APPOINTMENT_PATH).child(uuidUser!!)
@@ -59,8 +59,7 @@ object ModuleFirebase {
     @Provides
     @ImagesRef
     fun provideFirebaseRealtimeImageReference(
-        firebaseDatabase: FirebaseDatabase,
-        firebaseAuth: FirebaseAuth
+        firebaseDatabase: FirebaseDatabase, firebaseAuth: FirebaseAuth
     ): DatabaseReference {
         val uuidUser = firebaseAuth.uid
         return firebaseDatabase.reference.child(IMAGE_USER).child(uuidUser!!)
@@ -73,6 +72,16 @@ object ModuleFirebase {
         firebaseDatabase: FirebaseDatabase
     ): DatabaseReference {
         return firebaseDatabase.reference.child(WALLET)
+    }
+
+
+    @Singleton
+    @Provides
+    @TransactionReference
+    fun provideFirebaseRealtimeTransactionReference(
+        firebaseDatabase: FirebaseDatabase
+    ): DatabaseReference {
+        return firebaseDatabase.reference.child(TRANSACTIONS)
     }
 
 }

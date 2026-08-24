@@ -11,6 +11,7 @@ import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -21,6 +22,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
@@ -39,8 +41,10 @@ import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.dialogs.ProgressDialog
 import com.example.core.ui.theme.AlwaysBlack
 import com.example.core.ui.theme.Background
+import com.example.core.util.toCurrencyString
 import com.example.domain.ProductSource
 import com.example.domain.entities.remote.products.Product
+import com.example.domain.wallet.Currency
 import com.gowtham.ratingbar.RatingBar
 import com.gowtham.ratingbar.RatingBarStyle
 
@@ -51,7 +55,12 @@ fun DetailProductScreen(
     productId: Int,
     source: ProductSource,
     productDetailViewModel: DetailProductViewModel = hiltViewModel(
-        creationCallback = { factory: ProductDetailViewModelFactory -> factory.create(source = source, productId = productId) })
+        creationCallback = { factory: ProductDetailViewModelFactory ->
+            factory.create(
+                source = source,
+                productId = productId
+            )
+        })
 ) {
     val uiState = productDetailViewModel.state.collectAsStateWithLifecycle()
     when (uiState.value) {
@@ -107,7 +116,12 @@ private fun DetailProductScreenContent(
                     contentDescription = null,
                     modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
-                DText(text = product.title, fontWeight = FontWeight.Bold)
+                Spacer(modifier = Modifier.height(16.dp))
+                DText(
+                    text = product.title,
+                    fontWeight = FontWeight.Bold,
+                    style = MaterialTheme.typography.bodyMedium
+                )
                 Spacer(modifier = Modifier.height(8.dp))
                 RatingBar(value = rating, style = RatingBarStyle.Fill(), onValueChange = {
                     rating = it
@@ -115,11 +129,13 @@ private fun DetailProductScreenContent(
 
                 })
                 Spacer(modifier = Modifier.height(8.dp))
-                val price = "$ ${product.price}"
-                DText(text = price)
+                val price = product.price.toCurrencyString(Currency.USD)
+                DText(text = price, style = MaterialTheme.typography.titleLarge)
                 Spacer(modifier = Modifier.height(8.dp))
                 DText(
-                    text = product.description, modifier = Modifier.padding(horizontal = 8.dp)
+                    text = product.description,
+                    modifier = Modifier.padding(horizontal = 8.dp),
+                    style = MaterialTheme.typography.titleLarge
                 )
                 Spacer(modifier = Modifier.height(16.dp))
             }
@@ -131,7 +147,8 @@ private fun DetailProductScreenContent(
 fun DText(
     modifier: Modifier = Modifier,
     text: String,
-    fontWeight: FontWeight? = null
+    fontWeight: FontWeight? = null,
+    style: TextStyle,
 ) {
     Text(
         text = text,
@@ -142,7 +159,8 @@ fun DText(
             .padding(bottom = 16.dp)
             .fillMaxWidth()
             .verticalScroll(rememberScrollState()),
-        textAlign = TextAlign.Center
+        textAlign = TextAlign.Center,
+        style = style
     )
 }
 

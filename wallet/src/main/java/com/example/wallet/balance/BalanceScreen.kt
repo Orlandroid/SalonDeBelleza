@@ -40,6 +40,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.example.core.navigation.wallet.WalletNavigationRoutes
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.base.BaseScreenState
 import com.example.core.ui.base.getContentOrNull
@@ -80,7 +81,9 @@ fun WalletScreen(
                     toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.balance)),
                     navController = navController
                 ) {
-                    WalletScreenContent(state = state)
+                    WalletScreenContent(
+                        state = state,
+                        onHistoryClick = { navController.navigate(WalletNavigationRoutes.Transactions) })
                 }
             }
 

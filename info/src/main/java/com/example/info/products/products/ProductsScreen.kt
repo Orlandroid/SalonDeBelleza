@@ -6,6 +6,7 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.ColumnScope
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -15,10 +16,12 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
+import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -32,6 +35,7 @@ import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.res.vectorResource
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -52,6 +56,8 @@ import kotlinx.coroutines.flow.collectLatest
 import  com.example.core.ui.dialogs.ProgressDialog
 import com.example.core.ui.theme.AlwaysWhite
 import com.example.core.ui.theme.Background
+import com.example.core.util.toCurrencyString
+import com.example.domain.wallet.Currency
 
 @Composable
 fun ProductsScreen(
@@ -139,7 +145,7 @@ private fun ProductsScreenContent(
             Image(
                 modifier = Modifier
                     .padding(end = 8.dp, top = 8.dp)
-                    .size(50.dp)
+                    .size(32.dp)
                     .clickable {
                         onEvents(ProductScreenEvents.OnCarClicked)
                     },
@@ -170,14 +176,13 @@ private fun Products(
     onEvents: (event: ProductScreenEvents) -> Unit
 ) {
     LazyVerticalGrid(
-        verticalArrangement = Arrangement.Center,
-        columns = GridCells.Fixed(2)
+        columns = GridCells.Fixed(2),
+        contentPadding = PaddingValues(8.dp),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
-        items(products.size) {
-            ItemProduct(
-                product = products[it],
-                onEvents = onEvents
-            )
+        items(products, key = { it.id }) { product ->
+            ItemProduct(product = product, onEvents = onEvents)
         }
     }
 
@@ -206,14 +211,19 @@ private fun ItemProduct(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(all = 4.dp),
-            text = product.title
+            text = product.title,
+            maxLines = 2,
+            minLines = 2,
+            overflow = TextOverflow.Ellipsis,
+            style = MaterialTheme.typography.bodyMedium
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
             modifier = Modifier
                 .align(Alignment.CenterHorizontally)
                 .padding(bottom = 16.dp),
-            text = product.price.toString(),
+            text = product.price.toCurrencyString(Currency.USD),
+            style = MaterialTheme.typography.titleLarge
         )
     }
 }
@@ -256,9 +266,9 @@ private fun ProductsScreenContentPreview() {
         products = listOf(
             Product.dummyProduct()
                 .copy(title = "John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet"),
-            Product.dummyProduct(),
-            Product.dummyProduct(),
-            Product.dummyProduct().copy(title = "Solid Gold Petite Micropave")
+            Product.dummyProduct().copy(id = 2),
+            Product.dummyProduct().copy(id = 3),
+            Product.dummyProduct().copy(title = "Solid Gold Petite Micropave", id = 4)
         ),
         onEvents = {}
     )
