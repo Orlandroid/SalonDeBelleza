@@ -11,5 +11,5 @@ sealed class WalletNavigationRoutes {
     data object Transactions : WalletNavigationRoutes()
 
     @Serializable
-    data object TransactionDetails : WalletNavigationRoutes()
+    data object TransactionDetail : WalletNavigationRoutes()
 }

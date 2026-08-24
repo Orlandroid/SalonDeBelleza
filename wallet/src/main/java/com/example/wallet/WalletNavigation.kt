@@ -1,5 +1,6 @@
 package com.example.wallet
 
+import androidx.compose.material3.Text
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
@@ -21,6 +22,9 @@ fun NavGraphBuilder.walletNavigationGraph(
         }
         composable<WalletNavigationRoutes.Transactions> {
             TransactionsScreen(navController = navController)
+        }
+        composable<WalletNavigationRoutes.TransactionDetail> {
+            Text("TransactionDetail")
         }
     }
 }

@@ -1,4 +1,4 @@
-package com.example.wallet.balance
+package com.example.wallet.components
 
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -21,15 +22,14 @@ import androidx.compose.material.icons.filled.List
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.PathEffect
 import androidx.compose.ui.graphics.SolidColor
 import androidx.compose.ui.res.stringResource
@@ -37,63 +37,24 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.hilt.navigation.compose.hiltViewModel
-import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import androidx.navigation.NavController
-import com.example.core.navigation.wallet.WalletNavigationRoutes
-import com.example.core.ui.base.BaseComposeScreen
-import com.example.core.ui.base.BaseScreenState
-import com.example.core.ui.base.getContentOrNull
-import com.example.core.ui.components.BaseErrorScreen
-import com.example.core.ui.components.ToolbarConfiguration
+import com.example.core.ui.base.MediumSpacer
+import com.example.core.ui.base.Orientation
+import com.example.core.ui.components.shimmerBrush
 import com.example.core.ui.theme.Background
 import com.example.core.ui.theme.CardSurface
 import com.example.core.ui.theme.DashedLine
-import com.example.core.ui.theme.StatusBarColor
-import com.example.core.ui.theme.TextMuted
-import com.example.core.ui.theme.TextPrimary
-import com.example.core.ui.theme.TextSecondary
 import com.example.core.util.toCurrencyString
 import com.example.domain.wallet.Currency
 import com.example.wallet.R
-import com.example.wallet.components.BalanceScreenSkeletons
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
+import com.example.wallet.balance.BalanceUiState
 
 
 @Composable
-fun WalletScreen(
-    navController: NavController,
-    balanceViewModel: BalanceViewmodel = hiltViewModel()
+fun BalanceScreenSkeletons(
 ) {
-    val viewState by balanceViewModel.state.collectAsStateWithLifecycle()
-    when (viewState) {
-        BaseScreenState.OnLoading -> {
-            BalanceScreenSkeletons()
-        }
-
-        is BaseScreenState.OnContent -> {
-
-            viewState.getContentOrNull()?.let { state ->
-                BaseComposeScreen(
-                    toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.balance)),
-                    navController = navController
-                ) {
-                    WalletScreenContent(
-                        state = state,
-                        onHistoryClick = { navController.navigate(WalletNavigationRoutes.Transactions) })
-                }
-            }
-
-        }
-
-
-        is BaseScreenState.OnError -> {
-            BaseErrorScreen()
-        }
-    }
+    WalletScreenContent(BalanceUiState())
 }
+
 
 @Composable
 private fun WalletScreenContent(
@@ -107,7 +68,7 @@ private fun WalletScreenContent(
             .background(Background)
             .padding(20.dp)
     ) {
-        WalletHeader(userName = state.userName)
+        WalletHeader()
 
         Spacer(modifier = Modifier.height(20.dp))
 
@@ -122,43 +83,47 @@ private fun WalletScreenContent(
             Button(
                 onClick = onTopUpClick,
                 modifier = Modifier
+                    .background(shimmerBrush())
                     .weight(1f)
                     .height(44.dp),
-                shape = RoundedCornerShape(12.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = StatusBarColor)
+                shape = RoundedCornerShape(4.dp),
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent)
             ) {
                 Icon(
                     imageVector = Icons.Filled.AddCircle,
                     contentDescription = null,
-                    modifier = Modifier.size(18.dp)
+                    modifier = Modifier.size(18.dp),
+                    tint = Color.Transparent
                 )
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(
                     text = stringResource(R.string.top_up),
                     fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium
+                    fontWeight = FontWeight.Medium,
+                    color = Color.Transparent
                 )
             }
 
             OutlinedButton(
                 onClick = onHistoryClick,
                 modifier = Modifier
+                    .background(shimmerBrush())
                     .weight(1f)
                     .height(44.dp),
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(4.dp)
             ) {
                 Icon(
                     imageVector = Icons.Filled.List,
                     contentDescription = null,
                     modifier = Modifier.size(18.dp),
-                    tint = TextPrimary
+                    tint = Color.Transparent
                 )
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(
                     "History",
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Medium,
-                    color = TextPrimary
+                    color = Color.Transparent
                 )
             }
         }
@@ -168,7 +133,7 @@ private fun WalletScreenContent(
 }
 
 @Composable
-private fun WalletHeader(userName: String) {
+private fun WalletHeader() {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
@@ -176,15 +141,17 @@ private fun WalletHeader(userName: String) {
     ) {
         Column {
             Text(
+                modifier = Modifier.background(shimmerBrush()),
                 text = stringResource(R.string.good_evening),
                 fontSize = 13.sp,
-                color = TextSecondary
+                color = Color.Transparent
             )
             Text(
-                text = userName,
+                modifier = Modifier.background(shimmerBrush()),
+                text = "Android Developer",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Medium,
-                color = TextPrimary
+                color = Color.Transparent
             )
         }
 
@@ -192,14 +159,14 @@ private fun WalletHeader(userName: String) {
             modifier = Modifier
                 .size(38.dp)
                 .clip(CircleShape)
-                .background(StatusBarColor.copy(alpha = 0.12f)),
+                .background(shimmerBrush()),
             contentAlignment = Alignment.Center
         ) {
             Text(
-                text = initialsFrom(userName),
+                text = "",
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Medium,
-                color = StatusBarColor
+                color = Color.Transparent
             )
         }
     }
@@ -215,33 +182,38 @@ private fun WalletBalanceCard(state: BalanceUiState) {
             .padding(top = 20.dp, start = 20.dp, end = 20.dp)
     ) {
         Text(
+            modifier = Modifier.background(shimmerBrush()),
             text = stringResource(R.string.wallet_balance),
             fontSize = 12.sp,
             letterSpacing = 0.06.sp,
-            color = TextMuted
+            color = Color.Transparent
         )
 
         Spacer(modifier = Modifier.height(6.dp))
 
         Row(verticalAlignment = Alignment.Bottom) {
             Text(
+                modifier = Modifier.background(shimmerBrush()),
                 text = state.balance.toCurrencyString(Currency.USD),
                 fontSize = 34.sp,
                 fontWeight = FontWeight.Medium,
-                color = TextPrimary
+                color = Color.Transparent
             )
             Text(
                 text = ".00",
                 fontSize = 16.sp,
-                color = TextMuted,
-                modifier = Modifier.padding(bottom = 3.dp)
+                color = Color.Transparent,
+                modifier = Modifier
+                    .padding(bottom = 3.dp)
+                    .background(shimmerBrush())
             )
         }
 
         Text(
+            modifier = Modifier.background(shimmerBrush()),
             text = state.currency.name,
             fontSize = 12.sp,
-            color = TextMuted
+            color = Color.Transparent
         )
 
         Spacer(modifier = Modifier.height(18.dp))
@@ -259,20 +231,24 @@ private fun WalletBalanceCard(state: BalanceUiState) {
                 Icon(
                     imageVector = Icons.Filled.CalendarToday,
                     contentDescription = null,
-                    modifier = Modifier.size(14.dp),
-                    tint = TextMuted
+                    modifier = Modifier
+                        .size(14.dp)
+                        .background(shimmerBrush()),
+                    tint = Color.Transparent
                 )
                 Spacer(modifier = Modifier.width(5.dp))
                 Text(
-                    text = "Member since ${formatCreatedAt(state.createdAtMillis)}",
+                    modifier = Modifier.background(shimmerBrush()),
+                    text = "Member since $",
                     fontSize = 12.sp,
-                    color = TextMuted
+                    color = Color.Transparent
                 )
             }
             Text(
+                modifier = Modifier.background(shimmerBrush()),
                 text = "ID •••${state.userId.takeLast(5)}",
                 fontSize = 12.sp,
-                color = TextMuted
+                color = Color.Transparent
             )
         }
     }
@@ -283,6 +259,7 @@ private fun DashedDivider() {
     Canvas(
         modifier = Modifier
             .fillMaxWidth()
+            .background(shimmerBrush())
             .height(1.dp)
     ) {
         drawLine(
@@ -295,29 +272,29 @@ private fun DashedDivider() {
     }
 }
 
-private fun initialsFrom(name: String): String =
-    name.trim()
-        .split(" ")
-        .filter { it.isNotBlank() }
-        .take(2)
-        .joinToString("") { it.first().uppercase() }
 
-
-private fun formatCreatedAt(millis: Long): String =
-    SimpleDateFormat("MMM yyyy", Locale.getDefault()).format(Date(millis))
-
-@Preview(showBackground = true)
 @Composable
-private fun WalletScreenPreview() {
-    MaterialTheme {
-        WalletScreenContent(
-            state = BalanceUiState(
-                userName = "Android Developer",
-                balance = 5457,
-                currency = Currency.USD,
-                createdAtMillis = 1787166685299L,
-                userId = "9oMgcrsUZZZvWwAIk4go1ONOha52"
-            )
-        )
+private fun Branches() {
+    LazyColumn {
+        for (x in 0..5) {
+            item {
+                MediumSpacer(orientation = Orientation.VERTICAL)
+                Spacer(
+                    Modifier
+                        .height(56.dp)
+                        .padding(8.dp)
+                        .fillMaxWidth()
+                        .clip(RoundedCornerShape(8.dp))
+                        .background(shimmerBrush())
+                )
+            }
+        }
+
     }
+}
+
+@Composable
+@Preview(showBackground = true)
+private fun BranchesScreenSkeletonsPreview() {
+    BalanceScreenSkeletons()
 }
