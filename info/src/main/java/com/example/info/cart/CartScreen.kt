@@ -30,9 +30,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -43,11 +41,9 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.SubcomposeAsyncImage
-import com.example.info.R
-import com.example.core.navigation.info.InfoNavigationScreens
+import com.example.core.navigation.info.InfoNavigationScreens.DetailProductRoute
+import com.example.core.navigation.info.InfoNavigationScreens.SuccessScreenRoute
 import com.example.core.ui.base.BaseComposeScreen
-import com.example.core.ui.base.BaseScreenState
-import com.example.core.ui.base.getContentOrNull
 import com.example.core.ui.components.BaseErrorScreen
 import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.dialogs.AlertDialogMessagesConfig
@@ -59,13 +55,13 @@ import com.example.core.ui.theme.Background
 import com.example.core.util.toCurrencyString
 import com.example.domain.entities.remote.products.Product
 import com.example.domain.wallet.Currency
+import com.example.info.R
 import kotlinx.coroutines.flow.collectLatest
 
 
 @Composable
 fun CartScreen(
-    navController: NavController,
-    viewModel: CartViewModel = hiltViewModel()
+    navController: NavController, viewModel: CartViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()
     val snackBarHostState = remember { SnackbarHostState() }
@@ -78,11 +74,14 @@ fun CartScreen(
 
                 is CartEffects.NavigateToProductDetail -> {
                     navController.navigate(
-                        InfoNavigationScreens.DetailProductRoute(
-                            productId = it.product.id,
-                            source = it.source
+                        DetailProductRoute(
+                            productId = it.product.id, source = it.source
                         )
                     )
+                }
+
+                CartEffects.OnPurchaseCompleted -> {
+                    navController.navigate(SuccessScreenRoute)
                 }
             }
         }
@@ -93,7 +92,10 @@ fun CartScreen(
         }
 
         uiState.error != null -> {
-            BaseErrorScreen()
+            BaseErrorScreen(
+                title = uiState.error.orEmpty(),
+                message = "We couldn't complete your purchase. Please try again."
+            )
         }
 
         else -> {
@@ -104,8 +106,7 @@ fun CartScreen(
                     showDeleteIcon = true,
                     clickOnDeleteIcon = {
                         viewModel.onEvents(CartEvents.OnDeleteIconClicked)
-                    }
-                )
+                    })
             ) {
                 if (uiState.showDeleteDialog) {
                     DialogDeleteAllProducts(
@@ -114,8 +115,10 @@ fun CartScreen(
                 }
 
                 CartScreenContent(
+                    isLoading = uiState.showLoadingButton,
                     products = uiState.products,
-                    onEvents = viewModel::onEvents
+                    onEvents = viewModel::onEvents,
+                    cartTotal = uiState.cartTotal
                 )
             }
         }
@@ -127,23 +130,20 @@ private fun DialogDeleteAllProducts(onEvents: (event: CartEvents) -> Unit) {
     BaseAlertDialogMessages(
         alertDialogMessagesConfig = AlertDialogMessagesConfig(
             bodyMessage = stringResource(R.string.delete_all_products_sure),
-            isTwoButtonsAlert = IsTwoButtonsAlert(
-                clickOnAccept = {
-                    onEvents(CartEvents.OnAccept)
-                },
-                clickOnCancel = {
-                    onEvents(CartEvents.OnCancelPressed)
-                }
-            )
-        ),
-        onDismissRequest = { onEvents(CartEvents.OnCancelPressed) }
-    )
+            isTwoButtonsAlert = IsTwoButtonsAlert(clickOnAccept = {
+                onEvents(CartEvents.OnAccept)
+            }, clickOnCancel = {
+                onEvents(CartEvents.OnCancelPressed)
+            })
+        ), onDismissRequest = { onEvents(CartEvents.OnCancelPressed) })
 }
 
 @Composable
 private fun CartScreenContent(
     modifier: Modifier = Modifier,
     products: List<Product>,
+    isLoading: Boolean,
+    cartTotal: Long,
     onEvents: (event: CartEvents) -> Unit
 ) {
     Column(
@@ -157,36 +157,23 @@ private fun CartScreenContent(
                 .fillMaxWidth()
         ) {
             items(
-                items = products,
-                key = { it.id }
-            ) { product ->
-                ItemCart(
-                    product = product,
-                    onEvents = onEvents
+                items = products, key = { it.id }) { product ->
+                Product(
+                    product = product, onEvents = onEvents
                 )
             }
         }
-
-        // FAKE: el total real debería venir del state/ViewModel, aquí solo sumo precios base
-        val total = products.sumOf { it.price }
-
         OrderSummarySection(
-            total = total,
-            onPayClicked = {
+            total = cartTotal, isLoading = isLoading, onPayClicked = {
                 onEvents.invoke(CartEvents.OnPay)
-            }
-        )
+            })
     }
 }
 
 @Composable
-private fun ItemCart(
-    product: Product,
-    onEvents: (event: CartEvents) -> Unit
+private fun Product(
+    product: Product, onEvents: (event: CartEvents) -> Unit
 ) {
-    // FAKE: cantidad solo visual, no persiste ni afecta el precio real todavía
-    var quantity by remember { mutableIntStateOf(1) }
-
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -206,8 +193,7 @@ private fun ItemCart(
                 modifier = Modifier.size(80.dp),
                 model = product.image,
                 contentDescription = "ImageProduct",
-                loading = { CircularProgressIndicator(Modifier.padding(16.dp)) }
-            )
+                loading = { CircularProgressIndicator(Modifier.padding(16.dp)) })
 
             Spacer(modifier = Modifier.width(12.dp))
 
@@ -222,23 +208,21 @@ private fun ItemCart(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = product.price.toCurrencyString(Currency.USD),
+                    text = product.total().toCurrencyString(Currency.USD),
                     style = MaterialTheme.typography.titleMedium
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                // FAKE: stepper visual, no dispara eventos todavía
-                QuantityStepper(
-                    quantity = quantity,
-                    onIncrease = { quantity++ },
-                    onDecrease = { if (quantity > 1) quantity-- }
-                )
+                QuantityStepper(quantity = product.quantity, onIncrease = {
+                    onEvents(CartEvents.OnIncrease(productId = product.id))
+                }, onDecrease = {
+                    onEvents(CartEvents.OnDecrease(productId = product.id))
+                })
             }
 
             IconButton(
                 onClick = {
-                    onEvents(CartEvents.OnRemoveProductClicked)
-                }
-            ) {
+                    onEvents(CartEvents.OnRemoveProductClicked(productId = product.id))
+                }) {
                 Icon(
                     imageVector = Icons.Default.Delete,
                     contentDescription = stringResource(R.string.remove)
@@ -250,18 +234,14 @@ private fun ItemCart(
 
 @Composable
 private fun QuantityStepper(
-    quantity: Int,
-    onIncrease: () -> Unit,
-    onDecrease: () -> Unit
+    quantity: Int, onIncrease: () -> Unit, onDecrease: () -> Unit
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         IconButton(
-            onClick = onDecrease,
-            modifier = Modifier.size(28.dp)
+            onClick = onDecrease, modifier = Modifier.size(28.dp)
         ) {
             Icon(
-                imageVector = Icons.Default.Remove,
-                contentDescription = "Disminuir"
+                imageVector = Icons.Default.Remove, contentDescription = "Increase"
             )
         }
         Text(
@@ -270,12 +250,10 @@ private fun QuantityStepper(
             style = MaterialTheme.typography.bodyMedium
         )
         IconButton(
-            onClick = onIncrease,
-            modifier = Modifier.size(28.dp)
+            onClick = onIncrease, modifier = Modifier.size(28.dp)
         ) {
             Icon(
-                imageVector = Icons.Default.Add,
-                contentDescription = "Aumentar"
+                imageVector = Icons.Default.Add, contentDescription = "Decrease"
             )
         }
     }
@@ -283,8 +261,7 @@ private fun QuantityStepper(
 
 @Composable
 private fun OrderSummarySection(
-    total: Long,
-    onPayClicked: () -> Unit
+    total: Long, isLoading: Boolean, onPayClicked: () -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -296,12 +273,10 @@ private fun OrderSummarySection(
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(
-                modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
-                    text = "Total",
-                    style = MaterialTheme.typography.titleMedium
+                    text = "Total", style = MaterialTheme.typography.titleMedium
                 )
                 Text(
                     text = total.toCurrencyString(Currency.USD),
@@ -309,6 +284,7 @@ private fun OrderSummarySection(
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
+
             Button(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -316,8 +292,15 @@ private fun OrderSummarySection(
                 onClick = onPayClicked,
                 shape = RoundedCornerShape(12.dp)
             ) {
-                Text(text = "Pagar")
+                if (isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(32.dp), color = AlwaysWhite
+                    )
+                } else {
+                    Text(text = stringResource(R.string.pay))
+                }
             }
+
         }
     }
 }
@@ -341,7 +324,6 @@ private fun CartScreenContentPreview() {
             product.copy(id = 3, title = "Keyboard"),
             product.copy(id = 4, title = "Monitor"),
             product.copy(id = 5, title = "Laptop")
-        ),
-        onEvents = {}
+        ), onEvents = {}, isLoading = false, cartTotal = 458L
     )
 }

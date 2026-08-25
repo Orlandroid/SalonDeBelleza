@@ -20,6 +20,7 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.channels.Channel
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onStart
@@ -28,12 +29,15 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
+import kotlin.time.Duration.Companion.seconds
 
 
 sealed class CartEffects {
     data class OnProductsDeleted(val message: String) : CartEffects()
     data class NavigateToProductDetail(val source: ProductSource, val product: Product) :
         CartEffects()
+
+    data object OnPurchaseCompleted : CartEffects()
 }
 
 sealed class CartEvents {
@@ -42,7 +46,9 @@ sealed class CartEvents {
     object OnAccept : CartEvents()
     object OnCancelPressed : CartEvents()
     object OnPay : CartEvents()
-    object OnRemoveProductClicked : CartEvents()
+    data class OnRemoveProductClicked(val productId: Int) : CartEvents()
+    data class OnIncrease(val productId: Int) : CartEvents()
+    data class OnDecrease(val productId: Int) : CartEvents()
 }
 
 sealed class PurchaseProductsError {
@@ -56,7 +62,9 @@ data class CartUiState(
     val userMoney: Long = 0L,
     val showDeleteDialog: Boolean = false,
     val isLoading: Boolean = true,
-    val error: String? = null
+    val showLoadingButton: Boolean = false,
+    val error: String? = null,
+    val cartTotal: Long = 0L,
 )
 
 @HiltViewModel
@@ -72,7 +80,9 @@ class CartViewModel @Inject constructor(
     val state = _state.onStart {
         getCartInfo()
     }.stateIn(
-        scope = viewModelScope, started = SharingStarted.WhileSubscribed(5000L), CartUiState()
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000L),
+        CartUiState()
     )
 
     private val _effects = Channel<CartEffects>()
@@ -113,21 +123,105 @@ class CartViewModel @Inject constructor(
 
             CartEvents.OnPay -> {
                 viewModelScope.launch {
+                    _state.update { it.copy(showLoadingButton = true) }
+                    delay(0.5.seconds)
+                    val products = _state.value.products
+                    val description = getDescription(products)
                     val purchaseResult = purchaseProductsUseCase.invoke(
-                        products = state.value.products, description = ""
+                        products = state.value.products,
+                        description = description
                     )
                     if (purchaseResult.isSuccess()) {
-                        //Show animation of succes
+                        _effects.send(CartEffects.OnPurchaseCompleted)
                     } else {
-                        //Show one kinkd or message error
+                        _state.update {
+                            it.copy(
+                                error = "Purchase failed",
+                                showLoadingButton = false
+                            )
+                        }
                     }
                 }
             }
 
-            CartEvents.OnRemoveProductClicked -> {
+            is CartEvents.OnRemoveProductClicked -> {
+                onRemoveProduct(event.productId)
+            }
 
+            is CartEvents.OnDecrease -> {
+                onDecreaseProduct(event.productId)
+            }
+
+            is CartEvents.OnIncrease -> {
+                onIncreaseProduct(event.productId)
             }
         }
+    }
+
+    private fun getDescription(products: List<Product>): String {
+        val products = _state.value.products
+        val description = when (products.size) {
+            1 -> products.first().title
+            2 -> products.joinToString(" + ") { it.title }
+            else -> "${products.first().title} + ${products.size - 1} more"
+        }
+        return description
+    }
+
+    private fun onRemoveProduct(productId: Int) {
+        _state.update { currentState ->
+            currentState.copy(
+                products = currentState.products.filterNot { product ->
+                    product.id == productId
+                }
+            )
+        }
+        _state.update { currentState ->
+            currentState.copy(cartTotal = getCartTotal(currentState.products))
+        }
+    }
+
+    private fun onDecreaseProduct(productId: Int) {
+        _state.update { currentState ->
+            currentState.copy(
+                products = currentState.products.map { product ->
+                    if (product.id == productId && product.quantity > 1) {
+                        product.copy(quantity = product.quantity - 1)
+                    } else {
+                        product
+                    }
+                },
+            )
+        }
+        _state.update { currentState ->
+            currentState.copy(cartTotal = getCartTotal(currentState.products))
+        }
+    }
+
+    private fun onIncreaseProduct(productId: Int) {
+        _state.update { currentState ->
+            currentState.copy(
+                products = currentState.products.map { product ->
+                    if (product.id == productId) {
+                        product.copy(quantity = product.quantity + 1)
+                    } else {
+                        product
+                    }
+                }
+            )
+        }
+        _state.update { currentState ->
+            currentState.copy(cartTotal = getCartTotal(currentState.products))
+        }
+    }
+
+    private fun getCartTotal(products: List<Product>): Long {
+        var cartTotal = 0L
+
+        products.forEach {
+            cartTotal += it.price * it.quantity
+        }
+        return cartTotal
     }
 
 
@@ -141,7 +235,10 @@ class CartViewModel @Inject constructor(
             val userInfo = userInfoResult.getContent()
             _state.update {
                 it.copy(
-                    isLoading = false, products = userInfo.products, userMoney = userInfo.userMoney
+                    isLoading = false,
+                    products = userInfo.products,
+                    userMoney = userInfo.userMoney,
+                    cartTotal = userInfo.cartTotal
                 )
             }
         }

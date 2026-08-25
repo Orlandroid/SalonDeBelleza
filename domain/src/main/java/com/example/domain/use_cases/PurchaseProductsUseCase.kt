@@ -40,7 +40,8 @@ class PurchaseProductsUseCase @Inject constructor(
                 id = UUID.randomUUID().toString(),
                 amount = total,
                 transactionType = TransactionType.MARKETPLACE_PURCHASE,
-                description = description
+                description = description,
+                createdAt = System.currentTimeMillis()
             )
         )
         if (transactionResult.isError()) {

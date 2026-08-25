@@ -36,6 +36,10 @@ sealed class InfoNavigationScreens {
     @Serializable
     data object ServicesRoute : InfoNavigationScreens()
 
+
+    @Serializable
+    data object SuccessScreenRoute : InfoNavigationScreens()
+
     @Serializable
     data object LocationRoute : InfoNavigationScreens()
 }

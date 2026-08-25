@@ -24,10 +24,18 @@ class GetCartInfoUseCase @Inject constructor(
         if (balanceUserResult.isError()) {
             return ApiResult.Error(balanceUserResult.getErrorMessage())
         }
+
+        var cartTotal = 0L
+
+        productsResult.getContent().forEach {
+            cartTotal += it.price * it.quantity
+        }
+
         return ApiResult.Success(
             CartInfo(
                 products = productsResult.getContent(),
-                userMoney = balanceUserResult.getContent().balance
+                userMoney = balanceUserResult.getContent().balance,
+                cartTotal = cartTotal
             )
         )
     }

@@ -7,8 +7,13 @@ data class Product(
     val price: Long,
     val rating: Double? = null,
     val image: String? = null,
-    val category: String? = null
+    val category: String? = null,
+    val quantity: Int = 1,
 ) {
+
+    fun total(): Long {
+        return quantity * price
+    }
 
     companion object {
         fun dummyProduct() = Product(

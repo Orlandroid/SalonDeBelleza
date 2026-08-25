@@ -4,5 +4,6 @@ import com.example.domain.entities.remote.products.Product
 
 data class CartInfo(
     val userMoney: Long,
-    val products: List<Product>
+    val products: List<Product>,
+    val cartTotal: Long
 )
