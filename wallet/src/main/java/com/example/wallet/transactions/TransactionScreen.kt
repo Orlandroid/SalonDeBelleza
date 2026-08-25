@@ -36,12 +36,13 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.example.core.navigation.wallet.WalletNavigationRoutes
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.base.BaseScreenState
 import com.example.core.ui.base.getContentOrNull
 import com.example.core.ui.components.BaseErrorScreen
 import com.example.core.ui.components.ToolbarConfiguration
-import com.example.core.ui.components.skeletons.BranchesScreenSkeletons
+import com.example.wallet.components.TransactionsScreenSkeleton
 import com.example.core.ui.theme.AlwaysWhite
 import com.example.core.ui.theme.Background
 import com.example.core.util.toCurrencyString
@@ -62,7 +63,7 @@ fun TransactionsScreen(
     val viewState by viewModel.state.collectAsStateWithLifecycle()
     when (viewState) {
         BaseScreenState.OnLoading -> {
-            BranchesScreenSkeletons()//Todo Add transactions skeletons
+            TransactionsScreenSkeleton()
         }
 
         is BaseScreenState.OnContent -> {
@@ -72,7 +73,12 @@ fun TransactionsScreen(
                     toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.transactions)),
                     navController = navController
                 ) {
-                    TransactionsScreenContent(transactions = state.transactions)
+                    TransactionsScreenContent(
+                        transactions = state.transactions,
+                        onClick = {
+                            navController.navigate(WalletNavigationRoutes.TransactionDetail)
+                        }
+                    )
                 }
             }
 
@@ -89,7 +95,8 @@ fun TransactionsScreen(
 @Composable
 private fun TransactionsScreenContent(
     modifier: Modifier = Modifier,
-    transactions: List<Transaction>
+    transactions: List<Transaction>,
+    onClick: () -> Unit
 ) {
     if (transactions.isEmpty()) {
         EmptyTransactions(
@@ -110,19 +117,20 @@ private fun TransactionsScreenContent(
             items = transactions,
             key = { it.id }
         ) { transaction ->
-            ItemTransaction(transaction = transaction)
+            ItemTransaction(transaction = transaction, onClick = onClick)
         }
     }
 }
 
 @Composable
-private fun ItemTransaction(transaction: Transaction) {
+private fun ItemTransaction(transaction: Transaction, onClick: () -> Unit) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
             .padding(horizontal = 8.dp, vertical = 4.dp),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = AlwaysWhite)
+        colors = CardDefaults.cardColors(containerColor = AlwaysWhite),
+        onClick = onClick
     ) {
         Row(
             modifier = Modifier
@@ -227,12 +235,13 @@ private fun TransactionsScreenContentPreview() {
         transactions = listOf(
             Transaction(),
             Transaction(),
-        )
+        ),
+        onClick = {}
     )
 }
 
 @Composable
 @Preview(showBackground = true)
 private fun TransactionsScreenContentEmptyPreview() {
-    TransactionsScreenContent(transactions = emptyList())
+    TransactionsScreenContent(transactions = emptyList(), onClick = {})
 }
