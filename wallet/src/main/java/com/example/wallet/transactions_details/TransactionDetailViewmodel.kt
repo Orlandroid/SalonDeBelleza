@@ -9,14 +9,12 @@ import com.example.domain.state.isSuccess
 import com.example.domain.transaction.Transaction
 import com.example.domain.transaction.TransactionRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import javax.inject.Inject
-import kotlin.time.Duration.Companion.seconds
 
 data class TransactionUiState(
     val transaction: Transaction
