@@ -97,7 +97,7 @@ private fun HomeScreenContent(
             modifier = Modifier
         )
         Text(
-            text = "Your beauty, your schedule",
+            text = stringResource(R.string.home_message),
             fontSize = 16.sp,
             letterSpacing = (-0.5).sp
         )
@@ -171,7 +171,7 @@ private fun WalletCard(
                 .padding(20.dp)
         ) {
             Text(
-                text = "My Wallet",
+                text = stringResource(R.string.my_wallet),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Medium,
                 color = AlwaysBlack
@@ -189,7 +189,7 @@ private fun WalletCard(
                 horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Text(
-                    text = "View wallet",
+                    text = stringResource(R.string.show_wallet),
                     fontSize = 14.sp,
                     color = AlwaysBlack
                 )
@@ -254,21 +254,6 @@ private fun FloatingButtonInfo(
     }
 }
 
-@Composable
-private fun FloatingButtonWallet(
-    modifier: Modifier = Modifier,
-    goToWalletNavigation: () -> Unit
-) {
-    FloatingActionButton(
-        modifier = modifier,
-        onClick = goToWalletNavigation
-    ) {
-        Icon(
-            imageVector = Icons.Filled.AccountBalanceWallet,
-            contentDescription = null
-        )
-    }
-}
 
 @Composable
 private fun FloatingButtonProfile(

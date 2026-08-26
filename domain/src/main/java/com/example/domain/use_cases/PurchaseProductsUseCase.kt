@@ -1,6 +1,5 @@
 package com.example.domain.use_cases
 
-import com.example.domain.entities.remote.products.Product
 import com.example.domain.state.ApiResult
 import com.example.domain.state.getContent
 import com.example.domain.state.isError
@@ -17,19 +16,19 @@ class PurchaseProductsUseCase @Inject constructor(
     private val getWalletUseCase: GetWalletUseCase,
 ) {
     suspend operator fun invoke(
-        products: List<Product>,
+        amount: Long,
+        transactionType: TransactionType,
         description: String
     ): ApiResult<Unit> {
-        val total = calculateTotalOfProducts(products)
         val balanceResult = getWalletUseCase.invoke()
         if (balanceResult.isError()) {
             return ApiResult.Error("Unable to make the purchase")
         }
         val currentBalance = balanceResult.getContent().balance
-        if (currentBalance < total) {
+        if (currentBalance < amount) {
             return ApiResult.Error("Insufficient balance")
         }
-        val newBalance = currentBalance - total
+        val newBalance = currentBalance - amount
         val updateResult = walletRepository.updateBalance(newBalance)
         if (updateResult.isError()) {
             return ApiResult.Error("Unable to update balance")
@@ -38,8 +37,8 @@ class PurchaseProductsUseCase @Inject constructor(
         val transactionResult = transactionRepository.createTransaction(
             transaction = Transaction(
                 id = UUID.randomUUID().toString(),
-                amount = total,
-                transactionType = TransactionType.MARKETPLACE_PURCHASE,
+                amount = amount,
+                transactionType = transactionType,
                 description = description,
                 createdAt = System.currentTimeMillis()
             )
@@ -49,10 +48,5 @@ class PurchaseProductsUseCase @Inject constructor(
         }
 
         return ApiResult.Success(Unit)
-    }
-
-
-    private fun calculateTotalOfProducts(products: List<Product>): Long {
-        return products.sumOf { it.price }
     }
 }

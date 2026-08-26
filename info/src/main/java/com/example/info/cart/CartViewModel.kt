@@ -11,6 +11,7 @@ import com.example.domain.state.getContent
 import com.example.domain.state.getErrorMessage
 import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
+import com.example.domain.transaction.TransactionType
 import com.example.domain.use_cases.GetCartInfoUseCase
 import com.example.domain.use_cases.PurchaseProductsUseCase
 import com.example.info.R
@@ -125,11 +126,11 @@ class CartViewModel @Inject constructor(
                 viewModelScope.launch {
                     _state.update { it.copy(showLoadingButton = true) }
                     delay(0.5.seconds)
-                    val products = _state.value.products
-                    val description = getDescription(products)
+                    val description = getDescription()
                     val purchaseResult = purchaseProductsUseCase.invoke(
-                        products = state.value.products,
-                        description = description
+                        description = description,
+                        amount = calculateTotalOfProducts(state.value.products),
+                        transactionType = TransactionType.MARKETPLACE_PURCHASE
                     )
                     if (purchaseResult.isSuccess()) {
                         _effects.send(CartEffects.OnPurchaseCompleted)
@@ -158,7 +159,11 @@ class CartViewModel @Inject constructor(
         }
     }
 
-    private fun getDescription(products: List<Product>): String {
+    private fun calculateTotalOfProducts(products: List<Product>): Long {
+        return products.sumOf { it.price }
+    }
+
+    private fun getDescription(): String {
         val products = _state.value.products
         val description = when (products.size) {
             1 -> products.first().title
@@ -214,6 +219,7 @@ class CartViewModel @Inject constructor(
             currentState.copy(cartTotal = getCartTotal(currentState.products))
         }
     }
+
 
     private fun getCartTotal(products: List<Product>): Long {
         var cartTotal = 0L

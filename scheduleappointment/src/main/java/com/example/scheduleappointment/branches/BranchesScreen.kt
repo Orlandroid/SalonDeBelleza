@@ -179,7 +179,7 @@ private fun OpenBadge(isOpen: Boolean) {
         color = if (isOpen) GreenOpen.copy(alpha = 0.12f) else RedClosed.copy(alpha = 0.12f)
     ) {
         Text(
-            text = if (isOpen) "Open" else "Closed",
+            text = if (isOpen) stringResource(R.string.open) else stringResource(R.string.closed),
             fontSize = 11.sp,
             fontWeight = FontWeight.SemiBold,
             color = if (isOpen) GreenOpen else RedClosed,

@@ -18,6 +18,14 @@ data class HomeUiState(
     val balance: Long = 0L
 )
 
+sealed class HomeScreenEvents {
+    object NavigateToInfoNavigationFlow : HomeScreenEvents()
+    object NavigateToChoseBranch : HomeScreenEvents()
+    object NavigateToProfile : HomeScreenEvents()
+    object OnCloseScreen : HomeScreenEvents()
+    object NavigateToWallet : HomeScreenEvents()
+}
+
 @HiltViewModel
 class HomeViewModel
 @Inject constructor(
