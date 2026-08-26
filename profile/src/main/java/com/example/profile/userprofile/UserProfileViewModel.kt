@@ -26,7 +26,7 @@ data class UserProfileUiState(
     val phone: String? = null,
     val email: String? = null,
     val uid: String? = null,
-    val money: String? = null,
+    val money: Long? = null,
     val image: String? = null,
     val statusColor: Color? = null
 )

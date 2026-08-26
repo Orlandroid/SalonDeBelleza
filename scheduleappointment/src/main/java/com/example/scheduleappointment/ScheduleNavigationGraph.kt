@@ -1,32 +1,33 @@
 package com.example.scheduleappointment
 
-import androidx.activity.compose.LocalActivity
 import androidx.compose.runtime.collectAsState
+import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.example.core.navigation.AppNavigationRoutes
+import com.example.core.navigation.schedule.ScheduleNavigationRoutes
+import com.example.core.ui.components.SuccessScreen
+import com.example.core.util.sharedViewModel
+import com.example.domain.entities.remote.migration.Staff
 import com.example.scheduleappointment.branches.BranchFlow
 import com.example.scheduleappointment.branches.BranchesScreen
-import com.example.scheduleappointment.cita_agendada.AppointmentScheduledScreen
 import com.example.scheduleappointment.detail_staff.DetailStaffScreen
 import com.example.scheduleappointment.home.HomeScreen
 import com.example.scheduleappointment.home.HomeScreenEvents
 import com.example.scheduleappointment.mainflow.AppointmentFlowViewModel
 import com.example.scheduleappointment.schedule.ScheduleScreen
+import com.example.scheduleappointment.schedule_confirmation.ScheduleConfirmationScreen
 import com.example.scheduleappointment.schedule_staff.ScheduleStaffScreen
 import com.example.scheduleappointment.service.ServiceScreen
-import com.example.core.navigation.AppNavigationRoutes
-import com.example.core.navigation.schedule.ScheduleNavigationRoutes
-import com.example.core.util.sharedViewModel
-import com.example.domain.entities.remote.migration.Staff
-import com.example.scheduleappointment.schedule_confirmation.ScheduleConfirmationScreen
 
 
 fun NavGraphBuilder.scheduleNavigationGraph(
     navController: NavHostController,
     goToInfoNavigation: () -> Unit,
     goToProfileNavigation: () -> Unit,
+    goToWallet: () -> Unit,
     onRestart: () -> Unit
 ) {
     navigation<AppNavigationRoutes.ScheduleNavigationRoute>(
@@ -50,6 +51,10 @@ fun NavGraphBuilder.scheduleNavigationGraph(
 
                         HomeScreenEvents.OnCloseScreen -> {
                             onRestart()
+                        }
+
+                        HomeScreenEvents.NavigateToWallet -> {
+                            goToWallet()
                         }
                     }
                 }
@@ -99,11 +104,14 @@ fun NavGraphBuilder.scheduleNavigationGraph(
                 navController = navController,
                 flowMainViewModel = mainViewModel
             ) {
-                navController.navigate(ScheduleNavigationRoutes.AppointmentScheduledRoute)
+                navController.navigate(ScheduleNavigationRoutes.SuccessScheduleRoute)
             }
         }
-        composable<ScheduleNavigationRoutes.AppointmentScheduledRoute> {
-            AppointmentScheduledScreen(navController = navController) {
+        composable<ScheduleNavigationRoutes.SuccessScheduleRoute> {
+            SuccessScreen(
+                title = stringResource(R.string.appointment_success_title),
+                description = stringResource(R.string.appointment_success_subtitle)
+            ) {
                 onRestart()
             }
         }

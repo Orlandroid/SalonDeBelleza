@@ -34,4 +34,13 @@
     <string name="servicio_label">Servicio</string>
     <string name="fecha_label">Fecha</string>
     <string name="hora_label">Hora</string>
+    <string name="open">Open</string>
+    <string name="closed">Closed</string>
+    <string name="show_wallet">View wallet</string>
+    <string name="home_message">Your beauty, your schedule</string>
+    <string name="my_wallet">My Wallet</string>
+    <string name="ok">OK</string>
+    <string name="dismiss">Dismiss</string>
+    <string name="appointment_success_title">Appointment Confirmed</string>
+    <string name="appointment_success_subtitle">Your appointment has been successfully scheduled.</string>
 </resources>

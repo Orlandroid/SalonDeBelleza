@@ -148,9 +148,7 @@ fun ServiceListItem(
             width = 1.dp,
             color = Color.Black
         ),
-        onClick = {
-            config.clickOnItem.invoke()
-        }
+        onClick = config.clickOnItem
     ) {
         Row(
             modifier = Modifier

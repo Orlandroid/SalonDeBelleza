@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="wallet_balance">WALLET BALANCE</string>
+    <string name="good_evening">Good evening</string>
+    <string name="top_up">Top up</string>
+    <string name="balance">Balance</string>
+    <string name="transactions">Transactions</string>
+    <string name="not_transactions">You don\'t have any transactions yet.</string>
+</resources>

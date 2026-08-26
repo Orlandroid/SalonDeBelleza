@@ -13,7 +13,7 @@ import com.example.data.database.entities.AppointmentEntity
 
 @Database(
     entities = [AppointmentEntity::class, ProductEntity::class, CategoryEntity::class],
-    version = 1,
+    version = 2,
     exportSchema = false
 )
 

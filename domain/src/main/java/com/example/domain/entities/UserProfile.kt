@@ -7,7 +7,7 @@ data class UserProfile(
     val email: String,
     val uid: String,
     val phone: String,
-    val money: String,
+    val money: Long,
     val image: String?,
     val sessionStatus: UserSessionStatus
 )

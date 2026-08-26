@@ -11,6 +11,7 @@ import com.example.core.navigation.AppNavigationRoutes
 import com.example.info.infoNavigationGraph
 import com.example.profile.profileNavigationGraph
 import com.example.scheduleappointment.scheduleNavigationGraph
+import com.example.wallet.walletNavigationGraph
 
 @Composable
 fun AppNavigation() {
@@ -33,9 +34,18 @@ fun AppNavigation() {
             goToProfileNavigation = {
                 navController.navigate(AppNavigationRoutes.ProfileNavigationRoute)
             },
+            goToWallet = {
+                navController.navigate(AppNavigationRoutes.WalletNavigationRoute)
+            },
             onRestart = { activity.closeAndOpenActivity() }
         )
         infoNavigationGraph(navController = navController)
-        profileNavigationGraph(navController = navController)
+        profileNavigationGraph(
+            navController = navController,
+            onRestart = { activity.closeAndOpenActivity() }
+        )
+        walletNavigationGraph(
+            navController = navController,
+            onRestart = { activity.closeAndOpenActivity() })
     }
 }

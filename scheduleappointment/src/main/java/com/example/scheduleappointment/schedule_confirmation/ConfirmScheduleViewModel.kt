@@ -5,6 +5,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.repository.AppointmentsRepository
 import com.example.di.IoDispatcher
 import com.example.domain.perfil.AppointmentFirebase
+import com.example.domain.state.isSuccess
+import com.example.domain.transaction.TransactionType
+import com.example.domain.use_cases.PurchaseProductsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -38,8 +41,13 @@ data class ScheduleAppointmentState(
 @HiltViewModel
 class ConfirmScheduleViewModel @Inject constructor(
     private val appointmentsRepository: AppointmentsRepository,
-    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
+    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    private val purchaseProductsUseCase: PurchaseProductsUseCase,
 ) : ViewModel() {
+
+    private companion object {
+        const val MXN_TO_USD_CONVERSION_FACTOR = 3
+    }
 
 
     private val _uiState: MutableStateFlow<ScheduleAppointmentState> =
@@ -73,9 +81,18 @@ class ConfirmScheduleViewModel @Inject constructor(
 
     private fun saveAppointment(appointment: AppointmentFirebase) {
         viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
-            appointmentsRepository.saveAppointment(appointment)
-            _uiState.update { it.copy(showAnimation = true) }
-            _effects.send(ScheduleAppointmentEffects.NavigateToAppointComplete)
+            val saveAppointmentResult = appointmentsRepository.saveAppointment(appointment)
+            if (saveAppointmentResult.isSuccess()) {
+                _uiState.update { it.copy(showAnimation = true) }
+                _effects.send(ScheduleAppointmentEffects.NavigateToAppointComplete)
+                purchaseProductsUseCase.invoke(
+                    amount = appointment.total.toLong() / MXN_TO_USD_CONVERSION_FACTOR,
+                    transactionType = TransactionType.SERVICE_PAYMENT,
+                    description = "${appointment.service} at ${appointment.establishment}"
+                )
+            } else {
+                //Todo add some kind of screen the creation of the appointment failed
+            }
         }
     }
 

@@ -28,9 +28,12 @@ val Purple = Color(0xFF7C3AED)
 val PurpleLight = Color(0xFFF5F3FF)
 val PurpleBorder = Color(0xFFDDD6FE)
 val TextPrimary = Color(0xFF1A1A1A)
-val TextMuted = Color(0xFF888888)
 val StarColor = Color(0xFFF59E0B)
 val CardBorder = Color(0xFFE8E6E0)
+val CardSurface = Color(0xFFFFFFFF)
+val TextSecondary = Color(0xFF6B6B6B)
+val TextMuted = Color(0xFF9C9C9C)
+val DashedLine = Color(0xFFD9D9D9)
 
 val avatarBackgrounds = listOf(
     Color(0xFFEDE9FE) to Color(0xFF7C3AED),

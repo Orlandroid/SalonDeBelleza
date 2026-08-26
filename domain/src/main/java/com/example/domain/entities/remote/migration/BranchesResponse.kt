@@ -2,7 +2,7 @@ package com.example.domain.entities.remote.migration
 
 import com.google.gson.annotations.SerializedName
 
-data class SucursalesResponse(
+data class BranchesResponse(
     val sucursales: List<NegoInfo>
 )
 

@@ -7,6 +7,7 @@ import com.example.domain.entities.remote.User
 import com.example.domain.perfil.UserInfoFirebase
 import com.example.domain.repository.UserRepository
 import com.example.domain.state.ApiResult
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -18,13 +19,23 @@ import kotlin.coroutines.resume
 
 class UserRepositoryImpl @Inject constructor(
     @param:UsersRef private val databaseReference: DatabaseReference,
-    private val loginPreferences: LoginPreferences
+    private val firebaseAuth: FirebaseAuth
 ) :
     UserRepository {
 
     override suspend fun getNameAndPhone(): ApiResult<UserInfoFirebase> =
         suspendCancellableCoroutine { continuation ->
-            databaseReference.addListenerForSingleValueEvent(
+
+            val userId = firebaseAuth.uid
+
+            if (userId == null) {
+                continuation.resume(
+                    ApiResult.Error("User is not authenticated")
+                )
+                return@suspendCancellableCoroutine
+            }
+
+            databaseReference.child(userId).addListenerForSingleValueEvent(
                 object : ValueEventListener {
                     override fun onDataChange(snapshot: DataSnapshot) {
 
@@ -32,10 +43,11 @@ class UserRepositoryImpl @Inject constructor(
 
                         if (userInfo == null) {
                             continuation.resume(ApiResult.Error(""))
+                            return
                         }
                         continuation.resume(
                             ApiResult.Success(
-                                userInfo!!
+                                userInfo
                             )
                         )
                     }
@@ -75,15 +87,6 @@ class UserRepositoryImpl @Inject constructor(
             ApiResult.Success(Any())
         } catch (e: Exception) {
             ApiResult.Error(error = e.message.orEmpty())
-        }
-    }
-
-    override suspend fun getUserMoney(): ApiResult<String> {
-        runCatching {
-            val userMoney = loginPreferences.getUserMoney()
-            return ApiResult.Success(userMoney.toString())
-        }.getOrElse {
-            return ApiResult.Error(it.message)
         }
     }
 

@@ -55,9 +55,12 @@ import com.example.core.ui.base.MyDatePickerDialog
 import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.theme.Background
 import com.example.core.util.getHourFormat
+import com.example.core.util.toCurrencyString
 import com.example.domain.entities.remote.migration.Service
 import com.example.domain.entities.remote.migration.Staff
+import com.example.domain.wallet.Currency
 import kotlinx.coroutines.flow.collectLatest
+import androidx.compose.ui.graphics.vector.ImageVector
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -134,7 +137,7 @@ private fun ScheduleScreenContent(
             name = state.currentStaff?.name.orEmpty(),
             branch = state.branchName,
             services = state.listOfServices[0].name,
-            price = state.listOfServices[0].precio.toString()
+            price = state.listOfServices[0].precio.toString().toLong()
         )
         Spacer(modifier = Modifier.height(24.dp))
         ScheduleInputs(date = date, time = time, onEvents = onEvents)
@@ -148,7 +151,7 @@ private fun StaffInfo(
     name: String,
     branch: String,
     services: String,
-    price: String
+    price: Long
 ) {
     ElevatedCard(
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
@@ -186,7 +189,7 @@ private fun StaffInfo(
             Spacer(modifier = Modifier.height(12.dp))
 
             Text(
-                text = "$$price",
+                text = price.toCurrencyString(Currency.USD),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.primary
@@ -196,7 +199,10 @@ private fun StaffInfo(
 }
 
 @Composable
-private fun InfoRow(icon: androidx.compose.ui.graphics.vector.ImageVector, text: String) {
+private fun InfoRow(
+    icon: ImageVector,
+    text: String
+) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(6.dp)

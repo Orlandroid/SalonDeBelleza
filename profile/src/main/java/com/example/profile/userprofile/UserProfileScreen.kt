@@ -52,7 +52,9 @@ import com.example.core.ui.components.BaseErrorScreen
 import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.components.skeletons.UserProfileScreenSkeleton
 import com.example.core.ui.theme.Background
+import com.example.core.util.toCurrencyString
 import com.example.core.util.uriToBitmap
+import com.example.domain.wallet.Currency
 
 
 @Composable
@@ -161,7 +163,12 @@ private fun UserProfileScreenContent(
             HorizontalDivider()
             BaseLabel(key = stringResource(R.string.label_email), value = userProfileState.email)
             HorizontalDivider()
-            BaseLabel(key = stringResource(R.string.money), value = userProfileState.money)
+            BaseLabel(
+                key = stringResource(R.string.money),
+                value = userProfileState.money?.toCurrencyString(
+                    Currency.USD
+                )
+            )
             HorizontalDivider()
         }
     }
@@ -231,7 +238,7 @@ private fun UserProfileScreenContentPreview() {
             name = "Orlando",
             "1234567890",
             email = "android@gmail.com",
-            money = "500"
+            money = 500L
 
         ),
         launchGallery = {}

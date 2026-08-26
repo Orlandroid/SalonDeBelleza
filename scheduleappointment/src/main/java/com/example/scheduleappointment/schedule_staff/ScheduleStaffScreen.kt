@@ -333,14 +333,6 @@ private fun SurpriseMeButton(
     }
 }
 
-@Composable
-private fun ButtonRandomStaff(onClick: () -> Unit) {
-    Button(onClick = {
-        onClick.invoke()
-    }) {
-        Text(text = stringResource(id = R.string.estilista_aleatorio))
-    }
-}
 
 @Composable
 @Preview(showBackground = true)

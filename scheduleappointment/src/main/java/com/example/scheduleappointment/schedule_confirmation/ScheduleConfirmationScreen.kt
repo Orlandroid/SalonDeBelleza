@@ -44,9 +44,11 @@ import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.theme.AlwaysBlack
 import com.example.core.ui.theme.AlwaysWhite
 import com.example.core.ui.theme.Background
+import com.example.core.util.toCurrencyString
 import com.example.domain.entities.remote.migration.Service
 import com.example.domain.entities.remote.migration.Staff
 import com.example.domain.perfil.AppointmentFirebase
+import com.example.domain.wallet.Currency
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -74,7 +76,7 @@ fun ScheduleConfirmationScreen(
         ScheduleConfirmationScreenContent(
             staffUiState = uiState.value,
             scheduleState = scheduleState.value,
-            servicePrice = uiState.value.listOfServices[0].precio.toString(),
+            servicePrice = uiState.value.listOfServices[0].precio.toString().toLong(),
             dateAppointment = uiState.value.dateAppointment,
             hourAppointment = uiState.value.timeAppointment,
             appointment = flowMainViewModel.getAppointmentFirebase(),
@@ -89,7 +91,7 @@ private fun ScheduleConfirmationScreenContent(
     appointment: AppointmentFirebase,
     staffUiState: AppointmentFlowUiState,
     scheduleState: ScheduleAppointmentState,
-    servicePrice: String,
+    servicePrice: Long,
     dateAppointment: String,
     hourAppointment: String,
     event: (ScheduleAppointmentEvents) -> Unit
@@ -177,7 +179,7 @@ private fun ScheduleConfirmationScreenContent(
                         color = AlwaysBlack
                     )
                     Text(
-                        text = "$$servicePrice",
+                        text = (servicePrice / 3).toCurrencyString(Currency.USD),
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                         color = Color(0xff051721)
                     )
@@ -266,7 +268,7 @@ private fun DetailRow(
 @Preview(showBackground = true)
 private fun ScheduleConfirmationScreenContentPreview() {
     ScheduleConfirmationScreenContent(
-        servicePrice = "150",
+        servicePrice = 150L,
         dateAppointment = "12/09/2024",
         hourAppointment = "12:30 am",
         staffUiState = AppointmentFlowUiState(

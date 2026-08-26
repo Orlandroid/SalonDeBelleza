@@ -25,6 +25,9 @@ sealed class ScheduleNavigationRoutes {
     data object ScheduleConfirmationRoute : ScheduleNavigationRoutes()
 
     @Serializable
+    data object SuccessScheduleRoute : ScheduleNavigationRoutes()
+
+    @Serializable
     data object AppointmentScheduledRoute : ScheduleNavigationRoutes()
 }
 

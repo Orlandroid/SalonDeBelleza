@@ -8,6 +8,7 @@ import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.example.core.navigation.info.InfoNavigationScreens
 import com.example.core.navigation.AppNavigationRoutes
+import com.example.core.ui.components.SuccessScreen
 import com.example.info.cart.CartScreen
 import com.example.info.establishing.EstablishingScreen
 import com.example.info.our_sttaf.OurStaffScreen
@@ -76,6 +77,15 @@ fun NavGraphBuilder.infoNavigationGraph(navController: NavHostController) {
         }
         composable<InfoNavigationScreens.LocationRoute> {
             LocationScreen(navController = navController)
+        }
+        composable<InfoNavigationScreens.SuccessScreenRoute> {
+            SuccessScreen(
+                title = "Purchase successful!",
+                description = "Your order has been successfully placed."
+            ) {
+                navController.popBackStack()
+                navController.popBackStack()
+            }
         }
     }
 }

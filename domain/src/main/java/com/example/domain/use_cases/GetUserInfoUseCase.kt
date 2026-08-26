@@ -13,21 +13,22 @@ import javax.inject.Inject
 
 class GetUserInfoUseCase @Inject constructor(
     private val authRepository: AuthRepository,
-    private val userRepository: UserRepository
+    private val userRepository: UserRepository,
+    private val getWalletUseCase: GetWalletUseCase
 ) {
 
 
-    suspend fun invoke(): ApiResult<UserProfile> {
+    suspend operator fun invoke(): ApiResult<UserProfile> {
         val userResult = authRepository.getUser()
         if (userResult is ApiResult.Error) {
             return ApiResult.Error(userResult.getErrorMessage())
         }
         val user = userResult.getResultOrNull() ?: return ApiResult.Error("User not found")
-        val moneyResult = userRepository.getUserMoney()
+        val moneyResult = getWalletUseCase.invoke()
         val money = if (moneyResult.isSuccess()) {
-            moneyResult.getContent()
+            moneyResult.getContent().balance
         } else {
-            "0"
+            0L
         }
         var image: String? = null
         val imageResult = userRepository.getUserImage()
