@@ -179,7 +179,7 @@ private fun ScheduleConfirmationScreenContent(
                         color = AlwaysBlack
                     )
                     Text(
-                        text = servicePrice.toCurrencyString(Currency.USD),
+                        text = (servicePrice / 3).toCurrencyString(Currency.USD),
                         style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
                         color = Color(0xff051721)
                     )

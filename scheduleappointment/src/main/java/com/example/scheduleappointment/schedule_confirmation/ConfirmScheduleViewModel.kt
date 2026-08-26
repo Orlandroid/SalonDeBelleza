@@ -45,6 +45,10 @@ class ConfirmScheduleViewModel @Inject constructor(
     private val purchaseProductsUseCase: PurchaseProductsUseCase,
 ) : ViewModel() {
 
+    private companion object {
+        const val MXN_TO_USD_CONVERSION_FACTOR = 3
+    }
+
 
     private val _uiState: MutableStateFlow<ScheduleAppointmentState> =
         MutableStateFlow(ScheduleAppointmentState())
@@ -82,7 +86,7 @@ class ConfirmScheduleViewModel @Inject constructor(
                 _uiState.update { it.copy(showAnimation = true) }
                 _effects.send(ScheduleAppointmentEffects.NavigateToAppointComplete)
                 purchaseProductsUseCase.invoke(
-                    amount = appointment.total.toLong(),
+                    amount = appointment.total.toLong() / MXN_TO_USD_CONVERSION_FACTOR,
                     transactionType = TransactionType.SERVICE_PAYMENT,
                     description = "${appointment.service} at ${appointment.establishment}"
                 )
