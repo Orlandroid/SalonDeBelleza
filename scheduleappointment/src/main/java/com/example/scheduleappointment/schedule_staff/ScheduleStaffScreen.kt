@@ -58,6 +58,8 @@ import com.example.core.ui.theme.TextPrimary
 import com.example.core.ui.theme.avatarBackgrounds
 import com.example.domain.entities.remote.migration.Staff
 import kotlinx.coroutines.flow.collectLatest
+import androidx.compose.foundation.BorderStroke
+import androidx.compose.foundation.layout.PaddingValues
 
 
 @Composable
@@ -183,7 +185,7 @@ private fun StaffCard(
     Surface(
         shape = RoundedCornerShape(16.dp),
         color = Color.White,
-        border = androidx.compose.foundation.BorderStroke(0.5.dp, CardBorder)
+        border = BorderStroke(0.5.dp, CardBorder)
     ) {
         Column {
             Box(
@@ -212,7 +214,7 @@ private fun StaffCard(
                     onClick = onDetailClick,
                     shape = RoundedCornerShape(6.dp),
                     color = Color.White.copy(alpha = 0.9f),
-                    border = androidx.compose.foundation.BorderStroke(0.5.dp, CardBorder),
+                    border = BorderStroke(0.5.dp, CardBorder),
                     modifier = Modifier
                         .align(Alignment.TopEnd)
                         .padding(8.dp)
@@ -264,8 +266,8 @@ private fun StaffCard(
                         containerColor = PurpleLight,
                         contentColor = Purple
                     ),
-                    contentPadding = androidx.compose.foundation.layout.PaddingValues(0.dp),
-                    border = androidx.compose.foundation.BorderStroke(0.5.dp, PurpleBorder)
+                    contentPadding = PaddingValues(0.dp),
+                    border = BorderStroke(0.5.dp, PurpleBorder)
                 ) {
                     Text(
                         text = stringResource(R.string.select),

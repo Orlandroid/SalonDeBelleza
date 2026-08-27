@@ -136,8 +136,8 @@ private fun ScheduleScreenContent(
             image = state.currentStaff?.image_url.orEmpty(),
             name = state.currentStaff?.name.orEmpty(),
             branch = state.branchName,
-            services = state.listOfServices[0].name,
-            price = state.listOfServices[0].precio.toString().toLong()
+            services = state.selectedService?.name ?: "",
+            price = (state.selectedService?.precio?.toLong() ?: 0L) / 3
         )
         Spacer(modifier = Modifier.height(24.dp))
         ScheduleInputs(date = date, time = time, onEvents = onEvents)

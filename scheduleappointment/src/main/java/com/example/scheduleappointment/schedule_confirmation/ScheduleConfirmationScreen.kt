@@ -76,7 +76,7 @@ fun ScheduleConfirmationScreen(
         ScheduleConfirmationScreenContent(
             staffUiState = uiState.value,
             scheduleState = scheduleState.value,
-            servicePrice = uiState.value.listOfServices[0].precio.toString().toLong(),
+            servicePrice = uiState.value.selectedService?.precio.toString().toLong(),
             dateAppointment = uiState.value.dateAppointment,
             hourAppointment = uiState.value.timeAppointment,
             appointment = flowMainViewModel.getAppointmentFirebase(),

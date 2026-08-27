@@ -16,7 +16,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccountBalanceWallet
 import androidx.compose.material.icons.filled.ArrowForward
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
@@ -38,7 +37,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.scheduleappointment.R
 import com.example.core.ui.theme.AlwaysBlack
 import com.example.core.ui.theme.AlwaysWhite
 import com.example.core.ui.theme.Background
@@ -46,6 +44,7 @@ import com.example.core.ui.theme.BackgroundListsMainFlow
 import com.example.core.ui.theme.StatusBarColor
 import com.example.core.util.toCurrencyString
 import com.example.domain.wallet.Currency
+import com.example.scheduleappointment.R
 import com.example.scheduleappointment.components.WalletCardSkeletons
 
 
@@ -88,7 +87,7 @@ private fun HomeScreenContent(
                 .padding(24.dp)
         )
         Spacer(
-            Modifier
+            modifier = Modifier
                 .weight(0.6f)
                 .fillMaxWidth()
         )
@@ -232,7 +231,8 @@ private fun ButtonSchedule(
 
 @Composable
 private fun FloatingButtonInfo(
-    modifier: Modifier = Modifier, goToInfoNavigation: () -> Unit
+    modifier: Modifier = Modifier,
+    goToInfoNavigation: () -> Unit
 ) {
     FloatingActionButton(
         modifier = modifier, onClick = goToInfoNavigation
@@ -247,7 +247,8 @@ private fun FloatingButtonInfo(
 
 @Composable
 private fun FloatingButtonProfile(
-    modifier: Modifier = Modifier, goToProfileNavigation: () -> Unit
+    modifier: Modifier = Modifier,
+    goToProfileNavigation: () -> Unit
 ) {
     FloatingActionButton(
         modifier = modifier, onClick = goToProfileNavigation
@@ -263,6 +264,8 @@ private fun FloatingButtonProfile(
 @Preview(showBackground = true)
 private fun HomeScreenPreview() {
     HomeScreenContent(
-        walletBalance = "$450.00 USD", event = {}, isLoading = true
+        walletBalance = "$450.00 USD",
+        event = {},
+        isLoading = true
     )
 }

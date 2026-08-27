@@ -25,7 +25,8 @@ data class AppointmentFlowUiState(
     val currentStaff: Staff? = null,
     val listOfServices: List<Service> = emptyList(),
     val dateAppointment: String = getCurrentDateTime().toStringFormat(dateFormat),
-    val timeAppointment: String = getInitialTime()
+    val timeAppointment: String = getInitialTime(),
+    val selectedService: Service? = null
 )
 
 sealed class ScheduleAppointmentEvents {
@@ -82,6 +83,7 @@ class AppointmentFlowViewModel : ViewModel() {
             }
 
             is ScheduleAppointmentEvents.ClickOnService -> {
+                _staffUiState.update { it.copy(selectedService = event.service) }
                 sentEffect(ScheduleAppointmentsSideEffects.NavigateToScheduleAppointment)
             }
 
