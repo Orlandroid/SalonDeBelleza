@@ -1,5 +1,8 @@
 package com.example.domain.use_cases
 
+import com.example.domain.state.ApiResult
+import com.example.domain.state.getErrorMessage
+import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
 import com.example.domain.wallet.Currency
 import com.example.domain.wallet.Wallet
@@ -11,11 +14,11 @@ class CreateWalletUseCase @Inject constructor(
     private val walletRepository: WalletRepository
 ) {
 
-    suspend operator fun invoke(userId: String) {
+    suspend operator fun invoke(userId: String): ApiResult<Unit> {
 
         val walletResult = walletRepository.getWallet()
 
-        if (walletResult.isSuccess()) return
+        if (walletResult.isSuccess()) return ApiResult.Success(Unit)
 
         val initialBalance = Random.nextLong(
             from = 2_000,
@@ -29,6 +32,10 @@ class CreateWalletUseCase @Inject constructor(
             createdAt = System.currentTimeMillis()
         )
 
-        walletRepository.createWallet(wallet)
+        val createWalletResult = walletRepository.createWallet(wallet)
+        if (createWalletResult.isError()) {
+            return ApiResult.Error(createWalletResult.getErrorMessage())
+        }
+        return ApiResult.Success(Unit)
     }
 }

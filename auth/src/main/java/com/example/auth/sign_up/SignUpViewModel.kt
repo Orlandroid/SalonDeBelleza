@@ -6,16 +6,13 @@ import com.example.core.util.dateFormat
 import com.example.core.util.getCurrentDateTime
 import com.example.core.util.toStringFormat
 import com.example.di.IoDispatcher
-import com.example.domain.repository.AuthRepository
-import com.example.domain.repository.UserRepository
 import com.example.domain.entities.remote.User
-import com.example.domain.state.getContent
 import com.example.domain.state.getErrorMessage
 import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
-import com.example.domain.use_cases.CreateWalletUseCase
+import com.example.domain.use_cases.SaveUserInformationUseCase
+import com.example.domain.use_cases.SingUpUseCase
 import com.example.domain.use_cases.ValidateFormSignUpUseCase
-import com.example.domain.wallet.WalletRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.Channel
@@ -62,11 +59,10 @@ data class SignUpUiState(
 
 @HiltViewModel
 class SignUpViewModel @Inject constructor(
-    private val authRepository: AuthRepository,
-    private val userRepository: UserRepository,
     private val useCaseValidateForm: ValidateFormSignUpUseCase,
-    private val createWalletUseCase: CreateWalletUseCase,
-    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
+    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+    private val saveUserInformationUseCase: SaveUserInformationUseCase,
+    private val singUpUseCase: SingUpUseCase,
 ) : ViewModel() {
 
 
@@ -128,16 +124,16 @@ class SignUpViewModel @Inject constructor(
 
     private fun sinUp() {
         viewModelScope.launch(ioDispatcher) {
-            val user = _state.value.getUser()
             _state.update { it.copy(isLoading = true) }
-            val authResult = authRepository.register(user.email, user.password)
-            if (authResult.isSuccess()) {
-                val userUid = authResult.getContent().user?.uid.orEmpty()
+            val user = _state.value.getUser()
+            val signUpResult = singUpUseCase.invoke(
+                email = user.email,
+                password = user.password
+            )
+            if (signUpResult.isSuccess()) {
                 saveUserInformation(user)
-                createWalletUseCase.invoke(userUid)
-                sendEffect(SignUpSideEffects.NavigateToLoginScreen)
             } else {
-                handleError(authResult.getErrorMessage().orEmpty())
+                handleError(signUpResult.getErrorMessage().orEmpty())
             }
             _state.update { state -> state.copy(isLoading = false) }
         }
@@ -152,32 +148,13 @@ class SignUpViewModel @Inject constructor(
     private suspend fun saveUserInformation(
         userP: User
     ) {
-
-        val getUserResult = authRepository.getUser()
-
-        val uid = getUserResult.getContent()?.uid
-
-        if (uid == null) {
+        val saveUserInformationResult = saveUserInformationUseCase.invoke(userP)
+        if (saveUserInformationResult.isError()) {
             sendEffect(SignUpSideEffects.ShowSnackBar("Error"))
             return
         }
-
-        if (getUserResult.isError()) {
-            sendEffect(SignUpSideEffects.ShowSnackBar("Error"))
-            return
-        }
-
-        val userInfoUseCaseResult = userRepository.saveUserInfo(
-            userId = getUserResult.getContent()?.uid.toString(), user = userP
-        )
-
-        if (userInfoUseCaseResult.isError()) {
-            sendEffect(SignUpSideEffects.ShowSnackBar("Error"))
-            return
-        }
-
+        sendEffect(SignUpSideEffects.NavigateToLoginScreen)
         sendEffect(SignUpSideEffects.ShowSnackBar("Success"))
-
     }
 
     private fun sendEffect(effect: SignUpSideEffects) {
