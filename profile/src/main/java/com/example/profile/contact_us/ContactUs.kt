@@ -37,6 +37,7 @@ import com.example.profile.R
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.theme.Background
+import com.example.core.ui.theme.StatusBarColor
 
 @Composable
 fun ContactUsScreen(
@@ -88,7 +89,7 @@ private fun ContactUsScreenContent(
                 modifier = Modifier
                     .fillMaxWidth()
                     .padding(bottom = 24.dp),
-                color = Color.Red
+                color = StatusBarColor
             )
         }
 
@@ -173,7 +174,7 @@ private fun ContactCard(
             Icon(
                 imageVector = icon,
                 contentDescription = title,
-                tint = Color.Red,
+                tint = StatusBarColor,
                 modifier = Modifier.width(24.dp)
             )
 
@@ -208,7 +209,7 @@ private fun ContactCard(
                 Icon(
                     imageVector = Icons.Default.Share,
                     contentDescription = actionLabel,
-                    tint = Color.Red
+                    tint = StatusBarColor
                 )
             }
         }
@@ -267,7 +268,7 @@ private fun BusinessHourRow(
         Text(
             text = hours,
             fontSize = 12.sp,
-            color = Color.Red,
+            color = StatusBarColor,
             fontWeight = FontWeight.SemiBold
         )
     }
@@ -322,7 +323,7 @@ private fun SocialMediaButton(
         modifier = Modifier
             .background(Color.White)
             .padding(4.dp),
-        colors = CardDefaults.cardColors(containerColor = Color.Red),
+        colors = CardDefaults.cardColors(containerColor = StatusBarColor),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Text(

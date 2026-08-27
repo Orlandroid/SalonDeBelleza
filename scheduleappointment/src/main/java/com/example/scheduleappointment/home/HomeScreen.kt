@@ -46,12 +46,12 @@ import com.example.core.ui.theme.BackgroundListsMainFlow
 import com.example.core.ui.theme.StatusBarColor
 import com.example.core.util.toCurrencyString
 import com.example.domain.wallet.Currency
+import com.example.scheduleappointment.components.WalletCardSkeletons
 
 
 @Composable
 fun HomeScreen(
-    viewModel: HomeViewModel = hiltViewModel(),
-    event: (HomeScreenEvents) -> Unit
+    viewModel: HomeViewModel = hiltViewModel(), event: (HomeScreenEvents) -> Unit
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()
     BackHandler {
@@ -60,7 +60,8 @@ fun HomeScreen(
     HomeScreenContent(
         modifier = Modifier,
         walletBalance = uiState.balance.toCurrencyString(Currency.USD),
-        event = event
+        event = event,
+        isLoading = uiState.isLoading
     )
 }
 
@@ -68,6 +69,7 @@ fun HomeScreen(
 private fun HomeScreenContent(
     modifier: Modifier = Modifier,
     walletBalance: String,
+    isLoading: Boolean,
     event: (HomeScreenEvents) -> Unit
 ) {
     Column(
@@ -106,26 +108,27 @@ private fun HomeScreenContent(
                 .weight(0.4f)
                 .fillMaxWidth()
         )
-        WalletCard(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 24.dp),
-            balance = walletBalance,
-            onClick = {
-                event(HomeScreenEvents.NavigateToWallet)
-            }
-        )
+        if (isLoading) {
+            WalletCardSkeletons()
+        } else {
+            WalletCard(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp),
+                balance = walletBalance,
+                onClick = {
+                    event(HomeScreenEvents.NavigateToWallet)
+                })
+        }
         Spacer(
             Modifier
                 .weight(0.6f)
                 .fillMaxWidth()
         )
         ButtonSchedule(
-            modifier = Modifier,
-            event = {
+            modifier = Modifier, event = {
                 event(HomeScreenEvents.NavigateToChoseBranch)
-            }
-        )
+            })
         Spacer(
             Modifier
                 .weight(0.6f)
@@ -134,18 +137,14 @@ private fun HomeScreenContent(
         ContainerFloatingButtons {
             Spacer(Modifier.width(24.dp))
             FloatingButtonInfo(
-                modifier = Modifier,
-                goToInfoNavigation = {
+                modifier = Modifier, goToInfoNavigation = {
                     event(HomeScreenEvents.NavigateToInfoNavigationFlow)
-                }
-            )
+                })
             Spacer(Modifier.weight(1f))
             FloatingButtonProfile(
-                modifier = Modifier,
-                goToProfileNavigation = {
+                modifier = Modifier, goToProfileNavigation = {
                     event(HomeScreenEvents.NavigateToProfile)
-                }
-            )
+                })
             Spacer(Modifier.width(24.dp))
         }
     }
@@ -154,8 +153,7 @@ private fun HomeScreenContent(
 @Composable
 private fun WalletCard(
     modifier: Modifier = Modifier,
-    balance: String,
-    onClick: () -> Unit
+    balance: String, onClick: () -> Unit
 ) {
     Card(
         modifier = modifier.clickable { onClick() },
@@ -178,10 +176,7 @@ private fun WalletCard(
             )
             Spacer(Modifier.padding(top = 12.dp))
             Text(
-                text = balance,
-                fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
-                color = AlwaysBlack
+                text = balance, fontSize = 24.sp, fontWeight = FontWeight.Bold, color = AlwaysBlack
             )
             Spacer(Modifier.padding(top = 12.dp))
             Row(
@@ -218,17 +213,14 @@ private fun ContainerFloatingButtons(
 
 @Composable
 private fun ButtonSchedule(
-    modifier: Modifier = Modifier,
-    event: (HomeScreenEvents) -> Unit
+    modifier: Modifier = Modifier, event: (HomeScreenEvents) -> Unit
 ) {
     OutlinedButton(
         colors = ButtonDefaults.buttonColors(
             containerColor = AlwaysWhite
-        ),
-        onClick = {
+        ), onClick = {
             event(HomeScreenEvents.NavigateToChoseBranch)
-        },
-        modifier = modifier
+        }, modifier = modifier
     ) {
         Text(
             color = AlwaysBlack,
@@ -240,12 +232,10 @@ private fun ButtonSchedule(
 
 @Composable
 private fun FloatingButtonInfo(
-    modifier: Modifier = Modifier,
-    goToInfoNavigation: () -> Unit
+    modifier: Modifier = Modifier, goToInfoNavigation: () -> Unit
 ) {
     FloatingActionButton(
-        modifier = modifier,
-        onClick = goToInfoNavigation
+        modifier = modifier, onClick = goToInfoNavigation
     ) {
         Icon(
             painter = painterResource(id = R.drawable.ic_baseline_list_24),
@@ -257,12 +247,10 @@ private fun FloatingButtonInfo(
 
 @Composable
 private fun FloatingButtonProfile(
-    modifier: Modifier = Modifier,
-    goToProfileNavigation: () -> Unit
+    modifier: Modifier = Modifier, goToProfileNavigation: () -> Unit
 ) {
     FloatingActionButton(
-        modifier = modifier,
-        onClick = goToProfileNavigation
+        modifier = modifier, onClick = goToProfileNavigation
     ) {
         Icon(
             painter = painterResource(id = R.drawable.ic_baseline_person_24),
@@ -275,7 +263,6 @@ private fun FloatingButtonProfile(
 @Preview(showBackground = true)
 private fun HomeScreenPreview() {
     HomeScreenContent(
-        walletBalance = "$450.00 USD",
-        event = {}
+        walletBalance = "$450.00 USD", event = {}, isLoading = true
     )
 }

@@ -163,9 +163,9 @@ private fun OurStaffScreenContentPreview() {
     OurStaffScreenContent(
         users = listOf(
             user,
-            user,
-            user,
-            user
+            user.copy(email = "android4@gmail.com"),
+            user.copy(email = "android1@gmail.com"),
+            user.copy(email = "android2@gmail.com")
         )
     )
 

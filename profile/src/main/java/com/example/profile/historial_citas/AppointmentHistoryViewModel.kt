@@ -7,6 +7,7 @@ import com.example.domain.repository.AppointmentsRepository
 import com.example.domain.state.getContent
 import com.example.domain.state.getErrorMessage
 import com.example.domain.state.isError
+import com.example.profile.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -88,6 +89,12 @@ class AppointmentHistoryViewModel @Inject constructor(
                 }
             }
         }
+    }
+
+    fun getRandomNoDataAnimation(): Int = when ((1..3).random()) {
+        1 -> R.raw.no_data_animation
+        2 -> R.raw.no_data_available
+        else -> R.raw.no_data_found
     }
 
 

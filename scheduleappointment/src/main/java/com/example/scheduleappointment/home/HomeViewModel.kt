@@ -15,7 +15,8 @@ import javax.inject.Inject
 
 
 data class HomeUiState(
-    val balance: Long = 0L
+    val balance: Long = 0L,
+    val isLoading: Boolean = true
 )
 
 sealed class HomeScreenEvents {
@@ -38,8 +39,14 @@ class HomeViewModel
     val state = _state.onStart {
         val getBalanceResult = getBalanceUseCase.invoke()
         if (getBalanceResult.isSuccess()) {
-            _state.update { it.copy(balance = getBalanceResult.getContent().balance) }
+            _state.update {
+                it.copy(
+                    balance = getBalanceResult.getContent().balance,
+                    isLoading = false
+                )
+            }
         } else {
+            _state.update { it.copy(isLoading = false) }
             //Todo show some message error in the wallet card
         }
     }.stateIn(

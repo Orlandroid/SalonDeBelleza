@@ -1,5 +1,6 @@
 package com.example.profile.historial_citas
 
+import androidx.annotation.RawRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -60,8 +61,7 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun AppointmentHistoryScreen(
-    navController: NavHostController,
-    viewModel: AppointmentHistoryViewModel = hiltViewModel()
+    navController: NavHostController, viewModel: AppointmentHistoryViewModel = hiltViewModel()
 ) {
     val uiState = viewModel.state.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
@@ -85,11 +85,18 @@ fun AppointmentHistoryScreen(
         }
 
         else -> {
-            AppointmentHistoryScreenContent(
-                uiState = uiState.value,
-                onEvents = viewModel::onEvents,
-                navHostController = navController
-            )
+            BaseComposeScreen(
+                navController = navController, toolbarConfiguration = ToolbarConfiguration(
+                    showToolbar = true,
+                    title = stringResource(id = R.string.historiasl_de_citas),
+                )
+            ) {
+                AppointmentHistoryScreenContent(
+                    uiState = uiState.value,
+                    onEvents = viewModel::onEvents,
+                    animation = viewModel.getRandomNoDataAnimation()
+                )
+            }
         }
     }
 }
@@ -98,18 +105,12 @@ fun AppointmentHistoryScreen(
 private fun AppointmentHistoryScreenContent(
     uiState: AppointmentHistoryUiState,
     onEvents: (event: AppointmentHistoryEvents) -> Unit,
-    navHostController: NavHostController
+    @RawRes animation: Int
 ) {
-    BaseComposeScreen(
-        navController = navHostController, toolbarConfiguration = ToolbarConfiguration(
-            showToolbar = true, title = stringResource(id = R.string.historiasl_de_citas),
-        )
-    ) {
-        AppointHistoryList(
-            appointments = uiState.appointments,
-            onEvents = onEvents
-        )
-    }
+    AppointHistoryList(
+        appointments = uiState.appointments, onEvents = onEvents, animation = animation
+    )
+
     if (uiState.showDialog) {
         ShowDialogDeleteAppointment(
             onEvents = onEvents
@@ -128,14 +129,11 @@ private fun ShowDialogDeleteAppointment(
             title = R.string.warning,
             bodyMessage = stringResource(R.string.delete_row_message),
             kindOfMessage = KindOfMessage.WARING,
-            isTwoButtonsAlert = IsTwoButtonsAlert(
-                clickOnCancel = {
-                    onEvents(AppointmentHistoryEvents.OnCancel)
-                },
-                clickOnAccept = {
-                    onEvents(AppointmentHistoryEvents.OnAccept)
-                }
-            )
+            isTwoButtonsAlert = IsTwoButtonsAlert(clickOnCancel = {
+                onEvents(AppointmentHistoryEvents.OnCancel)
+            }, clickOnAccept = {
+                onEvents(AppointmentHistoryEvents.OnAccept)
+            })
         )
     )
 }
@@ -144,7 +142,8 @@ private fun ShowDialogDeleteAppointment(
 private fun AppointHistoryList(
     modifier: Modifier = Modifier,
     appointments: List<Appointment>,
-    onEvents: (event: AppointmentHistoryEvents) -> Unit
+    onEvents: (event: AppointmentHistoryEvents) -> Unit,
+    @RawRes animation: Int
 ) {
     Column(
         modifier = modifier
@@ -152,11 +151,10 @@ private fun AppointHistoryList(
             .background(MaterialTheme.colorScheme.surfaceContainerLowest)
     ) {
         if (appointments.isEmpty()) {
-            NotDatView()
+            NotDatView(animation)
         } else {
             Appointments(
-                appointments = appointments,
-                onEvents = onEvents
+                appointments = appointments, onEvents = onEvents
             )
         }
     }
@@ -164,34 +162,24 @@ private fun AppointHistoryList(
 
 @Composable
 private fun Appointments(
-    appointments: List<Appointment>,
-    onEvents: (event: AppointmentHistoryEvents) -> Unit
+    appointments: List<Appointment>, onEvents: (event: AppointmentHistoryEvents) -> Unit
 ) {
     LazyColumn(
-        modifier = Modifier.fillMaxSize(),
-        contentPadding = PaddingValues(
-            horizontal = 16.dp,
-            vertical = 12.dp
-        ),
-        verticalArrangement = Arrangement.spacedBy(12.dp)
+        modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(
+            horizontal = 16.dp, vertical = 12.dp
+        ), verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(
-            items = appointments,
-            key = { it.id }
-        ) { appointment ->
-            ItemAppointment(
-                appointment = appointment,
-                onAppointmentClicked = { appointmentId ->
-                    onEvents(
-                        AppointmentHistoryEvents.OnAppointmentClicked(
-                            appointmentId
-                        )
+            items = appointments, key = { it.id }) { appointment ->
+            ItemAppointment(appointment = appointment, onAppointmentClicked = { appointmentId ->
+                onEvents(
+                    AppointmentHistoryEvents.OnAppointmentClicked(
+                        appointmentId
                     )
-                },
-                onRemoveAppointment = {
-                    onEvents(AppointmentHistoryEvents.OnRemove(appointment.id))
-                }
-            )
+                )
+            }, onRemoveAppointment = {
+                onEvents(AppointmentHistoryEvents.OnRemove(appointment.id))
+            })
         }
     }
 }
@@ -203,15 +191,13 @@ private fun ItemAppointment(
     onAppointmentClicked: (appointmentId: String) -> Unit
 ) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(
             containerColor = MaterialTheme.colorScheme.surface
         ),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         shape = RoundedCornerShape(20.dp),
-        onClick = { onAppointmentClicked(appointment.id) }
-    ) {
+        onClick = { onAppointmentClicked(appointment.id) }) {
         Row(
             modifier = Modifier
                 .fillMaxWidth()
@@ -281,15 +267,12 @@ private fun BranchRow(branchName: String) {
 }
 
 @Composable
-private fun NotDatView() {
+private fun NotDatView(@RawRes animation: Int) {
     val composition by rememberLottieComposition(
-        LottieCompositionSpec.RawRes(
-            getRandomNoDataAnimation()
-        )
+        LottieCompositionSpec.RawRes(animation)
     )
     Box(
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
+        modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             LottieAnimation(
@@ -310,26 +293,15 @@ private fun NotDatView() {
     }
 }
 
-private fun getRandomNoDataAnimation(): Int = when ((1..3).random()) {
-    1 -> R.raw.no_data_animation
-    2 -> R.raw.no_data_available
-    else -> R.raw.no_data_found
-}
-
 @Composable
 @Preview(showBackground = true)
 private fun AppointHistoryListPreview() {
     val mAppointment = Appointment(
-        branch = "Sucursal Centro",
-        service = "Delineado de barba y bigote, o cejas",
-        id = "1"
+        branch = "Sucursal Centro", service = "Delineado de barba y bigote, o cejas", id = "1"
     )
     AppointHistoryList(
         appointments = listOf(
-            mAppointment,
-            mAppointment.copy(id = "2"),
-            mAppointment.copy(id = "3")
-        ),
-        onEvents = {}
+            mAppointment, mAppointment.copy(id = "2"), mAppointment.copy(id = "3")
+        ), onEvents = {}, animation = 1
     )
 }
