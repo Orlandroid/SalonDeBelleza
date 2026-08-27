@@ -306,7 +306,7 @@ private fun initialsFrom(name: String): String =
 private fun formatCreatedAt(millis: Long): String =
     SimpleDateFormat("MMM yyyy", Locale.getDefault()).format(Date(millis))
 
-@Preview(showBackground = true)
+@Preview(showBackground = true, showSystemUi = true)
 @Composable
 private fun WalletScreenPreview() {
     MaterialTheme {

@@ -75,8 +75,12 @@ fun TransactionsScreen(
                 ) {
                     TransactionsScreenContent(
                         transactions = state.transactions,
-                        onClick = {
-                            navController.navigate(WalletNavigationRoutes.TransactionDetail)
+                        onClick = { transactionId ->
+                            navController.navigate(
+                                WalletNavigationRoutes.TransactionDetail(
+                                    transactionId = transactionId
+                                )
+                            )
                         }
                     )
                 }
@@ -96,7 +100,7 @@ fun TransactionsScreen(
 private fun TransactionsScreenContent(
     modifier: Modifier = Modifier,
     transactions: List<Transaction>,
-    onClick: () -> Unit
+    onClick: (transactionId: String) -> Unit
 ) {
     if (transactions.isEmpty()) {
         EmptyTransactions(
@@ -117,7 +121,10 @@ private fun TransactionsScreenContent(
             items = transactions,
             key = { it.id }
         ) { transaction ->
-            ItemTransaction(transaction = transaction, onClick = onClick)
+            ItemTransaction(
+                transaction = transaction,
+                onClick = { onClick.invoke(transaction.id) }
+            )
         }
     }
 }

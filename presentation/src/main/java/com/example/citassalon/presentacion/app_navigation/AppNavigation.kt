@@ -44,8 +44,6 @@ fun AppNavigation() {
             navController = navController,
             onRestart = { activity.closeAndOpenActivity() }
         )
-        walletNavigationGraph(
-            navController = navController,
-            onRestart = { activity.closeAndOpenActivity() })
+        walletNavigationGraph(navController = navController)
     }
 }

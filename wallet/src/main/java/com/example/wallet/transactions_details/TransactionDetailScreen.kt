@@ -56,7 +56,11 @@ import java.util.Locale
 @Composable
 fun TransactionDetailScreen(
     navController: NavController,
-    viewModel: TransactionDetailViewmodel = hiltViewModel()
+    transactionId: String,
+    viewModel: TransactionDetailViewmodel = hiltViewModel(
+        creationCallback = { factory: TransactionDetailViewModelFactory ->
+            factory.create(transactionId)
+        })
 ) {
     val viewState by viewModel.state.collectAsStateWithLifecycle()
     when (viewState) {
