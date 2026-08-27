@@ -23,6 +23,7 @@ class SplashScreenViewModel
     private val userPreferences: UserPreferences
 ) : ViewModel() {
 
+
     private val _state: MutableStateFlow<SplashScreenUiState> =
         MutableStateFlow(SplashScreenUiState())
     val state = _state.onStart {
