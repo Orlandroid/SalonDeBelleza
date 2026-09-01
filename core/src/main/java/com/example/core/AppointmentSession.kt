@@ -1,4 +1,4 @@
-package com.example.scheduleappointment.mainflow
+package com.example.core
 
 import com.example.core.util.dateFormat
 import com.example.core.util.getCurrentDateTime

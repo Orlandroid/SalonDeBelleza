@@ -1,4 +1,4 @@
-package com.example.scheduleappointment.branches
+package com.example.branches.branches
 
 enum class BranchFlow {
     SCHEDULE_APPOINTMENT,

@@ -5,10 +5,10 @@ import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
+import com.example.branches.branches.BranchesScreen
 import com.example.core.navigation.AppNavigationRoutes
 import com.example.core.navigation.schedule.ScheduleNavigationRoutes
 import com.example.core.ui.components.SuccessScreen
-import com.example.scheduleappointment.branches.BranchesScreen
 import com.example.scheduleappointment.detail_staff.DetailStaffScreen
 import com.example.scheduleappointment.home.HomeScreen
 import com.example.scheduleappointment.home.HomeScreenEvents

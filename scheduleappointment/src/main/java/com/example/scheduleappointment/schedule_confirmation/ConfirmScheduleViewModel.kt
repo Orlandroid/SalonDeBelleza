@@ -2,14 +2,13 @@ package com.example.scheduleappointment.schedule_confirmation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.core.AppointmentSession
 import com.example.di.IoDispatcher
-import com.example.domain.entities.remote.migration.Service
 import com.example.domain.perfil.AppointmentFirebase
 import com.example.domain.repository.AppointmentsRepository
 import com.example.domain.state.isSuccess
 import com.example.domain.transaction.TransactionType
 import com.example.domain.use_cases.PurchaseProductsUseCase
-import com.example.scheduleappointment.mainflow.AppointmentSession
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -37,9 +36,10 @@ sealed class ScheduleAppointmentEvents {
 data class ScheduleAppointmentState(
     val branchName: String? = null,
     val staffName: String? = null,
-    val service: Service? = null,
-    val date: String? = null,
-    val time: String? = null,
+    val servicePrice: String = "0",
+    val serviceName: String = "",
+    val date: String = "",
+    val time: String = "",
     val showConfirmationDialog: Boolean = false,
     val showAnimation: Boolean = false,
     val error: String? = null
@@ -66,7 +66,8 @@ class ConfirmScheduleViewModel @Inject constructor(
             it.copy(
                 branchName = draft.branch?.sucursal?.name,
                 staffName = draft.staff?.name,
-                service = draft.service,
+                servicePrice = draft.service?.precio.toString(),
+                serviceName = draft.service?.name.toString(),
                 date = draft.date,
                 time = draft.time
             )

@@ -2,8 +2,8 @@ package com.example.scheduleappointment.schedule_staff
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.core.AppointmentSession
 import com.example.domain.entities.remote.migration.Staff
-import com.example.scheduleappointment.mainflow.AppointmentSession
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

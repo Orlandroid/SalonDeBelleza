@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="agendar_sucursal">Agendar Sucursal</string>
     <string name="cita_agendada">Tu cita ha sido \n agendada con exito.</string>
     <string name="detail_staff">Detail Staff</string>
     <string name="evaluacion">Evaluacion</string>
@@ -24,7 +23,6 @@
     <string name="surprise_me">Surprise me</string>
     <string name="pick_random_stylist">Pick a random stylist</string>
     <string name="select">Select</string>
-    <string name="avalible_locations">Available locations</string>
     <string name="aceptar">Aceptar</string>
     <string name="app_name">Skeduly</string>
     <string name="next">Next</string>
@@ -34,8 +32,6 @@
     <string name="servicio_label">Servicio</string>
     <string name="fecha_label">Fecha</string>
     <string name="hora_label">Hora</string>
-    <string name="open">Open</string>
-    <string name="closed">Closed</string>
     <string name="show_wallet">View wallet</string>
     <string name="home_message">Your beauty, your schedule</string>
     <string name="my_wallet">My Wallet</string>
@@ -43,5 +39,4 @@
     <string name="dismiss">Dismiss</string>
     <string name="appointment_success_title">Appointment Confirmed</string>
     <string name="appointment_success_subtitle">Your appointment has been successfully scheduled.</string>
-    <string name="main_street">"Main Street"</string>
 </resources>

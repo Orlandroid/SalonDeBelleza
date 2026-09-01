@@ -1,13 +1,13 @@
-package com.example.scheduleappointment.branches
+package com.example.branches.branches
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.core.AppointmentSession
 import com.example.core.ui.base.BaseScreenState
 import com.example.di.IoDispatcher
 import com.example.domain.entities.remote.migration.NegoInfo
 import com.example.domain.repository.AppointmentsRepository
 import com.example.domain.state.getContent
-import com.example.scheduleappointment.mainflow.AppointmentSession
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler

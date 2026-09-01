@@ -6,6 +6,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
+import com.example.branches.branches.BranchesScreen
 import com.example.core.navigation.info.InfoNavigationScreens
 import com.example.core.navigation.AppNavigationRoutes
 import com.example.core.ui.components.SuccessScreen
@@ -32,13 +33,9 @@ fun NavGraphBuilder.infoNavigationGraph(navController: NavHostController) {
             StoresScreen(navController = navController)
         }
         composable<InfoNavigationScreens.BranchesRoute> {
-//            val mainViewModel =
-//                it.sharedViewModel<AppointmentFlowViewModel>(navController = navController)
-//            mainViewModel.currentFlowBranch = BranchFlow.INFO
-//            BranchesScreen(
-//                navController = navController,
-//                mainViewModel = mainViewModel
-//            )
+            BranchesScreen(
+                navController = navController
+            )
         }
         composable<InfoNavigationScreens.CategoriesRoute> {
             val arguments = it.toRoute<InfoNavigationScreens.CategoriesRoute>()

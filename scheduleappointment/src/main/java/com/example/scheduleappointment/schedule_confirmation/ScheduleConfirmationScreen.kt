@@ -43,7 +43,6 @@ import com.example.core.ui.theme.AlwaysBlack
 import com.example.core.ui.theme.AlwaysWhite
 import com.example.core.ui.theme.Background
 import com.example.core.util.toCurrencyString
-import com.example.domain.entities.remote.migration.Service
 import com.example.domain.wallet.Currency
 import com.example.scheduleappointment.R
 import kotlinx.coroutines.flow.collectLatest
@@ -69,28 +68,32 @@ fun ScheduleConfirmationScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.confirmar_cita))
     ) {
-        if (uiState.service != null && uiState.date != null && uiState.time != null) {
-            ScheduleConfirmationScreenContent(
-                scheduleState = uiState,
-                servicePrice = uiState.service?.precio.toString().toLong(),
-                dateAppointment = uiState.date.orEmpty(),
-                hourAppointment = uiState.time.orEmpty(),
-                event = onEvents
-            )
-        }
+        ScheduleConfirmationScreenContent(
+            servicePrice = uiState.servicePrice.toLong(),
+            serviceName = uiState.serviceName,
+            dateAppointment = uiState.date,
+            hourAppointment = uiState.time,
+            staffName = uiState.staffName.orEmpty(),
+            showConfirmationDialog = uiState.showConfirmationDialog,
+            branchName = uiState.branchName.orEmpty(),
+            event = onEvents
+        )
     }
 }
 
 @Composable
 private fun ScheduleConfirmationScreenContent(
     modifier: Modifier = Modifier,
-    scheduleState: ScheduleAppointmentState,
     servicePrice: Long,
+    serviceName: String,
+    staffName: String,
+    branchName: String,
     dateAppointment: String,
     hourAppointment: String,
+    showConfirmationDialog: Boolean,
     event: (ScheduleAppointmentEvents) -> Unit
 ) {
-    if (scheduleState.showConfirmationDialog) {
+    if (showConfirmationDialog) {
         ConfirmAppointmentDialog(
             clickOnAccept = {
                 event(ScheduleAppointmentEvents.OnConfirmationAppointmentAccepted)
@@ -128,17 +131,17 @@ private fun ScheduleConfirmationScreenContent(
             Column(modifier = Modifier.padding(vertical = 8.dp)) {
                 DetailRow(
                     label = stringResource(id = R.string.sucursal_label),
-                    value = scheduleState.branchName.orEmpty(),
+                    value = branchName,
                     iconImage = R.drawable.place_24p_negro
                 )
                 DetailRow(
                     label = stringResource(id = R.string.especialista_label),
-                    value = scheduleState.staffName.orEmpty(),
+                    value = staffName,
                     iconImage = R.drawable.face_unlock_24px
                 )
                 DetailRow(
                     label = stringResource(id = R.string.servicio_label),
-                    value = scheduleState.service?.name.orEmpty(),
+                    value = serviceName,
                     iconImage = R.drawable.stars_24px
                 )
                 DetailRow(
@@ -264,10 +267,10 @@ private fun ScheduleConfirmationScreenContentPreview() {
         dateAppointment = "12/09/2024",
         hourAppointment = "12:30 am",
         event = {},
-        scheduleState = ScheduleAppointmentState(
-            branchName = "Zacatecas",
-            staffName = "Orlando",
-            service = Service.mockListServices()[0]
-        )
+        serviceName = "",
+        branchName = "Zacatecas",
+        staffName = "Orlando",
+        showConfirmationDialog = false
+
     )
 }

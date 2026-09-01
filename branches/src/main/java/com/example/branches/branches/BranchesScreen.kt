@@ -1,4 +1,4 @@
-package com.example.scheduleappointment.branches
+package com.example.branches.branches
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
@@ -48,7 +48,7 @@ import com.example.core.ui.theme.BackgroundListsMainFlow
 import com.example.core.ui.theme.GreenOpen
 import com.example.core.ui.theme.RedClosed
 import com.example.domain.entities.remote.migration.NegoInfo
-import com.example.scheduleappointment.R
+import com.example.branches.R
 
 @Composable
 fun BranchesScreen(

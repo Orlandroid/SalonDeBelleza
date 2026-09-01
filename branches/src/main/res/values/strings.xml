@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="agendar_sucursal">Agendar Sucursal</string>
+    <string name="avalible_locations">Available locations</string>
+    <string name="open">Open</string>
+    <string name="closed">Closed</string>
+    <string name="main_street">"Main Street"</string>
+</resources>
