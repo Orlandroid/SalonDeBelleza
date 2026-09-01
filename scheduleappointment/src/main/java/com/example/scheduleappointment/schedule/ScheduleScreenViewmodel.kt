@@ -6,15 +6,25 @@ import com.example.core.util.dateFormat
 import com.example.core.util.getCurrentDateTime
 import com.example.core.util.getInitialTime
 import com.example.core.util.toStringFormat
+import com.example.domain.entities.remote.migration.Service
+import com.example.domain.entities.remote.migration.Staff
+import com.example.scheduleappointment.mainflow.AppointmentSession
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.SharingStarted
+import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 
 data class ScheduleScreenUiState(
+    val selectedService: Service? = null,
+    val branchName: String? = null,
+    val currentStaff: Staff? = null,
     val dateAppointment: String = getCurrentDateTime().toStringFormat(dateFormat),
     val hourAppointment: String = getInitialTime(),
     val showDateDialog: Boolean = false,
@@ -22,10 +32,10 @@ data class ScheduleScreenUiState(
 )
 
 sealed class ScheduleScreenEvents {
-    object OnDateClicked : ScheduleScreenEvents()
+    object OnDateSelected : ScheduleScreenEvents()
     data class OnConfirmDate(val date: String) : ScheduleScreenEvents()
     object OnDismissDate : ScheduleScreenEvents()
-    object OnTimeClicked : ScheduleScreenEvents()
+    object OnTimeSelected : ScheduleScreenEvents()
     data class OnConfirmTime(val time: String) : ScheduleScreenEvents()
     object OnDismissTime : ScheduleScreenEvents()
     object OnNextButtonClicked : ScheduleScreenEvents()
@@ -35,12 +45,33 @@ sealed class ScheduleScreenEffects {
     object NavigateToConfirmationScreen : ScheduleScreenEffects()
 }
 
-class ScheduleScreenViewmodel : ViewModel() {
+@HiltViewModel
+class ScheduleScreenViewmodel @Inject constructor(
+    private val appointmentSession: AppointmentSession
+) :
+    ViewModel() {
 
 
     private val _uiState: MutableStateFlow<ScheduleScreenUiState> =
         MutableStateFlow(ScheduleScreenUiState())
-    val uiState = _uiState.asStateFlow()
+
+    val uiState = _uiState.onStart {
+        val draft = appointmentSession.draft.value
+        val selectedService = draft.service
+        val branchName = draft.branch?.sucursal?.name
+        val currentStaff = draft.staff
+        _uiState.update {
+            it.copy(
+                selectedService = selectedService,
+                branchName = branchName,
+                currentStaff = currentStaff
+            )
+        }
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = ScheduleScreenUiState()
+    )
 
     private val _effects = Channel<ScheduleScreenEffects>()
 
@@ -49,24 +80,26 @@ class ScheduleScreenViewmodel : ViewModel() {
 
     fun onEvents(event: ScheduleScreenEvents) {
         when (event) {
-            ScheduleScreenEvents.OnDateClicked -> {
+            ScheduleScreenEvents.OnDateSelected -> {
                 _uiState.update { it.copy(showDateDialog = true) }
             }
 
             is ScheduleScreenEvents.OnConfirmDate -> {
                 _uiState.update { it.copy(showDateDialog = false, dateAppointment = event.date) }
+                appointmentSession.selectDate(event.date)
             }
 
             ScheduleScreenEvents.OnDismissDate -> {
                 _uiState.update { it.copy(showDateDialog = false) }
             }
 
-            ScheduleScreenEvents.OnTimeClicked -> {
+            ScheduleScreenEvents.OnTimeSelected -> {
                 _uiState.update { it.copy(showTimeDialog = true) }
             }
 
             is ScheduleScreenEvents.OnConfirmTime -> {
                 _uiState.update { it.copy(showTimeDialog = false, hourAppointment = event.time) }
+                appointmentSession.selectTime(event.time)
             }
 
             ScheduleScreenEvents.OnDismissTime -> {

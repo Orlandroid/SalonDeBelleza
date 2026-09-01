@@ -1,6 +1,5 @@
 package com.example.scheduleappointment
 
-import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.res.stringResource
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -9,14 +8,10 @@ import androidx.navigation.navigation
 import com.example.core.navigation.AppNavigationRoutes
 import com.example.core.navigation.schedule.ScheduleNavigationRoutes
 import com.example.core.ui.components.SuccessScreen
-import com.example.core.util.sharedViewModel
-import com.example.domain.entities.remote.migration.Staff
-import com.example.scheduleappointment.branches.BranchFlow
 import com.example.scheduleappointment.branches.BranchesScreen
 import com.example.scheduleappointment.detail_staff.DetailStaffScreen
 import com.example.scheduleappointment.home.HomeScreen
 import com.example.scheduleappointment.home.HomeScreenEvents
-import com.example.scheduleappointment.mainflow.AppointmentFlowViewModel
 import com.example.scheduleappointment.schedule.ScheduleScreen
 import com.example.scheduleappointment.schedule_confirmation.ScheduleConfirmationScreen
 import com.example.scheduleappointment.schedule_staff.ScheduleStaffScreen
@@ -62,47 +57,25 @@ fun NavGraphBuilder.scheduleNavigationGraph(
 
         }
         composable<ScheduleNavigationRoutes.ChoseBranchRoute> {
-            val mainViewModel =
-                it.sharedViewModel<AppointmentFlowViewModel>(navController = navController)
-            mainViewModel.currentFlowBranch = BranchFlow.SCHEDULE_APPOINTMENT
             BranchesScreen(
-                navController = navController,
-                mainViewModel = mainViewModel
+                navController = navController
             )
         }
         composable<ScheduleNavigationRoutes.ScheduleStaffRoute> {
-            val mainViewModel =
-                it.sharedViewModel<AppointmentFlowViewModel>(navController = navController)
-            ScheduleStaffScreen(navController = navController, mainViewModel = mainViewModel)
+            ScheduleStaffScreen(navController = navController)
         }
         composable<ScheduleNavigationRoutes.DetailStaffRoute> {
-            val mainViewModel =
-                it.sharedViewModel<AppointmentFlowViewModel>(navController = navController)
-            DetailStaffScreen(
-                navController = navController,
-                currentStaff = mainViewModel.staffUiState.value.currentStaff ?: Staff.mockStaff()
-            )
+            DetailStaffScreen(navController = navController)
         }
         composable<ScheduleNavigationRoutes.ServicesRoute> {
-            val mainViewModel =
-                it.sharedViewModel<AppointmentFlowViewModel>(navController = navController)
-            ServiceScreen(
-                mainViewModel = mainViewModel,
-                navController = navController,
-                state = mainViewModel.staffUiState.collectAsState().value
-            )
+            ServiceScreen(navController = navController)
         }
         composable<ScheduleNavigationRoutes.ScheduleRoute> {
-            val mainViewModel =
-                it.sharedViewModel<AppointmentFlowViewModel>(navController = navController)
-            ScheduleScreen(flowMainViewModel = mainViewModel, navController = navController)
+            ScheduleScreen(navController = navController)
         }
         composable<ScheduleNavigationRoutes.ScheduleConfirmationRoute> {
-            val mainViewModel =
-                it.sharedViewModel<AppointmentFlowViewModel>(navController = navController)
             ScheduleConfirmationScreen(
-                navController = navController,
-                flowMainViewModel = mainViewModel
+                navController = navController
             ) {
                 navController.navigate(ScheduleNavigationRoutes.SuccessScheduleRoute)
             }

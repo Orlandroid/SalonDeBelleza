@@ -42,7 +42,6 @@ sealed class ScheduleAppointmentEvents {
 sealed class ScheduleAppointmentsSideEffects {
     data object GotoBranchInfo : ScheduleAppointmentsSideEffects()
     data object GoToScheduleStaff : ScheduleAppointmentsSideEffects()
-    data object GoToDetailStaffScreen : ScheduleAppointmentsSideEffects()
     data object GoToScheduleService : ScheduleAppointmentsSideEffects()
 
     data object NavigateToScheduleAppointment : ScheduleAppointmentsSideEffects()

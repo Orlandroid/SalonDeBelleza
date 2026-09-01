@@ -1,9 +1,11 @@
 package com.example.scheduleappointment.schedule_staff
 
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,13 +39,9 @@ import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.example.scheduleappointment.R
-import com.example.scheduleappointment.mainflow.AppointmentFlowViewModel
-import com.example.scheduleappointment.mainflow.AppointmentFlowUiState
-import com.example.scheduleappointment.mainflow.ScheduleAppointmentEvents
-import com.example.scheduleappointment.mainflow.ScheduleAppointmentsSideEffects
 import com.example.core.navigation.schedule.ScheduleNavigationRoutes
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.components.ToolbarConfiguration
@@ -57,30 +55,25 @@ import com.example.core.ui.theme.TextMuted
 import com.example.core.ui.theme.TextPrimary
 import com.example.core.ui.theme.avatarBackgrounds
 import com.example.domain.entities.remote.migration.Staff
+import com.example.scheduleappointment.R
 import kotlinx.coroutines.flow.collectLatest
-import androidx.compose.foundation.BorderStroke
-import androidx.compose.foundation.layout.PaddingValues
 
 
 @Composable
 fun ScheduleStaffScreen(
     navController: NavController,
-    mainViewModel: AppointmentFlowViewModel
+    viewmodel: ScheduleStaffViewmodel = hiltViewModel()
 ) {
-    val uiState = mainViewModel.staffUiState.collectAsStateWithLifecycle()
-    LaunchedEffect(mainViewModel) {
-        mainViewModel.branchSideEffects.collectLatest { effect ->
+    val uiState = viewmodel.state.collectAsStateWithLifecycle()
+    LaunchedEffect(viewmodel) {
+        viewmodel.branchSideEffects.collectLatest { effect ->
             when (effect) {
-                is ScheduleAppointmentsSideEffects.GoToDetailStaffScreen -> {
+                is ScheduleStaffEffects.GoToDetailStaffScreen -> {
                     navController.navigate(ScheduleNavigationRoutes.DetailStaffRoute)
                 }
 
-                is ScheduleAppointmentsSideEffects.GoToScheduleService -> {
+                is ScheduleStaffEffects.GoToScheduleService -> {
                     navController.navigate(ScheduleNavigationRoutes.ServicesRoute)
-                }
-
-                else -> {
-
                 }
             }
         }
@@ -92,7 +85,7 @@ fun ScheduleStaffScreen(
         ScheduleStaffScreenContent(
             uiState = uiState.value,
             onEvents = { event ->
-                mainViewModel.onEvents(event)
+                viewmodel.onEvents(event)
             }
         )
     }
@@ -101,8 +94,8 @@ fun ScheduleStaffScreen(
 @Composable
 private fun ScheduleStaffScreenContent(
     modifier: Modifier = Modifier,
-    uiState: AppointmentFlowUiState,
-    onEvents: (ScheduleAppointmentEvents) -> Unit
+    uiState: ScheduleStaffUiState,
+    onEvents: (ScheduleStaffEvents) -> Unit
 ) {
     Column(
         modifier.fillMaxSize(),
@@ -116,27 +109,27 @@ private fun ScheduleStaffScreenContent(
             verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
-                text = uiState.branchName,
+                text = uiState.branchName.orEmpty(),
                 fontSize = 32.sp,
                 style = TextStyle(fontWeight = FontWeight.W900)
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
                 modifier = Modifier.padding(end = 16.dp),
-                text = "${uiState.listOfStaffs.size} estilistas",
+                text = "${uiState.staffs.size} estilistas",
                 fontSize = 24.sp
             )
         }
         Spacer(modifier = Modifier.height(32.dp))
         SurpriseMeButton(
             onClick = {
-                onEvents(ScheduleAppointmentEvents.OnRandomStaff)
+                onEvents(ScheduleStaffEvents.OnRandomStaff)
             }
         )
         Spacer(modifier = Modifier.height(16.dp))
         Spacer(modifier = Modifier.height(32.dp))
         ListStaffs(
-            listOfStaffs = uiState.listOfStaffs,
+            listOfStaffs = uiState.staffs,
             onEvents = onEvents
         )
     }
@@ -145,7 +138,7 @@ private fun ScheduleStaffScreenContent(
 @Composable
 private fun ListStaffs(
     listOfStaffs: List<Staff>,
-    onEvents: (ScheduleAppointmentEvents) -> Unit,
+    onEvents: (ScheduleStaffEvents) -> Unit,
 ) {
     Card(
         colors = CardDefaults.cardColors(containerColor = BackgroundListsMainFlow)
@@ -161,10 +154,10 @@ private fun ListStaffs(
                     staff = myStaff,
                     colorIndex = listOfStaffs.indexOf(myStaff) % avatarBackgrounds.size,
                     onDetailClick = {
-                        onEvents(ScheduleAppointmentEvents.ClickOnImageStaff(myStaff))
+                        onEvents(ScheduleStaffEvents.ClickOnImageStaff(myStaff))
                     },
                     onSelectClick = {
-                        onEvents(ScheduleAppointmentEvents.ClickOnStaff(myStaff))
+                        onEvents(ScheduleStaffEvents.ClickOnStaff(myStaff))
                     }
                 )
             }
@@ -340,8 +333,8 @@ private fun SurpriseMeButton(
 @Preview(showBackground = true)
 private fun ScheduleStaffScreenContentPreview() {
     ScheduleStaffScreenContent(
-        uiState = AppointmentFlowUiState(
-            listOfStaffs = Staff.mockStaffList(),
+        uiState = ScheduleStaffUiState(
+            staffs = Staff.mockStaffList(),
             branchName = "Zacatecas"
         ),
         onEvents = {}

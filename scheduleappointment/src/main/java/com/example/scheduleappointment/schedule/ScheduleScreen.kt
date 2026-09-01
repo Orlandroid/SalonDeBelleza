@@ -36,6 +36,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -45,10 +46,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.scheduleappointment.R
-import com.example.scheduleappointment.mainflow.AppointmentFlowViewModel
-import com.example.scheduleappointment.mainflow.AppointmentFlowUiState
-import com.example.scheduleappointment.mainflow.ScheduleAppointmentEvents
 import com.example.core.navigation.schedule.ScheduleNavigationRoutes
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.base.MyDatePickerDialog
@@ -56,21 +53,18 @@ import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.theme.Background
 import com.example.core.util.getHourFormat
 import com.example.core.util.toCurrencyString
-import com.example.domain.entities.remote.migration.Service
 import com.example.domain.entities.remote.migration.Staff
 import com.example.domain.wallet.Currency
+import com.example.scheduleappointment.R
 import kotlinx.coroutines.flow.collectLatest
-import androidx.compose.ui.graphics.vector.ImageVector
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScheduleScreen(
     navController: NavController,
-    flowMainViewModel: AppointmentFlowViewModel,
     scheduleScreenViewmodel: ScheduleScreenViewmodel = hiltViewModel()
 ) {
     val uiState by scheduleScreenViewmodel.uiState.collectAsStateWithLifecycle()
-    val state = flowMainViewModel.staffUiState.collectAsStateWithLifecycle()
     val onEvents = scheduleScreenViewmodel::onEvents
     LaunchedEffect(Unit) {
         scheduleScreenViewmodel.effects.collectLatest {
@@ -92,7 +86,6 @@ fun ScheduleScreen(
                 }, onConfirm = {
                     val time = it.getHourFormat()
                     onEvents(ScheduleScreenEvents.OnConfirmTime(time = time))
-                    flowMainViewModel.onEvents(ScheduleAppointmentEvents.TimeSelected(time = time))
                 }
             )
         }
@@ -103,7 +96,6 @@ fun ScheduleScreen(
                 },
                 onDateSelected = { dateSelected ->
                     onEvents(ScheduleScreenEvents.OnConfirmDate(dateSelected))
-                    flowMainViewModel.onEvents(ScheduleAppointmentEvents.DateSelected(dateSelected))
                 }
             )
         }
@@ -111,15 +103,16 @@ fun ScheduleScreen(
             date = uiState.dateAppointment,
             time = uiState.hourAppointment,
             onEvents = onEvents,
-            state = state.value
+            state = uiState
         )
+
     }
 }
 
 @Composable
 private fun ScheduleScreenContent(
     modifier: Modifier = Modifier,
-    state: AppointmentFlowUiState,
+    state: ScheduleScreenUiState,
     date: String,
     time: String,
     onEvents: (event: ScheduleScreenEvents) -> Unit
@@ -135,7 +128,7 @@ private fun ScheduleScreenContent(
         StaffInfo(
             image = state.currentStaff?.image_url.orEmpty(),
             name = state.currentStaff?.name.orEmpty(),
-            branch = state.branchName,
+            branch = state.branchName.orEmpty(),
             services = state.selectedService?.name ?: "",
             price = (state.selectedService?.precio?.toLong() ?: 0L) / 3
         )
@@ -242,10 +235,10 @@ private fun ScheduleInputs(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             InputDate(currentDate = date) {
-                onEvents(ScheduleScreenEvents.OnDateClicked)
+                onEvents(ScheduleScreenEvents.OnDateSelected)
             }
             InputTime(currentTime = time) {
-                onEvents(ScheduleScreenEvents.OnTimeClicked)
+                onEvents(ScheduleScreenEvents.OnTimeSelected)
             }
             Spacer(modifier = Modifier.height(4.dp))
             NextButton(enabled = date.isNotBlank() && time.isNotBlank()) {
@@ -345,7 +338,7 @@ private fun ScheduleScreenContentPreview() {
     ScheduleScreenContent(
         date = "12/07/2024",
         time = "15:42",
-        state = AppointmentFlowUiState(
+        state = ScheduleScreenUiState(
             branchName = "Zacatecas",
             currentStaff = Staff(
                 id = "",
@@ -354,7 +347,6 @@ private fun ScheduleScreenContentPreview() {
                 image_url = "",
                 rating = 4
             ),
-            listOfServices = listOf(Service(id = "", name = "Uñas", precio = 200))
         ),
         onEvents = {}
     )

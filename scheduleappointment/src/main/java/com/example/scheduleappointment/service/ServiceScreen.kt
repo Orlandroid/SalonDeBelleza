@@ -27,14 +27,11 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.NavController
-import com.example.scheduleappointment.R
-import com.example.scheduleappointment.mainflow.AppointmentFlowUiState
-import com.example.scheduleappointment.mainflow.AppointmentFlowViewModel
-import com.example.scheduleappointment.mainflow.ScheduleAppointmentEvents
-import com.example.scheduleappointment.mainflow.ScheduleAppointmentsSideEffects
 import com.example.core.navigation.schedule.ScheduleNavigationRoutes
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.base.MediumSpacer
@@ -45,24 +42,23 @@ import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.theme.BackgroundListsMainFlow
 import com.example.domain.entities.remote.migration.Service
 import com.example.domain.entities.remote.migration.Staff
+import com.example.scheduleappointment.R
 
 @Composable
 fun ServiceScreen(
     navController: NavController,
-    mainViewModel: AppointmentFlowViewModel,
-    state: AppointmentFlowUiState
+    viewmodel: ServiceViewModel = hiltViewModel()
 ) {
     val lifecycleOwner = LocalLifecycleOwner.current
+    val uiState = viewmodel.state.collectAsStateWithLifecycle()
 
-    LaunchedEffect(mainViewModel, lifecycleOwner) {
+    LaunchedEffect(viewmodel, lifecycleOwner) {
         lifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED) {
-            mainViewModel.branchSideEffects.collect { effect ->
+            viewmodel.effects.collect { effect ->
                 when (effect) {
-                    ScheduleAppointmentsSideEffects.NavigateToScheduleAppointment -> {
+                    ServiceEffects.NavigateToScheduleAppointment -> {
                         navController.navigate(ScheduleNavigationRoutes.ScheduleRoute)
                     }
-
-                    else -> {}
                 }
             }
         }
@@ -72,16 +68,22 @@ fun ServiceScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.agendar_servicio))
     ) {
-        val staff = state.currentStaff
+        val staff = uiState.value.currentStaff
         if (staff == null) {
             ServiceScreenLoading(modifier = Modifier)
         } else {
             ServiceScreenContent(
                 modifier = Modifier,
                 staff = staff,
-                branch = state.branchName,
-                listOfServices = state.listOfServices,
-                onEvents = { events -> mainViewModel.onEvents(events) }
+                branch = uiState.value.branchName.orEmpty(),
+                listOfServices = uiState.value.services,
+                clickOnService = { service ->
+                    viewmodel.onEvents(
+                        ServiceEvents.ClickOnService(
+                            service
+                        )
+                    )
+                }
             )
         }
     }
@@ -104,7 +106,7 @@ private fun ServiceScreenContent(
     staff: Staff,
     branch: String,
     listOfServices: List<Service>,
-    onEvents: (ScheduleAppointmentEvents) -> Unit
+    clickOnService: (service: Service) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -125,9 +127,7 @@ private fun ServiceScreenContent(
         ) {
             ListServices(
                 listOfServices = listOfServices,
-                clickOnItem = {
-                    onEvents(ScheduleAppointmentEvents.ClickOnService(it))
-                }
+                clickOnItem = clickOnService
             )
         }
     }
@@ -197,6 +197,6 @@ private fun ServiceScreenContentPreview() {
         staff = Staff.mockStaff(),
         branch = "Zacatecas",
         listOfServices = Service.mockListServices(),
-        onEvents = {}
+        clickOnService = {}
     )
 }

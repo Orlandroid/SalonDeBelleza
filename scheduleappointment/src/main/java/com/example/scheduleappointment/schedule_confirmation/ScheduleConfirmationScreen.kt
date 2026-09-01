@@ -23,6 +23,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -36,9 +37,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.example.scheduleappointment.R
-import com.example.scheduleappointment.mainflow.AppointmentFlowUiState
-import com.example.scheduleappointment.mainflow.AppointmentFlowViewModel
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.theme.AlwaysBlack
@@ -46,20 +44,18 @@ import com.example.core.ui.theme.AlwaysWhite
 import com.example.core.ui.theme.Background
 import com.example.core.util.toCurrencyString
 import com.example.domain.entities.remote.migration.Service
-import com.example.domain.entities.remote.migration.Staff
-import com.example.domain.perfil.AppointmentFirebase
 import com.example.domain.wallet.Currency
+import com.example.scheduleappointment.R
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun ScheduleConfirmationScreen(
     navController: NavController,
-    flowMainViewModel: AppointmentFlowViewModel,
     confirmScheduleViewModel: ConfirmScheduleViewModel = hiltViewModel(),
     navigateToAppointmentSchedule: () -> Unit
 ) {
-    val uiState = flowMainViewModel.staffUiState.collectAsStateWithLifecycle()
-    val scheduleState = confirmScheduleViewModel.uiState.collectAsStateWithLifecycle()
+    val uiState by confirmScheduleViewModel.uiState.collectAsStateWithLifecycle()
+    val onEvents = confirmScheduleViewModel::onEvents
     LaunchedEffect(Unit) {
         confirmScheduleViewModel.effects.collectLatest {
             when (it) {
@@ -73,23 +69,21 @@ fun ScheduleConfirmationScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.confirmar_cita))
     ) {
-        ScheduleConfirmationScreenContent(
-            staffUiState = uiState.value,
-            scheduleState = scheduleState.value,
-            servicePrice = uiState.value.selectedService?.precio.toString().toLong(),
-            dateAppointment = uiState.value.dateAppointment,
-            hourAppointment = uiState.value.timeAppointment,
-            appointment = flowMainViewModel.getAppointmentFirebase(),
-            event = confirmScheduleViewModel::onEvents
-        )
+        if (uiState.service != null && uiState.date != null && uiState.time != null) {
+            ScheduleConfirmationScreenContent(
+                scheduleState = uiState,
+                servicePrice = uiState.service?.precio.toString().toLong(),
+                dateAppointment = uiState.date.orEmpty(),
+                hourAppointment = uiState.time.orEmpty(),
+                event = onEvents
+            )
+        }
     }
 }
 
 @Composable
 private fun ScheduleConfirmationScreenContent(
     modifier: Modifier = Modifier,
-    appointment: AppointmentFirebase,
-    staffUiState: AppointmentFlowUiState,
     scheduleState: ScheduleAppointmentState,
     servicePrice: Long,
     dateAppointment: String,
@@ -99,9 +93,7 @@ private fun ScheduleConfirmationScreenContent(
     if (scheduleState.showConfirmationDialog) {
         ConfirmAppointmentDialog(
             clickOnAccept = {
-                event(
-                    ScheduleAppointmentEvents.OnConfirmationAppointmentAccepted(appointment = appointment)
-                )
+                event(ScheduleAppointmentEvents.OnConfirmationAppointmentAccepted)
             },
             clickOnCancel = {
                 event(ScheduleAppointmentEvents.OnConfirmationDialogCancel)
@@ -136,17 +128,17 @@ private fun ScheduleConfirmationScreenContent(
             Column(modifier = Modifier.padding(vertical = 8.dp)) {
                 DetailRow(
                     label = stringResource(id = R.string.sucursal_label),
-                    value = staffUiState.branchName,
+                    value = scheduleState.branchName.orEmpty(),
                     iconImage = R.drawable.place_24p_negro
                 )
                 DetailRow(
                     label = stringResource(id = R.string.especialista_label),
-                    value = staffUiState.currentStaff?.name.orEmpty(),
+                    value = scheduleState.staffName.orEmpty(),
                     iconImage = R.drawable.face_unlock_24px
                 )
                 DetailRow(
                     label = stringResource(id = R.string.servicio_label),
-                    value = staffUiState.listOfServices[0].name,
+                    value = scheduleState.service?.name.orEmpty(),
                     iconImage = R.drawable.stars_24px
                 )
                 DetailRow(
@@ -271,21 +263,11 @@ private fun ScheduleConfirmationScreenContentPreview() {
         servicePrice = 150L,
         dateAppointment = "12/09/2024",
         hourAppointment = "12:30 am",
-        staffUiState = AppointmentFlowUiState(
-            branchName = "Zacatecas",
-            currentStaff = Staff.mockStaff(),
-            listOfServices = listOf(Service("", "paint hair", 14, true))
-        ),
         event = {},
-        appointment = AppointmentFirebase(
-            idAppointment = "",
-            establishment = "zacatecas",
-            employee = "orlando",
-            service = "uñas",
-            date = "12/09/2024",
-            hour = "12:30 am",
-            total = "150"
-        ),
-        scheduleState = ScheduleAppointmentState()
+        scheduleState = ScheduleAppointmentState(
+            branchName = "Zacatecas",
+            staffName = "Orlando",
+            service = Service.mockListServices()[0]
+        )
     )
 }

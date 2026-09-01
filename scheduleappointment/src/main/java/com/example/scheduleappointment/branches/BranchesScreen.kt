@@ -32,10 +32,6 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.example.scheduleappointment.R
-import com.example.scheduleappointment.mainflow.AppointmentFlowViewModel
-import com.example.scheduleappointment.mainflow.ScheduleAppointmentEvents
-import com.example.scheduleappointment.mainflow.ScheduleAppointmentsSideEffects
 import com.example.core.navigation.info.InfoNavigationScreens
 import com.example.core.navigation.schedule.ScheduleNavigationRoutes
 import com.example.core.ui.base.BaseComposeScreen
@@ -52,26 +48,24 @@ import com.example.core.ui.theme.BackgroundListsMainFlow
 import com.example.core.ui.theme.GreenOpen
 import com.example.core.ui.theme.RedClosed
 import com.example.domain.entities.remote.migration.NegoInfo
+import com.example.scheduleappointment.R
 
 @Composable
 fun BranchesScreen(
     navController: NavController,
-    mainViewModel: AppointmentFlowViewModel,
     branchViewModel: BranchViewModel = hiltViewModel()
 ) {
     val uiState by branchViewModel.state.collectAsStateWithLifecycle()
-    LaunchedEffect(mainViewModel) {
-        mainViewModel.branchSideEffects.collect { effect ->
+    LaunchedEffect(branchViewModel) {
+        branchViewModel.effects.collect { effect ->
             when (effect) {
-                ScheduleAppointmentsSideEffects.GoToScheduleStaff -> {
+                BranchesEffects.GoToScheduleStaff -> {
                     navController.navigate(ScheduleNavigationRoutes.ScheduleStaffRoute)
                 }
 
-                ScheduleAppointmentsSideEffects.GotoBranchInfo -> {
+                BranchesEffects.GotoBranchInfo -> {
                     navController.navigate(InfoNavigationScreens.BranchInfoRoute)
                 }
-
-                else -> {}
             }
         }
     }
@@ -89,8 +83,8 @@ fun BranchesScreen(
                     BranchesScreenContent(
                         modifier = Modifier,
                         branches = state,
-                        onEvents = { event ->
-                            mainViewModel.onEvents(event)
+                        clickOnBranch = { branch ->
+                            branchViewModel.onBranchSelected(branch = branch)
                         }
                     )
                 }
@@ -107,7 +101,7 @@ fun BranchesScreen(
 private fun BranchesScreenContent(
     modifier: Modifier = Modifier,
     branches: List<NegoInfo>?,
-    onEvents: (ScheduleAppointmentEvents) -> Unit
+    clickOnBranch: (NegoInfo) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -136,11 +130,7 @@ private fun BranchesScreenContent(
             Branches(
                 branches = branches,
                 currentBranch = { chosenBranch ->
-                    onEvents(
-                        ScheduleAppointmentEvents.ClickOnBranch(
-                            branch = chosenBranch
-                        )
-                    )
+                    clickOnBranch(chosenBranch)
                 }
             )
         }
@@ -239,7 +229,7 @@ fun BranchItem(
             ) {
                 Text(
                     modifier = Modifier.padding(start = 16.dp),
-                    text = "Main Street",
+                    text = stringResource(R.string.main_street),
                     fontSize = 16.sp
                 )
                 Spacer(modifier = Modifier.width(16.dp))
@@ -256,7 +246,7 @@ private fun BranchesScreenContentPreview() {
     BranchesScreenContent(
         modifier = Modifier,
         branches = NegoInfo.mockBusinessList(),
-        onEvents = {}
+        clickOnBranch = {}
     )
 }
 

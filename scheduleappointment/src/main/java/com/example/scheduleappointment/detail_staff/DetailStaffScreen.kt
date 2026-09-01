@@ -20,6 +20,8 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
 import com.example.scheduleappointment.R
@@ -33,13 +35,16 @@ import com.gowtham.ratingbar.RatingBarStyle
 @Composable
 fun DetailStaffScreen(
     navController: NavController,
-    currentStaff: Staff
+    viewModel: DetailStaffViewModel = hiltViewModel(),
 ) {
+    val uiState by viewModel.state.collectAsStateWithLifecycle()
     BaseComposeScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.detail_staff))
     ) {
-        DetailStaffScreenContent(modifier = Modifier, staff = currentStaff)
+        uiState.currentStaff?.let { currentStaff ->
+            DetailStaffScreenContent(modifier = Modifier, staff = currentStaff)
+        }
     }
 }
 
