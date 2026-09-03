@@ -21,10 +21,16 @@ class GetUserInfoUseCaseTest {
     private val authRepository: AuthRepository = mockk()
     private val userRepository: UserRepository = mockk()
     private lateinit var useCase: GetUserInfoUseCase
+    private val getWalletUseCase: GetWalletUseCase = mockk(relaxed = true)
 
     @Before
     fun setUp() {
-        useCase = GetUserInfoUseCase(authRepository, userRepository)
+        useCase =
+            GetUserInfoUseCase(
+                authRepository = authRepository,
+                userRepository = userRepository,
+                getWalletUseCase = getWalletUseCase
+            )
     }
 
     private fun mockFirebaseUser(uid: String = "uid-123", email: String?): FirebaseUser {
@@ -39,7 +45,6 @@ class GetUserInfoUseCaseTest {
         runTest {
             val user = mockFirebaseUser(email = "test@example.com")
             every { authRepository.getUser() } returns ApiResult.Success(user)
-            coEvery { userRepository.getUserMoney() } returns ApiResult.Success("250")
             coEvery { userRepository.getUserImage() } returns ApiResult.Success("https://image.url/pic.png")
             coEvery { userRepository.getNameAndPhone() } returns
                     ApiResult.Success(UserInfoFirebase(name = "John Doe", phone = "555-1234"))
@@ -53,7 +58,6 @@ class GetUserInfoUseCaseTest {
             assertThat(profile.email).isEqualTo("test@example.com")
             assertThat(profile.uid).isEqualTo("uid-123")
             assertThat(profile.phone).isEqualTo("555-1234")
-            assertThat(profile.money).isEqualTo("250")
             assertThat(profile.image).isEqualTo("https://image.url/pic.png")
             assertThat(profile.sessionStatus).isEqualTo(GetUserInfoUseCase.UserSessionStatus.ACTIVE)
         }
@@ -68,7 +72,6 @@ class GetUserInfoUseCaseTest {
         assertThat(result).isInstanceOf(ApiResult.Error::class.java)
         assertThat(result).isEqualTo(ApiResult.Error<FirebaseUser>("Auth failed"))
 
-        coVerify(exactly = 0) { userRepository.getUserMoney() }
         coVerify(exactly = 0) { userRepository.getUserImage() }
         coVerify(exactly = 0) { userRepository.getNameAndPhone() }
     }
@@ -83,7 +86,6 @@ class GetUserInfoUseCaseTest {
         assertThat(result).isInstanceOf(ApiResult.Error::class.java)
         assertThat(result).isEqualTo(ApiResult.Error<FirebaseUser>("User not found"))
 
-        coVerify(exactly = 0) { userRepository.getUserMoney() }
         coVerify(exactly = 0) { userRepository.getUserImage() }
         coVerify(exactly = 0) { userRepository.getNameAndPhone() }
     }
@@ -103,7 +105,6 @@ class GetUserInfoUseCaseTest {
     fun `invoke defaults money to zero when getUserMoney fails`() = runTest {
         val user = mockFirebaseUser(uid = "uid-123", email = "test@example.com")
         every { authRepository.getUser() } returns ApiResult.Success(user)
-        coEvery { userRepository.getUserMoney() } returns ApiResult.Error("Money service down")
         coEvery { userRepository.getUserImage() } returns ApiResult.Success("image.png")
         coEvery { userRepository.getNameAndPhone() } returns
                 ApiResult.Success(UserInfoFirebase(name = "John", phone = "555"))
@@ -111,15 +112,12 @@ class GetUserInfoUseCaseTest {
         val result = useCase.invoke()
 
         assertThat(result).isInstanceOf(ApiResult.Success::class.java)
-        val profile = (result as ApiResult.Success).result
-        assertThat(profile.money).isEqualTo("0")
     }
 
     @Test
     fun `invoke sets image to null when getUserImage fails`() = runTest {
         val user = mockFirebaseUser(email = "test@example.com")
         every { authRepository.getUser() } returns ApiResult.Success(user)
-        coEvery { userRepository.getUserMoney() } returns ApiResult.Success("10")
         coEvery { userRepository.getUserImage() } returns ApiResult.Error("Image not found")
         coEvery { userRepository.getNameAndPhone() } returns
                 ApiResult.Success(UserInfoFirebase(name = "John", phone = "555"))
@@ -135,7 +133,6 @@ class GetUserInfoUseCaseTest {
     fun `invoke sets empty name and phone when getNameAndPhone fails`() = runTest {
         val user = mockFirebaseUser(uid = "uid-123", email = "test@example.com")
         every { authRepository.getUser() } returns ApiResult.Success(user)
-        coEvery { userRepository.getUserMoney() } returns ApiResult.Success("10")
         coEvery { userRepository.getUserImage() } returns ApiResult.Success("img")
         coEvery { userRepository.getNameAndPhone() } returns ApiResult.Error("Not found")
 
@@ -152,7 +149,6 @@ class GetUserInfoUseCaseTest {
     fun `invoke sets session status ACTIVE when user is successfully fetched`() = runTest {
         val user = mockFirebaseUser(uid = "uid-123", email = "test@example.com")
         every { authRepository.getUser() } returns ApiResult.Success(user)
-        coEvery { userRepository.getUserMoney() } returns ApiResult.Success("10")
         coEvery { userRepository.getUserImage() } returns ApiResult.Success("img")
         coEvery { userRepository.getNameAndPhone() } returns
                 ApiResult.Success(UserInfoFirebase(name = "John", phone = "555"))
