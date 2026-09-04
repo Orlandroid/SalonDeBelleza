@@ -11,7 +11,7 @@ import javax.inject.Inject
 
 class SaveUserInformationUseCase @Inject constructor(
     private val authRepository: AuthRepository,
-    private val userRepository: UserRepository,
+    private val userRepository: UserRepository
 ) {
     suspend operator fun invoke(user: User): ApiResult<Unit> {
 
