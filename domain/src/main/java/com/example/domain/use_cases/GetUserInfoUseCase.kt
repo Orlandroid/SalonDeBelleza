@@ -1,5 +1,6 @@
 package com.example.domain.use_cases
 
+import com.example.domain.UserSessionStatus
 import com.example.domain.entities.UserProfile
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.UserRepository
@@ -54,9 +55,7 @@ class GetUserInfoUseCase @Inject constructor(
         return ApiResult.Success(userInfo)
     }
 
-    enum class UserSessionStatus {
-        ACTIVE, INACTIVE
-    }
+
 
     private fun getUserSessionStatus(): UserSessionStatus {
         val userResult = authRepository.getUser()

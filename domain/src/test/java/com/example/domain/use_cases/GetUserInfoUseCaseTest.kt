@@ -1,5 +1,6 @@
 package com.example.domain.use_cases
 
+import com.example.domain.UserSessionStatus
 import com.example.domain.perfil.UserInfoFirebase
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.UserRepository
@@ -59,7 +60,7 @@ class GetUserInfoUseCaseTest {
             assertThat(profile.uid).isEqualTo("uid-123")
             assertThat(profile.phone).isEqualTo("555-1234")
             assertThat(profile.image).isEqualTo("https://image.url/pic.png")
-            assertThat(profile.sessionStatus).isEqualTo(GetUserInfoUseCase.UserSessionStatus.ACTIVE)
+            assertThat(profile.sessionStatus).isEqualTo(UserSessionStatus.ACTIVE)
         }
 
     @Test
@@ -155,7 +156,7 @@ class GetUserInfoUseCaseTest {
 
         val result = useCase.invoke() as ApiResult.Success
 
-        assertThat(result.result.sessionStatus).isEqualTo(GetUserInfoUseCase.UserSessionStatus.ACTIVE)
+        assertThat(result.result.sessionStatus).isEqualTo(UserSessionStatus.ACTIVE)
         verify(exactly = 2) { authRepository.getUser() }
     }
 
