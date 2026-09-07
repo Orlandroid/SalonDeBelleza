@@ -9,6 +9,7 @@ import com.example.domain.repository.AuthRepository
 import com.example.domain.state.getResultOrNull
 import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
+import com.example.domain.use_cases.LoginUseCase
 import com.example.domain.validation.EmailValidator
 import com.example.domain.validation.PasswordValidator
 import com.google.firebase.auth.GoogleAuthProvider
@@ -64,11 +65,10 @@ data class LoginUiState(
 @HiltViewModel
 class LoginViewModel
 @Inject constructor(
-    private val authRepository: AuthRepository,
     private val userPreferences: UserPreferences,
     private val emailValidator: EmailValidator,
     private val passwordValidator: PasswordValidator,
-    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
+    private val loginUseCase: LoginUseCase
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<LoginUiState> =
@@ -85,20 +85,9 @@ class LoginViewModel
     private val _effects = Channel<LoginSideEffects>()
     val effects = _effects.receiveAsFlow()
 
-    private fun saveUserEmailToPreferences(userEmail: String) {
-        viewModelScope.launch {
-            userPreferences.saveUserEmail(userEmail)
-        }
-    }
 
     private fun getUserEmailFromPreferences(): Deferred<String> {
         return viewModelScope.async { userPreferences.getUserEmail() ?: "" }
-    }
-
-    private fun saveUserSession() {
-        viewModelScope.launch {
-            userPreferences.saveUserLogged()
-        }
     }
 
 
@@ -128,7 +117,7 @@ class LoginViewModel
             }
 
             is LoginEvents.OnSignUpWithGoogle -> {
-                firebaseAuthWithGoogle("619340747074-93lsb31bhcsp1nkptvkve9rlhecbclnd.apps.googleusercontent.com")
+//                firebaseAuthWithGoogle("619340747074-93lsb31bhcsp1nkptvkve9rlhecbclnd.apps.googleusercontent.com")
             }
 
             is LoginEvents.GoToSignUpScreen -> {
@@ -164,16 +153,11 @@ class LoginViewModel
         _state.update { it.copy(isButtonLoginEnable = true) }
     }
 
-    fun login(
-        email: String,
-        password: String
-    ) = viewModelScope.launch {
+    fun login(email: String, password: String) = viewModelScope.launch {
         _state.update { oldState -> oldState.copy(isLoading = true) }
-        val loginResult = authRepository.login(email = email, password = password)
-
+        val loginResult = loginUseCase.invoke(email = email, password = password)
         if (loginResult.isSuccess()) {
-            saveUserSession()
-            saveUserEmailToPreferences(email)
+            _state.update { oldState -> oldState.copy(isLoading = false) }
             _effects.send(LoginSideEffects.NavigateToHomeScreen)
         } else {
             _state.update { oldState ->
@@ -183,30 +167,24 @@ class LoginViewModel
                 )
             }
         }
+
     }
 
-    fun isUserActive(): Boolean {
-        val userResult = authRepository.getUser()
-        if (userResult.isSuccess()) {
-            return userResult.getResultOrNull() != null
-        }
-        return false
-    }
 
-    fun firebaseAuthWithGoogle(idToken: String) {
-        viewModelScope.launch(ioDispatcher) {
-            val credential = GoogleAuthProvider.getCredential(
-                idToken,
-                null
-            )
-            val authResult = authRepository.signInWithCredential(credential)
-            if (authResult.isError()) {
-                print("Error al iniciar sesión con Google")
-                return@launch
-            }
-            print("Sesión iniciada con Google")
-        }
-    }
+//    fun firebaseAuthWithGoogle(idToken: String) {
+//        viewModelScope.launch(ioDispatcher) {
+//            val credential = GoogleAuthProvider.getCredential(
+//                idToken,
+//                null
+//            )
+//            val authResult = authRepository.signInWithCredential(credential)
+//            if (authResult.isError()) {
+//                print("Error al iniciar sesión con Google")
+//                return@launch
+//            }
+//            print("Sesión iniciada con Google")
+//        }
+//    }
 
 
 }

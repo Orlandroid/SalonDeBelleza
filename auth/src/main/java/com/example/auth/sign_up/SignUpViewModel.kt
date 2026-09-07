@@ -2,6 +2,7 @@ package com.example.auth.sign_up
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.auth.KindOfMessage
 import com.example.core.util.dateFormat
 import com.example.core.util.getCurrentDateTime
 import com.example.core.util.toStringFormat
@@ -38,7 +39,7 @@ sealed class SignUpSideEffects {
     data object NavigateToLoginScreen : SignUpSideEffects()
 
     //Change message to enum with types of messages
-    data class ShowSnackBar(val message: String? = null) : SignUpSideEffects()
+    data class ShowSnackBar(val kindOfMessage: KindOfMessage) : SignUpSideEffects()
 }
 
 data class SignUpUiState(
@@ -142,19 +143,19 @@ class SignUpViewModel @Inject constructor(
     private fun handleError(error: String) {
         val error = Exception(error)
         _state.update { state -> state.copy(error = error) }
-        sendEffect(SignUpSideEffects.ShowSnackBar("Error creating your account: ${error.message}"))
+        sendEffect(SignUpSideEffects.ShowSnackBar(KindOfMessage.ERROR))
     }
 
     private suspend fun saveUserInformation(
-        userP: User
+        user: User
     ) {
-        val saveUserInformationResult = saveUserInformationUseCase.invoke(userP)
+        val saveUserInformationResult = saveUserInformationUseCase.invoke(user)
         if (saveUserInformationResult.isError()) {
-            sendEffect(SignUpSideEffects.ShowSnackBar("Error"))
+            sendEffect(SignUpSideEffects.ShowSnackBar(KindOfMessage.ERROR))
             return
         }
         sendEffect(SignUpSideEffects.NavigateToLoginScreen)
-        sendEffect(SignUpSideEffects.ShowSnackBar("Success"))
+        sendEffect(SignUpSideEffects.ShowSnackBar(KindOfMessage.SUCCESS))
     }
 
     private fun sendEffect(effect: SignUpSideEffects) {

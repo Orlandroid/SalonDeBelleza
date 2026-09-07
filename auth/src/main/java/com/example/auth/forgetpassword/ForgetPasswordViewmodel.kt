@@ -2,6 +2,7 @@ package com.example.auth.forgetpassword
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.auth.KindOfMessage
 import com.example.di.IoDispatcher
 import com.example.domain.validation.EmailValidator
 import com.example.domain.repository.AuthRepository
@@ -31,7 +32,7 @@ class ForgetPasswordViewmodel @Inject constructor(
     }
 
     sealed class ForgetPasswordEffects {
-        data class ShowSnackBar(val message: String) : ForgetPasswordEffects()
+        data class ShowSnackBar(val kindOfMessage: KindOfMessage) : ForgetPasswordEffects()
     }
 
     data class ForgetPasswordUiState(
@@ -75,9 +76,9 @@ class ForgetPasswordViewmodel @Inject constructor(
         viewModelScope.launch(ioDispatcher) {
             val result = authRepository.forgetPassword(email)
             if (result.isSuccess()) {
-                sendEffect(ForgetPasswordEffects.ShowSnackBar(message = "Password successful changed"))
+                sendEffect(ForgetPasswordEffects.ShowSnackBar(kindOfMessage = KindOfMessage.SUCCESS))
             } else {
-                sendEffect(ForgetPasswordEffects.ShowSnackBar(message = "Error trying to updated password"))
+                sendEffect(ForgetPasswordEffects.ShowSnackBar(kindOfMessage = KindOfMessage.SUCCESS))
             }
             _state.update { state -> state.copy(isLoading = false) }
         }

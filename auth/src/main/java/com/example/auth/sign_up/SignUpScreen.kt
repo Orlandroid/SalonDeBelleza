@@ -34,6 +34,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
+import com.example.auth.KindOfMessage
 import com.example.auth.R
 import com.example.core.navigation.auth.AuthNavigationRoutes
 import com.example.core.ui.base.BaseComposeScreen
@@ -52,6 +53,9 @@ fun SignUpScreen(
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val state = signUpViewModel.state.collectAsStateWithLifecycle()
+    val successMessage = stringResource(R.string.sign_up_success)
+    val errorMessage = stringResource(R.string.sign_up_error)
+
     LaunchedEffect(Unit) {
         signUpViewModel.effects.collectLatest {
             when (it) {
@@ -60,7 +64,17 @@ fun SignUpScreen(
                 }
 
                 is SignUpSideEffects.ShowSnackBar -> {
-                    it.message?.let { message -> snackBarHostState.showSnackbar(message) }
+                    val message = when (it.kindOfMessage) {
+                        KindOfMessage.ERROR -> {
+                            errorMessage
+                        }
+
+                        KindOfMessage.SUCCESS -> {
+                            successMessage
+                        }
+                    }
+
+                    snackBarHostState.showSnackbar(message)
                 }
             }
         }
@@ -118,7 +132,7 @@ private fun SignUpScreenContent(
         )
         Spacer(modifier = Modifier.weight(1f))
         ButtonSignUp(
-            isEnable = uiState.isEnableButton, isLoading = uiState.isLoading, onClick = {
+            isEnabled = uiState.isEnableButton, isLoading = uiState.isLoading, onClick = {
                 onEvents(SingUpEvents.OnSignUpClick)
             })
     }
@@ -142,14 +156,12 @@ private fun ContainerSignUp(
 
 @Composable
 private fun ButtonSignUp(
-    modifier: Modifier = Modifier, isEnable: Boolean, onClick: () -> Unit, isLoading: Boolean
+    modifier: Modifier = Modifier, isEnabled: Boolean, onClick: () -> Unit, isLoading: Boolean
 ) {
     Button(
         modifier = modifier.fillMaxWidth(),
-        enabled = isEnable,
-        onClick = {
-            onClick.invoke()
-        },
+        enabled = isEnabled,
+        onClick = onClick,
         colors = ButtonDefaults.buttonColors(containerColor = Color.White),
     ) {
         if (isLoading) {
@@ -168,9 +180,8 @@ private fun InputName(
         modifier = modifier,
         text = stringResource(R.string.nombre),
         value = value,
-        onValueChange = { currentValue ->
-            onValueChange.invoke(currentValue)
-        })
+        onValueChange = onValueChange
+    )
 }
 
 @Composable
@@ -218,9 +229,8 @@ private fun InputEmail(
         keyboardType = KeyboardType.Email,
         imageVector = Icons.Filled.Email,
         value = value,
-        onValueChange = {
-            onValueChange.invoke(it)
-        })
+        onValueChange = onValueChange
+    )
 }
 
 @Composable

@@ -1,15 +1,15 @@
 package com.example.data.remote.fake_store
 
 import com.example.data.api.FakeStoreService
-import com.example.data.database.local.LocalDataSource
+import com.example.data.database.daos.CategoriesDao
 import com.example.data.database.mappers.toListCategoriesString
 import com.example.data.database.mappers.toStringList
-import com.example.domain.entities.remote.Cart
 import com.example.data.remote.products.fakestore.FakeStoreProduct
+import com.example.domain.entities.remote.Cart
 
 class FakeStoreRepositoryImp(
     private val api: FakeStoreService,
-    private val localDataSource: LocalDataSource
+    private val categoriesDao: CategoriesDao
 ) : FakeStoreRepository {
 
     override suspend fun getProducts(category: String): List<FakeStoreProduct> {
@@ -21,13 +21,13 @@ class FakeStoreRepositoryImp(
     }
 
     override suspend fun getCategories(): List<String> {
-        val listOfCategoriesFromLocalSource = localDataSource.getCategoriesFromDb()
+        val listOfCategoriesFromLocalSource = categoriesDao.getCategories()
         return if (listOfCategoriesFromLocalSource.isEmpty()) {
             val categories = api.getCategories()
-            localDataSource.addManyCategories(categories.toListCategoriesString())
+            categoriesDao.addManyCategories(categories.toListCategoriesString())
             api.getCategories()
         } else {
-            localDataSource.getCategoriesFromDb().toStringList()
+            categoriesDao.getCategories().toStringList()
         }
     }
 

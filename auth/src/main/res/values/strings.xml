@@ -21,4 +21,8 @@
     <string name="skeduly">Skeduly</string>
     <string name="error_phone">Debes de ingresar un telefono valido</string>
     <string name="error_email">Enter a valid email address.</string>
+    <string name="sign_up_success">Login successful!</string>
+    <string name="sign_up_error">Unable to log in. Please check your credentials and try again.</string>
+    <string name="password_changed_successfully">Password changed successfully</string>
+    <string name="password_change_error">Error trying to update password</string>
 </resources>

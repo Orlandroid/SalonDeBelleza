@@ -26,7 +26,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -39,6 +38,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.example.auth.KindOfMessage
 import com.example.auth.R
 import com.example.core.ui.base.Orientation
 import com.example.core.ui.base.SmallSpacer
@@ -46,7 +46,6 @@ import com.example.core.ui.dialogs.BaseCustomDialog
 import com.example.core.ui.theme.Background
 import com.example.core.ui.theme.Danger
 import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 import com.example.auth.forgetpassword.ForgetPasswordViewmodel.ForgetPasswordEvents as Events
 
 @Composable
@@ -57,14 +56,23 @@ fun ForgetPasswordDialog(
     val viewmodel = hiltViewModel<ForgetPasswordViewmodel>()
     val uiState by viewmodel.state.collectAsStateWithLifecycle()
     val snackBarHostState = remember { SnackbarHostState() }
-    val scope = rememberCoroutineScope()
+    val successMessage = stringResource(R.string.password_changed_successfully)
+    val errorMessage = stringResource(R.string.password_change_error)
     LaunchedEffect(Unit) {
         viewmodel.effects.collectLatest {
             when (it) {
                 is ForgetPasswordViewmodel.ForgetPasswordEffects.ShowSnackBar -> {
-                    scope.launch {
-                        snackBarHostState.showSnackbar(message = it.message)
+                    val message = when (it.kindOfMessage) {
+                        KindOfMessage.ERROR -> {
+                            errorMessage
+                        }
+
+                        KindOfMessage.SUCCESS -> {
+                            successMessage
+                        }
                     }
+
+                    snackBarHostState.showSnackbar(message)
                 }
             }
         }

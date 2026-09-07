@@ -1,8 +1,8 @@
 package com.example.profile.mappers
 
 import androidx.compose.ui.graphics.Color
+import com.example.domain.UserSessionStatus
 import com.example.domain.entities.UserProfile
-import com.example.domain.use_cases.GetUserInfoUseCase
 import com.example.profile.userprofile.UserProfileUiState
 
 fun UserProfile.toUiState(): UserProfileUiState {
@@ -14,8 +14,8 @@ fun UserProfile.toUiState(): UserProfileUiState {
         money = money,
         image = image,
         statusColor = when (sessionStatus) {
-            GetUserInfoUseCase.UserSessionStatus.ACTIVE -> Color.Green
-            GetUserInfoUseCase.UserSessionStatus.INACTIVE -> Color.Red
+            UserSessionStatus.ACTIVE -> Color.Green
+            UserSessionStatus.INACTIVE -> Color.Red
         }
     )
 }

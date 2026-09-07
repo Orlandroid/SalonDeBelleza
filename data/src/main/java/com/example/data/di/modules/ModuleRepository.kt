@@ -5,8 +5,6 @@ import com.example.data.api.DummyJsonApi
 import com.example.data.api.FakeStoreService
 import com.example.data.api.WebServices
 import com.example.data.database.daos.ProductDao
-import com.example.data.database.local.LocalDataSource
-import com.example.data.preferences.LoginPreferences
 import com.example.data.remote.appointments.AppointmentsRepositoryImpl
 import com.example.data.remote.auth.AuthRepositoryImp
 import com.example.data.remote.dummy_json.DummyJsonRepository
@@ -54,13 +52,6 @@ object ModuleRepository {
     fun provideAuthRepository(firebaseSource: FirebaseAuth): AuthRepository =
         AuthRepositoryImp(firebaseSource)
 
-    @Singleton
-    @Provides
-    fun provideFakeStoreRepository(
-        api: FakeStoreService,
-        localDataSource: LocalDataSource
-    ): FakeStoreRepository =
-        FakeStoreRepositoryImp(localDataSource = localDataSource, api = api)
 
     @Singleton
     @Provides

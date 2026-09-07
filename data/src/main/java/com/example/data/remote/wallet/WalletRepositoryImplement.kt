@@ -2,8 +2,6 @@ package com.example.data.remote.wallet
 
 import com.example.di.qualifiers.WalletReference
 import com.example.domain.state.ApiResult
-import com.example.domain.state.getContent
-import com.example.domain.state.isError
 import com.example.domain.transaction.TransactionType
 import com.example.domain.wallet.Wallet
 import com.example.domain.wallet.WalletRepository
