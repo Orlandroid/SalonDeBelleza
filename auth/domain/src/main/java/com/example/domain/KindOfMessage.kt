@@ -1,4 +1,4 @@
-package com.example.auth
+package com.example.domain
 
 enum class KindOfMessage {
     ERROR,

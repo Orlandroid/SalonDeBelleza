@@ -1,4 +1,4 @@
-package com.example.domain.validation
+package com.example.domain
 
 import android.text.TextUtils
 import android.util.Patterns

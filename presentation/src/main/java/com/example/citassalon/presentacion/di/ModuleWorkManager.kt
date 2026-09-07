@@ -3,7 +3,7 @@ package com.example.citassalon.presentacion.di
 import android.content.Context
 import androidx.work.OneTimeWorkRequestBuilder
 import androidx.work.WorkManager
-import com.example.citassalon.presentacion.main.SessionWorker
+//import com.example.citassalon.presentacion.main.SessionWorker
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -29,10 +29,10 @@ object ModuleWorkManager {
         return WorkManager.getInstance(context)
     }
 
-    @Provides
-    @Singleton
-    @Named(REQUEST_SESSION_MANAGER)
-    fun provideRequest() = OneTimeWorkRequestBuilder<SessionWorker>().setInitialDelay(1L, TimeUnit.MINUTES).build()
+//    @Provides
+//    @Singleton
+//    @Named(REQUEST_SESSION_MANAGER)
+//    fun provideRequest() = OneTimeWorkRequestBuilder<SessionWorker>().setInitialDelay(1L, TimeUnit.MINUTES).build()
 
 
 }

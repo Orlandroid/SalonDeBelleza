@@ -2,11 +2,11 @@ package com.example.auth.forgetpassword
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.auth.KindOfMessage
 import com.example.di.IoDispatcher
-import com.example.domain.validation.EmailValidator
+import com.example.domain.KindOfMessage
 import com.example.domain.repository.AuthRepository
 import com.example.domain.state.isSuccess
+import com.example.domain.EmailValidator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.Channel

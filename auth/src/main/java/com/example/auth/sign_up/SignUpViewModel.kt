@@ -2,11 +2,11 @@ package com.example.auth.sign_up
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.auth.KindOfMessage
 import com.example.core.util.dateFormat
 import com.example.core.util.getCurrentDateTime
 import com.example.core.util.toStringFormat
 import com.example.di.IoDispatcher
+import com.example.domain.KindOfMessage
 import com.example.domain.entities.remote.User
 import com.example.domain.state.getErrorMessage
 import com.example.domain.state.isError

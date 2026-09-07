@@ -2,15 +2,12 @@ package com.example.data.di.modules
 
 
 import com.example.data.api.DummyJsonApi
-import com.example.data.api.FakeStoreService
 import com.example.data.api.WebServices
 import com.example.data.database.daos.ProductDao
+import com.example.data.remote.AuthRepositoryImp
 import com.example.data.remote.appointments.AppointmentsRepositoryImpl
-import com.example.data.remote.auth.AuthRepositoryImp
 import com.example.data.remote.dummy_json.DummyJsonRepository
 import com.example.data.remote.dummy_json.DummyJsonRepositoryImp
-import com.example.data.remote.fake_store.FakeStoreRepository
-import com.example.data.remote.fake_store.FakeStoreRepositoryImp
 import com.example.data.remote.info.DefaultBusinessRepository
 import com.example.data.remote.products.CategoryRepositoryImpl
 import com.example.data.remote.products.ProductRepositoryImpl
@@ -45,12 +42,6 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 
 object ModuleRepository {
-
-
-    @Singleton
-    @Provides
-    fun provideAuthRepository(firebaseSource: FirebaseAuth): AuthRepository =
-        AuthRepositoryImp(firebaseSource)
 
 
     @Singleton
@@ -128,6 +119,12 @@ object ModuleRepository {
             databaseReference = databaseReference,
             firebaseAuth = firebaseAuth
         )
+
+
+    @Singleton
+    @Provides
+    fun provideAuthRepository(firebaseSource: FirebaseAuth): AuthRepository =
+        AuthRepositoryImp(firebaseSource)
 
 
 }

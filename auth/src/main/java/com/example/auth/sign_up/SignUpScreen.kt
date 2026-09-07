@@ -34,7 +34,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
-import com.example.auth.KindOfMessage
 import com.example.auth.R
 import com.example.core.navigation.auth.AuthNavigationRoutes
 import com.example.core.ui.base.BaseComposeScreen
@@ -43,6 +42,7 @@ import com.example.core.ui.components.BaseOutlinedTextField
 import com.example.core.ui.components.InputError
 import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.theme.Background
+import com.example.domain.KindOfMessage
 import kotlinx.coroutines.flow.collectLatest
 
 

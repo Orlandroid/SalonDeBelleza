@@ -36,6 +36,8 @@ dependencies {
     implementation(project(":domain"))
     implementation(project(":core"))
     implementation(project(":di"))
+    implementation(project(":auth:domain"))
+    implementation(project(":auth:data"))
     implementation(libs.androidCoreKtx)
     implementation(libs.appcompat)
     testImplementation(libs.junit4)

@@ -1,6 +1,6 @@
 package com.example.domain.use_cases
 
-import com.example.domain.validation.EmailValidator
+import com.example.domain.EmailValidator
 import javax.inject.Inject
 
 class ValidateFormSignUpUseCase @Inject constructor(

@@ -54,7 +54,7 @@ import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.dialogs.AlertDialogMessagesConfig
 import com.example.core.ui.dialogs.BaseAlertDialogMessages
 import com.example.core.ui.dialogs.IsTwoButtonsAlert
-import com.example.core.ui.dialogs.KindOfMessage
+import com.example.core.ui.dialogs.AlertKindOfMessage
 import com.example.core.ui.dialogs.ProgressDialog
 import com.example.domain.perfil.Appointment
 import kotlinx.coroutines.flow.collectLatest
@@ -128,7 +128,7 @@ private fun ShowDialogDeleteAppointment(
         }, alertDialogMessagesConfig = AlertDialogMessagesConfig(
             title = R.string.warning,
             bodyMessage = stringResource(R.string.delete_row_message),
-            kindOfMessage = KindOfMessage.WARING,
+            kindOfMessage = AlertKindOfMessage.WARING,
             isTwoButtonsAlert = IsTwoButtonsAlert(clickOnCancel = {
                 onEvents(AppointmentHistoryEvents.OnCancel)
             }, clickOnAccept = {

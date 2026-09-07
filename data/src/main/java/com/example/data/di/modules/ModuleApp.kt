@@ -2,9 +2,7 @@ package com.example.data.di.modules
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.data.preferences.LoginPreferences
 import com.example.data.preferences.PreferencesManager
-import com.example.domain.UserPreferences
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -30,12 +28,6 @@ object ModuleApp {
         @ApplicationContext context: Context,
     ): PreferencesManager {
         return PreferencesManager(context = context)
-    }
-
-    @Singleton
-    @Provides
-    fun provideLoginPreferences(@ApplicationContext context: Context): UserPreferences {
-        return LoginPreferences(context = context)
     }
 
 

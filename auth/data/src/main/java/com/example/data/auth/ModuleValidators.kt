@@ -1,9 +1,9 @@
-package com.example.citassalon.presentacion.di
+package com.example.data.auth
 
-import com.example.domain.validation.AndroidEmailValidator
-import com.example.domain.validation.EmailValidator
-import com.example.domain.validation.MainPasswordValidator
-import com.example.domain.validation.PasswordValidator
+import com.example.domain.AndroidEmailValidator
+import com.example.domain.EmailValidator
+import com.example.domain.MainPasswordValidator
+import com.example.domain.PasswordValidator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

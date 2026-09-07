@@ -1,7 +1,7 @@
 package com.example.domain.use_cases
 
-import com.example.domain.UserPreferences
 import com.example.domain.repository.AuthRepository
+import com.example.domain.UserPreferences
 import com.example.domain.state.ApiResult
 import com.example.domain.state.getErrorMessage
 import com.example.domain.state.isError

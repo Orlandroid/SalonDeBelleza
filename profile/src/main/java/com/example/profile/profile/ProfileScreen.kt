@@ -44,7 +44,7 @@ import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.dialogs.AlertDialogMessagesConfig
 import com.example.core.ui.dialogs.BaseAlertDialogMessages
 import com.example.core.ui.dialogs.IsTwoButtonsAlert
-import com.example.core.ui.dialogs.KindOfMessage
+import com.example.core.ui.dialogs.AlertKindOfMessage
 import com.example.core.ui.theme.Background
 import com.example.domain.perfil.MENU
 import com.example.domain.perfil.ProfileItem
@@ -139,7 +139,7 @@ private fun DialogCloseSession(
         alertDialogMessagesConfig = AlertDialogMessagesConfig(
             title = R.string.cerrar_session,
             bodyMessage = stringResource(R.string.seguro_que_deseas_cerrar_sesion),
-            kindOfMessage = KindOfMessage.WARING,
+            kindOfMessage = AlertKindOfMessage.WARING,
             isTwoButtonsAlert = IsTwoButtonsAlert(
                 clickOnCancel = {
                     onEvents(ProfileEvents.OnCancel)

@@ -1,6 +1,6 @@
 package com.example.auth.sign_up
 
-import com.example.domain.validation.EmailValidator
+import com.example.domain.EmailValidator
 import com.example.domain.use_cases.ValidateFormSignUpUseCase
 import com.google.common.truth.Truth.assertThat
 import io.mockk.every

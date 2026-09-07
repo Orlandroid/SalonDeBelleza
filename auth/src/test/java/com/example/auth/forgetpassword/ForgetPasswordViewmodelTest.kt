@@ -3,7 +3,7 @@ package com.example.auth.forgetpassword
 import app.cash.turbine.test
 import com.example.domain.repository.AuthRepository
 import com.example.domain.state.ApiResult
-import com.example.domain.validation.EmailValidator
+import com.example.domain.EmailValidator
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

@@ -133,7 +133,7 @@ private fun AlertButtonOrButtons(
 
 @Composable
 private fun AlertTitle(
-    kindOfMessage: KindOfMessage,
+    kindOfMessage: AlertKindOfMessage,
     modifier: Modifier = Modifier, @StringRes title: Int
 ) {
     Card(
@@ -204,7 +204,7 @@ fun BaseAlertDialogPreviewTwoButton() {
     )
 }
 
-enum class KindOfMessage(val color: Color) {
+enum class AlertKindOfMessage(val color: Color) {
     SUCCESS(Success), WARING(Waring), ERROR(Danger), INFO(Info)
 }
 
@@ -212,7 +212,7 @@ data class AlertDialogMessagesConfig(
     @param:StringRes val title: Int = R.string.title,
     val bodyMessage: String,
     @param:StringRes val buttonText: Int = R.string.aceptar,
-    val kindOfMessage: KindOfMessage = KindOfMessage.INFO,
+    val kindOfMessage: AlertKindOfMessage = AlertKindOfMessage.INFO,
     val onConfirmation: () -> Unit = {},
     val isTwoButtonsAlert: IsTwoButtonsAlert? = null
 )

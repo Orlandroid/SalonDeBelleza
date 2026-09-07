@@ -1,13 +1,12 @@
-package com.example.data.remote.auth
-
+package com.example.data.remote
 
 import com.example.domain.repository.AuthRepository
 import com.example.domain.state.ApiResult
 import com.google.firebase.auth.AuthCredential
+import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.tasks.await
-import com.google.firebase.auth.AuthResult
 
 class AuthRepositoryImp(
     private val firebaseAuth: FirebaseAuth

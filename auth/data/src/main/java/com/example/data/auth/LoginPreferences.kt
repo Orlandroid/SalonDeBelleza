@@ -1,14 +1,15 @@
-package com.example.data.preferences
+package com.example.data.auth
 
 import android.content.Context
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.doublePreferencesKey
-import androidx.datastore.preferences.core.stringPreferencesKey
+import com.example.data.preferences.PreferencesManager
 import com.example.domain.UserPreferences
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
 import javax.inject.Inject
+import androidx.datastore.preferences.core.stringPreferencesKey
 
 class LoginPreferences @Inject constructor(
     @ApplicationContext context: Context

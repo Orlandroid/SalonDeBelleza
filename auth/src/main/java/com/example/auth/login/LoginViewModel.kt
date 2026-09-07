@@ -3,18 +3,12 @@ package com.example.auth.login
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.di.IoDispatcher
 import com.example.domain.UserPreferences
-import com.example.domain.repository.AuthRepository
-import com.example.domain.state.getResultOrNull
-import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
 import com.example.domain.use_cases.LoginUseCase
-import com.example.domain.validation.EmailValidator
-import com.example.domain.validation.PasswordValidator
-import com.google.firebase.auth.GoogleAuthProvider
+import com.example.domain.EmailValidator
+import com.example.domain.PasswordValidator
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async
 import kotlinx.coroutines.channels.Channel

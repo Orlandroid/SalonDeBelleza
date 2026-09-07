@@ -38,13 +38,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.auth.KindOfMessage
 import com.example.auth.R
 import com.example.core.ui.base.Orientation
 import com.example.core.ui.base.SmallSpacer
 import com.example.core.ui.dialogs.BaseCustomDialog
 import com.example.core.ui.theme.Background
 import com.example.core.ui.theme.Danger
+import com.example.domain.KindOfMessage
 import kotlinx.coroutines.flow.collectLatest
 import com.example.auth.forgetpassword.ForgetPasswordViewmodel.ForgetPasswordEvents as Events
 

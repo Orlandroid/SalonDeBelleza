@@ -2,8 +2,8 @@ package com.example.auth.login
 
 import app.cash.turbine.test
 import com.example.domain.UserPreferences
-import com.example.domain.validation.EmailValidator
-import com.example.domain.validation.PasswordValidator
+import com.example.domain.EmailValidator
+import com.example.domain.PasswordValidator
 import com.example.domain.repository.AuthRepository
 import com.example.domain.state.ApiResult
 import com.google.common.truth.Truth.assertThat

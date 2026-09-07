@@ -57,7 +57,7 @@ import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.dialogs.AlertDialogMessagesConfig
 import com.example.core.ui.dialogs.BaseAlertDialogMessages
-import com.example.core.ui.dialogs.KindOfMessage
+import com.example.core.ui.dialogs.AlertKindOfMessage
 import com.example.core.ui.theme.Background
 import com.example.core.ui.theme.Danger
 import kotlinx.coroutines.flow.collectLatest
@@ -107,7 +107,7 @@ fun LoginScreen(
         }
         if (uiState.showDialogPasswordOrEmailWrong) {
             val config = AlertDialogMessagesConfig(
-                kindOfMessage = KindOfMessage.ERROR,
+                kindOfMessage = AlertKindOfMessage.ERROR,
                 title = R.string.error,
                 bodyMessage = stringResource(R.string.error_invalid_user_or_password),
                 onConfirmation = {
