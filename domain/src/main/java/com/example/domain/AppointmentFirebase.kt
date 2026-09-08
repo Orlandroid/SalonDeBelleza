@@ -1,7 +1,6 @@
-package com.example.domain.perfil
+package com.example.domain
 
 import java.util.UUID
-
 
 data class AppointmentFirebase(
     var idAppointment: String = UUID.randomUUID().toString(),

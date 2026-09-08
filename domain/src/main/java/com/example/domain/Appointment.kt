@@ -1,4 +1,4 @@
-package com.example.domain.perfil
+package com.example.domain
 
 data class Appointment(
     val service: String,
@@ -9,7 +9,4 @@ data class Appointment(
 fun AppointmentFirebase.toAppointment(): Appointment {
     return Appointment(service = service, branch = establishment, id = idAppointment)
 }
-
-
-fun List<AppointmentFirebase>.toAppointmentList() = map { it.toAppointment() }
 

@@ -1,5 +1,7 @@
 package com.example.domain.use_cases
 
+import com.example.domain.repository.UserRepository
+import com.example.domain.repository.WalletRepository
 import com.example.domain.state.ApiResult
 import com.example.domain.state.getContent
 import com.example.domain.state.getErrorMessage
@@ -8,13 +10,13 @@ import com.example.domain.wallet.Balance
 import javax.inject.Inject
 
 class GetBalanceUseCase @Inject constructor(
-    private val getUserInfoUseCase: GetUserInfoUseCase,
-    private val getWalletUseCase: GetWalletUseCase
+    private val userRepository: UserRepository,
+    private val walletRepository: WalletRepository
 ) {
 
     suspend operator fun invoke(): ApiResult<Balance> {
 
-        val userResult = getUserInfoUseCase()
+        val userResult = userRepository.getNameAndPhone()
         if (userResult.isError()) {
             return ApiResult.Error(
                 userResult.getErrorMessage()
@@ -23,7 +25,7 @@ class GetBalanceUseCase @Inject constructor(
 
         val user = userResult.getContent()
 
-        val walletResult = getWalletUseCase()
+        val walletResult = walletRepository.getWallet()
         if (walletResult.isError()) {
             return ApiResult.Error(
                 walletResult.getErrorMessage()
@@ -38,7 +40,7 @@ class GetBalanceUseCase @Inject constructor(
                 userName = user.name,
                 balance = wallet.balance,
                 currency = wallet.currency,
-                createdAtMillis = wallet.createdAtMillis
+                createdAtMillis = wallet.createdAt
             )
         )
     }

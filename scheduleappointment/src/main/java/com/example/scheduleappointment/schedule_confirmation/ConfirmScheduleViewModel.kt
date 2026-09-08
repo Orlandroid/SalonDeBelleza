@@ -4,7 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.AppointmentSession
 import com.example.di.IoDispatcher
-import com.example.domain.perfil.AppointmentFirebase
+import com.example.domain.AppointmentFirebase
 import com.example.domain.repository.AppointmentsRepository
 import com.example.domain.state.isSuccess
 import com.example.domain.transaction.TransactionType

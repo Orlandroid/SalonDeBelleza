@@ -50,7 +50,7 @@ sealed class ProfileEffects {
 class ProfileViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val authRepository: AuthRepository,
-    private val loginPreferences: UserPreferences
+    private val userPreferences: UserPreferences
 ) :
     ViewModel() {
 
@@ -79,19 +79,27 @@ class ProfileViewModel @Inject constructor(
             }
 
             ProfileEvents.OnContactClicked -> {
-                sendEffect(ProfileEffects.NavigateToContacts)
+                viewModelScope.launch {
+                    sendEffect(ProfileEffects.NavigateToContacts)
+                }
             }
 
             ProfileEvents.OnHistoricalClicked -> {
-                sendEffect(ProfileEffects.NavigateToHistory)
+                viewModelScope.launch {
+                    sendEffect(ProfileEffects.NavigateToHistory)
+                }
             }
 
             ProfileEvents.OnProfileClicked -> {
-                sendEffect(ProfileEffects.NavigateToProfile)
+                viewModelScope.launch {
+                    sendEffect(ProfileEffects.NavigateToProfile)
+                }
             }
 
             ProfileEvents.OnTermAndCondictionsClicked -> {
-                sendEffect(ProfileEffects.NavigateToTermAndCondictions)
+                viewModelScope.launch {
+                    sendEffect(ProfileEffects.NavigateToTermAndCondictions)
+                }
             }
 
             ProfileEvents.OnDismissDialog -> {
@@ -109,23 +117,15 @@ class ProfileViewModel @Inject constructor(
         }
     }
 
-    private fun sendEffect(effect: ProfileEffects) {
-        viewModelScope.launch {
-            _effects.send(effect)
-        }
-    }
-
-    private fun destroyUserSession() {
-        viewModelScope.launch {
-            loginPreferences.destroyUserSession()
-        }
+    private suspend fun sendEffect(effect: ProfileEffects) {
+        _effects.send(effect)
     }
 
     private fun logout() {
         viewModelScope.launch {
             val loginResult = authRepository.logout()
             if (loginResult.isSuccess()) {
-                destroyUserSession()
+                userPreferences.destroyUserSession()
                 sendEffect(ProfileEffects.CloseAndOpenActivity)
             }
         }

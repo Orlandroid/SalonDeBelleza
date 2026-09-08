@@ -1,4 +1,4 @@
-package com.example.domain.perfil
+package com.example.domain
 
 data class UserInfoFirebase(
 	var birthDay: String = "",

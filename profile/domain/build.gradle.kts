@@ -3,12 +3,11 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 
 plugins {
     alias(libs.plugins.android.library)
-    id("org.jetbrains.kotlin.plugin.compose")
     alias(libs.plugins.ksp)
 }
 
 android {
-    namespace = "com.example.profile"
+    namespace = "com.example.domain"
     compileSdk {
         version = release(37)
     }
@@ -32,20 +31,14 @@ android {
 
 dependencies {
     implementation(project(":domain"))
-    implementation(project(":profile:domain"))
-    implementation(project(":core"))
-    implementation(project(":di"))
     implementation(libs.androidCoreKtx)
     implementation(libs.appcompat)
     implementation(libs.material)
     testImplementation(libs.junit4)
     androidTestImplementation(libs.espressoCore)
     androidTestImplementation(libs.testJunit)
-    implementation(libs.bundles.composeUi)
-    implementation(libs.bundles.compose)
-    implementation(libs.bundles.composeMaterial)
-    implementation(libs.bundles.firebase)
     implementation(libs.bundles.daggerHilt)
     ksp(libs.hiltAndroidCompiler)
-    implementation(libs.bundles.baseTesting)
+    ksp(libs.androidxHiltCompiler)
+    implementation(libs.bundles.firebase)
 }

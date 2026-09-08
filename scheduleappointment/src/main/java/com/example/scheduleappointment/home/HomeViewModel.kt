@@ -2,9 +2,9 @@ package com.example.scheduleappointment.home
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.domain.repository.WalletRepository
 import com.example.domain.state.getContent
 import com.example.domain.state.isSuccess
-import com.example.domain.use_cases.GetBalanceUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -30,14 +30,14 @@ sealed class HomeScreenEvents {
 @HiltViewModel
 class HomeViewModel
 @Inject constructor(
-    private val getBalanceUseCase: GetBalanceUseCase
+    private val walletRepository: WalletRepository
 ) : ViewModel() {
 
 
     private val _state: MutableStateFlow<HomeUiState> =
         MutableStateFlow(HomeUiState())
     val state = _state.onStart {
-        val getBalanceResult = getBalanceUseCase.invoke()
+        val getBalanceResult = walletRepository.getWallet()
         if (getBalanceResult.isSuccess()) {
             _state.update {
                 it.copy(

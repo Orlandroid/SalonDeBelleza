@@ -1,11 +1,11 @@
 package com.example.domain.repository
 
+import com.example.domain.Appointment
+import com.example.domain.AppointmentFirebase
 import com.example.domain.entities.local.AppointmentObject
 import com.example.domain.entities.remote.Service
 import com.example.domain.entities.remote.Staff
 import com.example.domain.entities.remote.migration.NegoInfo
-import com.example.domain.perfil.Appointment
-import com.example.domain.perfil.AppointmentFirebase
 import com.example.domain.state.ApiResult
 
 interface AppointmentsRepository {

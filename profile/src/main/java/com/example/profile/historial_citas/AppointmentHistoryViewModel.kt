@@ -2,7 +2,7 @@ package com.example.profile.historial_citas
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.example.domain.perfil.Appointment
+import com.example.domain.Appointment
 import com.example.domain.repository.AppointmentsRepository
 import com.example.domain.state.getContent
 import com.example.domain.state.getErrorMessage

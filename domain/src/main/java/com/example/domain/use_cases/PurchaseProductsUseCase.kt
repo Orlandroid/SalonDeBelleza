@@ -12,15 +12,14 @@ import javax.inject.Inject
 
 class PurchaseProductsUseCase @Inject constructor(
     private val walletRepository: WalletRepository,
-    private val transactionRepository: TransactionRepository,
-    private val getWalletUseCase: GetWalletUseCase,
+    private val transactionRepository: TransactionRepository
 ) {
     suspend operator fun invoke(
         amount: Long,
         transactionType: TransactionType,
         description: String
     ): ApiResult<Unit> {
-        val balanceResult = getWalletUseCase.invoke()
+        val balanceResult = walletRepository.getWallet()
         if (balanceResult.isError()) {
             return ApiResult.Error("Unable to make the purchase")
         }

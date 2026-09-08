@@ -2,6 +2,7 @@ package com.example.domain.use_cases
 
 import com.example.domain.entities.CartInfo
 import com.example.domain.repository.BusinessRepository
+import com.example.domain.repository.WalletRepository
 import com.example.domain.state.ApiResult
 import com.example.domain.state.getContent
 import com.example.domain.state.getErrorMessage
@@ -10,13 +11,13 @@ import javax.inject.Inject
 
 class GetCartInfoUseCase @Inject constructor(
     private val repository: BusinessRepository,
-    private val getWalletUseCase: GetWalletUseCase
+    private val walletRepository: WalletRepository
 ) {
 
     suspend operator fun invoke(): ApiResult<CartInfo> {
 
         val productsResult = repository.getAllProducts()
-        val balanceUserResult = getWalletUseCase.invoke()
+        val balanceUserResult = walletRepository.getWallet()
         if (productsResult.isError()) {
             return ApiResult.Error(productsResult.getErrorMessage())
         }

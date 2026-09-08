@@ -1,7 +1,6 @@
-package com.example.domain.mappers
+package com.example.domain
 
 import com.example.domain.entities.local.AppointmentObject
-import com.example.domain.perfil.AppointmentFirebase
 
 
 fun AppointmentFirebase.toAppointmentObject(): AppointmentObject {

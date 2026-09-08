@@ -6,11 +6,11 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -47,21 +47,22 @@ import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.core.navigation.profile.ProfileNavigationRoutes
-import com.example.profile.R
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.components.BaseErrorScreen
 import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.dialogs.AlertDialogMessagesConfig
+import com.example.core.ui.dialogs.AlertKindOfMessage
 import com.example.core.ui.dialogs.BaseAlertDialogMessages
 import com.example.core.ui.dialogs.IsTwoButtonsAlert
-import com.example.core.ui.dialogs.AlertKindOfMessage
 import com.example.core.ui.dialogs.ProgressDialog
-import com.example.domain.perfil.Appointment
+import com.example.domain.Appointment
+import com.example.profile.R
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun AppointmentHistoryScreen(
-    navController: NavHostController, viewModel: AppointmentHistoryViewModel = hiltViewModel()
+    navController: NavHostController,
+    viewModel: AppointmentHistoryViewModel = hiltViewModel()
 ) {
     val uiState = viewModel.state.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
@@ -297,7 +298,9 @@ private fun NotDatView(@RawRes animation: Int) {
 @Preview(showBackground = true)
 private fun AppointHistoryListPreview() {
     val mAppointment = Appointment(
-        branch = "Sucursal Centro", service = "Delineado de barba y bigote, o cejas", id = "1"
+        branch = "Sucursal Centro",
+        service = "Delineado de barba y bigote, o cejas",
+        id = "1"
     )
     AppointHistoryList(
         appointments = listOf(

@@ -7,7 +7,6 @@ import com.example.domain.state.getContent
 import com.example.domain.state.isError
 import javax.inject.Inject
 
-
 class SaveUserInformationUseCase @Inject constructor(
     private val userRepository: UserRepository
 ) {

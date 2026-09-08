@@ -2,27 +2,27 @@ package com.example.data.remote.appointments
 
 import com.example.data.api.WebServices
 import com.example.di.qualifiers.AppointmentsRef
+import com.example.domain.Appointment
 import com.example.domain.entities.local.AppointmentObject
 import com.example.domain.entities.remote.Service
 import com.example.domain.entities.remote.Staff
 import com.example.domain.entities.remote.migration.NegoInfo
 import com.example.domain.extension.toInitials
-import com.example.domain.mappers.toAppointmentObject
-import com.example.domain.perfil.Appointment
-import com.example.domain.perfil.AppointmentFirebase
-import com.example.domain.perfil.toAppointment
 import com.example.domain.repository.AppointmentsRepository
 import com.example.domain.state.ApiResult
+import com.example.domain.toAppointment
 import com.example.domain.use_cases.IsBranchOpenUseCase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ValueEventListener
-import com.google.firebase.database.ktx.getValue
 import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import kotlin.coroutines.resume
+import com.example.domain.AppointmentFirebase
+import com.example.domain.toAppointmentObject
+import com.google.firebase.database.ktx.getValue
 
 class AppointmentsRepositoryImpl @Inject constructor(
     @param:AppointmentsRef private val databaseReference: DatabaseReference,
