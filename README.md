@@ -74,30 +74,276 @@
 ---
 
 ## 📊 Project Structure
-
 ```
 SalonDeBelleza/
-├── presentation/          # UI Layer - Jetpack Compose & MVI
-│   ├── features/         # Feature-specific screens and logic
-│   │   ├── auth/         # Login, SignUp, Authentication flow
-│   │   ├── schedule_appointment/  # Appointment booking flow
-│   │   ├── info/         # Services, Products, Staff, Locations
-│   │   ├── profile/      # User profile & appointment history
-│   │   └── app_navigation/  # Main navigation structure
-│   ├── di/               # Dependency Injection modules
-│   └── theme/            # Design system & theming
-├── domain/               # Business Logic & Use Cases
-│   ├── use_cases/        # Application business rules
-│   ├── entities/         # Data models (local, remote, UI)
-│   ├── validation/       # Form validation logic
-│   └── state/            # Result/State management
-└── data/                 # Data Layer - Repository pattern
-    ├── remote/           # API integrations
-    ├── local/            # Room Database
-    └── mappers/          # Data transformation
+├── .gitignore
+├── .idea/
+├── gradle/
+├── gradlew
+├── gradlew.bat
+├── settings.gradle.kts
+├── build.gradle.kts
+├── README.md
+├── presentation/
+│   ├── build.gradle.kts
+│   └── src/main/java/com/example/skeduly/
+│       ├── MainActivity.kt
+│       ├── SkedulyApp.kt
+│       ├── navigation/
+│       │   ├── AppNavHost.kt
+│       │   └── AppNavigation.kt
+│       └── di/
+│           └── AppModule.kt
+│
+├── core/
+│   ├── build.gradle.kts
+│   └── src/main/java/com/example/skeduly/core/
+│       ├── ui/
+│       │   ├── theme/
+│       │   │   ├── Theme.kt
+│       │   │   ├── Color.kt
+│       │   │   └── Type.kt
+│       │   └── components/
+│       │       ├── LoadingView.kt
+│       │       └── EmptyState.kt
+│       ├── utils/
+│       │   ├── DateFormatter.kt
+│       │   ├── Extensions.kt
+│       │   └── NetworkUtils.kt
+│       ├── navigation/
+│       │   ├── Routes.kt
+│       │   └── Destinations.kt
+│       └── result/
+│           └── UiState.kt
+│
+├── di/
+│   ├── build.gradle.kts
+│   └── src/main/java/com/example/skeduly/di/
+│       ├── NetworkModule.kt
+│       ├── DatabaseModule.kt
+│       └── RepositoryModule.kt
+│
+├── auth/
+│   ├── build.gradle.kts
+│   ├── domain/
+│   │   ├── build.gradle.kts
+│   │   └── src/main/java/com/example/skeduly/auth/domain/
+│   │       ├── model/
+│   │       │   └── AuthUser.kt
+│   │       ├── repository/
+│   │       │   └── AuthRepository.kt
+│   │       ├── usecase/
+│   │       │   ├── LoginUseCase.kt
+│   │       │   ├── SignUpUseCase.kt
+│   │       │   └── ForgotPasswordUseCase.kt
+│   │       └── validation/
+│   │           ├── EmailValidator.kt
+│   │           └── PasswordValidator.kt
+│   │
+│   ├── data/
+│   │   ├── build.gradle.kts
+│   │   └── src/main/java/com/example/skeduly/auth/data/
+│   │       ├── local/
+│   │       │   └── AuthLocalDataSource.kt
+│   │       ├── remote/
+│   │       │   ├── AuthApi.kt
+│   │       │   └── AuthRemoteDataSource.kt
+│   │       ├── repository/
+│   │       │   └── AuthRepositoryImpl.kt
+│   │       └── di/
+│   │           └── AuthDataModule.kt
+│   │
+│   └── src/main/java/com/example/skeduly/auth/
+│       ├── navigation/
+│       │   └── AuthNavGraph.kt
+│       ├── login/
+│       │   ├── LoginScreen.kt
+│       │   ├── LoginViewModel.kt
+│       │   └── LoginUiState.kt
+│       ├── signup/
+│       │   ├── SignUpScreen.kt
+│       │   ├── SignUpViewModel.kt
+│       │   └── SignUpFormState.kt
+│       └── splash/
+│           ├── SplashScreen.kt
+│           └── SplashViewModel.kt
+│
+├── info/
+│   ├── build.gradle.kts
+│   ├── domain/
+│   │   ├── build.gradle.kts
+│   │   └── src/main/java/com/example/skeduly/info/domain/
+│   │       ├── model/
+│   │       │   ├── Product.kt
+│   │       │   ├── Category.kt
+│   │       │   ├── Branch.kt
+│   │       │   └── Staff.kt
+│   │       ├── repository/
+│   │       │   ├── ProductRepository.kt
+│   │       │   ├── CategoryRepository.kt
+│   │       │   ├── BranchRepository.kt
+│   │       │   └── StaffRepository.kt
+│   │       └── usecase/
+│   │           ├── GetProductsUseCase.kt
+│   │           ├── GetCategoriesUseCase.kt
+│   │           ├── GetBranchesUseCase.kt
+│   │           └── GetStaffUseCase.kt
+│   │
+│   ├── data/
+│   │   ├── build.gradle.kts
+│   │   └── src/main/java/com/example/skeduly/info/data/
+│   │       ├── remote/
+│   │       │   ├── ProductApi.kt
+│   │       │   ├── BranchApi.kt
+│   │       │   └── StaffApi.kt
+│   │       ├── local/
+│   │       │   ├── ProductDao.kt
+│   │       │   ├── BranchDao.kt
+│   │       │   └── StaffDao.kt
+│   │       ├── repository/
+│   │       │   ├── ProductRepositoryImpl.kt
+│   │       │   ├── BranchRepositoryImpl.kt
+│   │       │   └── StaffRepositoryImpl.kt
+│   │       └── di/
+│   │           └── InfoDataModule.kt
+│   │
+│   └── src/main/java/com/example/skeduly/info/
+│       ├── navigation/
+│       │   └── InfoNavGraph.kt
+│       ├── home/
+│       │   ├── InfoHomeScreen.kt
+│       │   └── InfoHomeViewModel.kt
+│       ├── products/
+│       │   ├── ProductsScreen.kt
+│       │   ├── ProductDetailScreen.kt
+│       │   └── ProductsViewModel.kt
+│       ├── branches/
+│       │   ├── BranchesScreen.kt
+│       │   └── BranchesViewModel.kt
+│       ├── staff/
+│       │   ├── StaffScreen.kt
+│       │   └── StaffViewModel.kt
+│       └── categories/
+│           ├── CategoriesScreen.kt
+│           └── CategoriesViewModel.kt
+│
+├── profile/
+│   ├── build.gradle.kts
+│   ├── domain/
+│   │   ├── build.gradle.kts
+│   │   └── src/main/java/com/example/skeduly/profile/domain/
+│   │       ├── model/
+│   │       │   └── Profile.kt
+│   │       ├── repository/
+│   │       │   └── ProfileRepository.kt
+│   │       └── usecase/
+│   │           ├── GetProfileUseCase.kt
+│   │           ├── UpdateProfileUseCase.kt
+│   │           └── GetAppointmentHistoryUseCase.kt
+│   │
+│   ├── data/
+│   │   ├── build.gradle.kts
+│   │   └── src/main/java/com/example/skeduly/profile/data/
+│   │       ├── repository/
+│   │       │   └── ProfileRepositoryImpl.kt
+│   │       └── di/
+│   │           └── ProfileDataModule.kt
+│   │
+│   └── src/main/java/com/example/skeduly/profile/
+│       ├── navigation/
+│       │   └── ProfileNavGraph.kt
+│       ├── screen/
+│       │   ├── ProfileScreen.kt
+│       │   ├── HistoryScreen.kt
+│       │   └── ProfileViewModel.kt
+│       └── settings/
+│           └── ContactScreen.kt
+│
+├── scheduleappointment/
+│   ├── build.gradle.kts
+│   ├── domain/
+│   │   ├── build.gradle.kts
+│   │   └── src/main/java/com/example/skeduly/scheduleappointment/domain/
+│   │       ├── model/
+│   │       │   └── AppointmentSlot.kt
+│   │       ├── repository/
+│   │       │   └── AppointmentRepository.kt
+│   │       └── usecase/
+│   │           ├── GetAvailableSlotsUseCase.kt
+│   │           ├── BookAppointmentUseCase.kt
+│   │           └── ConfirmAppointmentUseCase.kt
+│   │
+│   ├── data/
+│   │   ├── build.gradle.kts
+│   │   └── src/main/java/com/example/skeduly/scheduleappointment/data/
+│   │       ├── remote/
+│   │       │   └── ScheduleApi.kt
+│   │       ├── repository/
+│   │       │   └── AppointmentRepositoryImpl.kt
+│   │       └── di/
+│   │           └── ScheduleDataModule.kt
+│   │
+│   └── src/main/java/com/example/skeduly/scheduleappointment/
+│       ├── navigation/
+│       │   └── ScheduleNavGraph.kt
+│       ├── booking/
+│       │   ├── BookingScreen.kt
+│       │   ├── BookingViewModel.kt
+│       │   └── BookingState.kt
+│       ├── date/
+│       │   ├── DateSelectionScreen.kt
+│       │   └── DateSelectionViewModel.kt
+│       └── confirmation/
+│           ├── ConfirmationScreen.kt
+│           └── ConfirmationViewModel.kt
+│
+├── wallet/
+│   ├── build.gradle.kts
+│   ├── domain/
+│   │   ├── build.gradle.kts
+│   │   └── src/main/java/com/example/skeduly/wallet/domain/
+│   │       ├── model/
+│   │       │   └── Wallet.kt
+│   │       ├── repository/
+│   │       │   └── WalletRepository.kt
+│   │       └── usecase/
+│   │           ├── GetBalanceUseCase.kt
+│   │           └── GetTransactionsUseCase.kt
+│   │
+│   ├── data/
+│   │   ├── build.gradle.kts
+│   │   └── src/main/java/com/example/skeduly/wallet/data/
+│   │       ├── repository/
+│   │       │   └── WalletRepositoryImpl.kt
+│   │       └── di/
+│   │           └── WalletDataModule.kt
+│   │
+│   └── src/main/java/com/example/skeduly/wallet/
+│       ├── navigation/
+│       │   └── WalletNavGraph.kt
+│       ├── balance/
+│       │   ├── BalanceScreen.kt
+│       │   └── BalanceViewModel.kt
+│       └── transactions/
+│           ├── TransactionsScreen.kt
+│           └── TransactionsViewModel.kt
+│
+├── branches/
+│   ├── build.gradle.kts
+│   └── src/main/java/com/example/skeduly/branches/
+│       ├── BranchesScreen.kt
+│       ├── BranchDetailScreen.kt
+│       └── BranchViewModel.kt
+│
+└── presentation/
+    ├── build.gradle.kts
+    └── src/main/java/com/example/skeduly/presentation/
+        ├── ui/navigation/
+        │   └── AppNavHost.kt
+        └── screens/
+            └── MainScreen.kt
 ```
 
----
 
 ## 🔑 Key Development Highlights
 
