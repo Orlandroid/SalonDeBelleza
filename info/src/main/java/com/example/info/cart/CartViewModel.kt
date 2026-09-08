@@ -195,7 +195,7 @@ class CartViewModel @Inject constructor(
                     } else {
                         product
                     }
-                },
+                }
             )
         }
         _state.update { currentState ->

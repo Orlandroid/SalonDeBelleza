@@ -4,11 +4,8 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.AppointmentSession
 import com.example.di.IoDispatcher
-import com.example.domain.AppointmentFirebase
-import com.example.domain.repository.AppointmentsRepository
 import com.example.domain.state.isSuccess
-import com.example.domain.transaction.TransactionType
-import com.example.domain.use_cases.PurchaseProductsUseCase
+import com.example.domain.use_cases.SaveAppointmentUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler
@@ -47,15 +44,10 @@ data class ScheduleAppointmentState(
 
 @HiltViewModel
 class ConfirmScheduleViewModel @Inject constructor(
-    private val appointmentsRepository: AppointmentsRepository,
     @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val purchaseProductsUseCase: PurchaseProductsUseCase,
+    private val saveAppointmentUseCase: SaveAppointmentUseCase,
     private val appointmentSession: AppointmentSession
 ) : ViewModel() {
-
-    private companion object {
-        const val MXN_TO_USD_CONVERSION_FACTOR = 3
-    }
 
 
     private val _uiState: MutableStateFlow<ScheduleAppointmentState> =
@@ -84,8 +76,10 @@ class ConfirmScheduleViewModel @Inject constructor(
     fun onEvents(event: ScheduleAppointmentEvents) {
         when (event) {
             is ScheduleAppointmentEvents.OnConfirmationAppointmentAccepted -> {
-                _uiState.update { it.copy(showConfirmationDialog = false) }
-                saveAppointment()
+                viewModelScope.launch(coroutineExceptionHandler + ioDispatcher) {
+                    _uiState.update { it.copy(showConfirmationDialog = false) }
+                    saveAppointment()
+                }
             }
 
             ScheduleAppointmentEvents.OnConfirmationDialogCancel -> {
@@ -103,28 +97,21 @@ class ConfirmScheduleViewModel @Inject constructor(
     }
 
 
-    private fun saveAppointment() {
+    private suspend fun saveAppointment() {
         val draft = appointmentSession.draft.value
-        val appointment = AppointmentFirebase(
+        val saveAppointmentResult = saveAppointmentUseCase.invoke(
             establishment = draft.branch?.sucursal?.name.orEmpty(),
+            employee = draft.staff?.name.orEmpty(),
             service = draft.service?.name.orEmpty(),
             date = draft.date,
             hour = draft.time,
             total = draft.service?.precio.toString()
         )
-        viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
-            val saveAppointmentResult = appointmentsRepository.saveAppointment(appointment)
-            if (saveAppointmentResult.isSuccess()) {
-                _uiState.update { it.copy(showAnimation = true) }
-                _effects.send(ScheduleAppointmentEffects.NavigateToAppointComplete)
-                purchaseProductsUseCase.invoke(
-                    amount = appointment.total.toLong() / MXN_TO_USD_CONVERSION_FACTOR,
-                    transactionType = TransactionType.SERVICE_PAYMENT,
-                    description = "${appointment.service} at ${appointment.establishment}"
-                )
-            } else {
-                //Todo add some kind of screen the creation of the appointment failed
-            }
+        if (saveAppointmentResult.isSuccess()) {
+            _uiState.update { it.copy(showAnimation = true) }
+            _effects.send(ScheduleAppointmentEffects.NavigateToAppointComplete)
+        } else {
+            //Todo add some kind of screen the creation of the appointment failed
         }
     }
 

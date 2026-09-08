@@ -1,15 +1,15 @@
 package com.example.domain.use_cases
 
+import com.example.domain.repository.WalletRepository
 import com.example.domain.state.ApiResult
 import com.example.domain.state.getErrorMessage
 import com.example.domain.transaction.TransactionRepository
 import com.example.domain.transaction.TransactionType
 import com.example.domain.wallet.Balance
 import com.example.domain.wallet.Currency
-import com.example.domain.wallet.WalletRepository
+import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
-import com.google.common.truth.Truth.assertThat
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
