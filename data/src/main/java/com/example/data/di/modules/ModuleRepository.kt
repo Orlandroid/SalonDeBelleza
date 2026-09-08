@@ -1,18 +1,9 @@
 package com.example.data.di.modules
 
 
-import com.example.data.api.DummyJsonApi
 import com.example.data.api.WebServices
-import com.example.data.database.daos.ProductDao
 import com.example.data.remote.AuthRepositoryImp
 import com.example.data.remote.appointments.AppointmentsRepositoryImpl
-import com.example.data.remote.dummy_json.DummyJsonRepository
-import com.example.data.remote.dummy_json.DummyJsonRepositoryImp
-import com.example.data.remote.info.DefaultBusinessRepository
-import com.example.data.remote.products.CategoryRepositoryImpl
-import com.example.data.remote.products.ProductRepositoryImpl
-import com.example.data.remote.products.commons.category.CategoryProviderResolver
-import com.example.data.remote.products.commons.product.ProductProviderResolver
 import com.example.data.remote.transactions.TransactionRepositoryImp
 import com.example.data.remote.user.UserRepositoryImpl
 import com.example.data.remote.wallet.WalletRepositoryImplement
@@ -22,9 +13,6 @@ import com.example.di.qualifiers.UsersRef
 import com.example.di.qualifiers.WalletReference
 import com.example.domain.repository.AppointmentsRepository
 import com.example.domain.repository.AuthRepository
-import com.example.domain.repository.BusinessRepository
-import com.example.domain.repository.CategoryRepository
-import com.example.domain.repository.ProductRepository
 import com.example.domain.repository.UserRepository
 import com.example.domain.transaction.TransactionRepository
 import com.example.domain.use_cases.IsBranchOpenUseCase
@@ -43,13 +31,6 @@ import javax.inject.Singleton
 
 object ModuleRepository {
 
-
-    @Singleton
-    @Provides
-    fun provideDummyJsonRepository(
-        api: DummyJsonApi
-    ): DummyJsonRepository =
-        DummyJsonRepositoryImp(api = api)
 
     @Singleton
     @Provides
@@ -75,28 +56,7 @@ object ModuleRepository {
             firebaseAuth = firebaseAuth
         )
 
-    @Singleton
-    @Provides
-    fun provideProductsRepository(
-        resolver: ProductProviderResolver
-    ): ProductRepository =
-        ProductRepositoryImpl(resolver = resolver)
 
-
-    @Singleton
-    @Provides
-    fun provideCategoriesRepository(
-        categoryResolver: CategoryProviderResolver
-    ): CategoryRepository =
-        CategoryRepositoryImpl(categoryResolver = categoryResolver)
-
-    @Singleton
-    @Provides
-    fun provideBusinessRepository(
-        productDao: ProductDao,
-        webServices: WebServices
-    ): BusinessRepository =
-        DefaultBusinessRepository(productDao = productDao, webServices = webServices)
 
     @Singleton
     @Provides

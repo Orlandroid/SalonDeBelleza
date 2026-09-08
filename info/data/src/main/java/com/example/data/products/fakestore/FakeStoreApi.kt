@@ -1,0 +1,19 @@
+package com.example.data.products.fakestore
+
+import retrofit2.http.GET
+import retrofit2.http.Path
+
+interface FakeStoreApi {
+
+    @GET("/products")
+    suspend fun getProducts(): List<FakeStoreProduct>
+
+    @GET("products/{id}")
+    suspend fun getSingleProduct(@Path("id")id: Int): FakeStoreProduct
+
+    @GET("products/categories")
+    suspend fun getCategories(): List<String>
+
+    @GET("/products/category/{categoria}")
+    suspend fun getProducts(@Path("categoria") categoria: String): List<FakeStoreProduct>
+}

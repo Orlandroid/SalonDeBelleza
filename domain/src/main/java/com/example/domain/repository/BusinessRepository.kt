@@ -1,7 +1,7 @@
 package com.example.domain.repository
 
+import com.example.domain.Product
 import com.example.domain.entities.remote.dummyUsers.User
-import com.example.domain.entities.remote.products.Product
 import com.example.domain.state.ApiResult
 
 

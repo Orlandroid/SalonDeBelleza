@@ -4,8 +4,8 @@ import android.content.Context
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.di.IoDispatcher
+import com.example.domain.Product
 import com.example.domain.ProductSource
-import com.example.domain.entities.remote.products.Product
 import com.example.domain.repository.BusinessRepository
 import com.example.domain.state.getContent
 import com.example.domain.state.getErrorMessage

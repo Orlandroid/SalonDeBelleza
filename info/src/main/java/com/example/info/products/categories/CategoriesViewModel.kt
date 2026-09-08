@@ -2,10 +2,12 @@ package com.example.info.products.categories
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.core.ui.base.BaseScreenState
 import com.example.di.IoDispatcher
 import com.example.domain.CategorySource
 import com.example.domain.ProductSource
-import com.example.domain.entities.remote.products.Category
+import com.example.domain.entities.products.Category
+import com.example.domain.repository.CategoryRepository
 import com.example.domain.toProductSource
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
@@ -20,8 +22,6 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import com.example.core.ui.base.BaseScreenState
-import com.example.domain.repository.CategoryRepository
 
 data class CategoriesUiState(
     val categories: List<Category> = emptyList()

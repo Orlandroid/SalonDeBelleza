@@ -35,6 +35,8 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":di"))
     implementation(project(":branches"))
+    implementation(project(":info:domain"))
+    implementation(project(":info:data"))
     implementation(libs.androidCoreKtx)
     implementation(libs.appcompat)
     implementation(libs.material)

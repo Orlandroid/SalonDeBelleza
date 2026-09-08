@@ -9,14 +9,11 @@ import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.example.core.navigation.AppNavigationRoutes
 import com.example.core.navigation.profile.ProfileNavigationRoutes
-import com.example.domain.CustomNavType
-import com.example.domain.entities.local.AppointmentObject
 import com.example.profile.contact_us.ContactUsScreen
 import com.example.profile.historial_citas.AppointmentHistoryScreen
 import com.example.profile.historial_detail.HistoryDetailScreen
 import com.example.profile.profile.ProfileScreen
 import com.example.profile.userprofile.UserProfileScreen
-import kotlin.reflect.typeOf
 
 
 fun NavGraphBuilder.profileNavigationGraph(navController: NavHostController, onRestart: () -> Unit) {
@@ -32,9 +29,7 @@ fun NavGraphBuilder.profileNavigationGraph(navController: NavHostController, onR
         composable<ProfileNavigationRoutes.AppointmentHistoryRoute> {
             AppointmentHistoryScreen(navController = navController)
         }
-        composable<ProfileNavigationRoutes.HistoryDetailRoute>(
-            typeMap = mapOf(typeOf<AppointmentObject>() to CustomNavType.appointmentObject)
-        ) {
+        composable<ProfileNavigationRoutes.HistoryDetailRoute> {
             val arguments = it.toRoute<ProfileNavigationRoutes.HistoryDetailRoute>()
             HistoryDetailScreen(
                 navController = navController,

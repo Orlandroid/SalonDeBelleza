@@ -42,8 +42,8 @@ import com.example.core.ui.dialogs.ProgressDialog
 import com.example.core.ui.theme.AlwaysBlack
 import com.example.core.ui.theme.Background
 import com.example.core.util.toCurrencyString
+import com.example.domain.Product
 import com.example.domain.ProductSource
-import com.example.domain.entities.remote.products.Product
 import com.example.domain.wallet.Currency
 import com.gowtham.ratingbar.RatingBar
 import com.gowtham.ratingbar.RatingBarStyle

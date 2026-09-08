@@ -2,7 +2,7 @@ package com.example.data.database.mappers
 
 import com.example.data.database.entities.CategoryEntity
 import com.example.data.database.entities.ProductEntity
-import com.example.domain.entities.remote.products.Product
+import com.example.domain.Product
 
 fun ProductEntity.toProduct() = Product(
     id = id,

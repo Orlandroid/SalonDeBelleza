@@ -53,7 +53,7 @@ import com.example.core.ui.dialogs.ProgressDialog
 import com.example.core.ui.theme.AlwaysWhite
 import com.example.core.ui.theme.Background
 import com.example.core.util.toCurrencyString
-import com.example.domain.entities.remote.products.Product
+import com.example.domain.Product
 import com.example.domain.wallet.Currency
 import com.example.info.R
 import kotlinx.coroutines.flow.collectLatest

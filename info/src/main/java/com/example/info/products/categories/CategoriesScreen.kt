@@ -33,7 +33,8 @@ import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.dialogs.ProgressDialog
 import com.example.core.ui.theme.Background
 import com.example.domain.CategorySource
-import com.example.domain.entities.remote.products.Category
+import com.example.domain.entities.products.Category
+//import com.example.domain.entities.remote.products.Category
 import kotlinx.coroutines.flow.collectLatest
 
 

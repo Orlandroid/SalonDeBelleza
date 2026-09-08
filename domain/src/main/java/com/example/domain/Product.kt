@@ -1,0 +1,28 @@
+package com.example.domain
+
+data class Product(
+    val id: Int,
+    val title: String,
+    val description: String,
+    val price: Long,
+    val rating: Double? = null,
+    val image: String? = null,
+    val category: String? = null,
+    val quantity: Int = 1,
+) {
+
+    fun total(): Long {
+        return quantity * price
+    }
+
+    companion object {
+        fun dummyProduct() = Product(
+            id = 1,
+            title = "Dummy Product",
+            description = "This is a dummy product for testing purposes.",
+            price = 999L,
+            rating = 4.5,
+            image = "https://via.placeholder.com/150"
+        )
+    }
+}
