@@ -1,12 +1,12 @@
 package com.example.domain.use_cases
 
+import com.example.domain.repository.WalletRepository
 import com.example.domain.state.ApiResult
 import com.example.domain.state.getContent
 import com.example.domain.state.isError
 import com.example.domain.transaction.Transaction
 import com.example.domain.transaction.TransactionRepository
 import com.example.domain.transaction.TransactionType
-import com.example.domain.wallet.WalletRepository
 import java.util.UUID
 import javax.inject.Inject
 

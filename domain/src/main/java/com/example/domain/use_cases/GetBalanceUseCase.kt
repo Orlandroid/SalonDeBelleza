@@ -7,7 +7,6 @@ import com.example.domain.state.isError
 import com.example.domain.wallet.Balance
 import javax.inject.Inject
 
-
 class GetBalanceUseCase @Inject constructor(
     private val getUserInfoUseCase: GetUserInfoUseCase,
     private val getWalletUseCase: GetWalletUseCase

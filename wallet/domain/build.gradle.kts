@@ -4,11 +4,10 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.ksp)
-    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {
-    namespace = "com.example.wallet"
+    namespace = "com.example.domain"
     compileSdk {
         version = release(37)
     }
@@ -31,20 +30,14 @@ android {
 }
 
 dependencies {
-    implementation(project(":core"))
-    implementation(project(":di"))
     implementation(project(":domain"))
-    implementation(project(":wallet:domain"))
-    implementation(project(":wallet:data"))
     implementation(libs.androidCoreKtx)
     implementation(libs.appcompat)
     implementation(libs.material)
     testImplementation(libs.junit4)
     androidTestImplementation(libs.espressoCore)
     androidTestImplementation(libs.testJunit)
+    implementation(libs.bundles.daggerHilt)
     ksp(libs.hiltAndroidCompiler)
     ksp(libs.androidxHiltCompiler)
-    implementation(libs.bundles.composeUi)
-    implementation(libs.bundles.compose)
-    implementation(libs.bundles.composeMaterial)
 }

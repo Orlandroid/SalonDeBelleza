@@ -1,12 +1,12 @@
 package com.example.domain.use_cases
 
+import com.example.domain.repository.WalletRepository
 import com.example.domain.state.ApiResult
 import com.example.domain.state.getErrorMessage
 import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
 import com.example.domain.wallet.Currency
 import com.example.domain.wallet.Wallet
-import com.example.domain.wallet.WalletRepository
 import javax.inject.Inject
 import kotlin.random.Random
 

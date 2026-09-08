@@ -7,6 +7,7 @@ import com.example.domain.perfil.UserInfoFirebase
 import com.example.domain.repository.UserRepository
 import com.example.domain.state.ApiResult
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -21,6 +22,14 @@ class UserRepositoryImpl @Inject constructor(
     private val firebaseAuth: FirebaseAuth
 ) :
     UserRepository {
+
+    override fun getUser(): ApiResult<FirebaseUser?> {
+        val firebaseUser = firebaseAuth.currentUser
+        if (firebaseUser != null) {
+            return ApiResult.Success(firebaseUser)
+        }
+        return ApiResult.Error("User not found")
+    }
 
     override suspend fun getNameAndPhone(): ApiResult<UserInfoFirebase> =
         suspendCancellableCoroutine { continuation ->

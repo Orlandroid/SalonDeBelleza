@@ -2,7 +2,6 @@ package com.example.domain.use_cases
 
 import com.example.domain.UserSessionStatus
 import com.example.domain.entities.UserProfile
-import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.UserRepository
 import com.example.domain.state.ApiResult
 import com.example.domain.state.getContent
@@ -13,14 +12,13 @@ import com.example.domain.state.isSuccess
 import javax.inject.Inject
 
 class GetUserInfoUseCase @Inject constructor(
-    private val authRepository: AuthRepository,
     private val userRepository: UserRepository,
     private val getWalletUseCase: GetWalletUseCase
 ) {
 
 
     suspend operator fun invoke(): ApiResult<UserProfile> {
-        val userResult = authRepository.getUser()
+        val userResult = userRepository.getUser()
         if (userResult is ApiResult.Error) {
             return ApiResult.Error(userResult.getErrorMessage())
         }
@@ -58,7 +56,7 @@ class GetUserInfoUseCase @Inject constructor(
 
 
     private fun getUserSessionStatus(): UserSessionStatus {
-        val userResult = authRepository.getUser()
+        val userResult = userRepository.getUser()
 
         if (userResult.isError()) {
             return UserSessionStatus.INACTIVE

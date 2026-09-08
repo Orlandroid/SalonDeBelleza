@@ -11,13 +11,7 @@ import kotlinx.coroutines.tasks.await
 class AuthRepositoryImp(
     private val firebaseAuth: FirebaseAuth
 ) : AuthRepository {
-    override fun getUser(): ApiResult<FirebaseUser?> {
-        val firebaseUser = firebaseAuth.currentUser
-        if (firebaseUser != null) {
-            return ApiResult.Success(firebaseUser)
-        }
-        return ApiResult.Error("User not found")
-    }
+
 
     override suspend fun login(
         email: String,

@@ -7,7 +7,6 @@ import com.google.firebase.auth.FirebaseUser
 
 interface AuthRepository {
 
-    fun getUser(): ApiResult<FirebaseUser?>
 
     suspend fun login(email: String, password: String): ApiResult<Unit>
 

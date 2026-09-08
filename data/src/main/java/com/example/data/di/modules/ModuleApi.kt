@@ -1,6 +1,5 @@
 package com.example.data.di.modules
 
-
 import com.example.data.api.WebServices
 import dagger.Module
 import dagger.Provides
@@ -20,10 +19,7 @@ import javax.inject.Singleton
 object ModuleApi {
 
 
-    private const val BASE_URL_FAKE_STORE = "https://fakestoreapi.com/"
     private const val BASE_URL_DUMMY_JSON = "https://dummyjson.com/"
-    private const val BASE_URL_PLATZY = "https://api.escuelajs.co/"
-    private const val BASE_URL_MY_DUMMY = "https://api.mydummyapi.com/categories/"
     private const val BASE_URL =
         "https://raw.githubusercontent.com/Orlandroid/Resources_Repos/main/fakesResponsesApis/"
     private const val RETROFIT_DUMMY_JSON = "DummyJson"
@@ -65,8 +61,6 @@ object ModuleApi {
     @Singleton
     @Provides
     fun provideWebService(retrofit: Retrofit) = retrofit.create(WebServices::class.java)
-
-
 
 
 }

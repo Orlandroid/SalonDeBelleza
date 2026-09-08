@@ -1,10 +1,10 @@
-package com.example.data.remote.wallet
+package com.example.data
 
 import com.example.di.qualifiers.WalletReference
+import com.example.domain.repository.WalletRepository
 import com.example.domain.state.ApiResult
 import com.example.domain.transaction.TransactionType
 import com.example.domain.wallet.Wallet
-import com.example.domain.wallet.WalletRepository
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

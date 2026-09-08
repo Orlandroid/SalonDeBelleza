@@ -5,6 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.UserPreferences
 import com.example.domain.repository.AuthRepository
 import com.example.domain.perfil.ProfileItem
+import com.example.domain.repository.UserRepository
 import com.example.domain.state.getContent
 import com.example.domain.state.isSuccess
 import com.example.profile.ProfileMenuProvider
@@ -47,6 +48,7 @@ sealed class ProfileEffects {
 
 @HiltViewModel
 class ProfileViewModel @Inject constructor(
+    private val userRepository: UserRepository,
     private val authRepository: AuthRepository,
     private val loginPreferences: UserPreferences
 ) :
@@ -56,7 +58,7 @@ class ProfileViewModel @Inject constructor(
         MutableStateFlow(ProfileUiState())
 
     val uiState = _uiState.onStart {
-        val authResult = authRepository.getUser()
+        val authResult = userRepository.getUser()
         if (authResult.isSuccess()) {
             _uiState.update { it.copy(user = authResult.getContent()?.email) }
         }

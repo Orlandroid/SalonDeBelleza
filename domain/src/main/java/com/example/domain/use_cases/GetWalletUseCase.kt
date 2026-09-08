@@ -1,10 +1,10 @@
 package com.example.domain.use_cases
 
+import com.example.domain.repository.WalletRepository
 import com.example.domain.state.ApiResult
 import com.example.domain.state.getContent
 import com.example.domain.state.isError
 import com.example.domain.wallet.Balance
-import com.example.domain.wallet.WalletRepository
 import javax.inject.Inject
 
 class GetWalletUseCase @Inject constructor(
