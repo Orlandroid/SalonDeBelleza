@@ -3,6 +3,10 @@ package com.example.data.di.modules
 
 import com.example.di.qualifiers.AppointmentsRef
 import com.example.di.qualifiers.ImagesRef
+import com.example.di.qualifiers.LoyaltyRef
+import com.example.di.qualifiers.LoyaltyTransactionsRef
+import com.example.di.qualifiers.PromotionCodesRef
+import com.example.di.qualifiers.RewardsRef
 import com.example.di.qualifiers.TransactionReference
 import com.example.di.qualifiers.UsersRef
 import com.example.di.qualifiers.WalletReference
@@ -25,6 +29,10 @@ object ModuleFirebase {
     private const val USERS_PATH = "users"
     private const val WALLET = "wallets"
     private const val TRANSACTIONS = "transactions"
+    private const val LOYALTY = "loyalty"
+    private const val LOYALTY_TRANSACTIONS = "loyaltyTransactions"
+    private const val REWARDS = "rewards"
+    private const val PROMOTION_CODES = "promotionCodes"
 
 
     @Singleton
@@ -82,6 +90,42 @@ object ModuleFirebase {
         firebaseDatabase: FirebaseDatabase
     ): DatabaseReference {
         return firebaseDatabase.reference.child(TRANSACTIONS)
+    }
+
+    @Singleton
+    @Provides
+    @LoyaltyRef
+    fun provideFirebaseRealtimeLoyaltyReference(
+        firebaseDatabase: FirebaseDatabase
+    ): DatabaseReference {
+        return firebaseDatabase.reference.child(LOYALTY)
+    }
+
+    @Singleton
+    @Provides
+    @LoyaltyTransactionsRef
+    fun provideFirebaseRealtimeLoyaltyTransactionsReference(
+        firebaseDatabase: FirebaseDatabase
+    ): DatabaseReference {
+        return firebaseDatabase.reference.child(LOYALTY_TRANSACTIONS)
+    }
+
+    @Singleton
+    @Provides
+    @RewardsRef
+    fun provideFirebaseRealtimeRewardsReference(
+        firebaseDatabase: FirebaseDatabase
+    ): DatabaseReference {
+        return firebaseDatabase.reference.child(REWARDS)
+    }
+
+    @Singleton
+    @Provides
+    @PromotionCodesRef
+    fun provideFirebaseRealtimePromotionCodesReference(
+        firebaseDatabase: FirebaseDatabase
+    ): DatabaseReference {
+        return firebaseDatabase.reference.child(PROMOTION_CODES)
     }
 
 }

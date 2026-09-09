@@ -21,3 +21,19 @@ annotation class WalletReference
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class TransactionReference
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class LoyaltyRef
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class LoyaltyTransactionsRef
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class RewardsRef
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class PromotionCodesRef

@@ -2,7 +2,7 @@ package com.example.domain.use_cases
 
 import com.example.domain.state.ApiResult
 import com.example.domain.wallet.Wallet
-import com.example.domain.wallet.WalletRepository
+import com.example.domain.repository.WalletRepository
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify

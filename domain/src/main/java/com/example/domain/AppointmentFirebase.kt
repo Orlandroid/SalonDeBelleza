@@ -10,4 +10,5 @@ data class AppointmentFirebase(
     var date: String = "",
     var hour: String = "",
     var total: String = "",
+    var status: AppointmentStatus = AppointmentStatus.CONFIRMED
 )

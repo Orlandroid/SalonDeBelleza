@@ -3,7 +3,6 @@ package com.example.domain.repository
 import com.example.domain.state.ApiResult
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
-import com.google.firebase.auth.FirebaseUser
 
 interface AuthRepository {
 

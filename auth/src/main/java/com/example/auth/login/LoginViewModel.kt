@@ -4,10 +4,10 @@ package com.example.auth.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.UserPreferences
+import com.example.domain.interfaces.EmailValidator
+import com.example.domain.interfaces.PasswordValidator
 import com.example.domain.state.isSuccess
 import com.example.domain.use_cases.LoginUseCase
-import com.example.domain.EmailValidator
-import com.example.domain.PasswordValidator
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async

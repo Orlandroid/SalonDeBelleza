@@ -3,11 +3,14 @@ package com.example.data.di.modules
 import com.example.data.api.WebServices
 import com.example.data.remote.AuthRepositoryImp
 import com.example.data.remote.appointments.AppointmentsRepositoryImpl
+import com.example.data.remote.loyalty.LoyaltyRepositoryImpl
 import com.example.data.remote.user.UserRepositoryImpl
 import com.example.di.qualifiers.AppointmentsRef
+import com.example.di.qualifiers.LoyaltyRef
 import com.example.di.qualifiers.UsersRef
 import com.example.domain.repository.AppointmentsRepository
 import com.example.domain.repository.AuthRepository
+import com.example.domain.repository.LoyaltyRepository
 import com.example.domain.repository.UserRepository
 import com.example.domain.use_cases.IsBranchOpenUseCase
 import com.google.firebase.auth.FirebaseAuth
@@ -53,6 +56,11 @@ object ModuleRepository {
     @Provides
     fun provideAuthRepository(firebaseSource: FirebaseAuth): AuthRepository =
         AuthRepositoryImp(firebaseSource)
+
+    @Singleton
+    @Provides
+    fun provideLoyaltyRepository(@LoyaltyRef loyaltyRef: DatabaseReference): LoyaltyRepository =
+        LoyaltyRepositoryImpl(loyaltyRef)
 
 
 }

@@ -1,7 +1,7 @@
 package com.example.domain.use_cases
 
 import com.example.domain.repository.AuthRepository
-import com.example.domain.repository.WalletRepository
+import com.example.domain.repository.LoyaltyRepository
 import com.example.domain.state.ApiResult
 import com.example.domain.state.getContent
 import com.example.domain.state.isError
@@ -10,7 +10,8 @@ import javax.inject.Inject
 
 class SingUpUseCase @Inject constructor(
     private val authRepository: AuthRepository,
-    private val createWalletUseCase: CreateWalletUseCase
+    private val createWalletUseCase: CreateWalletUseCase,
+    private val loyaltyRepository: LoyaltyRepository
 ) {
 
     suspend operator fun invoke(
@@ -33,6 +34,11 @@ class SingUpUseCase @Inject constructor(
         val walletResult = createWalletUseCase(userUid)
 
         if (walletResult.isError()) {
+            return ApiResult.Error()
+        }
+
+        val initializeLoyaltyResult = loyaltyRepository.initializeLoyalty(userUid)
+        if (initializeLoyaltyResult.isError()) {
             return ApiResult.Error()
         }
 

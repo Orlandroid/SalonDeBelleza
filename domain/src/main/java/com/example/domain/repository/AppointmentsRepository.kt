@@ -16,7 +16,11 @@ interface AppointmentsRepository {
 
     suspend fun getSingleAppointment(appointmentId: String): ApiResult<AppointmentObject>
 
+    suspend fun getAppointmentById(appointmentId: String): ApiResult<AppointmentFirebase>
+
     suspend fun saveAppointment(appointment: AppointmentFirebase): ApiResult<Any>
+
+    suspend fun updateAppointment(appointmentId: String, appointment: AppointmentFirebase): ApiResult<Unit>
 
     suspend fun getBranches(): ApiResult<List<NegoInfo>>
 

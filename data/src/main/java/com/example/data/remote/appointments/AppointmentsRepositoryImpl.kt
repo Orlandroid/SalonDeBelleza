@@ -75,6 +75,20 @@ class AppointmentsRepositoryImpl @Inject constructor(
             }
         }
 
+    override suspend fun getAppointmentById(appointmentId: String): ApiResult<AppointmentFirebase> {
+        return runCatching {
+            val snapshot = databaseReference.child(appointmentId).get().await()
+            val appointment = snapshot.getValue<AppointmentFirebase>()
+            if (appointment != null) {
+                ApiResult.Success(appointment)
+            } else {
+                ApiResult.Error("Appointment not found")
+            }
+        }.getOrElse {
+            ApiResult.Error(it.message)
+        }
+    }
+
 
     override suspend fun saveAppointment(appointment: AppointmentFirebase): ApiResult<Any> {
         runCatching {
@@ -82,6 +96,18 @@ class AppointmentsRepositoryImpl @Inject constructor(
             return ApiResult.Success(Any())
         }.getOrElse {
             return ApiResult.Error(it.message)
+        }
+    }
+
+    override suspend fun updateAppointment(
+        appointmentId: String,
+        appointment: AppointmentFirebase
+    ): ApiResult<Unit> {
+        return runCatching {
+            databaseReference.child(appointmentId).setValue(appointment).await()
+            ApiResult.Success(Unit)
+        }.getOrElse {
+            ApiResult.Error(it.message)
         }
     }
 

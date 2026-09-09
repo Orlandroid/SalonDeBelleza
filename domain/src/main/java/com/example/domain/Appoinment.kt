@@ -11,5 +11,6 @@ fun AppointmentFirebase.toAppointmentObject(): AppointmentObject {
     val date = this.date
     val hour = this.hour
     val total = this.total
-    return AppointmentObject(idAppointment, establishment, employee, service, date, hour, total)
+    val status = this.status
+    return AppointmentObject(idAppointment, establishment, employee, service, date, hour, total, status)
 }
