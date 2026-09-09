@@ -1,8 +1,8 @@
 package com.example.data.auth
 
-import com.example.domain.AndroidEmailValidator
+import com.example.data.AndroidEmailValidator
+import com.example.data.MainPasswordValidator
 import com.example.domain.EmailValidator
-import com.example.domain.MainPasswordValidator
 import com.example.domain.PasswordValidator
 import dagger.Module
 import dagger.Provides

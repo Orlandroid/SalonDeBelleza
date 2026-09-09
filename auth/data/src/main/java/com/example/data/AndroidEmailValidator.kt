@@ -1,11 +1,9 @@
-package com.example.domain
+package com.example.data
 
 import android.text.TextUtils
 import android.util.Patterns
+import com.example.domain.interfaces.EmailValidator
 
-interface EmailValidator {
-    fun isValidEmail(email: String): Boolean
-}
 
 class AndroidEmailValidator : EmailValidator {
     override fun isValidEmail(email: String): Boolean {

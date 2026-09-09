@@ -1,10 +1,6 @@
-package com.example.domain
+package com.example.data
 
-
-interface PasswordValidator {
-    fun isValidPassword(password: String): Boolean
-}
-
+import com.example.domain.interfaces.PasswordValidator
 
 class MainPasswordValidator : PasswordValidator {
     override fun isValidPassword(password: String): Boolean {
