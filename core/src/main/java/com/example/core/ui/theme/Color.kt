@@ -41,3 +41,6 @@ val avatarBackgrounds = listOf(
     Color(0xFFD1FAE5) to Color(0xFF059669),
     Color(0xFFFEF3C7) to Color(0xFFD97706),
 )
+val Confirmed = Color(0xFF2196F3)
+val Completed = Color(0xFF4CAF50)
+val Canceled = Color(0xFFF44336)

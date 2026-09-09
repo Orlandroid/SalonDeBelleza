@@ -1,5 +1,6 @@
 package com.example.profile.historial_citas
 
+import android.annotation.SuppressLint
 import androidx.annotation.RawRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -19,8 +20,11 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.CheckCircleOutline
 import androidx.compose.material.icons.outlined.DeleteOutline
+import androidx.compose.material.icons.outlined.DoNotDisturbOn
 import androidx.compose.material.icons.outlined.Storefront
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
@@ -28,11 +32,13 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -56,8 +62,13 @@ import com.example.core.ui.dialogs.BaseAlertDialogMessages
 import com.example.core.ui.dialogs.IsTwoButtonsAlert
 import com.example.core.ui.dialogs.ProgressDialog
 import com.example.domain.Appointment
+import com.example.domain.AppointmentStatus
 import com.example.profile.R
 import kotlinx.coroutines.flow.collectLatest
+import com.example.core.ui.theme.Completed
+import com.example.core.ui.theme.Confirmed
+import com.example.core.ui.theme.Canceled
+
 
 @Composable
 fun AppointmentHistoryScreen(
@@ -172,15 +183,21 @@ private fun Appointments(
     ) {
         items(
             items = appointments, key = { it.id }) { appointment ->
-            ItemAppointment(appointment = appointment, onAppointmentClicked = { appointmentId ->
-                onEvents(
-                    AppointmentHistoryEvents.OnAppointmentClicked(
-                        appointmentId
-                    )
-                )
-            }, onRemoveAppointment = {
-                onEvents(AppointmentHistoryEvents.OnRemove(appointment.id))
-            })
+            ItemAppointment(
+                appointment = appointment,
+                onAppointmentClicked = { appointmentId ->
+                    onEvents(AppointmentHistoryEvents.OnAppointmentClicked(appointmentId))
+                },
+                onRemoveAppointment = {
+                    onEvents(AppointmentHistoryEvents.OnRemove(appointment.id))
+                },
+                onCompleteAppointment = {
+                    onEvents(AppointmentHistoryEvents.OnComplete(appointment.id))
+                },
+                onCancelAppointment = {
+                    onEvents(AppointmentHistoryEvents.OnCancelAppointment(appointment.id))
+                }
+            )
         }
     }
 }
@@ -189,6 +206,8 @@ private fun Appointments(
 private fun ItemAppointment(
     appointment: Appointment,
     onRemoveAppointment: () -> Unit,
+    onCompleteAppointment: () -> Unit,
+    onCancelAppointment: () -> Unit,
     onAppointmentClicked: (appointmentId: String) -> Unit
 ) {
     Card(
@@ -199,51 +218,105 @@ private fun ItemAppointment(
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         shape = RoundedCornerShape(20.dp),
         onClick = { onAppointmentClicked(appointment.id) }) {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Surface(
-                shape = RoundedCornerShape(16.dp),
-                color = MaterialTheme.colorScheme.surfaceContainerHigh
+        Column(modifier = Modifier.padding(12.dp)) {
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
             ) {
-                Image(
-                    modifier = Modifier.size(72.dp),
-                    painter = painterResource(id = R.drawable.tienda),
-                    contentDescription = null
-                )
+                Surface(
+                    shape = RoundedCornerShape(16.dp),
+                    color = MaterialTheme.colorScheme.surfaceContainerHigh
+                ) {
+                    Image(
+                        modifier = Modifier.size(72.dp),
+                        painter = painterResource(id = R.drawable.tienda),
+                        contentDescription = null
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(16.dp))
+
+                Column(
+                    modifier = Modifier.weight(1f)
+                ) {
+                    Text(
+                        text = appointment.service,
+                        style = MaterialTheme.typography.titleMedium,
+                        fontWeight = FontWeight.SemiBold,
+                        color = MaterialTheme.colorScheme.onSurface,
+                        maxLines = 2,
+                        overflow = TextOverflow.Ellipsis
+                    )
+                    Spacer(modifier = Modifier.height(6.dp))
+                    BranchRow(branchName = appointment.branch)
+                    Spacer(modifier = Modifier.height(4.dp))
+                    StatusBadge(status = appointment.status)
+                }
+
+                IconButton(onClick = onRemoveAppointment) {
+                    Icon(
+                        imageVector = Icons.Outlined.DeleteOutline,
+                        contentDescription = stringResource(R.string.remove),
+                        tint = MaterialTheme.colorScheme.error.copy(alpha = 0.85f)
+                    )
+                }
             }
 
-            Spacer(modifier = Modifier.width(16.dp))
-
-
-            Column(
-                modifier = Modifier.weight(1f)
-            ) {
-                Text(
-                    text = appointment.service,
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.SemiBold,
-                    color = MaterialTheme.colorScheme.onSurface,
-                    maxLines = 2,
-                    overflow = TextOverflow.Ellipsis
-                )
-                Spacer(modifier = Modifier.height(6.dp))
-                BranchRow(branchName = appointment.branch)
-            }
-
-            Spacer(modifier = Modifier.width(4.dp))
-
-            IconButton(onClick = onRemoveAppointment) {
-                Icon(
-                    imageVector = Icons.Outlined.DeleteOutline,
-                    contentDescription = stringResource(R.string.remove),
-                    tint = MaterialTheme.colorScheme.error.copy(alpha = 0.85f)
-                )
+            if (appointment.status == AppointmentStatus.CONFIRMED) {
+                Spacer(modifier = Modifier.height(8.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    TextButton(
+                        onClick = onCancelAppointment,
+                        colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error)
+                    ) {
+                        Icon(
+                            Icons.Outlined.DoNotDisturbOn,
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp)
+                        )
+                        Spacer(Modifier.width(4.dp))
+                        Text("Cancel")
+                    }
+                    Spacer(modifier = Modifier.width(8.dp))
+                    TextButton(
+                        onClick = onCompleteAppointment,
+                        colors = ButtonDefaults.textButtonColors(contentColor = Color(0xFF4CAF50))
+                    ) {
+                        Icon(
+                            Icons.Outlined.CheckCircleOutline,
+                            contentDescription = null,
+                            modifier = Modifier.size(18.dp)
+                        )
+                        Spacer(Modifier.width(4.dp))
+                        Text("Complete")
+                    }
+                }
             }
         }
+    }
+}
+
+@Composable
+private fun StatusBadge(status: AppointmentStatus) {
+    val (color, text) = when (status) {
+        AppointmentStatus.CONFIRMED -> Confirmed to stringResource(R.string.confirmed)
+        AppointmentStatus.COMPLETED -> Completed to stringResource(R.string.completed)
+        AppointmentStatus.CANCELLED -> Canceled to stringResource(R.string.cancelled)
+    }
+    Surface(
+        shape = RoundedCornerShape(8.dp),
+        color = color.copy(alpha = 0.1f)
+    ) {
+        Text(
+            text = text,
+            modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
+            style = MaterialTheme.typography.labelSmall,
+            color = color,
+            fontWeight = FontWeight.Bold
+        )
     }
 }
 
@@ -294,17 +367,21 @@ private fun NotDatView(@RawRes animation: Int) {
     }
 }
 
+@SuppressLint("ResourceType")
 @Composable
 @Preview(showBackground = true)
 private fun AppointHistoryListPreview() {
     val mAppointment = Appointment(
         branch = "Sucursal Centro",
         service = "Delineado de barba y bigote, o cejas",
-        id = "1"
+        id = "1",
+        status = AppointmentStatus.CONFIRMED
     )
     AppointHistoryList(
         appointments = listOf(
-            mAppointment, mAppointment.copy(id = "2"), mAppointment.copy(id = "3")
+            mAppointment,
+            mAppointment.copy(id = "2", status = AppointmentStatus.COMPLETED),
+            mAppointment.copy(id = "3", status = AppointmentStatus.CANCELLED)
         ), onEvents = {}, animation = 1
     )
 }

@@ -37,4 +37,7 @@
     <string name="money">Dinero</string>
     <string name="label_email">Email</string>
     <string name="phone">Phone</string>
+    <string name="confirmed">Confirmed</string>
+    <string name="completed">Completed</string>
+    <string name="cancelled">Cancelled</string>
 </resources>

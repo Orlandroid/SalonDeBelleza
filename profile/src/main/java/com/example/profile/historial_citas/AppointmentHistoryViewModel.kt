@@ -3,10 +3,12 @@ package com.example.profile.historial_citas
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.Appointment
+import com.example.domain.AppointmentStatus
 import com.example.domain.repository.AppointmentsRepository
 import com.example.domain.state.getContent
 import com.example.domain.state.getErrorMessage
 import com.example.domain.state.isError
+import com.example.domain.use_cases.loyalty.CompleteAppointmentUseCase
 import com.example.profile.R
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
@@ -33,6 +35,8 @@ sealed class AppointmentHistoryEvents {
     object OnAccept : AppointmentHistoryEvents()
     object OnCancel : AppointmentHistoryEvents()
     data class OnAppointmentClicked(val appointment: String) : AppointmentHistoryEvents()
+    data class OnComplete(val idAppointment: String) : AppointmentHistoryEvents()
+    data class OnCancelAppointment(val idAppointment: String) : AppointmentHistoryEvents()
 }
 
 sealed class AppointmentHistoryEffects {
@@ -41,7 +45,8 @@ sealed class AppointmentHistoryEffects {
 
 @HiltViewModel
 class AppointmentHistoryViewModel @Inject constructor(
-    private val appointmentsRepository: AppointmentsRepository
+    private val appointmentsRepository: AppointmentsRepository,
+    private val completeAppointmentUseCase: CompleteAppointmentUseCase
 ) : ViewModel() {
 
     private var idAppointment: String? = null
@@ -88,6 +93,14 @@ class AppointmentHistoryViewModel @Inject constructor(
                     _effects.send(AppointmentHistoryEffects.NavigateToDetail(idAppointment = event.appointment))
                 }
             }
+
+            is AppointmentHistoryEvents.OnComplete -> {
+                completeAppointment(event.idAppointment)
+            }
+
+            is AppointmentHistoryEvents.OnCancelAppointment -> {
+                cancelAppointment(event.idAppointment)
+            }
         }
     }
 
@@ -103,7 +116,7 @@ class AppointmentHistoryViewModel @Inject constructor(
         val appointmentsResult = appointmentsRepository.getAppointments()
         if (appointmentsResult.isError()) {
             _state.update { state ->
-                state.copy(error = appointmentsResult.getErrorMessage())
+                state.copy(error = appointmentsResult.getErrorMessage(), isLoading = false)
             }
             return@launch
         }
@@ -120,6 +133,34 @@ class AppointmentHistoryViewModel @Inject constructor(
                 state.copy(error = deleteAppointmentResult.getErrorMessage())
             }
             return@launch
+        }
+        getAppointments()
+    }
+
+    private fun completeAppointment(idAppointment: String) = viewModelScope.launch {
+        _state.update { it.copy(isLoading = true) }
+        val result = completeAppointmentUseCase(idAppointment)
+        if (result.isError()) {
+            _state.update { it.copy(error = result.getErrorMessage(), isLoading = false) }
+        } else {
+            getAppointments()
+        }
+    }
+
+    private fun cancelAppointment(idAppointment: String) = viewModelScope.launch {
+        _state.update { it.copy(isLoading = true) }
+        val result = appointmentsRepository.getAppointmentById(idAppointment)
+        if (result.isError()) {
+            _state.update { it.copy(error = result.getErrorMessage(), isLoading = false) }
+            return@launch
+        }
+        val appointment = result.getContent()
+        val cancelledAppointment = appointment.copy(status = AppointmentStatus.CANCELLED)
+        val updateResult = appointmentsRepository.updateAppointment(idAppointment, cancelledAppointment)
+        if (updateResult.isError()) {
+            _state.update { it.copy(error = updateResult.getErrorMessage(), isLoading = false) }
+        } else {
+            getAppointments()
         }
     }
 
