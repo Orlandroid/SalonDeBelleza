@@ -30,6 +30,13 @@ fun Long.toCurrencyString(currency: Currency): String {
     )
 }
 
+fun Double.toCurrencyString(currency: Currency): String {
+    return "$%,.2f %s".format(
+        this,
+        currency.name
+    )
+}
+
 
 
 

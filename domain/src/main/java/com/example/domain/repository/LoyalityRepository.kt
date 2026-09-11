@@ -15,4 +15,5 @@ interface LoyaltyRepository {
     suspend fun getRewards(): ApiResult<List<Reward>>
     suspend fun addPromotionCode(userId: String, promotionCode: PromotionCode): ApiResult<Unit>
     suspend fun getPromotionCodes(userId: String): ApiResult<List<PromotionCode>>
+    suspend fun usePromotionCode(userId: String, promoId: String): ApiResult<Unit>
 }

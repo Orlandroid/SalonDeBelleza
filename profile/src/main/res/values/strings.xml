@@ -40,4 +40,5 @@
     <string name="confirmed">Confirmed</string>
     <string name="completed">Completed</string>
     <string name="cancelled">Cancelled</string>
+    <string name="my_cupons">My Coupons</string>
 </resources>

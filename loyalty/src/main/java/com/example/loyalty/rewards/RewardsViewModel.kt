@@ -36,7 +36,7 @@ sealed class RewardsEffects {
 class RewardsViewModel @Inject constructor(
     private val redeemRewardUseCase: RedeemRewardUseCase,
     private val loyaltyRepository: LoyaltyRepository,
-     val auth: FirebaseAuth
+    val auth: FirebaseAuth
 ) : ViewModel() {
 
     private val userId = auth.uid ?: ""
@@ -77,7 +77,7 @@ class RewardsViewModel @Inject constructor(
         if (result is ApiResult.Success) {
             _state.update { it.copy(rewards = result.result, isLoading = false) }
         } else {
-            _state.update { it.copy(isLoading = false, error = "Error al cargar recompensas") }
+            _state.update { it.copy(isLoading = false, error = "Error loading rewards") }
         }
     }
 
@@ -90,7 +90,7 @@ class RewardsViewModel @Inject constructor(
             val promo = result.result
             _effects.send(RewardsEffects.ShowSuccess(promo.code, promo.discountPercentage))
         } else {
-            val errorMsg = (result as? ApiResult.Error)?.error ?: "Error desconocido"
+            val errorMsg = (result as? ApiResult.Error)?.error ?: "Unknown error"
             _effects.send(RewardsEffects.ShowError(errorMsg))
         }
     }

@@ -95,4 +95,13 @@ class LoyaltyRepositoryImpl @Inject constructor(
             ApiResult.Error(it.message)
         }
     }
+
+    override suspend fun usePromotionCode(userId: String, promoId: String): ApiResult<Unit> {
+        return runCatching {
+            promotionCodesRef.child(userId).child(promoId).child("used").setValue(true).await()
+            ApiResult.Success(Unit)
+        }.getOrElse {
+            ApiResult.Error(it.message)
+        }
+    }
 }

@@ -62,7 +62,10 @@ fun RewardsScreen(
         RewardsScreenContent(
             modifier = Modifier,
             userBalance = uiState.value.userBalance,
-            rewards = uiState.value.rewards
+            rewards = uiState.value.rewards,
+            onRedeem = {
+                viewModel.onEvents(RewardsEvents.OnRedeemReward(it))
+            }
         )
     }
 }
@@ -72,7 +75,8 @@ fun RewardsScreen(
 private fun RewardsScreenContent(
     modifier: Modifier = Modifier,
     userBalance: Int,
-    rewards: List<Reward>
+    rewards: List<Reward>,
+    onRedeem: (reward: Reward) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -100,9 +104,7 @@ private fun RewardsScreenContent(
                 RewardItem(
                     reward = reward,
                     canAfford = userBalance >= reward.pointsRequired,
-                    onRedeem = {
-                        //viewModel.redeem(reward)
-                    }
+                    onRedeem = { onRedeem.invoke(reward) }
                 )
             }
         }
@@ -225,6 +227,7 @@ private fun RewardsScreenContentPreviewSuccess() {
     RewardsScreenContent(
         modifier = Modifier,
         userBalance = 300,
-        rewards = listOf(reward, reward, reward)
+        rewards = listOf(reward, reward, reward),
+        onRedeem = {}
     )
 }

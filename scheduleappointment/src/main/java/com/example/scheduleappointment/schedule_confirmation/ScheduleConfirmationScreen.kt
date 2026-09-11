@@ -3,24 +3,11 @@ package com.example.scheduleappointment.schedule_confirmation
 import androidx.annotation.DrawableRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.HorizontalDivider
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -34,6 +21,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -43,6 +31,7 @@ import com.example.core.ui.theme.AlwaysBlack
 import com.example.core.ui.theme.AlwaysWhite
 import com.example.core.ui.theme.Background
 import com.example.core.util.toCurrencyString
+import com.example.domain.loyalty.PromotionCode
 import com.example.domain.wallet.Currency
 import com.example.scheduleappointment.R
 import kotlinx.coroutines.flow.collectLatest
@@ -69,13 +58,7 @@ fun ScheduleConfirmationScreen(
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.confirmar_cita))
     ) {
         ScheduleConfirmationScreenContent(
-            servicePrice = uiState.servicePrice.toLong(),
-            serviceName = uiState.serviceName,
-            dateAppointment = uiState.date,
-            hourAppointment = uiState.time,
-            staffName = uiState.staffName.orEmpty(),
-            showConfirmationDialog = uiState.showConfirmationDialog,
-            branchName = uiState.branchName.orEmpty(),
+            uiState = uiState,
             event = onEvents
         )
     }
@@ -84,16 +67,10 @@ fun ScheduleConfirmationScreen(
 @Composable
 private fun ScheduleConfirmationScreenContent(
     modifier: Modifier = Modifier,
-    servicePrice: Long,
-    serviceName: String,
-    staffName: String,
-    branchName: String,
-    dateAppointment: String,
-    hourAppointment: String,
-    showConfirmationDialog: Boolean,
+    uiState: ScheduleAppointmentState,
     event: (ScheduleAppointmentEvents) -> Unit
 ) {
-    if (showConfirmationDialog) {
+    if (uiState.showConfirmationDialog) {
         ConfirmAppointmentDialog(
             clickOnAccept = {
                 event(ScheduleAppointmentEvents.OnConfirmationAppointmentAccepted)
@@ -108,6 +85,7 @@ private fun ScheduleConfirmationScreenContent(
         modifier = modifier
             .fillMaxSize()
             .background(Background)
+            .verticalScroll(rememberScrollState())
             .padding(horizontal = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Top
@@ -131,27 +109,27 @@ private fun ScheduleConfirmationScreenContent(
             Column(modifier = Modifier.padding(vertical = 8.dp)) {
                 DetailRow(
                     label = stringResource(id = R.string.sucursal_label),
-                    value = branchName,
+                    value = uiState.branchName.orEmpty(),
                     iconImage = R.drawable.place_24p_negro
                 )
                 DetailRow(
                     label = stringResource(id = R.string.especialista_label),
-                    value = staffName,
+                    value = uiState.staffName.orEmpty(),
                     iconImage = R.drawable.face_unlock_24px
                 )
                 DetailRow(
                     label = stringResource(id = R.string.servicio_label),
-                    value = serviceName,
+                    value = uiState.serviceName,
                     iconImage = R.drawable.stars_24px
                 )
                 DetailRow(
                     label = stringResource(id = R.string.fecha_label),
-                    value = dateAppointment,
+                    value = uiState.date,
                     iconImage = R.drawable.insert_invitation_24px
                 )
                 DetailRow(
                     label = stringResource(id = R.string.hora_label),
-                    value = hourAppointment,
+                    value = uiState.time,
                     iconImage = R.drawable.watch_later_24px,
                     showDivider = false
                 )
@@ -161,33 +139,178 @@ private fun ScheduleConfirmationScreenContent(
                     color = AlwaysBlack.copy(alpha = 0.1f)
                 )
 
-                Row(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .padding(horizontal = 16.dp, vertical = 8.dp),
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically
-                ) {
-                    Text(
-                        text = stringResource(id = R.string.Total),
-                        style = MaterialTheme.typography.titleMedium,
-                        color = AlwaysBlack
-                    )
-                    Text(
-                        text = (servicePrice / 3).toCurrencyString(Currency.USD),
-                        style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                        color = Color(0xff051721)
-                    )
-                }
+                PromoCodeSection(
+                    promoCode = uiState.promoCode,
+                    isApplied = uiState.isPromoApplied,
+                    error = uiState.promoError,
+                    isLoading = uiState.validatingPromo,
+                    onCodeChange = { event(ScheduleAppointmentEvents.OnPromoCodeChanged(it)) },
+                    onApply = { event(ScheduleAppointmentEvents.OnApplyPromoCode) }
+                )
+
+                HorizontalDivider(
+                    modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
+                    color = AlwaysBlack.copy(alpha = 0.1f)
+                )
+
+                val originalPrice = uiState.servicePrice.toDoubleOrNull() ?: 0.0
+                PriceSummary(
+                    originalPrice = originalPrice,
+                    appliedPromo = uiState.appliedPromo
+                )
             }
         }
 
-        Spacer(modifier = Modifier.weight(1f))
+        Spacer(modifier = Modifier.height(32.dp))
 
         ConfirmButton(
             modifier = Modifier.padding(bottom = 24.dp)
         ) {
             event(ScheduleAppointmentEvents.OnSaveAppointment)
+        }
+    }
+}
+
+@Composable
+private fun PromoCodeSection(
+    promoCode: String,
+    isApplied: Boolean,
+    error: String?,
+    isLoading: Boolean,
+    onCodeChange: (String) -> Unit,
+    onApply: () -> Unit
+) {
+    Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+        Text(
+            text = stringResource(R.string.promotional_code),
+            style = MaterialTheme.typography.labelMedium,
+            color = AlwaysBlack.copy(alpha = 0.6f)
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            OutlinedTextField(
+                value = promoCode,
+                onValueChange = onCodeChange,
+                modifier = Modifier.weight(1f),
+                placeholder = {
+                    Text(
+                        text = stringResource(R.string.enter_your_code),
+                        fontSize = 14.sp
+                    )
+                },
+                singleLine = true,
+                enabled = !isApplied && !isLoading,
+                shape = RoundedCornerShape(12.dp),
+                colors = OutlinedTextFieldDefaults.colors(
+                    focusedBorderColor = MaterialTheme.colorScheme.primary,
+                    unfocusedBorderColor = AlwaysBlack.copy(alpha = 0.2f)
+                )
+            )
+            Spacer(modifier = Modifier.width(8.dp))
+            Button(
+                onClick = onApply,
+                enabled = !isApplied && promoCode.isNotBlank() && !isLoading,
+                shape = RoundedCornerShape(12.dp),
+                modifier = Modifier.height(52.dp)
+            ) {
+                if (isLoading) {
+                    CircularProgressIndicator(
+                        modifier = Modifier.size(24.dp),
+                        color = AlwaysWhite,
+                        strokeWidth = 2.dp
+                    )
+                } else {
+                    Text(if (isApplied) stringResource(R.string.applied) else stringResource(R.string.apply))
+                }
+            }
+        }
+        if (error != null) {
+            Text(
+                text = error,
+                color = MaterialTheme.colorScheme.error,
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.padding(top = 4.dp, start = 4.dp)
+            )
+        }
+        if (isApplied) {
+            Text(
+                text = stringResource(R.string.coupon_applied_successfully),
+                color = Color(0xFF4CAF50),
+                style = MaterialTheme.typography.bodySmall,
+                modifier = Modifier.padding(top = 4.dp, start = 4.dp)
+            )
+        }
+    }
+}
+
+@Composable
+private fun PriceSummary(
+    originalPrice: Double,
+    appliedPromo: PromotionCode?
+) {
+    Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
+        if (appliedPromo != null) {
+            val discount = originalPrice * appliedPromo.discountPercentage / 100.0
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    "Subtotal",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = AlwaysBlack.copy(alpha = 0.6f)
+                )
+                Text(
+                    originalPrice.toCurrencyString(Currency.USD),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = AlwaysBlack
+                )
+            }
+            Spacer(modifier = Modifier.height(4.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(
+                    text = stringResource(
+                        R.string.discount_percentage,
+                        appliedPromo.discountPercentage
+                    ),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color(0xFF4CAF50)
+                )
+                Text(
+                    "-${discount.toCurrencyString(Currency.USD)}",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = Color(0xFF4CAF50)
+                )
+            }
+            Spacer(modifier = Modifier.height(8.dp))
+        }
+
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = stringResource(id = R.string.Total),
+                style = MaterialTheme.typography.titleMedium,
+                color = AlwaysBlack
+            )
+            val finalPrice = if (appliedPromo != null) {
+                originalPrice - (originalPrice * appliedPromo.discountPercentage / 100.0)
+            } else {
+                originalPrice
+            }
+            Text(
+                text = finalPrice.toCurrencyString(Currency.USD),
+                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
+                color = Color(0xff051721)
+            )
         }
     }
 }
@@ -263,14 +386,14 @@ private fun DetailRow(
 @Preview(showBackground = true)
 private fun ScheduleConfirmationScreenContentPreview() {
     ScheduleConfirmationScreenContent(
-        servicePrice = 150L,
-        dateAppointment = "12/09/2024",
-        hourAppointment = "12:30 am",
-        event = {},
-        serviceName = "",
-        branchName = "Zacatecas",
-        staffName = "Orlando",
-        showConfirmationDialog = false
-
+        uiState = ScheduleAppointmentState(
+            servicePrice = "150",
+            date = "12/09/2024",
+            time = "12:30 am",
+            serviceName = "Haircut",
+            branchName = "Zacatecas",
+            staffName = "Orlando"
+        ),
+        event = {}
     )
 }
