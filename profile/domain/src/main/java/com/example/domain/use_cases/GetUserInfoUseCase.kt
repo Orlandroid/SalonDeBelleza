@@ -2,6 +2,7 @@ package com.example.domain.use_cases
 
 import com.example.domain.UserSessionStatus
 import com.example.domain.entities.UserProfile
+import com.example.domain.repository.LoyaltyRepository
 import com.example.domain.repository.UserRepository
 import com.example.domain.repository.WalletRepository
 import com.example.domain.state.ApiResult
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 class GetUserInfoUseCase @Inject constructor(
     private val userRepository: UserRepository,
-    private val walletRepository: WalletRepository
+    private val walletRepository: WalletRepository,
+    private val loyaltyRepository: LoyaltyRepository
 ) {
 
 
@@ -42,6 +44,12 @@ class GetUserInfoUseCase @Inject constructor(
             name = nameAndPhone.getContent().name
             phone = nameAndPhone.getContent().phone
         }
+        val loyaltyResult = loyaltyRepository.getLoyalty(user.uid)
+        val loyalty = if (loyaltyResult.isSuccess()) {
+            loyaltyResult.getContent()
+        } else {
+            null
+        }
         val userInfo = UserProfile(
             name = name,
             email = user.email.orEmpty(),
@@ -49,7 +57,8 @@ class GetUserInfoUseCase @Inject constructor(
             phone = phone,
             money = money,
             image = image,
-            sessionStatus = getUserSessionStatus()
+            sessionStatus = getUserSessionStatus(),
+            loyalty = loyalty
         )
         return ApiResult.Success(userInfo)
     }

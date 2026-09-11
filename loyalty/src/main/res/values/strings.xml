@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="redeem_rewards">Redeem Rewards</string>
+    <string name="available_rewards">Available Rewards</string>
+    <string name="your_current_balance">Your Current Balance</string>
+    <string name="redeem">Redeem</string>
+    <string name="missing_points">Missing points</string>
+    <string name="points_required">%1$d points required</string>
+</resources>

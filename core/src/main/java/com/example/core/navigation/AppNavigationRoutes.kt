@@ -16,6 +16,10 @@ sealed class AppNavigationRoutes {
     @Serializable
     data object ProfileNavigationRoute : AppNavigationRoutes()
 
+
+    @Serializable
+    data object LoyaltyNavigationRoute : AppNavigationRoutes()
+
     @Serializable
     data object WalletNavigationRoute : AppNavigationRoutes()
 }

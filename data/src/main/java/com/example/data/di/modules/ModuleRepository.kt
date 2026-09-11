@@ -7,6 +7,9 @@ import com.example.data.remote.loyalty.LoyaltyRepositoryImpl
 import com.example.data.remote.user.UserRepositoryImpl
 import com.example.di.qualifiers.AppointmentsRef
 import com.example.di.qualifiers.LoyaltyRef
+import com.example.di.qualifiers.LoyaltyTransactionsRef
+import com.example.di.qualifiers.PromotionCodesRef
+import com.example.di.qualifiers.RewardsRef
 import com.example.di.qualifiers.UsersRef
 import com.example.domain.repository.AppointmentsRepository
 import com.example.domain.repository.AuthRepository
@@ -59,8 +62,18 @@ object ModuleRepository {
 
     @Singleton
     @Provides
-    fun provideLoyaltyRepository(@LoyaltyRef loyaltyRef: DatabaseReference): LoyaltyRepository =
-        LoyaltyRepositoryImpl(loyaltyRef)
+    fun provideLoyaltyRepository(
+        @LoyaltyRef loyaltyRef: DatabaseReference,
+        @LoyaltyTransactionsRef loyaltyTransactionsRef: DatabaseReference,
+        @RewardsRef rewardsRef: DatabaseReference,
+        @PromotionCodesRef promotionCodesRef: DatabaseReference
+    ): LoyaltyRepository =
+        LoyaltyRepositoryImpl(
+            loyaltyRef = loyaltyRef,
+            loyaltyTransactionsRef = loyaltyTransactionsRef,
+            rewardsRef = rewardsRef,
+            promotionCodesRef = promotionCodesRef
+        )
 
 
 }

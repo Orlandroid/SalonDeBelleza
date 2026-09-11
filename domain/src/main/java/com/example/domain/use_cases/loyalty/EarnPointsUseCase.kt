@@ -1,6 +1,8 @@
 package com.example.domain.use_cases.loyalty
 
 import com.example.domain.loyalty.LoyaltyTier
+import com.example.domain.loyalty.LoyaltyTransaction
+import com.example.domain.loyalty.LoyaltyTransactionType
 import com.example.domain.repository.LoyaltyRepository
 import com.example.domain.state.ApiResult
 import com.example.domain.state.getContent
@@ -13,7 +15,8 @@ class EarnPointsUseCase @Inject constructor(
 ) {
     suspend operator fun invoke(
         userId: String,
-        pointsEarned: Int
+        pointsEarned: Int,
+        appointmentId: String
     ): ApiResult<Unit> {
 
         val result = repository.getLoyalty(userId)
@@ -34,6 +37,18 @@ class EarnPointsUseCase @Inject constructor(
             lifetimePoints = newLifetime,
             tier = newTier
         )
+
+
+        val transaction = LoyaltyTransaction(
+            points = pointsEarned,
+            type = LoyaltyTransactionType.APPOINTMENT_EARNED,
+            sourceId = appointmentId,
+            description = "Points earned for completing an appointment",
+            createdAt = System.currentTimeMillis()
+        )
+
+        repository.addLoyaltyTransaction(userId, transaction)
+
 
         return repository.updateLoyalty(updatedLoyalty)
     }

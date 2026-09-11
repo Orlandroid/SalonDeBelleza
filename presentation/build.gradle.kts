@@ -66,6 +66,7 @@ dependencies {
     implementation(project(":info"))
     implementation(project(":wallet"))
     implementation(project(":scheduleappointment"))
+    implementation(project(":loyalty"))
     implementation(libs.androidCoreKtx)
     implementation(libs.appcompat)
     implementation(libs.material)

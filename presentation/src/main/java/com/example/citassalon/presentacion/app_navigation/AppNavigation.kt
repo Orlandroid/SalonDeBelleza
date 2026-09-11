@@ -9,6 +9,7 @@ import com.example.auth.authNavigationGraph
 import com.example.citassalon.presentacion.MainActivityCompose
 import com.example.core.navigation.AppNavigationRoutes
 import com.example.info.infoNavigationGraph
+import com.example.loyalty.loyaltyNavigationGraph
 import com.example.profile.profileNavigationGraph
 import com.example.scheduleappointment.scheduleNavigationGraph
 import com.example.wallet.walletNavigationGraph
@@ -45,5 +46,6 @@ fun AppNavigation() {
             onRestart = { activity.closeAndOpenActivity() }
         )
         walletNavigationGraph(navController = navController)
+        loyaltyNavigationGraph(navController = navController)
     }
 }

@@ -34,7 +34,8 @@ class CompleteAppointmentUseCase @Inject constructor(
         if (points > 0) {
             return earnPointsUseCase(
                 userId = userId,
-                pointsEarned = points
+                pointsEarned = points,
+                appointmentId = appointment.idAppointment
             )
         }
 

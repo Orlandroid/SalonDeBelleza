@@ -5,6 +5,10 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.ui.base.BaseScreenState
+import com.example.domain.loyalty.Loyalty
+import com.example.domain.loyalty.PromotionCode
+import com.example.domain.repository.LoyaltyRepository
+import com.example.domain.state.ApiResult
 import com.example.domain.state.getContent
 import com.example.domain.state.isSuccess
 import com.example.domain.use_cases.GetUserInfoUseCase
@@ -15,6 +19,7 @@ import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 sealed class UserProfileEffects {
@@ -28,16 +33,20 @@ data class UserProfileUiState(
     val uid: String? = null,
     val money: Long? = null,
     val image: String? = null,
-    val statusColor: Color? = null
+    val statusColor: Color? = null,
+    val loyalty: Loyalty? = null,
+    val coupons: List<PromotionCode> = emptyList()
 )
 
 @HiltViewModel
 class UserProfileViewModel @Inject constructor(
-    private val getUserInfoUseCase: GetUserInfoUseCase
+    private val getUserInfoUseCase: GetUserInfoUseCase,
+    private val loyaltyRepository: LoyaltyRepository
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<BaseScreenState<UserProfileUiState>> =
         MutableStateFlow(BaseScreenState.OnLoading)
+
     val state = _state.onStart {
         getUserInfo()
     }.stateIn(
@@ -47,13 +56,40 @@ class UserProfileViewModel @Inject constructor(
     )
 
 
-    private suspend fun getUserInfo() {
-        val userInfo = getUserInfoUseCase.invoke()
-        if (userInfo.isSuccess()) {
-            _state.update { BaseScreenState.OnContent(content = userInfo.getContent().toUiState()) }
-            return
+    private fun getUserInfo() = viewModelScope.launch {
+        val userInfoResult = getUserInfoUseCase.invoke()
+        if (userInfoResult.isSuccess()) {
+            val profile = userInfoResult.getContent().toUiState()
+            _state.update { BaseScreenState.OnContent(content = profile) }
+
+            profile.uid?.let { uid ->
+                fetchCoupons(uid)
+                val loyaltyResult = loyaltyRepository.getLoyalty(uid)
+                if (loyaltyResult.isSuccess()) {
+                    _state.update { currentState ->
+                        if (currentState is BaseScreenState.OnContent) {
+                            BaseScreenState.OnContent(currentState.content.copy(loyalty = loyaltyResult.getContent()))
+                        } else {
+                            currentState
+                        }
+                    }
+                }
+            }
+        } else {
+            _state.update { BaseScreenState.OnError(error = Throwable()) }
         }
-        _state.update { BaseScreenState.OnError(error = Throwable()) }
     }
 
+    private fun fetchCoupons(uid: String) = viewModelScope.launch {
+        val result = loyaltyRepository.getPromotionCodes(uid)
+        if (result is ApiResult.Success) {
+            _state.update { currentState ->
+                if (currentState is BaseScreenState.OnContent) {
+                    BaseScreenState.OnContent(currentState.content.copy(coupons = result.result))
+                } else {
+                    currentState
+                }
+            }
+        }
+    }
 }
