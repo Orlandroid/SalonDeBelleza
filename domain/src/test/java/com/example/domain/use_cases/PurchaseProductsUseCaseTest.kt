@@ -36,8 +36,7 @@ class PurchaseProductsUseCaseTest {
         Dispatchers.setMain(testDispatcher)
         purchaseProductsUseCase = PurchaseProductsUseCase(
             walletRepository = walletRepository,
-            transactionRepository = transactionRepository,
-            getWalletUseCase = getWalletUseCase
+            transactionRepository = transactionRepository
         )
     }
 
@@ -160,7 +159,9 @@ class PurchaseProductsUseCaseTest {
             )
             coEvery { getWalletUseCase.invoke() } returns ApiResult.Success(balance)
             coEvery { walletRepository.updateBalance(any()) } returns ApiResult.Success(Unit)
-            coEvery { transactionRepository.createTransaction(any()) } returns ApiResult.Success(Unit)
+            coEvery { transactionRepository.createTransaction(any()) } returns ApiResult.Success(
+                Unit
+            )
 
             val purchaseResult = purchaseProductsUseCase.invoke(
                 amount = 1000L,

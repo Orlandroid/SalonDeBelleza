@@ -2,10 +2,11 @@ package com.example.auth.login
 
 import app.cash.turbine.test
 import com.example.domain.UserPreferences
-import com.example.domain.EmailValidator
-import com.example.domain.PasswordValidator
+import com.example.domain.interfaces.EmailValidator
+import com.example.domain.interfaces.PasswordValidator
 import com.example.domain.repository.AuthRepository
 import com.example.domain.state.ApiResult
+import com.example.domain.use_cases.LoginUseCase
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -30,6 +31,7 @@ class LoginViewModelTest {
     private val emailValidator: EmailValidator = mockk()
     private val passwordValidator: PasswordValidator = mockk()
     private val loginPreferences: UserPreferences = mockk(relaxed = true)
+    private val loginUseCase: LoginUseCase = mockk()
 
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -37,11 +39,10 @@ class LoginViewModelTest {
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
         viewModel = LoginViewModel(
-            authRepository = authRepository,
             emailValidator = emailValidator,
-            ioDispatcher = testDispatcher,
             userPreferences = loginPreferences,
-            passwordValidator = passwordValidator
+            passwordValidator = passwordValidator,
+            loginUseCase = loginUseCase
         )
     }
 

@@ -41,4 +41,7 @@ dependencies {
     ksp(libs.hiltAndroidCompiler)
     ksp(libs.androidxHiltCompiler)
     implementation(libs.bundles.firebase)
+    testImplementation(libs.truth)
+    testImplementation(libs.jetbrains.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
 }

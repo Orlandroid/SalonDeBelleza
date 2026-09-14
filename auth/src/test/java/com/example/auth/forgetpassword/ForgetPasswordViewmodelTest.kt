@@ -1,9 +1,10 @@
 package com.example.auth.forgetpassword
 
 import app.cash.turbine.test
+import com.example.domain.KindOfMessage
+import com.example.domain.interfaces.EmailValidator
 import com.example.domain.repository.AuthRepository
 import com.example.domain.state.ApiResult
-import com.example.domain.EmailValidator
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -24,6 +25,7 @@ class ForgetPasswordViewmodelTest {
     private lateinit var viewModel: ForgetPasswordViewmodel
     private lateinit var authRepository: AuthRepository
     private val testDispatcher = StandardTestDispatcher()
+
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
@@ -50,15 +52,15 @@ class ForgetPasswordViewmodelTest {
         assertEquals(false, initialState.showErrorInvalidEmail)
         assertEquals(false, initialState.isLoading)
     }
-    private val emailValidator = mockk<EmailValidator>()
 
+    private val emailValidator = mockk<EmailValidator>()
 
 
     @Test
     fun onResetPassword_whenRepositoryReturnsSuccess_shouldUpdateLoadingAndShowEffect() =
         runTest(testDispatcher) {
 
-            val messageSnackBar = "Password successful changed"
+            val errorMessage: KindOfMessage = KindOfMessage.SUCCESS
 
             coEvery { authRepository.forgetPassword(any()) } returns ApiResult.Success(Unit)
 
@@ -84,8 +86,8 @@ class ForgetPasswordViewmodelTest {
                 assert(effect is ForgetPasswordViewmodel.ForgetPasswordEffects.ShowSnackBar)
 
                 assertEquals(
-                    messageSnackBar,
-                    (effect as ForgetPasswordViewmodel.ForgetPasswordEffects.ShowSnackBar).message
+                    errorMessage,
+                    (effect as ForgetPasswordViewmodel.ForgetPasswordEffects.ShowSnackBar).kindOfMessage
                 )
 
                 cancelAndIgnoreRemainingEvents()
@@ -101,7 +103,7 @@ class ForgetPasswordViewmodelTest {
         runTest(testDispatcher) {
 
             val errorMessage = "Error"
-            val snackBarMessage = "Error trying to updated password"
+            val kindOfMessageError: KindOfMessage = KindOfMessage.SUCCESS
 
             coEvery {
                 authRepository.forgetPassword(any())
@@ -129,8 +131,8 @@ class ForgetPasswordViewmodelTest {
                 assert(effect is ForgetPasswordViewmodel.ForgetPasswordEffects.ShowSnackBar)
 
                 assertEquals(
-                    snackBarMessage,
-                    (effect as ForgetPasswordViewmodel.ForgetPasswordEffects.ShowSnackBar).message
+                    kindOfMessageError,
+                    (effect as ForgetPasswordViewmodel.ForgetPasswordEffects.ShowSnackBar).kindOfMessage
                 )
 
                 cancelAndIgnoreRemainingEvents()

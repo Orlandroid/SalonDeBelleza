@@ -88,8 +88,7 @@ class LoyaltyRepositoryImpl @Inject constructor(
     override suspend fun getPromotionCodes(userId: String): ApiResult<List<PromotionCode>> {
         return runCatching {
             val snapshot = promotionCodesRef.child(userId).get().await()
-            val codes = snapshot.children.mapNotNull { it.getValue<PromotionCode>() }
-                .filter { !it.used }
+            val codes = snapshot.children.mapNotNull { it.getValue<PromotionCode>() }.filter { !it.used }
             ApiResult.Success(codes)
         }.getOrElse {
             ApiResult.Error(it.message)

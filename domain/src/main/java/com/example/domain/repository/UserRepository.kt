@@ -1,6 +1,5 @@
 package com.example.domain.repository
 
-import com.example.domain.UserInfoFirebase
 import com.example.domain.entities.remote.User
 import com.example.domain.state.ApiResult
 import com.google.firebase.auth.FirebaseUser
@@ -9,7 +8,7 @@ interface UserRepository {
 
     fun getUser(): ApiResult<FirebaseUser?>
 
-    suspend fun getNameAndPhone(): ApiResult<UserInfoFirebase>
+    suspend fun getNameAndPhone(): ApiResult<User>
 
     suspend fun getUserImage(): ApiResult<String>
 

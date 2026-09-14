@@ -12,6 +12,7 @@ import com.example.domain.state.getResultOrNull
 import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
 import javax.inject.Inject
+import kotlin.collections.emptyList
 
 class GetUserInfoUseCase @Inject constructor(
     private val userRepository: UserRepository,
@@ -50,6 +51,12 @@ class GetUserInfoUseCase @Inject constructor(
         } else {
             null
         }
+        val cuponsResult = loyaltyRepository.getPromotionCodes(user.uid)
+        val cupons = if (cuponsResult.isSuccess()) {
+            cuponsResult.getContent()
+        } else {
+            emptyList()
+        }
         val userInfo = UserProfile(
             name = name,
             email = user.email.orEmpty(),
@@ -58,7 +65,8 @@ class GetUserInfoUseCase @Inject constructor(
             money = money,
             image = image,
             sessionStatus = getUserSessionStatus(),
-            loyalty = loyalty
+            loyalty = loyalty,
+            coupons = cupons
         )
         return ApiResult.Success(userInfo)
     }

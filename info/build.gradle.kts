@@ -50,4 +50,7 @@ dependencies {
     implementation(libs.bundles.compose)
     implementation(libs.bundles.composeMaterial)
     implementation(libs.bundles.baseTesting)
+    testImplementation(libs.truth)
+    testImplementation(libs.jetbrains.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
 }

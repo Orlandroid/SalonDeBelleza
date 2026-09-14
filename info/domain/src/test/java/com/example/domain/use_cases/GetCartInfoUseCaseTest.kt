@@ -1,9 +1,13 @@
 package com.example.domain.use_cases
 
-import com.example.domain.entities.remote.products.Product
+
+import com.example.domain.Product
 import com.example.domain.repository.BusinessRepository
+import com.example.domain.repository.WalletRepository
 import com.example.domain.state.ApiResult
+import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -14,15 +18,13 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-import com.google.common.truth.Truth.assertThat
-import io.mockk.coVerify
-
 @OptIn(ExperimentalCoroutinesApi::class)
 class GetCartInfoUseCaseTest {
 
     private var getCartInfoUseCase: GetCartInfoUseCase = mockk()
     private val testDispatcher = StandardTestDispatcher()
     private val repository: BusinessRepository = mockk()
+    private val walletRepository: WalletRepository = mockk()
     private val getWalletUseCase: GetWalletUseCase = mockk()
 
 
@@ -31,7 +33,7 @@ class GetCartInfoUseCaseTest {
         Dispatchers.setMain(testDispatcher)
         getCartInfoUseCase = GetCartInfoUseCase(
             repository = repository,
-            getWalletUseCase = getWalletUseCase
+            walletRepository = walletRepository
         )
     }
 

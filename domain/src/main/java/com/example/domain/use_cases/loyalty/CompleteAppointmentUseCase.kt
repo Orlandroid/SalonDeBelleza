@@ -24,8 +24,7 @@ class CompleteAppointmentUseCase @Inject constructor(
         }
 
         val updatedAppointment = appointment.copy(status = AppointmentStatus.COMPLETED)
-        val updateResult =
-            appointmentsRepository.updateAppointment(appointmentId, updatedAppointment)
+        val updateResult = appointmentsRepository.updateAppointment(appointmentId, updatedAppointment)
         if (updateResult.isError()) return ApiResult.Error()
 
         val userId = firebaseAuth.uid ?: return ApiResult.Error("User not authenticated")

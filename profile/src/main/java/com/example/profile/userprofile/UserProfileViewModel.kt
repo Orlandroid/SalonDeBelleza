@@ -40,8 +40,7 @@ data class UserProfileUiState(
 
 @HiltViewModel
 class UserProfileViewModel @Inject constructor(
-    private val getUserInfoUseCase: GetUserInfoUseCase,
-    private val loyaltyRepository: LoyaltyRepository
+    private val getUserInfoUseCase: GetUserInfoUseCase
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<BaseScreenState<UserProfileUiState>> =
@@ -57,39 +56,39 @@ class UserProfileViewModel @Inject constructor(
 
 
     private fun getUserInfo() = viewModelScope.launch {
-        val userInfoResult = getUserInfoUseCase.invoke()
+        val userInfoResult = getUserInfoUseCase()
         if (userInfoResult.isSuccess()) {
             val profile = userInfoResult.getContent().toUiState()
             _state.update { BaseScreenState.OnContent(content = profile) }
 
-            profile.uid?.let { uid ->
-                fetchCoupons(uid)
-                val loyaltyResult = loyaltyRepository.getLoyalty(uid)
-                if (loyaltyResult.isSuccess()) {
-                    _state.update { currentState ->
-                        if (currentState is BaseScreenState.OnContent) {
-                            BaseScreenState.OnContent(currentState.content.copy(loyalty = loyaltyResult.getContent()))
-                        } else {
-                            currentState
-                        }
-                    }
-                }
-            }
+//            profile.uid?.let { uid ->
+//                fetchCoupons(uid)
+//                val loyaltyResult = loyaltyRepository.getLoyalty(uid)
+//                if (loyaltyResult.isSuccess()) {
+//                    _state.update { currentState ->
+//                        if (currentState is BaseScreenState.OnContent) {
+//                            BaseScreenState.OnContent(currentState.content.copy(loyalty = loyaltyResult.getContent()))
+//                        } else {
+//                            currentState
+//                        }
+//                    }
+//                }
+//            }
         } else {
             _state.update { BaseScreenState.OnError(error = Throwable()) }
         }
     }
 
-    private fun fetchCoupons(uid: String) = viewModelScope.launch {
-        val result = loyaltyRepository.getPromotionCodes(uid)
-        if (result is ApiResult.Success) {
-            _state.update { currentState ->
-                if (currentState is BaseScreenState.OnContent) {
-                    BaseScreenState.OnContent(currentState.content.copy(coupons = result.result))
-                } else {
-                    currentState
-                }
-            }
-        }
-    }
+//    private suspend fun fetchCoupons(uid: String) {
+//        val result = loyaltyRepository.getPromotionCodes(uid)
+//        if (result is ApiResult.Success) {
+//            _state.update { currentState ->
+//                if (currentState is BaseScreenState.OnContent) {
+//                    BaseScreenState.OnContent(currentState.content.copy(coupons = result.result))
+//                } else {
+//                    currentState
+//                }
+//            }
+//        }
+//    }
 }

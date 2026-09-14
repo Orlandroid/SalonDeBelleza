@@ -31,7 +31,7 @@ class UserRepositoryImpl @Inject constructor(
         return ApiResult.Error("User not found")
     }
 
-    override suspend fun getNameAndPhone(): ApiResult<UserInfoFirebase> =
+    override suspend fun getNameAndPhone(): ApiResult<User> =
         suspendCancellableCoroutine { continuation ->
 
             val userId = firebaseAuth.uid
@@ -53,9 +53,16 @@ class UserRepositoryImpl @Inject constructor(
                             continuation.resume(ApiResult.Error(""))
                             return
                         }
+                        val user = User(
+                            name = userInfo.name,
+                            phone = userInfo.phone,
+                            email = "",
+                            password = "",
+                            birthDay = ""
+                        )
                         continuation.resume(
                             ApiResult.Success(
-                                userInfo
+                                user
                             )
                         )
                     }

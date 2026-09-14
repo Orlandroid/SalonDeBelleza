@@ -55,11 +55,11 @@ dependencies {
     androidTestImplementation(libs.testJunit)
     testImplementation(libs.mockk)
     androidTestImplementation(libs.espressoCore)
-    testImplementation(libs.jetbrains.kotlinx.coroutines.test)
     implementation(platform(libs.firebaseBom))
     implementation(libs.bundles.firebase)
     implementation(libs.bundles.room)
     ksp(libs.roomCompiler)
     testImplementation(libs.truth)
+    testImplementation(libs.jetbrains.kotlinx.coroutines.test)
     implementation(libs.kotlinSerializationJson)
 }

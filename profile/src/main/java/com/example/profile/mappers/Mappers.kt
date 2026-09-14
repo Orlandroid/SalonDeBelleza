@@ -13,6 +13,7 @@ fun UserProfile.toUiState(): UserProfileUiState {
         phone = phone,
         money = money,
         image = image,
+        loyalty = loyalty,
         statusColor = when (sessionStatus) {
             UserSessionStatus.ACTIVE -> Color.Green
             UserSessionStatus.INACTIVE -> Color.Red

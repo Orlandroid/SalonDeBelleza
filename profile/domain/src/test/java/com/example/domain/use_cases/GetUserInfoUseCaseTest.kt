@@ -1,9 +1,12 @@
 package com.example.domain.use_cases
 
+
+import com.example.domain.UserInfoFirebase
 import com.example.domain.UserSessionStatus
-import com.example.domain.perfil.UserInfoFirebase
 import com.example.domain.repository.AuthRepository
+import com.example.domain.repository.LoyaltyRepository
 import com.example.domain.repository.UserRepository
+import com.example.domain.repository.WalletRepository
 import com.example.domain.state.ApiResult
 import com.google.common.truth.Truth.assertThat
 import com.google.firebase.auth.FirebaseUser
@@ -21,16 +24,17 @@ class GetUserInfoUseCaseTest {
 
     private val authRepository: AuthRepository = mockk()
     private val userRepository: UserRepository = mockk()
+    private val walletRepository: WalletRepository = mockk()
+    private val loyaltyRepository: LoyaltyRepository = mockk()
     private lateinit var useCase: GetUserInfoUseCase
-    private val getWalletUseCase: GetWalletUseCase = mockk(relaxed = true)
 
     @Before
     fun setUp() {
         useCase =
             GetUserInfoUseCase(
-                authRepository = authRepository,
+                walletRepository = walletRepository,
                 userRepository = userRepository,
-                getWalletUseCase = getWalletUseCase
+                loyaltyRepository = loyaltyRepository
             )
     }
 
