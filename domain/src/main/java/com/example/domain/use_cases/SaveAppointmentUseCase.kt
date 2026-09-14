@@ -38,7 +38,7 @@ class SaveAppointmentUseCase @Inject constructor(
         )
         if (saveAppointmentResult.isSuccess()) {
             val purchaseResult = purchaseProductsUseCase.invoke(
-                amount = total.toLong() / MXN_TO_USD_CONVERSION_FACTOR,
+                amount = total.toDouble().toLong() / MXN_TO_USD_CONVERSION_FACTOR,
                 transactionType = TransactionType.SERVICE_PAYMENT,
                 description = "${appointment.service} at ${appointment.establishment}"
             )
