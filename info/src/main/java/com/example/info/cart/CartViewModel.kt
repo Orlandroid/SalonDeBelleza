@@ -6,14 +6,22 @@ import androidx.lifecycle.viewModelScope
 import com.example.di.IoDispatcher
 import com.example.domain.Product
 import com.example.domain.ProductSource
+import com.example.domain.loyalty.LoyaltyTransactionType
+import com.example.domain.loyalty.PromotionCode
 import com.example.domain.repository.BusinessRepository
+import com.example.domain.repository.LoyaltyRepository
+import com.example.domain.repository.UserRepository
+import com.example.domain.state.ApiResult
 import com.example.domain.state.getContent
 import com.example.domain.state.getErrorMessage
+import com.example.domain.state.getResultOrNull
 import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
 import com.example.domain.transaction.TransactionType
 import com.example.domain.use_cases.GetCartInfoUseCase
 import com.example.domain.use_cases.PurchaseProductsUseCase
+import com.example.domain.use_cases.loyalty.EarnPointsUseCase
+import com.example.domain.use_cases.loyalty.VerifyPromoCodeUseCase
 import com.example.info.R
 import com.example.info.cart.CartEffects.NavigateToProductDetail
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -29,6 +37,7 @@ import kotlinx.coroutines.flow.receiveAsFlow
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import java.util.UUID
 import javax.inject.Inject
 import kotlin.time.Duration.Companion.seconds
 
@@ -50,6 +59,8 @@ sealed class CartEvents {
     data class OnRemoveProductClicked(val productId: Int) : CartEvents()
     data class OnIncrease(val productId: Int) : CartEvents()
     data class OnDecrease(val productId: Int) : CartEvents()
+    data class OnPromoCodeChanged(val code: String) : CartEvents()
+    object OnApplyPromoCode : CartEvents()
 }
 
 sealed class PurchaseProductsError {
@@ -66,6 +77,11 @@ data class CartUiState(
     val showLoadingButton: Boolean = false,
     val error: String? = null,
     val cartTotal: Long = 0L,
+    val promoCode: String = "",
+    val appliedPromo: PromotionCode? = null,
+    val isPromoApplied: Boolean = false,
+    val promoError: String? = null,
+    val validatingPromo: Boolean = false
 )
 
 @HiltViewModel
@@ -74,7 +90,11 @@ class CartViewModel @Inject constructor(
     @param:ApplicationContext private val context: Context,
     private val repository: BusinessRepository,
     private val purchaseProductsUseCase: PurchaseProductsUseCase,
-    private val getCartInfoUseCase: GetCartInfoUseCase
+    private val getCartInfoUseCase: GetCartInfoUseCase,
+    private val verifyPromoCodeUseCase: VerifyPromoCodeUseCase,
+    private val earnPointsUseCase: EarnPointsUseCase,
+    private val loyaltyRepository: LoyaltyRepository,
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     private val _state: MutableStateFlow<CartUiState> = MutableStateFlow(CartUiState())
@@ -126,13 +146,41 @@ class CartViewModel @Inject constructor(
                 viewModelScope.launch {
                     _state.update { it.copy(showLoadingButton = true) }
                     delay(0.5.seconds)
+                    val userId = userRepository.getUser().getResultOrNull()?.uid ?: return@launch
                     val description = getDescription()
+
+                    val originalTotal = calculateTotalOfProducts(state.value.products)
+                    val finalTotal = if (state.value.isPromoApplied) {
+                        val discount =
+                            originalTotal * (state.value.appliedPromo?.discountPercentage?.toDouble()
+                                ?: 0.0) / 100.0
+                        (originalTotal - discount).toLong()
+                    } else {
+                        originalTotal
+                    }
+
                     val purchaseResult = purchaseProductsUseCase.invoke(
                         description = description,
-                        amount = calculateTotalOfProducts(state.value.products),
+                        amount = finalTotal,
                         transactionType = TransactionType.MARKETPLACE_PURCHASE
                     )
+
                     if (purchaseResult.isSuccess()) {
+
+                        if (state.value.isPromoApplied) {
+                            state.value.appliedPromo?.id?.let { promoId ->
+                                loyaltyRepository.usePromotionCode(userId, promoId)
+                            }
+                        }
+
+                        earnPointsUseCase(
+                            userId = userId,
+                            pointsEarned = finalTotal.toInt(),
+                            sourceId = UUID.randomUUID().toString(),
+                            description = "Compra en Marketplace: $description",
+                            type = LoyaltyTransactionType.MARKETPLACE_PURCHASE
+                        )
+
                         _effects.send(CartEffects.OnPurchaseCompleted)
                     } else {
                         _state.update {
@@ -156,11 +204,41 @@ class CartViewModel @Inject constructor(
             is CartEvents.OnIncrease -> {
                 onIncreaseProduct(event.productId)
             }
+
+            is CartEvents.OnPromoCodeChanged -> {
+                _state.update { it.copy(promoCode = event.code, promoError = null) }
+            }
+
+            CartEvents.OnApplyPromoCode -> {
+                applyPromoCode()
+            }
+        }
+    }
+
+    private fun applyPromoCode() = viewModelScope.launch {
+        val userId = userRepository.getUser().getResultOrNull()?.uid ?: return@launch
+        val code = _state.value.promoCode
+        if (code.isBlank()) return@launch
+
+        _state.update { it.copy(validatingPromo = true, promoError = null) }
+        val result = verifyPromoCodeUseCase(userId, code)
+
+        if (result is ApiResult.Success) {
+            _state.update {
+                it.copy(
+                    appliedPromo = result.result,
+                    isPromoApplied = true,
+                    validatingPromo = false
+                )
+            }
+        } else {
+            val errorMsg = (result as? ApiResult.Error)?.error ?: "Código inválido"
+            _state.update { it.copy(promoError = errorMsg, validatingPromo = false) }
         }
     }
 
     private fun calculateTotalOfProducts(products: List<Product>): Long {
-        return products.sumOf { it.price }
+        return products.sumOf { it.price * it.quantity }
     }
 
     private fun getDescription(): String {

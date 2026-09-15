@@ -16,7 +16,9 @@ class EarnPointsUseCase @Inject constructor(
     suspend operator fun invoke(
         userId: String,
         pointsEarned: Int,
-        appointmentId: String
+        sourceId: String,
+        description: String = "Points earned",
+        type: LoyaltyTransactionType = LoyaltyTransactionType.APPOINTMENT_EARNED
     ): ApiResult<Unit> {
 
         val result = repository.getLoyalty(userId)
@@ -41,9 +43,9 @@ class EarnPointsUseCase @Inject constructor(
 
         val transaction = LoyaltyTransaction(
             points = pointsEarned,
-            type = LoyaltyTransactionType.APPOINTMENT_EARNED,
-            sourceId = appointmentId,
-            description = "Points earned for completing an appointment",
+            type = type,
+            sourceId = sourceId,
+            description = description,
             createdAt = System.currentTimeMillis()
         )
 

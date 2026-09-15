@@ -22,9 +22,11 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,10 +35,13 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
@@ -54,6 +59,7 @@ import com.example.core.ui.theme.AlwaysWhite
 import com.example.core.ui.theme.Background
 import com.example.core.util.toCurrencyString
 import com.example.domain.Product
+import com.example.domain.loyalty.PromotionCode
 import com.example.domain.wallet.Currency
 import com.example.info.R
 import kotlinx.coroutines.flow.collectLatest
@@ -61,10 +67,12 @@ import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun CartScreen(
-    navController: NavController, viewModel: CartViewModel = hiltViewModel()
+    navController: NavController,
+    viewModel: CartViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()
     val snackBarHostState = remember { SnackbarHostState() }
+
     LaunchedEffect(Unit) {
         viewModel.effects.collectLatest {
             when (it) {
@@ -86,6 +94,7 @@ fun CartScreen(
             }
         }
     }
+
     when {
         uiState.isLoading -> {
             ProgressDialog()
@@ -94,7 +103,7 @@ fun CartScreen(
         uiState.error != null -> {
             BaseErrorScreen(
                 title = uiState.error.orEmpty(),
-                message = "We couldn't complete your purchase. Please try again."
+                message = stringResource(R.string.purchase_error)
             )
         }
 
@@ -115,10 +124,8 @@ fun CartScreen(
                 }
 
                 CartScreenContent(
-                    isLoading = uiState.showLoadingButton,
-                    products = uiState.products,
-                    onEvents = viewModel::onEvents,
-                    cartTotal = uiState.cartTotal
+                    uiState = uiState,
+                    onEvents = viewModel::onEvents
                 )
             }
         }
@@ -141,9 +148,7 @@ private fun DialogDeleteAllProducts(onEvents: (event: CartEvents) -> Unit) {
 @Composable
 private fun CartScreenContent(
     modifier: Modifier = Modifier,
-    products: List<Product>,
-    isLoading: Boolean,
-    cartTotal: Long,
+    uiState: CartUiState,
     onEvents: (event: CartEvents) -> Unit
 ) {
     Column(
@@ -157,21 +162,121 @@ private fun CartScreenContent(
                 .fillMaxWidth()
         ) {
             items(
-                items = products, key = { it.id }) { product ->
-                Product(
+                items = uiState.products, key = { it.id }) { product ->
+                ProductItem(
                     product = product, onEvents = onEvents
                 )
             }
+
+            item {
+                Spacer(modifier = Modifier.height(16.dp))
+                PromoCodeSection(
+                    promoCode = uiState.promoCode,
+                    isApplied = uiState.isPromoApplied,
+                    error = uiState.promoError,
+                    isLoading = uiState.validatingPromo,
+                    onCodeChange = { onEvents(CartEvents.OnPromoCodeChanged(it)) },
+                    onApply = { onEvents(CartEvents.OnApplyPromoCode) }
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+            }
         }
+
         OrderSummarySection(
-            total = cartTotal, isLoading = isLoading, onPayClicked = {
-                onEvents.invoke(CartEvents.OnPay)
-            })
+            total = uiState.cartTotal,
+            appliedPromo = uiState.appliedPromo,
+            isLoading = uiState.showLoadingButton,
+            onPayClicked = { onEvents.invoke(CartEvents.OnPay) }
+        )
     }
 }
 
 @Composable
-private fun Product(
+private fun PromoCodeSection(
+    promoCode: String,
+    isApplied: Boolean,
+    error: String?,
+    isLoading: Boolean,
+    onCodeChange: (String) -> Unit,
+    onApply: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 8.dp),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(containerColor = AlwaysWhite),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+    ) {
+        Column(modifier = Modifier.padding(16.dp)) {
+            Text(
+                text = stringResource(R.string.discount_coupon),
+                style = MaterialTheme.typography.labelMedium,
+                color = Color.Gray
+            )
+            Spacer(modifier = Modifier.height(8.dp))
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                OutlinedTextField(
+                    value = promoCode,
+                    onValueChange = onCodeChange,
+                    modifier = Modifier.weight(1f),
+                    placeholder = {
+                        Text(
+                            text = stringResource(R.string.enter_your_code),
+                            fontSize = 14.sp
+                        )
+                    },
+                    singleLine = true,
+                    enabled = !isApplied && !isLoading,
+                    shape = RoundedCornerShape(12.dp)
+                )
+                Spacer(modifier = Modifier.width(8.dp))
+                Button(
+                    onClick = onApply,
+                    enabled = !isApplied && promoCode.isNotBlank() && !isLoading,
+                    shape = RoundedCornerShape(12.dp)
+                ) {
+                    if (isLoading) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(24.dp),
+                            color = AlwaysWhite,
+                            strokeWidth = 2.dp
+                        )
+                    } else {
+                        Text(
+                            text = stringResource(
+                                if (isApplied) R.string.coupon_applied
+                                else R.string.apply_coupon
+                            )
+                        )
+                    }
+                }
+            }
+            if (error != null) {
+                Text(
+                    text = error,
+                    color = MaterialTheme.colorScheme.error,
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier.padding(top = 4.dp)
+                )
+            }
+            if (isApplied) {
+                Text(
+                    text = stringResource(R.string.coupon_applied_successfully),
+                    color = Color(0xFF4CAF50),
+                    style = MaterialTheme.typography.bodySmall,
+                    modifier = Modifier.padding(top = 4.dp)
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun ProductItem(
     product: Product, onEvents: (event: CartEvents) -> Unit
 ) {
     Card(
@@ -241,7 +346,7 @@ private fun QuantityStepper(
             onClick = onDecrease, modifier = Modifier.size(28.dp)
         ) {
             Icon(
-                imageVector = Icons.Default.Remove, contentDescription = "Increase"
+                imageVector = Icons.Default.Remove, contentDescription = "Decrease"
             )
         }
         Text(
@@ -253,7 +358,7 @@ private fun QuantityStepper(
             onClick = onIncrease, modifier = Modifier.size(28.dp)
         ) {
             Icon(
-                imageVector = Icons.Default.Add, contentDescription = "Decrease"
+                imageVector = Icons.Default.Add, contentDescription = "Increase"
             )
         }
     }
@@ -261,7 +366,10 @@ private fun QuantityStepper(
 
 @Composable
 private fun OrderSummarySection(
-    total: Long, isLoading: Boolean, onPayClicked: () -> Unit
+    total: Long,
+    appliedPromo: PromotionCode?,
+    isLoading: Boolean,
+    onPayClicked: () -> Unit
 ) {
     Card(
         modifier = Modifier
@@ -272,15 +380,54 @@ private fun OrderSummarySection(
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
+            if (appliedPromo != null) {
+                val discount = total.toDouble() * appliedPromo.discountPercentage / 100.0
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text("Subtotal", style = MaterialTheme.typography.bodyMedium)
+                    Text(
+                        total.toCurrencyString(Currency.USD),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+                Spacer(modifier = Modifier.height(4.dp))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                ) {
+                    Text(
+                        "Descuento (${appliedPromo.discountPercentage}%)",
+                        color = Color(0xFF4CAF50),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                    Text(
+                        "-${discount.toCurrencyString(Currency.USD)}",
+                        color = Color(0xFF4CAF50),
+                        style = MaterialTheme.typography.bodyMedium
+                    )
+                }
+                Spacer(modifier = Modifier.height(8.dp))
+                HorizontalDivider(thickness = 0.5.dp, color = Color.LightGray)
+                Spacer(modifier = Modifier.height(8.dp))
+            }
+
             Row(
                 modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text = "Total", style = MaterialTheme.typography.titleMedium
                 )
+                val finalTotal = if (appliedPromo != null) {
+                    total.toDouble() - (total.toDouble() * appliedPromo.discountPercentage / 100.0)
+                } else {
+                    total.toDouble()
+                }
                 Text(
-                    text = total.toCurrencyString(Currency.USD),
-                    style = MaterialTheme.typography.titleLarge
+                    text = finalTotal.toCurrencyString(Currency.USD),
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
@@ -318,12 +465,14 @@ private fun CartScreenContentPreview() {
         image = "",
     )
     CartScreenContent(
-        products = listOf(
-            product,
-            product.copy(id = 2, title = "Mouse"),
-            product.copy(id = 3, title = "Keyboard"),
-            product.copy(id = 4, title = "Monitor"),
-            product.copy(id = 5, title = "Laptop")
-        ), onEvents = {}, isLoading = false, cartTotal = 458L
+        uiState = CartUiState(
+            products = listOf(
+                product,
+                product.copy(id = 2, title = "Mouse"),
+                product.copy(id = 3, title = "Keyboard"),
+            ),
+            cartTotal = 458L
+        ),
+        onEvents = {}
     )
 }

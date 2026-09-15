@@ -14,5 +14,6 @@ data class LoyaltyTransaction(
 
 enum class LoyaltyTransactionType {
     APPOINTMENT_EARNED,
-    REWARD_REDEEMED
+    REWARD_REDEEMED,
+    MARKETPLACE_PURCHASE
 }

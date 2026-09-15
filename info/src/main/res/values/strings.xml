@@ -5,7 +5,7 @@
     <string name="nombre_establecimiento">Nombre Establecimiento</string>
     <string name="sucursales">Sucursales</string>
     <string name="tiendas">Tiendas</string>
-    <string name="nuestro_staff">"Nuestro Staff"</string>
+    <string name="nuestro_staff">Nuestro Staff</string>
     <string name="ubicacion">Ubicacion</string>
     <string name="staff">Staff</string>
     <string name="servicios">Servicios</string>
@@ -18,5 +18,11 @@
     <string name="agregar">Agregar</string>
     <string name="remove">remove</string>
     <string name="pay">Pay</string>
+    <string name="purchase_error">We couldn’t complete your purchase. Please try again.</string>
+    <string name="discount_coupon">Discount Coupon</string>
+    <string name="enter_your_code">Enter your code</string>
+    <string name="coupon_applied">Applied</string>
+    <string name="apply_coupon">Apply</string>
+    <string name="coupon_applied_successfully">Coupon applied!</string>
 
 </resources>

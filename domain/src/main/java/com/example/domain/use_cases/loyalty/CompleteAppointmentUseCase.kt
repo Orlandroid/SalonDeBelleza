@@ -34,7 +34,7 @@ class CompleteAppointmentUseCase @Inject constructor(
             return earnPointsUseCase(
                 userId = userId,
                 pointsEarned = points,
-                appointmentId = appointment.idAppointment
+                sourceId = appointment.idAppointment
             )
         }
 

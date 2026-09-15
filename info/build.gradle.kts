@@ -46,6 +46,8 @@ dependencies {
     implementation(libs.bundles.daggerHilt)
     ksp(libs.hiltAndroidCompiler)
     ksp(libs.androidxHiltCompiler)
+    implementation(platform(libs.firebaseBom))
+    implementation(libs.bundles.firebase)
     implementation(libs.bundles.composeUi)
     implementation(libs.bundles.compose)
     implementation(libs.bundles.composeMaterial)
