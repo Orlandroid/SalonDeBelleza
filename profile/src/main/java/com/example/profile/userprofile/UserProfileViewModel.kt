@@ -7,8 +7,6 @@ import androidx.lifecycle.viewModelScope
 import com.example.core.ui.base.BaseScreenState
 import com.example.domain.loyalty.Loyalty
 import com.example.domain.loyalty.PromotionCode
-import com.example.domain.repository.LoyaltyRepository
-import com.example.domain.state.ApiResult
 import com.example.domain.state.getContent
 import com.example.domain.state.isSuccess
 import com.example.domain.use_cases.GetUserInfoUseCase
@@ -60,35 +58,9 @@ class UserProfileViewModel @Inject constructor(
         if (userInfoResult.isSuccess()) {
             val profile = userInfoResult.getContent().toUiState()
             _state.update { BaseScreenState.OnContent(content = profile) }
-
-//            profile.uid?.let { uid ->
-//                fetchCoupons(uid)
-//                val loyaltyResult = loyaltyRepository.getLoyalty(uid)
-//                if (loyaltyResult.isSuccess()) {
-//                    _state.update { currentState ->
-//                        if (currentState is BaseScreenState.OnContent) {
-//                            BaseScreenState.OnContent(currentState.content.copy(loyalty = loyaltyResult.getContent()))
-//                        } else {
-//                            currentState
-//                        }
-//                    }
-//                }
-//            }
         } else {
             _state.update { BaseScreenState.OnError(error = Throwable()) }
         }
     }
 
-//    private suspend fun fetchCoupons(uid: String) {
-//        val result = loyaltyRepository.getPromotionCodes(uid)
-//        if (result is ApiResult.Success) {
-//            _state.update { currentState ->
-//                if (currentState is BaseScreenState.OnContent) {
-//                    BaseScreenState.OnContent(currentState.content.copy(coupons = result.result))
-//                } else {
-//                    currentState
-//                }
-//            }
-//        }
-//    }
 }

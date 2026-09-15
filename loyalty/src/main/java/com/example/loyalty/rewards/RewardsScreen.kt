@@ -2,32 +2,15 @@ package com.example.loyalty.rewards
 
 
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.PaddingValues
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ConfirmationNumber
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.Card
-import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -41,16 +24,85 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.components.ToolbarConfiguration
+import com.example.core.ui.dialogs.ProgressDialog
 import com.example.core.ui.theme.Background
 import com.example.domain.loyalty.Reward
 import com.example.loyalty.R
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun RewardsScreen(
     navController: NavHostController,
     viewModel: RewardsViewModel = hiltViewModel()
 ) {
-    val uiState = viewModel.state.collectAsStateWithLifecycle()
+    val uiState by viewModel.state.collectAsStateWithLifecycle()
+    var showSuccessDialog by remember { mutableStateOf<RewardsEffects.ShowSuccess?>(null) }
+    var showErrorDialog by remember { mutableStateOf<String?>(null) }
+
+    LaunchedEffect(Unit) {
+        viewModel.effects.collectLatest { effect ->
+            when (val it = effect) {
+                is RewardsEffects.ShowSuccess -> {
+                    showSuccessDialog = it
+                }
+
+                is RewardsEffects.ShowError -> {
+                    showErrorDialog = it.message
+                }
+            }
+        }
+    }
+
+    if (uiState.isLoading) {
+        ProgressDialog()
+    }
+
+    if (showSuccessDialog != null) {
+        AlertDialog(
+            onDismissRequest = { showSuccessDialog = null },
+            confirmButton = {
+                TextButton(onClick = { showSuccessDialog = null }) {
+                    Text("OK")
+                }
+            },
+            title = { Text("¡Canje Exitoso!") },
+            text = {
+                Column {
+                    Text("Has canjeado una recompensa de ${showSuccessDialog?.discount}%.")
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text("Tu código es:", fontWeight = FontWeight.Bold)
+                    Surface(
+                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+                        shape = RoundedCornerShape(8.dp),
+                        modifier = Modifier.padding(top = 4.dp)
+                    ) {
+                        Text(
+                            text = showSuccessDialog?.promoCode ?: "",
+                            modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
+                            style = MaterialTheme.typography.titleLarge,
+                            color = MaterialTheme.colorScheme.primary,
+                            fontWeight = FontWeight.Black
+                        )
+                    }
+                    Spacer(modifier = Modifier.height(8.dp))
+                    Text("Puedes encontrar este código en tu perfil.", style = MaterialTheme.typography.bodySmall)
+                }
+            }
+        )
+    }
+
+    if (showErrorDialog != null) {
+        AlertDialog(
+            onDismissRequest = { showErrorDialog = null },
+            confirmButton = {
+                TextButton(onClick = { showErrorDialog = null }) {
+                    Text("OK")
+                }
+            },
+            title = { Text("Error") },
+            text = { Text(showErrorDialog ?: "") }
+        )
+    }
 
     BaseComposeScreen(
         navController = navController,
@@ -61,8 +113,8 @@ fun RewardsScreen(
     ) {
         RewardsScreenContent(
             modifier = Modifier,
-            userBalance = uiState.value.userBalance,
-            rewards = uiState.value.rewards,
+            userBalance = uiState.userBalance,
+            rewards = uiState.rewards,
             onRedeem = {
                 viewModel.onEvents(RewardsEvents.OnRedeemReward(it))
             }

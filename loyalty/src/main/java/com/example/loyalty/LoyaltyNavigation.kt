@@ -7,6 +7,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import com.example.core.navigation.AppNavigationRoutes
 import com.example.core.navigation.loyalty.LoyaltyNavigationRoutes
+import com.example.loyalty.loyalityTransactions.LoyaltyHistoryScreen
 import com.example.loyalty.rewards.RewardsScreen
 
 fun NavGraphBuilder.loyaltyNavigationGraph(
@@ -17,6 +18,9 @@ fun NavGraphBuilder.loyaltyNavigationGraph(
     ) {
         composable<LoyaltyNavigationRoutes.RewardsRoute> {
             RewardsScreen(navController = navController)
+        }
+        composable<LoyaltyNavigationRoutes.LoyaltyHistoryRoute> {
+            LoyaltyHistoryScreen(navController = navController)
         }
     }
 }

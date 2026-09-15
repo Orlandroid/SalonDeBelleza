@@ -5,13 +5,15 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.loyalty.Reward
 import com.example.domain.repository.LoyaltyRepository
 import com.example.domain.state.ApiResult
-import com.example.domain.state.getContent
-import com.example.domain.state.isSuccess
 import com.example.domain.use_cases.loyalty.RedeemRewardUseCase
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.receiveAsFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -23,7 +25,7 @@ data class RewardsUiState(
 )
 
 sealed class RewardsEvents {
-    object OnLoadRewards : RewardsEvents()
+    object OnLoadData : RewardsEvents()
     data class OnRedeemReward(val reward: Reward) : RewardsEvents()
 }
 
@@ -48,49 +50,48 @@ class RewardsViewModel @Inject constructor(
     val effects = _effects.receiveAsFlow()
 
     init {
-        onEvents(RewardsEvents.OnLoadRewards)
-        getUserLoyalty()
+        onEvents(RewardsEvents.OnLoadData)
+        observeLoyalty()
     }
 
     fun onEvents(event: RewardsEvents) {
         when (event) {
-            is RewardsEvents.OnLoadRewards -> fetchRewards()
+            is RewardsEvents.OnLoadData -> loadInitialData()
             is RewardsEvents.OnRedeemReward -> redeemReward(event.reward)
         }
     }
 
-    private fun getUserLoyalty() = viewModelScope.launch {
-        val loyaltyBalanceResult = loyaltyRepository.getLoyalty(userId)
-        if (loyaltyBalanceResult.isSuccess()) {
-            _state.update {
-                it.copy(
-                    userBalance = loyaltyBalanceResult.getContent().balance,
-                    isLoading = false
-                )
-            }
+    private fun observeLoyalty() = viewModelScope.launch {
+        loyaltyRepository.observeLoyalty(userId).collect { loyalty ->
+            _state.update { it.copy(userBalance = loyalty?.balance ?: 0) }
         }
     }
 
-    private fun fetchRewards() = viewModelScope.launch {
+    private fun loadInitialData() = viewModelScope.launch {
         _state.update { it.copy(isLoading = true) }
+
+        // Fetch rewards
         val result = loyaltyRepository.getRewards()
+
         if (result is ApiResult.Success) {
             _state.update { it.copy(rewards = result.result, isLoading = false) }
         } else {
-            _state.update { it.copy(isLoading = false, error = "Error loading rewards") }
+            _state.update { it.copy(isLoading = false, error = "Error al cargar recompensas") }
         }
     }
 
     private fun redeemReward(reward: Reward) = viewModelScope.launch {
         _state.update { it.copy(isLoading = true) }
+
         val result = redeemRewardUseCase(userId, reward)
+
         _state.update { it.copy(isLoading = false) }
 
         if (result is ApiResult.Success) {
             val promo = result.result
             _effects.send(RewardsEffects.ShowSuccess(promo.code, promo.discountPercentage))
         } else {
-            val errorMsg = (result as? ApiResult.Error)?.error ?: "Unknown error"
+            val errorMsg = (result as? ApiResult.Error)?.error ?: "Error al canjear recompensa"
             _effects.send(RewardsEffects.ShowError(errorMsg))
         }
     }

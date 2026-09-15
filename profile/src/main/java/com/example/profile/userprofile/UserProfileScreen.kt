@@ -57,6 +57,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import coil.compose.AsyncImage
 import com.example.core.navigation.AppNavigationRoutes
+import com.example.core.navigation.loyalty.LoyaltyNavigationRoutes
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.base.BaseScreenState
 import com.example.core.ui.base.getContentOrNull
@@ -105,7 +106,8 @@ fun UserProfileScreen(
                         imageUserRemote = imageUserRemote.value,
                         launchGallery = { galleryLauncher.launch("image/*") },
                         userProfileState = state,
-                        navigateToLoyalty = { navController.navigate(AppNavigationRoutes.LoyaltyNavigationRoute) }
+                        navigateToLoyalty = { navController.navigate(AppNavigationRoutes.LoyaltyNavigationRoute) },
+                        onViewHistory = { navController.navigate(LoyaltyNavigationRoutes.LoyaltyHistoryRoute) }
                     )
                 }
             }
@@ -124,6 +126,7 @@ private fun UserProfileScreenContent(
     imageUserRemote: Bitmap? = null,
     launchGallery: () -> Unit,
     navigateToLoyalty: () -> Unit,
+    onViewHistory: () -> Unit,
     userProfileState: UserProfileUiState
 ) {
     Column(
@@ -201,7 +204,11 @@ private fun UserProfileScreenContent(
 
 
         userProfileState.loyalty?.let { loyalty ->
-            LoyaltySection(loyalty = loyalty, onRedeem = navigateToLoyalty)
+            LoyaltySection(
+                loyalty = loyalty,
+                onRedeem = navigateToLoyalty,
+                onViewHistory = onViewHistory
+            )
         }
 
         if (userProfileState.coupons.isNotEmpty()) {
@@ -214,6 +221,7 @@ private fun UserProfileScreenContent(
 @Composable
 private fun LoyaltySection(
     loyalty: Loyalty,
+    onViewHistory: () -> Unit,
     onRedeem: () -> Unit
 ) {
     Card(
@@ -242,6 +250,12 @@ private fun LoyaltySection(
                         text = "${loyalty.tier} Member",
                         style = MaterialTheme.typography.bodyMedium,
                         color = Color.Gray
+                    )
+                    Text(
+                        text = "Ver actividad >",
+                        style = MaterialTheme.typography.labelMedium,
+                        color = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.clickable { onViewHistory() }
                     )
                 }
                 Icon(
@@ -446,5 +460,6 @@ private fun UserProfileScreenContentPreview() {
         ),
         launchGallery = {},
         navigateToLoyalty = {},
+        onViewHistory = {}
     )
 }

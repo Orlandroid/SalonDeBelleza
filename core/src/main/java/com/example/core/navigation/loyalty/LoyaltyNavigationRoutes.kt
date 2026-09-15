@@ -6,4 +6,7 @@ import kotlinx.serialization.Serializable
 sealed class LoyaltyNavigationRoutes {
     @Serializable
     data object RewardsRoute : LoyaltyNavigationRoutes()
+
+    @Serializable
+    data object LoyaltyHistoryRoute : LoyaltyNavigationRoutes()
 }
