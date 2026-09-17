@@ -2,6 +2,7 @@ package com.example.data.remote.appointments
 
 import com.example.data.api.WebServices
 import com.example.di.qualifiers.AppointmentsRef
+import com.example.di.qualifiers.MasterScheduleRef
 import com.example.domain.Appointment
 import com.example.domain.entities.local.AppointmentObject
 import com.example.domain.entities.remote.Service
@@ -26,6 +27,7 @@ import com.google.firebase.database.ktx.getValue
 
 class AppointmentsRepositoryImpl @Inject constructor(
     @param:AppointmentsRef private val databaseReference: DatabaseReference,
+    @param:MasterScheduleRef private val masterScheduleRef: DatabaseReference,
     private val webServices: WebServices,
     private val isBranchOpenUseCase: IsBranchOpenUseCase
 ) :
@@ -142,6 +144,48 @@ class AppointmentsRepositoryImpl @Inject constructor(
             ApiResult.Success(webServices.getServicios())
         }.getOrElse {
             ApiResult.Error(it.message.orEmpty())
+        }
+    }
+
+    override suspend fun getBookedSlots(
+        branchName: String,
+        date: String,
+        staffName: String
+    ): ApiResult<List<String>> {
+        return runCatching {
+
+            val snapshot = masterScheduleRef
+                .child(branchName)
+                .child(date.replace("/", "-"))
+                .child(staffName)
+                .get()
+                .await()
+
+            val bookedTimes = snapshot.children.mapNotNull { it.key }
+            ApiResult.Success(bookedTimes)
+        }.getOrElse {
+            ApiResult.Error(it.message)
+        }
+    }
+
+    override suspend fun bookMasterSchedule(
+        branchName: String,
+        date: String,
+        staffName: String,
+        time: String,
+        appointmentId: String
+    ): ApiResult<Unit> {
+        return runCatching {
+            masterScheduleRef
+                .child(branchName)
+                .child(date.replace("/", "-"))
+                .child(staffName)
+                .child(time)
+                .setValue(appointmentId)
+                .await()
+            ApiResult.Success(Unit)
+        }.getOrElse {
+            ApiResult.Error(it.message)
         }
     }
 

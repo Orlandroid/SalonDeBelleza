@@ -5,6 +5,7 @@ import com.example.di.qualifiers.AppointmentsRef
 import com.example.di.qualifiers.ImagesRef
 import com.example.di.qualifiers.LoyaltyRef
 import com.example.di.qualifiers.LoyaltyTransactionsRef
+import com.example.di.qualifiers.MasterScheduleRef
 import com.example.di.qualifiers.PromotionCodesRef
 import com.example.di.qualifiers.RewardsRef
 import com.example.di.qualifiers.TransactionReference
@@ -33,6 +34,7 @@ object ModuleFirebase {
     private const val LOYALTY_TRANSACTIONS = "loyaltyTransactions"
     private const val REWARDS = "rewards"
     private const val PROMOTION_CODES = "promotionCodes"
+    private const val MASTER_SCHEDULE = "masterSchedule"
 
 
     @Singleton
@@ -126,6 +128,15 @@ object ModuleFirebase {
         firebaseDatabase: FirebaseDatabase
     ): DatabaseReference {
         return firebaseDatabase.reference.child(PROMOTION_CODES)
+    }
+
+    @Singleton
+    @Provides
+    @MasterScheduleRef
+    fun provideFirebaseRealtimeMasterScheduleReference(
+        firebaseDatabase: FirebaseDatabase
+    ): DatabaseReference {
+        return firebaseDatabase.reference.child(MASTER_SCHEDULE)
     }
 
 }

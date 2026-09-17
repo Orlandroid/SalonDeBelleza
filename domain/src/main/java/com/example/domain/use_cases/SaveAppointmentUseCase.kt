@@ -37,6 +37,15 @@ class SaveAppointmentUseCase @Inject constructor(
             appointment
         )
         if (saveAppointmentResult.isSuccess()) {
+
+            appointmentsRepository.bookMasterSchedule(
+                branchName = establishment,
+                date = date,
+                staffName = employee,
+                time = hour,
+                appointmentId = appointment.idAppointment
+            )
+
             val purchaseResult = purchaseProductsUseCase.invoke(
                 amount = total.toDouble().toLong() / MXN_TO_USD_CONVERSION_FACTOR,
                 transactionType = TransactionType.SERVICE_PAYMENT,

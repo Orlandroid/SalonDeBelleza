@@ -24,6 +24,7 @@ import androidx.compose.material.icons.filled.Place
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
@@ -134,6 +135,7 @@ private fun ScheduleScreenContent(
             date = date,
             time = time,
             availableSlots = state.availableSlots,
+            isLoadingSlots = state.isLoadingSlots,
             onEvents = onEvents
         )
         Spacer(modifier = Modifier.height(24.dp))
@@ -223,6 +225,7 @@ private fun ScheduleInputs(
     date: String,
     time: String,
     availableSlots: List<AvailabilitySlot>,
+    isLoadingSlots: Boolean,
     onEvents: (event: ScheduleScreenEvents) -> Unit
 ) {
     OutlinedCard(
@@ -251,6 +254,7 @@ private fun ScheduleInputs(
             TimeSlotSelection(
                 slots = availableSlots,
                 selectedTime = time,
+                isLoading = isLoadingSlots,
                 onTimeSelected = { onEvents(ScheduleScreenEvents.OnConfirmTime(it)) }
             )
 
@@ -266,19 +270,26 @@ private fun ScheduleInputs(
 private fun TimeSlotSelection(
     slots: List<AvailabilitySlot>,
     selectedTime: String,
+    isLoading: Boolean,
     onTimeSelected: (String) -> Unit
 ) {
     Column {
-        Text(
-            text = stringResource(R.string.appointment_details),
-            style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Text(
+                text = stringResource(R.string.select_a_time),
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                modifier = Modifier.weight(1f)
+            )
+            if (isLoading) {
+                CircularProgressIndicator(modifier = Modifier.size(16.dp), strokeWidth = 2.dp)
+            }
+        }
         Spacer(modifier = Modifier.height(8.dp))
 
-        if (slots.isEmpty()) {
+        if (slots.isEmpty() && !isLoading) {
             Text(
-                text = stringResource(R.string.no_available_times),
+                text = stringResource(R.string.no_schedules_available),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.error,
                 modifier = Modifier.padding(vertical = 8.dp)
@@ -293,10 +304,13 @@ private fun TimeSlotSelection(
                     FilterChip(
                         selected = slot.time == selectedTime,
                         onClick = { onTimeSelected(slot.time) },
+                        enabled = slot.isAvailable,
                         label = { Text(text = slot.time) },
                         colors = FilterChipDefaults.filterChipColors(
                             selectedContainerColor = MaterialTheme.colorScheme.primary,
                             selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+                            disabledContainerColor = Color.LightGray.copy(alpha = 0.3f),
+                            disabledLabelColor = Color.Gray
                         ),
                         shape = RoundedCornerShape(12.dp)
                     )
@@ -320,7 +334,7 @@ private fun InputDate(
             .fillMaxWidth()
             .clickable { clickOnIcon() },
         shape = MaterialTheme.shapes.medium,
-        label = { Text(text = stringResource(R.string.appointment_date)) },
+        label = { Text("Appointment date") },
         placeholder = { Text(stringResource(id = R.string.add_date)) },
         trailingIcon = {
             Icon(
@@ -375,16 +389,14 @@ private fun ScheduleScreenContentPreview() {
             currentStaff = Staff(
                 id = "",
                 name = "Orlando",
-                gender = "h",
+                gender = "male",
                 image_url = "",
                 rating = 4
             ),
             availableSlots = listOf(
-                AvailabilitySlot("10:00"),
-                AvailabilitySlot("10:30"),
-                AvailabilitySlot("11:00"),
-                AvailabilitySlot("15:30"),
-                AvailabilitySlot("16:00")
+                AvailabilitySlot("10:00", isAvailable = true),
+                AvailabilitySlot("10:30", isAvailable = false),
+                AvailabilitySlot("11:00", isAvailable = true)
             )
         ),
         onEvents = {}

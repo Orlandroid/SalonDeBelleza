@@ -28,4 +28,18 @@ interface AppointmentsRepository {
 
     suspend fun getServices(): ApiResult<List<Service>>
 
+    suspend fun getBookedSlots(
+        branchName: String,
+        date: String,
+        staffName: String
+    ): ApiResult<List<String>>
+
+    suspend fun bookMasterSchedule(
+        branchName: String,
+        date: String,
+        staffName: String,
+        time: String,
+        appointmentId: String
+    ): ApiResult<Unit>
+
 }

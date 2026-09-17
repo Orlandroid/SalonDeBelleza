@@ -37,3 +37,7 @@ annotation class RewardsRef
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class PromotionCodesRef
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class MasterScheduleRef

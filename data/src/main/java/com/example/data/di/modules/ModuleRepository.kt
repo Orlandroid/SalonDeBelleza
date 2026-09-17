@@ -8,6 +8,7 @@ import com.example.data.remote.user.UserRepositoryImpl
 import com.example.di.qualifiers.AppointmentsRef
 import com.example.di.qualifiers.LoyaltyRef
 import com.example.di.qualifiers.LoyaltyTransactionsRef
+import com.example.di.qualifiers.MasterScheduleRef
 import com.example.di.qualifiers.PromotionCodesRef
 import com.example.di.qualifiers.RewardsRef
 import com.example.di.qualifiers.UsersRef
@@ -34,13 +35,15 @@ object ModuleRepository {
     @Provides
     fun provideAppointmentsRepository(
         @AppointmentsRef databaseReference: DatabaseReference,
+        @MasterScheduleRef masterScheduleRef: DatabaseReference,
         api: WebServices,
         isBranchOpenUseCase: IsBranchOpenUseCase
     ): AppointmentsRepository =
         AppointmentsRepositoryImpl(
             databaseReference = databaseReference,
             webServices = api,
-            isBranchOpenUseCase = isBranchOpenUseCase
+            isBranchOpenUseCase = isBranchOpenUseCase,
+            masterScheduleRef = masterScheduleRef
         )
 
     @Singleton

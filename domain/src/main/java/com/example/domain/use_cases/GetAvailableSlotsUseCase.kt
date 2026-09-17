@@ -6,23 +6,28 @@ import javax.inject.Inject
 
 class GetAvailableSlotsUseCase @Inject constructor() {
 
-    operator fun invoke(schedule: Schedule): List<AvailabilitySlot> {
+    operator fun invoke(schedule: Schedule, bookedSlots: List<String> = emptyList()): List<AvailabilitySlot> {
         val slots = mutableListOf<AvailabilitySlot>()
 
 
-        slots.addAll(generateSlots(schedule.morningOpen, schedule.morningClose))
+        slots.addAll(generateSlots(schedule.morningOpen, schedule.morningClose, bookedSlots))
 
 
-        slots.addAll(generateSlots(schedule.afternoonOpen, schedule.afternoonClose))
+        slots.addAll(generateSlots(schedule.afternoonOpen, schedule.afternoonClose, bookedSlots))
 
         return slots
     }
 
-    private fun generateSlots(startTime: String, endTime: String): List<AvailabilitySlot> {
+    private fun generateSlots(
+        startTime: String,
+        endTime: String,
+        bookedSlots: List<String>
+    ): List<AvailabilitySlot> {
         val timeList = mutableListOf<AvailabilitySlot>()
         var current = startTime
         while (current < endTime) {
-            timeList.add(AvailabilitySlot(time = current))
+            val isBooked = bookedSlots.contains(current)
+            timeList.add(AvailabilitySlot(time = current, isAvailable = !isBooked))
             current = add30Minutes(current)
         }
         return timeList
