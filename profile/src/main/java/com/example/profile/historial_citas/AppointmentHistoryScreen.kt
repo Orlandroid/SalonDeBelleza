@@ -128,6 +128,20 @@ private fun AppointmentHistoryScreenContent(
             onEvents = onEvents
         )
     }
+
+    if (uiState.showReviewDialog) {
+        RatingDialog(
+            staffName = uiState.appointmentToReview?.branch ?: "Professional",
+            onDismiss = { onEvents(AppointmentHistoryEvents.OnDismissReview) },
+            onSubmit = { rating, comment ->
+                onEvents(AppointmentHistoryEvents.OnSubmitReview(rating, comment))
+            }
+        )
+    }
+
+    if (uiState.isSavingReview) {
+        ProgressDialog()
+    }
 }
 
 @Composable

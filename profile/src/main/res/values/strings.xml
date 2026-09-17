@@ -41,4 +41,10 @@
     <string name="completed">Completed</string>
     <string name="cancelled">Cancelled</string>
     <string name="my_cupons">My Coupons</string>
+    <string name="service_rating_question">How was your service with %1$s?</string>
+    <string name="rate_your_experience">Rate your experience</string>
+    <string name="write_a_comment_optional">Write a comment (optional)</string>
+    <string name="submit">Submit</string>
+    <string name="maybe_later">Maybe later</string>
+    <string name="earn_stars_for_feedback">Earn +50 stars for your feedback!</string>
 </resources>

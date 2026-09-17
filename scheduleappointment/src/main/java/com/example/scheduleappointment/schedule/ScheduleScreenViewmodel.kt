@@ -118,20 +118,19 @@ class ScheduleScreenViewmodel @Inject constructor(
 
         _uiState.update { it.copy(isLoadingSlots = true) }
 
-        // 1. Get already booked slots for this specific Date/Staff
         val bookedResult = appointmentsRepository.getBookedSlots(branchName, date, staffName)
-        val bookedTimes = if (bookedResult is ApiResult.Success) bookedResult.result else emptyList()
+        val bookedTimes =
+            if (bookedResult is ApiResult.Success) bookedResult.result else emptyList()
 
-        // 2. Generate slots and mark the booked ones as unavailable
+
         val slots = getAvailableSlotsUseCase(schedule, bookedTimes)
-        
-        _uiState.update { 
+
+        _uiState.update {
             it.copy(
                 availableSlots = slots,
                 isLoadingSlots = false,
-                // Reset selected time if it's now unavailable
                 hourAppointment = if (bookedTimes.contains(it.hourAppointment)) "" else it.hourAppointment
-            ) 
+            )
         }
     }
 

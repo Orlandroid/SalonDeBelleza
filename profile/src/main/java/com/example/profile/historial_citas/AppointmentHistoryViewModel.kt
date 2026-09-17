@@ -4,12 +4,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.Appointment
 import com.example.domain.AppointmentStatus
+import com.example.domain.entities.Review
 import com.example.domain.repository.AppointmentsRepository
+import com.example.domain.repository.UserRepository
 import com.example.domain.state.getContent
 import com.example.domain.state.getErrorMessage
+import com.example.domain.state.getResultOrNull
 import com.example.domain.state.isError
+import com.example.domain.state.isSuccess
+import com.example.domain.use_cases.AddReviewUseCase
 import com.example.domain.use_cases.loyalty.CompleteAppointmentUseCase
 import com.example.profile.R
+import com.example.profile.historial_citas.AppointmentHistoryEffects.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,6 +29,9 @@ import javax.inject.Inject
 
 
 data class AppointmentHistoryUiState(
+    val showReviewDialog: Boolean = false,
+    val appointmentToReview: Appointment? = null,
+    val isSavingReview: Boolean = false,
     val idAppointment: String? = null,
     val showDialog: Boolean = false,
     val appointments: List<Appointment> = emptyList(),
@@ -37,6 +46,8 @@ sealed class AppointmentHistoryEvents {
     data class OnAppointmentClicked(val appointment: String) : AppointmentHistoryEvents()
     data class OnComplete(val idAppointment: String) : AppointmentHistoryEvents()
     data class OnCancelAppointment(val idAppointment: String) : AppointmentHistoryEvents()
+    data class OnSubmitReview(val rating: Int, val comment: String) : AppointmentHistoryEvents()
+    object OnDismissReview : AppointmentHistoryEvents()
 }
 
 sealed class AppointmentHistoryEffects {
@@ -46,7 +57,9 @@ sealed class AppointmentHistoryEffects {
 @HiltViewModel
 class AppointmentHistoryViewModel @Inject constructor(
     private val appointmentsRepository: AppointmentsRepository,
-    private val completeAppointmentUseCase: CompleteAppointmentUseCase
+    private val completeAppointmentUseCase: CompleteAppointmentUseCase,
+    private val addReviewUseCase: AddReviewUseCase,
+    private val userRepository: UserRepository
 ) : ViewModel() {
 
     private var idAppointment: String? = null
@@ -90,7 +103,7 @@ class AppointmentHistoryViewModel @Inject constructor(
 
             is AppointmentHistoryEvents.OnAppointmentClicked -> {
                 viewModelScope.launch {
-                    _effects.send(AppointmentHistoryEffects.NavigateToDetail(idAppointment = event.appointment))
+                    _effects.send(NavigateToDetail(idAppointment = event.appointment))
                 }
             }
 
@@ -100,6 +113,14 @@ class AppointmentHistoryViewModel @Inject constructor(
 
             is AppointmentHistoryEvents.OnCancelAppointment -> {
                 cancelAppointment(event.idAppointment)
+            }
+
+            is AppointmentHistoryEvents.OnDismissReview -> {
+                _state.update { it.copy(showReviewDialog = false, appointmentToReview = null) }
+            }
+
+            is AppointmentHistoryEvents.OnSubmitReview -> {
+                submitReview(event.rating, event.comment)
             }
         }
     }
@@ -143,6 +164,14 @@ class AppointmentHistoryViewModel @Inject constructor(
         if (result.isError()) {
             _state.update { it.copy(error = result.getErrorMessage(), isLoading = false) }
         } else {
+            val appointment = _state.value.appointments.find { it.id == idAppointment }
+            _state.update {
+                it.copy(
+                    isLoading = false,
+                    showReviewDialog = true,
+                    appointmentToReview = appointment
+                )
+            }
             getAppointments()
         }
     }
@@ -156,11 +185,48 @@ class AppointmentHistoryViewModel @Inject constructor(
         }
         val appointment = result.getContent()
         val cancelledAppointment = appointment.copy(status = AppointmentStatus.CANCELLED)
-        val updateResult = appointmentsRepository.updateAppointment(idAppointment, cancelledAppointment)
+        val updateResult =
+            appointmentsRepository.updateAppointment(idAppointment, cancelledAppointment)
         if (updateResult.isError()) {
             _state.update { it.copy(error = updateResult.getErrorMessage(), isLoading = false) }
         } else {
             getAppointments()
+        }
+    }
+
+    private fun submitReview(rating: Int, comment: String) = viewModelScope.launch {
+        val appointment = _state.value.appointmentToReview ?: return@launch
+        val userResult = userRepository.getUser()
+        val firebaseUser = userResult.getResultOrNull() ?: return@launch
+
+        val userInfoResult = userRepository.getNameAndPhone()
+        val userName =
+            if (userInfoResult.isSuccess()) userInfoResult.getContent().name else "Customer"
+
+        //Todo Add real values for staffId and appointmentId also migrate to one useCase
+        val review = Review(
+            userId = firebaseUser.uid,
+            userName = userName,
+            staffId = "testStaffId",
+            staffName = "TestStaffName",
+            appointmentId = appointment.id,
+            rating = rating,
+            comment = comment
+        )
+
+        _state.update { it.copy(isSavingReview = true) }
+        val result = addReviewUseCase(firebaseUser.uid, review)
+
+        if (result.isSuccess()) {
+            _state.update {
+                it.copy(
+                    showReviewDialog = false,
+                    appointmentToReview = null,
+                    isSavingReview = false
+                )
+            }
+        } else {
+            _state.update { it.copy(error = result.getErrorMessage(), isSavingReview = false) }
         }
     }
 
