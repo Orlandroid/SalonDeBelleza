@@ -5,10 +5,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.core.AppointmentSession
 import com.example.core.util.dateFormat
 import com.example.core.util.getCurrentDateTime
-import com.example.core.util.getInitialTime
 import com.example.core.util.toStringFormat
+import com.example.domain.AvailabilitySlot
 import com.example.domain.entities.remote.migration.Service
 import com.example.domain.entities.remote.migration.Staff
+import com.example.domain.use_cases.GetAvailableSlotsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -26,18 +27,16 @@ data class ScheduleScreenUiState(
     val branchName: String? = null,
     val currentStaff: Staff? = null,
     val dateAppointment: String = getCurrentDateTime().toStringFormat(dateFormat),
-    val hourAppointment: String = getInitialTime(),
+    val hourAppointment: String = "",
     val showDateDialog: Boolean = false,
-    val showTimeDialog: Boolean = false
+    val availableSlots: List<AvailabilitySlot> = emptyList()
 )
 
 sealed class ScheduleScreenEvents {
     object OnDateSelected : ScheduleScreenEvents()
     data class OnConfirmDate(val date: String) : ScheduleScreenEvents()
     object OnDismissDate : ScheduleScreenEvents()
-    object OnTimeSelected : ScheduleScreenEvents()
     data class OnConfirmTime(val time: String) : ScheduleScreenEvents()
-    object OnDismissTime : ScheduleScreenEvents()
     object OnNextButtonClicked : ScheduleScreenEvents()
 }
 
@@ -47,6 +46,7 @@ sealed class ScheduleScreenEffects {
 
 @HiltViewModel
 class ScheduleScreenViewmodel @Inject constructor(
+    private val getAvailableSlotsUseCase: GetAvailableSlotsUseCase,
     private val appointmentSession: AppointmentSession
 ) :
     ViewModel() {
@@ -60,11 +60,15 @@ class ScheduleScreenViewmodel @Inject constructor(
         val selectedService = draft.service
         val branchName = draft.branch?.sucursal?.name
         val currentStaff = draft.staff
+        val schedule = draft.branch?.sucursal?.schedule
+        val slots = if (schedule != null) getAvailableSlotsUseCase(schedule) else emptyList()
+        
         _uiState.update {
             it.copy(
                 selectedService = selectedService,
                 branchName = branchName,
-                currentStaff = currentStaff
+                currentStaff = currentStaff,
+                availableSlots = slots
             )
         }
     }.stateIn(
@@ -93,17 +97,9 @@ class ScheduleScreenViewmodel @Inject constructor(
                 _uiState.update { it.copy(showDateDialog = false) }
             }
 
-            ScheduleScreenEvents.OnTimeSelected -> {
-                _uiState.update { it.copy(showTimeDialog = true) }
-            }
-
             is ScheduleScreenEvents.OnConfirmTime -> {
-                _uiState.update { it.copy(showTimeDialog = false, hourAppointment = event.time) }
+                _uiState.update { it.copy(hourAppointment = event.time) }
                 appointmentSession.selectTime(event.time)
-            }
-
-            ScheduleScreenEvents.OnDismissTime -> {
-                _uiState.update { it.copy(showTimeDialog = false) }
             }
 
             ScheduleScreenEvents.OnNextButtonClicked -> {

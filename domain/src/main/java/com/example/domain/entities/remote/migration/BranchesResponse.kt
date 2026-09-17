@@ -74,10 +74,12 @@ data class Service(
     val id: String,
     val name: String,
     val precio: Int,
+    val durationInMinutes: Int,
     var isSelect: Boolean = false
 ) {
     companion object {
-        private fun mockService() = Service(id = "0", name = "Corte de pelo", precio = 150)
+        private fun mockService() =
+            Service(id = "0", name = "Corte de pelo", precio = 150, durationInMinutes = 30)
 
         fun mockListServices() = listOf(
             mockService(),

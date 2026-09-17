@@ -45,4 +45,7 @@
     <string name="apply">Apply</string>
     <string name="coupon_applied_successfully">Coupon applied successfully!</string>
     <string name="discount_percentage">Discount (%1$d%%)</string>
+    <string name="appointment_details">Appointment Details</string>
+    <string name="no_available_times">No available times</string>
+    <string name="appointment_date">Appointment Date</string>
 </resources>

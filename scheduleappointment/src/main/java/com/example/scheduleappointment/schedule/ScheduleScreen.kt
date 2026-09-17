@@ -4,6 +4,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.ExperimentalLayoutApi
+import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -11,10 +13,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AccessTime
 import androidx.compose.material.icons.filled.CalendarToday
 import androidx.compose.material.icons.filled.ContentCut
 import androidx.compose.material.icons.filled.Place
@@ -23,6 +26,8 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.FilterChip
+import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -36,6 +41,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -51,8 +57,8 @@ import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.base.MyDatePickerDialog
 import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.theme.Background
-import com.example.core.util.getHourFormat
 import com.example.core.util.toCurrencyString
+import com.example.domain.AvailabilitySlot
 import com.example.domain.entities.remote.migration.Staff
 import com.example.domain.wallet.Currency
 import com.example.scheduleappointment.R
@@ -79,16 +85,6 @@ fun ScheduleScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.agendar_hora))
     ) {
-        if (uiState.showTimeDialog) {
-            MyTimePickerDialog(
-                onDismiss = {
-                    onEvents(ScheduleScreenEvents.OnDismissTime)
-                }, onConfirm = {
-                    val time = it.getHourFormat()
-                    onEvents(ScheduleScreenEvents.OnConfirmTime(time = time))
-                }
-            )
-        }
         if (uiState.showDateDialog) {
             MyDatePickerDialog(
                 onDismiss = {
@@ -121,8 +117,9 @@ private fun ScheduleScreenContent(
         modifier = modifier
             .fillMaxSize()
             .background(Background)
-            .padding(horizontal = 16.dp),
-        verticalArrangement = Arrangement.Center
+            .padding(horizontal = 16.dp)
+            .verticalScroll(rememberScrollState()),
+        verticalArrangement = Arrangement.Top
     ) {
         Spacer(modifier = Modifier.height(24.dp))
         StaffInfo(
@@ -130,10 +127,16 @@ private fun ScheduleScreenContent(
             name = state.currentStaff?.name.orEmpty(),
             branch = state.branchName.orEmpty(),
             services = state.selectedService?.name ?: "",
-            price = (state.selectedService?.precio?.toLong() ?: 0L) / 3
+            price = (state.selectedService?.precio?.toLong() ?: 0L)
         )
         Spacer(modifier = Modifier.height(24.dp))
-        ScheduleInputs(date = date, time = time, onEvents = onEvents)
+        ScheduleInputs(
+            date = date,
+            time = time,
+            availableSlots = state.availableSlots,
+            onEvents = onEvents
+        )
+        Spacer(modifier = Modifier.height(24.dp))
     }
 }
 
@@ -219,10 +222,11 @@ private fun InfoRow(
 private fun ScheduleInputs(
     date: String,
     time: String,
+    availableSlots: List<AvailabilitySlot>,
     onEvents: (event: ScheduleScreenEvents) -> Unit
 ) {
     OutlinedCard(
-        shape = RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp),
+        shape = RoundedCornerShape(28.dp),
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.outlinedCardColors(
             containerColor = MaterialTheme.colorScheme.surface
@@ -234,15 +238,69 @@ private fun ScheduleInputs(
                 .padding(20.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            Text(
+                text = stringResource(R.string.appointment_details),
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.Bold
+            )
+
             InputDate(currentDate = date) {
                 onEvents(ScheduleScreenEvents.OnDateSelected)
             }
-            InputTime(currentTime = time) {
-                onEvents(ScheduleScreenEvents.OnTimeSelected)
-            }
+
+            TimeSlotSelection(
+                slots = availableSlots,
+                selectedTime = time,
+                onTimeSelected = { onEvents(ScheduleScreenEvents.OnConfirmTime(it)) }
+            )
+
             Spacer(modifier = Modifier.height(4.dp))
             NextButton(enabled = date.isNotBlank() && time.isNotBlank()) {
                 onEvents(ScheduleScreenEvents.OnNextButtonClicked)
+            }
+        }
+    }
+}
+
+@Composable
+private fun TimeSlotSelection(
+    slots: List<AvailabilitySlot>,
+    selectedTime: String,
+    onTimeSelected: (String) -> Unit
+) {
+    Column {
+        Text(
+            text = stringResource(R.string.appointment_details),
+            style = MaterialTheme.typography.labelMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        Spacer(modifier = Modifier.height(8.dp))
+
+        if (slots.isEmpty()) {
+            Text(
+                text = stringResource(R.string.no_available_times),
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.error,
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
+        } else {
+            FlowRow(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
+            ) {
+                slots.forEach { slot ->
+                    FilterChip(
+                        selected = slot.time == selectedTime,
+                        onClick = { onTimeSelected(slot.time) },
+                        label = { Text(text = slot.time) },
+                        colors = FilterChipDefaults.filterChipColors(
+                            selectedContainerColor = MaterialTheme.colorScheme.primary,
+                            selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
+                        ),
+                        shape = RoundedCornerShape(12.dp)
+                    )
+                }
             }
         }
     }
@@ -262,6 +320,7 @@ private fun InputDate(
             .fillMaxWidth()
             .clickable { clickOnIcon() },
         shape = MaterialTheme.shapes.medium,
+        label = { Text(text = stringResource(R.string.appointment_date)) },
         placeholder = { Text(stringResource(id = R.string.add_date)) },
         trailingIcon = {
             Icon(
@@ -274,38 +333,8 @@ private fun InputDate(
             disabledTextColor = MaterialTheme.colorScheme.onSurface,
             disabledBorderColor = MaterialTheme.colorScheme.outline,
             disabledTrailingIconColor = MaterialTheme.colorScheme.primary,
-            disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
-        )
-    )
-}
-
-@Composable
-private fun InputTime(
-    currentTime: String,
-    clickOnIconTime: () -> Unit
-) {
-    OutlinedTextField(
-        enabled = false,
-        readOnly = true,
-        value = currentTime,
-        onValueChange = {},
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable { clickOnIconTime() },
-        shape = MaterialTheme.shapes.medium,
-        placeholder = { Text(stringResource(id = R.string.selecciona_la_hora_de_tu_cita)) },
-        trailingIcon = {
-            Icon(
-                imageVector = Icons.Default.AccessTime,
-                contentDescription = null,
-                modifier = Modifier.clickable { clickOnIconTime() }
-            )
-        },
-        colors = OutlinedTextFieldDefaults.colors(
-            disabledTextColor = MaterialTheme.colorScheme.onSurface,
-            disabledBorderColor = MaterialTheme.colorScheme.outline,
-            disabledTrailingIconColor = MaterialTheme.colorScheme.primary,
-            disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant
+            disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
+            disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
         )
     )
 }
@@ -322,7 +351,10 @@ private fun NextButton(
             .fillMaxWidth()
             .height(52.dp),
         shape = MaterialTheme.shapes.medium,
-        colors = ButtonDefaults.buttonColors()
+        colors = ButtonDefaults.buttonColors(
+            containerColor = Color(0xff051721),
+            contentColor = Color.White
+        )
     ) {
         Text(
             text = stringResource(id = R.string.next),
@@ -337,7 +369,7 @@ private fun NextButton(
 private fun ScheduleScreenContentPreview() {
     ScheduleScreenContent(
         date = "12/07/2024",
-        time = "15:42",
+        time = "10:30",
         state = ScheduleScreenUiState(
             branchName = "Zacatecas",
             currentStaff = Staff(
@@ -347,6 +379,13 @@ private fun ScheduleScreenContentPreview() {
                 image_url = "",
                 rating = 4
             ),
+            availableSlots = listOf(
+                AvailabilitySlot("10:00"),
+                AvailabilitySlot("10:30"),
+                AvailabilitySlot("11:00"),
+                AvailabilitySlot("15:30"),
+                AvailabilitySlot("16:00")
+            )
         ),
         onEvents = {}
     )
