@@ -3,8 +3,12 @@ package com.example.scheduleappointment.detail_staff
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.AppointmentSession
+import com.example.domain.entities.StaffRatingSummary
 import com.example.domain.entities.remote.migration.Service
 import com.example.domain.entities.remote.migration.Staff
+import com.example.domain.state.getContent
+import com.example.domain.state.isSuccess
+import com.example.domain.use_cases.GetStaffRatingUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -17,7 +21,8 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class DetailStaffUiState(
-    val currentStaff: Staff? = null
+    val currentStaff: Staff? = null,
+    val ratingSummary: StaffRatingSummary = StaffRatingSummary(),
 )
 
 sealed class ServiceEvents {
@@ -32,7 +37,8 @@ sealed class ServiceEffects {
 @HiltViewModel
 class DetailStaffViewModel
 @Inject constructor(
-    private val appointmentSession: AppointmentSession
+    private val appointmentSession: AppointmentSession,
+    private val getStaffRatingUseCase: GetStaffRatingUseCase
 ) : ViewModel() {
 
     private val _effects = Channel<ServiceEffects>()
@@ -47,11 +53,25 @@ class DetailStaffViewModel
                 currentStaff = currentStaff
             )
         }
+        getStaffRatting()
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = DetailStaffUiState()
     )
+
+    private fun getStaffRatting() {
+        viewModelScope.launch {
+            val draft = appointmentSession.draft.value
+            val branchId = draft.branch?.sucursal?.id ?: ""
+            val staffId = draft.staff?.id ?: ""
+            val compositeId = "${branchId}_${staffId}"
+            val result = getStaffRatingUseCase(compositeId)
+            if (result.isSuccess()) {
+                _state.update { it.copy(ratingSummary = result.getContent()) }
+            }
+        }
+    }
 
 
     fun onEvents(event: ServiceEvents) {

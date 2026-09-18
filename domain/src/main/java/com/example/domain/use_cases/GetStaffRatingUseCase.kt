@@ -1,17 +1,11 @@
 package com.example.domain.use_cases
 
 
-import com.example.domain.entities.Review
+import com.example.domain.entities.StaffRatingSummary
 import com.example.domain.repository.ReviewRepository
 import com.example.domain.state.ApiResult
 import com.example.domain.state.getContent
 import javax.inject.Inject
-
-data class StaffRatingSummary(
-    val averageRating: Double = 0.0,
-    val totalReviews: Int = 0,
-    val recentComments: List<Review> = emptyList()
-)
 
 class GetStaffRatingUseCase @Inject constructor(
     private val reviewRepository: ReviewRepository
