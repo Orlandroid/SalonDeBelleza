@@ -20,7 +20,8 @@ class SaveAppointmentUseCase @Inject constructor(
 
     suspend operator fun invoke(
         establishment: String,
-        employee: String,
+        employeeName: String,
+        employeeId: String,
         service: String,
         date: String,
         hour: String,
@@ -31,7 +32,9 @@ class SaveAppointmentUseCase @Inject constructor(
             service = service,
             date = date,
             hour = hour,
-            total = total
+            total = total,
+            employee = employeeName,
+            employeeId = employeeId
         )
         val saveAppointmentResult = appointmentsRepository.saveAppointment(
             appointment
@@ -41,7 +44,7 @@ class SaveAppointmentUseCase @Inject constructor(
             appointmentsRepository.bookMasterSchedule(
                 branchName = establishment,
                 date = date,
-                staffName = employee,
+                staffName = employeeName,
                 time = hour,
                 appointmentId = appointment.idAppointment
             )

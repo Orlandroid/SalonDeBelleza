@@ -118,10 +118,12 @@ class AppointmentHistoryViewModel @Inject constructor(
             }
 
             is AppointmentHistoryEvents.OnSubmitReview -> {
-                submitReview(
-                    rating = event.rating,
-                    comment = event.comment
-                )
+                viewModelScope.launch {
+                    submitReview(
+                        rating = event.rating,
+                        comment = event.comment
+                    )
+                }
             }
         }
     }
@@ -198,35 +200,32 @@ class AppointmentHistoryViewModel @Inject constructor(
         }
     }
 
-    private fun submitReview(
+    private suspend fun submitReview(
         rating: Int,
         comment: String
     ) {
-        viewModelScope.launch {
-            val submitAppointmentReviewResult =
-                submitAppointmentReviewUseCase(
-                    appointmentId = _state.value.appointmentToReview?.id ?: "",
-                    rating = rating,
-                    comment = comment
+        val submitAppointmentReviewResult =
+            submitAppointmentReviewUseCase(
+                appointmentId = _state.value.appointmentToReview?.id ?: "",
+                rating = rating,
+                comment = comment
+            )
+        _state.update { it.copy(isSavingReview = true) }
+        if (submitAppointmentReviewResult.isSuccess()) {
+            _state.update {
+                it.copy(
+                    showReviewDialog = false,
+                    appointmentToReview = null,
+                    isSavingReview = false
                 )
-            _state.update { it.copy(isSavingReview = true) }
-            if (submitAppointmentReviewResult.isSuccess()) {
-                _state.update {
-                    it.copy(
-                        showReviewDialog = false,
-                        appointmentToReview = null,
-                        isSavingReview = false
-                    )
-                }
-            } else {
-                _state.update {
-                    it.copy(
-                        error = submitAppointmentReviewResult.getErrorMessage(),
-                        isSavingReview = false
-                    )
-                }
             }
-
+        } else {
+            _state.update {
+                it.copy(
+                    error = submitAppointmentReviewResult.getErrorMessage(),
+                    isSavingReview = false
+                )
+            }
         }
     }
 

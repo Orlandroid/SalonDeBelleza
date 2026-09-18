@@ -3,12 +3,13 @@ package com.example.domain
 import java.util.UUID
 
 data class AppointmentFirebase(
-    var idAppointment: String = UUID.randomUUID().toString(),
-    var establishment: String = "",
-    var employee: String = "",
-    var service: String = "",
-    var date: String = "",
-    var hour: String = "",
-    var total: String = "",
-    var status: AppointmentStatus = AppointmentStatus.CONFIRMED
+    val idAppointment: String = UUID.randomUUID().toString(),
+    val establishment: String = "",
+    val employee: String = "",
+    val employeeId: String = "",
+    val service: String = "",
+    val date: String = "",
+    val hour: String = "",
+    val total: String = "",
+    val status: AppointmentStatus = AppointmentStatus.CONFIRMED
 )

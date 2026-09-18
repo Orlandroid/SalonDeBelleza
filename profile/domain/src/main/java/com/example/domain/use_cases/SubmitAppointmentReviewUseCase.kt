@@ -30,7 +30,8 @@ class SubmitAppointmentReviewUseCase @Inject constructor(
         val firebaseUser = userResult.getResultOrNull() ?: return ApiResult.Error("User not found")
 
         val userInfoResult = userRepository.getNameAndPhone()
-        val userName = if (userInfoResult.isSuccess()) userInfoResult.getContent().name else "Customer"
+        val userName =
+            if (userInfoResult.isSuccess()) userInfoResult.getContent().name else "Customer"
 
 
         val appointmentResult = appointmentsRepository.getAppointmentById(appointmentId)
@@ -38,11 +39,19 @@ class SubmitAppointmentReviewUseCase @Inject constructor(
 
         val fullAppointment = appointmentResult.getContent()
 
+        val searchResult = appointmentsRepository.findStaff(
+            branchName = fullAppointment.establishment,
+            staffName = fullAppointment.employee
+        )
+
+        val (branchId, staff) = (searchResult as? ApiResult.Success)?.result ?: Pair("", null)
+        val compositeStaffId =
+            if (branchId.isNotEmpty() && staff != null) "${branchId}_${staff.id}" else "unknown"
 
         val review = Review(
             userId = firebaseUser.uid,
             userName = userName,
-            staffId = fullAppointment.employee,
+            staffId = compositeStaffId,
             staffName = fullAppointment.employee,
             appointmentId = appointmentId,
             rating = rating,

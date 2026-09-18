@@ -1,10 +1,10 @@
 package com.example.data.api
 
 
-import com.example.domain.entities.remote.Service
-import com.example.domain.entities.remote.Staff
 import com.example.domain.entities.remote.dummyUsers.DummyUsersResponse
 import com.example.domain.entities.remote.migration.BranchesResponse
+import com.example.domain.entities.remote.migration.Service
+import com.example.domain.entities.remote.migration.Staff
 import retrofit2.http.GET
 import retrofit2.http.Url
 

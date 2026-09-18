@@ -127,17 +127,17 @@ class ConfirmScheduleViewModel @Inject constructor(
 
         _uiState.update { it.copy(validatingPromo = true, promoError = null) }
         val result = verifyPromoCodeUseCase(userId, code)
-        
+
         if (result is ApiResult.Success) {
-            _uiState.update { 
+            _uiState.update {
                 it.copy(
                     appliedPromo = result.result,
                     isPromoApplied = true,
                     validatingPromo = false
-                ) 
+                )
             }
         } else {
-            val errorMsg = (result as? ApiResult.Error)?.error ?: "Código inválido"
+            val errorMsg = (result as? ApiResult.Error)?.error ?: "Invalid prome code"
             _uiState.update { it.copy(promoError = errorMsg, validatingPromo = false) }
         }
     }
@@ -146,10 +146,12 @@ class ConfirmScheduleViewModel @Inject constructor(
     private suspend fun saveAppointment() {
         val draft = appointmentSession.draft.value
         val userId = userRepository.getUser().getResultOrNull()?.uid ?: return
-        
+
         val originalPrice = draft.service?.precio?.toDouble() ?: 0.0
         val finalPrice = if (_uiState.value.isPromoApplied) {
-            val discount = originalPrice * (_uiState.value.appliedPromo?.discountPercentage?.toDouble() ?: 0.0) / 100.0
+            val discount =
+                originalPrice * (_uiState.value.appliedPromo?.discountPercentage?.toDouble()
+                    ?: 0.0) / 100.0
             originalPrice - discount
         } else {
             originalPrice
@@ -157,20 +159,21 @@ class ConfirmScheduleViewModel @Inject constructor(
 
         val saveAppointmentResult = saveAppointmentUseCase.invoke(
             establishment = draft.branch?.sucursal?.name.orEmpty(),
-            employee = draft.staff?.name.orEmpty(),
+            employeeName = draft.staff?.name.orEmpty(),
+            employeeId = draft.staff?.id.orEmpty(),
             service = draft.service?.name.orEmpty(),
             date = draft.date,
             hour = draft.time,
             total = finalPrice.toString()
         )
-        
+
         if (saveAppointmentResult.isSuccess()) {
             if (_uiState.value.isPromoApplied) {
                 _uiState.value.appliedPromo?.id?.let { promoId ->
                     loyaltyRepository.usePromotionCode(userId, promoId)
                 }
             }
-            
+
             _uiState.update { it.copy(showAnimation = true) }
             _effects.send(ScheduleAppointmentEffects.NavigateToAppointComplete)
         } else {

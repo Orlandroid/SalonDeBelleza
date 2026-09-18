@@ -5,8 +5,6 @@ import com.example.di.qualifiers.AppointmentsRef
 import com.example.di.qualifiers.MasterScheduleRef
 import com.example.domain.Appointment
 import com.example.domain.entities.local.AppointmentObject
-import com.example.domain.entities.remote.Service
-import com.example.domain.entities.remote.Staff
 import com.example.domain.entities.remote.migration.NegoInfo
 import com.example.domain.extension.toInitials
 import com.example.domain.repository.AppointmentsRepository
@@ -22,6 +20,11 @@ import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 import kotlin.coroutines.resume
 import com.example.domain.AppointmentFirebase
+import com.example.domain.entities.remote.migration.Staff
+import com.example.domain.state.getContent
+import com.example.domain.state.getErrorMessage
+import com.example.domain.state.isError
+import com.example.domain.entities.remote.migration.Service
 import com.example.domain.toAppointmentObject
 import com.google.firebase.database.ktx.getValue
 
@@ -147,6 +150,25 @@ class AppointmentsRepositoryImpl @Inject constructor(
         }
     }
 
+    override suspend fun findStaff(
+        branchName: String,
+        staffName: String
+    ): ApiResult<Pair<String, Staff?>> {
+        return runCatching {
+            val branchesResult = getBranches()
+            if (branchesResult.isError()) return ApiResult.Error(branchesResult.getErrorMessage())
+            val branch = branchesResult.getContent()
+                .find { it.sucursal.name.equals(branchName, ignoreCase = true) }
+            val staff = branch?.staffs?.find { it.name.equals(staffName, ignoreCase = true) }
+            val result = if (branch != null && staff != null) {
+                Pair(branch.sucursal.id, staff)
+            } else Pair("", null)
+            ApiResult.Success(result)
+        }.getOrElse {
+            ApiResult.Error(it.message)
+        }
+    }
+
     override suspend fun getBookedSlots(
         branchName: String,
         date: String,
@@ -188,5 +210,6 @@ class AppointmentsRepositoryImpl @Inject constructor(
             ApiResult.Error(it.message)
         }
     }
+
 
 }
