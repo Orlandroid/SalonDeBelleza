@@ -46,7 +46,7 @@ fun DetailStaffScreen(
         uiState.currentStaff?.let { currentStaff ->
             DetailStaffScreenContent(
                 staff = currentStaff,
-                ratingSummary = uiState.ratingSummary!!
+                ratingSummary = uiState.ratingSummary
             )
         }
     }

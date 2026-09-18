@@ -34,3 +34,13 @@ fun convertMillisToDate(millis: Long): String {
 fun TimePickerState.getHourFormat() = "${this.hour}:${this.minute}"
 
 const val dateFormat = "dd/MM/yyyy"
+
+fun parseDateTime(date: String, hour: String): Long? {
+    return try {
+        val fullDate = "$date $hour"
+        val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
+        sdf.parse(fullDate)?.time
+    } catch (e: Exception) {
+        null
+    }
+}

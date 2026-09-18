@@ -2,16 +2,19 @@ package com.example.domain.use_cases
 
 import com.example.domain.AppointmentFirebase
 import com.example.domain.repository.AppointmentsRepository
+import com.example.domain.repository.ReminderManager
 import com.example.domain.state.ApiResult
 import com.example.domain.state.getErrorMessage
 import com.example.domain.state.isSuccess
 import com.example.domain.transaction.TransactionType
+import com.example.domain.util.parseDateTime
 import javax.inject.Inject
 
 
 class SaveAppointmentUseCase @Inject constructor(
     private val appointmentsRepository: AppointmentsRepository,
-    private val purchaseProductsUseCase: PurchaseProductsUseCase
+    private val purchaseProductsUseCase: PurchaseProductsUseCase,
+    private val reminderManager: ReminderManager
 ) {
 
     private companion object {
@@ -48,6 +51,16 @@ class SaveAppointmentUseCase @Inject constructor(
                 time = hour,
                 appointmentId = appointment.idAppointment
             )
+
+
+            val appointmentTimeMillis = parseDateTime(date, hour)
+            if (appointmentTimeMillis != null) {
+                reminderManager.scheduleReminder(
+                    serviceName = service,
+                    branchName = establishment,
+                    appointmentDateTime = appointmentTimeMillis
+                )
+            }
 
             val purchaseResult = purchaseProductsUseCase.invoke(
                 amount = total.toDouble().toLong() / MXN_TO_USD_CONVERSION_FACTOR,
