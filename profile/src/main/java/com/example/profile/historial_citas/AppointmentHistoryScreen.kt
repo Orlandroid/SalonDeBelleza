@@ -134,7 +134,12 @@ private fun AppointmentHistoryScreenContent(
             staffName = uiState.appointmentToReview?.branch ?: "Professional",
             onDismiss = { onEvents(AppointmentHistoryEvents.OnDismissReview) },
             onSubmit = { rating, comment ->
-                onEvents(AppointmentHistoryEvents.OnSubmitReview(rating, comment))
+                onEvents(
+                    AppointmentHistoryEvents.OnSubmitReview(
+                        rating = rating,
+                        comment = comment
+                    )
+                )
             }
         )
     }
