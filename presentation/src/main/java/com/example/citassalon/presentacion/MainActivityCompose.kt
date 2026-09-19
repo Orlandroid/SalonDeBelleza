@@ -38,6 +38,7 @@ class MainActivityCompose : ComponentActivity() {
                         exit = fadeOut()
                     ) {
                         NoInternetScreen(onRetry = { mainViewModel.checkConnection() })
+
                     }
                 }
             }
