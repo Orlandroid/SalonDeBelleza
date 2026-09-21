@@ -1,7 +1,6 @@
-package com.example.auth.sign_up
+package com.example.domain.use_cases
 
 import com.example.domain.interfaces.EmailValidator
-import com.example.domain.use_cases.ValidateFormSignUpUseCase
 import com.google.common.truth.Truth.assertThat
 import io.mockk.every
 import io.mockk.mockk
@@ -14,7 +13,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-class UseCaseValidateFormSignUpTest {
+class ValidateFormSignUpUseCaseTest {
 
     private lateinit var useCaseValidateFormSignUp: ValidateFormSignUpUseCase
     private val testDispatcher = StandardTestDispatcher()
