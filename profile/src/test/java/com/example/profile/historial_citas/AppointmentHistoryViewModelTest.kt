@@ -1,6 +1,8 @@
 package com.example.profile.historial_citas
 
 import com.example.domain.repository.AppointmentsRepository
+import com.example.domain.use_cases.SubmitAppointmentReviewUseCase
+import com.example.domain.use_cases.loyalty.CompleteAppointmentUseCase
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -15,6 +17,8 @@ class AppointmentHistoryViewModelTest {
     private lateinit var viewModel: AppointmentHistoryViewModel
     private val testDispatcher = StandardTestDispatcher()
     private val appointmentsRepository: AppointmentsRepository = mockk()
+    private val completeAppointmentUseCase: CompleteAppointmentUseCase = mockk()
+    private val submitAppointmentReviewUseCase: SubmitAppointmentReviewUseCase = mockk()
 
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -22,7 +26,9 @@ class AppointmentHistoryViewModelTest {
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
         viewModel = AppointmentHistoryViewModel(
-            appointmentsRepository = appointmentsRepository
+            appointmentsRepository = appointmentsRepository,
+            completeAppointmentUseCase = completeAppointmentUseCase,
+            submitAppointmentReviewUseCase = submitAppointmentReviewUseCase
         )
     }
 

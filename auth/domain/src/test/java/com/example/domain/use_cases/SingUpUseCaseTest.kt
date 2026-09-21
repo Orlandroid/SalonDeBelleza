@@ -1,8 +1,12 @@
 package com.example.domain.use_cases
 
+
 import com.example.domain.repository.AuthRepository
+import com.example.domain.repository.LoyaltyRepository
 import com.example.domain.state.ApiResult
+import com.google.firebase.auth.AuthResult
 import io.mockk.coEvery
+import io.mockk.coVerify
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -11,9 +15,6 @@ import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
 import org.junit.Before
-import com.google.common.truth.Truth.assertThat
-import com.google.firebase.auth.AuthResult
-import io.mockk.coVerify
 import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
@@ -23,6 +24,7 @@ class SingUpUseCaseTest {
     private val testDispatcher = StandardTestDispatcher()
     private val authRepository = mockk<AuthRepository>()
     private val createWalletUseCase = mockk<CreateWalletUseCase>()
+    private val loyaltyRepository: LoyaltyRepository = mockk()
 
 
     @Before
@@ -30,7 +32,8 @@ class SingUpUseCaseTest {
         Dispatchers.setMain(testDispatcher)
         singUpUseCase = SingUpUseCase(
             authRepository = authRepository,
-            createWalletUseCase = createWalletUseCase
+            createWalletUseCase = createWalletUseCase,
+            loyaltyRepository = loyaltyRepository
         )
     }
 
@@ -47,7 +50,8 @@ class SingUpUseCaseTest {
             val signUpResult = singUpUseCase.invoke("", "")
 
 
-            assertThat(signUpResult).isInstanceOf(ApiResult.Error::class.java)
+            com.google.common.truth.Truth.assertThat(signUpResult)
+                .isInstanceOf(ApiResult.Error::class.java)
             coVerify(exactly = 1) { authRepository.register(any(), any()) }
             coVerify(inverse = true) { createWalletUseCase.invoke(any()) }
 
@@ -68,7 +72,8 @@ class SingUpUseCaseTest {
 
             coVerify(exactly = 1) { authRepository.register(any(), any()) }
             coVerify(exactly = 1) { createWalletUseCase.invoke(any()) }
-            assertThat(signUpResult).isInstanceOf(ApiResult.Error::class.java)
+            com.google.common.truth.Truth.assertThat(signUpResult)
+                .isInstanceOf(ApiResult.Error::class.java)
 
         }
 
@@ -86,7 +91,8 @@ class SingUpUseCaseTest {
 
             coVerify(exactly = 1) { authRepository.register(any(), any()) }
             coVerify(exactly = 1) { createWalletUseCase.invoke(any()) }
-            assertThat(signUpResult).isInstanceOf(ApiResult.Success::class.java)
+            com.google.common.truth.Truth.assertThat(signUpResult)
+                .isInstanceOf(ApiResult.Success::class.java)
 
         }
 

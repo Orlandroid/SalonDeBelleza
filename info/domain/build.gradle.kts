@@ -40,4 +40,7 @@ dependencies {
     implementation(libs.bundles.daggerHilt)
     ksp(libs.hiltAndroidCompiler)
     ksp(libs.androidxHiltCompiler)
+    testImplementation(libs.truth)
+    testImplementation(libs.jetbrains.kotlinx.coroutines.test)
+    testImplementation(libs.mockk)
 }

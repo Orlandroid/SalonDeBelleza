@@ -3,6 +3,7 @@ package com.example.profile.profile
 import app.cash.turbine.test
 import com.example.domain.UserPreferences
 import com.example.domain.repository.AuthRepository
+import com.example.domain.repository.UserRepository
 import com.example.domain.state.ApiResult
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
@@ -24,18 +25,20 @@ class ProfileViewModelTest {
     private lateinit var viewModel: ProfileViewModel
     private val testDispatcher = StandardTestDispatcher()
     private val authRepository: AuthRepository = mockk()
+    private val userRepository: UserRepository = mockk()
     private val loginPreferences: UserPreferences = mockk()
 
     @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        coEvery { authRepository.getUser() } returns ApiResult.Success(null)
+        coEvery { userRepository.getUser() } returns ApiResult.Success(null)
         coEvery { loginPreferences.destroyUserSession() } returns Unit
         coEvery { authRepository.logout() } returns ApiResult.Success(Unit)
         viewModel = ProfileViewModel(
             authRepository = authRepository,
-            loginPreferences = loginPreferences
+            userPreferences = loginPreferences,
+            userRepository = userRepository
         )
     }
 
