@@ -5,6 +5,7 @@ import androidx.activity.compose.LocalActivity
 import androidx.compose.runtime.Composable
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.rememberNavController
+import com.example.admin.admin.adminNavigationGraph
 import com.example.auth.authNavigationGraph
 import com.example.citassalon.presentacion.MainActivityCompose
 import com.example.core.navigation.AppNavigationRoutes
@@ -47,5 +48,6 @@ fun AppNavigation() {
         )
         walletNavigationGraph(navController = navController)
         loyaltyNavigationGraph(navController = navController)
+        adminNavigationGraph(navController = navController)
     }
 }
