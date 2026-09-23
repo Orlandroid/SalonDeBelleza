@@ -49,9 +49,9 @@ sealed class ScheduleScreenEffects {
 
 @HiltViewModel
 class ScheduleScreenViewmodel @Inject constructor(
-    private val getAvailableSlotsUseCase: GetAvailableSlotsUseCase,
     private val appointmentSession: AppointmentSession,
-    private val appointmentsRepository: AppointmentsRepository
+    private val appointmentsRepository: AppointmentsRepository,
+    private val getAvailableSlotsUseCase: GetAvailableSlotsUseCase
 ) :
     ViewModel() {
 
@@ -89,7 +89,7 @@ class ScheduleScreenViewmodel @Inject constructor(
             is ScheduleScreenEvents.OnConfirmDate -> {
                 _uiState.update { it.copy(showDateDialog = false, dateAppointment = event.date) }
                 appointmentSession.selectDate(event.date)
-                fetchAvailableSlots() // Recalculate for the new date
+                fetchAvailableSlots()
             }
 
             ScheduleScreenEvents.OnDismissDate -> {

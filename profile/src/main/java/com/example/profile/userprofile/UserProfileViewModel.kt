@@ -5,6 +5,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.ui.base.BaseScreenState
+import com.example.domain.entities.UserRole
 import com.example.domain.loyalty.Loyalty
 import com.example.domain.loyalty.PromotionCode
 import com.example.domain.state.getContent
@@ -33,7 +34,8 @@ data class UserProfileUiState(
     val image: String? = null,
     val statusColor: Color? = null,
     val loyalty: Loyalty? = null,
-    val coupons: List<PromotionCode> = emptyList()
+    val coupons: List<PromotionCode> = emptyList(),
+    val role: UserRole = UserRole.CUSTOMER
 )
 
 @HiltViewModel

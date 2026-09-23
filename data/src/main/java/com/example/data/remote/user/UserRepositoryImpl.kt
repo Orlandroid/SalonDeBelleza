@@ -56,9 +56,10 @@ class UserRepositoryImpl @Inject constructor(
                         val user = User(
                             name = userInfo.name,
                             phone = userInfo.phone,
-                            email = "",
-                            password = "",
-                            birthDay = ""
+                            email = userInfo.email,
+                            password = userInfo.password,
+                            birthDay = userInfo.birthDay,
+                            role = userInfo.role
                         )
                         continuation.resume(
                             ApiResult.Success(

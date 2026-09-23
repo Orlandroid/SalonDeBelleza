@@ -5,5 +5,6 @@ data class UserInfoFirebase(
 	var email: String = "",
 	var name: String = "",
 	var password: String = "",
-	var phone: String = ""
+	var phone: String = "",
+	var role: String = "CUSTOMER"
 )

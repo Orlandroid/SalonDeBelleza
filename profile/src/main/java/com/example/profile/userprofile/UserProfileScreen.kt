@@ -26,8 +26,11 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.outlined.AdminPanelSettings
 import androidx.compose.material.icons.outlined.ConfirmationNumber
 import androidx.compose.material.icons.outlined.Stars
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -67,6 +70,7 @@ import com.example.core.ui.components.skeletons.UserProfileScreenSkeleton
 import com.example.core.ui.theme.Background
 import com.example.core.util.toCurrencyString
 import com.example.core.util.uriToBitmap
+import com.example.domain.entities.UserRole
 import com.example.domain.loyalty.Loyalty
 import com.example.domain.loyalty.LoyaltyTier
 import com.example.domain.loyalty.PromotionCode
@@ -107,7 +111,8 @@ fun UserProfileScreen(
                         launchGallery = { galleryLauncher.launch("image/*") },
                         userProfileState = state,
                         navigateToLoyalty = { navController.navigate(AppNavigationRoutes.LoyaltyNavigationRoute) },
-                        onViewHistory = { navController.navigate(LoyaltyNavigationRoutes.LoyaltyHistoryRoute) }
+                        onViewHistory = { navController.navigate(LoyaltyNavigationRoutes.LoyaltyHistoryRoute) },
+                        navigateToAdmin = { navController.navigate(AppNavigationRoutes.AdminNavigationRoute) }
                     )
                 }
             }
@@ -127,6 +132,7 @@ private fun UserProfileScreenContent(
     launchGallery: () -> Unit,
     navigateToLoyalty: () -> Unit,
     onViewHistory: () -> Unit,
+    navigateToAdmin: () -> Unit,
     userProfileState: UserProfileUiState
 ) {
     Column(
@@ -167,6 +173,10 @@ private fun UserProfileScreenContent(
 
         Spacer(modifier = Modifier.height(24.dp))
 
+        if (userProfileState.role == UserRole.ADMIN) {
+            AdminButton(onClick = navigateToAdmin)
+            Spacer(modifier = Modifier.height(24.dp))
+        }
 
         Card(
             modifier = Modifier
@@ -215,6 +225,26 @@ private fun UserProfileScreenContent(
             Spacer(modifier = Modifier.height(24.dp))
             CouponsSection(coupons = userProfileState.coupons)
         }
+    }
+}
+
+@Composable
+private fun AdminButton(onClick: () -> Unit) {
+    Button(
+        onClick = onClick,
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .height(56.dp),
+        shape = RoundedCornerShape(16.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
+            contentColor = MaterialTheme.colorScheme.onTertiaryContainer
+        )
+    ) {
+        Icon(Icons.Outlined.AdminPanelSettings, contentDescription = null)
+        Spacer(Modifier.width(12.dp))
+        Text("Admin Dashboard", fontWeight = FontWeight.Bold, fontSize = 16.sp)
     }
 }
 
@@ -456,10 +486,12 @@ private fun UserProfileScreenContentPreview() {
             coupons = listOf(
                 PromotionCode(code = "SALON-123", discountPercentage = 10),
                 PromotionCode(code = "SALON-ABC", discountPercentage = 20)
-            )
+            ),
+            role = UserRole.ADMIN
         ),
         launchGallery = {},
         navigateToLoyalty = {},
-        onViewHistory = {}
+        onViewHistory = {},
+        navigateToAdmin = {}
     )
 }

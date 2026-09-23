@@ -2,6 +2,7 @@ package com.example.domain.use_cases
 
 import com.example.domain.UserSessionStatus
 import com.example.domain.entities.UserProfile
+import com.example.domain.entities.UserRole
 import com.example.domain.repository.LoyaltyRepository
 import com.example.domain.repository.UserRepository
 import com.example.domain.repository.WalletRepository
@@ -38,12 +39,19 @@ class GetUserInfoUseCase @Inject constructor(
         if (imageResult.isSuccess()) {
             image = imageResult.getContent()
         }
-        val nameAndPhone = userRepository.getNameAndPhone()
+        val nameAndPhoneResult = userRepository.getNameAndPhone()
         var name = ""
         var phone = ""
-        if (nameAndPhone.isSuccess()) {
-            name = nameAndPhone.getContent().name
-            phone = nameAndPhone.getContent().phone
+        var role = UserRole.CUSTOMER
+        if (nameAndPhoneResult.isSuccess()) {
+            val userDetail = nameAndPhoneResult.getContent()
+            name = userDetail.name
+            phone = userDetail.phone
+            role = try {
+                UserRole.valueOf(userDetail.role.uppercase())
+            } catch (e: Exception) {
+                UserRole.CUSTOMER
+            }
         }
         val loyaltyResult = loyaltyRepository.getLoyalty(user.uid)
         val loyalty = if (loyaltyResult.isSuccess()) {
@@ -66,7 +74,8 @@ class GetUserInfoUseCase @Inject constructor(
             image = image,
             sessionStatus = getUserSessionStatus(),
             loyalty = loyalty,
-            coupons = cupons
+            coupons = cupons,
+            role = role
         )
         return ApiResult.Success(userInfo)
     }

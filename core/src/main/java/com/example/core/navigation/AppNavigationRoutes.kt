@@ -22,4 +22,7 @@ sealed class AppNavigationRoutes {
 
     @Serializable
     data object WalletNavigationRoute : AppNavigationRoutes()
+
+    @Serializable
+    data object AdminNavigationRoute : AppNavigationRoutes()
 }
