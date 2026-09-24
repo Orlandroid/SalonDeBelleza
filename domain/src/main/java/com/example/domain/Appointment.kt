@@ -1,8 +1,15 @@
 package com.example.domain
 
+import java.util.UUID
+
 data class Appointment(
+    val idAppointment: String,
     val service: String,
     val branch: String,
+    val employee: String,
+    val employeeId: String,
+    val date: String,
+    val hour: String,
     val id: String,
     val status: AppointmentStatus = AppointmentStatus.CONFIRMED
 )
@@ -12,6 +19,11 @@ fun AppointmentFirebase.toAppointment(): Appointment {
         service = service,
         branch = establishment,
         id = idAppointment,
-        status = status
+        status = status,
+        idAppointment = idAppointment,
+        employee = employee,
+        employeeId = employeeId,
+        date = date,
+        hour = hour
     )
 }

@@ -4,11 +4,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.AdminAppointmentUiModel
 import com.example.domain.AdminMetrics
+import com.example.domain.repository.AdminRepository
+import com.example.domain.state.getContent
+import com.example.domain.state.isSuccess
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.onStart
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 data class AdminUiState(
     val isLoading: Boolean = false,
@@ -17,76 +24,56 @@ data class AdminUiState(
     val errorMessage: String? = null
 )
 
-class AdminViewModel : ViewModel() {
+@HiltViewModel
+class AdminViewModel @Inject constructor(
+    private val repository: AdminRepository
+) : ViewModel() {
 
     private val _uiState = MutableStateFlow(AdminUiState())
-    val uiState: StateFlow<AdminUiState> = _uiState.asStateFlow()
+    val uiState: StateFlow<AdminUiState> = _uiState.onStart {
+        getDataForDashboard()
+    }.stateIn(
+        scope = viewModelScope,
+        started = SharingStarted.WhileSubscribed(5000),
+        initialValue = AdminUiState()
+    )
 
-    init {
-        loadAdminDashboardData()
-    }
 
-    fun loadAdminDashboardData() {
-        viewModelScope.launch {
-            _uiState.update { it.copy(isLoading = true, errorMessage = null) }
-            try {
-                // TODO: Replace with  Use Cases / Repositories
-                val mockMetrics = AdminMetrics(
-                    totalBookings = 48,
-                    totalRevenue = 1425.00,
-                    activeClientsCount = 32,
-                    pendingAppointmentsCount = 3
-                )
-
-                val mockPending = listOf(
-                    AdminAppointmentUiModel(
-                        "1",
-                        "Maria Garcia",
-                        "Haircut & Styling",
-                        "Ana Lopez",
-                        "2023-11-15",
-                        "10:00 AM",
-                        "PENDING"
-                    ),
-                    AdminAppointmentUiModel(
-                        "2",
-                        "Carlos Ruiz",
-                        "Beard Trim",
-                        "Juan Perez",
-                        "2023-11-15",
-                        "11:30 AM",
-                        "PENDING"
-                    ),
-                    AdminAppointmentUiModel(
-                        "3",
-                        "Lucia Gomez",
-                        "Manicure",
-                        "Sofia Gomez",
-                        "2023-11-16",
-                        "02:00 PM",
-                        "PENDING"
-                    )
-                )
-
-                _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        metrics = mockMetrics,
-                        pendingAppointments = mockPending
-                    )
-                }
-            } catch (e: Exception) {
-                _uiState.update {
-                    it.copy(
-                        isLoading = false,
-                        errorMessage = e.localizedMessage ?: "Unknown error"
-                    )
-                }
-            }
+    suspend fun getDataForDashboard() {
+        val revenueResult = repository.getRevenue()
+        val bookingsResult = repository.getTotalBookings()
+        val pendingAppointmentsResult = repository.getPendingAppointmentsForAdmin()
+        val revenue = if (revenueResult.isSuccess()) {
+            revenueResult.getContent()
+        } else {
+            0.0
+        }
+        val bookings = if (bookingsResult.isSuccess()) {
+            bookingsResult.getContent()
+        } else {
+            "0"
+        }
+        val pendingAppointments = if (pendingAppointmentsResult.isSuccess()) {
+            pendingAppointmentsResult.getContent()
+        } else {
+            emptyList()
+        }
+        _uiState.update {
+            it.copy(
+                metrics = AdminMetrics(
+                    totalRevenue = revenue,
+                    totalBookings = bookings.toInt(),
+                    pendingAppointmentsCount = pendingAppointments.size
+                ),
+                pendingAppointments = pendingAppointments
+            )
         }
     }
 
-    fun updateAppointmentStatus(appointmentId: String, newStatus: String) {
+    fun updateAppointmentStatus(
+        appointmentId: String,
+        newStatus: String
+    ) {
         viewModelScope.launch {
 
             _uiState.update { state ->

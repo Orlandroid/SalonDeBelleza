@@ -9,6 +9,7 @@ import com.example.di.qualifiers.MasterScheduleRef
 import com.example.di.qualifiers.PromotionCodesRef
 import com.example.di.qualifiers.ReviewsRef
 import com.example.di.qualifiers.RewardsRef
+import com.example.di.qualifiers.RootAppointmentsRef
 import com.example.di.qualifiers.TransactionReference
 import com.example.di.qualifiers.UsersRef
 import com.example.di.qualifiers.WalletReference
@@ -147,6 +148,15 @@ object ModuleFirebase {
         firebaseDatabase: FirebaseDatabase
     ): DatabaseReference {
         return firebaseDatabase.reference.child(MASTER_SCHEDULE)
+    }
+
+    @Singleton
+    @Provides
+    @RootAppointmentsRef
+    fun provideRootAppointmentsReference(
+        firebaseDatabase: FirebaseDatabase
+    ): DatabaseReference {
+        return firebaseDatabase.reference.child("Appointment")
     }
 
 }

@@ -394,7 +394,12 @@ private fun AppointHistoryListPreview() {
         branch = "Sucursal Centro",
         service = "Delineado de barba y bigote, o cejas",
         id = "1",
-        status = AppointmentStatus.CONFIRMED
+        status = AppointmentStatus.CONFIRMED,
+        idAppointment = "",
+        employee = "",
+        employeeId = "",
+        date = "",
+        hour = ""
     )
     AppointHistoryList(
         appointments = listOf(

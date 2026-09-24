@@ -45,3 +45,7 @@ annotation class MasterScheduleRef
 @Qualifier
 @Retention(AnnotationRetention.BINARY)
 annotation class ReviewsRef
+
+@Qualifier
+@Retention(AnnotationRetention.BINARY)
+annotation class RootAppointmentsRef

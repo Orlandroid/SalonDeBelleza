@@ -1,6 +1,7 @@
 package com.example.data.di.modules
 
 import com.example.data.api.WebServices
+import com.example.data.remote.AdminRepositoryImpl
 import com.example.data.remote.AuthRepositoryImp
 import com.example.data.remote.ReviewRepositoryImpl
 import com.example.data.remote.appointments.AppointmentsRepositoryImpl
@@ -13,7 +14,9 @@ import com.example.di.qualifiers.MasterScheduleRef
 import com.example.di.qualifiers.PromotionCodesRef
 import com.example.di.qualifiers.ReviewsRef
 import com.example.di.qualifiers.RewardsRef
+import com.example.di.qualifiers.RootAppointmentsRef
 import com.example.di.qualifiers.UsersRef
+import com.example.domain.repository.AdminRepository
 import com.example.domain.repository.AppointmentsRepository
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.LoyaltyRepository
@@ -66,10 +69,16 @@ object ModuleRepository {
     fun provideAuthRepository(firebaseSource: FirebaseAuth): AuthRepository =
         AuthRepositoryImp(firebaseSource)
 
+
     @Singleton
     @Provides
     fun provideReviewRepository(@ReviewsRef reviewsRef: DatabaseReference): ReviewRepository =
         ReviewRepositoryImpl(reviewsRef = reviewsRef)
+
+    @Singleton
+    @Provides
+    fun provideAdminRepository(@RootAppointmentsRef rootAppointmentsReference: DatabaseReference): AdminRepository =
+        AdminRepositoryImpl(rootAppointmentsReference = rootAppointmentsReference)
 
 
     @Singleton
