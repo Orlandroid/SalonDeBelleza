@@ -1,48 +1,41 @@
-# 1. The name of this automation "robot"
+
 name: Android CI/CD Pipeline
 
-# 2. When should this robot wake up?
+
 on:
   push:
-    branches: [ "main" ] # Every time you push to the main branch
+    branches: [ "main" ] 
   pull_request:
-    branches: [ "main" ] # Every time you open a PR to main
+    branches: [ "main" ] 
 
-# 3. What tasks should the robot do?
+
 jobs:
   build:
-    # 4. Which machine should the robot use? (Ubuntu is fast and free)
+
     runs-on: ubuntu-latest
 
     steps:
-      # 5. Download your code from GitHub into the robot's machine
+      
       - name: Checkout the code
         uses: actions/checkout@v4
 
-      # 6. Install Java. Android apps need Java to compile.
-      # We use version 17 because your project is configured for it.
+
       - name: Set up JDK 17
         uses: actions/setup-java@v4
         with:
           java-version: '17'
-          distribution: 'temurin' # A high-quality version of Java
-          cache: gradle          # This makes future builds faster by remembering dependencies
+          distribution: 'temurin'
+          cache: gradle     
 
-      # 7. In Linux, the robot needs permission to run your "gradlew" script.
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      # 8. THE INTEGRATION PART: Build the app!
-      # This checks if you have any compiler errors (missing semi-colons, etc.)
       - name: Build with Gradle
         run: ./gradlew assembleDebug
 
-      # 9. THE TESTING PART: Run all your Unit Tests
-      # If Maria's loyalty point calculation is wrong, this step will fail.
       - name: Run Unit Tests
         run: ./gradlew testDebugUnitTest
 
-      # 10. THE DELIVERY PART: Save the APK so you can download it
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
