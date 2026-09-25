@@ -91,6 +91,10 @@ fun LoginScreen(
                 LoginSideEffects.OnCloseFlow -> {
                     onCloseApplication()
                 }
+
+                LoginSideEffects.NavigateToAdmin -> {
+                    navController.navigate(AppNavigationRoutes.AdminNavigationRoute)
+                }
             }
         }
     }

@@ -48,7 +48,7 @@ class GetUserInfoUseCase @Inject constructor(
             name = userDetail.name
             phone = userDetail.phone
             role = try {
-                UserRole.valueOf(userDetail.role.uppercase())
+                userDetail.role
             } catch (e: Exception) {
                 UserRole.CUSTOMER
             }

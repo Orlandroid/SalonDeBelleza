@@ -3,6 +3,7 @@ package com.example.data.remote.user
 
 import com.example.di.qualifiers.UsersRef
 import com.example.domain.UserInfoFirebase
+import com.example.domain.entities.UserRole
 import com.example.domain.entities.remote.User
 import com.example.domain.repository.UserRepository
 import com.example.domain.state.ApiResult
@@ -53,13 +54,18 @@ class UserRepositoryImpl @Inject constructor(
                             continuation.resume(ApiResult.Error(""))
                             return
                         }
+                        val userRole = if (userInfo.role == "ADMIN") {
+                            UserRole.ADMIN
+                        } else {
+                            UserRole.CUSTOMER
+                        }
                         val user = User(
                             name = userInfo.name,
                             phone = userInfo.phone,
                             email = userInfo.email,
                             password = userInfo.password,
                             birthDay = userInfo.birthDay,
-                            role = userInfo.role
+                            role = userRole
                         )
                         continuation.resume(
                             ApiResult.Success(

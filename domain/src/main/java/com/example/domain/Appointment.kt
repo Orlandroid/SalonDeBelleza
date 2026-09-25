@@ -1,7 +1,5 @@
 package com.example.domain
 
-import java.util.UUID
-
 data class Appointment(
     val idAppointment: String,
     val service: String,

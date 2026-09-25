@@ -4,8 +4,10 @@ package com.example.auth.login
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.UserPreferences
+import com.example.domain.entities.UserRole
 import com.example.domain.interfaces.EmailValidator
 import com.example.domain.interfaces.PasswordValidator
+import com.example.domain.state.getContent
 import com.example.domain.state.isSuccess
 import com.example.domain.use_cases.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -40,6 +42,7 @@ sealed class LoginSideEffects {
     data object NavigateToSignUp : LoginSideEffects()
     data object OnCloseFlow : LoginSideEffects()
     data object NavigateToScheduleNav : LoginSideEffects()
+    data object NavigateToAdmin : LoginSideEffects()
 }
 
 data class LoginUiState(
@@ -152,7 +155,12 @@ class LoginViewModel
         val loginResult = loginUseCase.invoke(email = email, password = password)
         if (loginResult.isSuccess()) {
             _state.update { oldState -> oldState.copy(isLoading = false) }
-            _effects.send(LoginSideEffects.NavigateToHomeScreen)
+            val role = loginResult.getContent()
+            if (role == UserRole.ADMIN) {
+                _effects.send(LoginSideEffects.NavigateToAdmin)
+            } else {
+                _effects.send(LoginSideEffects.NavigateToHomeScreen)
+            }
         } else {
             _state.update { oldState ->
                 oldState.copy(
@@ -163,22 +171,6 @@ class LoginViewModel
         }
 
     }
-
-
-//    fun firebaseAuthWithGoogle(idToken: String) {
-//        viewModelScope.launch(ioDispatcher) {
-//            val credential = GoogleAuthProvider.getCredential(
-//                idToken,
-//                null
-//            )
-//            val authResult = authRepository.signInWithCredential(credential)
-//            if (authResult.isError()) {
-//                print("Error al iniciar sesión con Google")
-//                return@launch
-//            }
-//            print("Sesión iniciada con Google")
-//        }
-//    }
 
 
 }
