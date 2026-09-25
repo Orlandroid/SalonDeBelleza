@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="admin_dashboard">Admin Dashboard</string>
+    <string name="business_overview">Business Overview</string>
+
+    <string name="revenue">Revenue</string>
+    <string name="bookings">Bookings</string>
+    <string name="active_clients">Active Clients</string>
+    <string name="pending_approval">Pending Approval</string>
+
+    <string name="pending_appointments">Pending Appointments</string>
+    <string name="no_pending_appointments">No pending appointments to review.</string>
+
+    <string name="client">Client: %1$s</string>
+    <string name="staff">Staff: %1$s</string>
+    <string name="date_and_time">Date: %1$s at %2$s</string>
+
+    <string name="reject">Reject</string>
+    <string name="confirm">Confirm</string>
+</resources>

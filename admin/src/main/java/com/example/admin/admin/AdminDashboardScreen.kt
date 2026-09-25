@@ -10,6 +10,7 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -18,6 +19,7 @@ import androidx.navigation.NavController
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.components.ToolbarConfiguration
 import com.example.domain.AdminAppointmentUiModel
+import com.example.admin.R
 
 @Composable
 fun AdminDashboardScreen(
@@ -29,7 +31,7 @@ fun AdminDashboardScreen(
     BaseComposeScreen(
         navController = navController,
         toolbarConfiguration = ToolbarConfiguration(
-            title = "Admin Dashboard",
+            title = stringResource(R.string.admin_dashboard),
             isWithBackIcon = true
         ),
         isLoading = uiState.isLoading
@@ -43,7 +45,7 @@ fun AdminDashboardScreen(
 
             item {
                 Text(
-                    text = "Business Overview",
+                    text = stringResource(R.string.business_overview),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -53,12 +55,12 @@ fun AdminDashboardScreen(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     MetricCard(
-                        title = "Revenue",
+                        title = stringResource(R.string.revenue),
                         value = "$${uiState.metrics.totalRevenue}",
                         modifier = Modifier.weight(1f)
                     )
                     MetricCard(
-                        title = "Bookings",
+                        title = stringResource(R.string.bookings),
                         value = "${uiState.metrics.totalBookings}",
                         modifier = Modifier.weight(1f)
                     )
@@ -69,12 +71,12 @@ fun AdminDashboardScreen(
                     horizontalArrangement = Arrangement.spacedBy(8.dp)
                 ) {
                     MetricCard(
-                        title = "Active Clients",
+                        title = stringResource(R.string.active_clients),
                         value = "${uiState.metrics.activeClientsCount}",
                         modifier = Modifier.weight(1f)
                     )
                     MetricCard(
-                        title = "Pending Approval",
+                        title = stringResource(R.string.pending_approval),
                         value = "${uiState.metrics.pendingAppointmentsCount}",
                         modifier = Modifier.weight(1f)
                     )
@@ -85,7 +87,7 @@ fun AdminDashboardScreen(
             item {
                 Spacer(modifier = Modifier.height(8.dp))
                 Text(
-                    text = "Pending Appointments",
+                    text = stringResource(R.string.pending_appointments),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
                 )
@@ -99,7 +101,7 @@ fun AdminDashboardScreen(
                             .padding(32.dp),
                         contentAlignment = Alignment.Center
                     ) {
-                        Text(text = "No pending appointments to review.")
+                        Text(text = stringResource(R.string.no_pending_appointments))
                     }
                 }
             } else {
@@ -107,16 +109,10 @@ fun AdminDashboardScreen(
                     PendingAppointmentCard(
                         appointment = appointment,
                         onApprove = {
-                            viewModel.updateAppointmentStatus(
-                                appointment.id,
-                                "CONFIRMED"
-                            )
+                            viewModel.onEvents(AdminEvents.OnApprove(appointmentId = appointment.id))
                         },
                         onReject = {
-                            viewModel.updateAppointmentStatus(
-                                appointment.id,
-                                "CANCELLED"
-                            )
+                            viewModel.onEvents(AdminEvents.OnReject(appointmentId = appointment.id))
                         }
                     )
                 }
@@ -155,9 +151,26 @@ fun PendingAppointmentCard(
         Column(modifier = Modifier.padding(16.dp)) {
             Text(text = appointment.serviceName, fontWeight = FontWeight.Bold, fontSize = 16.sp)
             Spacer(modifier = Modifier.height(4.dp))
-            Text(text = "Client: ${appointment.clientName}")
-            Text(text = "Staff: ${appointment.staffName}")
-            Text(text = "Date: ${appointment.date} at ${appointment.time}")
+            Text(
+                text = stringResource(
+                    R.string.client,
+                    appointment.clientName
+                )
+            )
+            Text(
+                text = stringResource(
+                    R.string.staff,
+                    appointment.staffName
+                )
+            )
+
+            Text(
+                text = stringResource(
+                    R.string.date_and_time,
+                    appointment.date,
+                    appointment.time
+                )
+            )
 
             Spacer(modifier = Modifier.height(12.dp))
             Row(
@@ -174,7 +187,7 @@ fun PendingAppointmentCard(
                         modifier = Modifier.size(18.dp)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("Reject")
+                    Text(text = stringResource(R.string.reject))
                 }
                 Spacer(modifier = Modifier.width(8.dp))
                 Button(onClick = onApprove) {
@@ -184,7 +197,7 @@ fun PendingAppointmentCard(
                         modifier = Modifier.size(18.dp)
                     )
                     Spacer(modifier = Modifier.width(4.dp))
-                    Text("Confirm")
+                    Text(stringResource(R.string.confirm))
                 }
             }
         }

@@ -11,6 +11,7 @@ data class Appointment(
     val date: String,
     val hour: String,
     val id: String,
+    val clientName: String,
     val status: AppointmentStatus = AppointmentStatus.CONFIRMED
 )
 
@@ -24,6 +25,7 @@ fun AppointmentFirebase.toAppointment(): Appointment {
         employee = employee,
         employeeId = employeeId,
         date = date,
-        hour = hour
+        hour = hour,
+        clientName = clientName
     )
 }

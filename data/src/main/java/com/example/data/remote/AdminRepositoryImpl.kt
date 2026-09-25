@@ -7,13 +7,15 @@ import com.example.domain.AppointmentStatus
 import com.example.domain.repository.AdminRepository
 import com.example.domain.state.ApiResult
 import com.example.domain.toAppointment
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.getValue
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
 class AdminRepositoryImpl @Inject constructor(
-    @RootAppointmentsRef private val rootAppointmentsReference: DatabaseReference
+    @RootAppointmentsRef private val rootAppointmentsReference: DatabaseReference,
+    private val firebaseAuth: FirebaseAuth
 ) :
     AdminRepository {
 
@@ -30,7 +32,7 @@ class AdminRepositoryImpl @Inject constructor(
                             if (appointment.status == AppointmentStatus.CONFIRMED) {
                                 val adminAppointmentUiModel = AdminAppointmentUiModel(
                                     id = appointment.id,
-                                    clientName = "clientName",//Todo get the name of each client
+                                    clientName = appointment.clientName,
                                     serviceName = appointment.service,
                                     staffName = appointment.employee,
                                     date = appointment.date,
@@ -63,6 +65,25 @@ class AdminRepositoryImpl @Inject constructor(
             ApiResult.Success(0.0)
         }.getOrElse { exception ->
             ApiResult.Error(exception.message ?: "Unknown error fetching revenue")
+        }
+    }
+
+    override suspend fun updateAppointmentStatus(
+        appointmentId: String,
+        newStatus: AppointmentStatus
+    ): ApiResult<Unit> {
+        return runCatching {
+            val currentUser = firebaseAuth.currentUser
+                ?: return@runCatching ApiResult.Error("User not authenticated")
+            rootAppointmentsReference
+                .child(currentUser.uid)
+                .child(appointmentId)
+                .child("status")
+                .setValue(newStatus)
+                .await()
+            ApiResult.Success(Unit)
+        }.getOrElse { exception ->
+            ApiResult.Error(exception.message ?: "Failed to update appointment status")
         }
     }
 

@@ -77,8 +77,14 @@ object ModuleRepository {
 
     @Singleton
     @Provides
-    fun provideAdminRepository(@RootAppointmentsRef rootAppointmentsReference: DatabaseReference): AdminRepository =
-        AdminRepositoryImpl(rootAppointmentsReference = rootAppointmentsReference)
+    fun provideAdminRepository(
+        @RootAppointmentsRef rootAppointmentsReference: DatabaseReference,
+        firebaseAuth: FirebaseAuth
+    ): AdminRepository =
+        AdminRepositoryImpl(
+            firebaseAuth = firebaseAuth,
+            rootAppointmentsReference = rootAppointmentsReference
+        )
 
 
     @Singleton

@@ -3,7 +3,9 @@ package com.example.domain.use_cases
 import com.example.domain.AppointmentFirebase
 import com.example.domain.repository.AppointmentsRepository
 import com.example.domain.repository.ReminderManager
+import com.example.domain.repository.UserRepository
 import com.example.domain.state.ApiResult
+import com.example.domain.state.getContent
 import com.example.domain.state.getErrorMessage
 import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
@@ -15,7 +17,8 @@ import javax.inject.Inject
 class SaveAppointmentUseCase @Inject constructor(
     private val appointmentsRepository: AppointmentsRepository,
     private val purchaseProductsUseCase: PurchaseProductsUseCase,
-    private val reminderManager: ReminderManager
+    private val reminderManager: ReminderManager,
+    private val userRepository: UserRepository
 ) {
 
     private companion object {
@@ -29,9 +32,16 @@ class SaveAppointmentUseCase @Inject constructor(
         service: String,
         date: String,
         hour: String,
-        total: String,
+        total: String
     ): ApiResult<Unit> {
+        val userNameResult = userRepository.getNameAndPhone()
+        val userName = if (userNameResult.isSuccess()) {
+            userNameResult.getContent().name
+        } else {
+            "Customer"
+        }
         val appointment = AppointmentFirebase(
+            clientName = userName,
             establishment = establishment,
             service = service,
             date = date,

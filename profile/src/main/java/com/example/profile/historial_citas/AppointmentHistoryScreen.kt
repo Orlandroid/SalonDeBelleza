@@ -399,7 +399,8 @@ private fun AppointHistoryListPreview() {
         employee = "",
         employeeId = "",
         date = "",
-        hour = ""
+        hour = "",
+        clientName = ""
     )
     AppointHistoryList(
         appointments = listOf(
