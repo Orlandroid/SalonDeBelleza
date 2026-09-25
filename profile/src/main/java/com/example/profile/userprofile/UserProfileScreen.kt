@@ -111,8 +111,7 @@ fun UserProfileScreen(
                         launchGallery = { galleryLauncher.launch("image/*") },
                         userProfileState = state,
                         navigateToLoyalty = { navController.navigate(AppNavigationRoutes.LoyaltyNavigationRoute) },
-                        onViewHistory = { navController.navigate(LoyaltyNavigationRoutes.LoyaltyHistoryRoute) },
-                        navigateToAdmin = { navController.navigate(AppNavigationRoutes.AdminNavigationRoute) }
+                        onViewHistory = { navController.navigate(LoyaltyNavigationRoutes.LoyaltyHistoryRoute) }
                     )
                 }
             }
@@ -132,7 +131,6 @@ private fun UserProfileScreenContent(
     launchGallery: () -> Unit,
     navigateToLoyalty: () -> Unit,
     onViewHistory: () -> Unit,
-    navigateToAdmin: () -> Unit,
     userProfileState: UserProfileUiState
 ) {
     Column(
@@ -172,11 +170,6 @@ private fun UserProfileScreenContent(
         }
 
         Spacer(modifier = Modifier.height(24.dp))
-
-        if (userProfileState.role == UserRole.ADMIN) {
-            AdminButton(onClick = navigateToAdmin)
-            Spacer(modifier = Modifier.height(24.dp))
-        }
 
         Card(
             modifier = Modifier
@@ -225,26 +218,6 @@ private fun UserProfileScreenContent(
             Spacer(modifier = Modifier.height(24.dp))
             CouponsSection(coupons = userProfileState.coupons)
         }
-    }
-}
-
-@Composable
-private fun AdminButton(onClick: () -> Unit) {
-    Button(
-        onClick = onClick,
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp)
-            .height(56.dp),
-        shape = RoundedCornerShape(16.dp),
-        colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.tertiaryContainer,
-            contentColor = MaterialTheme.colorScheme.onTertiaryContainer
-        )
-    ) {
-        Icon(Icons.Outlined.AdminPanelSettings, contentDescription = null)
-        Spacer(Modifier.width(12.dp))
-        Text("Admin Dashboard", fontWeight = FontWeight.Bold, fontSize = 16.sp)
     }
 }
 
@@ -491,7 +464,6 @@ private fun UserProfileScreenContentPreview() {
         ),
         launchGallery = {},
         navigateToLoyalty = {},
-        onViewHistory = {},
-        navigateToAdmin = {}
+        onViewHistory = {}
     )
 }
