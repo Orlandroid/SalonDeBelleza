@@ -3,11 +3,15 @@ package com.example.domain.use_cases
 
 import com.example.domain.UserSessionStatus
 import com.example.domain.entities.remote.User
+import com.example.domain.loyalty.Loyalty
+import com.example.domain.loyalty.PromotionCode
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.LoyaltyRepository
 import com.example.domain.repository.UserRepository
 import com.example.domain.repository.WalletRepository
 import com.example.domain.state.ApiResult
+import com.example.domain.state.getContent
+import com.example.domain.wallet.Wallet
 import com.google.common.truth.Truth.assertThat
 import com.google.firebase.auth.FirebaseUser
 import io.mockk.coEvery
@@ -22,7 +26,7 @@ import org.junit.Test
 
 class GetUserInfoUseCaseTest {
 
-    private val authRepository: AuthRepository = mockk()
+
     private val userRepository: UserRepository = mockk()
     private val walletRepository: WalletRepository = mockk()
     private val loyaltyRepository: LoyaltyRepository = mockk()
@@ -58,6 +62,14 @@ class GetUserInfoUseCaseTest {
             val user = mockFirebaseUser(email = "test@example.com")
             every { userRepository.getUser() } returns ApiResult.Success(user)
             coEvery { userRepository.getUserImage() } returns ApiResult.Success("https://image.url/pic.png")
+            val wallet: Wallet = mockk(relaxed = true)
+            coEvery { walletRepository.getWallet() } returns ApiResult.Success(wallet)
+            coEvery { loyaltyRepository.getLoyalty(any()) } returns ApiResult.Success(Loyalty())
+            coEvery { loyaltyRepository.getPromotionCodes(any()) } returns ApiResult.Success(
+                listOf(
+                    PromotionCode()
+                )
+            )
             coEvery { userRepository.getNameAndPhone() } returns
                     ApiResult.Success(mockUser)
 
@@ -116,6 +128,14 @@ class GetUserInfoUseCaseTest {
     @Test
     fun `invoke defaults money to zero when getUserMoney fails`() = runTest {
         val user = mockFirebaseUser(uid = "uid-123", email = "test@example.com")
+        val wallet: Wallet = mockk(relaxed = true)
+        coEvery { walletRepository.getWallet() } returns ApiResult.Success(wallet)
+        coEvery { loyaltyRepository.getLoyalty(any()) } returns ApiResult.Success(Loyalty())
+        coEvery { loyaltyRepository.getPromotionCodes(any()) } returns ApiResult.Success(
+            listOf(
+                PromotionCode()
+            )
+        )
         every { userRepository.getUser() } returns ApiResult.Success(user)
         coEvery { userRepository.getUserImage() } returns ApiResult.Success("image.png")
         coEvery { userRepository.getNameAndPhone() } returns
@@ -124,11 +144,20 @@ class GetUserInfoUseCaseTest {
         val result = useCase.invoke()
 
         assertThat(result).isInstanceOf(ApiResult.Success::class.java)
+        assertThat(result.getContent().money).isEqualTo(0L)
     }
 
     @Test
     fun `invoke sets image to null when getUserImage fails`() = runTest {
         val user = mockFirebaseUser(email = "test@example.com")
+        val wallet: Wallet = mockk(relaxed = true)
+        coEvery { walletRepository.getWallet() } returns ApiResult.Success(wallet)
+        coEvery { loyaltyRepository.getLoyalty(any()) } returns ApiResult.Success(Loyalty())
+        coEvery { loyaltyRepository.getPromotionCodes(any()) } returns ApiResult.Success(
+            listOf(
+                PromotionCode()
+            )
+        )
         every { userRepository.getUser() } returns ApiResult.Success(user)
         coEvery { userRepository.getUserImage() } returns ApiResult.Error("Image not found")
         coEvery { userRepository.getNameAndPhone() } returns
@@ -143,6 +172,14 @@ class GetUserInfoUseCaseTest {
 
     @Test
     fun `invoke sets empty name and phone when getNameAndPhone fails`() = runTest {
+        val wallet: Wallet = mockk(relaxed = true)
+        coEvery { walletRepository.getWallet() } returns ApiResult.Success(wallet)
+        coEvery { loyaltyRepository.getLoyalty(any()) } returns ApiResult.Success(Loyalty())
+        coEvery { loyaltyRepository.getPromotionCodes(any()) } returns ApiResult.Success(
+            listOf(
+                PromotionCode()
+            )
+        )
         val user = mockFirebaseUser(uid = "uid-123", email = "test@example.com")
         every { userRepository.getUser() } returns ApiResult.Success(user)
         coEvery { userRepository.getUserImage() } returns ApiResult.Success("img")
@@ -159,6 +196,12 @@ class GetUserInfoUseCaseTest {
 
     @Test
     fun `invoke sets session status ACTIVE when user is successfully fetched`() = runTest {
+        val wallet:Wallet = mockk(relaxed = true)
+        coEvery { walletRepository.getWallet() } returns ApiResult.Success(wallet)
+        coEvery { loyaltyRepository.getLoyalty(any()) } returns ApiResult.Success(Loyalty())
+        coEvery { loyaltyRepository.getPromotionCodes(any()) } returns ApiResult.Success(listOf(
+            PromotionCode()
+        ))
         val user = mockFirebaseUser(uid = "uid-123", email = "test@example.com")
         every { userRepository.getUser() } returns ApiResult.Success(user)
         coEvery { userRepository.getUserImage() } returns ApiResult.Success("img")
