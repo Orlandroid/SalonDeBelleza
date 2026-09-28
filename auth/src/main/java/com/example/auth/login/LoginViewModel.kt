@@ -110,7 +110,7 @@ class LoginViewModel
             }
 
             is LoginEvents.OnLoginClick -> {
-                login(email = state.value.userName, password = state.value.password)
+                login()
             }
 
             is LoginEvents.OnSignUpWithGoogle -> {
@@ -139,19 +139,24 @@ class LoginViewModel
 
     private fun validateForm() {
         _state.update { it.copy(showErrorUserName = false, showErrorPassword = false) }
-        if (!emailValidator.isValidEmail(state.value.userName)) {
-            _state.update { it.copy(showErrorUserName = true) }
-            return
+
+        val isValidEmail = emailValidator.isValidEmail(state.value.userName)
+        val isValidPassword = passwordValidator.isValidPassword(state.value.password)
+        val canEnableButton = isValidEmail && isValidPassword
+
+        _state.update {
+            it.copy(
+                isButtonLoginEnable = canEnableButton,
+                showErrorPassword = !isValidPassword,
+                showErrorUserName = !isValidEmail
+            )
         }
-        if (!passwordValidator.isValidPassword(state.value.password)) {
-            _state.update { it.copy(showErrorPassword = true) }
-            return
-        }
-        _state.update { it.copy(isButtonLoginEnable = true) }
     }
 
-    fun login(email: String, password: String) = viewModelScope.launch {
+    fun login() = viewModelScope.launch {
         _state.update { oldState -> oldState.copy(isLoading = true) }
+        val email = state.value.userName
+        val password = state.value.password
         val loginResult = loginUseCase.invoke(email = email, password = password)
         if (loginResult.isSuccess()) {
             _state.update { oldState -> oldState.copy(isLoading = false) }
