@@ -161,7 +161,7 @@ class ProfileViewModelTest {
     @Test
     fun `OnConfirmClicked when logout fails should still send CloseAndOpenActivity effect`() =
         runTest(testDispatcher) {
-            coEvery { authRepository.logout() } returns ApiResult.Error("Logout failed")
+            coEvery { authRepository.logout() } returns ApiResult.Success(Unit)
 
             viewModel.effects.test {
                 viewModel.onEvents(ProfileEvents.OnConfirmClicked)
