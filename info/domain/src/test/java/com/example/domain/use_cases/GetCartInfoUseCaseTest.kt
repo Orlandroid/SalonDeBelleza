@@ -25,7 +25,6 @@ class GetCartInfoUseCaseTest {
     private val testDispatcher = StandardTestDispatcher()
     private val repository: BusinessRepository = mockk()
     private val walletRepository: WalletRepository = mockk()
-    private val getWalletUseCase: GetWalletUseCase = mockk()
 
 
     @Before
@@ -48,13 +47,13 @@ class GetCartInfoUseCaseTest {
     fun `When getAllProducts Return Error `() = runTest {
 
         coEvery { repository.getAllProducts() } returns ApiResult.Error()
-        coEvery { getWalletUseCase.invoke() } returns ApiResult.Error()
+        coEvery { walletRepository.getWallet() } returns ApiResult.Error()
 
         val getInfoResult = getCartInfoUseCase.invoke()
 
         assertThat(getInfoResult).isInstanceOf(ApiResult.Error::class.java)
         coVerify(exactly = 1) { repository.getAllProducts() }
-        coVerify(exactly = 1) { getWalletUseCase.invoke() }
+        coVerify(exactly = 1) { walletRepository.getWallet() }
 
     }
 
@@ -63,13 +62,13 @@ class GetCartInfoUseCaseTest {
     fun `When getAllProducts Return Success but getWallet return Error `() = runTest {
 
         coEvery { repository.getAllProducts() } returns ApiResult.Error()
-        coEvery { getWalletUseCase.invoke() } returns ApiResult.Error()
+        coEvery { walletRepository.getWallet() } returns ApiResult.Error()
 
         val getInfoResult = getCartInfoUseCase.invoke()
 
 
         coVerify(exactly = 1) { repository.getAllProducts() }
-        coVerify(exactly = 1) { getWalletUseCase.invoke() }
+        coVerify(exactly = 1) { walletRepository.getWallet() }
         assertThat(getInfoResult).isInstanceOf(ApiResult.Error::class.java)
 
     }
@@ -82,13 +81,13 @@ class GetCartInfoUseCaseTest {
         val productList = listOf(product)
 
         coEvery { repository.getAllProducts() } returns ApiResult.Success(productList)
-        coEvery { getWalletUseCase.invoke() } returns ApiResult.Success(mockk(relaxed = true))
+        coEvery { walletRepository.getWallet() } returns ApiResult.Success(mockk(relaxed = true))
 
         val getInfoResult = getCartInfoUseCase.invoke()
 
 
         coVerify(exactly = 1) { repository.getAllProducts() }
-        coVerify(exactly = 1) { getWalletUseCase.invoke() }
+        coVerify(exactly = 1) { walletRepository.getWallet() }
         assertThat(getInfoResult).isInstanceOf(ApiResult.Success::class.java)
 
     }
