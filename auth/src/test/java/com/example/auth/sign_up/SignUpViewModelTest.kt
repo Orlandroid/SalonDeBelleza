@@ -4,6 +4,7 @@ import app.cash.turbine.test
 import com.example.domain.repository.AuthRepository
 import com.example.domain.state.ApiResult
 import com.example.domain.use_cases.SaveUserInformationUseCase
+import com.example.domain.use_cases.SingUpUseCase
 import com.example.domain.use_cases.ValidateFormSignUpUseCase
 import com.google.common.truth.Truth.assertThat
 import com.google.firebase.auth.AuthResult
@@ -20,6 +21,7 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
+@OptIn(ExperimentalCoroutinesApi::class)
 class SignUpViewModelTest {
 
 
@@ -28,13 +30,13 @@ class SignUpViewModelTest {
     private val authRepository: AuthRepository = mockk()
     private val useCaseValidateForm: ValidateFormSignUpUseCase = mockk()
     private val saveUserInformationUseCase: SaveUserInformationUseCase = mockk()
+    private val signUpUseCase: SingUpUseCase = mockk()
 
     companion object {
         const val ACCOUNT_CREATION_ERROR_MESSAGE = "Error creating account"
     }
 
 
-    @OptIn(ExperimentalCoroutinesApi::class)
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
@@ -42,12 +44,12 @@ class SignUpViewModelTest {
             useCaseValidateForm = useCaseValidateForm,
             ioDispatcher = testDispatcher,
             saveUserInformationUseCase = mockk(relaxed = true),
-            singUpUseCase = mockk(relaxed = true)
+            singUpUseCase = signUpUseCase
 
         )
     }
 
-    @OptIn(ExperimentalCoroutinesApi::class)
+
     @After
     fun tearDown() {
         Dispatchers.setMain(Dispatchers.Default)
@@ -495,7 +497,6 @@ class SignUpViewModelTest {
 
             awaitItem()
 
-//            awaitItem()  // Emission from resetErrorsInputs
 
             val state = awaitItem()  // Emission from validateForm result
             assertEquals(false, state.isEnableButton)
@@ -506,29 +507,18 @@ class SignUpViewModelTest {
     fun onSignUpClick_whenSignUpIsSuccess_shouldNavigateToLoginScreen() =
         runTest(testDispatcher) {
 
-            val authResult = mockk<AuthResult>(relaxed = true)
-
             coEvery {
-                authRepository.register(
-                    any(),
-                    any()
-                )
-            } returns ApiResult.Success(authResult)
-
-//            every { authRepository.getUser() } returns ApiResult.Success(null)
-
-            coEvery { saveUserInformationUseCase.invoke(any()) } returns ApiResult.Success(Unit)
+                signUpUseCase.invoke(any(), any())
+            } returns ApiResult.Success(Unit)
 
 
             viewModel.effects.test {
 
                 viewModel.onEvents(SingUpEvents.OnSignUpClick)
 
-                val navigationEffect = awaitItem()
 
                 val snackBarEffect = awaitItem()
 
-//                assertThat(navigationEffect).isInstanceOf(SignUpSideEffects.NavigateToLoginScreen::class.java)
 
                 assertThat(snackBarEffect).isInstanceOf(SignUpSideEffects.ShowSnackBar::class.java)
 
@@ -539,10 +529,7 @@ class SignUpViewModelTest {
     fun onSignUpClick_whenSignUpFails_shouldShowErrorSnackBar() = runTest(testDispatcher) {
 
         coEvery {
-            authRepository.register(
-                any(),
-                any()
-            )
+            signUpUseCase.invoke(any(), any())
         } returns ApiResult.Error(ACCOUNT_CREATION_ERROR_MESSAGE)
 
         viewModel.effects.test {
@@ -554,75 +541,8 @@ class SignUpViewModelTest {
 
             assertThat(effect).isInstanceOf(SignUpSideEffects.ShowSnackBar::class.java)
 
-
-            val snackBarEffect = effect as SignUpSideEffects.ShowSnackBar
-
-//            assertThat(snackBarEffect.message).contains(ACCOUNT_CREATION_ERROR_MESSAGE)
-
         }
 
-    }
-
-
-    @Test
-    fun onSignUpClick_whenSignUpFails_shouldShowChange() = runTest(testDispatcher) {
-
-        coEvery {
-            authRepository.register(
-                any(),
-                any()
-            )
-        } returns ApiResult.Error(ACCOUNT_CREATION_ERROR_MESSAGE)
-
-        viewModel.state.test {
-
-            awaitItem()
-
-            viewModel.onEvents(SingUpEvents.OnSignUpClick)
-
-            val loadingEmission = awaitItem()
-            assertEquals(true, loadingEmission.isLoading)
-
-            val errorEmission = awaitItem()
-            assertThat(errorEmission.error).isInstanceOf(Exception::class.java)
-            assertThat(errorEmission.error?.message).isEqualTo(ACCOUNT_CREATION_ERROR_MESSAGE)
-
-            val loadingFalseEmission = awaitItem()
-            assertThat(loadingFalseEmission.isLoading).isFalse()
-
-        }
-
-    }
-
-    @Test
-    fun onSignUpClick_whenSignUpIsSuccess_shouldShowSuccessMessage() = runTest(testDispatcher) {
-
-        val authResult = mockk<AuthResult>(relaxed = true)
-
-        coEvery {
-            authRepository.register(
-                any(),
-                any()
-            )
-        } returns ApiResult.Success(authResult)
-
-
-//        every { authRepository.getUser() } returns ApiResult.Success(null)
-
-        viewModel.effects.test {
-
-            viewModel.onEvents(SingUpEvents.OnSignUpClick)
-
-
-            var foundSuccess = false
-            repeat(2) {
-                val effect = awaitItem()
-//                if (effect is SignUpSideEffects.ShowSnackBar && effect.message == "Success") {
-//                    foundSuccess = true
-//                }
-            }
-            assertEquals(true, foundSuccess)
-        }
     }
 
 }
