@@ -85,6 +85,7 @@ class SingUpUseCaseTest {
 
             coEvery { authRepository.register(any(), any()) } returns ApiResult.Success(authResult)
             coEvery { createWalletUseCase.invoke(any()) } returns ApiResult.Success(Unit)
+            coEvery { loyaltyRepository.initializeLoyalty(any()) } returns ApiResult.Success(Unit)
 
             val signUpResult = singUpUseCase.invoke("", "")
 
