@@ -14,7 +14,6 @@ class LoginPreferences @Inject constructor(
         const val USER_EMAIL = "email"
         const val USER_LOGGED = "userLogged"
         const val RANDOM_USER_RESPONSE = "RandomUser"
-        const val USER_MONEY = "userMoney"
     }
 
     override suspend fun saveUserEmail(email: String) {

@@ -2,6 +2,7 @@ import com.example.androidbase.presentation.ConfigData.COMPILE_SDK_VERSION
 import com.example.androidbase.presentation.ConfigData.MIN_SDK_VERSION
 import com.example.androidbase.presentation.ConfigData.TARGET_SDK_VERSION
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import java.util.Properties
 
 plugins {
     id("com.android.library")
@@ -10,9 +11,20 @@ plugins {
     alias(libs.plugins.kotlin.serialization)
 }
 
+val localProps = Properties().apply {
+    val file = rootProject.file("local.properties")
+    if (file.exists()) file.inputStream().use { load(it) }
+}
+
+fun secret(name: String): String = System.getenv(name) ?: localProps.getProperty(name) ?: ""
+
 android {
     namespace = "com.example.data"
     compileSdk = COMPILE_SDK_VERSION
+
+    buildFeatures {
+        buildConfig = true
+    }
 
     defaultConfig {
         minSdk = MIN_SDK_VERSION
@@ -22,6 +34,8 @@ android {
 
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
         consumerProguardFiles("consumer-rules.pro")
+        buildConfigField("String", "API_BASE_URL_DUMMY_JSON", secret("API_BASE_URL_DUMMY_JSON"))
+        buildConfigField("String", "API_BASE_URL_BRANCHES", secret("API_BASE_URL_BRANCHES"))
     }
 
     buildTypes {

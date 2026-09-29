@@ -12,6 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Named
 import javax.inject.Singleton
+import com.example.data.BuildConfig
 
 
 @Module
@@ -19,9 +20,6 @@ import javax.inject.Singleton
 object ModuleApi {
 
 
-    private const val BASE_URL_DUMMY_JSON = "https://dummyjson.com/"
-    private const val BASE_URL =
-        "https://raw.githubusercontent.com/Orlandroid/Resources_Repos/main/fakesResponsesApis/"
     private const val RETROFIT_DUMMY_JSON = "DummyJson"
     private const val CONNECT_TIMEOUT = 60L
     private const val READ_TIMEOUT = 60L
@@ -48,14 +46,14 @@ object ModuleApi {
     @Singleton
     @Provides
     fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
-        createRetrofit(okHttpClient, BASE_URL)
+        createRetrofit(okHttpClient, BuildConfig.API_BASE_URL_BRANCHES)
 
 
     @Singleton
     @Provides
     @Named(RETROFIT_DUMMY_JSON)
     fun provideRetroDummyJson(okHttpClient: OkHttpClient): Retrofit =
-        createRetrofit(okHttpClient, BASE_URL_DUMMY_JSON)
+        createRetrofit(okHttpClient, BuildConfig.API_BASE_URL_DUMMY_JSON)
 
 
     @Singleton
