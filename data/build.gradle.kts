@@ -16,7 +16,10 @@ val localProps = Properties().apply {
     if (file.exists()) file.inputStream().use { load(it) }
 }
 
-fun secret(name: String): String = System.getenv(name) ?: localProps.getProperty(name) ?: ""
+fun secret(name: String): String {
+    val raw = System.getenv(name) ?: localProps.getProperty(name) ?: ""
+    return "\"${raw.trim().removeSurrounding("\"")}\""
+}
 
 android {
     namespace = "com.example.data"
