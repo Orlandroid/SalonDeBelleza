@@ -2,7 +2,6 @@ package com.example.data.di.modules
 
 import android.content.Context
 import android.content.SharedPreferences
-import com.example.data.preferences.PreferencesManager
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -22,13 +21,6 @@ object ModuleApp {
         return context.getSharedPreferences(SHARE_PREFERENCES, Context.MODE_PRIVATE)
     }
 
-    @Singleton
-    @Provides
-    fun providePreferencesManager(
-        @ApplicationContext context: Context,
-    ): PreferencesManager {
-        return PreferencesManager(context = context)
-    }
 
 
 }

@@ -11,8 +11,4 @@ interface UserPreferences {
 
     suspend fun saveRandomUserResponse(randomUserResponse: String)
     suspend fun removeRandomUserResponse()
-
-    suspend fun saveUserMoney(userMoney: Double)
-    suspend fun removeUserMoney()
-    suspend fun getUserMoney(): Double
 }

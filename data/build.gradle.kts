@@ -63,4 +63,5 @@ dependencies {
     implementation(libs.bundles.firebase)
     implementation(libs.kotlinSerializationJson)
     implementation(libs.preferencesDataStore)
+    implementation("androidx.security:security-crypto:1.1.0")
 }
