@@ -25,4 +25,5 @@
     <string name="sign_up_error">Unable to log in. Please check your credentials and try again.</string>
     <string name="password_changed_successfully">Password changed successfully</string>
     <string name="password_change_error">Error trying to update password</string>
+    <string name="security_warning_rooted_device">Security Warning: Rooted or compromised device detected. This app cannot run on compromised devices.</string>
 </resources>

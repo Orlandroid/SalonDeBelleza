@@ -1,5 +1,6 @@
 package com.example.auth.splashscreen
 
+import androidx.activity.compose.LocalActivity
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -28,6 +29,9 @@ import com.example.auth.R
 import com.example.core.navigation.auth.AuthNavigationRoutes
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.components.ToolbarConfiguration
+import com.example.core.ui.dialogs.AlertDialogMessagesConfig
+import com.example.core.ui.dialogs.AlertKindOfMessage
+import com.example.core.ui.dialogs.BaseAlertDialogMessages
 import com.example.core.ui.dialogs.ProgressDialog
 import com.example.core.ui.theme.StatusBarColor
 
@@ -39,7 +43,19 @@ fun SplashScreen(
     goToScheduleNav: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
-    if (state.isLoading) {
+    val activity = LocalActivity.current
+
+    if (state.isDeviceRooted) {
+        val config = AlertDialogMessagesConfig(
+            kindOfMessage = AlertKindOfMessage.ERROR,
+            title = R.string.error,
+            bodyMessage = stringResource(R.string.security_warning_rooted_device),
+            onConfirmation = {
+                activity?.finish()
+            }
+        )
+        BaseAlertDialogMessages(alertDialogMessagesConfig = config)
+    } else if (state.isLoading) {
         ProgressDialog()
     } else {
         if (state.isUserLoggedIn) {
@@ -94,7 +110,3 @@ private fun SplashScreenContent() {
 fun SplashScreenContentPreview() {
     SplashScreenContent()
 }
-
-
-
-    

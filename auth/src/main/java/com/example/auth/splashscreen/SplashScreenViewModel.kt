@@ -1,6 +1,5 @@
 package com.example.auth.splashscreen
 
-
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.UserPreferences
@@ -14,7 +13,8 @@ import javax.inject.Inject
 
 data class SplashScreenUiState(
     val isLoading: Boolean = true,
-    val isUserLoggedIn: Boolean = false
+    val isUserLoggedIn: Boolean = false,
+    val isDeviceRooted: Boolean = false
 )
 
 @HiltViewModel
@@ -23,17 +23,19 @@ class SplashScreenViewModel
     private val userPreferences: UserPreferences
 ) : ViewModel() {
 
-
     private val _state: MutableStateFlow<SplashScreenUiState> =
         MutableStateFlow(SplashScreenUiState())
     val state = _state.onStart {
-        val isUserLoggedIn = userPreferences.isUserLoggedIn()
-        _state.update { it.copy(isUserLoggedIn = isUserLoggedIn, isLoading = false) }
+        val rooted = RootChecker.isDeviceRooted()
+        if (rooted) {
+            _state.update { it.copy(isLoading = false, isDeviceRooted = true) }
+        } else {
+            val isUserLoggedIn = userPreferences.isUserLoggedIn()
+            _state.update { it.copy(isUserLoggedIn = isUserLoggedIn, isLoading = false) }
+        }
     }.stateIn(
         scope = viewModelScope,
         started = SharingStarted.WhileSubscribed(5000),
         initialValue = SplashScreenUiState()
     )
-
-
 }
