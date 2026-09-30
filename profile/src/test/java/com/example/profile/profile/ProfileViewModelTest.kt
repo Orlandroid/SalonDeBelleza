@@ -32,7 +32,7 @@ class ProfileViewModelTest {
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        coEvery { userRepository.getUser() } returns ApiResult.Success(null)
+        coEvery { userRepository.getUser() } returns ApiResult.Success(mockk(relaxed = true))
         coEvery { loginPreferences.destroyUserSession() } returns Unit
         coEvery { authRepository.logout() } returns ApiResult.Success(Unit)
         viewModel = ProfileViewModel(

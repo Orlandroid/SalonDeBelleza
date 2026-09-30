@@ -60,7 +60,7 @@ class ProfileViewModel @Inject constructor(
     val uiState = _uiState.onStart {
         val authResult = userRepository.getUser()
         if (authResult.isSuccess()) {
-            _uiState.update { it.copy(user = authResult.getContent()?.email) }
+            _uiState.update { it.copy(user = authResult.getContent().email) }
         }
     }.stateIn(
         scope = viewModelScope,
