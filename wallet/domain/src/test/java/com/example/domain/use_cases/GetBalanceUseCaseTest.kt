@@ -46,7 +46,7 @@ class GetBalanceUseCaseTest {
     @Test
     fun `when getUserInfoUseCase return  Error `() = runTest {
 
-        coEvery { userRepository.getNameAndPhone() } returns ApiResult.Error()
+        coEvery { userRepository.getUser() } returns ApiResult.Error()
 
         val getBalanceResult = getBalanceUseCase.invoke()
 
@@ -60,7 +60,7 @@ class GetBalanceUseCaseTest {
 
         val userProfile: User = mockk(relaxed = true)
 
-        coEvery { userRepository.getNameAndPhone() } returns ApiResult.Success(userProfile)
+        coEvery { userRepository.getUser() } returns ApiResult.Success(userProfile)
         coEvery { walletRepository.getWallet() } returns ApiResult.Error()
 
         val getBalanceResult = getBalanceUseCase.invoke()
@@ -75,7 +75,7 @@ class GetBalanceUseCaseTest {
 
         val userProfile: User = mockk(relaxed = true)
 
-        coEvery { userRepository.getNameAndPhone() } returns ApiResult.Success(userProfile)
+        coEvery { userRepository.getUser() } returns ApiResult.Success(userProfile)
         coEvery { walletRepository.getWallet() } returns ApiResult.Success(mockk(relaxed = true))
 
         val getBalanceResult = getBalanceUseCase.invoke()
