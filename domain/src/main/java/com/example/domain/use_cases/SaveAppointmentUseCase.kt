@@ -34,7 +34,7 @@ class SaveAppointmentUseCase @Inject constructor(
         hour: String,
         total: String
     ): ApiResult<Unit> {
-        val userNameResult = userRepository.getNameAndPhone()
+        val userNameResult = userRepository.getUser()
         val userName = if (userNameResult.isSuccess()) {
             userNameResult.getContent().name
         } else {

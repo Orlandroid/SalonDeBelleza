@@ -57,7 +57,7 @@ class LoginUseCaseTest {
 
             Truth.assertThat(loginResult).isInstanceOf(ApiResult.Error::class.java)
             coVerify(exactly = 1) { authRepository.login(any(), any()) }
-            coVerify(exactly = 0) { userRepository.getNameAndPhone() }
+            coVerify(exactly = 0) { userRepository.getUser() }
             coVerify(exactly = 0) { userPreferences.saveUserLogged() }
             coVerify(exactly = 0) { userPreferences.saveUserEmail(any()) }
 
@@ -72,17 +72,18 @@ class LoginUseCaseTest {
                 email = "",
                 password = "",
                 birthDay = "",
-                role = UserRole.ADMIN
+                role = UserRole.ADMIN,
+                uid = ""
             )
             coEvery { authRepository.login(any(), any()) } returns ApiResult.Success(Unit)
-            coEvery { userRepository.getNameAndPhone() } returns ApiResult.Success(user)
+            coEvery { userRepository.getUser() } returns ApiResult.Success(user)
 
 
             val loginResult = loginUseCase.invoke("", "")
 
             Truth.assertThat(loginResult).isInstanceOf(ApiResult.Success::class.java)
             coVerify(exactly = 1) { authRepository.login(any(), any()) }
-            coVerify(exactly = 1) { userRepository.getNameAndPhone() }
+            coVerify(exactly = 1) { userRepository.getUser() }
             coVerify(exactly = 1) { userPreferences.saveUserLogged() }
             coVerify(exactly = 1) { userPreferences.saveUserEmail(any()) }
             Truth.assertThat(loginResult.getContent()).isEqualTo(UserRole.ADMIN)
@@ -92,14 +93,14 @@ class LoginUseCaseTest {
     fun `When login Success, getNameAndPhone Throws an Error`(): Unit =
         runTest {
             coEvery { authRepository.login(any(), any()) } returns ApiResult.Success(Unit)
-            coEvery { userRepository.getNameAndPhone() } returns ApiResult.Error()
+            coEvery { userRepository.getUser() } returns ApiResult.Error()
 
 
             val loginResult = loginUseCase.invoke("", "")
 
             Truth.assertThat(loginResult).isInstanceOf(ApiResult.Success::class.java)
             coVerify(exactly = 1) { authRepository.login(any(), any()) }
-            coVerify(exactly = 1) { userRepository.getNameAndPhone() }
+            coVerify(exactly = 1) { userRepository.getUser() }
             coVerify(exactly = 1) { userPreferences.saveUserLogged() }
             coVerify(exactly = 1) { userPreferences.saveUserEmail(any()) }
             Truth.assertThat(loginResult.getContent()).isEqualTo(UserRole.CUSTOMER)

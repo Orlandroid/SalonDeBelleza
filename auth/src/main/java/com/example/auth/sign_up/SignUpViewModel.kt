@@ -43,6 +43,7 @@ sealed class SignUpSideEffects {
 }
 
 data class SignUpUiState(
+    val uid: String = "",
     val name: String = "",
     val phone: String = "",
     val email: String = "",
@@ -77,7 +78,12 @@ class SignUpViewModel @Inject constructor(
 
     private fun SignUpUiState.getUser(): User {
         return User(
-            name = name, phone = phone, email = email, password = password, birthDay = birthday
+            name = name,
+            phone = phone,
+            email = email,
+            password = password,
+            birthDay = birthday,
+            uid = uid
         )
     }
 

@@ -8,7 +8,6 @@ import com.example.domain.entities.remote.User
 import com.example.domain.repository.UserRepository
 import com.example.domain.state.ApiResult
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
@@ -24,15 +23,7 @@ class UserRepositoryImpl @Inject constructor(
 ) :
     UserRepository {
 
-    override fun getUser(): ApiResult<FirebaseUser?> {
-        val firebaseUser = firebaseAuth.currentUser
-        if (firebaseUser != null) {
-            return ApiResult.Success(firebaseUser)
-        }
-        return ApiResult.Error("User not found")
-    }
-
-    override suspend fun getNameAndPhone(): ApiResult<User> =
+    override suspend fun getUser(): ApiResult<User> =
         suspendCancellableCoroutine { continuation ->
 
             val userId = firebaseAuth.uid
@@ -65,7 +56,8 @@ class UserRepositoryImpl @Inject constructor(
                             email = userInfo.email,
                             password = userInfo.password,
                             birthDay = userInfo.birthDay,
-                            role = userRole
+                            role = userRole,
+                            uid = userId
                         )
                         continuation.resume(
                             ApiResult.Success(

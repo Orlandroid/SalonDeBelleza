@@ -16,7 +16,7 @@ class GetBalanceUseCase @Inject constructor(
 
     suspend operator fun invoke(): ApiResult<Balance> {
 
-        val userResult = userRepository.getNameAndPhone()
+        val userResult = userRepository.getUser()
         if (userResult.isError()) {
             return ApiResult.Error(
                 userResult.getErrorMessage()

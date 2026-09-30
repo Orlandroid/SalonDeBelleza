@@ -10,10 +10,8 @@ import com.example.domain.state.ApiResult
 import com.example.domain.state.getContent
 import com.example.domain.state.getErrorMessage
 import com.example.domain.state.getResultOrNull
-import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
 import javax.inject.Inject
-import kotlin.collections.emptyList
 
 class GetUserInfoUseCase @Inject constructor(
     private val userRepository: UserRepository,
@@ -39,14 +37,16 @@ class GetUserInfoUseCase @Inject constructor(
         if (imageResult.isSuccess()) {
             image = imageResult.getContent()
         }
-        val nameAndPhoneResult = userRepository.getNameAndPhone()
+        val getUserResult = userRepository.getUser()
         var name = ""
         var phone = ""
         var role = UserRole.CUSTOMER
-        if (nameAndPhoneResult.isSuccess()) {
-            val userDetail = nameAndPhoneResult.getContent()
+        var userSession = UserSessionStatus.INACTIVE
+        if (getUserResult.isSuccess()) {
+            val userDetail = getUserResult.getContent()
             name = userDetail.name
             phone = userDetail.phone
+            userSession = UserSessionStatus.ACTIVE
             role = try {
                 userDetail.role
             } catch (e: Exception) {
@@ -67,32 +67,16 @@ class GetUserInfoUseCase @Inject constructor(
         }
         val userInfo = UserProfile(
             name = name,
-            email = user.email.orEmpty(),
+            email = user.email,
             uid = user.uid,
             phone = phone,
             money = money,
             image = image,
-            sessionStatus = getUserSessionStatus(),
+            sessionStatus = userSession,
             loyalty = loyalty,
             coupons = cupons,
             role = role
         )
         return ApiResult.Success(userInfo)
-    }
-
-
-    private fun getUserSessionStatus(): UserSessionStatus {
-        val userResult = userRepository.getUser()
-
-        if (userResult.isError()) {
-            return UserSessionStatus.INACTIVE
-        }
-
-        if (userResult.getResultOrNull() == null) {
-            return UserSessionStatus.INACTIVE
-        }
-
-        return UserSessionStatus.ACTIVE
-
     }
 }

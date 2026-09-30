@@ -26,7 +26,7 @@ class LoginUseCase @Inject constructor(
             return ApiResult.Error(loginResult.getErrorMessage())
         }
 
-        val userResult = userRepository.getNameAndPhone()
+        val userResult = userRepository.getUser()
         val userRole = if (userResult.isSuccess()) {
             userResult.getContent().role
         } else {

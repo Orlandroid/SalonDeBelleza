@@ -14,18 +14,19 @@ class SaveUserInformationUseCase @Inject constructor(
 
         val getUserResult = userRepository.getUser()
 
-        getUserResult.getContent()?.uid ?: return ApiResult.Error("")
-
         if (getUserResult.isError()) {
             return ApiResult.Error("")
         }
 
-        val userInfoUseCaseResult = userRepository.saveUserInfo(
-            userId = getUserResult.getContent()?.uid.toString(),
+        getUserResult.getContent().uid ?: return ApiResult.Error("")
+
+
+        val userInfoResult = userRepository.saveUserInfo(
+            userId = getUserResult.getContent().uid.toString(),
             user = user
         )
 
-        if (userInfoUseCaseResult.isError()) {
+        if (userInfoResult.isError()) {
             return ApiResult.Error("")
         }
 

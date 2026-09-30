@@ -29,7 +29,7 @@ class SubmitAppointmentReviewUseCase @Inject constructor(
         val userResult = userRepository.getUser()
         val firebaseUser = userResult.getResultOrNull() ?: return ApiResult.Error("User not found")
 
-        val userInfoResult = userRepository.getNameAndPhone()
+        val userInfoResult = userRepository.getUser()
         val userName =
             if (userInfoResult.isSuccess()) userInfoResult.getContent().name else "Customer"
 
