@@ -146,7 +146,7 @@ class LoginViewModelTest {
             Unit
         )
         val user: User = mockk(relaxed = true)
-        coEvery { userRepository.getNameAndPhone() } returns ApiResult.Success(user)
+        coEvery { userRepository.getUser() } returns ApiResult.Success(user)
 
 
         val initialState = viewModel.state.value
