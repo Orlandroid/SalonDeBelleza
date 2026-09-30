@@ -58,7 +58,7 @@ class SaveUserInformationUseCaseTest {
     @Test
     fun `when getUser Return Success , and saveUserInfo Return Success `(): Unit =
         runTest {
-            val user: User = mockk(relaxed = true)
+            val user = User(name = "", phone = "", email = "", password = "", birthDay = "", uid = "sysh")
             coEvery { userRepository.getUser() } returns ApiResult.Success(user)
             coEvery { userRepository.saveUserInfo(any(), any()) } returns ApiResult.Success(Any())
 
@@ -74,7 +74,7 @@ class SaveUserInformationUseCaseTest {
     @Test
     fun `when getUser Return Success , but getContent uid is null `(): Unit =
         runTest {
-            val user = User(name = "", phone = "", email = "", password = "", birthDay = "")
+            val user = User(name = "", phone = "", email = "", password = "", birthDay = "", uid = "")
             coEvery { userRepository.getUser() } returns ApiResult.Success(user)
 
             val loginResult = saveUserInformationUseCase.invoke(user)

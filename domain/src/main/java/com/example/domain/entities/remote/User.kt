@@ -3,7 +3,7 @@ package com.example.domain.entities.remote
 import com.example.domain.entities.UserRole
 
 data class User(
-    val uid: String? = null,
+    val uid: String,
     val name: String,
     val phone: String,
     val email: String,

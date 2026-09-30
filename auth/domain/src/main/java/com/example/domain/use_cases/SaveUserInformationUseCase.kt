@@ -18,11 +18,14 @@ class SaveUserInformationUseCase @Inject constructor(
             return ApiResult.Error("")
         }
 
-        getUserResult.getContent().uid ?: return ApiResult.Error("")
+        val userUid = getUserResult.getContent().uid
+        if (userUid.isEmpty()) {
+            return ApiResult.Error()
+        }
 
 
         val userInfoResult = userRepository.saveUserInfo(
-            userId = getUserResult.getContent().uid.toString(),
+            userId = userUid,
             user = user
         )
 
