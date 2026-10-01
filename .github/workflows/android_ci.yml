@@ -2,9 +2,9 @@ name: Android CI - Lint, Test & Build
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "develop" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "develop" ]
 
 env:
   API_BASE_URL_DUMMY_JSON: ${{ vars.API_BASE_URL_DUMMY_JSON }}

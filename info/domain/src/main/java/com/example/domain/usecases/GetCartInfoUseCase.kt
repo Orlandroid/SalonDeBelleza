@@ -17,7 +17,7 @@ class GetCartInfoUseCase
     ) {
         suspend operator fun invoke(): ApiResult<CartInfo> {
             val productsResult = repository.getAllProducts()
-            val balanceUserResult = walletRepository.getWallet()
+            val balanceUserResult = walletRepository.GetWallet()
             if (productsResult.isError()) {
                 return ApiResult.Error(productsResult.getErrorMessage())
             }
