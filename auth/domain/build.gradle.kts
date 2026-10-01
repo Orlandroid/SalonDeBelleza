@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.domain"
+    namespace = "com.example.auth.domain"
     compileSdk {
         version = release(37)
     }

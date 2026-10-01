@@ -42,14 +42,14 @@ import com.example.core.ui.base.BaseScreenState
 import com.example.core.ui.base.getContentOrNull
 import com.example.core.ui.components.BaseErrorScreen
 import com.example.core.ui.components.ToolbarConfiguration
-import com.example.wallet.components.TransactionsScreenSkeleton
 import com.example.core.ui.theme.AlwaysWhite
 import com.example.core.ui.theme.Background
 import com.example.core.util.toCurrencyString
 import com.example.domain.transaction.Transaction
-import com.example.domain.transaction.TransactionType
-import com.example.domain.wallet.Currency
+import com.example.model.state.models.Currency
+import com.example.model.state.models.TransactionType
 import com.example.wallet.R
+import com.example.wallet.components.TransactionsScreenSkeleton
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

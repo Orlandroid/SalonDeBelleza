@@ -32,8 +32,8 @@ import com.example.core.ui.theme.AlwaysWhite
 import com.example.core.ui.theme.Background
 import com.example.core.util.toCurrencyString
 import com.example.domain.transaction.Transaction
-import com.example.domain.transaction.TransactionType
-import com.example.domain.wallet.Currency
+import com.example.model.state.models.Currency
+import com.example.model.state.models.TransactionType
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale

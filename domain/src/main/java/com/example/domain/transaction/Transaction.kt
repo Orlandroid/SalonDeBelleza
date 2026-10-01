@@ -1,5 +1,6 @@
 package com.example.domain.transaction
 
+import com.example.model.state.models.TransactionType
 import java.util.UUID
 
 data class Transaction(

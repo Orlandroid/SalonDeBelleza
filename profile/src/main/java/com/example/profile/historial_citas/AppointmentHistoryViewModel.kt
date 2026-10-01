@@ -10,7 +10,7 @@ import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
 import com.example.domain.usecases.SubmitAppointmentReviewUseCase
 import com.example.domain.usecases.loyalty.CompleteAppointmentUseCase
-import com.example.model.state.AppointmentStatus
+import com.example.model.state.models.AppointmentStatus
 import com.example.profile.R
 import com.example.profile.historial_citas.AppointmentHistoryEffects.NavigateToDetail
 import dagger.hilt.android.lifecycle.HiltViewModel

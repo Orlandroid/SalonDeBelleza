@@ -70,8 +70,8 @@ import com.example.core.util.uriToBitmap
 import com.example.domain.loyalty.Loyalty
 import com.example.domain.loyalty.LoyaltyTier
 import com.example.domain.loyalty.PromotionCode
-import com.example.domain.wallet.Currency
-import com.example.model.state.UserRole
+import com.example.model.state.models.Currency
+import com.example.model.state.models.UserRole
 import com.example.profile.R
 
 

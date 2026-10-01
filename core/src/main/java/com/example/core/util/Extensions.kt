@@ -7,7 +7,7 @@ import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
-import com.example.domain.wallet.Currency
+import com.example.model.state.models.Currency
 
 
 fun Context.uriToBitmap(uri: Uri): Bitmap? {

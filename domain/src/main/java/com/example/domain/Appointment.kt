@@ -1,6 +1,6 @@
 package com.example.domain
 
-import com.example.model.state.AppointmentStatus
+import com.example.model.state.models.AppointmentStatus
 
 data class Appointment(
     val idAppointment: String,

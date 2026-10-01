@@ -1,4 +1,4 @@
-package com.example.domain.extension
+package com.example.data.extension
 
 fun String?.toInitials(): String =
     this

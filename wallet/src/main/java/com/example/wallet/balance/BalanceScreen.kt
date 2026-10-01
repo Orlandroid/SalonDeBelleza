@@ -54,7 +54,7 @@ import com.example.core.ui.theme.TextMuted
 import com.example.core.ui.theme.TextPrimary
 import com.example.core.ui.theme.TextSecondary
 import com.example.core.util.toCurrencyString
-import com.example.domain.wallet.Currency
+import com.example.model.state.models.Currency
 import com.example.wallet.R
 import com.example.wallet.components.BalanceScreenSkeletons
 import java.text.SimpleDateFormat

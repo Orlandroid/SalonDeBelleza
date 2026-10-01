@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.data"
+    namespace = "com.example.info.data"
     compileSdk {
         version = release(37)
     }

@@ -27,7 +27,7 @@ import com.example.core.ui.components.shimmerBrush
 import com.example.core.ui.theme.AlwaysWhite
 import com.example.core.util.toCurrencyString
 import com.example.domain.transaction.Transaction
-import com.example.domain.wallet.Currency
+import com.example.model.state.models.Currency
 
 
 @Composable

@@ -6,7 +6,7 @@ import com.example.di.qualifiers.MasterScheduleRef
 import com.example.domain.Appointment
 import com.example.domain.entities.local.AppointmentObject
 import com.example.domain.entities.remote.migration.NegoInfo
-import com.example.domain.extension.toInitials
+import com.example.data.extension.toInitials
 import com.example.domain.repository.AppointmentsRepository
 import com.example.domain.state.ApiResult
 import com.example.domain.toAppointment

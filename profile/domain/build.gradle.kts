@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.domain"
+    namespace = "com.example.profile.domain"
     compileSdk {
         version = release(37)
     }

@@ -10,7 +10,7 @@ import com.example.domain.loyalty.PromotionCode
 import com.example.domain.state.getContent
 import com.example.domain.state.isSuccess
 import com.example.domain.usecases.GetUserInfoUseCase
-import com.example.model.state.UserRole
+import com.example.model.state.models.UserRole
 import com.example.profile.mappers.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

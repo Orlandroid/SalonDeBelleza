@@ -2,7 +2,7 @@ package com.example.domain.repository
 
 import com.example.domain.AdminAppointmentUiModel
 import com.example.domain.state.ApiResult
-import com.example.model.state.AppointmentStatus
+import com.example.model.state.models.AppointmentStatus
 
 interface AdminRepository {
 

@@ -44,7 +44,7 @@ import com.example.core.ui.theme.Background
 import com.example.core.ui.theme.CardSurface
 import com.example.core.ui.theme.DashedLine
 import com.example.core.util.toCurrencyString
-import com.example.domain.wallet.Currency
+import com.example.model.state.models.Currency
 import com.example.wallet.R
 import com.example.wallet.balance.BalanceUiState
 

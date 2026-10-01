@@ -4,7 +4,6 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -61,7 +60,7 @@ import com.example.core.ui.theme.Background
 import com.example.core.util.toCurrencyString
 import com.example.domain.AvailabilitySlot
 import com.example.domain.entities.remote.migration.Staff
-import com.example.domain.wallet.Currency
+import com.example.model.state.models.Currency
 import com.example.scheduleappointment.R
 import kotlinx.coroutines.flow.collectLatest
 

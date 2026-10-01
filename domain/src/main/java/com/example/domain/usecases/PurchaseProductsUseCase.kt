@@ -6,7 +6,7 @@ import com.example.domain.state.getContent
 import com.example.domain.state.isError
 import com.example.domain.transaction.Transaction
 import com.example.domain.transaction.TransactionRepository
-import com.example.domain.transaction.TransactionType
+import com.example.model.state.models.TransactionType
 import java.util.UUID
 import javax.inject.Inject
 

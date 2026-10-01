@@ -9,7 +9,7 @@ import com.example.domain.state.getContent
 import com.example.domain.state.getErrorMessage
 import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
-import com.example.domain.transaction.TransactionType
+import com.example.model.state.models.TransactionType
 import com.example.domain.util.parseDateTime
 import javax.inject.Inject
 

@@ -1,9 +1,8 @@
-package com.example.domain.entities
+package com.example.domain
 
-import com.example.domain.UserSessionStatus
 import com.example.domain.loyalty.Loyalty
 import com.example.domain.loyalty.PromotionCode
-import com.example.model.state.UserRole
+import com.example.model.state.models.UserRole
 
 data class UserProfile(
     val name: String,

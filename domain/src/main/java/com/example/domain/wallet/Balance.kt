@@ -1,5 +1,7 @@
 package com.example.domain.wallet
 
+import com.example.model.state.models.Currency
+
 data class Balance(
     val userName: String,
     val balance: Long,

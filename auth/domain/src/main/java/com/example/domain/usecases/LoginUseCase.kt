@@ -8,7 +8,7 @@ import com.example.domain.state.getContent
 import com.example.domain.state.getErrorMessage
 import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
-import com.example.model.state.UserRole
+import com.example.model.state.models.UserRole
 import javax.inject.Inject
 
 

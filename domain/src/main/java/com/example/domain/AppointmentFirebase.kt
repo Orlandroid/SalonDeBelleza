@@ -1,6 +1,6 @@
 package com.example.domain
 
-import com.example.model.state.AppointmentStatus
+import com.example.model.state.models.AppointmentStatus
 import java.util.UUID
 
 data class AppointmentFirebase(

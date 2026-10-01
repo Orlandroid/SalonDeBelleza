@@ -17,13 +17,13 @@ import com.example.domain.state.getErrorMessage
 import com.example.domain.state.getResultOrNull
 import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
-import com.example.domain.transaction.TransactionType
 import com.example.domain.usecases.GetCartInfoUseCase
 import com.example.domain.usecases.PurchaseProductsUseCase
 import com.example.domain.usecases.loyalty.EarnPointsUseCase
 import com.example.domain.usecases.loyalty.VerifyPromoCodeUseCase
 import com.example.info.R
 import com.example.info.cart.CartEffects.NavigateToProductDetail
+import com.example.model.state.models.TransactionType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineDispatcher

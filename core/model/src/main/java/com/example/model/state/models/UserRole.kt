@@ -1,4 +1,4 @@
-package com.example.model.state
+package com.example.model.state.models
 
 enum class UserRole {
     CUSTOMER,

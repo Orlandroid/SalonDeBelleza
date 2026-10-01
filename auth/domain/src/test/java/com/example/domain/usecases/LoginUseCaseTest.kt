@@ -1,12 +1,12 @@
 package com.example.domain.usecases
 
 import com.example.domain.UserPreferences
-import com.example.domain.entities.UserRole
 import com.example.domain.entities.remote.User
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.UserRepository
 import com.example.domain.state.ApiResult
 import com.example.domain.state.getContent
+import com.example.model.state.models.UserRole
 import com.google.common.truth.Truth
 import io.mockk.coEvery
 import io.mockk.coVerify

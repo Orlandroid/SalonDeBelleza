@@ -7,7 +7,7 @@ import com.example.domain.state.getContent
 import com.example.domain.state.getErrorMessage
 import com.example.domain.state.isSuccess
 import com.example.domain.usecases.GetBalanceUseCase
-import com.example.domain.wallet.Currency
+import com.example.model.state.models.Currency
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

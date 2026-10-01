@@ -1,4 +1,4 @@
-package com.example.domain.transaction
+package com.example.model.state.models
 
 enum class TransactionType {
     INITIAL_BALANCE,

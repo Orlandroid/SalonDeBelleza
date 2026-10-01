@@ -65,7 +65,7 @@ import com.example.core.ui.theme.Canceled
 import com.example.core.ui.theme.Completed
 import com.example.core.ui.theme.Confirmed
 import com.example.domain.Appointment
-import com.example.model.state.AppointmentStatus
+import com.example.model.state.models.AppointmentStatus
 import com.example.profile.R
 import kotlinx.coroutines.flow.collectLatest
 

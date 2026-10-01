@@ -1,7 +1,7 @@
 package com.example.domain.repository
 
 import com.example.domain.state.ApiResult
-import com.example.domain.transaction.TransactionType
+import com.example.model.state.models.TransactionType
 import com.example.domain.wallet.Wallet
 import kotlinx.coroutines.flow.Flow
 

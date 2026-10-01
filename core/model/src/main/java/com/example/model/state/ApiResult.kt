@@ -1,0 +1,30 @@
+package com.example.model.state
+
+sealed class ApiResult<T> {
+    data class Success<T>(val result: T) : ApiResult<T>()
+    data class Error<T>(val error: String? = null) : ApiResult<T>()
+}
+
+fun <T> ApiResult<T>.isSuccess(): Boolean = this is ApiResult.Success
+fun <T> ApiResult<T>.isError(): Boolean = this is ApiResult.Error
+
+fun <T> ApiResult<T>.getResultOrNull() = if (this.isSuccess()) {
+    (this as ApiResult.Success).result
+} else {
+    null
+}
+
+fun <T> ApiResult<T>.getContent(): T {
+    if (this is ApiResult.Error) {
+        throw IllegalStateException("Cannot get content from an error result")
+    }
+    return (this as ApiResult.Success).result
+}
+
+fun <T> ApiResult<T>.getErrorMessage(): String? {
+
+    if ((this as ApiResult.Error).error != null) {
+        return this.error
+    }
+    return "An error occurred"
+}

@@ -1,6 +1,6 @@
 package com.example.domain.entities.remote
 
-import com.example.model.state.UserRole
+import com.example.model.state.models.UserRole
 
 data class User(
     val uid: String,

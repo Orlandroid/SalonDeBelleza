@@ -4,7 +4,7 @@ import com.example.domain.repository.AppointmentsRepository
 import com.example.domain.state.ApiResult
 import com.example.domain.state.getContent
 import com.example.domain.state.isError
-import com.example.model.state.AppointmentStatus
+import com.example.model.state.models.AppointmentStatus
 import com.google.firebase.auth.FirebaseAuth
 import javax.inject.Inject
 

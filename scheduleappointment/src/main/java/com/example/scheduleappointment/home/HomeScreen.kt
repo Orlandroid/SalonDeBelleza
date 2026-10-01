@@ -43,7 +43,7 @@ import com.example.core.ui.theme.Background
 import com.example.core.ui.theme.BackgroundListsMainFlow
 import com.example.core.ui.theme.StatusBarColor
 import com.example.core.util.toCurrencyString
-import com.example.domain.wallet.Currency
+import com.example.model.state.models.Currency
 import com.example.scheduleappointment.R
 import com.example.scheduleappointment.components.WalletCardSkeletons
 

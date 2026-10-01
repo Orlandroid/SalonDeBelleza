@@ -5,7 +5,7 @@ import com.example.domain.state.ApiResult
 import com.example.domain.state.getErrorMessage
 import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
-import com.example.domain.wallet.Currency
+import com.example.model.state.models.Currency
 import com.example.domain.wallet.Wallet
 import javax.inject.Inject
 import kotlin.random.Random
