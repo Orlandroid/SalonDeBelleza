@@ -52,7 +52,7 @@ class SingUpUseCaseTest {
 
             com.google.common.truth.Truth.assertThat(signUpResult)
                 .isInstanceOf(ApiResult.Error::class.java)
-            coVerify(exactly = 1) { authRepository.register(any(), any()) }
+            coVerify(exactly = 2) { authRepository.register(any(), any()) }
             coVerify(inverse = true) { createWalletUseCase.invoke(any()) }
 
         }
