@@ -3,11 +3,10 @@ package com.example.auth.sign_up
 import app.cash.turbine.test
 import com.example.domain.repository.AuthRepository
 import com.example.domain.state.ApiResult
-import com.example.domain.use_cases.SaveUserInformationUseCase
-import com.example.domain.use_cases.SingUpUseCase
-import com.example.domain.use_cases.ValidateFormSignUpUseCase
+import com.example.domain.usecases.SaveUserInformationUseCase
+import com.example.domain.usecases.SingUpUseCase
+import com.example.domain.usecases.ValidateFormSignUpUseCase
 import com.google.common.truth.Truth.assertThat
-import com.google.firebase.auth.AuthResult
 import io.mockk.coEvery
 import io.mockk.every
 import io.mockk.mockk

@@ -6,7 +6,4 @@ internal sealed class BranchInfoEvents {
     object OnStaff
 }
 
-
-class BranchInfoViewModel : ViewModel() {
-
-}
+class BranchInfoViewModel : ViewModel()

@@ -22,7 +22,7 @@ import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.LoyaltyRepository
 import com.example.domain.repository.ReviewRepository
 import com.example.domain.repository.UserRepository
-import com.example.domain.use_cases.IsBranchOpenUseCase
+import com.example.domain.usecases.IsBranchOpenUseCase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import dagger.Module

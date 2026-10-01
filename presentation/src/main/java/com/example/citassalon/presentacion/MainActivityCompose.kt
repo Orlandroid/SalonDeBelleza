@@ -14,7 +14,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.example.citassalon.presentacion.app_navigation.AppNavigation
+import com.example.citassalon.presentacion.appNavigation.AppNavigation
 import com.example.core.ui.components.NoInternetScreen
 import com.example.core.ui.theme.SkedulyComposeTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -29,16 +29,15 @@ class MainActivityCompose : ComponentActivity() {
             SkedulyComposeTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
+                    color = MaterialTheme.colorScheme.background,
                 ) {
                     AppNavigation()
                     AnimatedVisibility(
                         visible = !isConnected,
                         enter = fadeIn(),
-                        exit = fadeOut()
+                        exit = fadeOut(),
                     ) {
                         NoInternetScreen(onRetry = { mainViewModel.checkConnection() })
-
                     }
                 }
             }

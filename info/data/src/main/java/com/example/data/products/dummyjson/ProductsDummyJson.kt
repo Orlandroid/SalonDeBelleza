@@ -1,7 +1,7 @@
 package com.example.data.products.dummyjson
 
 data class ProductsResponse(
-    val products: List<ProductDummyJson>
+    val products: List<ProductDummyJson>,
 )
 
 data class ProductDummyJson(
@@ -26,13 +26,13 @@ data class ProductDummyJson(
     val minimumOrderQuantity: Int,
     val meta: Meta,
     val images: List<String>,
-    val thumbnail: String
+    val thumbnail: String,
 )
 
 data class Dimensions(
     val width: Double,
     val height: Double,
-    val depth: Double
+    val depth: Double,
 )
 
 data class Review(
@@ -40,12 +40,12 @@ data class Review(
     val comment: String,
     val date: String,
     val reviewerName: String,
-    val reviewerEmail: String
+    val reviewerEmail: String,
 )
 
 data class Meta(
     val createdAt: String,
     val updatedAt: String,
     val barcode: String,
-    val qrCode: String
+    val qrCode: String,
 )

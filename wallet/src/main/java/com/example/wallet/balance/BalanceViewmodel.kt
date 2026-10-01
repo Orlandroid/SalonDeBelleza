@@ -6,7 +6,7 @@ import com.example.core.ui.base.BaseScreenState
 import com.example.domain.state.getContent
 import com.example.domain.state.getErrorMessage
 import com.example.domain.state.isSuccess
-import com.example.domain.use_cases.GetBalanceUseCase
+import com.example.domain.usecases.GetBalanceUseCase
 import com.example.domain.wallet.Currency
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

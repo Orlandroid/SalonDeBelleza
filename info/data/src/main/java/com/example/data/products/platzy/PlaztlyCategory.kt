@@ -6,5 +6,5 @@ data class PlaztlyCategory(
     val slug: String,
     val image: String,
     val creationAt: String,
-    val updatedAt: String
+    val updatedAt: String,
 )

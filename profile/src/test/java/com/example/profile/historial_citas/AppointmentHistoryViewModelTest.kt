@@ -1,8 +1,8 @@
 package com.example.profile.historial_citas
 
 import com.example.domain.repository.AppointmentsRepository
-import com.example.domain.use_cases.SubmitAppointmentReviewUseCase
-import com.example.domain.use_cases.loyalty.CompleteAppointmentUseCase
+import com.example.domain.usecases.SubmitAppointmentReviewUseCase
+import com.example.domain.usecases.loyalty.CompleteAppointmentUseCase
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi

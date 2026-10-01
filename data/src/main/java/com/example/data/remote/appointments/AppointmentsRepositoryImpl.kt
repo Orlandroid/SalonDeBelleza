@@ -10,7 +10,7 @@ import com.example.domain.extension.toInitials
 import com.example.domain.repository.AppointmentsRepository
 import com.example.domain.state.ApiResult
 import com.example.domain.toAppointment
-import com.example.domain.use_cases.IsBranchOpenUseCase
+import com.example.domain.usecases.IsBranchOpenUseCase
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference

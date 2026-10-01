@@ -11,9 +11,9 @@ import com.example.domain.entities.remote.User
 import com.example.domain.state.getErrorMessage
 import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
-import com.example.domain.use_cases.SaveUserInformationUseCase
-import com.example.domain.use_cases.SingUpUseCase
-import com.example.domain.use_cases.ValidateFormSignUpUseCase
+import com.example.domain.usecases.SaveUserInformationUseCase
+import com.example.domain.usecases.SingUpUseCase
+import com.example.domain.usecases.ValidateFormSignUpUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.Channel

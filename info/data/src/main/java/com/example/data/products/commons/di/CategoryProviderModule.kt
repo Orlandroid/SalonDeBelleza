@@ -14,41 +14,32 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoMap
 
-
 @MapKey
 @Retention(AnnotationRetention.RUNTIME)
 annotation class CategorySourceKey(
-    val value: CategorySource
+    val value: CategorySource,
 )
-
 
 @Module
 @InstallIn(SingletonComponent::class)
 object CategoryProviderModule {
-
     @Provides
     @IntoMap
     @CategorySourceKey(CategorySource.FAKE_STORE)
-    fun provideDummyJsonProvider(
-        api: FakeStoreApi
-    ): CategoryProvider = FakeStoreCategoryProvider(api = api)
+    fun provideDummyJsonProvider(api: FakeStoreApi): CategoryProvider = FakeStoreCategoryProvider(api = api)
 
     @Provides
     @IntoMap
     @CategorySourceKey(CategorySource.PLATZI)
-    fun providePlatzyProvider(
-        api: PlatzyApi
-    ): CategoryProvider = PlatzyCategoryProvider(api = api)
-
+    fun providePlatzyProvider(api: PlatzyApi): CategoryProvider = PlatzyCategoryProvider(api = api)
 
     @Provides
     fun provideCategoryProviderResolver(
         fakeProvider: FakeStoreCategoryProvider,
-        platziProvider: PlatzyCategoryProvider
-    ): CategoryProviderResolver = CategoryProviderResolver(
-        fakeProvider,
-        platziProvider
-    )
-
-
+        platziProvider: PlatzyCategoryProvider,
+    ): CategoryProviderResolver =
+        CategoryProviderResolver(
+            fakeProvider,
+            platziProvider,
+        )
 }

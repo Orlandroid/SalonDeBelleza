@@ -42,7 +42,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.SubcomposeAsyncImage
-import com.example.info.R
 import com.example.core.navigation.info.InfoNavigationScreens
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.base.BaseScreenState
@@ -50,28 +49,30 @@ import com.example.core.ui.base.getContentOrNull
 import com.example.core.ui.components.BaseErrorScreen
 import com.example.core.ui.components.ButtonWithIcon
 import com.example.core.ui.components.ToolbarConfiguration
-import com.example.domain.ProductSource
-import kotlinx.coroutines.flow.collectLatest
-import  com.example.core.ui.dialogs.ProgressDialog
+import com.example.core.ui.dialogs.ProgressDialog
 import com.example.core.ui.theme.AlwaysWhite
 import com.example.core.ui.theme.Background
 import com.example.core.util.toCurrencyString
 import com.example.domain.Product
+import com.example.domain.ProductSource
 import com.example.domain.wallet.Currency
+import com.example.info.R
+import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun ProductsScreen(
     navController: NavController,
     category: String? = null,
     source: ProductSource,
-    productsViewModel: ProductsViewModel = hiltViewModel(
-        creationCallback = { factory: ProductsViewModelFactory ->
-            factory.create(
-                source = source,
-                category = category
-            )
-        }
-    )
+    productsViewModel: ProductsViewModel =
+        hiltViewModel(
+            creationCallback = { factory: ProductsViewModelFactory ->
+                factory.create(
+                    source = source,
+                    category = category,
+                )
+            },
+        ),
 ) {
     val uiState by productsViewModel.state.collectAsStateWithLifecycle()
     val snackBarHostState = remember { SnackbarHostState() }
@@ -88,8 +89,8 @@ fun ProductsScreen(
                             navController.navigate(
                                 InfoNavigationScreens.DetailProductRoute(
                                     productId = it.product.id,
-                                    source = it.source
-                                )
+                                    source = it.source,
+                                ),
                             )
                         }
 
@@ -107,14 +108,15 @@ fun ProductsScreen(
             BaseComposeScreen(
                 snackBarHostState = snackBarHostState,
                 navController = navController,
-                toolbarConfiguration = ToolbarConfiguration(
-                    title = stringResource(R.string.productos)
-                )
+                toolbarConfiguration =
+                    ToolbarConfiguration(
+                        title = stringResource(R.string.productos),
+                    ),
             ) {
                 uiState.getContentOrNull()?.let { uiState ->
                     ProductsScreenContent(
                         products = uiState.products,
-                        onEvents = productsViewModel::onEvents
+                        onEvents = productsViewModel::onEvents,
                     )
                 }
             }
@@ -134,23 +136,25 @@ fun ProductsScreen(
 private fun ProductsScreenContent(
     modifier: Modifier = Modifier,
     products: List<Product>?,
-    onEvents: (event: ProductScreenEvents) -> Unit
+    onEvents: (event: ProductScreenEvents) -> Unit,
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Background)
+        modifier =
+            modifier
+                .fillMaxSize()
+                .background(Background),
     ) {
         ContainerImageCart {
             Image(
-                modifier = Modifier
-                    .padding(end = 8.dp, top = 8.dp)
-                    .size(32.dp)
-                    .clickable {
-                        onEvents(ProductScreenEvents.OnCarClicked)
-                    },
+                modifier =
+                    Modifier
+                        .padding(end = 8.dp, top = 8.dp)
+                        .size(32.dp)
+                        .clickable {
+                            onEvents(ProductScreenEvents.OnCarClicked)
+                        },
                 painter = painterResource(id = R.drawable.shopping_cart),
-                contentDescription = "ImageCart"
+                contentDescription = "ImageCart",
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
@@ -159,12 +163,10 @@ private fun ProductsScreenContent(
 }
 
 @Composable
-private fun ContainerImageCart(
-    content: @Composable () -> Unit
-) {
+private fun ContainerImageCart(content: @Composable () -> Unit) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.End
+        horizontalArrangement = Arrangement.End,
     ) {
         content()
     }
@@ -173,26 +175,25 @@ private fun ContainerImageCart(
 @Composable
 private fun Products(
     products: List<Product>,
-    onEvents: (event: ProductScreenEvents) -> Unit
+    onEvents: (event: ProductScreenEvents) -> Unit,
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp)
+        verticalArrangement = Arrangement.spacedBy(8.dp),
     ) {
         items(products, key = { it.id }) { product ->
             ItemProduct(product = product, onEvents = onEvents)
         }
     }
-
 }
 
 @Composable
 private fun ItemProduct(
     modifier: Modifier = Modifier,
     product: Product,
-    onEvents: (event: ProductScreenEvents) -> Unit
+    onEvents: (event: ProductScreenEvents) -> Unit,
 ) {
     Card(
         modifier = modifier.padding(4.dp),
@@ -200,7 +201,7 @@ private fun ItemProduct(
         onClick = {
             onEvents(ProductScreenEvents.OnProductClicked(product))
         },
-        colors = CardDefaults.cardColors(containerColor = AlwaysWhite)
+        colors = CardDefaults.cardColors(containerColor = AlwaysWhite),
     ) {
         Spacer(modifier = Modifier.height(16.dp))
         ButtonAdd(product = product, onEvents = onEvents)
@@ -208,22 +209,24 @@ private fun ItemProduct(
         ImageProduct(productImage = product.image.orEmpty())
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(all = 4.dp),
+            modifier =
+                Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(all = 4.dp),
             text = product.title,
             maxLines = 2,
             minLines = 2,
             overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium,
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            modifier = Modifier
-                .align(Alignment.CenterHorizontally)
-                .padding(bottom = 16.dp),
+            modifier =
+                Modifier
+                    .align(Alignment.CenterHorizontally)
+                    .padding(bottom = 16.dp),
             text = product.price.toCurrencyString(Currency.USD),
-            style = MaterialTheme.typography.titleLarge
+            style = MaterialTheme.typography.titleLarge,
         )
     }
 }
@@ -231,47 +234,48 @@ private fun ItemProduct(
 @Composable
 private fun ButtonAdd(
     product: Product,
-    onEvents: (event: ProductScreenEvents) -> Unit
+    onEvents: (event: ProductScreenEvents) -> Unit,
 ) {
     ButtonWithIcon(
         modifier = Modifier.padding(horizontal = 8.dp),
-        imageVector = ImageVector.vectorResource(
-            id = R.drawable.ic_baseline_add_24
-        ),
+        imageVector =
+            ImageVector.vectorResource(
+                id = R.drawable.ic_baseline_add_24,
+            ),
         buttonText = stringResource(R.string.agregar),
         backgroundColor = Color.White,
         onClick = {
             onEvents(ProductScreenEvents.OnAddProduct(product = product))
-        }
+        },
     )
 }
 
 @Composable
 private fun ColumnScope.ImageProduct(productImage: String) {
     SubcomposeAsyncImage(
-        modifier = Modifier
-            .size(100.dp)
-            .align(Alignment.CenterHorizontally),
+        modifier =
+            Modifier
+                .size(100.dp)
+                .align(Alignment.CenterHorizontally),
         model = productImage,
         contentDescription = "ImageProduct",
-        loading = { CircularProgressIndicator(Modifier.padding(16.dp)) }
+        loading = { CircularProgressIndicator(Modifier.padding(16.dp)) },
     )
 }
-
 
 @Composable
 @Preview(showBackground = true)
 private fun ProductsScreenContentPreview() {
     ProductsScreenContent(
-        products = listOf(
-            Product.dummyProduct()
-                .copy(title = "John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet"),
-            Product.dummyProduct().copy(id = 2),
-            Product.dummyProduct().copy(id = 3),
-            Product.dummyProduct().copy(title = "Solid Gold Petite Micropave", id = 4)
-        ),
-        onEvents = {}
+        products =
+            listOf(
+                Product
+                    .dummyProduct()
+                    .copy(title = "John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet"),
+                Product.dummyProduct().copy(id = 2),
+                Product.dummyProduct().copy(id = 3),
+                Product.dummyProduct().copy(title = "Solid Gold Petite Micropave", id = 4),
+            ),
+        onEvents = {},
     )
 }
-
-

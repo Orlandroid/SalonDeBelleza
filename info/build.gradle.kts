@@ -27,7 +27,6 @@ android {
             jvmTarget.set(JvmTarget.JVM_17)
         }
     }
-
 }
 
 dependencies {

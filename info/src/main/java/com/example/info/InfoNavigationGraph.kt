@@ -1,18 +1,17 @@
 package com.example.info
 
-
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.composable
 import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.example.branches.branches.BranchesScreen
-import com.example.core.navigation.info.InfoNavigationScreens
 import com.example.core.navigation.AppNavigationRoutes
+import com.example.core.navigation.info.InfoNavigationScreens
 import com.example.core.ui.components.SuccessScreen
 import com.example.info.cart.CartScreen
 import com.example.info.establishing.EstablishingScreen
-import com.example.info.our_sttaf.OurStaffScreen
+import com.example.info.oursttaf.OurStaffScreen
 import com.example.info.products.categories.CategoriesScreen
 import com.example.info.products.detalleproducto.DetailProductScreen
 import com.example.info.products.products.ProductsScreen
@@ -21,10 +20,9 @@ import com.example.info.stores.StoresScreen
 import com.example.info.sucursal.BranchInfoScreen
 import com.example.info.ubicacion.LocationScreen
 
-
 fun NavGraphBuilder.infoNavigationGraph(navController: NavHostController) {
     navigation<AppNavigationRoutes.InfoNavigationRoute>(
-        startDestination = InfoNavigationScreens.EstablishingRoute
+        startDestination = InfoNavigationScreens.EstablishingRoute,
     ) {
         composable<InfoNavigationScreens.EstablishingRoute> {
             EstablishingScreen(navController = navController)
@@ -34,14 +32,14 @@ fun NavGraphBuilder.infoNavigationGraph(navController: NavHostController) {
         }
         composable<InfoNavigationScreens.BranchesRoute> {
             BranchesScreen(
-                navController = navController
+                navController = navController,
             )
         }
         composable<InfoNavigationScreens.CategoriesRoute> {
             val arguments = it.toRoute<InfoNavigationScreens.CategoriesRoute>()
             CategoriesScreen(
                 navController = navController,
-                categorySource = arguments.source
+                categorySource = arguments.source,
             )
         }
         composable<InfoNavigationScreens.ProductsRoute> {
@@ -49,7 +47,7 @@ fun NavGraphBuilder.infoNavigationGraph(navController: NavHostController) {
             ProductsScreen(
                 navController = navController,
                 source = arguments.source,
-                category = arguments.category
+                category = arguments.category,
             )
         }
         composable<InfoNavigationScreens.DetailProductRoute> {
@@ -57,7 +55,7 @@ fun NavGraphBuilder.infoNavigationGraph(navController: NavHostController) {
             DetailProductScreen(
                 navController = navController,
                 productId = arguments.productId,
-                source = arguments.source
+                source = arguments.source,
             )
         }
         composable<InfoNavigationScreens.CartRoute> {
@@ -78,7 +76,7 @@ fun NavGraphBuilder.infoNavigationGraph(navController: NavHostController) {
         composable<InfoNavigationScreens.SuccessScreenRoute> {
             SuccessScreen(
                 title = "Purchase successful!",
-                description = "Your order has been successfully placed."
+                description = "Your order has been successfully placed.",
             ) {
                 navController.popBackStack()
                 navController.popBackStack()

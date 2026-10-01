@@ -32,7 +32,6 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.AsyncImage
-import com.example.info.R
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.base.BaseScreenState
 import com.example.core.ui.base.getContentOrNull
@@ -45,22 +44,24 @@ import com.example.core.util.toCurrencyString
 import com.example.domain.Product
 import com.example.domain.ProductSource
 import com.example.domain.wallet.Currency
+import com.example.info.R
 import com.gowtham.ratingbar.RatingBar
 import com.gowtham.ratingbar.RatingBarStyle
-
 
 @Composable
 fun DetailProductScreen(
     navController: NavController,
     productId: Int,
     source: ProductSource,
-    productDetailViewModel: DetailProductViewModel = hiltViewModel(
-        creationCallback = { factory: ProductDetailViewModelFactory ->
-            factory.create(
-                source = source,
-                productId = productId
-            )
-        })
+    productDetailViewModel: DetailProductViewModel =
+        hiltViewModel(
+            creationCallback = { factory: ProductDetailViewModelFactory ->
+                factory.create(
+                    source = source,
+                    productId = productId,
+                )
+            },
+        ),
 ) {
     val uiState = productDetailViewModel.state.collectAsStateWithLifecycle()
     when (uiState.value) {
@@ -75,7 +76,7 @@ fun DetailProductScreen(
         is BaseScreenState.OnContent -> {
             BaseComposeScreen(
                 navController = navController,
-                toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.detail_product))
+                toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.detail_product)),
             ) {
                 uiState.value.getContentOrNull()?.let { state ->
                     DetailProductScreenContent(product = state.product)
@@ -83,14 +84,12 @@ fun DetailProductScreen(
             }
         }
     }
-
-
 }
 
 @Composable
 private fun DetailProductScreenContent(
     modifier: Modifier = Modifier,
-    product: Product
+    product: Product,
 ) {
     var rating: Float by remember { mutableFloatStateOf(product.rating?.toFloat() ?: 0f) }
 
@@ -98,35 +97,35 @@ private fun DetailProductScreenContent(
         modifier
             .fillMaxSize()
             .background(Background),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Card(
-            modifier = Modifier
-                .padding(16.dp)
-                .fillMaxWidth(),
-            colors = CardDefaults.cardColors(containerColor = Color.White)
+            modifier =
+                Modifier
+                    .padding(16.dp)
+                    .fillMaxWidth(),
+            colors = CardDefaults.cardColors(containerColor = Color.White),
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
                 AsyncImage(
                     model = product.image,
                     contentDescription = null,
-                    modifier = Modifier.align(Alignment.CenterHorizontally)
+                    modifier = Modifier.align(Alignment.CenterHorizontally),
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 DText(
                     text = product.title,
                     fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 RatingBar(value = rating, style = RatingBarStyle.Fill(), onValueChange = {
                     rating = it
                 }, onRatingChanged = {
-
                 })
                 Spacer(modifier = Modifier.height(8.dp))
                 val price = product.price.toCurrencyString(Currency.USD)
@@ -135,7 +134,7 @@ private fun DetailProductScreenContent(
                 DText(
                     text = product.description,
                     modifier = Modifier.padding(horizontal = 8.dp),
-                    style = MaterialTheme.typography.titleLarge
+                    style = MaterialTheme.typography.titleLarge,
                 )
                 Spacer(modifier = Modifier.height(16.dp))
             }
@@ -155,21 +154,18 @@ fun DText(
         fontSize = 24.sp,
         fontWeight = fontWeight,
         color = AlwaysBlack,
-        modifier = modifier
-            .padding(bottom = 16.dp)
-            .fillMaxWidth()
-            .verticalScroll(rememberScrollState()),
+        modifier =
+            modifier
+                .padding(bottom = 16.dp)
+                .fillMaxWidth()
+                .verticalScroll(rememberScrollState()),
         textAlign = TextAlign.Center,
-        style = style
+        style = style,
     )
 }
-
 
 @Composable
 @Preview(showBackground = true)
 fun DetailProductScreenContentPreview() {
     DetailProductScreenContent(product = Product.dummyProduct())
-
 }
-
-

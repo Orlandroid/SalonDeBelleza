@@ -3,11 +3,12 @@ package com.example.data.products.dummyjson
 import com.example.data.products.commons.product.ProductProvider
 import javax.inject.Inject
 
-class DummyJsonProductProvider @Inject constructor(
-    private val api: DummyJsonApiV2
-) : ProductProvider {
-    override suspend fun getProducts() = api.getProducts().toDomain()
+class DummyJsonProductProvider
+    @Inject
+    constructor(
+        private val api: DummyJsonApiV2,
+    ) : ProductProvider {
+        override suspend fun getProducts() = api.getProducts().toDomain()
 
-    override suspend fun getSingleProduct(id: Int) = api.getProducts().toDomain().first { it.id == id }
-
-}
+        override suspend fun getSingleProduct(id: Int) = api.getProducts().toDomain().first { it.id == id }
+    }

@@ -6,7 +6,7 @@ import com.example.core.ui.base.BaseScreenState
 import com.example.di.IoDispatcher
 import com.example.domain.Product
 import com.example.domain.ProductSource
-import com.example.domain.repository.ProductRepository
+import com.example.domain.repository.ProductsRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -19,39 +19,41 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-
 data class ProductsDetailUiState(
-    val product: Product
+    val product: Product,
 )
 
 @HiltViewModel(assistedFactory = ProductDetailViewModelFactory::class)
-class DetailProductViewModel @AssistedInject constructor(
-    private val productsRepository: ProductRepository,
-    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    @Assisted private val productId: Int,
-    @Assisted private val source: ProductSource
-) : ViewModel() {
+class DetailProductViewModel
+    @AssistedInject
+    constructor(
+        private val productsRepository: ProductsRepository,
+        @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+        @Assisted private val productId: Int,
+        @Assisted private val source: ProductSource,
+    ) : ViewModel() {
+        private val _state: MutableStateFlow<BaseScreenState<ProductsDetailUiState>> =
+            MutableStateFlow(BaseScreenState.OnLoading)
 
-    private val _state: MutableStateFlow<BaseScreenState<ProductsDetailUiState>> =
-        MutableStateFlow(BaseScreenState.OnLoading)
+        val state =
+            _state
+                .onStart {
+                    getSingleProduct(productId)
+                }.stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(5000L),
+                    BaseScreenState.OnLoading,
+                )
 
-    val state = _state.onStart {
-        getSingleProduct(productId)
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000L),
-        BaseScreenState.OnLoading
-    )
+        private val coroutineExceptionHandler =
+            CoroutineExceptionHandler { _, exception ->
+                _state.update { BaseScreenState.OnError(error = exception) }
+            }
 
-
-    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
-        _state.update { BaseScreenState.OnError(error = exception) }
-    }
-
-    private fun getSingleProduct(id: Int) {
-        viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
-            val product = productsRepository.getSingleProduct(source = source, id = id)
-            _state.update { BaseScreenState.OnContent(content = ProductsDetailUiState(product = product)) }
+        private fun getSingleProduct(id: Int) {
+            viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
+                val product = productsRepository.getSingleProduct(source = source, id = id)
+                _state.update { BaseScreenState.OnContent(content = ProductsDetailUiState(product = product)) }
+            }
         }
     }
-}

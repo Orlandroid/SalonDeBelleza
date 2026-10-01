@@ -9,7 +9,7 @@ import com.example.domain.interfaces.EmailValidator
 import com.example.domain.interfaces.PasswordValidator
 import com.example.domain.state.getContent
 import com.example.domain.state.isSuccess
-import com.example.domain.use_cases.LoginUseCase
+import com.example.domain.usecases.LoginUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.async

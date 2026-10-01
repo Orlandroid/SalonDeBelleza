@@ -13,24 +13,24 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
-import com.example.info.R
 import com.example.core.navigation.info.InfoNavigationScreens
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.components.TextWithArrow
 import com.example.core.ui.components.TextWithArrowConfig
 import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.theme.Background
+import com.example.info.R
 
 @Composable
 fun BranchInfoScreen(navController: NavController) {
     BaseComposeScreen(
         navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(title = "Branch Name")
+        toolbarConfiguration = ToolbarConfiguration(title = "Branch Name"),
     ) {
         BranchInfoScreenContent(
             goTOServicesScreen = { navController.navigate(InfoNavigationScreens.ServicesRoute) },
             goToOurStaffScreen = { navController.navigate(InfoNavigationScreens.OurStaffRoute) },
-            goToLocationScreen = { navController.navigate(InfoNavigationScreens.LocationRoute) }
+            goToLocationScreen = { navController.navigate(InfoNavigationScreens.LocationRoute) },
         )
     }
 }
@@ -40,22 +40,23 @@ private fun BranchInfoScreenContent(
     modifier: Modifier = Modifier,
     goToOurStaffScreen: () -> Unit,
     goTOServicesScreen: () -> Unit,
-    goToLocationScreen: () -> Unit
+    goToLocationScreen: () -> Unit,
 ) {
     Column(
-        modifier = modifier
-            .background(Background)
-            .fillMaxSize()
+        modifier =
+            modifier
+                .background(Background)
+                .fillMaxSize(),
     ) {
         Spacer(Modifier.weight(0.4f))
         Card(
             modifier = Modifier.weight(1f),
-            colors = CardDefaults.cardColors(containerColor = Color.White)
+            colors = CardDefaults.cardColors(containerColor = Color.White),
         ) {
             BranchInfoMenu(
                 goToOurStaffScreen = goToOurStaffScreen,
                 goTOServicesScreen = goTOServicesScreen,
-                goToLocationScreen = goToLocationScreen
+                goToLocationScreen = goToLocationScreen,
             )
         }
     }
@@ -66,36 +67,38 @@ private fun BranchInfoMenu(
     modifier: Modifier = Modifier,
     goToOurStaffScreen: () -> Unit,
     goTOServicesScreen: () -> Unit,
-    goToLocationScreen: () -> Unit
+    goToLocationScreen: () -> Unit,
 ) {
     LazyColumn(modifier = modifier) {
         item {
             TextWithArrow(
-                config = TextWithArrowConfig(
-                    text = stringResource(R.string.staff),
-                    clickOnItem = goToOurStaffScreen
-                )
+                config =
+                    TextWithArrowConfig(
+                        text = stringResource(R.string.staff),
+                        clickOnItem = goToOurStaffScreen,
+                    ),
             )
         }
         item {
             TextWithArrow(
-                config = TextWithArrowConfig(
-                    text = stringResource(R.string.servicios),
-                    clickOnItem = goTOServicesScreen
-                )
+                config =
+                    TextWithArrowConfig(
+                        text = stringResource(R.string.servicios),
+                        clickOnItem = goTOServicesScreen,
+                    ),
             )
         }
         item {
             TextWithArrow(
-                config = TextWithArrowConfig(
-                    text = stringResource(R.string.ubicacion),
-                    clickOnItem = goToLocationScreen
-                )
+                config =
+                    TextWithArrowConfig(
+                        text = stringResource(R.string.ubicacion),
+                        clickOnItem = goToLocationScreen,
+                    ),
             )
         }
     }
 }
-
 
 @Composable
 @Preview(showBackground = true)
@@ -103,8 +106,6 @@ private fun BranchInfoScreenContentPreview() {
     BranchInfoScreenContent(
         goTOServicesScreen = {},
         goToLocationScreen = {},
-        goToOurStaffScreen = {}
+        goToOurStaffScreen = {},
     )
 }
-
-

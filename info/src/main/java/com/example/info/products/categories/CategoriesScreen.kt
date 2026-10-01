@@ -19,7 +19,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.example.info.R
 import com.example.core.navigation.info.InfoNavigationScreens
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.base.BaseScreenState
@@ -34,16 +33,17 @@ import com.example.core.ui.dialogs.ProgressDialog
 import com.example.core.ui.theme.Background
 import com.example.domain.CategorySource
 import com.example.domain.entities.products.Category
-//import com.example.domain.entities.remote.products.Category
+import com.example.info.R
 import kotlinx.coroutines.flow.collectLatest
-
 
 @Composable
 fun CategoriesScreen(
     navController: NavController,
     categorySource: CategorySource,
-    viewmodel: CategoriesViewModel = hiltViewModel(
-        creationCallback = { factory: CategoriesViewModelFactory -> factory.create(categorySource) })
+    viewmodel: CategoriesViewModel =
+        hiltViewModel(
+            creationCallback = { factory: CategoriesViewModelFactory -> factory.create(categorySource) },
+        ),
 ) {
     val uiState = viewmodel.state.collectAsStateWithLifecycle()
     when (uiState.value) {
@@ -59,8 +59,8 @@ fun CategoriesScreen(
                             navController.navigate(
                                 InfoNavigationScreens.ProductsRoute(
                                     source = it.source,
-                                    category = it.category
-                                )
+                                    category = it.category,
+                                ),
                             )
                         }
                     }
@@ -68,12 +68,12 @@ fun CategoriesScreen(
             }
             BaseComposeScreen(
                 navController = navController,
-                toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.categorias))
+                toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.categorias)),
             ) {
                 uiState.value.getContentOrNull()?.let { categoriesUiState ->
                     CategoriesScreenContent(
                         categories = categoriesUiState.categories,
-                        onEvent = viewmodel::onEvents
+                        onEvent = viewmodel::onEvents,
                     )
                 }
             }
@@ -89,21 +89,23 @@ fun CategoriesScreen(
 private fun CategoriesScreenContent(
     modifier: Modifier = Modifier,
     categories: List<Category>,
-    onEvent: (event: CategoriesEvents) -> Unit
+    onEvent: (event: CategoriesEvents) -> Unit,
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Background),
-        horizontalAlignment = Alignment.CenterHorizontally
+        modifier =
+            modifier
+                .fillMaxSize()
+                .background(Background),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         MediumSpacer(orientation = Orientation.VERTICAL)
         Image(
-            modifier = Modifier
-                .height(150.dp)
-                .width(150.dp),
+            modifier =
+                Modifier
+                    .height(150.dp)
+                    .width(150.dp),
             painter = painterResource(id = R.drawable.estar),
-            contentDescription = null
+            contentDescription = null,
         )
         MediumSpacer(orientation = Orientation.VERTICAL)
         Categories(categories = categories) { category ->
@@ -115,52 +117,37 @@ private fun CategoriesScreenContent(
 @Composable
 private fun Categories(
     categories: List<Category>,
-    goToProductsScreen: (category: Category) -> Unit
+    goToProductsScreen: (category: Category) -> Unit,
 ) {
     LazyColumn {
-
         items(
             items = categories,
-            key = { it.id }
+            key = { it.id },
         ) { category ->
             TextWithArrow(
-                config = TextWithArrowConfig(
-                    text = category.name,
-                    clickOnItem = {
-                        goToProductsScreen(category)
-                    }
-                )
+                config =
+                    TextWithArrowConfig(
+                        text = category.name,
+                        clickOnItem = {
+                            goToProductsScreen(category)
+                        },
+                    ),
             )
         }
     }
-
 }
-
 
 @Composable
 @Preview(showBackground = true)
 private fun CategoriesScreenContentPreview() {
     CategoriesScreenContent(
-        categories = listOf(
-            Category(id = "0", name = "Category 1"),
-            Category(id = "1", name = "Category 2"),
-            Category(id = "2", name = "Category 3"),
-            Category(id = "3", name = "Category 4"),
-        ),
-        onEvent = {}
+        categories =
+            listOf(
+                Category(id = "0", name = "Category 1"),
+                Category(id = "1", name = "Category 2"),
+                Category(id = "2", name = "Category 3"),
+                Category(id = "3", name = "Category 4"),
+            ),
+        onEvent = {},
     )
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-

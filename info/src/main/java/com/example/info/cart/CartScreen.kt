@@ -64,11 +64,10 @@ import com.example.domain.wallet.Currency
 import com.example.info.R
 import kotlinx.coroutines.flow.collectLatest
 
-
 @Composable
 fun CartScreen(
     navController: NavController,
-    viewModel: CartViewModel = hiltViewModel()
+    viewModel: CartViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()
     val snackBarHostState = remember { SnackbarHostState() }
@@ -83,8 +82,9 @@ fun CartScreen(
                 is CartEffects.NavigateToProductDetail -> {
                     navController.navigate(
                         DetailProductRoute(
-                            productId = it.product.id, source = it.source
-                        )
+                            productId = it.product.id,
+                            source = it.source,
+                        ),
                     )
                 }
 
@@ -103,29 +103,31 @@ fun CartScreen(
         uiState.error != null -> {
             BaseErrorScreen(
                 title = uiState.error.orEmpty(),
-                message = stringResource(R.string.purchase_error)
+                message = stringResource(R.string.purchase_error),
             )
         }
 
         else -> {
             BaseComposeScreen(
                 navController = navController,
-                toolbarConfiguration = ToolbarConfiguration(
-                    title = uiState.userMoney.toCurrencyString(Currency.USD),
-                    showDeleteIcon = true,
-                    clickOnDeleteIcon = {
-                        viewModel.onEvents(CartEvents.OnDeleteIconClicked)
-                    })
+                toolbarConfiguration =
+                    ToolbarConfiguration(
+                        title = uiState.userMoney.toCurrencyString(Currency.USD),
+                        showDeleteIcon = true,
+                        clickOnDeleteIcon = {
+                            viewModel.onEvents(CartEvents.OnDeleteIconClicked)
+                        },
+                    ),
             ) {
                 if (uiState.showDeleteDialog) {
                     DialogDeleteAllProducts(
-                        onEvents = viewModel::onEvents
+                        onEvents = viewModel::onEvents,
                     )
                 }
 
                 CartScreenContent(
                     uiState = uiState,
-                    onEvents = viewModel::onEvents
+                    onEvents = viewModel::onEvents,
                 )
             }
         }
@@ -135,36 +137,45 @@ fun CartScreen(
 @Composable
 private fun DialogDeleteAllProducts(onEvents: (event: CartEvents) -> Unit) {
     BaseAlertDialogMessages(
-        alertDialogMessagesConfig = AlertDialogMessagesConfig(
-            bodyMessage = stringResource(R.string.delete_all_products_sure),
-            isTwoButtonsAlert = IsTwoButtonsAlert(clickOnAccept = {
-                onEvents(CartEvents.OnAccept)
-            }, clickOnCancel = {
-                onEvents(CartEvents.OnCancelPressed)
-            })
-        ), onDismissRequest = { onEvents(CartEvents.OnCancelPressed) })
+        alertDialogMessagesConfig =
+            AlertDialogMessagesConfig(
+                bodyMessage = stringResource(R.string.delete_all_products_sure),
+                isTwoButtonsAlert =
+                    IsTwoButtonsAlert(clickOnAccept = {
+                        onEvents(CartEvents.OnAccept)
+                    }, clickOnCancel = {
+                        onEvents(CartEvents.OnCancelPressed)
+                    }),
+            ),
+        onDismissRequest = { onEvents(CartEvents.OnCancelPressed) },
+    )
 }
 
 @Composable
 private fun CartScreenContent(
     modifier: Modifier = Modifier,
     uiState: CartUiState,
-    onEvents: (event: CartEvents) -> Unit
+    onEvents: (event: CartEvents) -> Unit,
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Background)
+        modifier =
+            modifier
+                .fillMaxSize()
+                .background(Background),
     ) {
         LazyColumn(
-            modifier = Modifier
-                .weight(1f)
-                .fillMaxWidth()
+            modifier =
+                Modifier
+                    .weight(1f)
+                    .fillMaxWidth(),
         ) {
             items(
-                items = uiState.products, key = { it.id }) { product ->
+                items = uiState.products,
+                key = { it.id },
+            ) { product ->
                 ProductItem(
-                    product = product, onEvents = onEvents
+                    product = product,
+                    onEvents = onEvents,
                 )
             }
 
@@ -176,7 +187,7 @@ private fun CartScreenContent(
                     error = uiState.promoError,
                     isLoading = uiState.validatingPromo,
                     onCodeChange = { onEvents(CartEvents.OnPromoCodeChanged(it)) },
-                    onApply = { onEvents(CartEvents.OnApplyPromoCode) }
+                    onApply = { onEvents(CartEvents.OnApplyPromoCode) },
                 )
                 Spacer(modifier = Modifier.height(16.dp))
             }
@@ -186,7 +197,7 @@ private fun CartScreenContent(
             total = uiState.cartTotal,
             appliedPromo = uiState.appliedPromo,
             isLoading = uiState.showLoadingButton,
-            onPayClicked = { onEvents.invoke(CartEvents.OnPay) }
+            onPayClicked = { onEvents.invoke(CartEvents.OnPay) },
         )
     }
 }
@@ -198,26 +209,27 @@ private fun PromoCodeSection(
     error: String?,
     isLoading: Boolean,
     onCodeChange: (String) -> Unit,
-    onApply: () -> Unit
+    onApply: () -> Unit,
 ) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 8.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = AlwaysWhite),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
                 text = stringResource(R.string.discount_coupon),
                 style = MaterialTheme.typography.labelMedium,
-                color = Color.Gray
+                color = Color.Gray,
             )
             Spacer(modifier = Modifier.height(8.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 OutlinedTextField(
                     value = promoCode,
@@ -226,31 +238,35 @@ private fun PromoCodeSection(
                     placeholder = {
                         Text(
                             text = stringResource(R.string.enter_your_code),
-                            fontSize = 14.sp
+                            fontSize = 14.sp,
                         )
                     },
                     singleLine = true,
                     enabled = !isApplied && !isLoading,
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(12.dp),
                 )
                 Spacer(modifier = Modifier.width(8.dp))
                 Button(
                     onClick = onApply,
                     enabled = !isApplied && promoCode.isNotBlank() && !isLoading,
-                    shape = RoundedCornerShape(12.dp)
+                    shape = RoundedCornerShape(12.dp),
                 ) {
                     if (isLoading) {
                         CircularProgressIndicator(
                             modifier = Modifier.size(24.dp),
                             color = AlwaysWhite,
-                            strokeWidth = 2.dp
+                            strokeWidth = 2.dp,
                         )
                     } else {
                         Text(
-                            text = stringResource(
-                                if (isApplied) R.string.coupon_applied
-                                else R.string.apply_coupon
-                            )
+                            text =
+                                stringResource(
+                                    if (isApplied) {
+                                        R.string.coupon_applied
+                                    } else {
+                                        R.string.apply_coupon
+                                    },
+                                ),
                         )
                     }
                 }
@@ -260,7 +276,7 @@ private fun PromoCodeSection(
                     text = error,
                     color = MaterialTheme.colorScheme.error,
                     style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier.padding(top = 4.dp)
+                    modifier = Modifier.padding(top = 4.dp),
                 )
             }
             if (isApplied) {
@@ -268,7 +284,7 @@ private fun PromoCodeSection(
                     text = stringResource(R.string.coupon_applied_successfully),
                     color = Color(0xFF4CAF50),
                     style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier.padding(top = 4.dp)
+                    modifier = Modifier.padding(top = 4.dp),
                 )
             }
         }
@@ -277,44 +293,49 @@ private fun PromoCodeSection(
 
 @Composable
 private fun ProductItem(
-    product: Product, onEvents: (event: CartEvents) -> Unit
+    product: Product,
+    onEvents: (event: CartEvents) -> Unit,
 ) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 4.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp, vertical = 4.dp),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(
-            containerColor = AlwaysWhite
-        )
+        colors =
+            CardDefaults.cardColors(
+                containerColor = AlwaysWhite,
+            ),
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(8.dp),
-            verticalAlignment = Alignment.CenterVertically
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(8.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             SubcomposeAsyncImage(
                 modifier = Modifier.size(80.dp),
                 model = product.image,
                 contentDescription = "ImageProduct",
-                loading = { CircularProgressIndicator(Modifier.padding(16.dp)) })
+                loading = { CircularProgressIndicator(Modifier.padding(16.dp)) },
+            )
 
             Spacer(modifier = Modifier.width(12.dp))
 
             Column(
-                modifier = Modifier.weight(1f)
+                modifier = Modifier.weight(1f),
             ) {
                 Text(
                     text = product.title,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium,
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = product.total().toCurrencyString(Currency.USD),
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleMedium,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 QuantityStepper(quantity = product.quantity, onIncrease = {
@@ -327,10 +348,11 @@ private fun ProductItem(
             IconButton(
                 onClick = {
                     onEvents(CartEvents.OnRemoveProductClicked(productId = product.id))
-                }) {
+                },
+            ) {
                 Icon(
                     imageVector = Icons.Default.Delete,
-                    contentDescription = stringResource(R.string.remove)
+                    contentDescription = stringResource(R.string.remove),
                 )
             }
         }
@@ -339,26 +361,32 @@ private fun ProductItem(
 
 @Composable
 private fun QuantityStepper(
-    quantity: Int, onIncrease: () -> Unit, onDecrease: () -> Unit
+    quantity: Int,
+    onIncrease: () -> Unit,
+    onDecrease: () -> Unit,
 ) {
     Row(verticalAlignment = Alignment.CenterVertically) {
         IconButton(
-            onClick = onDecrease, modifier = Modifier.size(28.dp)
+            onClick = onDecrease,
+            modifier = Modifier.size(28.dp),
         ) {
             Icon(
-                imageVector = Icons.Default.Remove, contentDescription = "Decrease"
+                imageVector = Icons.Default.Remove,
+                contentDescription = "Decrease",
             )
         }
         Text(
             text = quantity.toString(),
             modifier = Modifier.padding(horizontal = 8.dp),
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium,
         )
         IconButton(
-            onClick = onIncrease, modifier = Modifier.size(28.dp)
+            onClick = onIncrease,
+            modifier = Modifier.size(28.dp),
         ) {
             Icon(
-                imageVector = Icons.Default.Add, contentDescription = "Increase"
+                imageVector = Icons.Default.Add,
+                contentDescription = "Increase",
             )
         }
     }
@@ -369,43 +397,44 @@ private fun OrderSummarySection(
     total: Long,
     appliedPromo: PromotionCode?,
     isLoading: Boolean,
-    onPayClicked: () -> Unit
+    onPayClicked: () -> Unit,
 ) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = AlwaysWhite),
-        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp)
+        elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             if (appliedPromo != null) {
                 val discount = total.toDouble() * appliedPromo.discountPercentage / 100.0
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Text("Subtotal", style = MaterialTheme.typography.bodyMedium)
                     Text(
                         total.toCurrencyString(Currency.USD),
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
                     )
                 }
                 Spacer(modifier = Modifier.height(4.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.SpaceBetween
+                    horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Text(
                         "Descuento (${appliedPromo.discountPercentage}%)",
                         color = Color(0xFF4CAF50),
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
                     )
                     Text(
                         "-${discount.toCurrencyString(Currency.USD)}",
                         color = Color(0xFF4CAF50),
-                        style = MaterialTheme.typography.bodyMedium
+                        style = MaterialTheme.typography.bodyMedium,
                     )
                 }
                 Spacer(modifier = Modifier.height(8.dp))
@@ -414,65 +443,71 @@ private fun OrderSummarySection(
             }
 
             Row(
-                modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.SpaceBetween
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(
-                    text = "Total", style = MaterialTheme.typography.titleMedium
+                    text = "Total",
+                    style = MaterialTheme.typography.titleMedium,
                 )
-                val finalTotal = if (appliedPromo != null) {
-                    total.toDouble() - (total.toDouble() * appliedPromo.discountPercentage / 100.0)
-                } else {
-                    total.toDouble()
-                }
+                val finalTotal =
+                    if (appliedPromo != null) {
+                        total.toDouble() - (total.toDouble() * appliedPromo.discountPercentage / 100.0)
+                    } else {
+                        total.toDouble()
+                    }
                 Text(
                     text = finalTotal.toCurrencyString(Currency.USD),
                     style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
 
             Button(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .height(48.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .height(48.dp),
                 onClick = onPayClicked,
-                shape = RoundedCornerShape(12.dp)
+                shape = RoundedCornerShape(12.dp),
             ) {
                 if (isLoading) {
                     CircularProgressIndicator(
-                        modifier = Modifier.size(32.dp), color = AlwaysWhite
+                        modifier = Modifier.size(32.dp),
+                        color = AlwaysWhite,
                     )
                 } else {
                     Text(text = stringResource(R.string.pay))
                 }
             }
-
         }
     }
 }
 
-
 @Composable
 @Preview(showBackground = true)
 private fun CartScreenContentPreview() {
-    val product = Product(
-        id = 1,
-        title = "Usb",
-        price = 45L,
-        description = "WD 2TB Elements Portable External Hard Drive - USB 3.0",
-        rating = 1.0,
-        image = "",
-    )
+    val product =
+        Product(
+            id = 1,
+            title = "Usb",
+            price = 45L,
+            description = "WD 2TB Elements Portable External Hard Drive - USB 3.0",
+            rating = 1.0,
+            image = "",
+        )
     CartScreenContent(
-        uiState = CartUiState(
-            products = listOf(
-                product,
-                product.copy(id = 2, title = "Mouse"),
-                product.copy(id = 3, title = "Keyboard"),
+        uiState =
+            CartUiState(
+                products =
+                    listOf(
+                        product,
+                        product.copy(id = 2, title = "Mouse"),
+                        product.copy(id = 3, title = "Keyboard"),
+                    ),
+                cartTotal = 458L,
             ),
-            cartTotal = 458L
-        ),
-        onEvents = {}
+        onEvents = {},
     )
 }

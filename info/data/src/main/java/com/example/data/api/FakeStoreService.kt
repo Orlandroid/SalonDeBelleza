@@ -1,23 +1,26 @@
 package com.example.data.api
 
-
 import com.example.data.products.fakestore.FakeStoreProduct
 import com.example.domain.entities.Cart
 import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface FakeStoreService {
-
     @GET("/products/category/{categoria}")
-    suspend fun getProducts(@Path("categoria") categoria: String): List<FakeStoreProduct>
+    suspend fun getProducts(
+        @Path("categoria") categoria: String,
+    ): List<FakeStoreProduct>
 
     @GET("products/categories")
     suspend fun getCategories(): List<String>
 
     @GET("products/{id}")
-    suspend fun getSingleProduct(@Path("id")id: Int): FakeStoreProduct
-
+    suspend fun getSingleProduct(
+        @Path("id")id: Int,
+    ): FakeStoreProduct
 
     @GET("carts/{id}")
-    suspend fun getSingleCart(@Path("id") id:Int): Cart
+    suspend fun getSingleCart(
+        @Path("id") id: Int,
+    ): Cart
 }

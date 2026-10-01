@@ -8,7 +8,7 @@ import com.example.domain.entities.remote.migration.Service
 import com.example.domain.entities.remote.migration.Staff
 import com.example.domain.state.getContent
 import com.example.domain.state.isSuccess
-import com.example.domain.use_cases.GetStaffRatingUseCase
+import com.example.domain.usecases.GetStaffRatingUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

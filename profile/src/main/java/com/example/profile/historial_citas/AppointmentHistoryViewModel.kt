@@ -9,8 +9,8 @@ import com.example.domain.state.getContent
 import com.example.domain.state.getErrorMessage
 import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
-import com.example.domain.use_cases.SubmitAppointmentReviewUseCase
-import com.example.domain.use_cases.loyalty.CompleteAppointmentUseCase
+import com.example.domain.usecases.SubmitAppointmentReviewUseCase
+import com.example.domain.usecases.loyalty.CompleteAppointmentUseCase
 import com.example.profile.R
 import com.example.profile.historial_citas.AppointmentHistoryEffects.NavigateToDetail
 import dagger.hilt.android.lifecycle.HiltViewModel

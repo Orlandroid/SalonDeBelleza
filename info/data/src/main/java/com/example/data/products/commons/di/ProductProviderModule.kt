@@ -1,6 +1,5 @@
 package com.example.data.products.commons.di
 
-
 import com.example.data.products.commons.product.ProductProvider
 import com.example.data.products.commons.product.ProductProviderResolver
 import com.example.data.products.dummyjson.DummyJsonApiV2
@@ -19,61 +18,46 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dagger.multibindings.IntoMap
 
-
 @MapKey
 @Retention(AnnotationRetention.RUNTIME)
 annotation class ProductSourceKey(
-    val value: ProductSource
+    val value: ProductSource,
 )
 
 @Module
 @InstallIn(SingletonComponent::class)
 object ProductProviderModule {
-
     @Provides
     @IntoMap
     @ProductSourceKey(ProductSource.DUMMY_JSON)
-    fun provideDummyJsonProvider(
-        api: DummyJsonApiV2
-    ): ProductProvider =
-        DummyJsonProductProvider(api = api)
+    fun provideDummyJsonProvider(api: DummyJsonApiV2): ProductProvider = DummyJsonProductProvider(api = api)
 
     @Provides
     @IntoMap
     @ProductSourceKey(ProductSource.FAKE_STORE)
-    fun provideFakeStoreProvider(
-        api: FakeStoreApi
-    ): ProductProvider =
-        FakeStoreProductProvider(api)
+    fun provideFakeStoreProvider(api: FakeStoreApi): ProductProvider = FakeStoreProductProvider(api)
 
     @Provides
     @IntoMap
     @ProductSourceKey(ProductSource.PLATZI)
-    fun providePlatziProvider(
-        api: PlatzyApi
-    ): ProductProvider =
-        PlatzyProductProvider(api)
+    fun providePlatziProvider(api: PlatzyApi): ProductProvider = PlatzyProductProvider(api)
 
     @Provides
     @IntoMap
     @ProductSourceKey(ProductSource.MY_DUMMY_API)
-    fun provideProductsApiProvider(
-        api: MyDummyApi
-    ): ProductProvider =
-        MyDummyProductProvider(api)
+    fun provideProductsApiProvider(api: MyDummyApi): ProductProvider = MyDummyProductProvider(api)
 
     @Provides
     fun provideProductProviderResolver(
         dummy: DummyJsonProductProvider,
         fake: FakeStoreProductProvider,
         platzi: PlatzyProductProvider,
-        productsApi: MyDummyProductProvider
-    ): ProductProviderResolver {
-        return ProductProviderResolver(
+        productsApi: MyDummyProductProvider,
+    ): ProductProviderResolver =
+        ProductProviderResolver(
             dummy,
             fake,
             platzi,
-            productsApi
+            productsApi,
         )
-    }
 }

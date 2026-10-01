@@ -2,7 +2,6 @@ package com.example.data.products.fakestore
 
 import kotlinx.serialization.Serializable
 
-
 @Serializable
 data class FakeStoreProduct(
     val id: Int,
@@ -12,11 +11,11 @@ data class FakeStoreProduct(
     val category: String,
     val image: String,
     val rating: FakeStoreProductRating,
-    var imageBase64: String? = ""
+    var imageBase64: String? = "",
 )
 
 @Serializable
 data class FakeStoreProductRating(
     val rate: Double,
-    val count: Int
+    val count: Int,
 )

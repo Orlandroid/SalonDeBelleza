@@ -9,7 +9,7 @@ import com.example.domain.Product
 import com.example.domain.ProductSource
 import com.example.domain.repository.BusinessRepository
 import com.example.domain.repository.CategoryRepository
-import com.example.domain.repository.ProductRepository
+import com.example.domain.repository.ProductsRepository
 import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
 import com.example.domain.toCategorySource
@@ -31,132 +31,149 @@ import kotlinx.coroutines.launch
 
 sealed class ProductScreenEvents {
     object OnCarClicked : ProductScreenEvents()
-    data class OnAddProduct(val product: Product) : ProductScreenEvents()
-    data class OnProductClicked(val product: Product) : ProductScreenEvents()
-    data class OnDeleteAllTheProducts(val product: Product) : ProductScreenEvents()
+
+    data class OnAddProduct(
+        val product: Product,
+    ) : ProductScreenEvents()
+
+    data class OnProductClicked(
+        val product: Product,
+    ) : ProductScreenEvents()
+
+    data class OnDeleteAllTheProducts(
+        val product: Product,
+    ) : ProductScreenEvents()
 }
 
 sealed class ProductScreenEffects {
     object NavigateToCar : ProductScreenEffects()
-    data class ProductSaved(val message: String) : ProductScreenEffects()
-    data class ProductsDeletedSuccessfully(val message: String) : ProductScreenEffects()
+
+    data class ProductSaved(
+        val message: String,
+    ) : ProductScreenEffects()
+
+    data class ProductsDeletedSuccessfully(
+        val message: String,
+    ) : ProductScreenEffects()
+
     object NoProductsToDelete : ProductScreenEffects()
-    data class NavigateToProductDetail(val product: Product, val source: ProductSource) :
-        ProductScreenEffects()
+
+    data class NavigateToProductDetail(
+        val product: Product,
+        val source: ProductSource,
+    ) : ProductScreenEffects()
 }
 
 data class ProductsUiState(
-    val products: List<Product>
+    val products: List<Product>,
 )
 
-
 @HiltViewModel(assistedFactory = ProductsViewModelFactory::class)
-class ProductsViewModel @AssistedInject constructor(
-    private val productRepository: ProductRepository,
-    private val categoryRepository: CategoryRepository,
-    @param:ApplicationContext private val context: Context,
-    private val repository: BusinessRepository,
-    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    @Assisted private val source: ProductSource,
-    @Assisted private val category: String? = null
-) : ViewModel() {
+class ProductsViewModel
+    @AssistedInject
+    constructor(
+        private val productRepository: ProductsRepository,
+        private val categoryRepository: CategoryRepository,
+        @param:ApplicationContext private val context: Context,
+        private val repository: BusinessRepository,
+        @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+        @Assisted private val source: ProductSource,
+        @Assisted private val category: String? = null,
+    ) : ViewModel() {
+        private val _state: MutableStateFlow<BaseScreenState<ProductsUiState>> =
+            MutableStateFlow(BaseScreenState.OnLoading)
+        val state =
+            _state
+                .onStart {
+                    if (category.isNullOrEmpty()) {
+                        getProducts()
+                    } else {
+                        getProductByCategory()
+                    }
+                }.stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(5000L),
+                    BaseScreenState.OnLoading,
+                )
 
+        private val _effects = Channel<ProductScreenEffects>()
+        val effects = _effects.receiveAsFlow()
 
-    private val _state: MutableStateFlow<BaseScreenState<ProductsUiState>> =
-        MutableStateFlow(BaseScreenState.OnLoading)
-    val state = _state.onStart {
-        if (category.isNullOrEmpty()) {
-            getProducts()
-        } else {
-            getProductByCategory()
-        }
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000L),
-        BaseScreenState.OnLoading
-    )
-
-
-    private val _effects = Channel<ProductScreenEffects>()
-    val effects = _effects.receiveAsFlow()
-
-
-    fun onEvents(event: ProductScreenEvents) {
-        when (event) {
-            is ProductScreenEvents.OnCarClicked -> {
-                viewModelScope.launch {
-                    sendEffect(ProductScreenEffects.NavigateToCar)
+        fun onEvents(event: ProductScreenEvents) {
+            when (event) {
+                is ProductScreenEvents.OnCarClicked -> {
+                    viewModelScope.launch {
+                        sendEffect(ProductScreenEffects.NavigateToCar)
+                    }
                 }
-            }
 
-            is ProductScreenEvents.OnProductClicked -> {
-                viewModelScope.launch {
-                    sendEffect(
-                        ProductScreenEffects.NavigateToProductDetail(
-                            product = event.product,
-                            source = source
+                is ProductScreenEvents.OnProductClicked -> {
+                    viewModelScope.launch {
+                        sendEffect(
+                            ProductScreenEffects.NavigateToProductDetail(
+                                product = event.product,
+                                source = source,
+                            ),
                         )
-                    )
+                    }
+                }
+
+                is ProductScreenEvents.OnAddProduct -> {
+                    insertProduct(event.product)
+                }
+
+                is ProductScreenEvents.OnDeleteAllTheProducts -> {
+                    deleteAllProducts()
                 }
             }
+        }
 
-            is ProductScreenEvents.OnAddProduct -> {
-                insertProduct(event.product)
+        private val coroutineExceptionHandler =
+            CoroutineExceptionHandler { _, exception ->
+                _state.update { BaseScreenState.OnError(error = exception) }
             }
 
-            is ProductScreenEvents.OnDeleteAllTheProducts -> {
-                deleteAllProducts()
+        fun getProducts() {
+            viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
+                val response = productRepository.getProducts(source)
+                _state.update { BaseScreenState.OnContent(content = ProductsUiState(response)) }
             }
         }
-    }
 
-
-    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
-        _state.update { BaseScreenState.OnError(error = exception) }
-    }
-
-
-    fun getProducts() {
-        viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
-            val response = productRepository.getProducts(source)
-            _state.update { BaseScreenState.OnContent(content = ProductsUiState(response)) }
-        }
-    }
-
-    fun getProductByCategory() {
-        val categorySource = source.toCategorySource() ?: return
-        if (category == null) return
-        viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
-            val response = categoryRepository.getProductByCategory(
-                source = categorySource,
-                category = category
-            )
-            _state.update { BaseScreenState.OnContent(content = ProductsUiState(response)) }
-        }
-    }
-
-    fun insertProduct(item: Product) {
-        viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
-            val addProductResponse = repository.addProduct(product = item)
-            if (addProductResponse.isSuccess()) {
-                _effects.send(ProductScreenEffects.ProductSaved(context.getString(R.string.product_added)))
+        fun getProductByCategory() {
+            val categorySource = source.toCategorySource() ?: return
+            if (category == null) return
+            viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
+                val response =
+                    categoryRepository.getProductByCategory(
+                        source = categorySource,
+                        category = category,
+                    )
+                _state.update { BaseScreenState.OnContent(content = ProductsUiState(response)) }
             }
         }
-    }
 
-    fun deleteAllProducts() {
-        viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
-            val deleteProductsResult = repository.deleteAllProducts()
-            if (deleteProductsResult.isError()) {
-                _effects.send(ProductScreenEffects.NoProductsToDelete)
-                return@launch
+        fun insertProduct(item: Product) {
+            viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
+                val addProductResponse = repository.addProduct(product = item)
+                if (addProductResponse.isSuccess()) {
+                    _effects.send(ProductScreenEffects.ProductSaved(context.getString(R.string.product_added)))
+                }
             }
-            _effects.send(ProductScreenEffects.ProductsDeletedSuccessfully(context.getString(R.string.products_deleted)))
+        }
+
+        fun deleteAllProducts() {
+            viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
+                val deleteProductsResult = repository.deleteAllProducts()
+                if (deleteProductsResult.isError()) {
+                    _effects.send(ProductScreenEffects.NoProductsToDelete)
+                    return@launch
+                }
+                _effects.send(ProductScreenEffects.ProductsDeletedSuccessfully(context.getString(R.string.products_deleted)))
+            }
+        }
+
+        private suspend fun sendEffect(effect: ProductScreenEffects) {
+            _effects.send(effect)
         }
     }
-
-    private suspend fun sendEffect(effect: ProductScreenEffects) {
-        _effects.send(effect)
-    }
-
-}

@@ -7,22 +7,23 @@ import kotlinx.coroutines.flow.StateFlow
 import javax.inject.Inject
 
 @HiltViewModel
-class MainViewModel @Inject constructor(
-    private val networkMonitor: NetworkMonitor
-) : ViewModel() {
+class MainViewModel
+    @Inject
+    constructor(
+        private val networkMonitor: NetworkMonitor,
+    ) : ViewModel() {
+        val isConnected: StateFlow<Boolean> = networkMonitor.isConnected
 
-    val isConnected: StateFlow<Boolean> = networkMonitor.isConnected
+        init {
+            networkMonitor.register()
+        }
 
-    init {
-        networkMonitor.register()
+        fun checkConnection() {
+            networkMonitor.forceCheck()
+        }
+
+        override fun onCleared() {
+            super.onCleared()
+            networkMonitor.unregister()
+        }
     }
-
-    fun checkConnection() {
-        networkMonitor.forceCheck()
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        networkMonitor.unregister()
-    }
-}

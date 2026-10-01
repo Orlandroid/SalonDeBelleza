@@ -22,7 +22,6 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.example.info.R
 import com.example.core.navigation.info.InfoNavigationScreens
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.components.TextWithArrow
@@ -30,15 +29,14 @@ import com.example.core.ui.components.TextWithArrowConfig
 import com.example.core.ui.components.ToolbarConfiguration
 import com.example.domain.ProductSource
 import com.example.domain.toCategorySource
+import com.example.info.R
 import kotlin.random.Random
 
 @Composable
-fun StoresScreen(
-    navController: NavController
-) {
+fun StoresScreen(navController: NavController) {
     BaseComposeScreen(
         navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.stores))
+        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.stores)),
     ) {
         StoresScreenContent { source ->
             if (source.supportsCategories) {
@@ -55,65 +53,68 @@ fun StoresScreen(
 @Composable
 private fun StoresScreenContent(
     modifier: Modifier = Modifier,
-    goToCategories: (source: ProductSource) -> Unit
+    goToCategories: (source: ProductSource) -> Unit,
 ) {
     Column(
-        modifier.fillMaxSize(), horizontalAlignment = Alignment.CenterHorizontally
+        modifier.fillMaxSize(),
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(setAnimation()))
         Spacer(Modifier.height(32.dp))
         LottieAnimation(
-            modifier = Modifier
-                .height(250.dp)
-                .width(250.dp),
+            modifier =
+                Modifier
+                    .height(250.dp)
+                    .width(250.dp),
             composition = composition,
-            iterations = LottieConstants.IterateForever
+            iterations = LottieConstants.IterateForever,
         )
         StoresMenu(goToStoresList = goToCategories)
     }
 }
 
 @Composable
-private fun StoresMenu(
-    goToStoresList: (source: ProductSource) -> Unit
-) {
+private fun StoresMenu(goToStoresList: (source: ProductSource) -> Unit) {
     LazyColumn(
-        modifier = Modifier
-            .background(Color.White)
-            .fillMaxHeight()
+        modifier =
+            Modifier
+                .background(Color.White)
+                .fillMaxHeight(),
     ) {
         items(stores) { store ->
             Spacer(modifier = Modifier.height(8.dp))
             TextWithArrow(
-                config = TextWithArrowConfig(
-                    text = store.name,
-                    clickOnItem = {
-                        goToStoresList(store.source)
-                    }
-                )
+                config =
+                    TextWithArrowConfig(
+                        text = store.name,
+                        clickOnItem = {
+                            goToStoresList(store.source)
+                        },
+                    ),
             )
         }
     }
 }
 
-private val stores = listOf(
-    Store(
-        name = FAKE_STORE,
-        source = ProductSource.FAKE_STORE
-    ),
-    Store(
-        name = DUMMY_JSON,
-        source = ProductSource.DUMMY_JSON
-    ),
-    Store(
-        name = PLATZY,
-        source = ProductSource.PLATZI
-    ),
-    Store(
-        name = MyDummy,
-        source = ProductSource.MY_DUMMY_API
+private val stores =
+    listOf(
+        Store(
+            name = FAKE_STORE,
+            source = ProductSource.FAKE_STORE,
+        ),
+        Store(
+            name = DUMMY_JSON,
+            source = ProductSource.DUMMY_JSON,
+        ),
+        Store(
+            name = PLATZY,
+            source = ProductSource.PLATZI,
+        ),
+        Store(
+            name = MY_DUMMY,
+            source = ProductSource.MY_DUMMY_API,
+        ),
     )
-)
 
 private fun setAnimation(): Int {
     val random = Random.nextInt(1, 2)

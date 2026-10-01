@@ -10,8 +10,8 @@ import com.example.domain.repository.UserRepository
 import com.example.domain.state.ApiResult
 import com.example.domain.state.getResultOrNull
 import com.example.domain.state.isSuccess
-import com.example.domain.use_cases.SaveAppointmentUseCase
-import com.example.domain.use_cases.loyalty.VerifyPromoCodeUseCase
+import com.example.domain.usecases.SaveAppointmentUseCase
+import com.example.domain.usecases.loyalty.VerifyPromoCodeUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler

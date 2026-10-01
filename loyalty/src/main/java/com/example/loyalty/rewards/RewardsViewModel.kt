@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.loyalty.Reward
 import com.example.domain.repository.LoyaltyRepository
 import com.example.domain.state.ApiResult
-import com.example.domain.use_cases.loyalty.RedeemRewardUseCase
+import com.example.domain.usecases.loyalty.RedeemRewardUseCase
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel

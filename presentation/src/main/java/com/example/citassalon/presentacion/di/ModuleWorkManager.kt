@@ -15,19 +15,18 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object ModuleWorkManager {
-
     private const val TASK_SESSION_MANAGER = "taskSessionManager"
 
     @Provides
     @Singleton
     @Named(TASK_SESSION_MANAGER)
-    fun provideWorkManager(@ApplicationContext context: Context): WorkManager {
-        return WorkManager.getInstance(context)
-    }
+    fun provideWorkManager(
+        @ApplicationContext context: Context,
+    ): WorkManager = WorkManager.getInstance(context)
 
     @Provides
     @Singleton
-    fun provideReminderManager(@ApplicationContext context: Context): ReminderManager {
-        return ReminderManagerImpl(context)
-    }
+    fun provideReminderManager(
+        @ApplicationContext context: Context,
+    ): ReminderManager = ReminderManagerImpl(context)
 }

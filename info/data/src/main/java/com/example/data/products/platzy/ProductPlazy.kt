@@ -1,6 +1,5 @@
 package com.example.data.products.platzy
 
-
 data class ProductPlatzi(
     val id: Int,
     val title: String,
@@ -10,7 +9,7 @@ data class ProductPlatzi(
     val category: Category,
     val images: List<String>,
     val creationAt: String,
-    val updatedAt: String
+    val updatedAt: String,
 )
 
 data class Category(
@@ -19,5 +18,5 @@ data class Category(
     val slug: String,
     val image: String,
     val creationAt: String,
-    val updatedAt: String
+    val updatedAt: String,
 )

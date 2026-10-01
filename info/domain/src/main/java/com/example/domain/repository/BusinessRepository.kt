@@ -6,6 +6,7 @@ import com.example.domain.state.ApiResult
 
 interface BusinessRepository {
     suspend fun getAllProducts(): ApiResult<List<Product>>
+
     suspend fun deleteAllProducts(): ApiResult<Unit>
 
     suspend fun getStaffUsers(): ApiResult<List<User>>

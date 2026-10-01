@@ -3,18 +3,14 @@ package com.example.data.products.dummyjson
 import com.example.domain.Product
 import kotlin.math.roundToLong
 
+fun ProductsResponse.toDomain(): List<Product> = products.map { it.toDomain() }
 
-fun ProductsResponse.toDomain(): List<Product> {
-    return products.map { it.toDomain() }
-}
-
-fun ProductDummyJson.toDomain(): Product {
-    return Product(
+fun ProductDummyJson.toDomain(): Product =
+    Product(
         id = id,
         title = title,
         description = description,
-        price =(price).roundToLong(),
+        price = (price).roundToLong(),
         rating = rating,
-        image = images.firstOrNull() ?: thumbnail
+        image = images.firstOrNull() ?: thumbnail,
     )
-}

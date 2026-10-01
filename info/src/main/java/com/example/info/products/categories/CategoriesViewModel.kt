@@ -24,87 +24,91 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 data class CategoriesUiState(
-    val categories: List<Category> = emptyList()
+    val categories: List<Category> = emptyList(),
 )
 
 sealed class CategoriesEvents {
-    data class OnCategoryClicked(val category: Category) : CategoriesEvents()
+    data class OnCategoryClicked(
+        val category: Category,
+    ) : CategoriesEvents()
 }
 
 sealed class CategoriesEffects {
     data class NavigateToProducts(
         val source: ProductSource,
-        val category: String
+        val category: String,
     ) : CategoriesEffects()
 }
 
 @HiltViewModel(assistedFactory = CategoriesViewModelFactory::class)
-class CategoriesViewModel @AssistedInject constructor(
-    private val categoryRepository: CategoryRepository,
-    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    @Assisted private val source: CategorySource
-) : ViewModel() {
+class CategoriesViewModel
+    @AssistedInject
+    constructor(
+        private val categoryRepository: CategoryRepository,
+        @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+        @Assisted private val source: CategorySource,
+    ) : ViewModel() {
+        private val _effects = Channel<CategoriesEffects>()
+        val effects = _effects.receiveAsFlow()
 
+        private val _state: MutableStateFlow<BaseScreenState<CategoriesUiState>> =
+            MutableStateFlow(BaseScreenState.OnLoading)
+        val state =
+            _state
+                .onStart {
+                    getCategories(source)
+                }.stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(5000L),
+                    BaseScreenState.OnLoading,
+                )
 
-    private val _effects = Channel<CategoriesEffects>()
-    val effects = _effects.receiveAsFlow()
-
-    private val _state: MutableStateFlow<BaseScreenState<CategoriesUiState>> =
-        MutableStateFlow(BaseScreenState.OnLoading)
-    val state = _state.onStart {
-        getCategories(source)
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000L),
-        BaseScreenState.OnLoading
-    )
-
-    fun onEvents(event: CategoriesEvents) {
-        when (event) {
-            is CategoriesEvents.OnCategoryClicked -> {
-                viewModelScope.launch {
-                    _effects.send(
-                        CategoriesEffects.NavigateToProducts(
-                            source = source.toProductSource(),
-                            category = getKindOfCategory(event.category)
+        fun onEvents(event: CategoriesEvents) {
+            when (event) {
+                is CategoriesEvents.OnCategoryClicked -> {
+                    viewModelScope.launch {
+                        _effects.send(
+                            CategoriesEffects.NavigateToProducts(
+                                source = source.toProductSource(),
+                                category = getKindOfCategory(event.category),
+                            ),
                         )
-                    )
+                    }
                 }
             }
         }
-    }
 
-    private fun getKindOfCategory(category: Category): String {
-        return when (source) {
-            CategorySource.FAKE_STORE -> {
-                category.name
+        private fun getKindOfCategory(category: Category): String =
+            when (source) {
+                CategorySource.FAKE_STORE -> {
+                    category.name
+                }
+
+                CategorySource.PLATZI -> {
+                    category.id
+                }
             }
 
-            CategorySource.PLATZI -> {
-                category.id
+        private val coroutineExceptionHandler =
+            CoroutineExceptionHandler { _, exception ->
+                _state.update { BaseScreenState.OnError(error = exception) }
             }
-        }
-    }
 
-    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
-        _state.update { BaseScreenState.OnError(error = exception) }
-    }
-
-    private fun getCategories(source: CategorySource) =
-        viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
-            val categories = categoryRepository.getCategories(source)
-            _state.update {
-                BaseScreenState.OnContent(
-                    content = CategoriesUiState(
-                        categories.map {
-                            Category(
-                                id = it.id,
-                                name = it.name
-                            )
-                        }
+        private fun getCategories(source: CategorySource) =
+            viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
+                val categories = categoryRepository.getCategories(source)
+                _state.update {
+                    BaseScreenState.OnContent(
+                        content =
+                            CategoriesUiState(
+                                categories.map {
+                                    Category(
+                                        id = it.id,
+                                        name = it.name,
+                                    )
+                                },
+                            ),
                     )
-                )
+                }
             }
-        }
-
-}
+    }

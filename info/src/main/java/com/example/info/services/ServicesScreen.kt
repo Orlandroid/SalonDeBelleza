@@ -11,26 +11,18 @@ import com.example.core.ui.components.ToolbarConfiguration
 fun ServicesScreen(navController: NavController) {
     BaseComposeScreen(
         navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(title = "Servicios")
+        toolbarConfiguration = ToolbarConfiguration(title = "Servicios"),
     ) {
         ServicesScreenContent()
     }
-
 }
 
 @Composable
 fun ServicesScreenContent(modifier: Modifier = Modifier) {
-
-
 }
-
 
 @Composable
 @Preview(showBackground = true)
 fun ServicesScreenContentPreview() {
     ServicesScreenContent()
-
 }
-
-
-

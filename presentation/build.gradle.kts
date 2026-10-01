@@ -3,6 +3,7 @@ import com.example.androidbase.presentation.ConfigData.MIN_SDK_VERSION
 import com.example.androidbase.presentation.ConfigData.TARGET_SDK_VERSION
 import com.example.androidbase.presentation.ConfigData.TEST_INSTRUMENTATION_RUNNER
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
     id("com.android.application")
@@ -12,7 +13,7 @@ plugins {
     id("com.google.gms.google-services")
     id("org.jetbrains.kotlin.plugin.compose")
     alias(libs.plugins.kotlin.serialization)
-
+    alias(libs.plugins.ktlint)
 }
 
 android {
@@ -34,13 +35,23 @@ android {
         testInstrumentationRunner = TEST_INSTRUMENTATION_RUNNER
     }
 
+    ktlint {
+        android.set(true)
+        ignoreFailures.set(false)
+        reporters {
+            reporter(ReporterType.PLAIN)
+            reporter(ReporterType.SARIF)
+            reporter(ReporterType.CHECKSTYLE)
+        }
+    }
+
     buildTypes {
         getByName("release") {
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
-                "proguard-rules.pro"
+                "proguard-rules.pro",
             )
         }
     }
@@ -90,10 +101,9 @@ dependencies {
     implementation(libs.androidxWorkRuntimeKtx)
     implementation(libs.androidxStartupRuntime)
 
-    //Compose
+    // Compose
     implementation(platform(libs.composeBom))
     implementation(libs.kotlinSerializationJson)
-
 
     implementation(libs.bundles.composeMaterial)
     implementation(libs.bundles.composeUi)

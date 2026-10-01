@@ -5,5 +5,8 @@ import dagger.assisted.AssistedFactory
 
 @AssistedFactory
 interface ProductDetailViewModelFactory {
-    fun create(source: ProductSource, productId: Int): DetailProductViewModel
+    fun create(
+        source: ProductSource,
+        productId: Int,
+    ): DetailProductViewModel
 }
