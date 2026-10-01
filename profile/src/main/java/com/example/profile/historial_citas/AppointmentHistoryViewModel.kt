@@ -3,7 +3,6 @@ package com.example.profile.historial_citas
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.Appointment
-import com.example.domain.AppointmentStatus
 import com.example.domain.repository.AppointmentsRepository
 import com.example.domain.state.getContent
 import com.example.domain.state.getErrorMessage
@@ -11,6 +10,7 @@ import com.example.domain.state.isError
 import com.example.domain.state.isSuccess
 import com.example.domain.usecases.SubmitAppointmentReviewUseCase
 import com.example.domain.usecases.loyalty.CompleteAppointmentUseCase
+import com.example.model.state.AppointmentStatus
 import com.example.profile.R
 import com.example.profile.historial_citas.AppointmentHistoryEffects.NavigateToDetail
 import dagger.hilt.android.lifecycle.HiltViewModel

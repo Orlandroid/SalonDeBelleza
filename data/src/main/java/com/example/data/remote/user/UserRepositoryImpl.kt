@@ -3,10 +3,10 @@ package com.example.data.remote.user
 
 import com.example.di.qualifiers.UsersRef
 import com.example.domain.UserInfoFirebase
-import com.example.domain.entities.UserRole
 import com.example.domain.entities.remote.User
 import com.example.domain.repository.UserRepository
 import com.example.domain.state.ApiResult
+import com.example.model.state.UserRole
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError

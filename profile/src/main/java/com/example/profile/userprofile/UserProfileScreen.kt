@@ -26,11 +26,8 @@ import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.AdminPanelSettings
 import androidx.compose.material.icons.outlined.ConfirmationNumber
 import androidx.compose.material.icons.outlined.Stars
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -70,11 +67,11 @@ import com.example.core.ui.components.skeletons.UserProfileScreenSkeleton
 import com.example.core.ui.theme.Background
 import com.example.core.util.toCurrencyString
 import com.example.core.util.uriToBitmap
-import com.example.domain.entities.UserRole
 import com.example.domain.loyalty.Loyalty
 import com.example.domain.loyalty.LoyaltyTier
 import com.example.domain.loyalty.PromotionCode
 import com.example.domain.wallet.Currency
+import com.example.model.state.UserRole
 import com.example.profile.R
 
 

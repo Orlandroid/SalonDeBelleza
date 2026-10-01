@@ -2,7 +2,6 @@ package com.example.domain.usecases
 
 import com.example.domain.UserSessionStatus
 import com.example.domain.entities.UserProfile
-import com.example.domain.entities.UserRole
 import com.example.domain.repository.LoyaltyRepository
 import com.example.domain.repository.UserRepository
 import com.example.domain.repository.WalletRepository
@@ -11,6 +10,7 @@ import com.example.domain.state.getContent
 import com.example.domain.state.getErrorMessage
 import com.example.domain.state.getResultOrNull
 import com.example.domain.state.isSuccess
+import com.example.model.state.UserRole
 import javax.inject.Inject
 
 class GetUserInfoUseCase @Inject constructor(

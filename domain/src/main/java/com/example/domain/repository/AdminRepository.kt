@@ -1,8 +1,8 @@
 package com.example.domain.repository
 
 import com.example.domain.AdminAppointmentUiModel
-import com.example.domain.AppointmentStatus
 import com.example.domain.state.ApiResult
+import com.example.model.state.AppointmentStatus
 
 interface AdminRepository {
 

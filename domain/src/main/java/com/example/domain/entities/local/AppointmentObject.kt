@@ -1,6 +1,6 @@
 package com.example.domain.entities.local
 
-import com.example.domain.AppointmentStatus
+import com.example.model.state.AppointmentStatus
 import kotlinx.serialization.Serializable
 
 @Serializable

@@ -4,10 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.AdminAppointmentUiModel
 import com.example.domain.AdminMetrics
-import com.example.domain.AppointmentStatus
 import com.example.domain.repository.AdminRepository
 import com.example.domain.state.getContent
 import com.example.domain.state.isSuccess
+import com.example.model.state.AppointmentStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

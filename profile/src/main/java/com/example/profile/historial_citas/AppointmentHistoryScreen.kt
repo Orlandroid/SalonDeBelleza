@@ -61,13 +61,13 @@ import com.example.core.ui.dialogs.AlertKindOfMessage
 import com.example.core.ui.dialogs.BaseAlertDialogMessages
 import com.example.core.ui.dialogs.IsTwoButtonsAlert
 import com.example.core.ui.dialogs.ProgressDialog
-import com.example.domain.Appointment
-import com.example.domain.AppointmentStatus
-import com.example.profile.R
-import kotlinx.coroutines.flow.collectLatest
+import com.example.core.ui.theme.Canceled
 import com.example.core.ui.theme.Completed
 import com.example.core.ui.theme.Confirmed
-import com.example.core.ui.theme.Canceled
+import com.example.domain.Appointment
+import com.example.model.state.AppointmentStatus
+import com.example.profile.R
+import kotlinx.coroutines.flow.collectLatest
 
 
 @Composable

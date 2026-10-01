@@ -2,12 +2,10 @@ import com.example.androidbase.presentation.ConfigData.MIN_SDK_VERSION
 
 plugins {
     alias(libs.plugins.android.library)
-    alias(libs.plugins.ksp)
-    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {
-    namespace = "com.example.admin"
+    namespace = "com.example.model"
     compileSdk {
         version = release(37)
     }
@@ -21,6 +19,7 @@ android {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
     }
+
 }
 
 dependencies {
@@ -30,13 +29,4 @@ dependencies {
     testImplementation(libs.junit4)
     androidTestImplementation(libs.espressoCore)
     androidTestImplementation(libs.testJunit)
-    implementation(libs.bundles.composeUi)
-    implementation(libs.bundles.compose)
-    implementation(libs.bundles.composeMaterial)
-    implementation(libs.bundles.daggerHilt)
-    ksp(libs.hiltAndroidCompiler)
-    implementation(project(":di"))
-    implementation(project(":domain"))
-    implementation(project(":core"))
-    implementation(project(":core:model"))
 }

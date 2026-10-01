@@ -31,6 +31,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:model"))
     implementation(project(":domain"))
     implementation(project(":di"))
     implementation(libs.androidCoreKtx)

@@ -1,5 +1,7 @@
 package com.example.domain
 
+import com.example.model.state.AppointmentStatus
+
 data class Appointment(
     val idAppointment: String,
     val service: String,
