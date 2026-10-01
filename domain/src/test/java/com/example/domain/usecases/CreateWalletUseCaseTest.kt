@@ -58,7 +58,7 @@ class CreateWalletUseCaseTest {
 
         val response = createWalletUseCase.invoke("fakeUserId")
 
-        coVerify(exactly = 2) { walletRepository.getWallet() }
+        coVerify(exactly = 1) { walletRepository.getWallet() }
         coVerify(exactly = 1) { walletRepository.createWallet(any()) }
         assertThat(response).isInstanceOf(ApiResult.Error::class.java)
     }
