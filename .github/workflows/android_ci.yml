@@ -1,44 +1,97 @@
-
-name: Android CI/CD Pipeline
-
+name: Android CI - Lint, Test & Build
 
 on:
   push:
-    branches: [ "main" ] 
+    branches: [ "main" ]
   pull_request:
-    branches: [ "main" ] 
+    branches: [ "main" ]
 
+env:
+  API_BASE_URL_DUMMY_JSON: ${{ vars.API_BASE_URL_DUMMY_JSON }}
+  API_BASE_URL_BRANCHES: ${{ vars.API_BASE_URL_BRANCHES }}
 
 jobs:
-  build:
-
+  lint:
+    name: Lint
     runs-on: ubuntu-latest
-
-    env:
-      API_BASE_URL_DUMMY_JSON: ${{ vars.API_BASE_URL_DUMMY_JSON }}
-      API_BASE_URL_BRANCHES: ${{ vars.API_BASE_URL_BRANCHES }}
-
     steps:
-      
-      - name: Checkout the code
-        uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v5
 
-
-      - name: Set up JDK 17
+      - name: Set up Java
         uses: actions/setup-java@v4
         with:
-          java-version: '17'
-          distribution: 'temurin'
-          cache: gradle     
+          distribution: temurin
+          java-version: 17
 
-      - name: Grant execute permission for gradlew
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v5
+
+      - name: Make gradlew executable
         run: chmod +x gradlew
 
-      - name: Build with Gradle
-        run: ./gradlew assembleDebug
+      - name: Run ktlint
+        run: ./gradlew ktlintCheck
 
-      - name: Run Unit Tests
+      - name: Upload ktlint report
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ktlint-report
+          path: "**/build/reports/ktlint/"
+
+  test:
+    name: Unit Tests
+    needs: lint
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v5
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      - name: Run unit tests
         run: ./gradlew testDebugUnitTest
+
+      - name: Upload test report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: test-report
+          path: "**/build/reports/tests/"
+
+  build:
+    name: Build APK
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+
+      - name: Set up Gradle
+        uses: gradle/actions/setup-gradle@v5
+
+      - name: Make gradlew executable
+        run: chmod +x gradlew
+
+      - name: Build debug APK
+        run: ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
