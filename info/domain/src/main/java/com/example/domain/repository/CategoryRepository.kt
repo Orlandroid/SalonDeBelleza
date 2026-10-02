@@ -1,6 +1,6 @@
 package com.example.domain.repository
 
-import com.example.domain.CategorySource
+import com.example.model.state.models.CategorySource
 import com.example.domain.Product
 import com.example.domain.entities.products.Category
 

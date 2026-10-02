@@ -54,7 +54,7 @@ import com.example.core.ui.theme.AlwaysWhite
 import com.example.core.ui.theme.Background
 import com.example.core.util.toCurrencyString
 import com.example.domain.Product
-import com.example.domain.ProductSource
+import com.example.model.state.models.ProductSource
 import com.example.info.R
 import com.example.model.state.models.Currency
 import kotlinx.coroutines.flow.collectLatest

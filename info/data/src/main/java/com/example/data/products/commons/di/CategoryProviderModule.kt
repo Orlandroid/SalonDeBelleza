@@ -6,7 +6,7 @@ import com.example.data.products.fakestore.FakeStoreApi
 import com.example.data.products.fakestore.FakeStoreCategoryProvider
 import com.example.data.products.platzy.PlatzyApi
 import com.example.data.products.platzy.PlatzyCategoryProvider
-import com.example.domain.CategorySource
+import com.example.model.state.models.CategorySource
 import dagger.MapKey
 import dagger.Module
 import dagger.Provides

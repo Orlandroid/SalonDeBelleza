@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.core.ui.base.BaseScreenState
 import com.example.di.IoDispatcher
 import com.example.domain.Product
-import com.example.domain.ProductSource
+import com.example.model.state.models.ProductSource
 import com.example.domain.repository.ProductsRepository
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject

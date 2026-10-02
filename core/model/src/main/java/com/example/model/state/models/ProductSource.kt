@@ -1,4 +1,4 @@
-package com.example.domain
+package com.example.model.state.models
 
 enum class ProductSource(val supportsCategories: Boolean) {
     DUMMY_JSON(false),

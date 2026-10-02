@@ -5,7 +5,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.di.IoDispatcher
 import com.example.domain.Product
-import com.example.domain.ProductSource
+import com.example.model.state.models.ProductSource
 import com.example.domain.loyalty.LoyaltyTransactionType
 import com.example.domain.loyalty.PromotionCode
 import com.example.domain.repository.BusinessRepository

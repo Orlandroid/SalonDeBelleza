@@ -1,6 +1,6 @@
 package com.example.core.navigation.info
-import com.example.domain.CategorySource
-import com.example.domain.ProductSource
+import com.example.model.state.models.CategorySource
+import com.example.model.state.models.ProductSource
 import kotlinx.serialization.Serializable
 
 sealed class InfoNavigationScreens {

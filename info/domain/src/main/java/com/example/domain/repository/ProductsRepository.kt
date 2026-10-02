@@ -1,7 +1,7 @@
 package com.example.domain.repository
 
 import com.example.domain.Product
-import com.example.domain.ProductSource
+import com.example.model.state.models.ProductSource
 
 interface ProductsRepository {
     suspend fun getProducts(source: ProductSource): List<Product>

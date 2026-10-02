@@ -1,6 +1,6 @@
 package com.example.info.products.products
 
-import com.example.domain.ProductSource
+import com.example.model.state.models.ProductSource
 import dagger.assisted.AssistedFactory
 
 @AssistedFactory

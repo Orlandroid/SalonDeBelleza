@@ -27,8 +27,8 @@ import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.components.TextWithArrow
 import com.example.core.ui.components.TextWithArrowConfig
 import com.example.core.ui.components.ToolbarConfiguration
-import com.example.domain.ProductSource
-import com.example.domain.toCategorySource
+import com.example.model.state.models.ProductSource
+import com.example.model.state.models.toCategorySource
 import com.example.info.R
 import kotlin.random.Random
 

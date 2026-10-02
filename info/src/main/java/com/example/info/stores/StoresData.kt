@@ -1,6 +1,6 @@
 package com.example.info.stores
 
-import com.example.domain.ProductSource
+import com.example.model.state.models.ProductSource
 
 const val FAKE_STORE = "Fake store"
 const val DUMMY_JSON = "DummyJSON"

@@ -2,7 +2,7 @@ package com.example.data.products
 
 import com.example.data.products.commons.product.ProductProviderResolver
 import com.example.domain.Product
-import com.example.domain.ProductSource
+import com.example.model.state.models.ProductSource
 import com.example.domain.repository.ProductsRepository
 
 class ProductsRepositoryImpl(

@@ -6,11 +6,11 @@ import androidx.lifecycle.viewModelScope
 import com.example.core.ui.base.BaseScreenState
 import com.example.di.IoDispatcher
 import com.example.domain.Product
-import com.example.domain.ProductSource
+import com.example.model.state.models.ProductSource
 import com.example.domain.repository.BusinessRepository
 import com.example.domain.repository.CategoryRepository
 import com.example.domain.repository.ProductsRepository
-import com.example.domain.toCategorySource
+import com.example.model.state.models.toCategorySource
 import com.example.info.R
 import com.example.model.state.isError
 import com.example.model.state.isSuccess

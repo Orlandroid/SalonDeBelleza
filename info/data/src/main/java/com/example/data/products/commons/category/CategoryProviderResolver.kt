@@ -2,7 +2,7 @@ package com.example.data.products.commons.category
 
 import com.example.data.products.fakestore.FakeStoreCategoryProvider
 import com.example.data.products.platzy.PlatzyCategoryProvider
-import com.example.domain.CategorySource
+import com.example.model.state.models.CategorySource
 import javax.inject.Inject
 
 class CategoryProviderResolver
