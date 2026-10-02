@@ -2,7 +2,7 @@ package com.example.domain.usecases
 
 import com.example.domain.entities.remote.User
 import com.example.domain.repository.UserRepository
-import com.example.domain.state.ApiResult
+import com.example.model.state.ApiResult
 import com.google.common.truth.Truth
 import io.mockk.coEvery
 import io.mockk.coVerify

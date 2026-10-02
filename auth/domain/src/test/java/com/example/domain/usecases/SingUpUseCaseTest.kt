@@ -3,7 +3,7 @@ package com.example.domain.usecases
 
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.LoyaltyRepository
-import com.example.domain.state.ApiResult
+import com.example.model.state.ApiResult
 import com.google.firebase.auth.AuthResult
 import io.mockk.coEvery
 import io.mockk.coVerify

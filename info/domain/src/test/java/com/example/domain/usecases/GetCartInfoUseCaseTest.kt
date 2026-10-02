@@ -3,7 +3,7 @@ package com.example.domain.usecases
 import com.example.domain.Product
 import com.example.domain.repository.BusinessRepository
 import com.example.domain.repository.WalletRepository
-import com.example.domain.state.ApiResult
+import com.example.model.state.ApiResult
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
