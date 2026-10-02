@@ -2,10 +2,10 @@ package com.example.auth.sign_up
 
 import app.cash.turbine.test
 import com.example.domain.repository.AuthRepository
-import com.example.domain.state.ApiResult
 import com.example.domain.usecases.SaveUserInformationUseCase
 import com.example.domain.usecases.SingUpUseCase
 import com.example.domain.usecases.ValidateFormSignUpUseCase
+import com.example.model.state.ApiResult
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.every

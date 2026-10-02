@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import com.example.core.ui.base.BaseScreenState
 import com.example.domain.entities.remote.dummyUsers.User
 import com.example.domain.repository.BusinessRepository
-import com.example.domain.state.ApiResult
+import com.example.model.state.ApiResult
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.every

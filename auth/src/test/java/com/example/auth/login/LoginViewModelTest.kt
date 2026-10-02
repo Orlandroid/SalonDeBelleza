@@ -7,8 +7,8 @@ import com.example.domain.interfaces.EmailValidator
 import com.example.domain.interfaces.PasswordValidator
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.UserRepository
-import com.example.domain.state.ApiResult
 import com.example.domain.usecases.LoginUseCase
+import com.example.model.state.ApiResult
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify

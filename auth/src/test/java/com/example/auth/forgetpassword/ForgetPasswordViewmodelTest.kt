@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import com.example.domain.KindOfMessage
 import com.example.domain.interfaces.EmailValidator
 import com.example.domain.repository.AuthRepository
-import com.example.domain.state.ApiResult
+import com.example.model.state.ApiResult
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk

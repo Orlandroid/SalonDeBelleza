@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import com.example.domain.UserPreferences
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.UserRepository
-import com.example.domain.state.ApiResult
+import com.example.model.state.ApiResult
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
