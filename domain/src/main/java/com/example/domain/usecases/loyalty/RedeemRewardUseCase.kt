@@ -1,12 +1,15 @@
 package com.example.domain.usecases.loyalty
 
 
-import com.example.domain.loyalty.*
+import com.example.domain.loyalty.LoyaltyTransaction
+import com.example.domain.loyalty.LoyaltyTransactionType
+import com.example.domain.loyalty.PromotionCode
+import com.example.domain.loyalty.Reward
 import com.example.domain.repository.LoyaltyRepository
-import com.example.domain.state.ApiResult
-import com.example.domain.state.getContent
-import com.example.domain.state.getErrorMessage
-import com.example.domain.state.isError
+import com.example.model.state.ApiResult
+import com.example.model.state.getContent
+import com.example.model.state.getErrorMessage
+import com.example.model.state.isError
 import java.util.UUID
 import javax.inject.Inject
 

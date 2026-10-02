@@ -6,8 +6,8 @@ import com.example.core.ui.base.BaseScreenState
 import com.example.di.IoDispatcher
 import com.example.domain.entities.remote.dummyUsers.User
 import com.example.domain.repository.BusinessRepository
-import com.example.domain.state.getContent
-import com.example.domain.state.isSuccess
+import com.example.model.state.getContent
+import com.example.model.state.isSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler

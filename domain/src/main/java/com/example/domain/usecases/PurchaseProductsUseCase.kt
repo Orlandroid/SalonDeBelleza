@@ -1,11 +1,11 @@
 package com.example.domain.usecases
 
 import com.example.domain.repository.WalletRepository
-import com.example.domain.state.ApiResult
-import com.example.domain.state.getContent
-import com.example.domain.state.isError
 import com.example.domain.transaction.Transaction
 import com.example.domain.transaction.TransactionRepository
+import com.example.model.state.ApiResult
+import com.example.model.state.getContent
+import com.example.model.state.isError
 import com.example.model.state.models.TransactionType
 import java.util.UUID
 import javax.inject.Inject

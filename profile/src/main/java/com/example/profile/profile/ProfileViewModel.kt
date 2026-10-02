@@ -3,11 +3,11 @@ package com.example.profile.profile
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.UserPreferences
-import com.example.domain.repository.AuthRepository
 import com.example.domain.perfil.ProfileItem
+import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.UserRepository
-import com.example.domain.state.getContent
-import com.example.domain.state.isSuccess
+import com.example.model.state.getContent
+import com.example.model.state.isSuccess
 import com.example.profile.ProfileMenuProvider
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel

@@ -7,9 +7,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.core.ui.base.BaseScreenState
 import com.example.domain.loyalty.Loyalty
 import com.example.domain.loyalty.PromotionCode
-import com.example.domain.state.getContent
-import com.example.domain.state.isSuccess
 import com.example.domain.usecases.GetUserInfoUseCase
+import com.example.model.state.getContent
+import com.example.model.state.isSuccess
 import com.example.model.state.models.UserRole
 import com.example.profile.mappers.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel

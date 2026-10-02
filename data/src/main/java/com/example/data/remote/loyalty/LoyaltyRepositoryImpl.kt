@@ -9,7 +9,7 @@ import com.example.domain.loyalty.LoyaltyTransaction
 import com.example.domain.loyalty.PromotionCode
 import com.example.domain.loyalty.Reward
 import com.example.domain.repository.LoyaltyRepository
-import com.example.domain.state.ApiResult
+import com.example.model.state.ApiResult
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference

@@ -4,7 +4,7 @@ import com.example.domain.loyalty.Loyalty
 import com.example.domain.loyalty.LoyaltyTransaction
 import com.example.domain.loyalty.PromotionCode
 import com.example.domain.loyalty.Reward
-import com.example.domain.state.ApiResult
+import com.example.model.state.ApiResult
 import kotlinx.coroutines.flow.Flow
 
 interface LoyaltyRepository {

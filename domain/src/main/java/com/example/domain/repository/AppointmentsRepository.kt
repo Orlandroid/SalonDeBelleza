@@ -5,8 +5,8 @@ import com.example.domain.AppointmentFirebase
 import com.example.domain.entities.local.AppointmentObject
 import com.example.domain.entities.remote.migration.NegoInfo
 import com.example.domain.entities.remote.migration.Service
-import com.example.domain.state.ApiResult
 import com.example.domain.entities.remote.migration.Staff
+import com.example.model.state.ApiResult
 
 interface AppointmentsRepository {
 

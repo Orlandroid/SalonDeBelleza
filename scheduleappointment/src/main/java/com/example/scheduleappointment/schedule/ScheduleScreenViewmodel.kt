@@ -10,8 +10,8 @@ import com.example.domain.AvailabilitySlot
 import com.example.domain.entities.remote.migration.Service
 import com.example.domain.entities.remote.migration.Staff
 import com.example.domain.repository.AppointmentsRepository
-import com.example.domain.state.ApiResult
 import com.example.domain.usecases.GetAvailableSlotsUseCase
+import com.example.model.state.ApiResult
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

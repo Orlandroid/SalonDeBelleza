@@ -3,11 +3,11 @@ package com.example.domain.usecases
 import com.example.domain.UserPreferences
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.UserRepository
-import com.example.domain.state.ApiResult
-import com.example.domain.state.getContent
-import com.example.domain.state.getErrorMessage
-import com.example.domain.state.isError
-import com.example.domain.state.isSuccess
+import com.example.model.state.ApiResult
+import com.example.model.state.getContent
+import com.example.model.state.getErrorMessage
+import com.example.model.state.isError
+import com.example.model.state.isSuccess
 import com.example.model.state.models.UserRole
 import javax.inject.Inject
 

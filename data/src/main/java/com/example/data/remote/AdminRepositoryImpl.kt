@@ -4,8 +4,8 @@ import com.example.di.qualifiers.RootAppointmentsRef
 import com.example.domain.AdminAppointmentUiModel
 import com.example.domain.AppointmentFirebase
 import com.example.domain.repository.AdminRepository
-import com.example.domain.state.ApiResult
 import com.example.domain.toAppointment
+import com.example.model.state.ApiResult
 import com.example.model.state.models.AppointmentStatus
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference

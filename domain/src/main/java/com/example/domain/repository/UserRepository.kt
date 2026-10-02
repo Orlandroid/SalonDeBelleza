@@ -1,7 +1,7 @@
 package com.example.domain.repository
 
 import com.example.domain.entities.remote.User
-import com.example.domain.state.ApiResult
+import com.example.model.state.ApiResult
 
 interface UserRepository {
 

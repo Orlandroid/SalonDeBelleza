@@ -7,7 +7,7 @@ import com.example.data.database.mappers.toProductEntity
 import com.example.domain.Product
 import com.example.domain.entities.remote.dummyUsers.User
 import com.example.domain.repository.BusinessRepository
-import com.example.domain.state.ApiResult
+import com.example.model.state.ApiResult
 import javax.inject.Inject
 
 class DefaultBusinessRepository

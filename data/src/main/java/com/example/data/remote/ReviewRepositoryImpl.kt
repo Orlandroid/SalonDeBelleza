@@ -3,11 +3,11 @@ package com.example.data.remote
 import com.example.di.qualifiers.ReviewsRef
 import com.example.domain.entities.Review
 import com.example.domain.repository.ReviewRepository
-import com.example.domain.state.ApiResult
+import com.example.model.state.ApiResult
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.ktx.getValue
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
-import com.google.firebase.database.ktx.getValue
 
 class ReviewRepositoryImpl @Inject constructor(
     @ReviewsRef private val reviewsRef: DatabaseReference

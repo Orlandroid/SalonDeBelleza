@@ -6,9 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.UserPreferences
 import com.example.domain.interfaces.EmailValidator
 import com.example.domain.interfaces.PasswordValidator
-import com.example.domain.state.getContent
-import com.example.domain.state.isSuccess
 import com.example.domain.usecases.LoginUseCase
+import com.example.model.state.getContent
+import com.example.model.state.isSuccess
 import com.example.model.state.models.UserRole
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Deferred

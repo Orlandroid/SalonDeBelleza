@@ -5,10 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.loyalty.LoyaltyTransaction
 import com.example.domain.repository.LoyaltyRepository
-import com.example.domain.state.ApiResult
+import com.example.model.state.ApiResult
 import com.google.firebase.auth.FirebaseAuth
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.flow.*
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -38,7 +41,6 @@ class LoyaltyHistoryViewModel @Inject constructor(
         val result = repository.getLoyaltyTransactions(userId = userId)
 
         if (result is ApiResult.Success) {
-            // Sort by date (newest first)
             val sortedList = result.result.sortedByDescending { it.createdAt }
             _state.update { it.copy(transactions = sortedList, isLoading = false) }
         } else {

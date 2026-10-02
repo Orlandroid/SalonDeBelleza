@@ -2,9 +2,9 @@ package com.example.domain.usecases.loyalty
 
 import com.example.domain.loyalty.PromotionCode
 import com.example.domain.repository.LoyaltyRepository
-import com.example.domain.state.ApiResult
-import com.example.domain.state.getContent
-import com.example.domain.state.isError
+import com.example.model.state.ApiResult
+import com.example.model.state.getContent
+import com.example.model.state.isError
 import javax.inject.Inject
 
 class VerifyPromoCodeUseCase @Inject constructor(

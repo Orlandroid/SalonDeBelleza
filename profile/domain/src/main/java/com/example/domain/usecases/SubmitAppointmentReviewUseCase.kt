@@ -6,12 +6,12 @@ import com.example.domain.loyalty.LoyaltyTransactionType
 import com.example.domain.repository.AppointmentsRepository
 import com.example.domain.repository.ReviewRepository
 import com.example.domain.repository.UserRepository
-import com.example.domain.state.ApiResult
-import com.example.domain.state.getContent
-import com.example.domain.state.getResultOrNull
-import com.example.domain.state.isError
-import com.example.domain.state.isSuccess
 import com.example.domain.usecases.loyalty.EarnPointsUseCase
+import com.example.model.state.ApiResult
+import com.example.model.state.getContent
+import com.example.model.state.getResultOrNull
+import com.example.model.state.isError
+import com.example.model.state.isSuccess
 import javax.inject.Inject
 
 class SubmitAppointmentReviewUseCase @Inject constructor(

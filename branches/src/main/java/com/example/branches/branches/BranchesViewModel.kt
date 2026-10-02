@@ -7,7 +7,7 @@ import com.example.core.ui.base.BaseScreenState
 import com.example.di.IoDispatcher
 import com.example.domain.entities.remote.migration.NegoInfo
 import com.example.domain.repository.AppointmentsRepository
-import com.example.domain.state.getContent
+import com.example.model.state.getContent
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.CoroutineExceptionHandler

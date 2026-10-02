@@ -1,6 +1,6 @@
 package com.example.domain.transaction
 
-import com.example.domain.state.ApiResult
+import com.example.model.state.ApiResult
 
 
 interface TransactionRepository {

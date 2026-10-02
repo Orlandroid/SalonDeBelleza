@@ -2,8 +2,8 @@ package com.example.data
 
 import com.example.di.qualifiers.WalletReference
 import com.example.domain.repository.WalletRepository
-import com.example.domain.state.ApiResult
 import com.example.domain.wallet.Wallet
+import com.example.model.state.ApiResult
 import com.example.model.state.models.TransactionType
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot

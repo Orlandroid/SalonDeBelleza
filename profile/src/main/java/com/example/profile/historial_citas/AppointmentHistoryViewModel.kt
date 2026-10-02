@@ -4,12 +4,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.Appointment
 import com.example.domain.repository.AppointmentsRepository
-import com.example.domain.state.getContent
-import com.example.domain.state.getErrorMessage
-import com.example.domain.state.isError
-import com.example.domain.state.isSuccess
 import com.example.domain.usecases.SubmitAppointmentReviewUseCase
 import com.example.domain.usecases.loyalty.CompleteAppointmentUseCase
+import com.example.model.state.getContent
+import com.example.model.state.getErrorMessage
+import com.example.model.state.isError
+import com.example.model.state.isSuccess
 import com.example.model.state.models.AppointmentStatus
 import com.example.profile.R
 import com.example.profile.historial_citas.AppointmentHistoryEffects.NavigateToDetail

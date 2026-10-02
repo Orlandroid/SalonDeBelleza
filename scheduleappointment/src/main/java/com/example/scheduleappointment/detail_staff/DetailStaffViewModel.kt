@@ -6,9 +6,9 @@ import com.example.core.AppointmentSession
 import com.example.domain.entities.StaffRatingSummary
 import com.example.domain.entities.remote.migration.Service
 import com.example.domain.entities.remote.migration.Staff
-import com.example.domain.state.getContent
-import com.example.domain.state.isSuccess
 import com.example.domain.usecases.GetStaffRatingUseCase
+import com.example.model.state.getContent
+import com.example.model.state.isSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.flow.MutableStateFlow

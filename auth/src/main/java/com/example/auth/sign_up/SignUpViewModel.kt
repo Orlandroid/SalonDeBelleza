@@ -8,12 +8,12 @@ import com.example.core.util.toStringFormat
 import com.example.di.IoDispatcher
 import com.example.domain.KindOfMessage
 import com.example.domain.entities.remote.User
-import com.example.domain.state.getErrorMessage
-import com.example.domain.state.isError
-import com.example.domain.state.isSuccess
 import com.example.domain.usecases.SaveUserInformationUseCase
 import com.example.domain.usecases.SingUpUseCase
 import com.example.domain.usecases.ValidateFormSignUpUseCase
+import com.example.model.state.getErrorMessage
+import com.example.model.state.isError
+import com.example.model.state.isSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.channels.Channel

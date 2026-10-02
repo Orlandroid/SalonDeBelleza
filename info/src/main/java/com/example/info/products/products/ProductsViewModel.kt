@@ -10,10 +10,10 @@ import com.example.domain.ProductSource
 import com.example.domain.repository.BusinessRepository
 import com.example.domain.repository.CategoryRepository
 import com.example.domain.repository.ProductsRepository
-import com.example.domain.state.isError
-import com.example.domain.state.isSuccess
 import com.example.domain.toCategorySource
 import com.example.info.R
+import com.example.model.state.isError
+import com.example.model.state.isSuccess
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel

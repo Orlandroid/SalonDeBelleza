@@ -3,8 +3,8 @@ package com.example.scheduleappointment.home
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.repository.WalletRepository
-import com.example.domain.state.getContent
-import com.example.domain.state.isSuccess
+import com.example.model.state.getContent
+import com.example.model.state.isSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted

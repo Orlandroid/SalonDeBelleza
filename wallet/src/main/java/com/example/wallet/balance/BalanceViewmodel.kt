@@ -3,10 +3,10 @@ package com.example.wallet.balance
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.ui.base.BaseScreenState
-import com.example.domain.state.getContent
-import com.example.domain.state.getErrorMessage
-import com.example.domain.state.isSuccess
 import com.example.domain.usecases.GetBalanceUseCase
+import com.example.model.state.getContent
+import com.example.model.state.getErrorMessage
+import com.example.model.state.isSuccess
 import com.example.model.state.models.Currency
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow

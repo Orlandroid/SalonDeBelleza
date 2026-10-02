@@ -2,8 +2,10 @@ package com.example.profile.historial_detail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.core.ui.base.BaseScreenState
 import com.example.domain.entities.local.AppointmentObject
-import com.example.domain.state.ApiResult
+import com.example.domain.repository.AppointmentsRepository
+import com.example.model.state.ApiResult
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -13,8 +15,6 @@ import kotlinx.coroutines.flow.onStart
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import com.example.core.ui.base.BaseScreenState
-import com.example.domain.repository.AppointmentsRepository
 
 
 data class HistoryDetailUiState(

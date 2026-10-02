@@ -3,8 +3,8 @@ package com.example.domain.usecases
 
 import com.example.domain.entities.StaffRatingSummary
 import com.example.domain.repository.ReviewRepository
-import com.example.domain.state.ApiResult
-import com.example.domain.state.getContent
+import com.example.model.state.ApiResult
+import com.example.model.state.getContent
 import javax.inject.Inject
 
 class GetStaffRatingUseCase @Inject constructor(

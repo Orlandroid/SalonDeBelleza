@@ -1,9 +1,9 @@
 package com.example.data
 
 import com.example.di.qualifiers.TransactionReference
-import com.example.domain.state.ApiResult
 import com.example.domain.transaction.Transaction
 import com.example.domain.transaction.TransactionRepository
+import com.example.model.state.ApiResult
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.getValue
