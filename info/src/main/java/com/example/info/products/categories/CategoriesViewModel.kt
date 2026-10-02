@@ -4,10 +4,10 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.ui.base.BaseScreenState
 import com.example.di.IoDispatcher
-import com.example.model.state.models.CategorySource
-import com.example.model.state.models.ProductSource
 import com.example.domain.entities.products.Category
 import com.example.domain.repository.CategoryRepository
+import com.example.model.state.models.CategorySource
+import com.example.model.state.models.ProductSource
 import com.example.model.state.models.toProductSource
 import dagger.assisted.Assisted
 import dagger.assisted.AssistedInject

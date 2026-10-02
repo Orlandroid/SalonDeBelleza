@@ -5,7 +5,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.di.IoDispatcher
 import com.example.domain.Product
-import com.example.model.state.models.ProductSource
 import com.example.domain.loyalty.LoyaltyTransactionType
 import com.example.domain.loyalty.PromotionCode
 import com.example.domain.repository.BusinessRepository
@@ -23,6 +22,7 @@ import com.example.model.state.getErrorMessage
 import com.example.model.state.getResultOrNull
 import com.example.model.state.isError
 import com.example.model.state.isSuccess
+import com.example.model.state.models.ProductSource
 import com.example.model.state.models.TransactionType
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext

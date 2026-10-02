@@ -31,9 +31,9 @@ import com.example.core.ui.components.TextWithArrowConfig
 import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.dialogs.ProgressDialog
 import com.example.core.ui.theme.Background
-import com.example.model.state.models.CategorySource
 import com.example.domain.entities.products.Category
 import com.example.info.R
+import com.example.model.state.models.CategorySource
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
