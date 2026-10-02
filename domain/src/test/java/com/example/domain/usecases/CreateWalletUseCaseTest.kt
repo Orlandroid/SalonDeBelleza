@@ -1,8 +1,8 @@
 package com.example.domain.usecases
 
-import com.example.domain.state.ApiResult
 import com.example.domain.wallet.Wallet
 import com.example.domain.repository.WalletRepository
+import com.example.model.state.ApiResult
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify

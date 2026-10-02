@@ -1,12 +1,12 @@
 package com.example.domain.usecases
 
 import com.example.domain.repository.WalletRepository
-import com.example.domain.state.ApiResult
-import com.example.domain.state.getErrorMessage
 import com.example.domain.transaction.TransactionRepository
 import com.example.model.state.models.TransactionType
 import com.example.model.state.models.Currency
 import com.example.domain.wallet.Wallet
+import com.example.model.state.ApiResult
+import com.example.model.state.getErrorMessage
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify

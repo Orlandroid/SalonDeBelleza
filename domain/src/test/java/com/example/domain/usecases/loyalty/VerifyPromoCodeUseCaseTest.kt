@@ -1,7 +1,7 @@
 package com.example.domain.usecases.loyalty
 
 import com.example.domain.repository.LoyaltyRepository
-import com.example.domain.state.ApiResult
+import com.example.model.state.ApiResult
 import com.google.common.truth.Truth
 import io.mockk.coEvery
 import io.mockk.coVerify
