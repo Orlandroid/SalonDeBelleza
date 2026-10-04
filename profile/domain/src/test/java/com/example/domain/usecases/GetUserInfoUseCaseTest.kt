@@ -8,9 +8,9 @@ import com.example.domain.loyalty.PromotionCode
 import com.example.domain.repository.LoyaltyRepository
 import com.example.domain.repository.UserRepository
 import com.example.domain.repository.WalletRepository
-import com.example.domain.state.ApiResult
-import com.example.domain.state.getContent
 import com.example.domain.wallet.Wallet
+import com.example.model.state.ApiResult
+import com.example.model.state.getContent
 import com.google.common.truth.Truth.assertThat
 import com.google.firebase.auth.FirebaseUser
 import io.mockk.coEvery
