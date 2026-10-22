@@ -18,67 +18,52 @@ import com.example.model.state.ApiResult
 import com.example.model.state.getContent
 import com.example.model.state.getErrorMessage
 import com.example.model.state.isError
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.getValue
-import kotlinx.coroutines.suspendCancellableCoroutine
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
-import kotlin.coroutines.resume
 
 class AppointmentsRepositoryImpl @Inject constructor(
     @param:AppointmentsRef private val databaseReference: DatabaseReference,
     @param:MasterScheduleRef private val masterScheduleRef: DatabaseReference,
     private val webServices: WebServices,
     private val isBranchOpenUseCase: IsBranchOpenUseCase
-) :
-    AppointmentsRepository {
-
+) : AppointmentsRepository {
 
     override suspend fun deleteAppointment(idAppointment: String): ApiResult<Any> {
-        try {
+        return runCatching {
             databaseReference.child(idAppointment).removeValue().await()
-            return ApiResult.Success(Any())
-        } catch (e: Exception) {
-            return ApiResult.Error(error = e.message.orEmpty())
+            ApiResult.Success(Any())
+        }.getOrElse {
+            ApiResult.Error(it.message.orEmpty())
         }
     }
 
-
-    override suspend fun getAppointments(): ApiResult<List<Appointment>> =
-        suspendCancellableCoroutine { continuation ->
-            databaseReference.addListenerForSingleValueEvent(
-                object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
-                        val appointments = snapshot.children.mapNotNull { child ->
-                            child.getValue<AppointmentFirebase>()?.toAppointment()
-                        }
-                        continuation.resume(ApiResult.Success(appointments))
-                    }
-
-                    override fun onCancelled(error: DatabaseError) {
-                        continuation.resume(ApiResult.Error(error.toException().toString()))
-                    }
-                }
-            )
-        }
-
-
-    override suspend fun getSingleAppointment(appointmentId: String): ApiResult<AppointmentObject> =
-        suspendCancellableCoroutine { continuation ->
-            databaseReference.child(appointmentId).get().addOnSuccessListener { snapshot ->
-                val appointment = snapshot.getValue<AppointmentFirebase>()?.toAppointmentObject()
-                if (appointment != null) {
-                    continuation.resume(ApiResult.Success(appointment))
-                } else {
-                    continuation.resume(ApiResult.Error("Appointment not found"))
-                }
-            }.addOnFailureListener { exception ->
-                continuation.resume(ApiResult.Error(exception.message ?: "Unknown error"))
+    override suspend fun getAppointments(): ApiResult<List<Appointment>> {
+        return runCatching {
+            val snapshot = databaseReference.get().await()
+            val appointments = snapshot.children.mapNotNull { child ->
+                child.getValue<AppointmentFirebase>()?.toAppointment()
             }
+            ApiResult.Success(appointments)
+        }.getOrElse {
+            ApiResult.Error(it.message.orEmpty())
         }
+    }
+
+    override suspend fun getSingleAppointment(appointmentId: String): ApiResult<AppointmentObject> {
+        return runCatching {
+            val snapshot = databaseReference.child(appointmentId).get().await()
+            val appointment = snapshot.getValue<AppointmentFirebase>()?.toAppointmentObject()
+            if (appointment != null) {
+                ApiResult.Success(appointment)
+            } else {
+                ApiResult.Error("Appointment not found")
+            }
+        }.getOrElse {
+            ApiResult.Error(it.message.orEmpty())
+        }
+    }
 
     override suspend fun getAppointmentById(appointmentId: String): ApiResult<AppointmentFirebase> {
         return runCatching {
@@ -90,17 +75,16 @@ class AppointmentsRepositoryImpl @Inject constructor(
                 ApiResult.Error("Appointment not found")
             }
         }.getOrElse {
-            ApiResult.Error(it.message)
+            ApiResult.Error(it.message.orEmpty())
         }
     }
 
-
     override suspend fun saveAppointment(appointment: AppointmentFirebase): ApiResult<Any> {
-        runCatching {
+        return runCatching {
             databaseReference.child(appointment.idAppointment).setValue(appointment).await()
-            return ApiResult.Success(Any())
+            ApiResult.Success(Any())
         }.getOrElse {
-            return ApiResult.Error(it.message)
+            ApiResult.Error(it.message.orEmpty())
         }
     }
 
@@ -112,7 +96,7 @@ class AppointmentsRepositoryImpl @Inject constructor(
             databaseReference.child(appointmentId).setValue(appointment).await()
             ApiResult.Success(Unit)
         }.getOrElse {
-            ApiResult.Error(it.message)
+            ApiResult.Error(it.message.orEmpty())
         }
     }
 
@@ -162,10 +146,12 @@ class AppointmentsRepositoryImpl @Inject constructor(
             val staff = branch?.staffs?.find { it.name.equals(staffName, ignoreCase = true) }
             val result = if (branch != null && staff != null) {
                 Pair(branch.sucursal.id, staff)
-            } else Pair("", null)
+            } else {
+                Pair("", null)
+            }
             ApiResult.Success(result)
         }.getOrElse {
-            ApiResult.Error(it.message)
+            ApiResult.Error(it.message.orEmpty())
         }
     }
 
@@ -175,7 +161,6 @@ class AppointmentsRepositoryImpl @Inject constructor(
         staffName: String
     ): ApiResult<List<String>> {
         return runCatching {
-
             val snapshot = masterScheduleRef
                 .child(branchName)
                 .child(date.replace("/", "-"))
@@ -186,7 +171,7 @@ class AppointmentsRepositoryImpl @Inject constructor(
             val bookedTimes = snapshot.children.mapNotNull { it.key }
             ApiResult.Success(bookedTimes)
         }.getOrElse {
-            ApiResult.Error(it.message)
+            ApiResult.Error(it.message.orEmpty())
         }
     }
 
@@ -207,9 +192,7 @@ class AppointmentsRepositoryImpl @Inject constructor(
                 .await()
             ApiResult.Success(Unit)
         }.getOrElse {
-            ApiResult.Error(it.message)
+            ApiResult.Error(it.message.orEmpty())
         }
     }
-
-
 }
