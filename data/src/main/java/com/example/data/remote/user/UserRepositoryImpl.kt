@@ -1,6 +1,5 @@
 package com.example.data.remote.user
 
-
 import com.example.di.qualifiers.UsersRef
 import com.example.domain.UserInfoFirebase
 import com.example.domain.entities.remote.User
@@ -8,87 +7,68 @@ import com.example.domain.repository.UserRepository
 import com.example.model.state.ApiResult
 import com.example.model.state.models.UserRole
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.DatabaseReference
-import com.google.firebase.database.ValueEventListener
-import kotlinx.coroutines.suspendCancellableCoroutine
+import com.google.firebase.database.ktx.getValue
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
-import kotlin.coroutines.resume
 
 class UserRepositoryImpl @Inject constructor(
     @param:UsersRef private val databaseReference: DatabaseReference,
     private val firebaseAuth: FirebaseAuth
-) :
-    UserRepository {
+) : UserRepository {
 
-    override suspend fun getUser(): ApiResult<User> =
-        suspendCancellableCoroutine { continuation ->
-
+    override suspend fun getUser(): ApiResult<User> {
+        return runCatching {
             val userId = firebaseAuth.uid
+                ?: return ApiResult.Error("User is not authenticated")
 
-            if (userId == null) {
-                continuation.resume(
-                    ApiResult.Error("User is not authenticated")
-                )
-                return@suspendCancellableCoroutine
+            val snapshot = databaseReference.child(userId).get().await()
+
+            if (!snapshot.exists()) {
+                return ApiResult.Error("User not found")
             }
 
-            databaseReference.child(userId).addListenerForSingleValueEvent(
-                object : ValueEventListener {
-                    override fun onDataChange(snapshot: DataSnapshot) {
+            val userInfo = snapshot.getValue<UserInfoFirebase>()
+                ?: return ApiResult.Error("Unable to parse user info")
 
-                        val userInfo = snapshot.getValue(UserInfoFirebase::class.java)
+            val userRole = if (userInfo.role == "ADMIN") {
+                UserRole.ADMIN
+            } else {
+                UserRole.CUSTOMER
+            }
 
-                        if (userInfo == null) {
-                            continuation.resume(ApiResult.Error(""))
-                            return
-                        }
-                        val userRole = if (userInfo.role == "ADMIN") {
-                            UserRole.ADMIN
-                        } else {
-                            UserRole.CUSTOMER
-                        }
-                        val user = User(
-                            name = userInfo.name,
-                            phone = userInfo.phone,
-                            email = userInfo.email,
-                            password = userInfo.password,
-                            birthDay = userInfo.birthDay,
-                            role = userRole,
-                            uid = userId
-                        )
-                        continuation.resume(
-                            ApiResult.Success(
-                                user
-                            )
-                        )
-                    }
-
-                    override fun onCancelled(error: DatabaseError) {
-                        continuation.resume(ApiResult.Error(error.toException().toString()))
-                    }
-                }
+            val user = User(
+                name = userInfo.name,
+                phone = userInfo.phone,
+                email = userInfo.email,
+                password = userInfo.password,
+                birthDay = userInfo.birthDay,
+                role = userRole,
+                uid = userId
             )
+
+            ApiResult.Success(user)
+        }.getOrElse {
+            ApiResult.Error(it.message.orEmpty())
         }
+    }
 
     override suspend fun getUserImage(): ApiResult<String> {
-        try {
+        return runCatching {
             val snapshot = databaseReference.get().await()
-            val userImage: String = snapshot.getValue(String::class.java) ?: ""
-            return ApiResult.Success(userImage)
-        } catch (e: Exception) {
-            return ApiResult.Error(e.message ?: "Unknown error")
+            val userImage: String = snapshot.getValue<String>() ?: ""
+            ApiResult.Success(userImage)
+        }.getOrElse {
+            ApiResult.Error(it.message.orEmpty())
         }
     }
 
     override suspend fun saveUserImage(imageLikeBase64: String): ApiResult<Any> {
-        try {
+        return runCatching {
             databaseReference.setValue(imageLikeBase64).await()
-            return ApiResult.Success(Any())
-        } catch (e: Exception) {
-            return ApiResult.Error(e.message)
+            ApiResult.Success(Any())
+        }.getOrElse {
+            ApiResult.Error(it.message.orEmpty())
         }
     }
 
@@ -96,12 +76,11 @@ class UserRepositoryImpl @Inject constructor(
         userId: String,
         user: User
     ): ApiResult<Any> {
-        return try {
-            databaseReference.child(userId).setValue(user)
+        return runCatching {
+            databaseReference.child(userId).setValue(user).await()
             ApiResult.Success(Any())
-        } catch (e: Exception) {
-            ApiResult.Error(error = e.message.orEmpty())
+        }.getOrElse {
+            ApiResult.Error(it.message.orEmpty())
         }
     }
-
 }
