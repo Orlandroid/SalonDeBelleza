@@ -47,21 +47,20 @@ import java.util.Locale
 
 @Composable
 fun LoyaltyHistoryScreen(
-    navController: NavHostController,
-    viewModel: LoyaltyHistoryViewModel = hiltViewModel()
+    navController: NavHostController, viewModel: LoyaltyHistoryViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()
 
     BaseComposeScreen(
-        navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(
-            showToolbar = true,
-            title = "Mi Actividad"
+        navController = navController, toolbarConfiguration = ToolbarConfiguration(
+            showToolbar = true, title = "Mi Actividad"
         )
     ) {
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .background(Background)) {
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .background(Background)
+        ) {
             if (uiState.transactions.isEmpty() && !uiState.isLoading) {
                 EmptyHistory()
             } else {
@@ -70,7 +69,7 @@ fun LoyaltyHistoryScreen(
                     contentPadding = PaddingValues(16.dp),
                     verticalArrangement = Arrangement.spacedBy(12.dp)
                 ) {
-                    items(uiState.transactions) { transaction ->
+                    items(items = uiState.transactions, key = { it.id }) { transaction ->
                         TransactionItem(transaction)
                     }
                 }
@@ -92,8 +91,7 @@ private fun TransactionItem(transaction: LoyaltyTransaction) {
         shape = RoundedCornerShape(16.dp)
     ) {
         Row(
-            modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            modifier = Modifier.padding(16.dp), verticalAlignment = Alignment.CenterVertically
         ) {
             Surface(
                 shape = CircleShape,
