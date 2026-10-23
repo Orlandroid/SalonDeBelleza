@@ -102,7 +102,7 @@ private fun ContactUsScreenContent(
             ContactCard(
                 icon = Icons.Default.Call,
                 title = stringResource(R.string.contact_phone),
-                value = "+1 (555) 123-4567",
+                value = stringResource(R.string.contact_phone_value),
                 actionLabel = stringResource(R.string.call_now),
                 onAction = { phone -> callPhone(context, phone) }
             )
@@ -114,7 +114,7 @@ private fun ContactUsScreenContent(
             ContactCard(
                 icon = Icons.Default.Email,
                 title = stringResource(R.string.contact_email),
-                value = "info@salondelabelleza.com",
+                value = stringResource(R.string.contact_email_value),
                 actionLabel = stringResource(R.string.send_email),
                 onAction = { email -> sendEmail(context, email) }
             )
@@ -126,7 +126,7 @@ private fun ContactUsScreenContent(
             ContactCard(
                 icon = Icons.Default.LocationOn,
                 title = stringResource(R.string.contact_location),
-                value = "123 Beauty Street, Fashion City, FC 12345",
+                value = stringResource(R.string.contact_location_value),
                 actionLabel = stringResource(R.string.open_map),
                 onAction = { }
             )
@@ -217,11 +217,20 @@ private fun BusinessHoursSection(modifier: Modifier = Modifier) {
                 modifier = Modifier.padding(bottom = 12.dp)
             )
 
-            BusinessHourRow("Monday - Friday", "9:00 AM - 8:00 PM")
+            BusinessHourRow(
+                day = stringResource(R.string.hours_monday_friday),
+                hours = stringResource(R.string.hours_mon_fri_time)
+            )
             Spacer(modifier = Modifier.height(8.dp))
-            BusinessHourRow("Saturday", "10:00 AM - 6:00 PM")
+            BusinessHourRow(
+                day = stringResource(R.string.hours_saturday),
+                hours = stringResource(R.string.hours_sat_time)
+            )
             Spacer(modifier = Modifier.height(8.dp))
-            BusinessHourRow("Sunday", "11:00 AM - 5:00 PM")
+            BusinessHourRow(
+                day = stringResource(R.string.hours_sunday),
+                hours = stringResource(R.string.hours_sun_time)
+            )
         }
     }
 }
@@ -274,11 +283,11 @@ private fun FollowUsSection(modifier: Modifier = Modifier) {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.Center
             ) {
-                SocialMediaButton(label = "Facebook", onClick = { })
+                SocialMediaButton(label = stringResource(R.string.social_facebook), onClick = { })
                 Spacer(modifier = Modifier.width(8.dp))
-                SocialMediaButton(label = "Instagram", onClick = { })
+                SocialMediaButton(label = stringResource(R.string.social_instagram), onClick = { })
                 Spacer(modifier = Modifier.width(8.dp))
-                SocialMediaButton(label = "Twitter", onClick = { })
+                SocialMediaButton(label = stringResource(R.string.social_twitter), onClick = { })
             }
         }
     }

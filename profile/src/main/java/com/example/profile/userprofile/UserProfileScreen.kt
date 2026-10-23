@@ -205,7 +205,9 @@ private fun UserProfileScreenContent(
 
         userProfileState.loyalty?.let { loyalty ->
             LoyaltySection(
-                loyalty = loyalty,
+                balance = loyalty.balance,
+                lifetimePoints = loyalty.lifetimePoints,
+                tier = loyalty.tier,
                 onRedeem = navigateToLoyalty,
                 onViewHistory = onViewHistory
             )
@@ -220,7 +222,9 @@ private fun UserProfileScreenContent(
 
 @Composable
 private fun LoyaltySection(
-    loyalty: Loyalty,
+    balance: Int,
+    lifetimePoints: Int,
+    tier: LoyaltyTier,
     onViewHistory: () -> Unit,
     onRedeem: () -> Unit
 ) {
@@ -247,7 +251,7 @@ private fun LoyaltySection(
                         color = Color.Black
                     )
                     Text(
-                        text = "${loyalty.tier} Member",
+                        text = "$tier Member",
                         style = MaterialTheme.typography.bodyMedium,
                         color = Color.Gray
                     )
@@ -262,7 +266,7 @@ private fun LoyaltySection(
                     imageVector = Icons.Outlined.Stars,
                     contentDescription = null,
                     modifier = Modifier.size(32.dp),
-                    tint = when (loyalty.tier) {
+                    tint = when (tier) {
                         LoyaltyTier.GOLD -> Color(0xFFFFD700)
                         LoyaltyTier.SILVER -> Color(0xFFC0C0C0)
                         else -> Color(0xFFCD7F32)
@@ -273,7 +277,7 @@ private fun LoyaltySection(
             Spacer(modifier = Modifier.height(16.dp))
 
             Text(
-                text = "${loyalty.balance} ⭐",
+                text = "$balance ⭐",
                 style = MaterialTheme.typography.headlineLarge,
                 fontWeight = FontWeight.ExtraBold,
                 color = MaterialTheme.colorScheme.primary
@@ -281,15 +285,15 @@ private fun LoyaltySection(
 
             Spacer(modifier = Modifier.height(8.dp))
 
-            val nextTier = when (loyalty.tier) {
+            val nextTier = when (tier) {
                 LoyaltyTier.BRONZE -> LoyaltyTier.SILVER
                 LoyaltyTier.SILVER -> LoyaltyTier.GOLD
                 else -> null
             }
 
             if (nextTier != null) {
-                val progress = loyalty.lifetimePoints.toFloat() / nextTier.minPoints.toFloat()
-                val pointsNeeded = nextTier.minPoints - loyalty.lifetimePoints
+                val progress = lifetimePoints.toFloat() / nextTier.minPoints.toFloat()
+                val pointsNeeded = nextTier.minPoints - lifetimePoints
 
                 Column {
                     LinearProgressIndicator(

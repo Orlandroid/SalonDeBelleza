@@ -32,7 +32,9 @@ import com.example.profile.R
 
 @Composable
 fun RatingDialog(
-    staffName: String, onDismiss: () -> Unit, onSubmit: (Int, String) -> Unit
+    staffName: String,
+    onDismiss: () -> Unit,
+    onSubmit: (Int, String) -> Unit
 ) {
     var rating by remember { mutableIntStateOf(5) }
     var comment by remember { mutableStateOf("") }

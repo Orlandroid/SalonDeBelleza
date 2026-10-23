@@ -1,6 +1,7 @@
 package com.example.profile.userprofile
 
 
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -25,6 +26,7 @@ sealed class UserProfileEffects {
     object OpenCamera : UserProfileEffects()
 }
 
+@Stable
 data class UserProfileUiState(
     val name: String? = null,
     val phone: String? = null,
