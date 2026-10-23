@@ -42,6 +42,7 @@ import androidx.navigation.NavHostController
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.components.ToolbarConfiguration
 import com.example.profile.R
+import androidx.core.net.toUri
 
 @Composable
 fun ContactUsScreen(
@@ -307,7 +308,7 @@ private fun SocialMediaButton(
 
 private fun callPhone(context: Context, phone: String) {
     runCatching {
-        val intent = Intent(Intent.ACTION_DIAL, Uri.parse("tel:$phone")).apply {
+        val intent = Intent(Intent.ACTION_DIAL, "tel:$phone".toUri()).apply {
             flags = Intent.FLAG_ACTIVITY_NEW_TASK
         }
         context.startActivity(intent)

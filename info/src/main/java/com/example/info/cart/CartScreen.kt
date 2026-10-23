@@ -317,7 +317,7 @@ private fun ProductItem(
             SubcomposeAsyncImage(
                 modifier = Modifier.size(80.dp),
                 model = product.image,
-                contentDescription = "ImageProduct",
+                contentDescription = stringResource(R.string.cd_image_product),
                 loading = { CircularProgressIndicator(Modifier.padding(16.dp)) },
             )
 
@@ -330,7 +330,7 @@ private fun ProductItem(
                     text = product.title,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium,
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
@@ -338,11 +338,15 @@ private fun ProductItem(
                     style = MaterialTheme.typography.titleMedium,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                QuantityStepper(quantity = product.quantity, onIncrease = {
-                    onEvents(CartEvents.OnIncrease(productId = product.id))
-                }, onDecrease = {
-                    onEvents(CartEvents.OnDecrease(productId = product.id))
-                })
+                QuantityStepper(
+                    quantity = product.quantity,
+                    onIncrease = {
+                        onEvents(CartEvents.OnIncrease(productId = product.id))
+                    },
+                    onDecrease = {
+                        onEvents(CartEvents.OnDecrease(productId = product.id))
+                    },
+                )
             }
 
             IconButton(
@@ -372,7 +376,7 @@ private fun QuantityStepper(
         ) {
             Icon(
                 imageVector = Icons.Default.Remove,
-                contentDescription = "Decrease",
+                contentDescription = stringResource(R.string.cd_decrease),
             )
         }
         Text(
@@ -386,7 +390,7 @@ private fun QuantityStepper(
         ) {
             Icon(
                 imageVector = Icons.Default.Add,
-                contentDescription = "Increase",
+                contentDescription = stringResource(R.string.cd_increase),
             )
         }
     }
@@ -415,7 +419,10 @@ private fun OrderSummarySection(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    Text("Subtotal", style = MaterialTheme.typography.bodyMedium)
+                    Text(
+                        text = stringResource(R.string.subtotal),
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
                     Text(
                         total.toCurrencyString(Currency.USD),
                         style = MaterialTheme.typography.bodyMedium,
@@ -427,7 +434,7 @@ private fun OrderSummarySection(
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Text(
-                        "Descuento (${appliedPromo.discountPercentage}%)",
+                        text = stringResource(R.string.discount_format, appliedPromo.discountPercentage),
                         color = Color(0xFF4CAF50),
                         style = MaterialTheme.typography.bodyMedium,
                     )
@@ -447,7 +454,7 @@ private fun OrderSummarySection(
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(
-                    text = "Total",
+                    text = stringResource(R.string.total),
                     style = MaterialTheme.typography.titleMedium,
                 )
                 val finalTotal =

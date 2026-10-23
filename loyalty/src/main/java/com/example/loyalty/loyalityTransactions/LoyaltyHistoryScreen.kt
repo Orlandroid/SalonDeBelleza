@@ -31,6 +31,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -41,6 +42,7 @@ import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.theme.Background
 import com.example.domain.loyalty.LoyaltyTransaction
 import com.example.domain.loyalty.LoyaltyTransactionType
+import com.example.loyalty.R
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -53,7 +55,7 @@ fun LoyaltyHistoryScreen(
 
     BaseComposeScreen(
         navController = navController, toolbarConfiguration = ToolbarConfiguration(
-            showToolbar = true, title = "Mi Actividad"
+            showToolbar = true, title = stringResource(R.string.my_activity)
         )
     ) {
         Column(
@@ -137,7 +139,10 @@ private fun TransactionItem(transaction: LoyaltyTransaction) {
 @Composable
 private fun EmptyHistory() {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("Aún no tienes movimientos", color = Color.Gray)
+        Text(
+            text = stringResource(R.string.no_activity_yet),
+            color = Color.Gray
+        )
     }
 }
 

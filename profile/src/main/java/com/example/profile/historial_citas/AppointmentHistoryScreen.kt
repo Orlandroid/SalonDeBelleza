@@ -69,7 +69,6 @@ import com.example.model.state.models.AppointmentStatus
 import com.example.profile.R
 import kotlinx.coroutines.flow.collectLatest
 
-
 @Composable
 fun AppointmentHistoryScreen(
     navController: NavHostController,
@@ -100,7 +99,7 @@ fun AppointmentHistoryScreen(
             BaseComposeScreen(
                 navController = navController, toolbarConfiguration = ToolbarConfiguration(
                     showToolbar = true,
-                    title = stringResource(id = R.string.historiasl_de_citas),
+                    title = stringResource(id = R.string.appointment_history),
                 )
             ) {
                 AppointmentHistoryScreenContent(
@@ -297,7 +296,7 @@ private fun ItemAppointment(
                             modifier = Modifier.size(18.dp)
                         )
                         Spacer(Modifier.width(4.dp))
-                        Text("Cancel")
+                        Text(stringResource(R.string.cancel))
                     }
                     Spacer(modifier = Modifier.width(8.dp))
                     TextButton(
@@ -310,7 +309,7 @@ private fun ItemAppointment(
                             modifier = Modifier.size(18.dp)
                         )
                         Spacer(Modifier.width(4.dp))
-                        Text("Complete")
+                        Text(stringResource(R.string.complete))
                     }
                 }
             }

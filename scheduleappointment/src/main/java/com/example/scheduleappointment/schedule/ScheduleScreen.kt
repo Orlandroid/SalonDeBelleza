@@ -25,7 +25,6 @@ import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ElevatedCard
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.FilterChipDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -64,7 +63,6 @@ import com.example.model.state.models.Currency
 import com.example.scheduleappointment.R
 import kotlinx.coroutines.flow.collectLatest
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun ScheduleScreen(
     navController: NavController,
@@ -101,7 +99,6 @@ fun ScheduleScreen(
             onEvents = onEvents,
             state = uiState
         )
-
     }
 }
 
@@ -141,7 +138,6 @@ private fun ScheduleScreenContent(
     }
 }
 
-
 @Composable
 private fun StaffInfo(
     image: String,
@@ -163,7 +159,7 @@ private fun StaffInfo(
         ) {
             AsyncImage(
                 model = image,
-                contentDescription = "Foto de $name",
+                contentDescription = stringResource(R.string.cd_staff_photo, name),
                 modifier = Modifier
                     .size(96.dp)
                     .clip(CircleShape)
@@ -217,7 +213,6 @@ private fun InfoRow(
         )
     }
 }
-
 
 @Composable
 private fun ScheduleInputs(
@@ -333,7 +328,7 @@ private fun InputDate(
             .fillMaxWidth()
             .clickable { clickOnIcon() },
         shape = MaterialTheme.shapes.medium,
-        label = { Text("Appointment date") },
+        label = { Text(stringResource(R.string.appointment_date)) },
         placeholder = { Text(stringResource(id = R.string.add_date)) },
         trailingIcon = {
             Icon(
