@@ -1,5 +1,6 @@
 package com.example.profile.historial_citas
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.Appointment
@@ -25,6 +26,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 
+@Stable
 data class AppointmentHistoryUiState(
     val showReviewDialog: Boolean = false,
     val appointmentToReview: Appointment? = null,

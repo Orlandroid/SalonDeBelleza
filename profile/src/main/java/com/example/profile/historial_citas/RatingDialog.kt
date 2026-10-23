@@ -32,9 +32,7 @@ import com.example.profile.R
 
 @Composable
 fun RatingDialog(
-    staffName: String,
-    onDismiss: () -> Unit,
-    onSubmit: (Int, String) -> Unit
+    staffName: String, onDismiss: () -> Unit, onSubmit: (Int, String) -> Unit
 ) {
     var rating by remember { mutableIntStateOf(5) }
     var comment by remember { mutableStateOf("") }
@@ -43,45 +41,23 @@ fun RatingDialog(
         onDismissRequest = onDismiss,
         title = { Text(text = stringResource(R.string.rate_your_experience)) },
         text = {
-            Column(horizontalAlignment = Alignment.CenterHorizontally) {
-                Text(
-                    text = stringResource(
-                        R.string.service_rating_question, staffName
-                    )
-                )
 
-                Row(modifier = Modifier.padding(vertical = 16.dp)) {
-                    (1..5).forEach { index ->
-                        Icon(
-                            imageVector = if (index <= rating) Icons.Filled.Star else Icons.Default.StarBorder,
-                            contentDescription = null,
-                            tint = if (index <= rating) Color(0xFFFFD700) else Color.Gray,
-                            modifier = Modifier
-                                .size(32.dp)
-                                .clickable { rating = index })
-                    }
+            RatingDialogContent(
+                staffName = staffName,
+                rating = rating,
+                comment = comment,
+                onValueChange = {
+                    comment = it
+                },
+                onRatingChanged = {
+                    rating = it
                 }
-
-                OutlinedTextField(
-                    value = comment,
-                    onValueChange = { comment = it },
-                    label = { Text(text = stringResource(R.string.write_a_comment_optional)) },
-                    modifier = Modifier.fillMaxWidth()
-                )
-
-                Text(
-                    text = stringResource(R.string.earn_stars_for_feedback),
-                    style = MaterialTheme.typography.labelSmall,
-                    color = MaterialTheme.colorScheme.primary,
-                    modifier = Modifier.padding(top = 8.dp)
-                )
-            }
+            )
         },
         confirmButton = {
             Button(onClick = {
                 onSubmit(
-                    rating,
-                    comment
+                    rating, comment
                 )
             }) { Text(text = stringResource(R.string.submit)) }
         },
@@ -91,8 +67,64 @@ fun RatingDialog(
 }
 
 @Composable
+private fun RatingDialogContent(
+    staffName: String,
+    rating: Int,
+    comment: String,
+    onValueChange: (String) -> Unit,
+    onRatingChanged: (Int) -> Unit
+) {
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Text(text = stringResource(R.string.service_rating_question, staffName))
+
+        StartsIcon(rating = rating, onRatingChanged = onRatingChanged)
+
+        InputComment(comment = comment, onValueChange = onValueChange)
+
+        Text(
+            text = stringResource(R.string.earn_stars_for_feedback),
+            style = MaterialTheme.typography.labelSmall,
+            color = MaterialTheme.colorScheme.primary,
+            modifier = Modifier.padding(top = 8.dp)
+        )
+    }
+}
+
+@Composable
+private fun StartsIcon(
+    rating: Int, onRatingChanged: (Int) -> Unit
+) {
+    Row(modifier = Modifier.padding(vertical = 16.dp)) {
+        (1..5).forEach { index ->
+            Icon(
+                imageVector = if (index <= rating) Icons.Filled.Star else Icons.Default.StarBorder,
+                contentDescription = null,
+                tint = if (index <= rating) Color(0xFFFFD700) else Color.Gray,
+                modifier = Modifier
+                    .size(32.dp)
+                    .clickable { onRatingChanged(index) })
+        }
+    }
+}
+
+
+@Composable
+private fun InputComment(
+    comment: String, onValueChange: (String) -> Unit
+) {
+    OutlinedTextField(
+        value = comment,
+        onValueChange = onValueChange,
+        label = { Text(text = stringResource(R.string.write_a_comment_optional)) },
+        modifier = Modifier.fillMaxWidth()
+    )
+}
+
+@Composable
 @Preview(showSystemUi = true)
-private fun RatingDialogContent() {
+private fun RatingDialogContentPreview() {
     RatingDialog(onSubmit = { rating, comment ->
     }, onDismiss = {}, staffName = "John Doe")
 }
