@@ -22,26 +22,3 @@ fun Product.toProductEntity() = ProductEntity(
     rate = rating ?: 0.0
 )
 
-fun CategoryEntity.toStringCategory(): String {
-    return category
-}
-
-fun List<CategoryEntity>.toStringList(): List<String> {
-    val listOfCategoryLikeString = arrayListOf<String>()
-    forEach {
-        listOfCategoryLikeString.add(it.toStringCategory())
-    }
-    return listOfCategoryLikeString
-}
-
-fun String.toCategory(): CategoryEntity {
-    return CategoryEntity(0, this)
-}
-
-fun List<String>.toListCategoriesString(): List<CategoryEntity> {
-    val categories = arrayListOf<CategoryEntity>()
-    forEach {
-        categories.add(it.toCategory())
-    }
-    return categories
-}

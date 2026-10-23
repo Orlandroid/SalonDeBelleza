@@ -1,5 +1,6 @@
 package com.example.info.products.categories
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.ui.base.BaseScreenState

@@ -1,6 +1,7 @@
 package com.example.info.cart
 
 import android.content.Context
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.di.IoDispatcher
@@ -95,6 +96,7 @@ sealed class PurchaseProductsError {
     data object TransactionCreationFailed : PurchaseProductsError()
 }
 
+@Stable
 data class CartUiState(
     val products: List<Product> = emptyList(),
     val userMoney: Long = 0L,

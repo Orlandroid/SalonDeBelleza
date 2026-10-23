@@ -1,5 +1,6 @@
 package com.example.domain
 
+
 data class Product(
     val id: Int,
     val title: String,
@@ -8,7 +9,7 @@ data class Product(
     val rating: Double? = null,
     val image: String? = null,
     val category: String? = null,
-    val quantity: Int = 1,
+    val quantity: Int = 1
 ) {
 
     fun total(): Long {
