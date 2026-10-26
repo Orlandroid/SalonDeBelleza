@@ -66,8 +66,6 @@
     <string name="correo_electronico">correo electronico</string>
     <string name="fecha">fecha</string>
     <string name="iniciar_session">Iniciar session</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="example_email_com">example@email.com</string>
     <string name="aun_no_tienes_registros">Aun no tienes registros</string>
     <string name="producto">Producto</string>
