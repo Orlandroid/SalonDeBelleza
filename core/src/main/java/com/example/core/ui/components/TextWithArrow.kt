@@ -14,6 +14,7 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -67,6 +68,7 @@ fun TextWithArrow(
     }
 }
 
+@Stable
 data class TextWithArrowConfig(
     val text: String,
     val fontSize: TextUnit = 20.sp,

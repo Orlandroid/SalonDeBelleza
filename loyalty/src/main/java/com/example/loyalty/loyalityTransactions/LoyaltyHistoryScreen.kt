@@ -33,6 +33,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -49,7 +50,8 @@ import java.util.Locale
 
 @Composable
 fun LoyaltyHistoryScreen(
-    navController: NavHostController, viewModel: LoyaltyHistoryViewModel = hiltViewModel()
+    navController: NavHostController,
+    viewModel: LoyaltyHistoryViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()
 
@@ -58,22 +60,30 @@ fun LoyaltyHistoryScreen(
             showToolbar = true, title = stringResource(R.string.my_activity)
         )
     ) {
-        Column(
-            modifier = Modifier
-                .fillMaxSize()
-                .background(Background)
-        ) {
-            if (uiState.transactions.isEmpty() && !uiState.isLoading) {
-                EmptyHistory()
-            } else {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    items(items = uiState.transactions, key = { it.id }) { transaction ->
-                        TransactionItem(transaction)
-                    }
+        LoyaltyHistoryScreenContent(uiState = uiState)
+    }
+}
+
+
+@Composable
+private fun LoyaltyHistoryScreenContent(
+    uiState: LoyaltyHistoryUiState
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxSize()
+            .background(Background)
+    ) {
+        if (uiState.transactions.isEmpty() && !uiState.isLoading) {
+            EmptyHistory()
+        } else {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                items(items = uiState.transactions, key = { it.id }) { transaction ->
+                    TransactionItem(transaction)
                 }
             }
         }
@@ -149,4 +159,19 @@ private fun EmptyHistory() {
 private fun formatDate(timestamp: Long): String {
     val sdf = SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault())
     return sdf.format(Date(timestamp))
+}
+
+@Composable
+@Preview(showBackground = true)
+private fun LoyaltyHistoryScreenContentPreview() {
+    LoyaltyHistoryScreenContent(
+        LoyaltyHistoryUiState(
+            transactions = listOf(
+                LoyaltyTransaction(
+                    points = 3800,
+                    description = "Points earned"
+                )
+            )
+        )
+    )
 }

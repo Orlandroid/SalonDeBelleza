@@ -1,5 +1,6 @@
 package com.example.scheduleappointment.schedule_confirmation
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.AppointmentSession
@@ -38,6 +39,7 @@ sealed class ScheduleAppointmentEvents {
     object OnApplyPromoCode : ScheduleAppointmentEvents()
 }
 
+@Stable
 data class ScheduleAppointmentState(
     val branchName: String? = null,
     val staffName: String? = null,

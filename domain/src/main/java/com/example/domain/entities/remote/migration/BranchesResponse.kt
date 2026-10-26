@@ -11,26 +11,7 @@ data class NegoInfo(
     val sucursal: Sucursal,
     val staffs: List<Staff>,
     val services: List<Service>,
-) {
-    companion object {
-
-        fun mockBusinessList() = listOf(
-            mockBusiness(),
-            mockBusiness(),
-            mockBusiness(),
-            mockBusiness(),
-            mockBusiness(),
-            mockBusiness(),
-            mockBusiness(),
-        )
-
-        private fun mockBusiness() = NegoInfo(
-            sucursal = Sucursal.mockBranch(),
-            staffs = Staff.mockStaffList(),
-            services = Service.mockListServices()
-        )
-    }
-}
+)
 
 
 data class Sucursal(
@@ -40,23 +21,7 @@ data class Sucursal(
     var name: String,
     val schedule: Schedule,
     val isOpen: Boolean = false
-) {
-    companion object {
-        fun mockBranch() =
-            Sucursal(
-                id = "",
-                lat = "",
-                long = "",
-                name = "dummyBranch",
-                schedule = Schedule(
-                    morningOpen = "",
-                    morningClose = "",
-                    afternoonOpen = "",
-                    afternoonClose = ""
-                )
-            )
-    }
-}
+)
 
 data class Schedule(
     @SerializedName("morning_open")

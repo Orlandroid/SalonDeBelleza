@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.AppointmentSession
 import com.example.core.ui.base.BaseScreenState
+import com.example.core.ui.base.getContentOrNull
 import com.example.di.IoDispatcher
 import com.example.domain.entities.remote.migration.NegoInfo
 import com.example.domain.repository.AppointmentsRepository
@@ -51,10 +52,13 @@ class BranchViewModel @Inject constructor(
         _state.update { BaseScreenState.OnError(error = exception) }
     }
 
-    fun onBranchSelected(branch: NegoInfo) {
-        appointmentSession.selectBranch(branch)
-        viewModelScope.launch {
-            _effects.send(BranchesEffects.GoToScheduleStaff)
+    fun onBranchSelected(branchId: String) {
+        val branch = state.value.getContentOrNull()?.find { it.sucursal.id == branchId }
+        branch?.let {
+            appointmentSession.selectBranch(branch)
+            viewModelScope.launch {
+                _effects.send(BranchesEffects.GoToScheduleStaff)
+            }
         }
     }
 

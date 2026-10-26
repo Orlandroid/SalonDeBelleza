@@ -65,13 +65,13 @@ fun RewardsScreen(
 
     LaunchedEffect(Unit) {
         viewModel.effects.collectLatest { effect ->
-            when (val it = effect) {
+            when (effect) {
                 is RewardsEffects.ShowSuccess -> {
-                    showSuccessDialog = it
+                    showSuccessDialog = effect
                 }
 
                 is RewardsEffects.ShowError -> {
-                    showErrorDialog = it.message
+                    showErrorDialog = effect.message
                 }
             }
         }
@@ -247,19 +247,8 @@ private fun RewardItem(
             modifier = Modifier.padding(16.dp),
             verticalAlignment = Alignment.CenterVertically
         ) {
-            Surface(
-                shape = RoundedCornerShape(12.dp),
-                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
-                modifier = Modifier.size(56.dp)
-            ) {
-                Box(contentAlignment = Alignment.Center) {
-                    Icon(
-                        Icons.Default.ConfirmationNumber,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary
-                    )
-                }
-            }
+
+            IconConfirmationNumber()
 
             Spacer(modifier = Modifier.width(16.dp))
 
@@ -279,23 +268,49 @@ private fun RewardItem(
                 )
             }
 
-            Button(
-                onClick = onRedeem,
-                enabled = canAfford,
-                shape = RoundedCornerShape(8.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    disabledContainerColor = Color.LightGray
-                )
-            ) {
-                Text(
-                    text =
-                        if (canAfford)
-                            stringResource(R.string.redeem)
-                        else
-                            stringResource(R.string.missing_points)
-                )
-            }
+            RedeemButton(onRedeem = onRedeem, canAfford = canAfford)
+        }
+    }
+}
+
+@Composable
+private fun RedeemButton(
+    onRedeem: () -> Unit,
+    canAfford: Boolean
+) {
+    Button(
+        onClick = onRedeem,
+        enabled = canAfford,
+        shape = RoundedCornerShape(8.dp),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            disabledContainerColor = Color.LightGray
+        )
+    ) {
+        Text(
+            text =
+                if (canAfford)
+                    stringResource(R.string.redeem)
+                else
+                    stringResource(R.string.missing_points)
+        )
+    }
+}
+
+
+@Composable
+private fun IconConfirmationNumber() {
+    Surface(
+        shape = RoundedCornerShape(12.dp),
+        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+        modifier = Modifier.size(56.dp)
+    ) {
+        Box(contentAlignment = Alignment.Center) {
+            Icon(
+                Icons.Default.ConfirmationNumber,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary
+            )
         }
     }
 }
@@ -311,7 +326,7 @@ private fun RewardsScreenContentPreviewSuccess() {
     RewardsScreenContent(
         modifier = Modifier,
         userBalance = 300,
-        rewards = listOf(reward, reward, reward),
+        rewards = listOf(reward.copy(id = "45"), reward, reward.copy(id = "hdhd")),
         onRedeem = {}
     )
 }

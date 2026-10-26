@@ -33,6 +33,7 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
+import com.example.branches.R
 import com.example.core.navigation.info.InfoNavigationScreens
 import com.example.core.navigation.schedule.ScheduleNavigationRoutes
 import com.example.core.ui.base.BaseComposeScreen
@@ -48,8 +49,6 @@ import com.example.core.ui.theme.Background
 import com.example.core.ui.theme.BackgroundListsMainFlow
 import com.example.core.ui.theme.GreenOpen
 import com.example.core.ui.theme.RedClosed
-import com.example.domain.entities.remote.migration.NegoInfo
-import com.example.branches.R
 
 @Composable
 fun BranchesScreen(
@@ -83,9 +82,9 @@ fun BranchesScreen(
                 ) {
                     BranchesScreenContent(
                         modifier = Modifier,
-                        branches = state,
-                        clickOnBranch = { branch ->
-                            branchViewModel.onBranchSelected(branch = branch)
+                        branches = state.toBranchList(),
+                        clickOnBranch = { branchId ->
+                            branchViewModel.onBranchSelected(branchId = branchId)
                         }
                     )
                 }
@@ -101,8 +100,8 @@ fun BranchesScreen(
 @Composable
 private fun BranchesScreenContent(
     modifier: Modifier = Modifier,
-    branches: List<NegoInfo>?,
-    clickOnBranch: (NegoInfo) -> Unit
+    branches: List<Branch>,
+    clickOnBranch: (branchId: String) -> Unit
 ) {
     Column(
         modifier = modifier
@@ -123,18 +122,16 @@ private fun BranchesScreenContent(
             Spacer(modifier = Modifier.weight(1f))
             Text(
                 modifier = Modifier.padding(end = 16.dp),
-                text = "${branches?.size ?: 0} Branches",
+                text = "${branches.size} Branches",
                 fontSize = 20.sp
             )
         }
-        branches?.let {
-            Branches(
-                branches = branches,
-                currentBranch = { chosenBranch ->
-                    clickOnBranch(chosenBranch)
-                }
-            )
-        }
+        Branches(
+            branches = branches,
+            currentBranch = { branchId ->
+                clickOnBranch(branchId)
+            }
+        )
         LongSpacer(orientation = Orientation.VERTICAL)
 
     }
@@ -142,20 +139,20 @@ private fun BranchesScreenContent(
 
 @Composable
 private fun Branches(
-    branches: List<NegoInfo>,
-    currentBranch: (NegoInfo) -> Unit
+    branches: List<Branch>,
+    currentBranch: (branchId: String) -> Unit
 ) {
     LazyColumn {
-        items(items = branches, key = { it.sucursal.id }) { branch ->
+        items(items = branches, key = { it.id }) { branch ->
             BranchItem(
                 config =
                     TextWithArrowConfig(
-                        text = branch.sucursal.name,
+                        text = branch.name,
                         clickOnItem = {
-                            currentBranch(branch)
+                            currentBranch(branch.id)
                         }
                     ),
-                isOpen = branch.sucursal.isOpen
+                isOpen = branch.isOpen
             )
         }
     }
@@ -178,7 +175,7 @@ private fun OpenBadge(isOpen: Boolean) {
 }
 
 @Composable
-fun BranchItem(
+private fun BranchItem(
     config: TextWithArrowConfig,
     isOpen: Boolean
 ) {
@@ -242,9 +239,16 @@ fun BranchItem(
 @Composable
 @Preview(showBackground = true)
 private fun BranchesScreenContentPreview() {
+    val branch = Branch(id = "", name = "Sucursal 1", isOpen = true)
     BranchesScreenContent(
         modifier = Modifier,
-        branches = NegoInfo.mockBusinessList(),
+        branches = listOf(
+            branch,
+            branch.copy(id = "2"),
+            branch.copy(id = "3"),
+            branch.copy(id = "4", isOpen = false),
+            branch.copy(id = "5"),
+        ),
         clickOnBranch = {}
     )
 }

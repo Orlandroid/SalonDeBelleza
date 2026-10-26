@@ -1,6 +1,7 @@
 package com.example.loyalty.loyalityTransactions
 
 
+import androidx.compose.runtime.Stable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.loyalty.LoyaltyTransaction
@@ -15,6 +16,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+@Stable
 data class LoyaltyHistoryUiState(
     val transactions: List<LoyaltyTransaction> = emptyList(),
     val isLoading: Boolean = false,

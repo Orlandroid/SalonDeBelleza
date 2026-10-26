@@ -90,6 +90,7 @@ private fun ScheduleConfirmationScreenContent(
 ) {
     if (uiState.showConfirmationDialog) {
         ConfirmAppointmentDialog(
+            branchName = uiState.branchName.orEmpty(),
             clickOnAccept = {
                 event(ScheduleAppointmentEvents.OnConfirmationAppointmentAccepted)
             },

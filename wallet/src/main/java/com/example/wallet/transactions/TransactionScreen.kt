@@ -88,7 +88,6 @@ fun TransactionsScreen(
 
         }
 
-
         is BaseScreenState.OnError -> {
             BaseErrorScreen()
         }
@@ -130,7 +129,10 @@ private fun TransactionsScreenContent(
 }
 
 @Composable
-private fun ItemTransaction(transaction: Transaction, onClick: () -> Unit) {
+private fun ItemTransaction(
+    transaction: Transaction,
+    onClick: () -> Unit
+) {
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -208,7 +210,6 @@ private fun transactionTypeLabel(type: TransactionType): String = when (type) {
 }
 
 private fun formatTransactionDate(createdAt: Long): String {
-    // Asumiendo epoch millis. Si createdAt viene como 0 (sin fecha real), muestra un fallback.
     if (createdAt <= 0L) return "Sin fecha"
     val sdf = SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault())
     return sdf.format(Date(createdAt))

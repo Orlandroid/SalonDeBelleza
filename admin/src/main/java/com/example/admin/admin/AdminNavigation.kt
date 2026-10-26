@@ -7,14 +7,12 @@ import androidx.navigation.navigation
 import com.example.core.navigation.AppNavigationRoutes
 import com.example.core.navigation.admin.AdminNavigationRoutes
 
-fun NavGraphBuilder.adminNavigationGraph(
-    navController: NavHostController
-) {
+fun NavGraphBuilder.adminNavigationGraph(navController: NavHostController) {
     navigation<AppNavigationRoutes.AdminNavigationRoute>(
         startDestination = AdminNavigationRoutes.AdminDashboardRoute
     ) {
         composable<AdminNavigationRoutes.AdminDashboardRoute> {
-            AdminDashboardScreen(navController)
+            AdminDashboardRoute(navController)
         }
     }
 }

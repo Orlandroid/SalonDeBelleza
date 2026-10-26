@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.RowScope
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -88,7 +89,6 @@ fun WalletScreen(
 
         }
 
-
         is BaseScreenState.OnError -> {
             BaseErrorScreen()
         }
@@ -97,9 +97,7 @@ fun WalletScreen(
 
 @Composable
 private fun WalletScreenContent(
-    state: BalanceUiState,
-    onTopUpClick: () -> Unit = {},
-    onHistoryClick: () -> Unit = {},
+    state: BalanceUiState, onTopUpClick: () -> Unit = {}, onHistoryClick: () -> Unit = {}
 ) {
     Column(
         modifier = Modifier
@@ -119,52 +117,61 @@ private fun WalletScreenContent(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.spacedBy(10.dp)
         ) {
-            Button(
-                onClick = onTopUpClick,
-                modifier = Modifier
-                    .weight(1f)
-                    .height(44.dp),
-                shape = RoundedCornerShape(12.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = StatusBarColor)
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.AddCircle,
-                    contentDescription = null,
-                    modifier = Modifier.size(18.dp)
-                )
-                Spacer(modifier = Modifier.width(6.dp))
-                Text(
-                    text = stringResource(R.string.top_up),
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium
-                )
-            }
-
-            OutlinedButton(
-                onClick = onHistoryClick,
-                modifier = Modifier
-                    .weight(1f)
-                    .height(44.dp),
-                shape = RoundedCornerShape(12.dp)
-            ) {
-                Icon(
-                    imageVector = Icons.Filled.List,
-                    contentDescription = null,
-                    modifier = Modifier.size(18.dp),
-                    tint = TextPrimary
-                )
-                Spacer(modifier = Modifier.width(6.dp))
-                Text(
-                    "History",
-                    fontSize = 14.sp,
-                    fontWeight = FontWeight.Medium,
-                    color = TextPrimary
-                )
-            }
+            TopUpButton(onTopUpClick = onTopUpClick)
+            HistoryButton(onHistoryClick = onHistoryClick)
         }
     }
+}
 
 
+@Composable
+private fun RowScope.HistoryButton(onHistoryClick: () -> Unit) {
+    OutlinedButton(
+        onClick = onHistoryClick,
+        modifier = Modifier
+            .weight(1f)
+            .height(44.dp),
+        shape = RoundedCornerShape(12.dp)
+    ) {
+        Icon(
+            imageVector = Icons.Filled.List,
+            contentDescription = null,
+            modifier = Modifier.size(18.dp),
+            tint = TextPrimary
+        )
+        Spacer(modifier = Modifier.width(6.dp))
+        Text(
+            text = "History",
+            fontSize = 14.sp,
+            fontWeight = FontWeight.Medium,
+            color = TextPrimary
+        )
+    }
+}
+
+
+@Composable
+private fun RowScope.TopUpButton(
+    onTopUpClick: () -> Unit
+) {
+    Button(
+        onClick = onTopUpClick,
+        modifier = Modifier
+            .weight(1f)
+            .height(44.dp),
+        shape = RoundedCornerShape(12.dp),
+        colors = ButtonDefaults.buttonColors(containerColor = StatusBarColor)
+    ) {
+        Icon(
+            imageVector = Icons.Filled.AddCircle,
+            contentDescription = null,
+            modifier = Modifier.size(18.dp)
+        )
+        Spacer(modifier = Modifier.width(6.dp))
+        Text(
+            text = stringResource(R.string.top_up), fontSize = 14.sp, fontWeight = FontWeight.Medium
+        )
+    }
 }
 
 @Composable
@@ -192,8 +199,7 @@ private fun WalletHeader(userName: String) {
             modifier = Modifier
                 .size(38.dp)
                 .clip(CircleShape)
-                .background(StatusBarColor.copy(alpha = 0.12f)),
-            contentAlignment = Alignment.Center
+                .background(StatusBarColor.copy(alpha = 0.12f)), contentAlignment = Alignment.Center
         ) {
             Text(
                 text = initialsFrom(userName),
@@ -239,9 +245,7 @@ private fun WalletBalanceCard(state: BalanceUiState) {
         }
 
         Text(
-            text = state.currency.name,
-            fontSize = 12.sp,
-            color = TextMuted
+            text = state.currency.name, fontSize = 12.sp, color = TextMuted
         )
 
         Spacer(modifier = Modifier.height(18.dp))
@@ -270,9 +274,7 @@ private fun WalletBalanceCard(state: BalanceUiState) {
                 )
             }
             Text(
-                text = "ID •••${state.userId.takeLast(5)}",
-                fontSize = 12.sp,
-                color = TextMuted
+                text = "ID •••${state.userId.takeLast(5)}", fontSize = 12.sp, color = TextMuted
             )
         }
     }
@@ -296,10 +298,7 @@ private fun DashedDivider() {
 }
 
 private fun initialsFrom(name: String): String =
-    name.trim()
-        .split(" ")
-        .filter { it.isNotBlank() }
-        .take(2)
+    name.trim().split(" ").filter { it.isNotBlank() }.take(2)
         .joinToString("") { it.first().uppercase() }
 
 
