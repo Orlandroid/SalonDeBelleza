@@ -54,7 +54,6 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-
 @Composable
 fun TransactionsScreen(
     navController: NavController,
@@ -67,7 +66,6 @@ fun TransactionsScreen(
         }
 
         is BaseScreenState.OnContent -> {
-
             viewState.getContentOrNull()?.let { state ->
                 BaseComposeScreen(
                     toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.transactions)),
@@ -85,14 +83,12 @@ fun TransactionsScreen(
                     )
                 }
             }
-
         }
 
         is BaseScreenState.OnError -> {
             BaseErrorScreen()
         }
     }
-
 }
 
 @Composable
@@ -133,6 +129,7 @@ private fun ItemTransaction(
     transaction: Transaction,
     onClick: () -> Unit
 ) {
+    val noDateText = stringResource(R.string.no_date)
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -162,7 +159,7 @@ private fun ItemTransaction(
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
-                    text = formatTransactionDate(transaction.createdAt),
+                    text = formatTransactionDate(transaction.createdAt, noDateText),
                     style = MaterialTheme.typography.bodySmall,
                     color = Color.Gray
                 )
@@ -188,10 +185,7 @@ private fun TransactionIcon(type: TransactionType) {
     ) {
         val icon = when (type) {
             TransactionType.MARKETPLACE_PURCHASE -> Icons.Default.ShoppingBag
-            TransactionType.UNKNOWN -> Icons.Default.SwapHoriz
-            else -> {
-                Icons.Default.SwapHoriz
-            }
+            else -> Icons.Default.SwapHoriz
         }
         Icon(
             imageVector = icon,
@@ -201,16 +195,14 @@ private fun TransactionIcon(type: TransactionType) {
     }
 }
 
+@Composable
 private fun transactionTypeLabel(type: TransactionType): String = when (type) {
-    TransactionType.MARKETPLACE_PURCHASE -> "Compra en marketplace"
-    TransactionType.UNKNOWN -> "Transacción"
-    else -> {
-        "Transacción"
-    }
+    TransactionType.MARKETPLACE_PURCHASE -> stringResource(R.string.type_marketplace_purchase)
+    else -> stringResource(R.string.type_transaction)
 }
 
-private fun formatTransactionDate(createdAt: Long): String {
-    if (createdAt <= 0L) return "Sin fecha"
+private fun formatTransactionDate(createdAt: Long, noDateText: String): String {
+    if (createdAt <= 0L) return noDateText
     val sdf = SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault())
     return sdf.format(Date(createdAt))
 }
@@ -234,7 +226,6 @@ private fun EmptyTransactions(modifier: Modifier = Modifier) {
         )
     }
 }
-
 
 @Composable
 @Preview(showBackground = true, showSystemUi = true)
