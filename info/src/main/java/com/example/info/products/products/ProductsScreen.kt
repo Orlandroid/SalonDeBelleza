@@ -42,7 +42,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.SubcomposeAsyncImage
-import com.example.core.navigation.info.InfoNavigationScreens
+import com.example.core.navigation.info.InfoNavigationRoutes
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.base.BaseScreenState
 import com.example.core.ui.base.getContentOrNull
@@ -54,9 +54,9 @@ import com.example.core.ui.theme.AlwaysWhite
 import com.example.core.ui.theme.Background
 import com.example.core.util.toCurrencyString
 import com.example.domain.Product
-import com.example.domain.ProductSource
-import com.example.domain.wallet.Currency
 import com.example.info.R
+import com.example.model.state.models.Currency
+import com.example.model.state.models.ProductSource
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -82,12 +82,12 @@ fun ProductsScreen(
                 productsViewModel.effects.collectLatest {
                     when (it) {
                         is ProductScreenEffects.NavigateToCar -> {
-                            navController.navigate(InfoNavigationScreens.CartRoute)
+                            navController.navigate(InfoNavigationRoutes.CartRoute)
                         }
 
                         is ProductScreenEffects.NavigateToProductDetail -> {
                             navController.navigate(
-                                InfoNavigationScreens.DetailProductRoute(
+                                InfoNavigationRoutes.DetailProductRoute(
                                     productId = it.product.id,
                                     source = it.source,
                                 ),

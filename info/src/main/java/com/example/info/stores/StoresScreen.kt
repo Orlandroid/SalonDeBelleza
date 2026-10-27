@@ -22,14 +22,14 @@ import com.airbnb.lottie.compose.LottieAnimation
 import com.airbnb.lottie.compose.LottieCompositionSpec
 import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
-import com.example.core.navigation.info.InfoNavigationScreens
+import com.example.core.navigation.info.InfoNavigationRoutes
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.components.TextWithArrow
 import com.example.core.ui.components.TextWithArrowConfig
 import com.example.core.ui.components.ToolbarConfiguration
-import com.example.domain.ProductSource
-import com.example.domain.toCategorySource
 import com.example.info.R
+import com.example.model.state.models.ProductSource
+import com.example.model.state.models.toCategorySource
 import kotlin.random.Random
 
 @Composable
@@ -41,10 +41,10 @@ fun StoresScreen(navController: NavController) {
         StoresScreenContent { source ->
             if (source.supportsCategories) {
                 source.toCategorySource()?.let { categorySource ->
-                    navController.navigate(InfoNavigationScreens.CategoriesRoute(source = categorySource))
+                    navController.navigate(InfoNavigationRoutes.CategoriesRoute(source = categorySource))
                 }
             } else {
-                navController.navigate(InfoNavigationScreens.ProductsRoute(source = source))
+                navController.navigate(InfoNavigationRoutes.ProductsRoute(source = source))
             }
         }
     }

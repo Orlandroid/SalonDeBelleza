@@ -19,10 +19,10 @@ fun ItemKeyValue(
     textSize: TextUnit = 24.sp,
     separator: String = ":",
     key: String,
-    value: String
+    value: String,
 ) {
     Row(
-        Modifier.fillMaxWidth()
+        Modifier.fillMaxWidth(),
     ) {
         Text(
             style = TextStyle(fontWeight = FontWeight.Bold),
@@ -30,7 +30,7 @@ fun ItemKeyValue(
             fontSize = textSize,
         )
         Spacer(
-            modifier = Modifier.size(24.dp)
+            modifier = Modifier.size(24.dp),
         )
         Text(
             text = value,

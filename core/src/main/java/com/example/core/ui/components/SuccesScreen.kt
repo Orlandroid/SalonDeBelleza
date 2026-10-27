@@ -28,12 +28,12 @@ import com.example.core.ui.theme.AlwaysBlack
 fun SuccessScreen(
     title: String,
     description: String? = null,
-    closeFlow: () -> Unit
+    closeFlow: () -> Unit,
 ) {
     SuccessContent(
         title = title,
         description = description,
-        closeFlow = closeFlow
+        closeFlow = closeFlow,
     )
 }
 
@@ -42,15 +42,15 @@ private fun SuccessContent(
     modifier: Modifier = Modifier,
     title: String,
     description: String?,
-    closeFlow: () -> Unit
+    closeFlow: () -> Unit,
 ) {
     val composition by rememberLottieComposition(
-        LottieCompositionSpec.RawRes(R.raw.login)
+        LottieCompositionSpec.RawRes(R.raw.login),
     )
 
     val progress by animateLottieCompositionAsState(
         composition = composition,
-        iterations = 1
+        iterations = 1,
     )
 
     LaunchedEffect(progress) {
@@ -60,24 +60,26 @@ private fun SuccessContent(
     }
 
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .padding(horizontal = 32.dp),
+        modifier =
+            modifier
+                .fillMaxSize()
+                .padding(horizontal = 32.dp),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         LottieAnimation(
             composition = composition,
-            modifier = Modifier
-                .fillMaxWidth()
-                .height(260.dp)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .height(260.dp),
         )
 
         Text(
             text = title,
             textAlign = TextAlign.Center,
             fontSize = 26.sp,
-            color = AlwaysBlack
+            color = AlwaysBlack,
         )
 
         if (description != null) {
@@ -86,7 +88,7 @@ private fun SuccessContent(
                 textAlign = TextAlign.Center,
                 fontSize = 16.sp,
                 color = Color.Gray,
-                modifier = Modifier.padding(top = 12.dp)
+                modifier = Modifier.padding(top = 12.dp),
             )
         }
     }
@@ -98,6 +100,6 @@ fun SuccesScreenPreview() {
     SuccessScreen(
         title = "Removed",
         description = "Operacion realizada con exito.",
-        closeFlow = { }
+        closeFlow = { },
     )
 }

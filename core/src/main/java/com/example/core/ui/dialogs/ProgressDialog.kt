@@ -13,7 +13,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-
 import com.example.core.ui.components.AppProgress
 
 @Composable
@@ -24,13 +23,15 @@ fun ProgressDialog() {
         Dialog(
             onDismissRequest = {
                 showDialog = false
-            }, DialogProperties(
-                dismissOnBackPress = false, dismissOnClickOutside = false
-            )
+            },
+            DialogProperties(
+                dismissOnBackPress = false,
+                dismissOnClickOutside = false,
+            ),
         ) {
             Surface(
                 modifier = Modifier.size(64.dp),
-                shape = RoundedCornerShape(32.dp)
+                shape = RoundedCornerShape(32.dp),
             ) {
                 AppProgress(strokeWidth = 8.dp)
             }

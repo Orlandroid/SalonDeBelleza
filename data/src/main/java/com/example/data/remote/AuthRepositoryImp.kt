@@ -1,68 +1,58 @@
 package com.example.data.remote
 
 import com.example.domain.repository.AuthRepository
-import com.example.domain.state.ApiResult
+import com.example.model.state.ApiResult
 import com.google.firebase.auth.AuthCredential
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.auth.FirebaseUser
 import kotlinx.coroutines.tasks.await
 
 class AuthRepositoryImp(
-    private val firebaseAuth: FirebaseAuth
+    private val firebaseAuth: FirebaseAuth,
 ) : AuthRepository {
-
-
     override suspend fun login(
         email: String,
-        password: String
-    ): ApiResult<Unit> {
-        return try {
+        password: String,
+    ): ApiResult<Unit> =
+        try {
             firebaseAuth.signInWithEmailAndPassword(email, password).await()
             ApiResult.Success(Unit)
         } catch (e: Exception) {
             ApiResult.Error(e.message ?: "An error occurred")
         }
-    }
 
     override suspend fun register(
         email: String,
-        password: String
-    ): ApiResult<AuthResult> {
-        return try {
+        password: String,
+    ): ApiResult<AuthResult> =
+        try {
             val authResult = firebaseAuth.createUserWithEmailAndPassword(email, password).await()
             ApiResult.Success(authResult)
         } catch (e: Exception) {
             ApiResult.Error(e.message ?: "error registering user")
         }
-    }
 
-    override suspend fun forgetPassword(email: String): ApiResult<Unit> {
-        return try {
+    override suspend fun forgetPassword(email: String): ApiResult<Unit> =
+        try {
             firebaseAuth.sendPasswordResetEmail(email).await()
             ApiResult.Success(Unit)
         } catch (e: Exception) {
             ApiResult.Error(e.message ?: "An error occurred")
         }
-    }
 
-    override suspend fun signInWithCredential(credential: AuthCredential): ApiResult<Unit> {
-        return try {
+    override suspend fun signInWithCredential(credential: AuthCredential): ApiResult<Unit> =
+        try {
             firebaseAuth.signInWithCredential(credential).await()
             ApiResult.Success(Unit)
         } catch (e: Exception) {
             ApiResult.Error(e.message ?: "An error occurred")
         }
-    }
 
-    override suspend fun logout(): ApiResult<Unit> {
-        return try {
+    override suspend fun logout(): ApiResult<Unit> =
+        try {
             firebaseAuth.signOut()
             ApiResult.Success(Unit)
         } catch (e: Exception) {
             ApiResult.Error(e.message ?: "An error occurred")
         }
-    }
-
-
 }

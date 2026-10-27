@@ -3,7 +3,7 @@ package com.example.domain.entities.remote.migration
 import com.google.gson.annotations.SerializedName
 
 data class BranchesResponse(
-    val sucursales: List<NegoInfo>
+    val sucursales: List<NegoInfo>,
 )
 
 data class NegoInfo(
@@ -11,27 +11,7 @@ data class NegoInfo(
     val sucursal: Sucursal,
     val staffs: List<Staff>,
     val services: List<Service>,
-) {
-    companion object {
-
-        fun mockBusinessList() = listOf(
-            mockBusiness(),
-            mockBusiness(),
-            mockBusiness(),
-            mockBusiness(),
-            mockBusiness(),
-            mockBusiness(),
-            mockBusiness(),
-        )
-
-        private fun mockBusiness() = NegoInfo(
-            sucursal = Sucursal.mockBranch(),
-            staffs = Staff.mockStaffList(),
-            services = Service.mockListServices()
-        )
-    }
-}
-
+)
 
 data class Sucursal(
     val id: String,
@@ -39,24 +19,8 @@ data class Sucursal(
     val long: String,
     var name: String,
     val schedule: Schedule,
-    val isOpen: Boolean = false
-) {
-    companion object {
-        fun mockBranch() =
-            Sucursal(
-                id = "",
-                lat = "",
-                long = "",
-                name = "dummyBranch",
-                schedule = Schedule(
-                    morningOpen = "",
-                    morningClose = "",
-                    afternoonOpen = "",
-                    afternoonClose = ""
-                )
-            )
-    }
-}
+    val isOpen: Boolean = false,
+)
 
 data class Schedule(
     @SerializedName("morning_open")
@@ -69,25 +33,24 @@ data class Schedule(
     val afternoonClose: String,
 )
 
-
 data class Service(
     val id: String,
     val name: String,
     val precio: Int,
     val durationInMinutes: Int,
-    var isSelect: Boolean = false
+    var isSelect: Boolean = false,
 ) {
     companion object {
-        private fun mockService() =
-            Service(id = "0", name = "Corte de pelo", precio = 150, durationInMinutes = 30)
+        private fun mockService() = Service(id = "0", name = "Corte de pelo", precio = 150, durationInMinutes = 30)
 
-        fun mockListServices() = listOf(
-            mockService(),
-            mockService().copy(id = "1"),
-            mockService().copy(id = "2"),
-            mockService().copy(id = "3"),
-            mockService().copy(id = "4")
-        )
+        fun mockListServices() =
+            listOf(
+                mockService(),
+                mockService().copy(id = "1"),
+                mockService().copy(id = "2"),
+                mockService().copy(id = "3"),
+                mockService().copy(id = "4"),
+            )
     }
 }
 
@@ -100,18 +63,18 @@ data class Staff(
     @SerializedName("sexo")
     val gender: String,
     @SerializedName("valoracion")
-    val rating: Int
+    val rating: Int,
 ) {
     companion object {
-        fun mockStaff() =
-            Staff(id = "", image_url = "", name = "Orlando", gender = "Hombre", rating = 4)
+        fun mockStaff() = Staff(id = "", image_url = "", name = "Orlando", gender = "Hombre", rating = 4)
 
-        fun mockStaffList() = listOf(
-            mockStaff(),
-            mockStaff(),
-            mockStaff(),
-            mockStaff(),
-            mockStaff(),
-        )
+        fun mockStaffList() =
+            listOf(
+                mockStaff(),
+                mockStaff(),
+                mockStaff(),
+                mockStaff(),
+                mockStaff(),
+            )
     }
 }

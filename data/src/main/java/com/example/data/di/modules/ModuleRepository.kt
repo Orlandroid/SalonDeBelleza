@@ -31,61 +31,55 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 object ModuleRepository {
-
-
     @Singleton
     @Provides
     fun provideAppointmentsRepository(
         @AppointmentsRef databaseReference: DatabaseReference,
         @MasterScheduleRef masterScheduleRef: DatabaseReference,
         api: WebServices,
-        isBranchOpenUseCase: IsBranchOpenUseCase
+        isBranchOpenUseCase: IsBranchOpenUseCase,
     ): AppointmentsRepository =
         AppointmentsRepositoryImpl(
             databaseReference = databaseReference,
             webServices = api,
             isBranchOpenUseCase = isBranchOpenUseCase,
-            masterScheduleRef = masterScheduleRef
+            masterScheduleRef = masterScheduleRef,
         )
 
     @Singleton
     @Provides
     fun provideUserRepository(
         @UsersRef databaseReference: DatabaseReference,
-        firebaseAuth: FirebaseAuth
+        firebaseAuth: FirebaseAuth,
     ): UserRepository =
         UserRepositoryImpl(
             databaseReference = databaseReference,
-            firebaseAuth = firebaseAuth
+            firebaseAuth = firebaseAuth,
         )
 
+    @Singleton
+    @Provides
+    fun provideAuthRepository(firebaseSource: FirebaseAuth): AuthRepository = AuthRepositoryImp(firebaseSource)
 
     @Singleton
     @Provides
-    fun provideAuthRepository(firebaseSource: FirebaseAuth): AuthRepository =
-        AuthRepositoryImp(firebaseSource)
-
-
-    @Singleton
-    @Provides
-    fun provideReviewRepository(@ReviewsRef reviewsRef: DatabaseReference): ReviewRepository =
-        ReviewRepositoryImpl(reviewsRef = reviewsRef)
+    fun provideReviewRepository(
+        @ReviewsRef reviewsRef: DatabaseReference,
+    ): ReviewRepository = ReviewRepositoryImpl(reviewsRef = reviewsRef)
 
     @Singleton
     @Provides
     fun provideAdminRepository(
         @RootAppointmentsRef rootAppointmentsReference: DatabaseReference,
-        firebaseAuth: FirebaseAuth
+        firebaseAuth: FirebaseAuth,
     ): AdminRepository =
         AdminRepositoryImpl(
             firebaseAuth = firebaseAuth,
-            rootAppointmentsReference = rootAppointmentsReference
+            rootAppointmentsReference = rootAppointmentsReference,
         )
-
 
     @Singleton
     @Provides
@@ -93,14 +87,12 @@ object ModuleRepository {
         @LoyaltyRef loyaltyRef: DatabaseReference,
         @LoyaltyTransactionsRef loyaltyTransactionsRef: DatabaseReference,
         @RewardsRef rewardsRef: DatabaseReference,
-        @PromotionCodesRef promotionCodesRef: DatabaseReference
+        @PromotionCodesRef promotionCodesRef: DatabaseReference,
     ): LoyaltyRepository =
         LoyaltyRepositoryImpl(
             loyaltyRef = loyaltyRef,
             loyaltyTransactionsRef = loyaltyTransactionsRef,
             rewardsRef = rewardsRef,
-            promotionCodesRef = promotionCodesRef
+            promotionCodesRef = promotionCodesRef,
         )
-
-
 }

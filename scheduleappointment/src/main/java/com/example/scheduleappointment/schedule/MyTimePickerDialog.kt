@@ -13,7 +13,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.scheduleappointment.R
 import java.util.Calendar
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyTimePickerDialog(
@@ -22,15 +21,16 @@ fun MyTimePickerDialog(
 ) {
     val currentTime = Calendar.getInstance()
 
-    val timePickerState = rememberTimePickerState(
-        initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
-        initialMinute = currentTime.get(Calendar.MINUTE),
-        is24Hour = true,
-    )
+    val timePickerState =
+        rememberTimePickerState(
+            initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
+            initialMinute = currentTime.get(Calendar.MINUTE),
+            is24Hour = true,
+        )
 
     TimePickerDialog(
         onDismiss = { onDismiss() },
-        onConfirm = { onConfirm(timePickerState) }
+        onConfirm = { onConfirm(timePickerState) },
     ) {
         TimePicker(
             state = timePickerState,
@@ -42,7 +42,7 @@ fun MyTimePickerDialog(
 fun TimePickerDialog(
     onDismiss: () -> Unit,
     onConfirm: () -> Unit,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -56,7 +56,7 @@ fun TimePickerDialog(
                 Text(text = stringResource(R.string.ok))
             }
         },
-        text = { content() }
+        text = { content() },
     )
 }
 
@@ -66,6 +66,6 @@ fun TimePickerDialog(
 fun TimePickerDialogPreview() {
     MyTimePickerDialog(
         onDismiss = {},
-        onConfirm = {}
+        onConfirm = {},
     )
 }

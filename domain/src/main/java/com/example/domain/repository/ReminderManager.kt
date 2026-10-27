@@ -4,6 +4,6 @@ interface ReminderManager {
     fun scheduleReminder(
         serviceName: String,
         branchName: String,
-        appointmentDateTime: Long
+        appointmentDateTime: Long,
     )
 }

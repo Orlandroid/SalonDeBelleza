@@ -24,7 +24,7 @@ import com.example.core.ui.theme.StatusBarColor
 @Composable
 fun Toolbar(
     navController: NavController,
-    toolbarConfiguration: ToolbarConfiguration
+    toolbarConfiguration: ToolbarConfiguration,
 ) {
     TopAppBar(
         colors =
@@ -36,7 +36,7 @@ fun Toolbar(
             Text(
                 toolbarConfiguration.title,
                 textAlign = TextAlign.Center,
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxWidth(),
             )
         },
         navigationIcon = {
@@ -45,7 +45,7 @@ fun Toolbar(
                     Icon(
                         tint = AlwaysWhite,
                         imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                        contentDescription = "Go Back"
+                        contentDescription = "Go Back",
                     )
                 }
             }
@@ -53,16 +53,16 @@ fun Toolbar(
         actions = {
             if (toolbarConfiguration.showDeleteIcon) {
                 IconButton(
-                    onClick = toolbarConfiguration.clickOnDeleteIcon
+                    onClick = toolbarConfiguration.clickOnDeleteIcon,
                 ) {
                     Icon(
                         tint = AlwaysWhite,
                         imageVector = Icons.Filled.Delete,
-                        contentDescription = "Go Back"
+                        contentDescription = "Go Back",
                     )
                 }
             }
-        }
+        },
     )
 }
 
@@ -74,18 +74,18 @@ data class ToolbarConfiguration(
     val toolbarTextColor: Color = AlwaysWhite,
     val clickOnBackButton: () -> Unit = {},
     val showDeleteIcon: Boolean = false,
-    val clickOnDeleteIcon: () -> Unit = {}
+    val clickOnDeleteIcon: () -> Unit = {},
 )
-
 
 @Preview(showBackground = true)
 @Composable
 fun SimpleComposablePreview() {
     Toolbar(
         navController = rememberNavController(),
-        toolbarConfiguration = ToolbarConfiguration(
-            title = "Android Developer",
-            showDeleteIcon = true
-        ),
+        toolbarConfiguration =
+            ToolbarConfiguration(
+                title = "Android Developer",
+                showDeleteIcon = true,
+            ),
     )
 }

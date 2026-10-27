@@ -7,8 +7,7 @@ import android.graphics.BitmapFactory
 import android.graphics.ImageDecoder
 import android.net.Uri
 import android.os.Build
-import com.example.domain.wallet.Currency
-
+import com.example.model.state.models.Currency
 
 fun Context.uriToBitmap(uri: Uri): Bitmap? {
     val contentResolver: ContentResolver = contentResolver
@@ -16,29 +15,22 @@ fun Context.uriToBitmap(uri: Uri): Bitmap? {
         val source = ImageDecoder.createSource(contentResolver, uri)
         ImageDecoder.decodeBitmap(source)
     } else {
-        val bitmap = contentResolver.openInputStream(uri)?.use { stream ->
-            Bitmap.createBitmap(BitmapFactory.decodeStream(stream))
-        }
+        val bitmap =
+            contentResolver.openInputStream(uri)?.use { stream ->
+                Bitmap.createBitmap(BitmapFactory.decodeStream(stream))
+            }
         bitmap
     }
 }
 
-fun Long.toCurrencyString(currency: Currency): String {
-    return "$%,.2f %s".format(
+fun Long.toCurrencyString(currency: Currency): String =
+    "$%,.2f %s".format(
         this.toDouble(),
-        currency.name
+        currency.name,
     )
-}
 
-fun Double.toCurrencyString(currency: Currency): String {
-    return "$%,.2f %s".format(
+fun Double.toCurrencyString(currency: Currency): String =
+    "$%,.2f %s".format(
         this,
-        currency.name
+        currency.name,
     )
-}
-
-
-
-
-
-

@@ -11,5 +11,5 @@ data class Review(
     val appointmentId: String = "",
     val rating: Int = 0,
     val comment: String = "",
-    val createdAt: Long = System.currentTimeMillis()
+    val createdAt: Long = System.currentTimeMillis(),
 )

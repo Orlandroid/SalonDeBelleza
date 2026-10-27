@@ -1,12 +1,12 @@
 package com.example.profile.mappers
 
 import androidx.compose.ui.graphics.Color
+import com.example.domain.UserProfile
 import com.example.domain.UserSessionStatus
-import com.example.domain.entities.UserProfile
 import com.example.profile.userprofile.UserProfileUiState
 
-fun UserProfile.toUiState(): UserProfileUiState {
-    return UserProfileUiState(
+fun UserProfile.toUiState(): UserProfileUiState =
+    UserProfileUiState(
         name = name,
         email = email,
         uid = uid,
@@ -16,9 +16,9 @@ fun UserProfile.toUiState(): UserProfileUiState {
         loyalty = loyalty,
         coupons = coupons,
         role = role,
-        statusColor = when (sessionStatus) {
-            UserSessionStatus.ACTIVE -> Color.Green
-            UserSessionStatus.INACTIVE -> Color.Red
-        }
+        statusColor =
+            when (sessionStatus) {
+                UserSessionStatus.ACTIVE -> Color.Green
+                UserSessionStatus.INACTIVE -> Color.Red
+            },
     )
-}

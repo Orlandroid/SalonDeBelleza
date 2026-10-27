@@ -1,16 +1,16 @@
 package com.example.domain.entities.local
 
-import com.example.domain.AppointmentStatus
+import com.example.model.state.models.AppointmentStatus
 import kotlinx.serialization.Serializable
 
 @Serializable
 data class AppointmentObject(
-    var idAppointment: String = "",
-    var establishment: String = "",
-    var employee: String = "",
-    var service: String = "",
-    var date: String = "",
-    var hour: String = "",
-    var total: String = "",
-    var status: AppointmentStatus = AppointmentStatus.CONFIRMED
+    val idAppointment: String = "",
+    val establishment: String = "",
+    val employee: String = "",
+    val service: String = "",
+    val date: String = "",
+    val hour: String = "",
+    val total: String = "",
+    val status: AppointmentStatus = AppointmentStatus.CONFIRMED,
 )

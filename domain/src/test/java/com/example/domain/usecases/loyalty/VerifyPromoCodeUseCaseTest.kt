@@ -1,7 +1,7 @@
 package com.example.domain.usecases.loyalty
 
 import com.example.domain.repository.LoyaltyRepository
-import com.example.domain.state.ApiResult
+import com.example.model.state.ApiResult
 import com.google.common.truth.Truth
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -17,11 +17,9 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class VerifyPromoCodeUseCaseTest {
-
     private lateinit var verifyPromoCodeUseCase: VerifyPromoCodeUseCase
     private val testDispatcher = StandardTestDispatcher()
     private val repository: LoyaltyRepository = mockk()
-
 
     @Before
     fun setUp() {
@@ -34,17 +32,14 @@ class VerifyPromoCodeUseCaseTest {
         Dispatchers.setMain(Dispatchers.Default)
     }
 
-
     @Test
-    fun `when getPromotionCode return ApiResult Error`() = runTest {
+    fun `when getPromotionCode return ApiResult Error`() =
+        runTest {
+            coEvery { repository.getPromotionCodes(any()) } returns ApiResult.Error("error")
 
-        coEvery { repository.getPromotionCodes(any()) } returns ApiResult.Error("error")
+            val response = verifyPromoCodeUseCase.invoke("code", codeStr = "fakecode")
 
-        val response = verifyPromoCodeUseCase.invoke("code", codeStr = "fakecode")
-
-
-        coVerify(exactly = 1) { repository.getPromotionCodes(any()) }
-        Truth.assertThat(response).isInstanceOf(ApiResult.Error::class.java)
-    }
+            coVerify(exactly = 1) { repository.getPromotionCodes(any()) }
+            Truth.assertThat(response).isInstanceOf(ApiResult.Error::class.java)
+        }
 }
-

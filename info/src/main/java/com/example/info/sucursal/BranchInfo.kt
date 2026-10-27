@@ -13,7 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
-import com.example.core.navigation.info.InfoNavigationScreens
+import com.example.core.navigation.info.InfoNavigationRoutes
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.components.TextWithArrow
 import com.example.core.ui.components.TextWithArrowConfig
@@ -28,9 +28,9 @@ fun BranchInfoScreen(navController: NavController) {
         toolbarConfiguration = ToolbarConfiguration(title = "Branch Name"),
     ) {
         BranchInfoScreenContent(
-            goTOServicesScreen = { navController.navigate(InfoNavigationScreens.ServicesRoute) },
-            goToOurStaffScreen = { navController.navigate(InfoNavigationScreens.OurStaffRoute) },
-            goToLocationScreen = { navController.navigate(InfoNavigationScreens.LocationRoute) },
+            goTOServicesScreen = { navController.navigate(InfoNavigationRoutes.ServicesRoute) },
+            goToOurStaffScreen = { navController.navigate(InfoNavigationRoutes.OurStaffRoute) },
+            goToLocationScreen = { navController.navigate(InfoNavigationRoutes.LocationRoute) },
         )
     }
 }

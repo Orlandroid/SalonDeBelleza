@@ -33,24 +33,24 @@ import com.example.core.ui.theme.Info
 import com.example.core.ui.theme.Success
 import com.example.core.ui.theme.Waring
 
-
 @Composable
 fun BaseAlertDialogMessages(
     modifier: Modifier = Modifier,
-    alertDialogMessagesConfig: AlertDialogMessagesConfig = AlertDialogMessagesConfig(
-        title = R.string.title,
-        bodyMessage = stringResource(R.string.message_body),
-        buttonText = R.string.aceptar,
-    ),
-    onDismissRequest: () -> Unit = {}
+    alertDialogMessagesConfig: AlertDialogMessagesConfig =
+        AlertDialogMessagesConfig(
+            title = R.string.title,
+            bodyMessage = stringResource(R.string.message_body),
+            buttonText = R.string.aceptar,
+        ),
+    onDismissRequest: () -> Unit = {},
 ) {
     BaseCustomDialog(
         modifier = modifier,
-        onDismissRequest = onDismissRequest
+        onDismissRequest = onDismissRequest,
     ) {
         BaseAlertDialogMessagesContent(
             onConfirmation = alertDialogMessagesConfig.onConfirmation,
-            alertDialogMessagesConfig = alertDialogMessagesConfig
+            alertDialogMessagesConfig = alertDialogMessagesConfig,
         )
     }
 }
@@ -59,10 +59,10 @@ fun BaseAlertDialogMessages(
 private fun BaseAlertDialogMessagesContent(
     modifier: Modifier = Modifier,
     alertDialogMessagesConfig: AlertDialogMessagesConfig,
-    onConfirmation: () -> Unit
+    onConfirmation: () -> Unit,
 ) {
     Column(
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth(),
     ) {
         AlertTitle(
             kindOfMessage = alertDialogMessagesConfig.kindOfMessage,
@@ -72,10 +72,11 @@ private fun BaseAlertDialogMessagesContent(
         MediumSpacer(orientation = Orientation.VERTICAL)
         Text(
             textAlign = TextAlign.Center,
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(horizontal = 8.dp)
-                .wrapContentHeight(),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp)
+                    .wrapContentHeight(),
             text = alertDialogMessagesConfig.bodyMessage,
             fontSize = 18.sp,
             color = AlwaysBlack,
@@ -85,7 +86,7 @@ private fun BaseAlertDialogMessagesContent(
             modifier = Modifier,
             acceptText = alertDialogMessagesConfig.buttonText,
             isTwoButtonsAlert = alertDialogMessagesConfig.isTwoButtonsAlert,
-            onAccept = onConfirmation
+            onAccept = onConfirmation,
         )
     }
 }
@@ -95,36 +96,38 @@ private fun AlertButtonOrButtons(
     modifier: Modifier = Modifier,
     @StringRes acceptText: Int,
     onAccept: () -> Unit,
-    isTwoButtonsAlert: IsTwoButtonsAlert?
+    isTwoButtonsAlert: IsTwoButtonsAlert?,
 ) {
     if (isTwoButtonsAlert == null) {
         AlertButton(
             modifier = modifier,
             buttonMessage = acceptText,
-            onClick = onAccept
+            onClick = onAccept,
         )
     } else {
         Row(
-            modifier = Modifier
+            modifier = Modifier,
         ) {
             AlertButton(
                 isRounded = true,
-                modifier = modifier
-                    .weight(1f)
-                    .padding(start = 4.dp, bottom = 4.dp),
+                modifier =
+                    modifier
+                        .weight(1f)
+                        .padding(start = 4.dp, bottom = 4.dp),
                 buttonMessage = acceptText,
-                onClick = isTwoButtonsAlert.clickOnAccept
+                onClick = isTwoButtonsAlert.clickOnAccept,
             )
             SmallSpacer(
-                orientation = Orientation.HORIZONTAL
+                orientation = Orientation.HORIZONTAL,
             )
             AlertButton(
                 isRounded = true,
-                modifier = modifier
-                    .weight(1f)
-                    .padding(end = 4.dp, bottom = 4.dp),
+                modifier =
+                    modifier
+                        .weight(1f)
+                        .padding(end = 4.dp, bottom = 4.dp),
                 buttonMessage = isTwoButtonsAlert.cancelText,
-                onClick = isTwoButtonsAlert.clickOnCancel
+                onClick = isTwoButtonsAlert.clickOnCancel,
             )
             SmallSpacer(orientation = Orientation.VERTICAL)
         }
@@ -134,12 +137,14 @@ private fun AlertButtonOrButtons(
 @Composable
 private fun AlertTitle(
     kindOfMessage: AlertKindOfMessage,
-    modifier: Modifier = Modifier, @StringRes title: Int
+    modifier: Modifier = Modifier,
+    @StringRes title: Int,
 ) {
     Card(
-        modifier = modifier
-            .height(48.dp)
-            .fillMaxWidth(),
+        modifier =
+            modifier
+                .height(48.dp)
+                .fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = kindOfMessage.color),
         shape = RectangleShape,
     ) {
@@ -149,7 +154,7 @@ private fun AlertTitle(
             color = AlwaysWhite,
             fontSize = 24.sp,
             text = stringResource(title),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
     }
 }
@@ -159,19 +164,21 @@ private fun AlertButton(
     modifier: Modifier = Modifier,
     isRounded: Boolean = false,
     @StringRes buttonMessage: Int,
-    onClick: () -> Unit
+    onClick: () -> Unit,
 ) {
     Card(
-        modifier = modifier
-            .height(48.dp)
-            .fillMaxWidth()
-            .clickable { onClick.invoke() },
+        modifier =
+            modifier
+                .height(48.dp)
+                .fillMaxWidth()
+                .clickable { onClick.invoke() },
         colors = CardDefaults.cardColors(containerColor = Azul),
-        shape = if (isRounded) {
-            RoundedCornerShape(8.dp)
-        } else {
-            RectangleShape
-        }
+        shape =
+            if (isRounded) {
+                RoundedCornerShape(8.dp)
+            } else {
+                RectangleShape
+            },
     ) {
         SmallSpacer(orientation = Orientation.VERTICAL)
         Text(
@@ -179,11 +186,10 @@ private fun AlertButton(
             color = AlwaysWhite,
             fontSize = 24.sp,
             text = stringResource(buttonMessage),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
     }
 }
-
 
 @Composable
 @Preview(showBackground = true)
@@ -197,15 +203,21 @@ fun BaseAlertDialogPreviewTwoButton() {
     BaseAlertDialogMessages(
         modifier = Modifier,
         onDismissRequest = {},
-        alertDialogMessagesConfig = AlertDialogMessagesConfig(
-            bodyMessage = "Error al crear el usuario",
-            isTwoButtonsAlert = IsTwoButtonsAlert(clickOnCancel = {})
-        )
+        alertDialogMessagesConfig =
+            AlertDialogMessagesConfig(
+                bodyMessage = "Error al crear el usuario",
+                isTwoButtonsAlert = IsTwoButtonsAlert(clickOnCancel = {}),
+            ),
     )
 }
 
-enum class AlertKindOfMessage(val color: Color) {
-    SUCCESS(Success), WARING(Waring), ERROR(Danger), INFO(Info)
+enum class AlertKindOfMessage(
+    val color: Color,
+) {
+    SUCCESS(Success),
+    WARING(Waring),
+    ERROR(Danger),
+    INFO(Info),
 }
 
 data class AlertDialogMessagesConfig(
@@ -214,7 +226,7 @@ data class AlertDialogMessagesConfig(
     @param:StringRes val buttonText: Int = R.string.aceptar,
     val kindOfMessage: AlertKindOfMessage = AlertKindOfMessage.INFO,
     val onConfirmation: () -> Unit = {},
-    val isTwoButtonsAlert: IsTwoButtonsAlert? = null
+    val isTwoButtonsAlert: IsTwoButtonsAlert? = null,
 )
 
 data class IsTwoButtonsAlert(
@@ -223,4 +235,3 @@ data class IsTwoButtonsAlert(
     @param:StringRes val cancelText: Int = R.string.cancelar_alert,
     val clickOnCancel: () -> Unit,
 )
-

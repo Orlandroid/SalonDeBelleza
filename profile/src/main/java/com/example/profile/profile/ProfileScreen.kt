@@ -36,26 +36,26 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavHostController
 import com.example.core.navigation.profile.ProfileNavigationRoutes
-import com.example.profile.R
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.base.MediumSpacer
 import com.example.core.ui.base.Orientation
 import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.dialogs.AlertDialogMessagesConfig
+import com.example.core.ui.dialogs.AlertKindOfMessage
 import com.example.core.ui.dialogs.BaseAlertDialogMessages
 import com.example.core.ui.dialogs.IsTwoButtonsAlert
-import com.example.core.ui.dialogs.AlertKindOfMessage
 import com.example.core.ui.theme.Background
 import com.example.domain.perfil.MENU
 import com.example.domain.perfil.ProfileItem
 import com.example.profile.ProfileMenuProvider
+import com.example.profile.R
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
 fun ProfileScreen(
     navController: NavHostController,
     onCloseApp: () -> Unit,
-    profileViewModel: ProfileViewModel = hiltViewModel()
+    profileViewModel: ProfileViewModel = hiltViewModel(),
 ) {
     val onEvents = profileViewModel::onEvents
     val uiState by profileViewModel.uiState.collectAsStateWithLifecycle()
@@ -86,13 +86,15 @@ fun ProfileScreen(
     }
     BaseComposeScreen(
         navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(
-            showToolbar = true,
-            isWithBackIcon = true,
-            title = stringResource(
-                id = R.string.perfil
-            )
-        )
+        toolbarConfiguration =
+            ToolbarConfiguration(
+                showToolbar = true,
+                isWithBackIcon = true,
+                title =
+                    stringResource(
+                        id = R.string.perfil,
+                    ),
+            ),
     ) {
         ProfileScreenContent(
             modifier = Modifier,
@@ -127,28 +129,27 @@ fun ProfileScreen(
     }
 }
 
-
 @Composable
-private fun DialogCloseSession(
-    onEvents: (event: ProfileEvents) -> Unit
-) {
+private fun DialogCloseSession(onEvents: (event: ProfileEvents) -> Unit) {
     BaseAlertDialogMessages(
         onDismissRequest = {
             onEvents(ProfileEvents.OnDismissDialog)
         },
-        alertDialogMessagesConfig = AlertDialogMessagesConfig(
-            title = R.string.cerrar_session,
-            bodyMessage = stringResource(R.string.seguro_que_deseas_cerrar_sesion),
-            kindOfMessage = AlertKindOfMessage.WARING,
-            isTwoButtonsAlert = IsTwoButtonsAlert(
-                clickOnCancel = {
-                    onEvents(ProfileEvents.OnCancel)
-                },
-                clickOnAccept = {
-                    onEvents(ProfileEvents.OnConfirmClicked)
-                }
-            )
-        )
+        alertDialogMessagesConfig =
+            AlertDialogMessagesConfig(
+                title = R.string.cerrar_session,
+                bodyMessage = stringResource(R.string.seguro_que_deseas_cerrar_sesion),
+                kindOfMessage = AlertKindOfMessage.WARING,
+                isTwoButtonsAlert =
+                    IsTwoButtonsAlert(
+                        clickOnCancel = {
+                            onEvents(ProfileEvents.OnCancel)
+                        },
+                        clickOnAccept = {
+                            onEvents(ProfileEvents.OnConfirmClicked)
+                        },
+                    ),
+            ),
     )
 }
 
@@ -157,45 +158,49 @@ private fun ProfileScreenContent(
     modifier: Modifier = Modifier,
     email: String,
     elementsProfile: List<ProfileItem>,
-    clickOnItemProfile: (ProfileItem) -> Unit = {}
+    clickOnItemProfile: (ProfileItem) -> Unit = {},
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Background)
+        modifier =
+            modifier
+                .fillMaxSize()
+                .background(Background),
     ) {
         Box(
-            modifier = Modifier
-                .fillMaxHeight(0.4f)
-                .fillMaxWidth()
+            modifier =
+                Modifier
+                    .fillMaxHeight(0.4f)
+                    .fillMaxWidth(),
         ) {
             Image(
-                modifier = Modifier
-                    .size(100.dp)
-                    .align(Alignment.Center),
+                modifier =
+                    Modifier
+                        .size(100.dp)
+                        .align(Alignment.Center),
                 painter = painterResource(id = R.drawable.perfil),
                 contentDescription = null,
             )
             Text(
-                modifier = Modifier
-                    .align(Alignment.TopCenter)
-                    .padding(top = 24.dp),
+                modifier =
+                    Modifier
+                        .align(Alignment.TopCenter)
+                        .padding(top = 24.dp),
                 text = email,
                 fontSize = 20.sp,
             )
         }
         LazyColumn(
-            modifier = Modifier
-                .border(
-                    shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
-                    border = BorderStroke(0.dp, Color.White)
-                )
-                .background(Color.White)
-                .fillMaxHeight()
+            modifier =
+                Modifier
+                    .border(
+                        shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
+                        border = BorderStroke(0.dp, Color.White),
+                    ).background(Color.White)
+                    .fillMaxHeight(),
         ) {
             items(
                 items = elementsProfile,
-                key = { it.nameResId }
+                key = { it.nameResId },
             ) { mProfile ->
                 ItemProfile(elementProfile = mProfile) {
                     clickOnItemProfile(mProfile)
@@ -205,30 +210,31 @@ private fun ProfileScreenContent(
     }
 }
 
-
 @Composable
 private fun ItemProfile(
     elementProfile: ProfileItem,
-    clickOnItem: () -> Unit
+    clickOnItem: () -> Unit,
 ) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
         shape = RoundedCornerShape(16.dp),
-        onClick = { clickOnItem.invoke() }
+        onClick = { clickOnItem.invoke() },
     ) {
         Row(
             modifier = Modifier,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             MediumSpacer(orientation = Orientation.HORIZONTAL)
             Image(
-                modifier = Modifier
-                    .height(50.dp)
-                    .width(50.dp),
+                modifier =
+                    Modifier
+                        .height(50.dp)
+                        .width(50.dp),
                 painter = painterResource(id = elementProfile.image),
-                contentDescription = null
+                contentDescription = null,
             )
             MediumSpacer(orientation = Orientation.HORIZONTAL)
             Text(text = stringResource(id = elementProfile.nameResId), fontSize = 20.sp)
@@ -237,10 +243,9 @@ private fun ItemProfile(
                 modifier = Modifier.padding(end = 16.dp),
                 painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_24),
                 contentDescription = null,
-                tint = Color.Black
+                tint = Color.Black,
             )
         }
-
     }
 }
 
@@ -249,6 +254,6 @@ private fun ItemProfile(
 private fun ProfileScreenPreview() {
     ProfileScreenContent(
         email = "android@gmail.com",
-        elementsProfile = ProfileMenuProvider.getMenusProfile()
+        elementsProfile = ProfileMenuProvider.getMenusProfile(),
     )
 }

@@ -4,7 +4,7 @@ import com.example.data.products.dummyjson.DummyJsonProductProvider
 import com.example.data.products.fakestore.FakeStoreProductProvider
 import com.example.data.products.mydummyapi.MyDummyProductProvider
 import com.example.data.products.platzy.PlatzyProductProvider
-import com.example.domain.ProductSource
+import com.example.model.state.models.ProductSource
 import javax.inject.Inject
 
 class ProductProviderResolver

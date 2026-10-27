@@ -2,7 +2,6 @@ package com.example.domain
 
 import com.example.domain.entities.local.AppointmentObject
 
-
 fun AppointmentFirebase.toAppointmentObject(): AppointmentObject {
     val idAppointment = this.idAppointment
     val establishment = this.establishment

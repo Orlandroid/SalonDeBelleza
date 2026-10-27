@@ -1,6 +1,6 @@
 package com.example.domain.entities.remote
 
-import com.example.domain.entities.UserRole
+import com.example.model.state.models.UserRole
 
 data class User(
     val uid: String,
@@ -9,5 +9,5 @@ data class User(
     val email: String,
     val password: String,
     val birthDay: String,
-    val role: UserRole = UserRole.CUSTOMER
+    val role: UserRole = UserRole.CUSTOMER,
 )

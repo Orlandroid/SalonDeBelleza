@@ -51,13 +51,13 @@ import com.airbnb.lottie.compose.LottieConstants
 import com.airbnb.lottie.compose.rememberLottieComposition
 import com.example.auth.R
 import com.example.auth.forgetpassword.ForgetPasswordDialog
-import com.example.core.navigation.auth.AuthNavigationRoutes
 import com.example.core.navigation.AppNavigationRoutes
+import com.example.core.navigation.auth.AuthNavigationRoutes
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.dialogs.AlertDialogMessagesConfig
-import com.example.core.ui.dialogs.BaseAlertDialogMessages
 import com.example.core.ui.dialogs.AlertKindOfMessage
+import com.example.core.ui.dialogs.BaseAlertDialogMessages
 import com.example.core.ui.theme.Background
 import com.example.core.ui.theme.Danger
 import kotlinx.coroutines.flow.collectLatest
@@ -66,7 +66,7 @@ import kotlinx.coroutines.flow.collectLatest
 fun LoginScreen(
     navController: NavController,
     onCloseApplication: () -> Unit,
-    viewModel: LoginViewModel = hiltViewModel()
+    viewModel: LoginViewModel = hiltViewModel(),
 ) {
     BackHandler {
         onCloseApplication()
@@ -100,26 +100,27 @@ fun LoginScreen(
     }
     BaseComposeScreen(
         navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(showToolbar = false)
+        toolbarConfiguration = ToolbarConfiguration(showToolbar = false),
     ) {
         if (uiState.showDialogForgetPassword) {
             ForgetPasswordDialog(
                 onDismissRequest = {
                     viewModel.onEvents(LoginEvents.OnCloseDialogForgetPassword)
-                }
+                },
             )
         }
         if (uiState.showDialogPasswordOrEmailWrong) {
-            val config = AlertDialogMessagesConfig(
-                kindOfMessage = AlertKindOfMessage.ERROR,
-                title = R.string.error,
-                bodyMessage = stringResource(R.string.error_invalid_user_or_password),
-                onConfirmation = {
-                    viewModel.onEvents(LoginEvents.OnCloseErrorDialog)
-                }
-            )
+            val config =
+                AlertDialogMessagesConfig(
+                    kindOfMessage = AlertKindOfMessage.ERROR,
+                    title = R.string.error,
+                    bodyMessage = stringResource(R.string.error_invalid_user_or_password),
+                    onConfirmation = {
+                        viewModel.onEvents(LoginEvents.OnCloseErrorDialog)
+                    },
+                )
             BaseAlertDialogMessages(
-                alertDialogMessagesConfig = config
+                alertDialogMessagesConfig = config,
             )
         }
         LoginScreenContent(
@@ -129,7 +130,7 @@ fun LoginScreen(
             },
             clearFocus = {
                 focusManager.clearFocus()
-            }
+            },
         )
     }
 }
@@ -139,47 +140,49 @@ private fun LoginScreenContent(
     modifier: Modifier = Modifier,
     uiState: LoginUiState,
     onEvents: (LoginEvents) -> Unit,
-    clearFocus: () -> Unit
+    clearFocus: () -> Unit,
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Background)
-            .padding(8.dp)
-            .clickable {
-                clearFocus()
-            },
+        modifier =
+            modifier
+                .fillMaxSize()
+                .background(Background)
+                .padding(8.dp)
+                .clickable {
+                    clearFocus()
+                },
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         ImageLogin()
         InputUserName(
             userName = uiState.userName,
             showErrorUserName = uiState.showErrorUserName,
-            onEvents = onEvents
+            onEvents = onEvents,
         )
         InputPassword(
             userPassword = uiState.password,
             isPasswordVisible = uiState.showPassword,
             showPasswordError = uiState.showErrorPassword,
-            onEvents = onEvents
+            onEvents = onEvents,
         )
         CheckRememberUser(
             checkedState = uiState.rememberUserName,
-            onEvents = onEvents
+            onEvents = onEvents,
         )
         Spacer(modifier = Modifier.height(16.dp))
         LoginButton(
             isEnableButton = uiState.isButtonLoginEnable,
             onEvents = onEvents,
-            isLoading = uiState.isLoading
+            isLoading = uiState.isLoading,
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
-            modifier = Modifier.clickable {
-                onEvents(LoginEvents.OnForgetPasswordClick)
-            },
-            text = stringResource(id = R.string.olvidaste_contraseña)
+            modifier =
+                Modifier.clickable {
+                    onEvents(LoginEvents.OnForgetPasswordClick)
+                },
+            text = stringResource(id = R.string.olvidaste_contraseña),
         )
         Spacer(modifier = Modifier.height(16.dp))
         TextOr()
@@ -196,18 +199,19 @@ private fun ImageLogin() {
         Image(
             painter = painterResource(id = R.drawable.logo),
             contentDescription = null,
-            modifier = Modifier.size(150.dp)
+            modifier = Modifier.size(150.dp),
         )
     } else {
         val composition by rememberLottieComposition(
-            LottieCompositionSpec.RawRes(R.raw.login_icon)
+            LottieCompositionSpec.RawRes(R.raw.login_icon),
         )
         LottieAnimation(
             enableMergePaths = true,
             iterations = LottieConstants.IterateForever,
             composition = composition,
-            modifier = Modifier
-                .size(150.dp)
+            modifier =
+                Modifier
+                    .size(150.dp),
         )
     }
 }
@@ -217,12 +221,13 @@ private fun InputUserName(
     modifier: Modifier = Modifier,
     userName: String,
     showErrorUserName: Boolean,
-    onEvents: (LoginEvents) -> Unit
+    onEvents: (LoginEvents) -> Unit,
 ) {
     OutlinedTextField(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(0.dp, 20.dp, 0.dp, 0.dp),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(0.dp, 20.dp, 0.dp, 0.dp),
         value = userName,
         onValueChange = {
             onEvents(LoginEvents.OnUserNameChange(name = it))
@@ -238,7 +243,7 @@ private fun InputUserName(
                 Text(text = stringResource(R.string.error_email), color = Danger)
             }
         },
-        singleLine = true
+        singleLine = true,
     )
 }
 
@@ -248,12 +253,13 @@ private fun InputPassword(
     userPassword: String,
     isPasswordVisible: Boolean,
     showPasswordError: Boolean,
-    onEvents: (LoginEvents) -> Unit
+    onEvents: (LoginEvents) -> Unit,
 ) {
     OutlinedTextField(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(0.dp, 20.dp, 0.dp, 0.dp),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(0.dp, 20.dp, 0.dp, 0.dp),
         value = userPassword,
         onValueChange = { mPassword ->
             onEvents(LoginEvents.OnPasswordChange(password = mPassword))
@@ -262,45 +268,52 @@ private fun InputPassword(
             IconButton(
                 onClick = {
                     onEvents(LoginEvents.OnShowPassword(show = !isPasswordVisible))
-                }
+                },
             ) {
                 Icon(
-                    imageVector = if (isPasswordVisible) Icons.Filled.Visibility
-                    else Icons.Filled.VisibilityOff,
-                    contentDescription = "Password Visibility"
+                    imageVector =
+                        if (isPasswordVisible) {
+                            Icons.Filled.Visibility
+                        } else {
+                            Icons.Filled.VisibilityOff
+                        },
+                    contentDescription = "Password Visibility",
                 )
             }
         },
         label = {
             Text(text = stringResource(R.string.contraseña))
         },
-        visualTransformation = if (isPasswordVisible) VisualTransformation.None
-        else PasswordVisualTransformation(),
+        visualTransformation =
+            if (isPasswordVisible) {
+                VisualTransformation.None
+            } else {
+                PasswordVisualTransformation()
+            },
         supportingText = {
             if (showPasswordError) {
                 Text(text = stringResource(R.string.error_passsword), color = Danger)
             }
         },
-        singleLine = true
+        singleLine = true,
     )
 }
-
 
 @Composable
 private fun CheckRememberUser(
     modifier: Modifier = Modifier,
     checkedState: Boolean,
-    onEvents: (LoginEvents) -> Unit
+    onEvents: (LoginEvents) -> Unit,
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth(),
     ) {
         Checkbox(
             checked = checkedState,
             onCheckedChange = {
                 onEvents(LoginEvents.OnRememberUserChecker(it))
-            }
+            },
         )
         Text(text = stringResource(id = R.string.recuerda_tu_usuario))
     }
@@ -311,26 +324,29 @@ private fun LoginButton(
     modifier: Modifier = Modifier,
     isEnableButton: Boolean,
     isLoading: Boolean,
-    onEvents: (LoginEvents) -> Unit
+    onEvents: (LoginEvents) -> Unit,
 ) {
     OutlinedButton(
-        enabled = isEnableButton, onClick = {
+        enabled = isEnableButton,
+        onClick = {
             onEvents(LoginEvents.OnLoginClick)
         },
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(0.dp, 25.dp, 0.dp, 0.dp)
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(0.dp, 25.dp, 0.dp, 0.dp),
     ) {
         if (isLoading) {
             CircularProgressIndicator(Modifier.size(40.dp))
         } else {
             Text(
                 text = stringResource(R.string.log_in),
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(5.dp),
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(5.dp),
                 textAlign = TextAlign.Center,
-                fontSize = 20.sp
+                fontSize = 20.sp,
             )
         }
     }
@@ -340,20 +356,22 @@ private fun LoginButton(
 private fun TextOr() {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(8.dp)
+        modifier = Modifier.padding(8.dp),
     ) {
         Spacer(
-            modifier = Modifier
-                .height(1.dp)
-                .weight(1F)
-                .background(Color.Black)
+            modifier =
+                Modifier
+                    .height(1.dp)
+                    .weight(1F)
+                    .background(Color.Black),
         )
         Text(text = stringResource(R.string.or), Modifier.padding(horizontal = 16.dp))
         Spacer(
-            modifier = Modifier
-                .height(1.dp)
-                .weight(1F)
-                .background(Color.Black)
+            modifier =
+                Modifier
+                    .height(1.dp)
+                    .weight(1F)
+                    .background(Color.Black),
         )
     }
 }
@@ -361,15 +379,16 @@ private fun TextOr() {
 @Composable
 private fun SignUpButton(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
 ) {
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-        modifier = modifier.fillMaxWidth()
+        modifier = modifier.fillMaxWidth(),
     ) {
         Text(
-            text = stringResource(id = R.string.sing_up), color = Color.Black
+            text = stringResource(id = R.string.sing_up),
+            color = Color.Black,
         )
     }
 }
@@ -377,20 +396,21 @@ private fun SignUpButton(
 @Composable
 private fun GoogleButton(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {}
+    onClick: () -> Unit = {},
 ) {
     Button(
         onClick = {
             onClick.invoke()
         },
         colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(bottom = 8.dp)
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(bottom = 8.dp),
     ) {
         Text(
             text = stringResource(id = R.string.ingresar_con_google),
-            color = Color.Black
+            color = Color.Black,
         )
     }
 }

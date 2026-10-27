@@ -10,11 +10,8 @@ import jakarta.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class TimeModule {
-
+abstract class TimeProviderModule {
     @Binds
     @Singleton
-    abstract fun bindTimeProvider(
-        implementation: DefaultTimeProvider
-    ): TimeProvider
+    abstract fun bindTimeProvider(implementation: DefaultTimeProvider): TimeProvider
 }

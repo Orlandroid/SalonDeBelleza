@@ -2,47 +2,46 @@ package com.example.domain.usecases
 
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.LoyaltyRepository
-import com.example.domain.state.ApiResult
-import com.example.domain.state.getContent
-import com.example.domain.state.isError
+import com.example.model.state.ApiResult
+import com.example.model.state.getContent
+import com.example.model.state.isError
 import javax.inject.Inject
 
+class SingUpUseCase
+    @Inject
+    constructor(
+        private val authRepository: AuthRepository,
+        private val createWalletUseCase: CreateWalletUseCase,
+        private val loyaltyRepository: LoyaltyRepository,
+    ) {
+        suspend operator fun invoke(
+            email: String,
+            password: String,
+        ): ApiResult<Unit> {
+            val authResult = authRepository.register(email, password)
 
-class SingUpUseCase @Inject constructor(
-    private val authRepository: AuthRepository,
-    private val createWalletUseCase: CreateWalletUseCase,
-    private val loyaltyRepository: LoyaltyRepository
-) {
+            if (authResult.isError()) {
+                return ApiResult.Error()
+            }
 
-    suspend operator fun invoke(
-        email: String,
-        password: String
-    ): ApiResult<Unit> {
+            val userUid =
+                authResult
+                    .getContent()
+                    .user
+                    ?.uid
+                    ?: return ApiResult.Error()
 
-        val authResult = authRepository.register(email, password)
+            val walletResult = createWalletUseCase(userUid)
 
-        if (authResult.isError()) {
-            return ApiResult.Error()
+            if (walletResult.isError()) {
+                return ApiResult.Error()
+            }
+
+            val initializeLoyaltyResult = loyaltyRepository.initializeLoyalty(userUid)
+            if (initializeLoyaltyResult.isError()) {
+                return ApiResult.Error()
+            }
+
+            return ApiResult.Success(Unit)
         }
-
-        val userUid = authResult
-            .getContent()
-            .user
-            ?.uid
-            ?: return ApiResult.Error()
-
-        val walletResult = createWalletUseCase(userUid)
-
-        if (walletResult.isError()) {
-            return ApiResult.Error()
-        }
-
-        val initializeLoyaltyResult = loyaltyRepository.initializeLoyalty(userUid)
-        if (initializeLoyaltyResult.isError()) {
-            return ApiResult.Error()
-        }
-
-        return ApiResult.Success(Unit)
     }
-}
-

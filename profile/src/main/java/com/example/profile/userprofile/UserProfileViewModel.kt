@@ -1,16 +1,16 @@
 package com.example.profile.userprofile
 
-
+import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.ui.base.BaseScreenState
-import com.example.domain.entities.UserRole
 import com.example.domain.loyalty.Loyalty
 import com.example.domain.loyalty.PromotionCode
-import com.example.domain.state.getContent
-import com.example.domain.state.isSuccess
 import com.example.domain.usecases.GetUserInfoUseCase
+import com.example.model.state.getContent
+import com.example.model.state.isSuccess
+import com.example.model.state.models.UserRole
 import com.example.profile.mappers.toUiState
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -25,6 +25,7 @@ sealed class UserProfileEffects {
     object OpenCamera : UserProfileEffects()
 }
 
+@Stable
 data class UserProfileUiState(
     val name: String? = null,
     val phone: String? = null,
@@ -35,34 +36,36 @@ data class UserProfileUiState(
     val statusColor: Color? = null,
     val loyalty: Loyalty? = null,
     val coupons: List<PromotionCode> = emptyList(),
-    val role: UserRole = UserRole.CUSTOMER
+    val role: UserRole = UserRole.CUSTOMER,
 )
 
 @HiltViewModel
-class UserProfileViewModel @Inject constructor(
-    private val getUserInfoUseCase: GetUserInfoUseCase
-) : ViewModel() {
+class UserProfileViewModel
+    @Inject
+    constructor(
+        private val getUserInfoUseCase: GetUserInfoUseCase,
+    ) : ViewModel() {
+        private val _state: MutableStateFlow<BaseScreenState<UserProfileUiState>> =
+            MutableStateFlow(BaseScreenState.OnLoading)
 
-    private val _state: MutableStateFlow<BaseScreenState<UserProfileUiState>> =
-        MutableStateFlow(BaseScreenState.OnLoading)
+        val state =
+            _state
+                .onStart {
+                    getUserInfo()
+                }.stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(5000L),
+                    BaseScreenState.OnLoading,
+                )
 
-    val state = _state.onStart {
-        getUserInfo()
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000L),
-        BaseScreenState.OnLoading
-    )
-
-
-    private fun getUserInfo() = viewModelScope.launch {
-        val userInfoResult = getUserInfoUseCase()
-        if (userInfoResult.isSuccess()) {
-            val profile = userInfoResult.getContent().toUiState()
-            _state.update { BaseScreenState.OnContent(content = profile) }
-        } else {
-            _state.update { BaseScreenState.OnError(error = Throwable()) }
-        }
+        private fun getUserInfo() =
+            viewModelScope.launch {
+                val userInfoResult = getUserInfoUseCase()
+                if (userInfoResult.isSuccess()) {
+                    val profile = userInfoResult.getContent().toUiState()
+                    _state.update { BaseScreenState.OnContent(content = profile) }
+                } else {
+                    _state.update { BaseScreenState.OnError(error = Throwable()) }
+                }
+            }
     }
-
-}

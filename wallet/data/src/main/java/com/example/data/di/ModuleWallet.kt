@@ -14,31 +14,28 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 class ModuleWallet {
-
     @Singleton
     @Provides
     fun provideWalletRepository(
         @WalletReference databaseReference: DatabaseReference,
-        firebaseAuth: FirebaseAuth
+        firebaseAuth: FirebaseAuth,
     ): WalletRepository =
         WalletRepositoryImplement(
             databaseReference = databaseReference,
-            firebaseAuth = firebaseAuth
+            firebaseAuth = firebaseAuth,
         )
 
     @Singleton
     @Provides
     fun provideTransactionRepository(
         @TransactionReference databaseReference: DatabaseReference,
-        firebaseAuth: FirebaseAuth
+        firebaseAuth: FirebaseAuth,
     ): TransactionRepository =
         TransactionRepositoryImp(
             databaseReference = databaseReference,
-            firebaseAuth = firebaseAuth
+            firebaseAuth = firebaseAuth,
         )
-
 }

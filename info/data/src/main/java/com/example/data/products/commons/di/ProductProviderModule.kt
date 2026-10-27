@@ -10,7 +10,7 @@ import com.example.data.products.mydummyapi.MyDummyApi
 import com.example.data.products.mydummyapi.MyDummyProductProvider
 import com.example.data.products.platzy.PlatzyApi
 import com.example.data.products.platzy.PlatzyProductProvider
-import com.example.domain.ProductSource
+import com.example.model.state.models.ProductSource
 import dagger.MapKey
 import dagger.Module
 import dagger.Provides

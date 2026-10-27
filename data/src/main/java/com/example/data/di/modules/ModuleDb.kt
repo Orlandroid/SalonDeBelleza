@@ -10,24 +10,23 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-
 @Module
 @InstallIn(SingletonComponent::class)
-
 object ModuleDb {
-
     private const val DATABASE_NAME = "Skeduly"
 
     @Provides
     @Singleton
-    fun provideAppDatabase(@ApplicationContext context: Context): SkedulyDatabase {
-        return Room.databaseBuilder(
-            context,
-            SkedulyDatabase::class.java,
-            DATABASE_NAME
-        ).fallbackToDestructiveMigration()
+    fun provideAppDatabase(
+        @ApplicationContext context: Context,
+    ): SkedulyDatabase =
+        Room
+            .databaseBuilder(
+                context,
+                SkedulyDatabase::class.java,
+                DATABASE_NAME,
+            ).fallbackToDestructiveMigration()
             .build()
-    }
 
     @Singleton
     @Provides
@@ -40,6 +39,4 @@ object ModuleDb {
     @Singleton
     @Provides
     fun provideCategoriesDao(db: SkedulyDatabase) = db.categoryDao()
-
-
 }

@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="delete_all_products_sure">Estas seguro que quieres eliminar todos los productos</string>
+    <string name="delete_all_products_sure">Are you sure you want to delete all products?</string>
     <string name="products_deleted">Products deleted correctly</string>
-    <string name="nombre_establecimiento">Nombre Establecimiento</string>
-    <string name="sucursales">Sucursales</string>
-    <string name="tiendas">Tiendas</string>
-    <string name="nuestro_staff">Nuestro Staff</string>
-    <string name="ubicacion">Ubicacion</string>
+    <string name="nombre_establecimiento">Establishment Name</string>
+    <string name="sucursales">Branches</string>
+    <string name="tiendas">Stores</string>
+    <string name="nuestro_staff">Our Staff</string>
+    <string name="ubicacion">Location</string>
     <string name="staff">Staff</string>
-    <string name="servicios">Servicios</string>
+    <string name="servicios">Services</string>
     <string name="stores">Store</string>
-    <string name="product_added">Product added to cart"</string>
-    <string name="categorias">Categorías</string>
-    <string name="detail_product">Detail Product</string>
-    <string name="productos">Productos</string>
-    <string name="nustro_staff">Nuestro Staff</string>
-    <string name="agregar">Agregar</string>
-    <string name="remove">remove</string>
+    <string name="product_added">Product added to cart</string>
+    <string name="categorias">Categories</string>
+    <string name="detail_product">Product Detail</string>
+    <string name="productos">Products</string>
+    <string name="nustro_staff">Our Staff</string>
+    <string name="agregar">Add</string>
+    <string name="remove">Remove</string>
     <string name="pay">Pay</string>
     <string name="purchase_error">We couldn’t complete your purchase. Please try again.</string>
     <string name="discount_coupon">Discount Coupon</string>
@@ -24,5 +24,10 @@
     <string name="coupon_applied">Applied</string>
     <string name="apply_coupon">Apply</string>
     <string name="coupon_applied_successfully">Coupon applied!</string>
-
+    <string name="subtotal">Subtotal</string>
+    <string name="discount_format">Discount (%1$d%%)</string>
+    <string name="total">Total</string>
+    <string name="cd_image_product">Product image</string>
+    <string name="cd_decrease">Decrease quantity</string>
+    <string name="cd_increase">Increase quantity</string>
 </resources>

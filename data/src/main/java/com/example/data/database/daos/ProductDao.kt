@@ -1,13 +1,14 @@
 package com.example.data.database.daos
 
-import androidx.room.*
+import androidx.room.Dao
+import androidx.room.Insert
+import androidx.room.OnConflictStrategy
+import androidx.room.Query
 import com.example.data.database.entities.ProductEntity
-
 import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ProductDao {
-
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun addProductDb(productDb: ProductEntity): Long
 
@@ -22,5 +23,4 @@ interface ProductDao {
 
     @Query("DELETE  FROM ProductEntity")
     suspend fun deleteAll(): Int
-
 }

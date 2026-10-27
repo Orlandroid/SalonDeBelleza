@@ -51,7 +51,7 @@ import com.example.auth.forgetpassword.ForgetPasswordViewmodel.ForgetPasswordEve
 @Composable
 fun ForgetPasswordDialog(
     modifier: Modifier = Modifier,
-    onDismissRequest: () -> Unit
+    onDismissRequest: () -> Unit,
 ) {
     val viewmodel = hiltViewModel<ForgetPasswordViewmodel>()
     val uiState by viewmodel.state.collectAsStateWithLifecycle()
@@ -62,15 +62,16 @@ fun ForgetPasswordDialog(
         viewmodel.effects.collectLatest {
             when (it) {
                 is ForgetPasswordViewmodel.ForgetPasswordEffects.ShowSnackBar -> {
-                    val message = when (it.kindOfMessage) {
-                        KindOfMessage.ERROR -> {
-                            errorMessage
-                        }
+                    val message =
+                        when (it.kindOfMessage) {
+                            KindOfMessage.ERROR -> {
+                                errorMessage
+                            }
 
-                        KindOfMessage.SUCCESS -> {
-                            successMessage
+                            KindOfMessage.SUCCESS -> {
+                                successMessage
+                            }
                         }
-                    }
 
                     snackBarHostState.showSnackbar(message)
                 }
@@ -80,11 +81,11 @@ fun ForgetPasswordDialog(
     Scaffold(
         snackbarHost = {
             SnackbarHost(snackBarHostState)
-        }
+        },
     ) {
         BaseCustomDialog(
             modifier = modifier.padding(it),
-            onDismissRequest = { }
+            onDismissRequest = { },
         ) {
             AlertDialogForgetPasswordContent(
                 modifier = modifier,
@@ -93,7 +94,7 @@ fun ForgetPasswordDialog(
                 isEnableButton = uiState.enableButton,
                 showErrorEmail = uiState.showErrorInvalidEmail,
                 isLoading = uiState.isLoading,
-                onEvents = viewmodel::onEvents
+                onEvents = viewmodel::onEvents,
             )
         }
     }
@@ -107,11 +108,11 @@ private fun AlertDialogForgetPasswordContent(
     showErrorEmail: Boolean,
     email: String,
     isEnableButton: Boolean,
-    isLoading: Boolean
+    isLoading: Boolean,
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         AlertHeader(onDismissRequest = onDismissRequest)
         SmallSpacer(orientation = Orientation.VERTICAL)
@@ -119,21 +120,20 @@ private fun AlertDialogForgetPasswordContent(
             text = stringResource(id = R.string.olvidaste_contraseña),
             fontSize = 16.sp,
             textAlign = TextAlign.Center,
-            modifier = Modifier.wrapContentWidth()
+            modifier = Modifier.wrapContentWidth(),
         )
         InputEmail(
             userEmail = email,
             showErrorEmail = showErrorEmail,
-            onEvents = onEvents
+            onEvents = onEvents,
         )
         SmallSpacer(orientation = Orientation.VERTICAL)
         ResetPasswordButton(
             isEnableButton = isEnableButton,
             onEvents = onEvents,
-            isLoading = isLoading
+            isLoading = isLoading,
         )
     }
-
 }
 
 @Composable
@@ -146,7 +146,7 @@ private fun ResetPasswordButton(
         CircularProgressIndicator(
             Modifier
                 .size(40.dp)
-                .background(Color.White)
+                .background(Color.White),
         )
         Spacer(Modifier.height(16.dp))
     } else {
@@ -155,7 +155,7 @@ private fun ResetPasswordButton(
             enabled = isEnableButton,
             onClick = {
                 onEvents(Events.OnResetPassword)
-            }
+            },
         ) {
             Text(text = stringResource(id = R.string.reset_password))
         }
@@ -163,32 +163,33 @@ private fun ResetPasswordButton(
 }
 
 @Composable
-private fun AlertHeader(
-    onDismissRequest: () -> Unit
-) {
+private fun AlertHeader(onDismissRequest: () -> Unit) {
     Box(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Background)
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .background(Background),
     ) {
         val logoImage = painterResource(id = R.drawable.padlock)
         val closeImage = painterResource(id = R.drawable.ic_baseline_close_24)
         Image(
             painter = logoImage,
             contentDescription = "ImageLock",
-            modifier = Modifier
-                .size(64.dp)
-                .align(Alignment.Center)
+            modifier =
+                Modifier
+                    .size(64.dp)
+                    .align(Alignment.Center),
         )
         Image(
             painter = closeImage,
             contentDescription = "ImageClose",
-            modifier = Modifier
-                .size(50.dp)
-                .align(Alignment.TopEnd)
-                .clickable {
-                    onDismissRequest.invoke()
-                }
+            modifier =
+                Modifier
+                    .size(50.dp)
+                    .align(Alignment.TopEnd)
+                    .clickable {
+                        onDismissRequest.invoke()
+                    },
         )
     }
 }
@@ -197,12 +198,13 @@ private fun AlertHeader(
 private fun InputEmail(
     showErrorEmail: Boolean,
     userEmail: String,
-    onEvents: (Events) -> Unit
+    onEvents: (Events) -> Unit,
 ) {
     OutlinedTextField(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 8.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp),
         singleLine = true,
         value = userEmail,
         onValueChange = {
@@ -211,7 +213,7 @@ private fun InputEmail(
         leadingIcon = {
             Icon(
                 Icons.Default.Email,
-                contentDescription = "iconEmail"
+                contentDescription = "iconEmail",
             )
         },
         label = {
@@ -222,11 +224,9 @@ private fun InputEmail(
             if (showErrorEmail) {
                 Text(text = stringResource(R.string.error_email), color = Danger)
             }
-        }
-
+        },
     )
 }
-
 
 @Composable
 @Preview(showBackground = true)
@@ -237,6 +237,6 @@ private fun AlertDialogForgetPasswordPreview() {
         showErrorEmail = false,
         email = "lopez.orlando.gold9@gmail.com",
         isEnableButton = true,
-        isLoading = true
+        isLoading = true,
     )
 }

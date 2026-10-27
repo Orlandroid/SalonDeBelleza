@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.data"
+    namespace = "com.example.info.data"
     compileSdk {
         version = release(37)
     }
@@ -29,6 +29,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:model"))
     implementation(project(":domain"))
     implementation(project(":info:domain"))
     implementation(project(":data"))

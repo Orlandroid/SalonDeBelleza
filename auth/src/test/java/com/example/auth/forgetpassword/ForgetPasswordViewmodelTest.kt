@@ -4,7 +4,7 @@ import app.cash.turbine.test
 import com.example.domain.KindOfMessage
 import com.example.domain.interfaces.EmailValidator
 import com.example.domain.repository.AuthRepository
-import com.example.domain.state.ApiResult
+import com.example.model.state.ApiResult
 import io.mockk.coEvery
 import io.mockk.coVerify
 import io.mockk.mockk
@@ -18,10 +18,8 @@ import org.junit.Assert.assertEquals
 import org.junit.Before
 import org.junit.Test
 
-
 @OptIn(ExperimentalCoroutinesApi::class)
 class ForgetPasswordViewmodelTest {
-
     private lateinit var viewModel: ForgetPasswordViewmodel
     private lateinit var authRepository: AuthRepository
     private val testDispatcher = StandardTestDispatcher()
@@ -31,11 +29,12 @@ class ForgetPasswordViewmodelTest {
         Dispatchers.setMain(testDispatcher)
 
         authRepository = mockk(relaxed = true)
-        viewModel = ForgetPasswordViewmodel(
-            authRepository,
-            ioDispatcher = testDispatcher,
-            emailValidator = emailValidator
-        )
+        viewModel =
+            ForgetPasswordViewmodel(
+                authRepository,
+                ioDispatcher = testDispatcher,
+                emailValidator = emailValidator,
+            )
     }
 
     @After
@@ -44,36 +43,33 @@ class ForgetPasswordViewmodelTest {
     }
 
     @Test
-    fun `initial state should have correct default values`() = runTest {
-        val initialState = viewModel.state.value
+    fun `initial state should have correct default values`() =
+        runTest {
+            val initialState = viewModel.state.value
 
-        assertEquals(null, initialState.userEmail)
-        assertEquals(false, initialState.enableButton)
-        assertEquals(false, initialState.showErrorInvalidEmail)
-        assertEquals(false, initialState.isLoading)
-    }
+            assertEquals(null, initialState.userEmail)
+            assertEquals(false, initialState.enableButton)
+            assertEquals(false, initialState.showErrorInvalidEmail)
+            assertEquals(false, initialState.isLoading)
+        }
 
     private val emailValidator = mockk<EmailValidator>()
-
 
     @Test
     fun onResetPassword_whenRepositoryReturnsSuccess_shouldUpdateLoadingAndShowEffect() =
         runTest(testDispatcher) {
-
             val errorMessage: KindOfMessage = KindOfMessage.SUCCESS
 
             coEvery { authRepository.forgetPassword(any()) } returns ApiResult.Success(Unit)
 
             viewModel.state.test {
-
                 assertEquals(false, awaitItem().isLoading)
 
                 viewModel.onEvents(
-                    ForgetPasswordViewmodel.ForgetPasswordEvents.OnResetPassword
+                    ForgetPasswordViewmodel.ForgetPasswordEvents.OnResetPassword,
                 )
 
                 assertEquals(true, awaitItem().isLoading)
-
 
                 assertEquals(false, awaitItem().isLoading)
 
@@ -87,7 +83,7 @@ class ForgetPasswordViewmodelTest {
 
                 assertEquals(
                     errorMessage,
-                    (effect as ForgetPasswordViewmodel.ForgetPasswordEffects.ShowSnackBar).kindOfMessage
+                    (effect as ForgetPasswordViewmodel.ForgetPasswordEffects.ShowSnackBar).kindOfMessage,
                 )
 
                 cancelAndIgnoreRemainingEvents()
@@ -101,7 +97,6 @@ class ForgetPasswordViewmodelTest {
     @Test
     fun onResetPassword_whenRepositoryReturnsError_shouldUpdateLoadingAndShowErrorEffect() =
         runTest(testDispatcher) {
-
             val errorMessage = "Error"
             val kindOfMessageError: KindOfMessage = KindOfMessage.SUCCESS
 
@@ -110,13 +105,11 @@ class ForgetPasswordViewmodelTest {
             } returns ApiResult.Error(errorMessage)
 
             viewModel.effects.test {
-
                 viewModel.state.test {
-
                     assertEquals(false, awaitItem().isLoading)
 
                     viewModel.onEvents(
-                        ForgetPasswordViewmodel.ForgetPasswordEvents.OnResetPassword
+                        ForgetPasswordViewmodel.ForgetPasswordEvents.OnResetPassword,
                     )
 
                     assertEquals(true, awaitItem().isLoading)
@@ -132,7 +125,7 @@ class ForgetPasswordViewmodelTest {
 
                 assertEquals(
                     kindOfMessageError,
-                    (effect as ForgetPasswordViewmodel.ForgetPasswordEffects.ShowSnackBar).kindOfMessage
+                    (effect as ForgetPasswordViewmodel.ForgetPasswordEffects.ShowSnackBar).kindOfMessage,
                 )
 
                 cancelAndIgnoreRemainingEvents()
@@ -164,5 +157,4 @@ class ForgetPasswordViewmodelTest {
         assertEquals(false, updatedState.enableButton)
         assertEquals(true, updatedState.showErrorInvalidEmail)
     }
-
 }

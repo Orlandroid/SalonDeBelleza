@@ -1,16 +1,40 @@
 package com.example.loyalty.rewards
 
-
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.PaddingValues
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ConfirmationNumber
 import androidx.compose.material.icons.filled.Star
-import androidx.compose.material3.*
-import androidx.compose.runtime.*
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,7 +57,7 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun RewardsScreen(
     navController: NavHostController,
-    viewModel: RewardsViewModel = hiltViewModel()
+    viewModel: RewardsViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()
     var showSuccessDialog by remember { mutableStateOf<RewardsEffects.ShowSuccess?>(null) }
@@ -41,13 +65,13 @@ fun RewardsScreen(
 
     LaunchedEffect(Unit) {
         viewModel.effects.collectLatest { effect ->
-            when (val it = effect) {
+            when (effect) {
                 is RewardsEffects.ShowSuccess -> {
-                    showSuccessDialog = it
+                    showSuccessDialog = effect
                 }
 
                 is RewardsEffects.ShowError -> {
-                    showErrorDialog = it.message
+                    showErrorDialog = effect.message
                 }
             }
         }
@@ -62,32 +86,43 @@ fun RewardsScreen(
             onDismissRequest = { showSuccessDialog = null },
             confirmButton = {
                 TextButton(onClick = { showSuccessDialog = null }) {
-                    Text("OK")
+                    Text(stringResource(R.string.ok))
                 }
             },
-            title = { Text("¡Canje Exitoso!") },
+            title = { Text(stringResource(R.string.redeem_success_title)) },
             text = {
                 Column {
-                    Text("Has canjeado una recompensa de ${showSuccessDialog?.discount}%.")
+                    Text(
+                        stringResource(
+                            R.string.redeem_success_message,
+                            showSuccessDialog?.discount ?: 0,
+                        ),
+                    )
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text("Tu código es:", fontWeight = FontWeight.Bold)
+                    Text(
+                        stringResource(R.string.your_code_is),
+                        fontWeight = FontWeight.Bold,
+                    )
                     Surface(
                         color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
                         shape = RoundedCornerShape(8.dp),
-                        modifier = Modifier.padding(top = 4.dp)
+                        modifier = Modifier.padding(top = 4.dp),
                     ) {
                         Text(
                             text = showSuccessDialog?.promoCode ?: "",
                             modifier = Modifier.padding(horizontal = 12.dp, vertical = 8.dp),
                             style = MaterialTheme.typography.titleLarge,
                             color = MaterialTheme.colorScheme.primary,
-                            fontWeight = FontWeight.Black
+                            fontWeight = FontWeight.Black,
                         )
                     }
                     Spacer(modifier = Modifier.height(8.dp))
-                    Text("Puedes encontrar este código en tu perfil.", style = MaterialTheme.typography.bodySmall)
+                    Text(
+                        stringResource(R.string.find_code_in_profile),
+                        style = MaterialTheme.typography.bodySmall,
+                    )
                 }
-            }
+            },
         )
     }
 
@@ -96,20 +131,21 @@ fun RewardsScreen(
             onDismissRequest = { showErrorDialog = null },
             confirmButton = {
                 TextButton(onClick = { showErrorDialog = null }) {
-                    Text("OK")
+                    Text(stringResource(R.string.ok))
                 }
             },
-            title = { Text("Error") },
-            text = { Text(showErrorDialog ?: "") }
+            title = { Text(stringResource(R.string.error)) },
+            text = { Text(showErrorDialog ?: "") },
         )
     }
 
     BaseComposeScreen(
         navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(
-            showToolbar = true,
-            title = stringResource(R.string.redeem_rewards)
-        )
+        toolbarConfiguration =
+            ToolbarConfiguration(
+                showToolbar = true,
+                title = stringResource(R.string.redeem_rewards),
+            ),
     ) {
         RewardsScreenContent(
             modifier = Modifier,
@@ -117,46 +153,44 @@ fun RewardsScreen(
             rewards = uiState.rewards,
             onRedeem = {
                 viewModel.onEvents(RewardsEvents.OnRedeemReward(it))
-            }
+            },
         )
     }
 }
-
 
 @Composable
 private fun RewardsScreenContent(
     modifier: Modifier = Modifier,
     userBalance: Int,
     rewards: List<Reward>,
-    onRedeem: (reward: Reward) -> Unit
+    onRedeem: (reward: Reward) -> Unit,
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Background)
+        modifier =
+            modifier
+                .fillMaxSize()
+                .background(Background),
     ) {
-
         PointsHeader(balance = userBalance)
-
 
         LazyColumn(
             modifier = Modifier.fillMaxSize(),
             contentPadding = PaddingValues(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+            verticalArrangement = Arrangement.spacedBy(16.dp),
         ) {
             item {
                 Text(
                     text = stringResource(R.string.available_rewards),
                     style = MaterialTheme.typography.titleMedium,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(bottom = 8.dp)
+                    modifier = Modifier.padding(bottom = 8.dp),
                 )
             }
-            items(rewards) { reward ->
+            items(rewards, key = { it.id }) { reward ->
                 RewardItem(
                     reward = reward,
                     canAfford = userBalance >= reward.pointsRequired,
-                    onRedeem = { onRedeem.invoke(reward) }
+                    onRedeem = { onRedeem.invoke(reward) },
                 )
             }
         }
@@ -166,34 +200,35 @@ private fun RewardsScreenContent(
 @Composable
 private fun PointsHeader(balance: Int) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(16.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primary),
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(16.dp),
     ) {
         Row(
             modifier = Modifier.padding(24.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = stringResource(R.string.your_current_balance),
                     color = Color.White.copy(alpha = 0.8f),
-                    fontSize = 14.sp
+                    fontSize = 14.sp,
                 )
                 Text(
                     "$balance ⭐",
                     color = Color.White,
                     style = MaterialTheme.typography.headlineMedium,
-                    fontWeight = FontWeight.Black
+                    fontWeight = FontWeight.Black,
                 )
             }
             Icon(
                 imageVector = Icons.Default.Star,
                 contentDescription = null,
                 tint = Color.White.copy(alpha = 0.3f),
-                modifier = Modifier.size(48.dp)
+                modifier = Modifier.size(48.dp),
             )
         }
     }
@@ -203,31 +238,19 @@ private fun PointsHeader(balance: Int) {
 private fun RewardItem(
     reward: Reward,
     canAfford: Boolean,
-    onRedeem: () -> Unit
+    onRedeem: () -> Unit,
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(16.dp),
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
-            Surface(
-                shape = RoundedCornerShape(12.dp),
-                color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
-                modifier = Modifier.size(56.dp)
-            ) {
-                Box(contentAlignment = Alignment.Center) {
-                    Icon(
-                        Icons.Default.ConfirmationNumber,
-                        contentDescription = null,
-                        tint = MaterialTheme.colorScheme.primary
-                    )
-                }
-            }
+            IconConfirmationNumber()
 
             Spacer(modifier = Modifier.width(16.dp))
 
@@ -235,35 +258,63 @@ private fun RewardItem(
                 Text(
                     text = reward.name,
                     fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.bodyLarge
+                    style = MaterialTheme.typography.bodyLarge,
                 )
                 Text(
-                    text = stringResource(
-                        R.string.points_required,
-                        reward.pointsRequired
-                    ),
+                    text =
+                        stringResource(
+                            R.string.points_required,
+                            reward.pointsRequired,
+                        ),
                     style = MaterialTheme.typography.bodySmall,
-                    color = Color.Gray
+                    color = Color.Gray,
                 )
             }
 
-            Button(
-                onClick = onRedeem,
-                enabled = canAfford,
-                shape = RoundedCornerShape(8.dp),
-                colors = ButtonDefaults.buttonColors(
-                    containerColor = MaterialTheme.colorScheme.primary,
-                    disabledContainerColor = Color.LightGray
-                )
-            ) {
-                Text(
-                    text =
-                        if (canAfford)
-                            stringResource(R.string.redeem)
-                        else
-                            stringResource(R.string.missing_points)
-                )
-            }
+            RedeemButton(onRedeem = onRedeem, canAfford = canAfford)
+        }
+    }
+}
+
+@Composable
+private fun RedeemButton(
+    onRedeem: () -> Unit,
+    canAfford: Boolean,
+) {
+    Button(
+        onClick = onRedeem,
+        enabled = canAfford,
+        shape = RoundedCornerShape(8.dp),
+        colors =
+            ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                disabledContainerColor = Color.LightGray,
+            ),
+    ) {
+        Text(
+            text =
+                if (canAfford) {
+                    stringResource(R.string.redeem)
+                } else {
+                    stringResource(R.string.missing_points)
+                },
+        )
+    }
+}
+
+@Composable
+private fun IconConfirmationNumber() {
+    Surface(
+        shape = RoundedCornerShape(12.dp),
+        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
+        modifier = Modifier.size(56.dp),
+    ) {
+        Box(contentAlignment = Alignment.Center) {
+            Icon(
+                Icons.Default.ConfirmationNumber,
+                contentDescription = null,
+                tint = MaterialTheme.colorScheme.primary,
+            )
         }
     }
 }
@@ -271,15 +322,16 @@ private fun RewardItem(
 @Composable
 @Preview(showBackground = true)
 private fun RewardsScreenContentPreviewSuccess() {
-    val reward = Reward(
-        name = "Cupon de descuento",
-        pointsRequired = 0,
-        discountPercentage = 10
-    )
+    val reward =
+        Reward(
+            name = "Cupon de descuento",
+            pointsRequired = 0,
+            discountPercentage = 10,
+        )
     RewardsScreenContent(
         modifier = Modifier,
         userBalance = 300,
-        rewards = listOf(reward, reward, reward),
-        onRedeem = {}
+        rewards = listOf(reward.copy(id = "45"), reward, reward.copy(id = "hdhd")),
+        onRedeem = {},
     )
 }

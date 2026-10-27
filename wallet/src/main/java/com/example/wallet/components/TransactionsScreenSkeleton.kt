@@ -27,36 +27,35 @@ import com.example.core.ui.components.shimmerBrush
 import com.example.core.ui.theme.AlwaysWhite
 import com.example.core.util.toCurrencyString
 import com.example.domain.transaction.Transaction
-import com.example.domain.wallet.Currency
-
+import com.example.model.state.models.Currency
 
 @Composable
-fun TransactionsScreenSkeleton(
-) {
+fun TransactionsScreenSkeleton() {
     LazyColumn {
         for (x in 0..5) {
             item {
                 TransactionSkeletonItem(Transaction())
             }
         }
-
     }
 }
 
 @Composable
 fun TransactionSkeletonItem(transaction: Transaction) {
     Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(horizontal = 8.dp, vertical = 4.dp),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 8.dp, vertical = 4.dp),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = AlwaysWhite)
+        colors = CardDefaults.cardColors(containerColor = AlwaysWhite),
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(12.dp),
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             TransactionIcon()
             Spacer(modifier = Modifier.width(12.dp))
@@ -68,14 +67,14 @@ fun TransactionSkeletonItem(transaction: Transaction) {
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Transparent
+                    color = Color.Transparent,
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     modifier = Modifier.background(shimmerBrush()),
                     text = "transaction.createdAt.toString()",
                     style = MaterialTheme.typography.bodySmall,
-                    color = Color.Transparent
+                    color = Color.Transparent,
                 )
             }
 
@@ -85,7 +84,7 @@ fun TransactionSkeletonItem(transaction: Transaction) {
                 modifier = Modifier.background(shimmerBrush()),
                 color = Color.Transparent,
                 text = transaction.amount.toCurrencyString(Currency.USD),
-                style = MaterialTheme.typography.titleMedium
+                style = MaterialTheme.typography.titleMedium,
             )
         }
     }
@@ -94,14 +93,16 @@ fun TransactionSkeletonItem(transaction: Transaction) {
 @Composable
 private fun TransactionIcon() {
     Box(
-        modifier = Modifier
-            .size(40.dp),
-        contentAlignment = Alignment.Center
+        modifier =
+            Modifier
+                .size(40.dp),
+        contentAlignment = Alignment.Center,
     ) {
         Spacer(
-            modifier = Modifier
-                .size(20.dp)
-                .background(shimmerBrush())
+            modifier =
+                Modifier
+                    .size(20.dp)
+                    .background(shimmerBrush()),
         )
     }
 }

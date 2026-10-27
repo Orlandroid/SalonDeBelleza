@@ -11,29 +11,30 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.core.util.convertMillisToDate
 
-
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MyDatePickerDialog(
     onDismiss: () -> Unit,
     onDateSelected: (String) -> Unit,
 ) {
-    val datePickerState = rememberDatePickerState(selectableDates = object : SelectableDates {
-        override fun isSelectableDate(utcTimeMillis: Long): Boolean {
-            return utcTimeMillis <= System.currentTimeMillis()
-        }
-    })
+    val datePickerState =
+        rememberDatePickerState(
+            selectableDates =
+                object : SelectableDates {
+                    override fun isSelectableDate(utcTimeMillis: Long): Boolean = utcTimeMillis <= System.currentTimeMillis()
+                },
+        )
 
     val selectedDate = datePickerState.selectedDateMillis?.let { convertMillisToDate(it) } ?: ""
 
     DatePickerDialog(
         onDismissRequest = { onDismiss() },
         confirmButton = {
-            Button(onClick = {
-                onDateSelected(selectedDate)
-                onDismiss()
-            }
-
+            Button(
+                onClick = {
+                    onDateSelected(selectedDate)
+                    onDismiss()
+                },
             ) {
                 Text(text = "OK")
             }
@@ -44,14 +45,13 @@ fun MyDatePickerDialog(
             }) {
                 Text(text = "Cancel")
             }
-        }
+        },
     ) {
         DatePicker(
-            state = datePickerState
+            state = datePickerState,
         )
     }
 }
-
 
 @Composable
 @Preview(showBackground = true)

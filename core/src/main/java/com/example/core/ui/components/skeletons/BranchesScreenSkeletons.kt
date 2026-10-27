@@ -24,19 +24,17 @@ import com.example.core.ui.components.shimmerBrush
 import com.example.core.ui.theme.Background
 import com.example.core.ui.theme.BackgroundListsMainFlow
 
-
 @Composable
-fun BranchesScreenSkeletons(
-    modifier: Modifier = Modifier
-) {
+fun BranchesScreenSkeletons(modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Background),
-        verticalArrangement = Arrangement.Bottom
+        modifier =
+            modifier
+                .fillMaxSize()
+                .background(Background),
+        verticalArrangement = Arrangement.Bottom,
     ) {
         Card(
-            colors = CardDefaults.cardColors(containerColor = BackgroundListsMainFlow)
+            colors = CardDefaults.cardColors(containerColor = BackgroundListsMainFlow),
         ) {
             Branches()
             LongSpacer(orientation = Orientation.VERTICAL)
@@ -56,11 +54,10 @@ private fun Branches() {
                         .padding(8.dp)
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(8.dp))
-                        .background(shimmerBrush())
+                        .background(shimmerBrush()),
                 )
             }
         }
-
     }
 }
 

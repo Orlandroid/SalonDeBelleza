@@ -1,45 +1,50 @@
 package com.example.core.navigation.info
-import com.example.domain.CategorySource
-import com.example.domain.ProductSource
+import com.example.model.state.models.CategorySource
+import com.example.model.state.models.ProductSource
 import kotlinx.serialization.Serializable
 
-sealed class InfoNavigationScreens {
+sealed class InfoNavigationRoutes {
     @Serializable
-    data object EstablishingRoute : InfoNavigationScreens()
+    data object EstablishingRoute : InfoNavigationRoutes()
 
     @Serializable
-    data object StoresRoute : InfoNavigationScreens()
+    data object StoresRoute : InfoNavigationRoutes()
 
     @Serializable
-    data object BranchesRoute : InfoNavigationScreens()
+    data object BranchesRoute : InfoNavigationRoutes()
 
     @Serializable
-    data object BranchInfoRoute : InfoNavigationScreens()
+    data object BranchInfoRoute : InfoNavigationRoutes()
 
     @Serializable
-    data class CategoriesRoute(val source: CategorySource) : InfoNavigationScreens()
+    data class CategoriesRoute(
+        val source: CategorySource,
+    ) : InfoNavigationRoutes()
 
     @Serializable
-    data class ProductsRoute(val source: ProductSource, val category: String? = null) :
-        InfoNavigationScreens()
+    data class ProductsRoute(
+        val source: ProductSource,
+        val category: String? = null,
+    ) : InfoNavigationRoutes()
 
     @Serializable
-    data class DetailProductRoute(val source: ProductSource, val productId: Int) :
-        InfoNavigationScreens()
+    data class DetailProductRoute(
+        val source: ProductSource,
+        val productId: Int,
+    ) : InfoNavigationRoutes()
 
     @Serializable
-    data object CartRoute : InfoNavigationScreens()
+    data object CartRoute : InfoNavigationRoutes()
 
     @Serializable
-    data object OurStaffRoute : InfoNavigationScreens()
+    data object OurStaffRoute : InfoNavigationRoutes()
 
     @Serializable
-    data object ServicesRoute : InfoNavigationScreens()
-
-
-    @Serializable
-    data object SuccessScreenRoute : InfoNavigationScreens()
+    data object ServicesRoute : InfoNavigationRoutes()
 
     @Serializable
-    data object LocationRoute : InfoNavigationScreens()
+    data object SuccessScreenRoute : InfoNavigationRoutes()
+
+    @Serializable
+    data object LocationRoute : InfoNavigationRoutes()
 }

@@ -19,7 +19,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.example.core.navigation.info.InfoNavigationScreens
+import com.example.core.navigation.info.InfoNavigationRoutes
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.base.BaseScreenState
 import com.example.core.ui.base.MediumSpacer
@@ -31,9 +31,9 @@ import com.example.core.ui.components.TextWithArrowConfig
 import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.dialogs.ProgressDialog
 import com.example.core.ui.theme.Background
-import com.example.domain.CategorySource
 import com.example.domain.entities.products.Category
 import com.example.info.R
+import com.example.model.state.models.CategorySource
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -57,7 +57,7 @@ fun CategoriesScreen(
                     when (it) {
                         is CategoriesEffects.NavigateToProducts -> {
                             navController.navigate(
-                                InfoNavigationScreens.ProductsRoute(
+                                InfoNavigationRoutes.ProductsRoute(
                                     source = it.source,
                                     category = it.category,
                                 ),

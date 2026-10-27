@@ -44,17 +44,14 @@ import com.example.core.ui.theme.Background
 import com.example.core.ui.theme.CardSurface
 import com.example.core.ui.theme.DashedLine
 import com.example.core.util.toCurrencyString
-import com.example.domain.wallet.Currency
+import com.example.model.state.models.Currency
 import com.example.wallet.R
 import com.example.wallet.balance.BalanceUiState
 
-
 @Composable
-fun BalanceScreenSkeletons(
-) {
+fun BalanceScreenSkeletons() {
     WalletScreenContent(BalanceUiState())
 }
-
 
 @Composable
 private fun WalletScreenContent(
@@ -63,10 +60,11 @@ private fun WalletScreenContent(
     onHistoryClick: () -> Unit = {},
 ) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(Background)
-            .padding(20.dp)
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .background(Background)
+                .padding(20.dp),
     ) {
         WalletHeader()
 
@@ -78,58 +76,58 @@ private fun WalletScreenContent(
 
         Row(
             modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.spacedBy(10.dp)
+            horizontalArrangement = Arrangement.spacedBy(10.dp),
         ) {
             Button(
                 onClick = onTopUpClick,
-                modifier = Modifier
-                    .background(shimmerBrush())
-                    .weight(1f)
-                    .height(44.dp),
+                modifier =
+                    Modifier
+                        .background(shimmerBrush())
+                        .weight(1f)
+                        .height(44.dp),
                 shape = RoundedCornerShape(4.dp),
-                colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent)
+                colors = ButtonDefaults.buttonColors(containerColor = Color.Transparent),
             ) {
                 Icon(
                     imageVector = Icons.Filled.AddCircle,
                     contentDescription = null,
                     modifier = Modifier.size(18.dp),
-                    tint = Color.Transparent
+                    tint = Color.Transparent,
                 )
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(
                     text = stringResource(R.string.top_up),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Medium,
-                    color = Color.Transparent
+                    color = Color.Transparent,
                 )
             }
 
             OutlinedButton(
                 onClick = onHistoryClick,
-                modifier = Modifier
-                    .background(shimmerBrush())
-                    .weight(1f)
-                    .height(44.dp),
-                shape = RoundedCornerShape(4.dp)
+                modifier =
+                    Modifier
+                        .background(shimmerBrush())
+                        .weight(1f)
+                        .height(44.dp),
+                shape = RoundedCornerShape(4.dp),
             ) {
                 Icon(
                     imageVector = Icons.Filled.List,
                     contentDescription = null,
                     modifier = Modifier.size(18.dp),
-                    tint = Color.Transparent
+                    tint = Color.Transparent,
                 )
                 Spacer(modifier = Modifier.width(6.dp))
                 Text(
                     "History",
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Medium,
-                    color = Color.Transparent
+                    color = Color.Transparent,
                 )
             }
         }
     }
-
-
 }
 
 @Composable
@@ -137,36 +135,37 @@ private fun WalletHeader() {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
-        verticalAlignment = Alignment.CenterVertically
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Column {
             Text(
                 modifier = Modifier.background(shimmerBrush()),
                 text = stringResource(R.string.good_evening),
                 fontSize = 13.sp,
-                color = Color.Transparent
+                color = Color.Transparent,
             )
             Text(
                 modifier = Modifier.background(shimmerBrush()),
                 text = "Android Developer",
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Medium,
-                color = Color.Transparent
+                color = Color.Transparent,
             )
         }
 
         Box(
-            modifier = Modifier
-                .size(38.dp)
-                .clip(CircleShape)
-                .background(shimmerBrush()),
-            contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .size(38.dp)
+                    .clip(CircleShape)
+                    .background(shimmerBrush()),
+            contentAlignment = Alignment.Center,
         ) {
             Text(
                 text = "",
                 fontSize = 13.sp,
                 fontWeight = FontWeight.Medium,
-                color = Color.Transparent
+                color = Color.Transparent,
             )
         }
     }
@@ -175,18 +174,19 @@ private fun WalletHeader() {
 @Composable
 private fun WalletBalanceCard(state: BalanceUiState) {
     Column(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clip(RoundedCornerShape(16.dp))
-            .background(CardSurface)
-            .padding(top = 20.dp, start = 20.dp, end = 20.dp)
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(16.dp))
+                .background(CardSurface)
+                .padding(top = 20.dp, start = 20.dp, end = 20.dp),
     ) {
         Text(
             modifier = Modifier.background(shimmerBrush()),
             text = stringResource(R.string.wallet_balance),
             fontSize = 12.sp,
             letterSpacing = 0.06.sp,
-            color = Color.Transparent
+            color = Color.Transparent,
         )
 
         Spacer(modifier = Modifier.height(6.dp))
@@ -197,15 +197,16 @@ private fun WalletBalanceCard(state: BalanceUiState) {
                 text = state.balance.toCurrencyString(Currency.USD),
                 fontSize = 34.sp,
                 fontWeight = FontWeight.Medium,
-                color = Color.Transparent
+                color = Color.Transparent,
             )
             Text(
                 text = ".00",
                 fontSize = 16.sp,
                 color = Color.Transparent,
-                modifier = Modifier
-                    .padding(bottom = 3.dp)
-                    .background(shimmerBrush())
+                modifier =
+                    Modifier
+                        .padding(bottom = 3.dp)
+                        .background(shimmerBrush()),
             )
         }
 
@@ -213,7 +214,7 @@ private fun WalletBalanceCard(state: BalanceUiState) {
             modifier = Modifier.background(shimmerBrush()),
             text = state.currency.name,
             fontSize = 12.sp,
-            color = Color.Transparent
+            color = Color.Transparent,
         )
 
         Spacer(modifier = Modifier.height(18.dp))
@@ -221,34 +222,36 @@ private fun WalletBalanceCard(state: BalanceUiState) {
         DashedDivider()
 
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = 14.dp),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 14.dp),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Row(verticalAlignment = Alignment.CenterVertically) {
                 Icon(
                     imageVector = Icons.Filled.CalendarToday,
                     contentDescription = null,
-                    modifier = Modifier
-                        .size(14.dp)
-                        .background(shimmerBrush()),
-                    tint = Color.Transparent
+                    modifier =
+                        Modifier
+                            .size(14.dp)
+                            .background(shimmerBrush()),
+                    tint = Color.Transparent,
                 )
                 Spacer(modifier = Modifier.width(5.dp))
                 Text(
                     modifier = Modifier.background(shimmerBrush()),
                     text = "Member since $",
                     fontSize = 12.sp,
-                    color = Color.Transparent
+                    color = Color.Transparent,
                 )
             }
             Text(
                 modifier = Modifier.background(shimmerBrush()),
                 text = "ID •••${state.userId.takeLast(5)}",
                 fontSize = 12.sp,
-                color = Color.Transparent
+                color = Color.Transparent,
             )
         }
     }
@@ -257,21 +260,21 @@ private fun WalletBalanceCard(state: BalanceUiState) {
 @Composable
 private fun DashedDivider() {
     Canvas(
-        modifier = Modifier
-            .fillMaxWidth()
-            .background(shimmerBrush())
-            .height(1.dp)
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .background(shimmerBrush())
+                .height(1.dp),
     ) {
         drawLine(
             brush = SolidColor(DashedLine),
             start = Offset(0f, 0f),
             end = Offset(size.width, 0f),
             strokeWidth = 3f,
-            pathEffect = PathEffect.dashPathEffect(floatArrayOf(12f, 10f), 0f)
+            pathEffect = PathEffect.dashPathEffect(floatArrayOf(12f, 10f), 0f),
         )
     }
 }
-
 
 @Composable
 private fun Branches() {
@@ -285,11 +288,10 @@ private fun Branches() {
                         .padding(8.dp)
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(8.dp))
-                        .background(shimmerBrush())
+                        .background(shimmerBrush()),
                 )
             }
         }
-
     }
 }
 

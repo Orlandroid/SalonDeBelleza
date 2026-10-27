@@ -9,24 +9,23 @@ import com.example.branches.branches.BranchesScreen
 import com.example.core.navigation.AppNavigationRoutes
 import com.example.core.navigation.schedule.ScheduleNavigationRoutes
 import com.example.core.ui.components.SuccessScreen
-import com.example.scheduleappointment.detail_staff.DetailStaffScreen
+import com.example.scheduleappointment.detailstaff.DetailStaffScreen
 import com.example.scheduleappointment.home.HomeScreen
 import com.example.scheduleappointment.home.HomeScreenEvents
 import com.example.scheduleappointment.schedule.ScheduleScreen
-import com.example.scheduleappointment.schedule_confirmation.ScheduleConfirmationScreen
-import com.example.scheduleappointment.schedule_staff.ScheduleStaffScreen
+import com.example.scheduleappointment.scheduleconfirmation.ScheduleConfirmationScreen
+import com.example.scheduleappointment.schedulestaff.ScheduleStaffScreen
 import com.example.scheduleappointment.service.ServiceScreen
-
 
 fun NavGraphBuilder.scheduleNavigationGraph(
     navController: NavHostController,
     goToInfoNavigation: () -> Unit,
     goToProfileNavigation: () -> Unit,
     goToWallet: () -> Unit,
-    onRestart: () -> Unit
+    onRestart: () -> Unit,
 ) {
     navigation<AppNavigationRoutes.ScheduleNavigationRoute>(
-        startDestination = ScheduleNavigationRoutes.HomeRoute
+        startDestination = ScheduleNavigationRoutes.HomeRoute,
     ) {
         composable<ScheduleNavigationRoutes.HomeRoute> {
             HomeScreen(
@@ -52,13 +51,12 @@ fun NavGraphBuilder.scheduleNavigationGraph(
                             goToWallet()
                         }
                     }
-                }
+                },
             )
-
         }
         composable<ScheduleNavigationRoutes.ChoseBranchRoute> {
             BranchesScreen(
-                navController = navController
+                navController = navController,
             )
         }
         composable<ScheduleNavigationRoutes.ScheduleStaffRoute> {
@@ -75,7 +73,7 @@ fun NavGraphBuilder.scheduleNavigationGraph(
         }
         composable<ScheduleNavigationRoutes.ScheduleConfirmationRoute> {
             ScheduleConfirmationScreen(
-                navController = navController
+                navController = navController,
             ) {
                 navController.navigate(ScheduleNavigationRoutes.SuccessScheduleRoute)
             }
@@ -83,7 +81,7 @@ fun NavGraphBuilder.scheduleNavigationGraph(
         composable<ScheduleNavigationRoutes.SuccessScheduleRoute> {
             SuccessScreen(
                 title = stringResource(R.string.appointment_success_title),
-                description = stringResource(R.string.appointment_success_subtitle)
+                description = stringResource(R.string.appointment_success_subtitle),
             ) {
                 onRestart()
             }

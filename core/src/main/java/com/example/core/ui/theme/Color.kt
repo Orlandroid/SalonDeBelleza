@@ -35,12 +35,13 @@ val TextSecondary = Color(0xFF6B6B6B)
 val TextMuted = Color(0xFF9C9C9C)
 val DashedLine = Color(0xFFD9D9D9)
 
-val avatarBackgrounds = listOf(
-    Color(0xFFEDE9FE) to Color(0xFF7C3AED),
-    Color(0xFFFCE7F3) to Color(0xFFDB2777),
-    Color(0xFFD1FAE5) to Color(0xFF059669),
-    Color(0xFFFEF3C7) to Color(0xFFD97706),
-)
+val avatarBackgrounds =
+    listOf(
+        Color(0xFFEDE9FE) to Color(0xFF7C3AED),
+        Color(0xFFFCE7F3) to Color(0xFFDB2777),
+        Color(0xFFD1FAE5) to Color(0xFF059669),
+        Color(0xFFFEF3C7) to Color(0xFFD97706),
+    )
 val Confirmed = Color(0xFF2196F3)
 val Completed = Color(0xFF4CAF50)
 val Canceled = Color(0xFFF44336)

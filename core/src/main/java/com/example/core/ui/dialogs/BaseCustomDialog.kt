@@ -21,17 +21,18 @@ import androidx.compose.ui.window.DialogProperties
 fun BaseCustomDialog(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit,
-    content: @Composable () -> Unit
+    content: @Composable () -> Unit,
 ) {
     Dialog(
         onDismissRequest = onDismissRequest,
-        properties = DialogProperties(
-            usePlatformDefaultWidth = false
-        )
+        properties =
+            DialogProperties(
+                usePlatformDefaultWidth = false,
+            ),
     ) {
         Box(
             modifier = modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center
+            contentAlignment = Alignment.Center,
         ) {
             Box(
                 Modifier
@@ -42,11 +43,10 @@ fun BaseCustomDialog(
                     .background(
                         MaterialTheme.colorScheme.surface,
                     ),
-                contentAlignment = Alignment.Center
+                contentAlignment = Alignment.Center,
             ) {
                 content()
             }
-
         }
     }
 }

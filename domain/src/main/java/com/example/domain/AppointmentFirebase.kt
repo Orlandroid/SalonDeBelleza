@@ -1,5 +1,6 @@
 package com.example.domain
 
+import com.example.model.state.models.AppointmentStatus
 import java.util.UUID
 
 data class AppointmentFirebase(
@@ -12,5 +13,5 @@ data class AppointmentFirebase(
     val hour: String = "",
     val total: String = "",
     val clientName: String = "",
-    val status: AppointmentStatus = AppointmentStatus.CONFIRMED
+    val status: AppointmentStatus = AppointmentStatus.CONFIRMED,
 )

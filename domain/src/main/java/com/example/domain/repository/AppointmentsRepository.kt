@@ -5,11 +5,10 @@ import com.example.domain.AppointmentFirebase
 import com.example.domain.entities.local.AppointmentObject
 import com.example.domain.entities.remote.migration.NegoInfo
 import com.example.domain.entities.remote.migration.Service
-import com.example.domain.state.ApiResult
 import com.example.domain.entities.remote.migration.Staff
+import com.example.model.state.ApiResult
 
 interface AppointmentsRepository {
-
     suspend fun deleteAppointment(idAppointment: String): ApiResult<Any>
 
     suspend fun getAppointments(): ApiResult<List<Appointment>>
@@ -22,7 +21,7 @@ interface AppointmentsRepository {
 
     suspend fun updateAppointment(
         appointmentId: String,
-        appointment: AppointmentFirebase
+        appointment: AppointmentFirebase,
     ): ApiResult<Unit>
 
     suspend fun getBranches(): ApiResult<List<NegoInfo>>
@@ -33,13 +32,13 @@ interface AppointmentsRepository {
 
     suspend fun findStaff(
         branchName: String,
-        staffName: String
+        staffName: String,
     ): ApiResult<Pair<String, Staff?>>
 
     suspend fun getBookedSlots(
         branchName: String,
         date: String,
-        staffName: String
+        staffName: String,
     ): ApiResult<List<String>>
 
     suspend fun bookMasterSchedule(
@@ -47,7 +46,6 @@ interface AppointmentsRepository {
         date: String,
         staffName: String,
         time: String,
-        appointmentId: String
+        appointmentId: String,
     ): ApiResult<Unit>
-
 }

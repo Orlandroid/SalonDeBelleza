@@ -8,7 +8,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.domain"
+    namespace = "com.example.auth.domain"
     compileSdk {
         version = release(37)
     }
@@ -31,6 +31,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:model"))
     implementation(project(":domain"))
     implementation(project(":di"))
     implementation(libs.androidCoreKtx)

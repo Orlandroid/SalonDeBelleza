@@ -3,7 +3,6 @@ package com.example.core.navigation
 import kotlinx.serialization.Serializable
 
 sealed class AppNavigationRoutes {
-
     @Serializable
     data object AuthNavigationRoute : AppNavigationRoutes()
 
@@ -15,7 +14,6 @@ sealed class AppNavigationRoutes {
 
     @Serializable
     data object ProfileNavigationRoute : AppNavigationRoutes()
-
 
     @Serializable
     data object LoyaltyNavigationRoute : AppNavigationRoutes()

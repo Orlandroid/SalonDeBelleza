@@ -1,6 +1,5 @@
 package com.example.loyalty.loyalityTransactions
 
-
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -31,7 +30,9 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -41,6 +42,7 @@ import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.theme.Background
 import com.example.domain.loyalty.LoyaltyTransaction
 import com.example.domain.loyalty.LoyaltyTransactionType
+import com.example.loyalty.R
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
@@ -48,31 +50,40 @@ import java.util.Locale
 @Composable
 fun LoyaltyHistoryScreen(
     navController: NavHostController,
-    viewModel: LoyaltyHistoryViewModel = hiltViewModel()
+    viewModel: LoyaltyHistoryViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()
 
     BaseComposeScreen(
         navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(
-            showToolbar = true,
-            title = "Mi Actividad"
-        )
+        toolbarConfiguration =
+            ToolbarConfiguration(
+                showToolbar = true,
+                title = stringResource(R.string.my_activity),
+            ),
     ) {
-        Column(modifier = Modifier
-            .fillMaxSize()
-            .background(Background)) {
-            if (uiState.transactions.isEmpty() && !uiState.isLoading) {
-                EmptyHistory()
-            } else {
-                LazyColumn(
-                    modifier = Modifier.fillMaxSize(),
-                    contentPadding = PaddingValues(16.dp),
-                    verticalArrangement = Arrangement.spacedBy(12.dp)
-                ) {
-                    items(uiState.transactions) { transaction ->
-                        TransactionItem(transaction)
-                    }
+        LoyaltyHistoryScreenContent(uiState = uiState)
+    }
+}
+
+@Composable
+private fun LoyaltyHistoryScreenContent(uiState: LoyaltyHistoryUiState) {
+    Column(
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(Background),
+    ) {
+        if (uiState.transactions.isEmpty() && !uiState.isLoading) {
+            EmptyHistory()
+        } else {
+            LazyColumn(
+                modifier = Modifier.fillMaxSize(),
+                contentPadding = PaddingValues(16.dp),
+                verticalArrangement = Arrangement.spacedBy(12.dp),
+            ) {
+                items(items = uiState.transactions, key = { it.id }) { transaction ->
+                    TransactionItem(transaction)
                 }
             }
         }
@@ -89,23 +100,23 @@ private fun TransactionItem(transaction: LoyaltyTransaction) {
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 1.dp),
-        shape = RoundedCornerShape(16.dp)
+        shape = RoundedCornerShape(16.dp),
     ) {
         Row(
             modifier = Modifier.padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically
+            verticalAlignment = Alignment.CenterVertically,
         ) {
             Surface(
                 shape = CircleShape,
                 color = color.copy(alpha = 0.1f),
-                modifier = Modifier.size(40.dp)
+                modifier = Modifier.size(40.dp),
             ) {
                 Box(contentAlignment = Alignment.Center) {
                     Icon(
                         icon,
                         contentDescription = null,
                         tint = color,
-                        modifier = Modifier.size(20.dp)
+                        modifier = Modifier.size(20.dp),
                     )
                 }
             }
@@ -117,12 +128,12 @@ private fun TransactionItem(transaction: LoyaltyTransaction) {
                     text = transaction.description,
                     style = MaterialTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Bold,
-                    color = Color.Black
+                    color = Color.Black,
                 )
                 Text(
                     text = formatDate(transaction.createdAt),
                     style = MaterialTheme.typography.labelSmall,
-                    color = Color.Gray
+                    color = Color.Gray,
                 )
             }
 
@@ -130,7 +141,7 @@ private fun TransactionItem(transaction: LoyaltyTransaction) {
                 text = "${if (isEarned) "+" else ""}${transaction.points} ⭐",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Black,
-                color = color
+                color = color,
             )
         }
     }
@@ -139,11 +150,30 @@ private fun TransactionItem(transaction: LoyaltyTransaction) {
 @Composable
 private fun EmptyHistory() {
     Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
-        Text("Aún no tienes movimientos", color = Color.Gray)
+        Text(
+            text = stringResource(R.string.no_activity_yet),
+            color = Color.Gray,
+        )
     }
 }
 
 private fun formatDate(timestamp: Long): String {
     val sdf = SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault())
     return sdf.format(Date(timestamp))
+}
+
+@Composable
+@Preview(showBackground = true)
+private fun LoyaltyHistoryScreenContentPreview() {
+    LoyaltyHistoryScreenContent(
+        LoyaltyHistoryUiState(
+            transactions =
+                listOf(
+                    LoyaltyTransaction(
+                        points = 3800,
+                        description = "Points earned",
+                    ),
+                ),
+        ),
+    )
 }

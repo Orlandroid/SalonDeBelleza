@@ -11,6 +11,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
@@ -32,7 +33,8 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
-import com.example.core.navigation.info.InfoNavigationScreens
+import com.example.branches.R
+import com.example.core.navigation.info.InfoNavigationRoutes
 import com.example.core.navigation.schedule.ScheduleNavigationRoutes
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.base.BaseScreenState
@@ -47,13 +49,11 @@ import com.example.core.ui.theme.Background
 import com.example.core.ui.theme.BackgroundListsMainFlow
 import com.example.core.ui.theme.GreenOpen
 import com.example.core.ui.theme.RedClosed
-import com.example.domain.entities.remote.migration.NegoInfo
-import com.example.branches.R
 
 @Composable
 fun BranchesScreen(
     navController: NavController,
-    branchViewModel: BranchViewModel = hiltViewModel()
+    branchViewModel: BranchViewModel = hiltViewModel(),
 ) {
     val uiState by branchViewModel.state.collectAsStateWithLifecycle()
     LaunchedEffect(branchViewModel) {
@@ -64,7 +64,7 @@ fun BranchesScreen(
                 }
 
                 BranchesEffects.GotoBranchInfo -> {
-                    navController.navigate(InfoNavigationScreens.BranchInfoRoute)
+                    navController.navigate(InfoNavigationRoutes.BranchInfoRoute)
                 }
             }
         }
@@ -78,14 +78,14 @@ fun BranchesScreen(
             uiState.getContentOrNull()?.let { state ->
                 BaseComposeScreen(
                     toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.agendar_sucursal)),
-                    navController = navController
+                    navController = navController,
                 ) {
                     BranchesScreenContent(
                         modifier = Modifier,
-                        branches = state,
-                        clickOnBranch = { branch ->
-                            branchViewModel.onBranchSelected(branch = branch)
-                        }
+                        branches = state.toBranchList(),
+                        clickOnBranch = { branchId ->
+                            branchViewModel.onBranchSelected(branchId = branchId)
+                        },
                     )
                 }
             }
@@ -100,64 +100,61 @@ fun BranchesScreen(
 @Composable
 private fun BranchesScreenContent(
     modifier: Modifier = Modifier,
-    branches: List<NegoInfo>?,
-    clickOnBranch: (NegoInfo) -> Unit
+    branches: List<Branch>,
+    clickOnBranch: (branchId: String) -> Unit,
 ) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Background),
-        verticalArrangement = Arrangement.Bottom
+        modifier =
+            modifier
+                .fillMaxSize()
+                .background(Background),
+        verticalArrangement = Arrangement.Bottom,
     ) {
         Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp, top = 16.dp)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp, top = 16.dp),
         ) {
             Text(
                 modifier = Modifier.padding(start = 16.dp),
                 text = stringResource(R.string.avalible_locations),
-                fontSize = 20.sp
+                fontSize = 20.sp,
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
                 modifier = Modifier.padding(end = 16.dp),
-                text = "${branches?.size ?: 0} Branches",
-                fontSize = 20.sp
+                text = "${branches.size} Branches",
+                fontSize = 20.sp,
             )
         }
-        branches?.let {
-            Branches(
-                branches = branches,
-                currentBranch = { chosenBranch ->
-                    clickOnBranch(chosenBranch)
-                }
-            )
-        }
+        Branches(
+            branches = branches,
+            currentBranch = { branchId ->
+                clickOnBranch(branchId)
+            },
+        )
         LongSpacer(orientation = Orientation.VERTICAL)
-
     }
 }
 
 @Composable
 private fun Branches(
-    branches: List<NegoInfo>,
-    currentBranch: (NegoInfo) -> Unit
+    branches: List<Branch>,
+    currentBranch: (branchId: String) -> Unit,
 ) {
     LazyColumn {
-        branches.forEach { branch ->
-            item {
-                BranchItem(
-                    config =
-                        TextWithArrowConfig(
-                            text = branch.sucursal.name,
-                            clickOnItem = {
-                                currentBranch(branch)
-                            }
-                        ),
-                    isOpen = branch.sucursal.isOpen
-                )
-            }
+        items(items = branches, key = { it.id }) { branch ->
+            BranchItem(
+                config =
+                    TextWithArrowConfig(
+                        text = branch.name,
+                        clickOnItem = {
+                            currentBranch(branch.id)
+                        },
+                    ),
+                isOpen = branch.isOpen,
+            )
         }
     }
 }
@@ -166,53 +163,56 @@ private fun Branches(
 private fun OpenBadge(isOpen: Boolean) {
     Surface(
         shape = RoundedCornerShape(6.dp),
-        color = if (isOpen) GreenOpen.copy(alpha = 0.12f) else RedClosed.copy(alpha = 0.12f)
+        color = if (isOpen) GreenOpen.copy(alpha = 0.12f) else RedClosed.copy(alpha = 0.12f),
     ) {
         Text(
             text = if (isOpen) stringResource(R.string.open) else stringResource(R.string.closed),
             fontSize = 11.sp,
             fontWeight = FontWeight.SemiBold,
             color = if (isOpen) GreenOpen else RedClosed,
-            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
         )
     }
 }
 
 @Composable
-fun BranchItem(
+private fun BranchItem(
     config: TextWithArrowConfig,
-    isOpen: Boolean
+    isOpen: Boolean,
 ) {
     Card(
         colors = CardDefaults.cardColors(containerColor = BackgroundListsMainFlow),
         elevation = CardDefaults.cardElevation(config.cardElevation),
         shape = RoundedCornerShape(config.cornerSize),
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(8.dp),
-        border = BorderStroke(
-            width = 1.dp,
-            color = Color.Black
-        ),
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(8.dp),
+        border =
+            BorderStroke(
+                width = 1.dp,
+                color = Color.Black,
+            ),
         onClick = {
             config.clickOnItem.invoke()
-        }
+        },
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(vertical = config.verticalPadding),
-            verticalArrangement = Arrangement.Center
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = config.verticalPadding),
+            verticalArrangement = Arrangement.Center,
         ) {
             Row(
                 modifier = Modifier,
-                verticalAlignment = Alignment.CenterVertically
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
                     text = config.text,
                     fontSize = config.fontSize,
-                    fontWeight = FontWeight.SemiBold
+                    fontWeight = FontWeight.SemiBold,
                 )
                 Spacer(Modifier.weight(1f))
                 Icon(
@@ -223,14 +223,15 @@ fun BranchItem(
                 )
             }
             Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(start = 8.dp, top = 8.dp)
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(start = 8.dp, top = 8.dp),
             ) {
                 Text(
                     modifier = Modifier.padding(start = 16.dp),
                     text = stringResource(R.string.main_street),
-                    fontSize = 16.sp
+                    fontSize = 16.sp,
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 OpenBadge(isOpen = isOpen)
@@ -239,14 +240,20 @@ fun BranchItem(
     }
 }
 
-
 @Composable
 @Preview(showBackground = true)
 private fun BranchesScreenContentPreview() {
+    val branch = Branch(id = "", name = "Sucursal 1", isOpen = true)
     BranchesScreenContent(
         modifier = Modifier,
-        branches = NegoInfo.mockBusinessList(),
-        clickOnBranch = {}
+        branches =
+            listOf(
+                branch,
+                branch.copy(id = "2"),
+                branch.copy(id = "3"),
+                branch.copy(id = "4", isOpen = false),
+                branch.copy(id = "5"),
+            ),
+        clickOnBranch = {},
     )
 }
-

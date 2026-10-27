@@ -7,7 +7,7 @@ plugins {
 }
 
 android {
-    namespace = "com.example.data"
+    namespace = "com.example.wallet.data"
     compileSdk {
         version = release(37)
     }
@@ -30,6 +30,7 @@ android {
 }
 
 dependencies {
+    implementation(project(":core:model"))
     implementation(project(":domain"))
     implementation(project(":data"))
     implementation(project(":wallet:domain"))

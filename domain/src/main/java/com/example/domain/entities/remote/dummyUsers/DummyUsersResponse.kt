@@ -4,7 +4,7 @@ data class DummyUsersResponse(
     val limit: Int,
     val skip: Int,
     val total: Int,
-    val users: List<User>
+    val users: List<User>,
 )
 
 data class Address(
@@ -12,7 +12,7 @@ data class Address(
     val city: String,
     val coordinates: Coordinates,
     val postalCode: String,
-    val state: String
+    val state: String,
 )
 
 data class Bank(
@@ -20,12 +20,12 @@ data class Bank(
     val cardNumber: String,
     val cardType: String,
     val currency: String,
-    val iban: String
+    val iban: String,
 )
 
 data class Hair(
     val color: String,
-    val type: String
+    val type: String,
 )
 
 data class User(
@@ -55,18 +55,17 @@ data class User(
     val university: String,
     val userAgent: String,
     val username: String,
-    val weight: Double
+    val weight: Double,
 )
 
 data class Coordinates(
     val lat: Double,
-    val lng: Double
+    val lng: Double,
 )
 
 data class Company(
     val address: Address,
     val department: String,
     val name: String,
-    val title: String
+    val title: String,
 )
-

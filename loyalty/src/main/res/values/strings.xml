@@ -6,4 +6,12 @@
     <string name="redeem">Redeem</string>
     <string name="missing_points">Missing points</string>
     <string name="points_required">%1$d points required</string>
+    <string name="my_activity">My Activity</string>
+    <string name="no_activity_yet">You don\'t have any activity yet</string>
+    <string name="ok">OK</string>
+    <string name="error">Error</string>
+    <string name="redeem_success_title">Redemption Successful!</string>
+    <string name="redeem_success_message">You have redeemed a %1$d%% discount reward.</string>
+    <string name="your_code_is">Your code is:</string>
+    <string name="find_code_in_profile">You can find this code in your profile.</string>
 </resources>

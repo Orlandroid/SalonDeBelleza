@@ -46,8 +46,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.SubcomposeAsyncImage
-import com.example.core.navigation.info.InfoNavigationScreens.DetailProductRoute
-import com.example.core.navigation.info.InfoNavigationScreens.SuccessScreenRoute
+import com.example.core.navigation.info.InfoNavigationRoutes.DetailProductRoute
+import com.example.core.navigation.info.InfoNavigationRoutes.SuccessScreenRoute
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.components.BaseErrorScreen
 import com.example.core.ui.components.ToolbarConfiguration
@@ -60,8 +60,8 @@ import com.example.core.ui.theme.Background
 import com.example.core.util.toCurrencyString
 import com.example.domain.Product
 import com.example.domain.loyalty.PromotionCode
-import com.example.domain.wallet.Currency
 import com.example.info.R
+import com.example.model.state.models.Currency
 import kotlinx.coroutines.flow.collectLatest
 
 @Composable
@@ -317,7 +317,7 @@ private fun ProductItem(
             SubcomposeAsyncImage(
                 modifier = Modifier.size(80.dp),
                 model = product.image,
-                contentDescription = "ImageProduct",
+                contentDescription = stringResource(R.string.cd_image_product),
                 loading = { CircularProgressIndicator(Modifier.padding(16.dp)) },
             )
 
@@ -338,11 +338,15 @@ private fun ProductItem(
                     style = MaterialTheme.typography.titleMedium,
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                QuantityStepper(quantity = product.quantity, onIncrease = {
-                    onEvents(CartEvents.OnIncrease(productId = product.id))
-                }, onDecrease = {
-                    onEvents(CartEvents.OnDecrease(productId = product.id))
-                })
+                QuantityStepper(
+                    quantity = product.quantity,
+                    onIncrease = {
+                        onEvents(CartEvents.OnIncrease(productId = product.id))
+                    },
+                    onDecrease = {
+                        onEvents(CartEvents.OnDecrease(productId = product.id))
+                    },
+                )
             }
 
             IconButton(
@@ -372,7 +376,7 @@ private fun QuantityStepper(
         ) {
             Icon(
                 imageVector = Icons.Default.Remove,
-                contentDescription = "Decrease",
+                contentDescription = stringResource(R.string.cd_decrease),
             )
         }
         Text(
@@ -386,7 +390,7 @@ private fun QuantityStepper(
         ) {
             Icon(
                 imageVector = Icons.Default.Add,
-                contentDescription = "Increase",
+                contentDescription = stringResource(R.string.cd_increase),
             )
         }
     }
@@ -415,7 +419,10 @@ private fun OrderSummarySection(
                     modifier = Modifier.fillMaxWidth(),
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
-                    Text("Subtotal", style = MaterialTheme.typography.bodyMedium)
+                    Text(
+                        text = stringResource(R.string.subtotal),
+                        style = MaterialTheme.typography.bodyMedium,
+                    )
                     Text(
                         total.toCurrencyString(Currency.USD),
                         style = MaterialTheme.typography.bodyMedium,
@@ -427,7 +434,7 @@ private fun OrderSummarySection(
                     horizontalArrangement = Arrangement.SpaceBetween,
                 ) {
                     Text(
-                        "Descuento (${appliedPromo.discountPercentage}%)",
+                        text = stringResource(R.string.discount_format, appliedPromo.discountPercentage),
                         color = Color(0xFF4CAF50),
                         style = MaterialTheme.typography.bodyMedium,
                     )
@@ -447,7 +454,7 @@ private fun OrderSummarySection(
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(
-                    text = "Total",
+                    text = stringResource(R.string.total),
                     style = MaterialTheme.typography.titleMedium,
                 )
                 val finalTotal =

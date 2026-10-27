@@ -2,7 +2,7 @@ package com.example.domain.usecases
 
 import com.example.domain.entities.remote.User
 import com.example.domain.repository.UserRepository
-import com.example.domain.state.ApiResult
+import com.example.model.state.ApiResult
 import com.google.common.truth.Truth
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -16,22 +16,19 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-
 @OptIn(ExperimentalCoroutinesApi::class)
 class SaveUserInformationUseCaseTest {
-
-
     private lateinit var saveUserInformationUseCase: SaveUserInformationUseCase
     private val testDispatcher = StandardTestDispatcher()
     private val userRepository: UserRepository = mockk()
 
-
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        saveUserInformationUseCase = SaveUserInformationUseCase(
-            userRepository = userRepository
-        )
+        saveUserInformationUseCase =
+            SaveUserInformationUseCase(
+                userRepository = userRepository,
+            )
     }
 
     @After
@@ -50,9 +47,7 @@ class SaveUserInformationUseCaseTest {
             Truth.assertThat(loginResult).isInstanceOf(ApiResult.Error::class.java)
             coVerify(exactly = 1) { userRepository.getUser() }
             coVerify(exactly = 0) { userRepository.saveUserInfo(any(), any()) }
-
         }
-
 
     @Test
     fun `when getUser Return Success , and saveUserInfo Return Success `(): Unit =
@@ -66,9 +61,7 @@ class SaveUserInformationUseCaseTest {
             Truth.assertThat(loginResult).isInstanceOf(ApiResult.Success::class.java)
             coVerify(exactly = 1) { userRepository.getUser() }
             coVerify(exactly = 1) { userRepository.saveUserInfo(any(), any()) }
-
         }
-
 
     @Test
     fun `when getUser Return Success , but getContent uid is null `(): Unit =
@@ -81,7 +74,5 @@ class SaveUserInformationUseCaseTest {
             Truth.assertThat(loginResult).isInstanceOf(ApiResult.Error::class.java)
             coVerify(exactly = 1) { userRepository.getUser() }
             coVerify(exactly = 0) { userRepository.saveUserInfo(any(), any()) }
-
         }
-
 }

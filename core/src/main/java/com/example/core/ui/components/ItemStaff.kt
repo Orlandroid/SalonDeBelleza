@@ -25,7 +25,6 @@ import coil.imageLoader
 import coil.util.DebugLogger
 import com.example.domain.entities.remote.migration.Staff
 
-
 sealed class ClickOnItemStaff {
     data object ClickOnItem : ClickOnItemStaff()
 }
@@ -37,36 +36,41 @@ fun ItemStaff(
     branch: String? = null,
     headerText: String? = null,
     clickOnHeaderText: (() -> Unit?)? = null,
-    onClick: ((ClickOnItemStaff) -> Unit?)? = null
+    onClick: ((ClickOnItemStaff) -> Unit?)? = null,
 ) {
     Card(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(8.dp),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(8.dp),
         onClick = {
             onClick?.invoke(ClickOnItemStaff.ClickOnItem)
-        }
+        },
     ) {
         Column(
             Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally
+            horizontalAlignment = Alignment.CenterHorizontally,
         ) {
             headerText?.let {
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     modifier = Modifier.clickable { clickOnHeaderText?.invoke() },
                     text = headerText,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
                 )
             }
             val imageLoader =
-                LocalContext.current.imageLoader.newBuilder().logger(DebugLogger()).build()
+                LocalContext.current.imageLoader
+                    .newBuilder()
+                    .logger(DebugLogger())
+                    .build()
             Spacer(modifier = Modifier.height(16.dp))
             SubcomposeAsyncImage(
                 imageLoader = imageLoader,
-                modifier = Modifier
-                    .clip(CircleShape)
-                    .size(150.dp),
+                modifier =
+                    Modifier
+                        .clip(CircleShape)
+                        .size(150.dp),
                 model = staff.image_url,
                 contentDescription = "ImageStaff",
                 loading = { CircularProgressIndicator() },
@@ -86,13 +90,14 @@ fun ItemStaff(
 @Preview(showBackground = true)
 private fun ItemStaffPreview() {
     ItemStaff(
-        staff = Staff(
-            id = "",
-            image_url = "",
-            name = "Orlando",
-            gender = "",
-            rating = 4
-        ),
-        branch = "Zacatecas"
+        staff =
+            Staff(
+                id = "",
+                image_url = "",
+                name = "Orlando",
+                gender = "",
+                rating = 4,
+            ),
+        branch = "Zacatecas",
     )
 }

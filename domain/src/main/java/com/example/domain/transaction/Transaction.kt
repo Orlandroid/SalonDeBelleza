@@ -1,5 +1,6 @@
 package com.example.domain.transaction
 
+import com.example.model.state.models.TransactionType
 import java.util.UUID
 
 data class Transaction(
@@ -7,5 +8,5 @@ data class Transaction(
     val amount: Long = 0L,
     val transactionType: TransactionType = TransactionType.INITIAL_BALANCE,
     val description: String = "",
-    val createdAt: Long = 0L
+    val createdAt: Long = 0L,
 )
