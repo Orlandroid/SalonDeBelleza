@@ -19,7 +19,7 @@ import androidx.compose.material.icons.filled.ShoppingBag
 import androidx.compose.material.icons.filled.SwapHoriz
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Divider
+import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -30,6 +30,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -69,7 +70,6 @@ fun TransactionDetailScreen(
         }
 
         is BaseScreenState.OnContent -> {
-
             viewState.getContentOrNull()?.let { state ->
                 BaseComposeScreen(
                     toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.transactions)),
@@ -78,15 +78,12 @@ fun TransactionDetailScreen(
                     TransactionDetailScreenContent(transaction = state.transaction)
                 }
             }
-
         }
-
 
         is BaseScreenState.OnError -> {
             BaseErrorScreen()
         }
     }
-
 }
 
 @Composable
@@ -151,6 +148,7 @@ private fun TransactionHeader(transaction: Transaction) {
 
 @Composable
 private fun TransactionDetailsCard(transaction: Transaction) {
+    val noDateText = stringResource(R.string.no_date)
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
@@ -158,40 +156,38 @@ private fun TransactionDetailsCard(transaction: Transaction) {
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             DetailRow(
-                label = "Descripción",
+                label = stringResource(R.string.label_description),
                 value = transaction.description.ifBlank {
                     transactionTypeLabel(transaction.transactionType)
                 }
             )
-            Divider(modifier = Modifier.padding(vertical = 12.dp))
+            HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
             DetailRow(
-                label = "Fecha",
-                value = formatTransactionDate(transaction.createdAt)
+                label = stringResource(R.string.label_date),
+                value = formatTransactionDate(transaction.createdAt, noDateText)
             )
-            Divider(modifier = Modifier.padding(vertical = 12.dp))
+            HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
             DetailRow(
-                label = "Tipo",
+                label = stringResource(R.string.label_type),
                 value = transactionTypeLabel(transaction.transactionType)
             )
-            Divider(modifier = Modifier.padding(vertical = 12.dp))
+            HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
             DetailRow(
-                label = "ID de transacción",
+                label = stringResource(R.string.label_transaction_id),
                 value = transaction.id
             )
         }
     }
 }
 
+@Composable
 private fun transactionTypeLabel(type: TransactionType): String = when (type) {
-    TransactionType.MARKETPLACE_PURCHASE -> "Compra en marketplace"
-    TransactionType.UNKNOWN -> "Transacción"
-    else -> {
-        "Transacción"
-    }
+    TransactionType.MARKETPLACE_PURCHASE -> stringResource(R.string.type_marketplace_purchase)
+    else -> stringResource(R.string.type_transaction)
 }
 
-private fun formatTransactionDate(createdAt: Long): String {
-    if (createdAt <= 0L) return "Sin fecha"
+private fun formatTransactionDate(createdAt: Long, noDateText: String): String {
+    if (createdAt <= 0L) return noDateText
     val sdf = SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault())
     return sdf.format(Date(createdAt))
 }
@@ -214,12 +210,11 @@ private fun DetailRow(label: String, value: String) {
             fontWeight = FontWeight.Medium,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
-            textAlign = androidx.compose.ui.text.style.TextAlign.End,
+            textAlign = TextAlign.End,
             modifier = Modifier.weight(1f, fill = false)
         )
     }
 }
-
 
 @Composable
 @Preview(showBackground = true, showSystemUi = true)
