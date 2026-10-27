@@ -69,10 +69,10 @@ fun ProductsScreen(
             creationCallback = { factory: ProductsViewModelFactory ->
                 factory.create(
                     source = source,
-                    category = category,
+                    category = category
                 )
-            },
-        ),
+            }
+        )
 ) {
     val uiState by productsViewModel.state.collectAsStateWithLifecycle()
     val snackBarHostState = remember { SnackbarHostState() }
@@ -89,8 +89,8 @@ fun ProductsScreen(
                             navController.navigate(
                                 InfoNavigationRoutes.DetailProductRoute(
                                     productId = it.product.id,
-                                    source = it.source,
-                                ),
+                                    source = it.source
+                                )
                             )
                         }
 
@@ -110,13 +110,13 @@ fun ProductsScreen(
                 navController = navController,
                 toolbarConfiguration =
                     ToolbarConfiguration(
-                        title = stringResource(R.string.productos),
-                    ),
+                        title = stringResource(R.string.productos)
+                    )
             ) {
                 uiState.getContentOrNull()?.let { uiState ->
                     ProductsScreenContent(
                         products = uiState.products,
-                        onEvents = productsViewModel::onEvents,
+                        onEvents = productsViewModel::onEvents
                     )
                 }
             }
@@ -136,13 +136,13 @@ fun ProductsScreen(
 private fun ProductsScreenContent(
     modifier: Modifier = Modifier,
     products: List<Product>?,
-    onEvents: (event: ProductScreenEvents) -> Unit,
+    onEvents: (event: ProductScreenEvents) -> Unit
 ) {
     Column(
         modifier =
             modifier
                 .fillMaxSize()
-                .background(Background),
+                .background(Background)
     ) {
         ContainerImageCart {
             Image(
@@ -154,7 +154,7 @@ private fun ProductsScreenContent(
                             onEvents(ProductScreenEvents.OnCarClicked)
                         },
                 painter = painterResource(id = R.drawable.shopping_cart),
-                contentDescription = "ImageCart",
+                contentDescription = "ImageCart"
             )
         }
         Spacer(modifier = Modifier.height(16.dp))
@@ -166,7 +166,7 @@ private fun ProductsScreenContent(
 private fun ContainerImageCart(content: @Composable () -> Unit) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.End,
+        horizontalArrangement = Arrangement.End
     ) {
         content()
     }
@@ -175,13 +175,13 @@ private fun ContainerImageCart(content: @Composable () -> Unit) {
 @Composable
 private fun Products(
     products: List<Product>,
-    onEvents: (event: ProductScreenEvents) -> Unit,
+    onEvents: (event: ProductScreenEvents) -> Unit
 ) {
     LazyVerticalGrid(
         columns = GridCells.Fixed(2),
         contentPadding = PaddingValues(8.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
-        verticalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {
         items(products, key = { it.id }) { product ->
             ItemProduct(product = product, onEvents = onEvents)
@@ -193,7 +193,7 @@ private fun Products(
 private fun ItemProduct(
     modifier: Modifier = Modifier,
     product: Product,
-    onEvents: (event: ProductScreenEvents) -> Unit,
+    onEvents: (event: ProductScreenEvents) -> Unit
 ) {
     Card(
         modifier = modifier.padding(4.dp),
@@ -201,7 +201,7 @@ private fun ItemProduct(
         onClick = {
             onEvents(ProductScreenEvents.OnProductClicked(product))
         },
-        colors = CardDefaults.cardColors(containerColor = AlwaysWhite),
+        colors = CardDefaults.cardColors(containerColor = AlwaysWhite)
     ) {
         Spacer(modifier = Modifier.height(16.dp))
         ButtonAdd(product = product, onEvents = onEvents)
@@ -217,7 +217,7 @@ private fun ItemProduct(
             maxLines = 2,
             minLines = 2,
             overflow = TextOverflow.Ellipsis,
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.bodyMedium
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
@@ -226,7 +226,7 @@ private fun ItemProduct(
                     .align(Alignment.CenterHorizontally)
                     .padding(bottom = 16.dp),
             text = product.price.toCurrencyString(Currency.USD),
-            style = MaterialTheme.typography.titleLarge,
+            style = MaterialTheme.typography.titleLarge
         )
     }
 }
@@ -234,19 +234,19 @@ private fun ItemProduct(
 @Composable
 private fun ButtonAdd(
     product: Product,
-    onEvents: (event: ProductScreenEvents) -> Unit,
+    onEvents: (event: ProductScreenEvents) -> Unit
 ) {
     ButtonWithIcon(
         modifier = Modifier.padding(horizontal = 8.dp),
         imageVector =
             ImageVector.vectorResource(
-                id = R.drawable.ic_baseline_add_24,
+                id = R.drawable.ic_baseline_add_24
             ),
         buttonText = stringResource(R.string.agregar),
         backgroundColor = Color.White,
         onClick = {
             onEvents(ProductScreenEvents.OnAddProduct(product = product))
-        },
+        }
     )
 }
 
@@ -259,7 +259,7 @@ private fun ColumnScope.ImageProduct(productImage: String) {
                 .align(Alignment.CenterHorizontally),
         model = productImage,
         contentDescription = "ImageProduct",
-        loading = { CircularProgressIndicator(Modifier.padding(16.dp)) },
+        loading = { CircularProgressIndicator(Modifier.padding(16.dp)) }
     )
 }
 
@@ -274,8 +274,8 @@ private fun ProductsScreenContentPreview() {
                     .copy(title = "John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet"),
                 Product.dummyProduct().copy(id = 2),
                 Product.dummyProduct().copy(id = 3),
-                Product.dummyProduct().copy(title = "Solid Gold Petite Micropave", id = 4),
+                Product.dummyProduct().copy(title = "Solid Gold Petite Micropave", id = 4)
             ),
-        onEvents = {},
+        onEvents = {}
     )
 }

@@ -10,11 +10,11 @@ import javax.inject.Inject
 class VerifyPromoCodeUseCase
     @Inject
     constructor(
-        private val repository: LoyaltyRepository,
+        private val repository: LoyaltyRepository
     ) {
         suspend operator fun invoke(
             userId: String,
-            codeStr: String,
+            codeStr: String
         ): ApiResult<PromotionCode> {
             val result = repository.getPromotionCodes(userId)
             if (result.isError()) {

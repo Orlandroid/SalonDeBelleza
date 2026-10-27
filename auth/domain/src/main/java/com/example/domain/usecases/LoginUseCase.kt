@@ -16,11 +16,11 @@ class LoginUseCase
     constructor(
         private val authRepository: AuthRepository,
         private val userPreferences: UserPreferences,
-        private val userRepository: UserRepository,
+        private val userRepository: UserRepository
     ) {
         suspend operator fun invoke(
             email: String,
-            password: String,
+            password: String
         ): ApiResult<UserRole> {
             val loginResult = authRepository.login(email, password)
 

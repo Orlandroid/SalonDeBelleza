@@ -8,11 +8,11 @@ import com.google.firebase.auth.FirebaseAuth
 import kotlinx.coroutines.tasks.await
 
 class AuthRepositoryImp(
-    private val firebaseAuth: FirebaseAuth,
+    private val firebaseAuth: FirebaseAuth
 ) : AuthRepository {
     override suspend fun login(
         email: String,
-        password: String,
+        password: String
     ): ApiResult<Unit> =
         try {
             firebaseAuth.signInWithEmailAndPassword(email, password).await()
@@ -23,7 +23,7 @@ class AuthRepositoryImp(
 
     override suspend fun register(
         email: String,
-        password: String,
+        password: String
     ): ApiResult<AuthResult> =
         try {
             val authResult = firebaseAuth.createUserWithEmailAndPassword(email, password).await()

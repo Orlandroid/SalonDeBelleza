@@ -39,7 +39,7 @@ import com.example.core.ui.theme.StatusBarColor
 fun SplashScreen(
     viewModel: SplashScreenViewModel = hiltViewModel(),
     navController: NavController,
-    goToScheduleNav: () -> Unit,
+    goToScheduleNav: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val activity = LocalActivity.current
@@ -52,7 +52,7 @@ fun SplashScreen(
                 bodyMessage = stringResource(R.string.security_warning_rooted_device),
                 onConfirmation = {
                     activity?.finish()
-                },
+                }
             )
         BaseAlertDialogMessages(alertDialogMessagesConfig = config)
     } else if (state.isLoading) {
@@ -66,7 +66,7 @@ fun SplashScreen(
     }
     BaseComposeScreen(
         navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(showToolbar = false),
+        toolbarConfiguration = ToolbarConfiguration(showToolbar = false)
     ) {
         SplashScreenContent()
     }
@@ -79,7 +79,7 @@ private fun SplashScreenContent() {
             Modifier
                 .fillMaxSize()
                 .background(StatusBarColor),
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Center
     ) {
         Spacer(Modifier.weight(1f))
         Text(
@@ -88,7 +88,7 @@ private fun SplashScreenContent() {
             fontWeight = FontWeight.Bold,
             fontSize = 40.sp,
             text = stringResource(id = R.string.skeduly),
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth()
         )
         Spacer(Modifier.weight(1f))
         Image(
@@ -98,7 +98,7 @@ private fun SplashScreenContent() {
                     .height(300.dp)
                     .fillMaxWidth(),
             painter = painterResource(id = R.drawable.logo),
-            contentDescription = "ImageSplashScreen",
+            contentDescription = "ImageSplashScreen"
         )
         Spacer(Modifier.weight(1f))
         Spacer(Modifier.weight(1f))

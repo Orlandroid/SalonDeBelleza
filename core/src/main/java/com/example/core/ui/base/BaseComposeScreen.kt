@@ -28,7 +28,7 @@ fun BaseComposeScreen(
     snackBarHostState: SnackbarHostState = remember { SnackbarHostState() },
     background: Color = Background,
     isLoading: Boolean = false,
-    content: @Composable () -> Unit,
+    content: @Composable () -> Unit
 ) {
     Scaffold(
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
@@ -36,14 +36,14 @@ fun BaseComposeScreen(
             if (toolbarConfiguration.showToolbar) {
                 Toolbar(
                     navController = navController,
-                    toolbarConfiguration = toolbarConfiguration,
+                    toolbarConfiguration = toolbarConfiguration
                 )
             }
-        },
+        }
     ) { paddingValues ->
         ContentScreen(
             paddingValues = paddingValues,
-            background = background,
+            background = background
         ) {
             if (isLoading) {
                 ProgressDialog()
@@ -58,13 +58,13 @@ fun ContentScreen(
     modifier: Modifier = Modifier,
     paddingValues: PaddingValues,
     background: Color,
-    content: @Composable () -> Unit,
+    content: @Composable () -> Unit
 ) {
     Column(
         modifier
             .fillMaxSize()
             .padding(paddingValues)
-            .background(background),
+            .background(background)
     ) {
         content.invoke()
     }

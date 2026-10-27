@@ -13,6 +13,6 @@ interface AdminRepository {
 
     suspend fun updateAppointmentStatus(
         appointmentId: String,
-        newStatus: AppointmentStatus,
+        newStatus: AppointmentStatus
     ): ApiResult<Unit>
 }

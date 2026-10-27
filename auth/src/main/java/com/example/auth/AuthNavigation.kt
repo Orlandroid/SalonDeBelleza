@@ -13,21 +13,21 @@ import com.example.core.navigation.auth.AuthNavigationRoutes
 fun NavGraphBuilder.authNavigationGraph(
     navController: NavHostController,
     goToScheduleFlow: () -> Unit,
-    onRestart: () -> Unit,
+    onRestart: () -> Unit
 ) {
     navigation<AppNavigationRoutes.AuthNavigationRoute>(
-        startDestination = AuthNavigationRoutes.SplashRoute,
+        startDestination = AuthNavigationRoutes.SplashRoute
     ) {
         composable<AuthNavigationRoutes.SplashRoute> {
             SplashScreen(
                 navController = navController,
-                goToScheduleNav = goToScheduleFlow,
+                goToScheduleNav = goToScheduleFlow
             )
         }
         composable<AuthNavigationRoutes.LoginRoute> {
             LoginScreen(
                 navController = navController,
-                onCloseApplication = onRestart,
+                onCloseApplication = onRestart
             )
         }
         composable<AuthNavigationRoutes.SingUpRoute> {

@@ -18,7 +18,7 @@ import com.google.maps.android.compose.rememberCameraPositionState
 fun LocationScreen(navController: NavController) {
     BaseComposeScreen(
         navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.ubicacion)),
+        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.ubicacion))
     ) {
         LocationScreenContent()
     }
@@ -33,7 +33,7 @@ fun LocationScreenContent(modifier: Modifier = Modifier) {
         }
     GoogleMap(
         modifier = modifier.fillMaxSize(),
-        cameraPositionState = cameraPositionState,
+        cameraPositionState = cameraPositionState
     )
 }
 

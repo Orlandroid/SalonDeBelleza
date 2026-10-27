@@ -5,7 +5,7 @@ import java.util.Locale
 
 fun parseDateTime(
     date: String,
-    hour: String,
+    hour: String
 ): Long? =
     try {
         val fullDate = "$date $hour"

@@ -20,7 +20,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 data class OurStaffUiState(
-    val staffs: List<User>,
+    val staffs: List<User>
 )
 
 @HiltViewModel
@@ -28,7 +28,7 @@ class OurStaffViewModel
     @Inject
     constructor(
         private val repository: BusinessRepository,
-        @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+        @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher
     ) : ViewModel() {
         private val coroutineExceptionHandler =
             CoroutineExceptionHandler { _, exception ->
@@ -44,7 +44,7 @@ class OurStaffViewModel
                 }.stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(5000L),
-                    BaseScreenState.OnLoading,
+                    BaseScreenState.OnLoading
                 )
 
         private fun getStaffsUsers() =

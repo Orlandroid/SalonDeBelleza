@@ -7,7 +7,7 @@ import javax.inject.Inject
 class IsBranchOpenUseCase
     @Inject
     constructor(
-        private val timeProvider: TimeProvider,
+        private val timeProvider: TimeProvider
     ) {
         operator fun invoke(schedule: Schedule): Boolean {
             val now = timeProvider.nowInMinutes()

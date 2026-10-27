@@ -17,18 +17,18 @@ import javax.inject.Inject
 
 data class ScheduleStaffUiState(
     val branchName: String? = null,
-    val staffs: List<Staff> = emptyList(),
+    val staffs: List<Staff> = emptyList()
 )
 
 sealed class ScheduleStaffEvents {
     data object OnRandomStaff : ScheduleStaffEvents()
 
     data class ClickOnImageStaff(
-        val staff: Staff,
+        val staff: Staff
     ) : ScheduleStaffEvents()
 
     data class ClickOnStaff(
-        val staff: Staff,
+        val staff: Staff
     ) : ScheduleStaffEvents()
 }
 
@@ -42,7 +42,7 @@ sealed class ScheduleStaffEffects {
 class ScheduleStaffViewmodel
     @Inject
     constructor(
-        private val appointmentSession: AppointmentSession,
+        private val appointmentSession: AppointmentSession
     ) : ViewModel() {
         private val _branchSideEffects = Channel<ScheduleStaffEffects>()
         val branchSideEffects = _branchSideEffects.receiveAsFlow()
@@ -59,7 +59,7 @@ class ScheduleStaffViewmodel
                 }.stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(5000),
-                    initialValue = ScheduleStaffUiState(),
+                    initialValue = ScheduleStaffUiState()
                 )
 
         fun onEvents(event: ScheduleStaffEvents) {

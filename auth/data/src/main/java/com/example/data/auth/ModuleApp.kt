@@ -15,6 +15,6 @@ object ModuleApp {
     @Singleton
     @Provides
     fun provideLoginPreferences(
-        @ApplicationContext context: Context,
+        @ApplicationContext context: Context
     ): UserPreferences = LoginPreferences(context = context)
 }

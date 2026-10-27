@@ -6,7 +6,7 @@ import com.example.domain.repository.ProductsRepository
 import com.example.model.state.models.ProductSource
 
 class ProductsRepositoryImpl(
-    private val resolver: ProductProviderResolver,
+    private val resolver: ProductProviderResolver
 ) : ProductsRepository {
     override suspend fun getProducts(source: ProductSource): List<Product> =
         resolver
@@ -15,6 +15,6 @@ class ProductsRepositoryImpl(
 
     override suspend fun getSingleProduct(
         source: ProductSource,
-        id: Int,
+        id: Int
     ) = resolver.resolve(source).getSingleProduct(id)
 }

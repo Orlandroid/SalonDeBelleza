@@ -19,7 +19,7 @@ class SaveAppointmentUseCase
         private val appointmentsRepository: AppointmentsRepository,
         private val purchaseProductsUseCase: PurchaseProductsUseCase,
         private val reminderManager: ReminderManager,
-        private val userRepository: UserRepository,
+        private val userRepository: UserRepository
     ) {
         private companion object {
             const val MXN_TO_USD_CONVERSION_FACTOR = 3
@@ -32,7 +32,7 @@ class SaveAppointmentUseCase
             service: String,
             date: String,
             hour: String,
-            total: String,
+            total: String
         ): ApiResult<Unit> {
             val userNameResult = userRepository.getUser()
             val userName =
@@ -50,15 +50,15 @@ class SaveAppointmentUseCase
                     hour = hour,
                     total = total,
                     employee = employeeName,
-                    employeeId = employeeId,
+                    employeeId = employeeId
                 )
             val saveAppointmentResult =
                 appointmentsRepository.saveAppointment(
-                    appointment,
+                    appointment
                 )
             if (saveAppointmentResult.isError()) {
                 return ApiResult.Error(
-                    saveAppointmentResult.getErrorMessage() ?: "Error saving appointment",
+                    saveAppointmentResult.getErrorMessage() ?: "Error saving appointment"
                 )
             }
 
@@ -67,7 +67,7 @@ class SaveAppointmentUseCase
                 date = date,
                 staffName = employeeName,
                 time = hour,
-                appointmentId = appointment.idAppointment,
+                appointmentId = appointment.idAppointment
             )
 
             val appointmentTimeMillis = parseDateTime(date, hour)
@@ -75,7 +75,7 @@ class SaveAppointmentUseCase
                 reminderManager.scheduleReminder(
                     serviceName = service,
                     branchName = establishment,
-                    appointmentDateTime = appointmentTimeMillis,
+                    appointmentDateTime = appointmentTimeMillis
                 )
             }
 
@@ -83,7 +83,7 @@ class SaveAppointmentUseCase
                 purchaseProductsUseCase.invoke(
                     amount = total.toDouble().toLong() / MXN_TO_USD_CONVERSION_FACTOR,
                     transactionType = TransactionType.SERVICE_PAYMENT,
-                    description = "${appointment.service} at ${appointment.establishment}",
+                    description = "${appointment.service} at ${appointment.establishment}"
                 )
             return if (purchaseResult.isSuccess()) {
                 ApiResult.Success(Unit)

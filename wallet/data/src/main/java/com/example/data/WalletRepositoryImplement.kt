@@ -17,7 +17,7 @@ class WalletRepositoryImplement
     @Inject
     constructor(
         @param:WalletReference private val databaseReference: DatabaseReference,
-        private val firebaseAuth: FirebaseAuth,
+        private val firebaseAuth: FirebaseAuth
     ) : WalletRepository {
         override suspend fun getWallet(): ApiResult<Wallet> {
             return runCatching {
@@ -69,7 +69,7 @@ class WalletRepositoryImplement
             userId: String,
             amount: Long,
             type: TransactionType,
-            description: String,
+            description: String
         ): ApiResult<Unit> = ApiResult.Error("Not implemented")
 
         override fun observeWallet(userId: String): Flow<Wallet?> = emptyFlow()

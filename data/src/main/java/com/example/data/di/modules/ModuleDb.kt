@@ -18,13 +18,13 @@ object ModuleDb {
     @Provides
     @Singleton
     fun provideAppDatabase(
-        @ApplicationContext context: Context,
+        @ApplicationContext context: Context
     ): SkedulyDatabase =
         Room
             .databaseBuilder(
                 context,
                 SkedulyDatabase::class.java,
-                DATABASE_NAME,
+                DATABASE_NAME
             ).fallbackToDestructiveMigration()
             .build()
 

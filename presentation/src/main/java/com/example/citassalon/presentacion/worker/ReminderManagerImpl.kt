@@ -12,12 +12,12 @@ import javax.inject.Inject
 class ReminderManagerImpl
     @Inject
     constructor(
-        @ApplicationContext private val context: Context,
+        @ApplicationContext private val context: Context
     ) : ReminderManager {
         override fun scheduleReminder(
             serviceName: String,
             branchName: String,
-            appointmentDateTime: Long,
+            appointmentDateTime: Long
         ) {
             runCatching {
                 val workManager = WorkManager.getInstance(context)

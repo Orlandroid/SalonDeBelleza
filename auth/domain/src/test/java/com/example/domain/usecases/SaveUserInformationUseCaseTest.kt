@@ -27,7 +27,7 @@ class SaveUserInformationUseCaseTest {
         Dispatchers.setMain(testDispatcher)
         saveUserInformationUseCase =
             SaveUserInformationUseCase(
-                userRepository = userRepository,
+                userRepository = userRepository
             )
     }
 

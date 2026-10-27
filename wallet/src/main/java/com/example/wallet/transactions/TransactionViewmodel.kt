@@ -17,14 +17,14 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 data class TransactionUiState(
-    val transactions: List<Transaction>,
+    val transactions: List<Transaction>
 )
 
 @HiltViewModel
 class TransactionViewmodel
     @Inject
     constructor(
-        private val transactionRepository: TransactionRepository,
+        private val transactionRepository: TransactionRepository
     ) : ViewModel() {
         private val _state: MutableStateFlow<BaseScreenState<TransactionUiState>> =
             MutableStateFlow(BaseScreenState.OnLoading)
@@ -39,8 +39,8 @@ class TransactionViewmodel
                             BaseScreenState.OnContent(
                                 content =
                                     TransactionUiState(
-                                        transactions = transactions,
-                                    ),
+                                        transactions = transactions
+                                    )
                             )
                         }
                     } else {
@@ -49,6 +49,6 @@ class TransactionViewmodel
                 }.stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(5000),
-                    initialValue = BaseScreenState.OnLoading,
+                    initialValue = BaseScreenState.OnLoading
                 )
     }

@@ -9,5 +9,5 @@ fun ProductMyDummyApi.toDomain(): Product =
         title = name,
         description = description,
         price = (price.toDouble()).roundToLong(),
-        image = image,
+        image = image
     )

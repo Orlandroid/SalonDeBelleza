@@ -8,5 +8,5 @@ data class PromotionCode(
     val rewardId: String = "",
     val discountPercentage: Int = 0,
     val used: Boolean = false,
-    val createdAt: Long = System.currentTimeMillis(),
+    val createdAt: Long = System.currentTimeMillis()
 )

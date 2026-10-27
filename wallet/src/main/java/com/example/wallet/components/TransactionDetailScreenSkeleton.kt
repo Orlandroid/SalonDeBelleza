@@ -47,7 +47,7 @@ fun TransactionDetailScreenSkeleton(modifier: Modifier = Modifier) {
             modifier
                 .fillMaxSize()
                 .background(Background)
-                .padding(16.dp),
+                .padding(16.dp)
     ) {
         TransactionHeader(transaction = Transaction())
 
@@ -61,14 +61,14 @@ fun TransactionDetailScreenSkeleton(modifier: Modifier = Modifier) {
 private fun TransactionHeader(transaction: Transaction) {
     Column(
         modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
             modifier =
                 Modifier
                     .size(64.dp)
                     .background(color = Color.Gray, shape = CircleShape),
-            contentAlignment = Alignment.Center,
+            contentAlignment = Alignment.Center
         ) {
         }
 
@@ -79,7 +79,7 @@ private fun TransactionHeader(transaction: Transaction) {
             color = Color.Transparent,
             text = transaction.amount.toCurrencyString(Currency.USD),
             style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.Bold
         )
 
         Spacer(modifier = Modifier.height(4.dp))
@@ -88,7 +88,7 @@ private fun TransactionHeader(transaction: Transaction) {
             modifier = Modifier.background(shimmerBrush()),
             color = Color.Transparent,
             text = transactionTypeLabel(transaction.transactionType),
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.bodyMedium
         )
     }
 }
@@ -98,7 +98,7 @@ private fun TransactionDetailsCard(transaction: Transaction) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = AlwaysWhite),
+        colors = CardDefaults.cardColors(containerColor = AlwaysWhite)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             DetailRow(
@@ -106,22 +106,22 @@ private fun TransactionDetailsCard(transaction: Transaction) {
                 value =
                     transaction.description.ifBlank {
                         transactionTypeLabel(transaction.transactionType)
-                    },
+                    }
             )
             Divider(modifier = Modifier.padding(vertical = 12.dp))
             DetailRow(
                 label = "Fecha",
-                value = formatTransactionDate(transaction.createdAt),
+                value = formatTransactionDate(transaction.createdAt)
             )
             Divider(modifier = Modifier.padding(vertical = 12.dp))
             DetailRow(
                 label = "Tipo",
-                value = transactionTypeLabel(transaction.transactionType),
+                value = transactionTypeLabel(transaction.transactionType)
             )
             Divider(modifier = Modifier.padding(vertical = 12.dp))
             DetailRow(
                 label = stringResource(R.string.label_transaction_id),
-                value = transaction.id,
+                value = transaction.id
             )
         }
     }
@@ -143,17 +143,17 @@ private fun formatTransactionDate(createdAt: Long): String {
 @Composable
 private fun DetailRow(
     label: String,
-    value: String,
+    value: String
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
             modifier = Modifier.background(shimmerBrush()),
             color = Color.Transparent,
             text = label,
-            style = MaterialTheme.typography.bodyMedium,
+            style = MaterialTheme.typography.bodyMedium
         )
         Spacer(modifier = Modifier.width(12.dp))
         Text(
@@ -167,7 +167,7 @@ private fun DetailRow(
             fontWeight = FontWeight.Medium,
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
-            textAlign = androidx.compose.ui.text.style.TextAlign.End,
+            textAlign = androidx.compose.ui.text.style.TextAlign.End
         )
     }
 }

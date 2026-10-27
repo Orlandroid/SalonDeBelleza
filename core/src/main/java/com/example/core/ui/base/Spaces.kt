@@ -26,7 +26,7 @@ fun LongSpacer(orientation: Orientation) {
 @Composable
 fun BaseSpacer(
     orientation: Orientation,
-    size: Dp,
+    size: Dp
 ) {
     when (orientation) {
         Orientation.VERTICAL -> {
@@ -41,5 +41,5 @@ fun BaseSpacer(
 
 enum class Orientation {
     VERTICAL, // height
-    HORIZONTAL, // width
+    HORIZONTAL // width
 }

@@ -36,14 +36,14 @@ data class UserProfileUiState(
     val statusColor: Color? = null,
     val loyalty: Loyalty? = null,
     val coupons: List<PromotionCode> = emptyList(),
-    val role: UserRole = UserRole.CUSTOMER,
+    val role: UserRole = UserRole.CUSTOMER
 )
 
 @HiltViewModel
 class UserProfileViewModel
     @Inject
     constructor(
-        private val getUserInfoUseCase: GetUserInfoUseCase,
+        private val getUserInfoUseCase: GetUserInfoUseCase
     ) : ViewModel() {
         private val _state: MutableStateFlow<BaseScreenState<UserProfileUiState>> =
             MutableStateFlow(BaseScreenState.OnLoading)
@@ -55,7 +55,7 @@ class UserProfileViewModel
                 }.stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(5000L),
-                    BaseScreenState.OnLoading,
+                    BaseScreenState.OnLoading
                 )
 
         private fun getUserInfo() =

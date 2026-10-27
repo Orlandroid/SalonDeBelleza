@@ -31,20 +31,20 @@ data class ScheduleScreenUiState(
     val hourAppointment: String = "",
     val showDateDialog: Boolean = false,
     val availableSlots: List<AvailabilitySlot> = emptyList(),
-    val isLoadingSlots: Boolean = false,
+    val isLoadingSlots: Boolean = false
 )
 
 sealed class ScheduleScreenEvents {
     object OnDateSelected : ScheduleScreenEvents()
 
     data class OnConfirmDate(
-        val date: String,
+        val date: String
     ) : ScheduleScreenEvents()
 
     object OnDismissDate : ScheduleScreenEvents()
 
     data class OnConfirmTime(
-        val time: String,
+        val time: String
     ) : ScheduleScreenEvents()
 
     object OnNextButtonClicked : ScheduleScreenEvents()
@@ -60,7 +60,7 @@ class ScheduleScreenViewmodel
     constructor(
         private val appointmentSession: AppointmentSession,
         private val appointmentsRepository: AppointmentsRepository,
-        private val getAvailableSlotsUseCase: GetAvailableSlotsUseCase,
+        private val getAvailableSlotsUseCase: GetAvailableSlotsUseCase
     ) : ViewModel() {
         private val _uiState: MutableStateFlow<ScheduleScreenUiState> =
             MutableStateFlow(ScheduleScreenUiState())
@@ -73,14 +73,14 @@ class ScheduleScreenViewmodel
                         it.copy(
                             selectedService = draft.service,
                             branchName = draft.branch?.sucursal?.name,
-                            currentStaff = draft.staff,
+                            currentStaff = draft.staff
                         )
                     }
                     fetchAvailableSlots()
                 }.stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(5000),
-                    initialValue = ScheduleScreenUiState(),
+                    initialValue = ScheduleScreenUiState()
                 )
 
         private val _effects = Channel<ScheduleScreenEffects>()
@@ -136,7 +136,7 @@ class ScheduleScreenViewmodel
                     it.copy(
                         availableSlots = slots,
                         isLoadingSlots = false,
-                        hourAppointment = if (bookedTimes.contains(it.hourAppointment)) "" else it.hourAppointment,
+                        hourAppointment = if (bookedTimes.contains(it.hourAppointment)) "" else it.hourAppointment
                     )
                 }
             }

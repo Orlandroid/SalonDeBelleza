@@ -66,7 +66,7 @@ import kotlinx.coroutines.flow.collectLatest
 fun LoginScreen(
     navController: NavController,
     onCloseApplication: () -> Unit,
-    viewModel: LoginViewModel = hiltViewModel(),
+    viewModel: LoginViewModel = hiltViewModel()
 ) {
     BackHandler {
         onCloseApplication()
@@ -100,13 +100,13 @@ fun LoginScreen(
     }
     BaseComposeScreen(
         navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(showToolbar = false),
+        toolbarConfiguration = ToolbarConfiguration(showToolbar = false)
     ) {
         if (uiState.showDialogForgetPassword) {
             ForgetPasswordDialog(
                 onDismissRequest = {
                     viewModel.onEvents(LoginEvents.OnCloseDialogForgetPassword)
-                },
+                }
             )
         }
         if (uiState.showDialogPasswordOrEmailWrong) {
@@ -117,10 +117,10 @@ fun LoginScreen(
                     bodyMessage = stringResource(R.string.error_invalid_user_or_password),
                     onConfirmation = {
                         viewModel.onEvents(LoginEvents.OnCloseErrorDialog)
-                    },
+                    }
                 )
             BaseAlertDialogMessages(
-                alertDialogMessagesConfig = config,
+                alertDialogMessagesConfig = config
             )
         }
         LoginScreenContent(
@@ -130,7 +130,7 @@ fun LoginScreen(
             },
             clearFocus = {
                 focusManager.clearFocus()
-            },
+            }
         )
     }
 }
@@ -140,7 +140,7 @@ private fun LoginScreenContent(
     modifier: Modifier = Modifier,
     uiState: LoginUiState,
     onEvents: (LoginEvents) -> Unit,
-    clearFocus: () -> Unit,
+    clearFocus: () -> Unit
 ) {
     Column(
         modifier =
@@ -152,29 +152,29 @@ private fun LoginScreenContent(
                     clearFocus()
                 },
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Center
     ) {
         ImageLogin()
         InputUserName(
             userName = uiState.userName,
             showErrorUserName = uiState.showErrorUserName,
-            onEvents = onEvents,
+            onEvents = onEvents
         )
         InputPassword(
             userPassword = uiState.password,
             isPasswordVisible = uiState.showPassword,
             showPasswordError = uiState.showErrorPassword,
-            onEvents = onEvents,
+            onEvents = onEvents
         )
         CheckRememberUser(
             checkedState = uiState.rememberUserName,
-            onEvents = onEvents,
+            onEvents = onEvents
         )
         Spacer(modifier = Modifier.height(16.dp))
         LoginButton(
             isEnableButton = uiState.isButtonLoginEnable,
             onEvents = onEvents,
-            isLoading = uiState.isLoading,
+            isLoading = uiState.isLoading
         )
         Spacer(modifier = Modifier.height(16.dp))
         Text(
@@ -182,7 +182,7 @@ private fun LoginScreenContent(
                 Modifier.clickable {
                     onEvents(LoginEvents.OnForgetPasswordClick)
                 },
-            text = stringResource(id = R.string.olvidaste_contraseña),
+            text = stringResource(id = R.string.olvidaste_contraseña)
         )
         Spacer(modifier = Modifier.height(16.dp))
         TextOr()
@@ -199,11 +199,11 @@ private fun ImageLogin() {
         Image(
             painter = painterResource(id = R.drawable.logo),
             contentDescription = null,
-            modifier = Modifier.size(150.dp),
+            modifier = Modifier.size(150.dp)
         )
     } else {
         val composition by rememberLottieComposition(
-            LottieCompositionSpec.RawRes(R.raw.login_icon),
+            LottieCompositionSpec.RawRes(R.raw.login_icon)
         )
         LottieAnimation(
             enableMergePaths = true,
@@ -211,7 +211,7 @@ private fun ImageLogin() {
             composition = composition,
             modifier =
                 Modifier
-                    .size(150.dp),
+                    .size(150.dp)
         )
     }
 }
@@ -221,7 +221,7 @@ private fun InputUserName(
     modifier: Modifier = Modifier,
     userName: String,
     showErrorUserName: Boolean,
-    onEvents: (LoginEvents) -> Unit,
+    onEvents: (LoginEvents) -> Unit
 ) {
     OutlinedTextField(
         modifier =
@@ -243,7 +243,7 @@ private fun InputUserName(
                 Text(text = stringResource(R.string.error_email), color = Danger)
             }
         },
-        singleLine = true,
+        singleLine = true
     )
 }
 
@@ -253,7 +253,7 @@ private fun InputPassword(
     userPassword: String,
     isPasswordVisible: Boolean,
     showPasswordError: Boolean,
-    onEvents: (LoginEvents) -> Unit,
+    onEvents: (LoginEvents) -> Unit
 ) {
     OutlinedTextField(
         modifier =
@@ -268,7 +268,7 @@ private fun InputPassword(
             IconButton(
                 onClick = {
                     onEvents(LoginEvents.OnShowPassword(show = !isPasswordVisible))
-                },
+                }
             ) {
                 Icon(
                     imageVector =
@@ -277,7 +277,7 @@ private fun InputPassword(
                         } else {
                             Icons.Filled.VisibilityOff
                         },
-                    contentDescription = "Password Visibility",
+                    contentDescription = "Password Visibility"
                 )
             }
         },
@@ -295,7 +295,7 @@ private fun InputPassword(
                 Text(text = stringResource(R.string.error_passsword), color = Danger)
             }
         },
-        singleLine = true,
+        singleLine = true
     )
 }
 
@@ -303,17 +303,17 @@ private fun InputPassword(
 private fun CheckRememberUser(
     modifier: Modifier = Modifier,
     checkedState: Boolean,
-    onEvents: (LoginEvents) -> Unit,
+    onEvents: (LoginEvents) -> Unit
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth()
     ) {
         Checkbox(
             checked = checkedState,
             onCheckedChange = {
                 onEvents(LoginEvents.OnRememberUserChecker(it))
-            },
+            }
         )
         Text(text = stringResource(id = R.string.recuerda_tu_usuario))
     }
@@ -324,7 +324,7 @@ private fun LoginButton(
     modifier: Modifier = Modifier,
     isEnableButton: Boolean,
     isLoading: Boolean,
-    onEvents: (LoginEvents) -> Unit,
+    onEvents: (LoginEvents) -> Unit
 ) {
     OutlinedButton(
         enabled = isEnableButton,
@@ -334,7 +334,7 @@ private fun LoginButton(
         modifier =
             modifier
                 .fillMaxWidth()
-                .padding(0.dp, 25.dp, 0.dp, 0.dp),
+                .padding(0.dp, 25.dp, 0.dp, 0.dp)
     ) {
         if (isLoading) {
             CircularProgressIndicator(Modifier.size(40.dp))
@@ -346,7 +346,7 @@ private fun LoginButton(
                         .fillMaxWidth()
                         .padding(5.dp),
                 textAlign = TextAlign.Center,
-                fontSize = 20.sp,
+                fontSize = 20.sp
             )
         }
     }
@@ -356,14 +356,14 @@ private fun LoginButton(
 private fun TextOr() {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        modifier = Modifier.padding(8.dp),
+        modifier = Modifier.padding(8.dp)
     ) {
         Spacer(
             modifier =
                 Modifier
                     .height(1.dp)
                     .weight(1F)
-                    .background(Color.Black),
+                    .background(Color.Black)
         )
         Text(text = stringResource(R.string.or), Modifier.padding(horizontal = 16.dp))
         Spacer(
@@ -371,7 +371,7 @@ private fun TextOr() {
                 Modifier
                     .height(1.dp)
                     .weight(1F)
-                    .background(Color.Black),
+                    .background(Color.Black)
         )
     }
 }
@@ -379,16 +379,16 @@ private fun TextOr() {
 @Composable
 private fun SignUpButton(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
+    onClick: () -> Unit = {}
 ) {
     Button(
         onClick = onClick,
         colors = ButtonDefaults.buttonColors(containerColor = Color.White),
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth()
     ) {
         Text(
             text = stringResource(id = R.string.sing_up),
-            color = Color.Black,
+            color = Color.Black
         )
     }
 }
@@ -396,7 +396,7 @@ private fun SignUpButton(
 @Composable
 private fun GoogleButton(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit = {},
+    onClick: () -> Unit = {}
 ) {
     Button(
         onClick = {
@@ -406,11 +406,11 @@ private fun GoogleButton(
         modifier =
             modifier
                 .fillMaxWidth()
-                .padding(bottom = 8.dp),
+                .padding(bottom = 8.dp)
     ) {
         Text(
             text = stringResource(id = R.string.ingresar_con_google),
-            color = Color.Black,
+            color = Color.Black
         )
     }
 }

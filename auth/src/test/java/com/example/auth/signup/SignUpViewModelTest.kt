@@ -41,7 +41,7 @@ class SignUpViewModelTest {
                 useCaseValidateForm = useCaseValidateForm,
                 ioDispatcher = testDispatcher,
                 saveUserInformationUseCase = mockk(relaxed = true),
-                singUpUseCase = signUpUseCase,
+                singUpUseCase = signUpUseCase
             )
     }
 
@@ -54,7 +54,7 @@ class SignUpViewModelTest {
         isValidPhone: Boolean = true,
         isValidEmail: Boolean = true,
         isValidPassword: Boolean = true,
-        hasEmptyFields: Boolean = false,
+        hasEmptyFields: Boolean = false
     ) {
         every {
             useCaseValidateForm.invoke(
@@ -62,14 +62,14 @@ class SignUpViewModelTest {
                 any(),
                 any(),
                 any(),
-                any(),
+                any()
             )
         } returns
             ValidateFormSignUpUseCase.FormValidationResult(
                 isValidPhone = isValidPhone,
                 isValidEmail = isValidEmail,
                 isValidPassword = isValidPassword,
-                hasEmptyFields = hasEmptyFields,
+                hasEmptyFields = hasEmptyFields
             )
     }
 
@@ -82,7 +82,7 @@ class SignUpViewModelTest {
                 isValidPhone = true,
                 isValidEmail = true,
                 isValidPassword = true,
-                hasEmptyFields = false,
+                hasEmptyFields = false
             )
 
             viewModel.state.test {
@@ -110,7 +110,7 @@ class SignUpViewModelTest {
                 isValidPhone = false,
                 isValidEmail = true,
                 isValidPassword = true,
-                hasEmptyFields = false,
+                hasEmptyFields = false
             )
 
             viewModel.state.test {
@@ -138,7 +138,7 @@ class SignUpViewModelTest {
                 isValidPhone = true,
                 isValidEmail = true,
                 isValidPassword = true,
-                hasEmptyFields = false,
+                hasEmptyFields = false
             )
 
             viewModel.state.test {
@@ -166,7 +166,7 @@ class SignUpViewModelTest {
                 isValidPhone = false,
                 isValidEmail = true,
                 isValidPassword = true,
-                hasEmptyFields = false,
+                hasEmptyFields = false
             )
 
             viewModel.state.test {
@@ -194,7 +194,7 @@ class SignUpViewModelTest {
                 isValidPhone = true,
                 isValidEmail = true,
                 isValidPassword = true,
-                hasEmptyFields = false,
+                hasEmptyFields = false
             )
 
             viewModel.state.test {
@@ -222,7 +222,7 @@ class SignUpViewModelTest {
                 isValidPhone = true,
                 isValidEmail = false,
                 isValidPassword = true,
-                hasEmptyFields = false,
+                hasEmptyFields = false
             )
 
             viewModel.state.test {
@@ -249,7 +249,7 @@ class SignUpViewModelTest {
                 isValidPhone = true,
                 isValidEmail = false,
                 isValidPassword = true,
-                hasEmptyFields = false,
+                hasEmptyFields = false
             )
 
             viewModel.state.test {
@@ -274,7 +274,7 @@ class SignUpViewModelTest {
                 isValidPhone = true,
                 isValidEmail = true,
                 isValidPassword = true,
-                hasEmptyFields = false,
+                hasEmptyFields = false
             )
 
             viewModel.state.test {
@@ -300,7 +300,7 @@ class SignUpViewModelTest {
                 isValidPhone = true,
                 isValidEmail = true,
                 isValidPassword = false,
-                hasEmptyFields = false,
+                hasEmptyFields = false
             )
 
             viewModel.state.test {
@@ -326,7 +326,7 @@ class SignUpViewModelTest {
                 isValidPhone = true,
                 isValidEmail = true,
                 isValidPassword = false,
-                hasEmptyFields = false,
+                hasEmptyFields = false
             )
 
             viewModel.state.test {
@@ -350,7 +350,7 @@ class SignUpViewModelTest {
                 isValidPhone = true,
                 isValidEmail = true,
                 isValidPassword = true,
-                hasEmptyFields = false,
+                hasEmptyFields = false
             )
 
             viewModel.state.test {
@@ -403,7 +403,7 @@ class SignUpViewModelTest {
                 isValidPhone = false,
                 isValidEmail = true,
                 isValidPassword = true,
-                hasEmptyFields = false,
+                hasEmptyFields = false
             )
 
             viewModel.state.test {
@@ -426,7 +426,7 @@ class SignUpViewModelTest {
                 isValidPhone = true,
                 isValidEmail = false,
                 isValidPassword = true,
-                hasEmptyFields = false,
+                hasEmptyFields = false
             )
 
             viewModel.state.test {
@@ -449,7 +449,7 @@ class SignUpViewModelTest {
                 isValidPhone = true,
                 isValidEmail = true,
                 isValidPassword = false,
-                hasEmptyFields = false,
+                hasEmptyFields = false
             )
 
             viewModel.state.test {
@@ -472,7 +472,7 @@ class SignUpViewModelTest {
                 isValidPhone = true,
                 isValidEmail = true,
                 isValidPassword = true,
-                hasEmptyFields = true,
+                hasEmptyFields = true
             )
 
             viewModel.state.test {

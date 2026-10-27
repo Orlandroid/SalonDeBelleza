@@ -29,13 +29,13 @@ class MainActivityCompose : ComponentActivity() {
             SkedulyComposeTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background,
+                    color = MaterialTheme.colorScheme.background
                 ) {
                     AppNavigation()
                     AnimatedVisibility(
                         visible = !isConnected,
                         enter = fadeIn(),
-                        exit = fadeOut(),
+                        exit = fadeOut()
                     ) {
                         NoInternetScreen(onRetry = { mainViewModel.checkConnection() })
                     }

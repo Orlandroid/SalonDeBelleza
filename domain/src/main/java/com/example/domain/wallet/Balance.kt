@@ -7,5 +7,5 @@ data class Balance(
     val balance: Long,
     val currency: Currency,
     val createdAtMillis: Long,
-    val userId: String,
+    val userId: String
 )

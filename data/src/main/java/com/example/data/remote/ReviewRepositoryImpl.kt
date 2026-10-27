@@ -12,7 +12,7 @@ import javax.inject.Inject
 class ReviewRepositoryImpl
     @Inject
     constructor(
-        @ReviewsRef private val reviewsRef: DatabaseReference,
+        @ReviewsRef private val reviewsRef: DatabaseReference
     ) : ReviewRepository {
         override suspend fun addReview(review: Review): ApiResult<Unit> =
             runCatching {

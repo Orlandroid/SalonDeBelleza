@@ -58,10 +58,10 @@ fun DetailProductScreen(
             creationCallback = { factory: ProductDetailViewModelFactory ->
                 factory.create(
                     source = source,
-                    productId = productId,
+                    productId = productId
                 )
-            },
-        ),
+            }
+        )
 ) {
     val uiState = productDetailViewModel.state.collectAsStateWithLifecycle()
     when (uiState.value) {
@@ -76,7 +76,7 @@ fun DetailProductScreen(
         is BaseScreenState.OnContent -> {
             BaseComposeScreen(
                 navController = navController,
-                toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.detail_product)),
+                toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.detail_product))
             ) {
                 uiState.value.getContentOrNull()?.let { state ->
                     DetailProductScreenContent(product = state.product)
@@ -89,7 +89,7 @@ fun DetailProductScreen(
 @Composable
 private fun DetailProductScreenContent(
     modifier: Modifier = Modifier,
-    product: Product,
+    product: Product
 ) {
     var rating: Float by remember { mutableFloatStateOf(product.rating?.toFloat() ?: 0f) }
 
@@ -97,30 +97,30 @@ private fun DetailProductScreenContent(
         modifier
             .fillMaxSize()
             .background(Background),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Card(
             modifier =
                 Modifier
                     .padding(16.dp)
                     .fillMaxWidth(),
-            colors = CardDefaults.cardColors(containerColor = Color.White),
+            colors = CardDefaults.cardColors(containerColor = Color.White)
         ) {
             Column(
                 horizontalAlignment = Alignment.CenterHorizontally,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
                 AsyncImage(
                     model = product.image,
                     contentDescription = null,
-                    modifier = Modifier.align(Alignment.CenterHorizontally),
+                    modifier = Modifier.align(Alignment.CenterHorizontally)
                 )
                 Spacer(modifier = Modifier.height(16.dp))
                 DText(
                     text = product.title,
                     fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodyMedium
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 RatingBar(value = rating, style = RatingBarStyle.Fill(), onValueChange = {
@@ -134,7 +134,7 @@ private fun DetailProductScreenContent(
                 DText(
                     text = product.description,
                     modifier = Modifier.padding(horizontal = 8.dp),
-                    style = MaterialTheme.typography.titleLarge,
+                    style = MaterialTheme.typography.titleLarge
                 )
                 Spacer(modifier = Modifier.height(16.dp))
             }
@@ -147,7 +147,7 @@ fun DText(
     modifier: Modifier = Modifier,
     text: String,
     fontWeight: FontWeight? = null,
-    style: TextStyle,
+    style: TextStyle
 ) {
     Text(
         text = text,
@@ -160,7 +160,7 @@ fun DText(
                 .fillMaxWidth()
                 .verticalScroll(rememberScrollState()),
         textAlign = TextAlign.Center,
-        style = style,
+        style = style
     )
 }
 

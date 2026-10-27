@@ -51,17 +51,17 @@ import java.util.Locale
 @Composable
 fun DetailStaffScreen(
     navController: NavController,
-    viewModel: DetailStaffViewModel = hiltViewModel(),
+    viewModel: DetailStaffViewModel = hiltViewModel()
 ) {
     val uiState by viewModel.state.collectAsStateWithLifecycle()
     BaseComposeScreen(
         navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.detail_staff)),
+        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.detail_staff))
     ) {
         uiState.currentStaff?.let { currentStaff ->
             DetailStaffScreenContent(
                 staff = currentStaff,
-                ratingSummary = uiState.ratingSummary,
+                ratingSummary = uiState.ratingSummary
             )
         }
     }
@@ -71,7 +71,7 @@ fun DetailStaffScreen(
 private fun DetailStaffScreenContent(
     modifier: Modifier = Modifier,
     staff: Staff,
-    ratingSummary: StaffRatingSummary,
+    ratingSummary: StaffRatingSummary
 ) {
     LazyColumn(
         modifier =
@@ -79,7 +79,7 @@ private fun DetailStaffScreenContent(
                 .fillMaxSize()
                 .background(Background),
         horizontalAlignment = Alignment.CenterHorizontally,
-        contentPadding = PaddingValues(bottom = 32.dp),
+        contentPadding = PaddingValues(bottom = 32.dp)
     ) {
         item {
             Spacer(modifier = Modifier.height(24.dp))
@@ -90,14 +90,14 @@ private fun DetailStaffScreenContent(
                     Modifier
                         .size(150.dp)
                         .clip(CircleShape)
-                        .background(Color.White),
+                        .background(Color.White)
             )
 
             Text(
                 modifier = Modifier.padding(top = 24.dp),
                 fontSize = 28.sp,
                 fontWeight = FontWeight.Bold,
-                text = staff.name.orEmpty(),
+                text = staff.name.orEmpty()
             )
 
             StaffRatingHeader(ratingSummary)
@@ -114,7 +114,7 @@ private fun DetailStaffScreenContent(
                             .fillMaxWidth()
                             .padding(horizontal = 24.dp, vertical = 8.dp),
                     style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Bold
                 )
             }
 
@@ -127,7 +127,7 @@ private fun DetailStaffScreenContent(
                     text = stringResource(R.string.no_reviews_yet),
                     modifier = Modifier.padding(top = 32.dp),
                     color = Color.Gray,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodyMedium
                 )
             }
         }
@@ -138,7 +138,7 @@ private fun DetailStaffScreenContent(
 private fun StaffRatingHeader(summary: StaffRatingSummary) {
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
-        modifier = Modifier.padding(top = 16.dp),
+        modifier = Modifier.padding(top = 16.dp)
     ) {
         Row(verticalAlignment = Alignment.CenterVertically) {
             RatingBar(
@@ -146,19 +146,19 @@ private fun StaffRatingHeader(summary: StaffRatingSummary) {
                 style = RatingBarStyle.Fill(),
                 onValueChange = {},
                 onRatingChanged = {},
-                size = 24.dp,
+                size = 24.dp
             )
             Spacer(modifier = Modifier.width(8.dp))
             Text(
                 text = "%.1f".format(summary.averageRating),
                 fontWeight = FontWeight.Bold,
-                fontSize = 20.sp,
+                fontSize = 20.sp
             )
         }
         Text(
             text = "(${summary.totalReviews} reviews)",
             color = Color.Gray,
-            style = MaterialTheme.typography.labelMedium,
+            style = MaterialTheme.typography.labelMedium
         )
     }
 }
@@ -172,23 +172,23 @@ private fun ReviewItem(review: Review) {
                 .padding(horizontal = 24.dp, vertical = 8.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         shape = RoundedCornerShape(16.dp),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Text(
                     text = review.userName,
                     fontWeight = FontWeight.Bold,
-                    style = MaterialTheme.typography.bodyLarge,
+                    style = MaterialTheme.typography.bodyLarge
                 )
                 Text(
                     text = formatDate(review.createdAt),
                     color = Color.Gray,
-                    style = MaterialTheme.typography.labelSmall,
+                    style = MaterialTheme.typography.labelSmall
                 )
             }
 
@@ -197,7 +197,7 @@ private fun ReviewItem(review: Review) {
                 style = RatingBarStyle.Fill(),
                 onValueChange = {},
                 onRatingChanged = {},
-                size = 14.dp,
+                size = 14.dp
             )
 
             if (review.comment.isNotEmpty()) {
@@ -205,7 +205,7 @@ private fun ReviewItem(review: Review) {
                 Text(
                     text = review.comment,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color.DarkGray,
+                    color = Color.DarkGray
                 )
             }
         }
@@ -222,6 +222,6 @@ private fun formatDate(timestamp: Long): String {
 private fun DetailStaffScreenPreview() {
     DetailStaffScreenContent(
         staff = Staff.mockStaff(),
-        ratingSummary = StaffRatingSummary(4.5, 12, listOf()),
+        ratingSummary = StaffRatingSummary(4.5, 12, listOf())
     )
 }

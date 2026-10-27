@@ -19,6 +19,6 @@ interface WebServices {
 
     @GET
     suspend fun getStaffUsers(
-        @Url url: String,
+        @Url url: String
     ): DummyUsersResponse
 }

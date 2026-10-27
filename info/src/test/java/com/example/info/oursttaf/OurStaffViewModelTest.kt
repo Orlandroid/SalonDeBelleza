@@ -39,7 +39,7 @@ class OurStaffViewModelTest {
         viewModel =
             OurStaffViewModel(
                 repository = repository,
-                ioDispatcher = testDispatcher,
+                ioDispatcher = testDispatcher
             )
     }
 
@@ -77,8 +77,8 @@ class OurStaffViewModelTest {
                 .assertThat((content as BaseScreenState.OnContent).content)
                 .isEqualTo(
                     OurStaffUiState(
-                        staffs = users,
-                    ),
+                        staffs = users
+                    )
                 )
             coVerify(exactly = 1) { repository.getStaffUsers() }
         }

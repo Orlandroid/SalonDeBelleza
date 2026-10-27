@@ -11,7 +11,7 @@ import com.example.core.ui.components.ToolbarConfiguration
 fun ServicesScreen(navController: NavController) {
     BaseComposeScreen(
         navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(title = "Servicios"),
+        toolbarConfiguration = ToolbarConfiguration(title = "Servicios")
     ) {
         ServicesScreenContent()
     }

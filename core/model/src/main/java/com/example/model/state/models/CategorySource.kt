@@ -2,7 +2,7 @@ package com.example.model.state.models
 
 enum class CategorySource {
     FAKE_STORE,
-    PLATZI,
+    PLATZI
 }
 
 fun CategorySource.toProductSource(): ProductSource =

@@ -2,11 +2,11 @@ package com.example.model.state
 
 sealed class ApiResult<T> {
     data class Success<T>(
-        val result: T,
+        val result: T
     ) : ApiResult<T>()
 
     data class Error<T>(
-        val error: String? = null,
+        val error: String? = null
     ) : ApiResult<T>()
 }
 

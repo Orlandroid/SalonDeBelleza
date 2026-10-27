@@ -15,6 +15,6 @@ interface DummyJsonApi {
 
     @GET("products/{productId}")
     suspend fun getSingleProduct(
-        @Path("productId") product: Int,
+        @Path("productId") product: Int
     ): Product
 }

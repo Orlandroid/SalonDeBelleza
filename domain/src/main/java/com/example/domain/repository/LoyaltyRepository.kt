@@ -16,21 +16,21 @@ interface LoyaltyRepository {
 
     suspend fun addLoyaltyTransaction(
         userId: String,
-        transaction: LoyaltyTransaction,
+        transaction: LoyaltyTransaction
     ): ApiResult<Unit>
 
     suspend fun getRewards(): ApiResult<List<Reward>>
 
     suspend fun addPromotionCode(
         userId: String,
-        promotionCode: PromotionCode,
+        promotionCode: PromotionCode
     ): ApiResult<Unit>
 
     suspend fun getPromotionCodes(userId: String): ApiResult<List<PromotionCode>>
 
     suspend fun usePromotionCode(
         userId: String,
-        promoId: String,
+        promoId: String
     ): ApiResult<Unit>
 
     suspend fun getLoyaltyTransactions(userId: String): ApiResult<List<LoyaltyTransaction>>

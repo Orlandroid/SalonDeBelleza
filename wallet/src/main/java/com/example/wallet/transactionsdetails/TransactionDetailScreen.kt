@@ -62,8 +62,8 @@ fun TransactionDetailScreen(
         hiltViewModel(
             creationCallback = { factory: TransactionDetailViewModelFactory ->
                 factory.create(transactionId)
-            },
-        ),
+            }
+        )
 ) {
     val viewState by viewModel.state.collectAsStateWithLifecycle()
     when (viewState) {
@@ -75,7 +75,7 @@ fun TransactionDetailScreen(
             viewState.getContentOrNull()?.let { state ->
                 BaseComposeScreen(
                     toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.transactions)),
-                    navController = navController,
+                    navController = navController
                 ) {
                     TransactionDetailScreenContent(transaction = state.transaction)
                 }
@@ -91,14 +91,14 @@ fun TransactionDetailScreen(
 @Composable
 private fun TransactionDetailScreenContent(
     modifier: Modifier = Modifier,
-    transaction: Transaction,
+    transaction: Transaction
 ) {
     Column(
         modifier =
             modifier
                 .fillMaxSize()
                 .background(Background)
-                .padding(16.dp),
+                .padding(16.dp)
     ) {
         TransactionHeader(transaction = transaction)
 
@@ -112,14 +112,14 @@ private fun TransactionDetailScreenContent(
 private fun TransactionHeader(transaction: Transaction) {
     Column(
         modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Box(
             modifier =
                 Modifier
                     .size(64.dp)
                     .background(color = Color(0xFFEFEFEF), shape = CircleShape),
-            contentAlignment = Alignment.Center,
+            contentAlignment = Alignment.Center
         ) {
             val icon =
                 when (transaction.transactionType) {
@@ -129,7 +129,7 @@ private fun TransactionHeader(transaction: Transaction) {
             Icon(
                 imageVector = icon,
                 contentDescription = null,
-                modifier = Modifier.size(32.dp),
+                modifier = Modifier.size(32.dp)
             )
         }
 
@@ -138,7 +138,7 @@ private fun TransactionHeader(transaction: Transaction) {
         Text(
             text = transaction.amount.toCurrencyString(Currency.USD),
             style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.Bold
         )
 
         Spacer(modifier = Modifier.height(4.dp))
@@ -146,7 +146,7 @@ private fun TransactionHeader(transaction: Transaction) {
         Text(
             text = transactionTypeLabel(transaction.transactionType),
             style = MaterialTheme.typography.bodyMedium,
-            color = Color.Gray,
+            color = Color.Gray
         )
     }
 }
@@ -157,7 +157,7 @@ private fun TransactionDetailsCard(transaction: Transaction) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = AlwaysWhite),
+        colors = CardDefaults.cardColors(containerColor = AlwaysWhite)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             DetailRow(
@@ -165,22 +165,22 @@ private fun TransactionDetailsCard(transaction: Transaction) {
                 value =
                     transaction.description.ifBlank {
                         transactionTypeLabel(transaction.transactionType)
-                    },
+                    }
             )
             HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
             DetailRow(
                 label = stringResource(R.string.label_date),
-                value = formatTransactionDate(transaction.createdAt, noDateText),
+                value = formatTransactionDate(transaction.createdAt, noDateText)
             )
             HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
             DetailRow(
                 label = stringResource(R.string.label_type),
-                value = transactionTypeLabel(transaction.transactionType),
+                value = transactionTypeLabel(transaction.transactionType)
             )
             HorizontalDivider(modifier = Modifier.padding(vertical = 12.dp))
             DetailRow(
                 label = stringResource(R.string.label_transaction_id),
-                value = transaction.id,
+                value = transaction.id
             )
         }
     }
@@ -195,7 +195,7 @@ private fun transactionTypeLabel(type: TransactionType): String =
 
 private fun formatTransactionDate(
     createdAt: Long,
-    noDateText: String,
+    noDateText: String
 ): String {
     if (createdAt <= 0L) return noDateText
     val sdf = SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault())
@@ -205,16 +205,16 @@ private fun formatTransactionDate(
 @Composable
 private fun DetailRow(
     label: String,
-    value: String,
+    value: String
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
             text = label,
             style = MaterialTheme.typography.bodyMedium,
-            color = Color.Gray,
+            color = Color.Gray
         )
         Spacer(modifier = Modifier.width(12.dp))
         Text(
@@ -224,7 +224,7 @@ private fun DetailRow(
             maxLines = 2,
             overflow = TextOverflow.Ellipsis,
             textAlign = TextAlign.End,
-            modifier = Modifier.weight(1f, fill = false),
+            modifier = Modifier.weight(1f, fill = false)
         )
     }
 }
@@ -239,7 +239,7 @@ private fun TransactionDetailScreenContentPreview() {
                 amount = 820,
                 createdAt = System.currentTimeMillis(),
                 description = "",
-                transactionType = TransactionType.MARKETPLACE_PURCHASE,
-            ),
+                transactionType = TransactionType.MARKETPLACE_PURCHASE
+            )
     )
 }

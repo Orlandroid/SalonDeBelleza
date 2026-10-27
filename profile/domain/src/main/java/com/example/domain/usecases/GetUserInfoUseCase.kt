@@ -18,7 +18,7 @@ class GetUserInfoUseCase
     constructor(
         private val userRepository: UserRepository,
         private val walletRepository: WalletRepository,
-        private val loyaltyRepository: LoyaltyRepository,
+        private val loyaltyRepository: LoyaltyRepository
     ) {
         suspend operator fun invoke(): ApiResult<UserProfile> {
             val userResult = userRepository.getUser()
@@ -80,7 +80,7 @@ class GetUserInfoUseCase
                     sessionStatus = userSession,
                     loyalty = loyalty,
                     coupons = cupons,
-                    role = role,
+                    role = role
                 )
             return ApiResult.Success(userInfo)
         }

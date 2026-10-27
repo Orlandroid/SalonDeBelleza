@@ -9,5 +9,5 @@ const val MY_DUMMY = "MyDummy"
 
 data class Store(
     val name: String = "",
-    val source: ProductSource,
+    val source: ProductSource
 )

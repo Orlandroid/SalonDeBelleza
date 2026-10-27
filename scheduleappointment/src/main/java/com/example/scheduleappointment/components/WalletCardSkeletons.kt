@@ -34,22 +34,22 @@ fun WalletCardSkeletons() {
         shape = RoundedCornerShape(16.dp),
         colors =
             CardDefaults.cardColors(
-                containerColor = BackgroundListsMainFlow,
+                containerColor = BackgroundListsMainFlow
             ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .padding(20.dp),
+                    .padding(20.dp)
         ) {
             Text(
                 modifier = Modifier.background(shimmerBrush()),
                 text = stringResource(R.string.my_wallet),
                 fontSize = 16.sp,
                 fontWeight = FontWeight.Medium,
-                color = Color.Transparent,
+                color = Color.Transparent
             )
             Spacer(Modifier.padding(top = 12.dp))
             Text(
@@ -57,18 +57,18 @@ fun WalletCardSkeletons() {
                 text = "$3,996.00 USD",
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
-                color = Color.Transparent,
+                color = Color.Transparent
             )
             Spacer(Modifier.padding(top = 12.dp))
             Row(
                 verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.spacedBy(4.dp),
+                horizontalArrangement = Arrangement.spacedBy(4.dp)
             ) {
                 Text(
                     modifier = Modifier.background(shimmerBrush()),
                     text = stringResource(R.string.show_wallet),
                     fontSize = 14.sp,
-                    color = Color.Transparent,
+                    color = Color.Transparent
                 )
                 Icon(
                     modifier =
@@ -77,7 +77,7 @@ fun WalletCardSkeletons() {
                             .background(shimmerBrush()),
                     imageVector = Icons.Filled.ArrowForward,
                     contentDescription = null,
-                    tint = Color.Transparent,
+                    tint = Color.Transparent
                 )
             }
         }

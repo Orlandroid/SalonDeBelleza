@@ -8,7 +8,7 @@ import retrofit2.http.Path
 interface FakeStoreService {
     @GET("/products/category/{categoria}")
     suspend fun getProducts(
-        @Path("categoria") categoria: String,
+        @Path("categoria") categoria: String
     ): List<FakeStoreProduct>
 
     @GET("products/categories")
@@ -16,11 +16,11 @@ interface FakeStoreService {
 
     @GET("products/{id}")
     suspend fun getSingleProduct(
-        @Path("id")id: Int,
+        @Path("id")id: Int
     ): FakeStoreProduct
 
     @GET("carts/{id}")
     suspend fun getSingleCart(
-        @Path("id") id: Int,
+        @Path("id") id: Int
     ): Cart
 }

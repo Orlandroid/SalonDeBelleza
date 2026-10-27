@@ -10,7 +10,7 @@ import javax.inject.Inject
 class SaveUserInformationUseCase
     @Inject
     constructor(
-        private val userRepository: UserRepository,
+        private val userRepository: UserRepository
     ) {
         suspend operator fun invoke(user: User): ApiResult<Unit> {
             val getUserResult = userRepository.getUser()
@@ -27,7 +27,7 @@ class SaveUserInformationUseCase
             val userInfoResult =
                 userRepository.saveUserInfo(
                     userId = userUid,
-                    user = user,
+                    user = user
                 )
 
             if (userInfoResult.isError()) {

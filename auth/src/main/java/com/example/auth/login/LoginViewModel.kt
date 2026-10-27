@@ -24,19 +24,19 @@ import javax.inject.Inject
 
 sealed class LoginEvents {
     data class OnUserNameChange(
-        val name: String,
+        val name: String
     ) : LoginEvents()
 
     data class OnPasswordChange(
-        val password: String,
+        val password: String
     ) : LoginEvents()
 
     data class OnRememberUserChecker(
-        val isCheck: Boolean,
+        val isCheck: Boolean
     ) : LoginEvents()
 
     data class OnShowPassword(
-        val show: Boolean,
+        val show: Boolean
     ) : LoginEvents()
 
     data object OnLoginClick : LoginEvents()
@@ -75,7 +75,7 @@ data class LoginUiState(
     val showErrorPassword: Boolean = false,
     val showErrorUserName: Boolean = false,
     val showResetPasswordError: Boolean = false,
-    val showDialogPasswordOrEmailWrong: Boolean = false,
+    val showDialogPasswordOrEmailWrong: Boolean = false
 )
 
 @HiltViewModel
@@ -85,7 +85,7 @@ class LoginViewModel
         private val userPreferences: UserPreferences,
         private val emailValidator: EmailValidator,
         private val passwordValidator: PasswordValidator,
-        private val loginUseCase: LoginUseCase,
+        private val loginUseCase: LoginUseCase
     ) : ViewModel() {
         private val _state: MutableStateFlow<LoginUiState> =
             MutableStateFlow(LoginUiState())
@@ -97,7 +97,7 @@ class LoginViewModel
                 }.stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(5000),
-                    initialValue = LoginUiState(),
+                    initialValue = LoginUiState()
                 )
 
         private val _effects = Channel<LoginSideEffects>()
@@ -164,7 +164,7 @@ class LoginViewModel
                 it.copy(
                     isButtonLoginEnable = canEnableButton,
                     showErrorPassword = !isValidPassword,
-                    showErrorUserName = !isValidEmail,
+                    showErrorUserName = !isValidEmail
                 )
             }
         }
@@ -187,7 +187,7 @@ class LoginViewModel
                     _state.update { oldState ->
                         oldState.copy(
                             isLoading = false,
-                            showDialogPasswordOrEmailWrong = true,
+                            showDialogPasswordOrEmailWrong = true
                         )
                     }
                 }

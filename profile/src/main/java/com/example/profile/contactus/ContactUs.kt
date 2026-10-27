@@ -48,7 +48,7 @@ import com.example.profile.R
 fun ContactUsScreen(navController: NavHostController) {
     BaseComposeScreen(
         navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.contact_us)),
+        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.contact_us))
     ) {
         ContactUsScreenContent()
     }
@@ -64,7 +64,7 @@ private fun ContactUsScreenContent(modifier: Modifier = Modifier) {
                 .fillMaxSize()
                 .background(MaterialTheme.colorScheme.background)
                 .padding(16.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         item {
             Spacer(modifier = Modifier.height(16.dp))
@@ -77,7 +77,7 @@ private fun ContactUsScreenContent(modifier: Modifier = Modifier) {
                 modifier =
                     Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 16.dp),
+                        .padding(bottom = 16.dp)
             )
 
             Text(
@@ -87,7 +87,7 @@ private fun ContactUsScreenContent(modifier: Modifier = Modifier) {
                 modifier =
                     Modifier
                         .fillMaxWidth()
-                        .padding(bottom = 24.dp),
+                        .padding(bottom = 24.dp)
             )
 
             HorizontalDivider(
@@ -95,7 +95,7 @@ private fun ContactUsScreenContent(modifier: Modifier = Modifier) {
                     Modifier
                         .fillMaxWidth()
                         .padding(bottom = 24.dp),
-                color = MaterialTheme.colorScheme.outlineVariant,
+                color = MaterialTheme.colorScheme.outlineVariant
             )
         }
 
@@ -105,7 +105,7 @@ private fun ContactUsScreenContent(modifier: Modifier = Modifier) {
                 title = stringResource(R.string.contact_phone),
                 value = stringResource(R.string.contact_phone_value),
                 actionLabel = stringResource(R.string.call_now),
-                onAction = { phone -> callPhone(context, phone) },
+                onAction = { phone -> callPhone(context, phone) }
             )
         }
 
@@ -117,7 +117,7 @@ private fun ContactUsScreenContent(modifier: Modifier = Modifier) {
                 title = stringResource(R.string.contact_email),
                 value = stringResource(R.string.contact_email_value),
                 actionLabel = stringResource(R.string.send_email),
-                onAction = { email -> sendEmail(context, email) },
+                onAction = { email -> sendEmail(context, email) }
             )
         }
 
@@ -129,7 +129,7 @@ private fun ContactUsScreenContent(modifier: Modifier = Modifier) {
                 title = stringResource(R.string.contact_location),
                 value = stringResource(R.string.contact_location_value),
                 actionLabel = stringResource(R.string.open_map),
-                onAction = { },
+                onAction = { }
             )
         }
 
@@ -150,28 +150,28 @@ private fun ContactCard(
     value: String,
     actionLabel: String,
     onAction: (String) -> Unit,
-    modifier: Modifier = Modifier,
+    modifier: Modifier = Modifier
 ) {
     Card(
         modifier = modifier.fillMaxWidth(),
         colors =
             CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                containerColor = MaterialTheme.colorScheme.surfaceVariant
             ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Row(
             modifier =
                 Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Icon(
                 imageVector = icon,
                 contentDescription = title,
                 tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(24.dp),
+                modifier = Modifier.size(24.dp)
             )
 
             Spacer(modifier = Modifier.width(16.dp))
@@ -181,13 +181,13 @@ private fun ContactCard(
                     text = title,
                     fontSize = 14.sp,
                     fontWeight = FontWeight.Bold,
-                    color = MaterialTheme.colorScheme.onSurface,
+                    color = MaterialTheme.colorScheme.onSurface
                 )
                 Text(
                     text = value,
                     fontSize = 12.sp,
                     color = MaterialTheme.colorScheme.onSurfaceVariant,
-                    modifier = Modifier.padding(top = 4.dp),
+                    modifier = Modifier.padding(top = 4.dp)
                 )
             }
 
@@ -195,7 +195,7 @@ private fun ContactCard(
                 Icon(
                     imageVector = Icons.Default.Share,
                     contentDescription = actionLabel,
-                    tint = MaterialTheme.colorScheme.primary,
+                    tint = MaterialTheme.colorScheme.primary
                 )
             }
         }
@@ -208,9 +208,9 @@ private fun BusinessHoursSection(modifier: Modifier = Modifier) {
         modifier = modifier.fillMaxWidth(),
         colors =
             CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                containerColor = MaterialTheme.colorScheme.surfaceVariant
             ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Text(
@@ -218,22 +218,22 @@ private fun BusinessHoursSection(modifier: Modifier = Modifier) {
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(bottom = 12.dp),
+                modifier = Modifier.padding(bottom = 12.dp)
             )
 
             BusinessHourRow(
                 day = stringResource(R.string.hours_monday_friday),
-                hours = stringResource(R.string.hours_mon_fri_time),
+                hours = stringResource(R.string.hours_mon_fri_time)
             )
             Spacer(modifier = Modifier.height(8.dp))
             BusinessHourRow(
                 day = stringResource(R.string.hours_saturday),
-                hours = stringResource(R.string.hours_sat_time),
+                hours = stringResource(R.string.hours_sat_time)
             )
             Spacer(modifier = Modifier.height(8.dp))
             BusinessHourRow(
                 day = stringResource(R.string.hours_sunday),
-                hours = stringResource(R.string.hours_sun_time),
+                hours = stringResource(R.string.hours_sun_time)
             )
         }
     }
@@ -242,23 +242,23 @@ private fun BusinessHoursSection(modifier: Modifier = Modifier) {
 @Composable
 private fun BusinessHourRow(
     day: String,
-    hours: String,
+    hours: String
 ) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween,
+        horizontalArrangement = Arrangement.SpaceBetween
     ) {
         Text(
             text = day,
             fontSize = 12.sp,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
-            fontWeight = FontWeight.SemiBold,
+            fontWeight = FontWeight.SemiBold
         )
         Text(
             text = hours,
             fontSize = 12.sp,
             color = MaterialTheme.colorScheme.primary,
-            fontWeight = FontWeight.SemiBold,
+            fontWeight = FontWeight.SemiBold
         )
     }
 }
@@ -269,28 +269,28 @@ private fun FollowUsSection(modifier: Modifier = Modifier) {
         modifier = modifier.fillMaxWidth(),
         colors =
             CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surfaceVariant,
+                containerColor = MaterialTheme.colorScheme.surfaceVariant
             ),
-        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
     ) {
         Column(
             modifier =
                 Modifier
                     .fillMaxWidth()
                     .padding(16.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = stringResource(R.string.follow_us),
                 fontSize = 14.sp,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface,
-                modifier = Modifier.padding(bottom = 12.dp),
+                modifier = Modifier.padding(bottom = 12.dp)
             )
 
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.Center,
+                horizontalArrangement = Arrangement.Center
             ) {
                 SocialMediaButton(label = stringResource(R.string.social_facebook), onClick = { })
                 Spacer(modifier = Modifier.width(8.dp))
@@ -305,18 +305,18 @@ private fun FollowUsSection(modifier: Modifier = Modifier) {
 @Composable
 private fun SocialMediaButton(
     label: String,
-    onClick: () -> Unit,
+    onClick: () -> Unit
 ) {
     FilterChip(
         selected = false,
         onClick = onClick,
-        label = { Text(text = label, fontSize = 12.sp, fontWeight = FontWeight.Bold) },
+        label = { Text(text = label, fontSize = 12.sp, fontWeight = FontWeight.Bold) }
     )
 }
 
 private fun callPhone(
     context: Context,
-    phone: String,
+    phone: String
 ) {
     runCatching {
         val intent =
@@ -329,7 +329,7 @@ private fun callPhone(
 
 private fun sendEmail(
     context: Context,
-    email: String,
+    email: String
 ) {
     runCatching {
         val intent =

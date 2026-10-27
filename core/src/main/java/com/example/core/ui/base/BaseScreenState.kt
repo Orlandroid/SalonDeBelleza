@@ -4,11 +4,11 @@ sealed class BaseScreenState<out T> {
     object OnLoading : BaseScreenState<Nothing>()
 
     data class OnContent<T>(
-        val content: T,
+        val content: T
     ) : BaseScreenState<T>()
 
     data class OnError(
-        val error: Throwable,
+        val error: Throwable
     ) : BaseScreenState<Nothing>()
 }
 

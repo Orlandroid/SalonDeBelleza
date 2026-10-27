@@ -61,7 +61,7 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun ScheduleStaffScreen(
     navController: NavController,
-    viewmodel: ScheduleStaffViewmodel = hiltViewModel(),
+    viewmodel: ScheduleStaffViewmodel = hiltViewModel()
 ) {
     val uiState = viewmodel.state.collectAsStateWithLifecycle()
     LaunchedEffect(viewmodel) {
@@ -79,13 +79,13 @@ fun ScheduleStaffScreen(
     }
     BaseComposeScreen(
         navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.agendar_staff)),
+        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.agendar_staff))
     ) {
         ScheduleStaffScreenContent(
             uiState = uiState.value,
             onEvents = { event ->
                 viewmodel.onEvents(event)
-            },
+            }
         )
     }
 }
@@ -94,11 +94,11 @@ fun ScheduleStaffScreen(
 private fun ScheduleStaffScreenContent(
     modifier: Modifier = Modifier,
     uiState: ScheduleStaffUiState,
-    onEvents: (ScheduleStaffEvents) -> Unit,
+    onEvents: (ScheduleStaffEvents) -> Unit
 ) {
     Column(
         modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(16.dp))
         Row(
@@ -106,31 +106,31 @@ private fun ScheduleStaffScreenContent(
                 Modifier
                     .fillMaxWidth()
                     .padding(start = 16.dp),
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = uiState.branchName.orEmpty(),
                 fontSize = 32.sp,
-                style = TextStyle(fontWeight = FontWeight.W900),
+                style = TextStyle(fontWeight = FontWeight.W900)
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
                 modifier = Modifier.padding(end = 16.dp),
                 text = "${uiState.staffs.size} estilistas",
-                fontSize = 24.sp,
+                fontSize = 24.sp
             )
         }
         Spacer(modifier = Modifier.height(32.dp))
         SurpriseMeButton(
             onClick = {
                 onEvents(ScheduleStaffEvents.OnRandomStaff)
-            },
+            }
         )
         Spacer(modifier = Modifier.height(16.dp))
         Spacer(modifier = Modifier.height(32.dp))
         ListStaffs(
             listOfStaffs = uiState.staffs,
-            onEvents = onEvents,
+            onEvents = onEvents
         )
     }
 }
@@ -138,16 +138,16 @@ private fun ScheduleStaffScreenContent(
 @Composable
 private fun ListStaffs(
     listOfStaffs: List<Staff>,
-    onEvents: (ScheduleStaffEvents) -> Unit,
+    onEvents: (ScheduleStaffEvents) -> Unit
 ) {
     Card(
-        colors = CardDefaults.cardColors(containerColor = BackgroundListsMainFlow),
+        colors = CardDefaults.cardColors(containerColor = BackgroundListsMainFlow)
     ) {
         LazyVerticalGrid(
             modifier = Modifier.padding(8.dp),
             columns = GridCells.Fixed(2),
             horizontalArrangement = Arrangement.spacedBy(10.dp),
-            verticalArrangement = Arrangement.spacedBy(10.dp),
+            verticalArrangement = Arrangement.spacedBy(10.dp)
         ) {
             items(listOfStaffs) { myStaff ->
                 StaffCard(
@@ -158,7 +158,7 @@ private fun ListStaffs(
                     },
                     onSelectClick = {
                         onEvents(ScheduleStaffEvents.ClickOnStaff(myStaff))
-                    },
+                    }
                 )
             }
         }
@@ -170,14 +170,14 @@ private fun StaffCard(
     staff: Staff,
     colorIndex: Int,
     onDetailClick: () -> Unit,
-    onSelectClick: () -> Unit,
+    onSelectClick: () -> Unit
 ) {
     val (bgColor, initialsColor) = avatarBackgrounds[colorIndex]
 
     Surface(
         shape = RoundedCornerShape(16.dp),
         color = Color.White,
-        border = BorderStroke(0.5.dp, CardBorder),
+        border = BorderStroke(0.5.dp, CardBorder)
     ) {
         Column {
             Box(
@@ -186,7 +186,7 @@ private fun StaffCard(
                         .fillMaxWidth()
                         .height(90.dp)
                         .background(bgColor),
-                contentAlignment = Alignment.Center,
+                contentAlignment = Alignment.Center
             ) {
                 Box(
                     modifier =
@@ -194,13 +194,13 @@ private fun StaffCard(
                             .size(52.dp)
                             .clip(CircleShape)
                             .background(initialsColor),
-                    contentAlignment = Alignment.Center,
+                    contentAlignment = Alignment.Center
                 ) {
                     Text(
                         text = staff.initials,
                         fontSize = 18.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = Color.White,
+                        color = Color.White
                     )
                 }
 
@@ -212,19 +212,19 @@ private fun StaffCard(
                     modifier =
                         Modifier
                             .align(Alignment.TopEnd)
-                            .padding(8.dp),
+                            .padding(8.dp)
                 ) {
                     Text(
                         text = stringResource(R.string.detail),
                         fontSize = 11.sp,
                         color = TextMuted,
-                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp),
+                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
                     )
                 }
             }
             Column(
                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
-                verticalArrangement = Arrangement.spacedBy(6.dp),
+                verticalArrangement = Arrangement.spacedBy(6.dp)
             ) {
                 Text(
                     text = staff.name ?: "",
@@ -232,22 +232,22 @@ private fun StaffCard(
                     fontWeight = FontWeight.SemiBold,
                     color = TextPrimary,
                     maxLines = 1,
-                    overflow = TextOverflow.Ellipsis,
+                    overflow = TextOverflow.Ellipsis
                 )
                 Row(
                     verticalAlignment = Alignment.CenterVertically,
-                    horizontalArrangement = Arrangement.spacedBy(3.dp),
+                    horizontalArrangement = Arrangement.spacedBy(3.dp)
                 ) {
                     Icon(
                         painter = painterResource(id = R.drawable.ic_baseline_list_24),
                         contentDescription = null,
                         tint = StarColor,
-                        modifier = Modifier.size(13.dp),
+                        modifier = Modifier.size(13.dp)
                     )
                     Text(
                         text = staff.rating.toString(),
                         fontSize = 12.sp,
-                        color = TextMuted,
+                        color = TextMuted
                     )
                 }
 
@@ -261,15 +261,15 @@ private fun StaffCard(
                     colors =
                         ButtonDefaults.buttonColors(
                             containerColor = PurpleLight,
-                            contentColor = Purple,
+                            contentColor = Purple
                         ),
                     contentPadding = PaddingValues(0.dp),
-                    border = BorderStroke(0.5.dp, PurpleBorder),
+                    border = BorderStroke(0.5.dp, PurpleBorder)
                 ) {
                     Text(
                         text = stringResource(R.string.select),
                         fontSize = 12.sp,
-                        fontWeight = FontWeight.Medium,
+                        fontWeight = FontWeight.Medium
                     )
                 }
             }
@@ -286,12 +286,12 @@ private fun SurpriseMeButton(onClick: () -> Unit) {
         modifier =
             Modifier
                 .fillMaxWidth()
-                .padding(all = 8.dp),
+                .padding(all = 8.dp)
     ) {
         Row(
             modifier = Modifier.padding(horizontal = 16.dp, vertical = 14.dp),
             verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             Box(
                 modifier =
@@ -299,13 +299,13 @@ private fun SurpriseMeButton(onClick: () -> Unit) {
                         .size(36.dp)
                         .clip(RoundedCornerShape(10.dp))
                         .background(Color.White),
-                contentAlignment = Alignment.Center,
+                contentAlignment = Alignment.Center
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_baseline_list_24),
                     contentDescription = null,
                     tint = TextPrimary,
-                    modifier = Modifier.size(18.dp),
+                    modifier = Modifier.size(18.dp)
                 )
             }
             Column(modifier = Modifier.weight(1f)) {
@@ -313,12 +313,12 @@ private fun SurpriseMeButton(onClick: () -> Unit) {
                     text = stringResource(R.string.surprise_me),
                     fontSize = 14.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = TextPrimary,
+                    color = TextPrimary
                 )
                 Text(
                     text = stringResource(R.string.pick_random_stylist),
                     fontSize = 12.sp,
-                    color = TextMuted,
+                    color = TextMuted
                 )
             }
 
@@ -326,7 +326,7 @@ private fun SurpriseMeButton(onClick: () -> Unit) {
                 painter = painterResource(id = R.drawable.ic_baseline_list_24),
                 contentDescription = null,
                 tint = TextMuted,
-                modifier = Modifier.size(18.dp),
+                modifier = Modifier.size(18.dp)
             )
         }
     }
@@ -339,8 +339,8 @@ private fun ScheduleStaffScreenContentPreview() {
         uiState =
             ScheduleStaffUiState(
                 staffs = Staff.mockStaffList(),
-                branchName = "Zacatecas",
+                branchName = "Zacatecas"
             ),
-        onEvents = {},
+        onEvents = {}
     )
 }

@@ -9,7 +9,7 @@ class CategoryProviderResolver
     @Inject
     constructor(
         private val fakeProvider: FakeStoreCategoryProvider,
-        private val platziProvider: PlatzyCategoryProvider,
+        private val platziProvider: PlatzyCategoryProvider
     ) {
         fun resolve(source: CategorySource): CategoryProvider =
             when (source) {

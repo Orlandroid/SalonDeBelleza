@@ -26,11 +26,11 @@ fun Context.uriToBitmap(uri: Uri): Bitmap? {
 fun Long.toCurrencyString(currency: Currency): String =
     "$%,.2f %s".format(
         this.toDouble(),
-        currency.name,
+        currency.name
     )
 
 fun Double.toCurrencyString(currency: Currency): String =
     "$%,.2f %s".format(
         this,
-        currency.name,
+        currency.name
     )

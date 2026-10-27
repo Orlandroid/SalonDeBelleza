@@ -19,12 +19,12 @@ import javax.inject.Inject
 data class ServiceScreenUiState(
     val branchName: String? = null,
     val currentStaff: Staff? = null,
-    val services: List<Service> = emptyList(),
+    val services: List<Service> = emptyList()
 )
 
 sealed class ServiceEvents {
     data class ClickOnService(
-        val service: Service,
+        val service: Service
     ) : ServiceEvents()
 }
 
@@ -36,7 +36,7 @@ sealed class ServiceEffects {
 class ServiceViewModel
     @Inject
     constructor(
-        private val appointmentSession: AppointmentSession,
+        private val appointmentSession: AppointmentSession
     ) : ViewModel() {
         private val _effects = Channel<ServiceEffects>()
         val effects = _effects.receiveAsFlow()
@@ -53,13 +53,13 @@ class ServiceViewModel
                         it.copy(
                             branchName = branchName,
                             currentStaff = currentStaff,
-                            services = branch?.services ?: emptyList(),
+                            services = branch?.services ?: emptyList()
                         )
                     }
                 }.stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(5000),
-                    initialValue = ServiceScreenUiState(),
+                    initialValue = ServiceScreenUiState()
                 )
 
         fun onEvents(event: ServiceEvents) {

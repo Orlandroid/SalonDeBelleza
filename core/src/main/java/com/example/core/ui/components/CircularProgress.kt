@@ -11,13 +11,13 @@ import androidx.compose.ui.unit.dp
 @Composable
 fun AppProgress(
     modifier: Modifier = Modifier,
-    strokeWidth: Dp = 5.dp,
+    strokeWidth: Dp = 5.dp
 ) {
     CircularProgressIndicator(
         modifier =
             modifier
                 .width(64.dp),
         color = Color(0xFF3700B3),
-        strokeWidth = strokeWidth,
+        strokeWidth = strokeWidth
     )
 }

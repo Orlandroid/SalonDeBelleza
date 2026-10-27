@@ -6,7 +6,7 @@ import javax.inject.Inject
 class MyDummyProductProvider
     @Inject
     constructor(
-        private val api: MyDummyApi,
+        private val api: MyDummyApi
     ) : ProductProvider {
         override suspend fun getProducts() = api.getProducts().map { it.toDomain() }
 

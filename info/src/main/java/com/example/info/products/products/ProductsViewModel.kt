@@ -33,15 +33,15 @@ sealed class ProductScreenEvents {
     object OnCarClicked : ProductScreenEvents()
 
     data class OnAddProduct(
-        val product: Product,
+        val product: Product
     ) : ProductScreenEvents()
 
     data class OnProductClicked(
-        val product: Product,
+        val product: Product
     ) : ProductScreenEvents()
 
     data class OnDeleteAllTheProducts(
-        val product: Product,
+        val product: Product
     ) : ProductScreenEvents()
 }
 
@@ -49,23 +49,23 @@ sealed class ProductScreenEffects {
     object NavigateToCar : ProductScreenEffects()
 
     data class ProductSaved(
-        val message: String,
+        val message: String
     ) : ProductScreenEffects()
 
     data class ProductsDeletedSuccessfully(
-        val message: String,
+        val message: String
     ) : ProductScreenEffects()
 
     object NoProductsToDelete : ProductScreenEffects()
 
     data class NavigateToProductDetail(
         val product: Product,
-        val source: ProductSource,
+        val source: ProductSource
     ) : ProductScreenEffects()
 }
 
 data class ProductsUiState(
-    val products: List<Product>,
+    val products: List<Product>
 )
 
 @HiltViewModel(assistedFactory = ProductsViewModelFactory::class)
@@ -78,7 +78,7 @@ class ProductsViewModel
         private val repository: BusinessRepository,
         @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
         @Assisted private val source: ProductSource,
-        @Assisted private val category: String? = null,
+        @Assisted private val category: String? = null
     ) : ViewModel() {
         private val _state: MutableStateFlow<BaseScreenState<ProductsUiState>> =
             MutableStateFlow(BaseScreenState.OnLoading)
@@ -93,7 +93,7 @@ class ProductsViewModel
                 }.stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(5000L),
-                    BaseScreenState.OnLoading,
+                    BaseScreenState.OnLoading
                 )
 
         private val _effects = Channel<ProductScreenEffects>()
@@ -112,8 +112,8 @@ class ProductsViewModel
                         sendEffect(
                             ProductScreenEffects.NavigateToProductDetail(
                                 product = event.product,
-                                source = source,
-                            ),
+                                source = source
+                            )
                         )
                     }
                 }
@@ -147,7 +147,7 @@ class ProductsViewModel
                 val response =
                     categoryRepository.getProductByCategory(
                         source = categorySource,
-                        category = category,
+                        category = category
                     )
                 _state.update { BaseScreenState.OnContent(content = ProductsUiState(response)) }
             }

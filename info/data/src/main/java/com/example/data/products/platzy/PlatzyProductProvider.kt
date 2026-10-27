@@ -9,7 +9,7 @@ import javax.inject.Inject
 class PlatzyProductProvider
     @Inject
     constructor(
-        private val api: PlatzyApi,
+        private val api: PlatzyApi
     ) : ProductProvider,
         CategoryProvider {
         override suspend fun getProducts(): List<Product> = api.getProducts().map { it.toDomain() }
@@ -22,7 +22,7 @@ class PlatzyProductProvider
                     id = it.id.toString(),
                     name = it.name,
                     image = it.image,
-                    slug = it.slug,
+                    slug = it.slug
                 )
             }
 

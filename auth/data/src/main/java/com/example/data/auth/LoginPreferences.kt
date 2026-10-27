@@ -9,7 +9,7 @@ import javax.inject.Inject
 class LoginPreferences
     @Inject
     constructor(
-        @ApplicationContext context: Context,
+        @ApplicationContext context: Context
     ) : SecurePreferencesManager(context = context),
         UserPreferences {
         companion object {

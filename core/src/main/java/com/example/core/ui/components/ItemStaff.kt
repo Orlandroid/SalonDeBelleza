@@ -36,7 +36,7 @@ fun ItemStaff(
     branch: String? = null,
     headerText: String? = null,
     clickOnHeaderText: (() -> Unit?)? = null,
-    onClick: ((ClickOnItemStaff) -> Unit?)? = null,
+    onClick: ((ClickOnItemStaff) -> Unit?)? = null
 ) {
     Card(
         modifier =
@@ -45,18 +45,18 @@ fun ItemStaff(
                 .padding(8.dp),
         onClick = {
             onClick?.invoke(ClickOnItemStaff.ClickOnItem)
-        },
+        }
     ) {
         Column(
             Modifier.fillMaxWidth(),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             headerText?.let {
                 Spacer(modifier = Modifier.height(16.dp))
                 Text(
                     modifier = Modifier.clickable { clickOnHeaderText?.invoke() },
                     text = headerText,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Bold
                 )
             }
             val imageLoader =
@@ -73,7 +73,7 @@ fun ItemStaff(
                         .size(150.dp),
                 model = staff.image_url,
                 contentDescription = "ImageStaff",
-                loading = { CircularProgressIndicator() },
+                loading = { CircularProgressIndicator() }
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(text = staff.name.orEmpty(), fontWeight = FontWeight.W900, fontSize = 18.sp)
@@ -96,8 +96,8 @@ private fun ItemStaffPreview() {
                 image_url = "",
                 name = "Orlando",
                 gender = "",
-                rating = 4,
+                rating = 4
             ),
-        branch = "Zacatecas",
+        branch = "Zacatecas"
     )
 }

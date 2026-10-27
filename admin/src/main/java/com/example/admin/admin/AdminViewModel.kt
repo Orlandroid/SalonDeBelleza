@@ -24,16 +24,16 @@ data class AdminUiState(
     val isLoading: Boolean = false,
     val metrics: AdminMetrics = AdminMetrics(),
     val pendingAppointments: List<AdminAppointmentUiModel> = emptyList(),
-    val errorMessage: String? = null,
+    val errorMessage: String? = null
 )
 
 sealed class AdminEvents {
     data class OnApprove(
-        val appointmentId: String,
+        val appointmentId: String
     ) : AdminEvents()
 
     data class OnReject(
-        val appointmentId: String,
+        val appointmentId: String
     ) : AdminEvents()
 }
 
@@ -41,7 +41,7 @@ sealed class AdminEvents {
 class AdminViewModel
     @Inject
     constructor(
-        private val repository: AdminRepository,
+        private val repository: AdminRepository
     ) : ViewModel() {
         private val _uiState = MutableStateFlow(AdminUiState())
         val uiState: StateFlow<AdminUiState> =
@@ -51,7 +51,7 @@ class AdminViewModel
                 }.stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(5000),
-                    initialValue = AdminUiState(),
+                    initialValue = AdminUiState()
                 )
 
         suspend fun getDataForDashboard() {
@@ -82,9 +82,9 @@ class AdminViewModel
                         AdminMetrics(
                             totalRevenue = revenue,
                             totalBookings = bookings.toInt(),
-                            pendingAppointmentsCount = pendingAppointments.size,
+                            pendingAppointmentsCount = pendingAppointments.size
                         ),
-                    pendingAppointments = pendingAppointments,
+                    pendingAppointments = pendingAppointments
                 )
             }
         }
@@ -104,25 +104,25 @@ class AdminViewModel
         private fun approveAppointment(appointmentId: String) {
             updateAppointmentStatus(
                 appointmentId = appointmentId,
-                newStatus = AppointmentStatus.COMPLETED,
+                newStatus = AppointmentStatus.COMPLETED
             )
         }
 
         private fun rejectAppointment(appointmentId: String) {
             updateAppointmentStatus(
                 appointmentId = appointmentId,
-                newStatus = AppointmentStatus.CANCELLED,
+                newStatus = AppointmentStatus.CANCELLED
             )
         }
 
         fun updateAppointmentStatus(
             appointmentId: String,
-            newStatus: AppointmentStatus,
+            newStatus: AppointmentStatus
         ) {
             viewModelScope.launch {
                 repository.updateAppointmentStatus(
                     appointmentId = appointmentId,
-                    newStatus = newStatus,
+                    newStatus = newStatus
                 )
                 getDataForDashboard()
             }

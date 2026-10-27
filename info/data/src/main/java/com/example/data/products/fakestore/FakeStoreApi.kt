@@ -9,7 +9,7 @@ interface FakeStoreApi {
 
     @GET("products/{id}")
     suspend fun getSingleProduct(
-        @Path("id")id: Int,
+        @Path("id")id: Int
     ): FakeStoreProduct
 
     @GET("products/categories")
@@ -17,6 +17,6 @@ interface FakeStoreApi {
 
     @GET("/products/category/{categoria}")
     suspend fun getProducts(
-        @Path("categoria") categoria: String,
+        @Path("categoria") categoria: String
     ): List<FakeStoreProduct>
 }

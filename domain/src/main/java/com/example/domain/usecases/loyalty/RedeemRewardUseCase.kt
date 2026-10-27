@@ -15,11 +15,11 @@ import javax.inject.Inject
 class RedeemRewardUseCase
     @Inject
     constructor(
-        private val repository: LoyaltyRepository,
+        private val repository: LoyaltyRepository
     ) {
         suspend operator fun invoke(
             userId: String,
-            reward: Reward,
+            reward: Reward
         ): ApiResult<PromotionCode> {
             val loyaltyResult = repository.getLoyalty(userId)
             if (loyaltyResult.isError()) return ApiResult.Error(loyaltyResult.getErrorMessage())
@@ -32,7 +32,7 @@ class RedeemRewardUseCase
 
             val updatedLoyalty =
                 currentLoyalty.copy(
-                    balance = currentLoyalty.balance - reward.pointsRequired,
+                    balance = currentLoyalty.balance - reward.pointsRequired
                 )
 
             val transaction =
@@ -40,7 +40,7 @@ class RedeemRewardUseCase
                     points = -reward.pointsRequired,
                     type = LoyaltyTransactionType.REWARD_REDEEMED,
                     sourceId = reward.id,
-                    description = "Reward redemption: ${reward.name}",
+                    description = "Reward redemption: ${reward.name}"
                 )
 
             val promoCode =
@@ -53,7 +53,7 @@ class RedeemRewardUseCase
                                 .take(5)
                                 .uppercase(),
                     rewardId = reward.id,
-                    discountPercentage = reward.discountPercentage,
+                    discountPercentage = reward.discountPercentage
                 )
 
             repository.updateLoyalty(updatedLoyalty)

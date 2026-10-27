@@ -3,14 +3,14 @@ package com.example.domain.entities.remote.migration
 import com.google.gson.annotations.SerializedName
 
 data class BranchesResponse(
-    val sucursales: List<NegoInfo>,
+    val sucursales: List<NegoInfo>
 )
 
 data class NegoInfo(
     @SerializedName("sucursal")
     val sucursal: Sucursal,
     val staffs: List<Staff>,
-    val services: List<Service>,
+    val services: List<Service>
 )
 
 data class Sucursal(
@@ -19,7 +19,7 @@ data class Sucursal(
     val long: String,
     var name: String,
     val schedule: Schedule,
-    val isOpen: Boolean = false,
+    val isOpen: Boolean = false
 )
 
 data class Schedule(
@@ -30,7 +30,7 @@ data class Schedule(
     @SerializedName("afternoon_open")
     val afternoonOpen: String,
     @SerializedName("afternoon_close")
-    val afternoonClose: String,
+    val afternoonClose: String
 )
 
 data class Service(
@@ -38,7 +38,7 @@ data class Service(
     val name: String,
     val precio: Int,
     val durationInMinutes: Int,
-    var isSelect: Boolean = false,
+    var isSelect: Boolean = false
 ) {
     companion object {
         private fun mockService() = Service(id = "0", name = "Corte de pelo", precio = 150, durationInMinutes = 30)
@@ -49,7 +49,7 @@ data class Service(
                 mockService().copy(id = "1"),
                 mockService().copy(id = "2"),
                 mockService().copy(id = "3"),
-                mockService().copy(id = "4"),
+                mockService().copy(id = "4")
             )
     }
 }
@@ -63,7 +63,7 @@ data class Staff(
     @SerializedName("sexo")
     val gender: String,
     @SerializedName("valoracion")
-    val rating: Int,
+    val rating: Int
 ) {
     companion object {
         fun mockStaff() = Staff(id = "", image_url = "", name = "Orlando", gender = "Hombre", rating = 4)
@@ -74,7 +74,7 @@ data class Staff(
                 mockStaff(),
                 mockStaff(),
                 mockStaff(),
-                mockStaff(),
+                mockStaff()
             )
     }
 }

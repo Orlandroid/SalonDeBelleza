@@ -24,7 +24,7 @@ class ValidateFormSignUpUseCaseTest {
         Dispatchers.setMain(testDispatcher)
         useCaseValidateFormSignUp =
             ValidateFormSignUpUseCase(
-                emailValidator = emailValidator,
+                emailValidator = emailValidator
             )
     }
 
@@ -45,7 +45,7 @@ class ValidateFormSignUpUseCaseTest {
                     name = "John Doe",
                     password = "StrongPass123",
                     email = "john@example.com",
-                    phone = "1234567890",
+                    phone = "1234567890"
                 )
 
             assertThat(result.isValidPhone).isTrue()
@@ -66,7 +66,7 @@ class ValidateFormSignUpUseCaseTest {
                     name = "John",
                     password = "StrongPass123",
                     email = "john@example.com",
-                    phone = "1234567890",
+                    phone = "1234567890"
                 )
 
             assertThat(result.isValidPhone).isTrue()
@@ -87,7 +87,7 @@ class ValidateFormSignUpUseCaseTest {
                     name = "John",
                     password = "StrongPass123",
                     email = "john@example.com",
-                    phone = "123456789",
+                    phone = "123456789"
                 )
 
             assertThat(result.isValidPhone).isFalse()
@@ -108,7 +108,7 @@ class ValidateFormSignUpUseCaseTest {
                     name = "John",
                     password = "StrongPass123",
                     email = "john@example.com",
-                    phone = "12345678901", // 11 characters
+                    phone = "12345678901" // 11 characters
                 )
 
             assertThat(result.isValidPhone).isFalse()
@@ -129,7 +129,7 @@ class ValidateFormSignUpUseCaseTest {
                     name = "John",
                     password = "StrongPass123",
                     email = "john@example.com",
-                    phone = "",
+                    phone = ""
                 )
 
             assertThat(result.isValidPhone).isFalse()
@@ -150,7 +150,7 @@ class ValidateFormSignUpUseCaseTest {
                     name = "John",
                     password = "StrongPass123",
                     email = "john@example.com",
-                    phone = "  1234567890  ", // 10 chars after trim
+                    phone = "  1234567890  " // 10 chars after trim
                 )
 
             assertThat(result.isValidPhone).isTrue()
@@ -171,7 +171,7 @@ class ValidateFormSignUpUseCaseTest {
                     name = "John",
                     password = "StrongPass123",
                     email = "john@example.com",
-                    phone = "1234567890",
+                    phone = "1234567890"
                 )
 
             assertThat(result.isValidPhone).isTrue()
@@ -192,7 +192,7 @@ class ValidateFormSignUpUseCaseTest {
                     name = "John",
                     password = "StrongPass123",
                     email = "invalid-email",
-                    phone = "1234567890",
+                    phone = "1234567890"
                 )
 
             assertThat(result.isValidPhone).isTrue()
@@ -213,7 +213,7 @@ class ValidateFormSignUpUseCaseTest {
                     name = "John",
                     password = "StrongPass123",
                     email = "",
-                    phone = "1234567890",
+                    phone = "1234567890"
                 )
 
             assertThat(result.isValidPhone).isTrue()
@@ -234,7 +234,7 @@ class ValidateFormSignUpUseCaseTest {
                     name = "John",
                     password = "StrongPass123", // 13 characters (> 8)
                     email = "john@example.com",
-                    phone = "1234567890",
+                    phone = "1234567890"
                 )
 
             assertThat(result.isValidPhone).isTrue()
@@ -255,7 +255,7 @@ class ValidateFormSignUpUseCaseTest {
                     name = "John",
                     password = "123456789", // Exactly 9 characters (> 8)
                     email = "john@example.com",
-                    phone = "1234567890",
+                    phone = "1234567890"
                 )
 
             assertThat(result.isValidPhone).isTrue()
@@ -276,7 +276,7 @@ class ValidateFormSignUpUseCaseTest {
                     name = "John",
                     password = "12345678",
                     email = "john@example.com",
-                    phone = "1234567890",
+                    phone = "1234567890"
                 )
 
             assertThat(result.isValidPhone).isTrue()
@@ -297,7 +297,7 @@ class ValidateFormSignUpUseCaseTest {
                     name = "John",
                     password = "short",
                     email = "john@example.com",
-                    phone = "1234567890",
+                    phone = "1234567890"
                 )
 
             assertThat(result.isValidPhone).isTrue()
@@ -318,7 +318,7 @@ class ValidateFormSignUpUseCaseTest {
                     name = "John",
                     password = "",
                     email = "john@example.com",
-                    phone = "1234567890",
+                    phone = "1234567890"
                 )
 
             assertThat(result.isValidPhone).isTrue()
@@ -339,7 +339,7 @@ class ValidateFormSignUpUseCaseTest {
                     name = "John",
                     password = "  StrongPass123  ",
                     email = "john@example.com",
-                    phone = "1234567890",
+                    phone = "1234567890"
                 )
 
             assertThat(result.isValidPhone).isTrue()
@@ -360,7 +360,7 @@ class ValidateFormSignUpUseCaseTest {
                     name = "",
                     password = "StrongPass123",
                     email = "john@example.com",
-                    phone = "1234567890",
+                    phone = "1234567890"
                 )
 
             assertThat(result.isValidPhone).isTrue()
@@ -381,7 +381,7 @@ class ValidateFormSignUpUseCaseTest {
                     name = "John",
                     password = "StrongPass123",
                     email = "john@example.com",
-                    phone = "1234567890",
+                    phone = "1234567890"
                 )
 
             assertThat(result.isValidPhone).isTrue()
@@ -402,7 +402,7 @@ class ValidateFormSignUpUseCaseTest {
                     name = "",
                     password = "",
                     email = "john@example.com",
-                    phone = "1234567890",
+                    phone = "1234567890"
                 )
 
             assertThat(result.isValidPhone).isTrue()
@@ -423,7 +423,7 @@ class ValidateFormSignUpUseCaseTest {
                     name = "   ",
                     password = "StrongPass123",
                     email = "john@example.com",
-                    phone = "1234567890",
+                    phone = "1234567890"
                 )
 
             assertThat(result.isValidPhone).isTrue()
@@ -444,7 +444,7 @@ class ValidateFormSignUpUseCaseTest {
                     name = "John",
                     password = "StrongPass123",
                     email = "invalid-email",
-                    phone = "123",
+                    phone = "123"
                 )
 
             assertThat(result.isValidPhone).isFalse()
@@ -465,7 +465,7 @@ class ValidateFormSignUpUseCaseTest {
                     name = "",
                     password = "short",
                     email = "invalid",
-                    phone = "123",
+                    phone = "123"
                 )
 
             assertThat(result.isValidPhone).isFalse()

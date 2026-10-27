@@ -26,12 +26,12 @@ fun ProgressDialog() {
             },
             DialogProperties(
                 dismissOnBackPress = false,
-                dismissOnClickOutside = false,
-            ),
+                dismissOnClickOutside = false
+            )
         ) {
             Surface(
                 modifier = Modifier.size(64.dp),
-                shape = RoundedCornerShape(32.dp),
+                shape = RoundedCornerShape(32.dp)
             ) {
                 AppProgress(strokeWidth = 8.dp)
             }

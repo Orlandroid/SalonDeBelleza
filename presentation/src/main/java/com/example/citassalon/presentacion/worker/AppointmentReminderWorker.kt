@@ -10,7 +10,7 @@ import androidx.work.WorkerParameters
 
 class AppointmentReminderWorker(
     context: Context,
-    workerParams: WorkerParameters,
+    workerParams: WorkerParameters
 ) : CoroutineWorker(context, workerParams) {
     override suspend fun doWork(): Result {
         val serviceName = inputData.getString("service_name") ?: "Appointment"
@@ -23,7 +23,7 @@ class AppointmentReminderWorker(
 
     private fun showNotification(
         service: String,
-        branch: String,
+        branch: String
     ) {
         val channelId = "appointment_reminders"
         val notificationManager =
@@ -34,7 +34,7 @@ class AppointmentReminderWorker(
                 NotificationChannel(
                     channelId,
                     "Appointment Reminders",
-                    NotificationManager.IMPORTANCE_HIGH,
+                    NotificationManager.IMPORTANCE_HIGH
                 )
             notificationManager.createNotificationChannel(channel)
         }

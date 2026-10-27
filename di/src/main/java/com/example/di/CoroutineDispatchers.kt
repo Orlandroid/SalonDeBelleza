@@ -16,7 +16,7 @@ class CoroutineDispatchers
         @param:IoDispatcher
         val io: CoroutineDispatcher,
         @param:MainImmediateDispatcher
-        val immediate: CoroutineDispatcher,
+        val immediate: CoroutineDispatcher
     )
 
 @Qualifier

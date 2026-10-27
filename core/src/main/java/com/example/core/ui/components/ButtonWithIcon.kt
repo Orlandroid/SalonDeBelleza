@@ -35,7 +35,7 @@ fun ButtonWithIcon(
     onClick: (isEnabled: Boolean) -> Unit = {},
     enable: Boolean = true,
     backgroundColor: Color,
-    fontColor: Color = Color.Black,
+    fontColor: Color = Color.Black
 ) {
     Button(
         onClick = { onClick(enable) },
@@ -48,28 +48,28 @@ fun ButtonWithIcon(
                 defaultElevation = 0.dp,
                 pressedElevation = 0.dp,
                 hoveredElevation = 0.dp,
-                focusedElevation = 0.dp,
+                focusedElevation = 0.dp
             ),
         shape = RoundedCornerShape(28.dp),
         contentPadding = PaddingValues(15.dp),
         colors =
             ButtonDefaults.buttonColors(
                 containerColor = backgroundColor,
-                contentColor = fontColor,
+                contentColor = fontColor
             ),
-        border = BorderStroke(1.dp, MaterialTheme.colorScheme.onBackground),
+        border = BorderStroke(1.dp, MaterialTheme.colorScheme.onBackground)
     ) {
         Box(
             modifier =
                 Modifier
                     .fillMaxWidth(),
-            contentAlignment = Alignment.Center,
+            contentAlignment = Alignment.Center
         ) {
             Row(
                 modifier =
                     Modifier
                         .fillMaxWidth()
-                        .align(Alignment.CenterStart),
+                        .align(Alignment.CenterStart)
             ) {
                 Spacer(modifier = Modifier.width(4.dp))
                 Icon(
@@ -78,7 +78,7 @@ fun ButtonWithIcon(
                         Modifier
                             .size(18.dp),
                     contentDescription = "drawable_icons",
-                    tint = Color.Unspecified,
+                    tint = Color.Unspecified
                 )
             }
             Text(
@@ -86,7 +86,7 @@ fun ButtonWithIcon(
                 text = buttonText,
                 color = Color.Black,
                 textAlign = TextAlign.Center,
-                fontSize = 16.sp,
+                fontSize = 16.sp
             )
         }
     }
@@ -99,6 +99,6 @@ fun GoogleButtonPreview() {
         modifier = Modifier,
         imageVector = ImageVector.vectorResource(id = R.drawable.google_30),
         backgroundColor = Color.White,
-        buttonText = "Google",
+        buttonText = "Google"
     )
 }

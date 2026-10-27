@@ -11,6 +11,6 @@ sealed class WalletNavigationRoutes {
 
     @Serializable
     data class TransactionDetail(
-        val transactionId: String,
+        val transactionId: String
     ) : WalletNavigationRoutes()
 }

@@ -38,7 +38,7 @@ sealed class ScheduleAppointmentEvents {
     object OnSaveAppointment : ScheduleAppointmentEvents()
 
     data class OnPromoCodeChanged(
-        val code: String,
+        val code: String
     ) : ScheduleAppointmentEvents()
 
     object OnApplyPromoCode : ScheduleAppointmentEvents()
@@ -59,7 +59,7 @@ data class ScheduleAppointmentState(
     val appliedPromo: PromotionCode? = null,
     val isPromoApplied: Boolean = false,
     val promoError: String? = null,
-    val validatingPromo: Boolean = false,
+    val validatingPromo: Boolean = false
 )
 
 @HiltViewModel
@@ -71,7 +71,7 @@ class ConfirmScheduleViewModel
         private val appointmentSession: AppointmentSession,
         private val verifyPromoCodeUseCase: VerifyPromoCodeUseCase,
         private val loyaltyRepository: LoyaltyRepository,
-        private val userRepository: UserRepository,
+        private val userRepository: UserRepository
     ) : ViewModel() {
         private val _uiState: MutableStateFlow<ScheduleAppointmentState> =
             MutableStateFlow(ScheduleAppointmentState())
@@ -86,13 +86,13 @@ class ConfirmScheduleViewModel
                             servicePrice = draft.service?.precio.toString(),
                             serviceName = draft.service?.name.toString(),
                             date = draft.date,
-                            time = draft.time,
+                            time = draft.time
                         )
                     }
                 }.stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(5000),
-                    initialValue = ScheduleAppointmentState(),
+                    initialValue = ScheduleAppointmentState()
                 )
 
         private val _effects = Channel<ScheduleAppointmentEffects>()
@@ -144,7 +144,7 @@ class ConfirmScheduleViewModel
                         it.copy(
                             appliedPromo = result.result,
                             isPromoApplied = true,
-                            validatingPromo = false,
+                            validatingPromo = false
                         )
                     }
                 } else {
@@ -184,7 +184,7 @@ class ConfirmScheduleViewModel
                     service = draft.service?.name.orEmpty(),
                     date = draft.date,
                     hour = draft.time,
-                    total = finalPrice.toString(),
+                    total = finalPrice.toString()
                 )
 
             if (saveAppointmentResult.isSuccess()) {

@@ -35,7 +35,7 @@ class LoginUseCaseTest {
             LoginUseCase(
                 authRepository = authRepository,
                 userPreferences = userPreferences,
-                userRepository = userRepository,
+                userRepository = userRepository
             )
     }
 
@@ -69,7 +69,7 @@ class LoginUseCaseTest {
                     password = "",
                     birthDay = "",
                     role = UserRole.ADMIN,
-                    uid = "",
+                    uid = ""
                 )
             coEvery { authRepository.login(any(), any()) } returns ApiResult.Success(Unit)
             coEvery { userRepository.getUser() } returns ApiResult.Success(user)

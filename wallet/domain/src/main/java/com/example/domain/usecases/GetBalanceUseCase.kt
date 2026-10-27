@@ -13,13 +13,13 @@ class GetBalanceUseCase
     @Inject
     constructor(
         private val userRepository: UserRepository,
-        private val walletRepository: WalletRepository,
+        private val walletRepository: WalletRepository
     ) {
         suspend operator fun invoke(): ApiResult<Balance> {
             val userResult = userRepository.getUser()
             if (userResult.isError()) {
                 return ApiResult.Error(
-                    userResult.getErrorMessage(),
+                    userResult.getErrorMessage()
                 )
             }
 
@@ -28,7 +28,7 @@ class GetBalanceUseCase
             val walletResult = walletRepository.getWallet()
             if (walletResult.isError()) {
                 return ApiResult.Error(
-                    walletResult.getErrorMessage(),
+                    walletResult.getErrorMessage()
                 )
             }
 
@@ -40,8 +40,8 @@ class GetBalanceUseCase
                     userName = user.name,
                     balance = wallet.balance,
                     currency = wallet.currency,
-                    createdAtMillis = wallet.createdAt,
-                ),
+                    createdAtMillis = wallet.createdAt
+                )
             )
         }
     }

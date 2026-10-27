@@ -13,7 +13,7 @@ import com.example.wallet.transactionsdetails.TransactionDetailScreen
 
 fun NavGraphBuilder.walletNavigationGraph(navController: NavHostController) {
     navigation<AppNavigationRoutes.WalletNavigationRoute>(
-        startDestination = WalletNavigationRoutes.Balance,
+        startDestination = WalletNavigationRoutes.Balance
     ) {
         composable<WalletNavigationRoutes.Balance> {
             WalletScreen(navController = navController)
@@ -25,7 +25,7 @@ fun NavGraphBuilder.walletNavigationGraph(navController: NavHostController) {
             val arguments = it.toRoute<WalletNavigationRoutes.TransactionDetail>()
             TransactionDetailScreen(
                 navController = navController,
-                transactionId = arguments.transactionId,
+                transactionId = arguments.transactionId
             )
         }
     }

@@ -16,7 +16,7 @@ class UserRepositoryImpl
     @Inject
     constructor(
         @param:UsersRef private val databaseReference: DatabaseReference,
-        private val firebaseAuth: FirebaseAuth,
+        private val firebaseAuth: FirebaseAuth
     ) : UserRepository {
         override suspend fun getUser(): ApiResult<User> {
             return runCatching {
@@ -49,7 +49,7 @@ class UserRepositoryImpl
                         password = userInfo.password,
                         birthDay = userInfo.birthDay,
                         role = userRole,
-                        uid = userId,
+                        uid = userId
                     )
 
                 ApiResult.Success(user)
@@ -77,7 +77,7 @@ class UserRepositoryImpl
 
         override suspend fun saveUserInfo(
             userId: String,
-            user: User,
+            user: User
         ): ApiResult<Any> =
             runCatching {
                 databaseReference.child(userId).setValue(user).await()

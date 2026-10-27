@@ -21,7 +21,7 @@ interface AppointmentsRepository {
 
     suspend fun updateAppointment(
         appointmentId: String,
-        appointment: AppointmentFirebase,
+        appointment: AppointmentFirebase
     ): ApiResult<Unit>
 
     suspend fun getBranches(): ApiResult<List<NegoInfo>>
@@ -32,13 +32,13 @@ interface AppointmentsRepository {
 
     suspend fun findStaff(
         branchName: String,
-        staffName: String,
+        staffName: String
     ): ApiResult<Pair<String, Staff?>>
 
     suspend fun getBookedSlots(
         branchName: String,
         date: String,
-        staffName: String,
+        staffName: String
     ): ApiResult<List<String>>
 
     suspend fun bookMasterSchedule(
@@ -46,6 +46,6 @@ interface AppointmentsRepository {
         date: String,
         staffName: String,
         time: String,
-        appointmentId: String,
+        appointmentId: String
     ): ApiResult<Unit>
 }

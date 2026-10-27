@@ -12,7 +12,7 @@ import javax.inject.Singleton
 open class SecurePreferencesManager
     @Inject
     constructor(
-        @ApplicationContext protected val context: Context,
+        @ApplicationContext protected val context: Context
     ) {
         private val masterKey =
             MasterKey
@@ -26,12 +26,12 @@ open class SecurePreferencesManager
                 "SecureAppPreferences",
                 masterKey,
                 EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
-                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM,
+                EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
             )
 
         protected fun saveSecureKey(
             key: String,
-            value: Any,
+            value: Any
         ) {
             sharedPreferences.edit {
                 when (value) {
@@ -47,17 +47,17 @@ open class SecurePreferencesManager
 
         protected fun getSecureString(
             key: String,
-            defaultValue: String = "",
+            defaultValue: String = ""
         ): String = sharedPreferences.getString(key, defaultValue) ?: defaultValue
 
         protected fun getSecureBoolean(
             key: String,
-            defaultValue: Boolean = false,
+            defaultValue: Boolean = false
         ): Boolean = sharedPreferences.getBoolean(key, defaultValue)
 
         protected fun getSecureInt(
             key: String,
-            defaultValue: Int = 0,
+            defaultValue: Int = 0
         ): Int = sharedPreferences.getInt(key, defaultValue)
 
         protected fun removeSecureKey(key: String) {

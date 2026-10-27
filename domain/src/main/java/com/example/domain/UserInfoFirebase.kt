@@ -6,5 +6,5 @@ data class UserInfoFirebase(
     val name: String = "",
     val password: String = "",
     val phone: String = "",
-    val role: String = "CUSTOMER",
+    val role: String = "CUSTOMER"
 )

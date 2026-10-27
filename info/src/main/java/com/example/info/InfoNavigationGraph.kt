@@ -22,7 +22,7 @@ import com.example.info.ubicacion.LocationScreen
 
 fun NavGraphBuilder.infoNavigationGraph(navController: NavHostController) {
     navigation<AppNavigationRoutes.InfoNavigationRoute>(
-        startDestination = InfoNavigationRoutes.EstablishingRoute,
+        startDestination = InfoNavigationRoutes.EstablishingRoute
     ) {
         composable<InfoNavigationRoutes.EstablishingRoute> {
             EstablishingScreen(navController = navController)
@@ -32,14 +32,14 @@ fun NavGraphBuilder.infoNavigationGraph(navController: NavHostController) {
         }
         composable<InfoNavigationRoutes.BranchesRoute> {
             BranchesScreen(
-                navController = navController,
+                navController = navController
             )
         }
         composable<InfoNavigationRoutes.CategoriesRoute> {
             val arguments = it.toRoute<InfoNavigationRoutes.CategoriesRoute>()
             CategoriesScreen(
                 navController = navController,
-                categorySource = arguments.source,
+                categorySource = arguments.source
             )
         }
         composable<InfoNavigationRoutes.ProductsRoute> {
@@ -47,7 +47,7 @@ fun NavGraphBuilder.infoNavigationGraph(navController: NavHostController) {
             ProductsScreen(
                 navController = navController,
                 source = arguments.source,
-                category = arguments.category,
+                category = arguments.category
             )
         }
         composable<InfoNavigationRoutes.DetailProductRoute> {
@@ -55,7 +55,7 @@ fun NavGraphBuilder.infoNavigationGraph(navController: NavHostController) {
             DetailProductScreen(
                 navController = navController,
                 productId = arguments.productId,
-                source = arguments.source,
+                source = arguments.source
             )
         }
         composable<InfoNavigationRoutes.CartRoute> {
@@ -76,7 +76,7 @@ fun NavGraphBuilder.infoNavigationGraph(navController: NavHostController) {
         composable<InfoNavigationRoutes.SuccessScreenRoute> {
             SuccessScreen(
                 title = "Purchase successful!",
-                description = "Your order has been successfully placed.",
+                description = "Your order has been successfully placed."
             ) {
                 navController.popBackStack()
                 navController.popBackStack()

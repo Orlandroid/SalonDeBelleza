@@ -12,7 +12,7 @@ import com.example.data.database.entities.ProductEntity
 @Database(
     entities = [AppointmentEntity::class, ProductEntity::class, CategoryEntity::class],
     version = 2,
-    exportSchema = false,
+    exportSchema = false
 )
 abstract class SkedulyDatabase : RoomDatabase() {
     abstract fun appointmentDao(): AppointmentDao

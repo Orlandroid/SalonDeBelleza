@@ -48,7 +48,7 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun SignUpScreen(
     navHostController: NavHostController,
-    signUpViewModel: SignUpViewModel = hiltViewModel(),
+    signUpViewModel: SignUpViewModel = hiltViewModel()
 ) {
     val snackBarHostState = remember { SnackbarHostState() }
     val state = signUpViewModel.state.collectAsStateWithLifecycle()
@@ -92,15 +92,15 @@ fun SignUpScreen(
         toolbarConfiguration =
             ToolbarConfiguration(
                 showToolbar = false,
-                title = stringResource(id = R.string.signUp),
-            ),
+                title = stringResource(id = R.string.signUp)
+            )
     ) {
         SignUpScreenContent(
             modifier = Modifier,
             uiState = state.value,
             onEvents = { event ->
                 signUpViewModel.onEvents(event)
-            },
+            }
         )
     }
 }
@@ -109,45 +109,45 @@ fun SignUpScreen(
 private fun SignUpScreenContent(
     modifier: Modifier = Modifier,
     uiState: SignUpUiState,
-    onEvents: (SingUpEvents) -> Unit,
+    onEvents: (SingUpEvents) -> Unit
 ) {
     ContainerSignUp {
         val logoImage = painterResource(id = R.drawable.logo)
         Image(
             painter = logoImage,
             contentDescription = "SkedulyImage",
-            modifier.size(150.dp),
+            modifier.size(150.dp)
         )
         InputName(
             value = uiState.name,
             onValueChange = {
                 onEvents(SingUpEvents.OnNameChange(name = it))
-            },
+            }
         )
         InputPhone(
             value = uiState.phone,
             showError = uiState.showErrorPhone,
             onValueChange = {
                 onEvents(SingUpEvents.OnPhoneChange(phone = it))
-            },
+            }
         )
         InputEmail(
             value = uiState.email,
             showError = uiState.showErrorEmail,
             onValueChange = {
                 onEvents(SingUpEvents.OnEmailChange(email = it))
-            },
+            }
         )
         InputPassword(
             value = uiState.password,
             showError = uiState.showErrorPassword,
             onValueChange = {
                 onEvents(SingUpEvents.OnPasswordChange(password = it))
-            },
+            }
         )
         InputBirthday(
             value = uiState.birthday,
-            onEvents = onEvents,
+            onEvents = onEvents
         )
         Spacer(modifier = Modifier.weight(1f))
         ButtonSignUp(
@@ -155,7 +155,7 @@ private fun SignUpScreenContent(
             isLoading = uiState.isLoading,
             onClick = {
                 onEvents(SingUpEvents.OnSignUpClick)
-            },
+            }
         )
     }
 }
@@ -169,7 +169,7 @@ private fun ContainerSignUp(content: @Composable ColumnScope.() -> Unit) {
                 .background(Background)
                 .padding(8.dp),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         content()
     }
@@ -180,13 +180,13 @@ private fun ButtonSignUp(
     modifier: Modifier = Modifier,
     isEnabled: Boolean,
     onClick: () -> Unit,
-    isLoading: Boolean,
+    isLoading: Boolean
 ) {
     Button(
         modifier = modifier.fillMaxWidth(),
         enabled = isEnabled,
         onClick = onClick,
-        colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+        colors = ButtonDefaults.buttonColors(containerColor = Color.White)
     ) {
         if (isLoading) {
             CircularProgressIndicator(Modifier.size(40.dp))
@@ -200,13 +200,13 @@ private fun ButtonSignUp(
 private fun InputName(
     modifier: Modifier = Modifier,
     value: String,
-    onValueChange: (value: String) -> Unit,
+    onValueChange: (value: String) -> Unit
 ) {
     BaseOutlinedTextField(
         modifier = modifier,
         text = stringResource(R.string.nombre),
         value = value,
-        onValueChange = onValueChange,
+        onValueChange = onValueChange
     )
 }
 
@@ -215,14 +215,14 @@ private fun InputPhone(
     modifier: Modifier = Modifier,
     value: String,
     showError: Boolean,
-    onValueChange: (value: String) -> Unit,
+    onValueChange: (value: String) -> Unit
 ) {
     BaseOutlinedTextField(
         modifier = modifier,
         inputError =
             if (showError) {
                 InputError(
-                    errorText = stringResource(R.string.error_phone),
+                    errorText = stringResource(R.string.error_phone)
                 )
             } else {
                 null
@@ -233,7 +233,7 @@ private fun InputPhone(
         value = value,
         onValueChange = {
             onValueChange.invoke(it)
-        },
+        }
     )
 }
 
@@ -242,14 +242,14 @@ private fun InputEmail(
     modifier: Modifier = Modifier,
     value: String,
     showError: Boolean,
-    onValueChange: (value: String) -> Unit,
+    onValueChange: (value: String) -> Unit
 ) {
     BaseOutlinedTextField(
         modifier = modifier,
         inputError =
             if (showError) {
                 InputError(
-                    errorText = stringResource(R.string.error_email),
+                    errorText = stringResource(R.string.error_email)
                 )
             } else {
                 null
@@ -258,7 +258,7 @@ private fun InputEmail(
         keyboardType = KeyboardType.Email,
         imageVector = Icons.Filled.Email,
         value = value,
-        onValueChange = onValueChange,
+        onValueChange = onValueChange
     )
 }
 
@@ -267,14 +267,14 @@ private fun InputPassword(
     modifier: Modifier = Modifier,
     value: String,
     showError: Boolean,
-    onValueChange: (value: String) -> Unit,
+    onValueChange: (value: String) -> Unit
 ) {
     BaseOutlinedTextField(
         modifier = modifier,
         inputError =
             if (showError) {
                 InputError(
-                    errorText = stringResource(R.string.error_passsword),
+                    errorText = stringResource(R.string.error_passsword)
                 )
             } else {
                 null
@@ -286,7 +286,7 @@ private fun InputPassword(
         isInputPassword = true,
         onValueChange = {
             onValueChange.invoke(it)
-        },
+        }
     )
 }
 
@@ -294,7 +294,7 @@ private fun InputPassword(
 private fun InputBirthday(
     modifier: Modifier = Modifier,
     value: String,
-    onEvents: (SingUpEvents) -> Unit,
+    onEvents: (SingUpEvents) -> Unit
 ) {
     BaseOutlinedTextField(
         modifier = modifier,
@@ -303,7 +303,7 @@ private fun InputBirthday(
         value = value,
         isEnable = false,
         clickOnIcon = { onEvents(SingUpEvents.OnOpenDatePick) },
-        onValueChange = { onEvents(SingUpEvents.OnDateSelected(birthday = it)) },
+        onValueChange = { onEvents(SingUpEvents.OnDateSelected(birthday = it)) }
     )
 }
 
@@ -313,6 +313,6 @@ private fun SignUpScreenPreview() {
     SignUpScreenContent(
         modifier = Modifier,
         uiState = SignUpUiState(),
-        onEvents = {},
+        onEvents = {}
     )
 }

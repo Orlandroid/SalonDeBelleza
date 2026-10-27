@@ -32,7 +32,7 @@ class GetUserInfoUseCaseTest {
             email = "test@example.com",
             password = "",
             birthDay = "",
-            uid = "uid-123",
+            uid = "uid-123"
         )
 
     @Before
@@ -41,13 +41,13 @@ class GetUserInfoUseCaseTest {
             GetUserInfoUseCase(
                 walletRepository = walletRepository,
                 userRepository = userRepository,
-                loyaltyRepository = loyaltyRepository,
+                loyaltyRepository = loyaltyRepository
             )
     }
 
     private fun mockFirebaseUser(
         uid: String = "uid-123",
-        email: String?,
+        email: String?
     ): FirebaseUser {
         val user = mockk<FirebaseUser>()
         every { user.uid } returns uid
@@ -65,8 +65,8 @@ class GetUserInfoUseCaseTest {
             coEvery { loyaltyRepository.getPromotionCodes(any()) } returns
                 ApiResult.Success(
                     listOf(
-                        PromotionCode(),
-                    ),
+                        PromotionCode()
+                    )
                 )
             coEvery { userRepository.getUser() } returns
                 ApiResult.Success(mockUser)
@@ -121,8 +121,8 @@ class GetUserInfoUseCaseTest {
             coEvery { loyaltyRepository.getPromotionCodes(any()) } returns
                 ApiResult.Success(
                     listOf(
-                        PromotionCode(),
-                    ),
+                        PromotionCode()
+                    )
                 )
             coEvery { userRepository.getUserImage() } returns ApiResult.Success("image.png")
             coEvery { userRepository.getUser() } returns
@@ -144,8 +144,8 @@ class GetUserInfoUseCaseTest {
             coEvery { loyaltyRepository.getPromotionCodes(any()) } returns
                 ApiResult.Success(
                     listOf(
-                        PromotionCode(),
-                    ),
+                        PromotionCode()
+                    )
                 )
             coEvery { userRepository.getUserImage() } returns ApiResult.Error("Image not found")
             coEvery { userRepository.getUser() } returns
@@ -167,8 +167,8 @@ class GetUserInfoUseCaseTest {
             coEvery { loyaltyRepository.getPromotionCodes(any()) } returns
                 ApiResult.Success(
                     listOf(
-                        PromotionCode(),
-                    ),
+                        PromotionCode()
+                    )
                 )
             val user = mockFirebaseUser(uid = "uid-123", email = "test@example.com")
             coEvery { userRepository.getUserImage() } returns ApiResult.Success("img")

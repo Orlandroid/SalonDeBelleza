@@ -38,32 +38,32 @@ fun UserProfileScreenSkeleton(modifier: Modifier = Modifier) {
                 .fillMaxSize()
                 .background(Background),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Center
     ) {
         Spacer(
             Modifier
                 .size(144.dp)
                 .clip(CircleShape)
-                .background(shimmerBrush()),
+                .background(shimmerBrush())
         )
         Row(
             Modifier
                 .fillMaxWidth()
                 .padding(start = 16.dp, top = 16.dp),
-            horizontalArrangement = Arrangement.Center,
+            horizontalArrangement = Arrangement.Center
         ) {
             Text(
                 modifier = Modifier.background(shimmerBrush()),
                 color = Color.Transparent,
                 text = stringResource(R.string.name_user),
-                fontSize = 24.sp,
+                fontSize = 24.sp
             )
             Spacer(modifier = Modifier.width(24.dp))
             Spacer(
                 Modifier
                     .size(26.dp)
                     .clip(CircleShape)
-                    .background(shimmerBrush()),
+                    .background(shimmerBrush())
             )
         }
         Spacer(modifier = Modifier.height(24.dp))
@@ -71,7 +71,7 @@ fun UserProfileScreenSkeleton(modifier: Modifier = Modifier) {
             Modifier
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.White),
+            colors = CardDefaults.cardColors(containerColor = Color.White)
         ) {
             BaseLabel(key = stringResource(R.string.name_user))
             HorizontalDivider()
@@ -94,7 +94,7 @@ private fun BaseLabel(key: String) {
                 .background(shimmerBrush()),
         color = Color.Transparent,
         text = key,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight.Bold
     )
     Spacer(modifier = Modifier.height(8.dp))
     Text(
@@ -103,7 +103,7 @@ private fun BaseLabel(key: String) {
                 .padding(4.dp)
                 .background(shimmerBrush()),
         color = Color.Transparent,
-        text = key,
+        text = key
     )
 }
 

@@ -15,14 +15,14 @@ import com.example.core.util.convertMillisToDate
 @Composable
 fun MyDatePickerDialog(
     onDismiss: () -> Unit,
-    onDateSelected: (String) -> Unit,
+    onDateSelected: (String) -> Unit
 ) {
     val datePickerState =
         rememberDatePickerState(
             selectableDates =
                 object : SelectableDates {
                     override fun isSelectableDate(utcTimeMillis: Long): Boolean = utcTimeMillis <= System.currentTimeMillis()
-                },
+                }
         )
 
     val selectedDate = datePickerState.selectedDateMillis?.let { convertMillisToDate(it) } ?: ""
@@ -34,7 +34,7 @@ fun MyDatePickerDialog(
                 onClick = {
                     onDateSelected(selectedDate)
                     onDismiss()
-                },
+                }
             ) {
                 Text(text = "OK")
             }
@@ -45,10 +45,10 @@ fun MyDatePickerDialog(
             }) {
                 Text(text = "Cancel")
             }
-        },
+        }
     ) {
         DatePicker(
-            state = datePickerState,
+            state = datePickerState
         )
     }
 }

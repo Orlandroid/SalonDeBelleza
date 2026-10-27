@@ -26,7 +26,7 @@ class AppointmentHistoryViewModelTest {
             AppointmentHistoryViewModel(
                 appointmentsRepository = appointmentsRepository,
                 completeAppointmentUseCase = completeAppointmentUseCase,
-                submitAppointmentReviewUseCase = submitAppointmentReviewUseCase,
+                submitAppointmentReviewUseCase = submitAppointmentReviewUseCase
             )
     }
 

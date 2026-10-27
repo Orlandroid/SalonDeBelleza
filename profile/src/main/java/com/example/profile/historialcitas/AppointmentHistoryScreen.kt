@@ -72,7 +72,7 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun AppointmentHistoryScreen(
     navController: NavHostController,
-    viewModel: AppointmentHistoryViewModel = hiltViewModel(),
+    viewModel: AppointmentHistoryViewModel = hiltViewModel()
 ) {
     val uiState = viewModel.state.collectAsStateWithLifecycle()
     LaunchedEffect(Unit) {
@@ -80,7 +80,7 @@ fun AppointmentHistoryScreen(
             when (it) {
                 is AppointmentHistoryEffects.NavigateToDetail -> {
                     navController.navigate(
-                        route = ProfileNavigationRoutes.HistoryDetailRoute(appointmentId = it.idAppointment),
+                        route = ProfileNavigationRoutes.HistoryDetailRoute(appointmentId = it.idAppointment)
                     )
                 }
             }
@@ -101,13 +101,13 @@ fun AppointmentHistoryScreen(
                 toolbarConfiguration =
                     ToolbarConfiguration(
                         showToolbar = true,
-                        title = stringResource(id = R.string.appointment_history),
-                    ),
+                        title = stringResource(id = R.string.appointment_history)
+                    )
             ) {
                 AppointmentHistoryScreenContent(
                     uiState = uiState.value,
                     onEvents = viewModel::onEvents,
-                    animation = viewModel.getRandomNoDataAnimation(),
+                    animation = viewModel.getRandomNoDataAnimation()
                 )
             }
         }
@@ -118,17 +118,17 @@ fun AppointmentHistoryScreen(
 private fun AppointmentHistoryScreenContent(
     uiState: AppointmentHistoryUiState,
     onEvents: (event: AppointmentHistoryEvents) -> Unit,
-    @RawRes animation: Int,
+    @RawRes animation: Int
 ) {
     AppointHistoryList(
         appointments = uiState.appointments,
         onEvents = onEvents,
-        animation = animation,
+        animation = animation
     )
 
     if (uiState.showDialog) {
         ShowDialogDeleteAppointment(
-            onEvents = onEvents,
+            onEvents = onEvents
         )
     }
 
@@ -140,10 +140,10 @@ private fun AppointmentHistoryScreenContent(
                 onEvents(
                     AppointmentHistoryEvents.OnSubmitReview(
                         rating = rating,
-                        comment = comment,
-                    ),
+                        comment = comment
+                    )
                 )
-            },
+            }
         )
     }
 
@@ -168,8 +168,8 @@ private fun ShowDialogDeleteAppointment(onEvents: (event: AppointmentHistoryEven
                         onEvents(AppointmentHistoryEvents.OnCancel)
                     }, clickOnAccept = {
                         onEvents(AppointmentHistoryEvents.OnAccept)
-                    }),
-            ),
+                    })
+            )
     )
 }
 
@@ -178,20 +178,20 @@ private fun AppointHistoryList(
     modifier: Modifier = Modifier,
     appointments: List<Appointment>,
     onEvents: (event: AppointmentHistoryEvents) -> Unit,
-    @RawRes animation: Int,
+    @RawRes animation: Int
 ) {
     Column(
         modifier =
             modifier
                 .fillMaxSize()
-                .background(MaterialTheme.colorScheme.surfaceContainerLowest),
+                .background(MaterialTheme.colorScheme.surfaceContainerLowest)
     ) {
         if (appointments.isEmpty()) {
             NotDatView(animation)
         } else {
             Appointments(
                 appointments = appointments,
-                onEvents = onEvents,
+                onEvents = onEvents
             )
         }
     }
@@ -200,20 +200,20 @@ private fun AppointHistoryList(
 @Composable
 private fun Appointments(
     appointments: List<Appointment>,
-    onEvents: (event: AppointmentHistoryEvents) -> Unit,
+    onEvents: (event: AppointmentHistoryEvents) -> Unit
 ) {
     LazyColumn(
         modifier = Modifier.fillMaxSize(),
         contentPadding =
             PaddingValues(
                 horizontal = 16.dp,
-                vertical = 12.dp,
+                vertical = 12.dp
             ),
-        verticalArrangement = Arrangement.spacedBy(12.dp),
+        verticalArrangement = Arrangement.spacedBy(12.dp)
     ) {
         items(
             items = appointments,
-            key = { it.id },
+            key = { it.id }
         ) { appointment ->
             ItemAppointment(
                 appointment = appointment,
@@ -228,7 +228,7 @@ private fun Appointments(
                 },
                 onCancelAppointment = {
                     onEvents(AppointmentHistoryEvents.OnCancelAppointment(appointment.id))
-                },
+                }
             )
         }
     }
@@ -240,38 +240,38 @@ private fun ItemAppointment(
     onRemoveAppointment: () -> Unit,
     onCompleteAppointment: () -> Unit,
     onCancelAppointment: () -> Unit,
-    onAppointmentClicked: (appointmentId: String) -> Unit,
+    onAppointmentClicked: (appointmentId: String) -> Unit
 ) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         colors =
             CardDefaults.cardColors(
-                containerColor = MaterialTheme.colorScheme.surface,
+                containerColor = MaterialTheme.colorScheme.surface
             ),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         shape = RoundedCornerShape(20.dp),
-        onClick = { onAppointmentClicked(appointment.id) },
+        onClick = { onAppointmentClicked(appointment.id) }
     ) {
         Column(modifier = Modifier.padding(12.dp)) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Surface(
                     shape = RoundedCornerShape(16.dp),
-                    color = MaterialTheme.colorScheme.surfaceContainerHigh,
+                    color = MaterialTheme.colorScheme.surfaceContainerHigh
                 ) {
                     Image(
                         modifier = Modifier.size(72.dp),
                         painter = painterResource(id = R.drawable.tienda),
-                        contentDescription = null,
+                        contentDescription = null
                     )
                 }
 
                 Spacer(modifier = Modifier.width(16.dp))
 
                 Column(
-                    modifier = Modifier.weight(1f),
+                    modifier = Modifier.weight(1f)
                 ) {
                     Text(
                         text = appointment.service,
@@ -279,7 +279,7 @@ private fun ItemAppointment(
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.onSurface,
                         maxLines = 2,
-                        overflow = TextOverflow.Ellipsis,
+                        overflow = TextOverflow.Ellipsis
                     )
                     Spacer(modifier = Modifier.height(6.dp))
                     BranchRow(branchName = appointment.branch)
@@ -291,7 +291,7 @@ private fun ItemAppointment(
                     Icon(
                         imageVector = Icons.Outlined.DeleteOutline,
                         contentDescription = stringResource(R.string.remove),
-                        tint = MaterialTheme.colorScheme.error.copy(alpha = 0.85f),
+                        tint = MaterialTheme.colorScheme.error.copy(alpha = 0.85f)
                     )
                 }
             }
@@ -300,16 +300,16 @@ private fun ItemAppointment(
                 Spacer(modifier = Modifier.height(8.dp))
                 Row(
                     modifier = Modifier.fillMaxWidth(),
-                    horizontalArrangement = Arrangement.End,
+                    horizontalArrangement = Arrangement.End
                 ) {
                     TextButton(
                         onClick = onCancelAppointment,
-                        colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error),
+                        colors = ButtonDefaults.textButtonColors(contentColor = MaterialTheme.colorScheme.error)
                     ) {
                         Icon(
                             Icons.Outlined.DoNotDisturbOn,
                             contentDescription = null,
-                            modifier = Modifier.size(18.dp),
+                            modifier = Modifier.size(18.dp)
                         )
                         Spacer(Modifier.width(4.dp))
                         Text(stringResource(R.string.cancel))
@@ -317,12 +317,12 @@ private fun ItemAppointment(
                     Spacer(modifier = Modifier.width(8.dp))
                     TextButton(
                         onClick = onCompleteAppointment,
-                        colors = ButtonDefaults.textButtonColors(contentColor = Color(0xFF4CAF50)),
+                        colors = ButtonDefaults.textButtonColors(contentColor = Color(0xFF4CAF50))
                     ) {
                         Icon(
                             Icons.Outlined.CheckCircleOutline,
                             contentDescription = null,
-                            modifier = Modifier.size(18.dp),
+                            modifier = Modifier.size(18.dp)
                         )
                         Spacer(Modifier.width(4.dp))
                         Text(stringResource(R.string.complete))
@@ -343,14 +343,14 @@ private fun StatusBadge(status: AppointmentStatus) {
         }
     Surface(
         shape = RoundedCornerShape(8.dp),
-        color = color.copy(alpha = 0.1f),
+        color = color.copy(alpha = 0.1f)
     ) {
         Text(
             text = text,
             modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
             style = MaterialTheme.typography.labelSmall,
             color = color,
-            fontWeight = FontWeight.Bold,
+            fontWeight = FontWeight.Bold
         )
     }
 }
@@ -362,7 +362,7 @@ private fun BranchRow(branchName: String) {
             imageVector = Icons.Outlined.Storefront,
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.size(16.dp),
+            modifier = Modifier.size(16.dp)
         )
         Spacer(modifier = Modifier.width(4.dp))
         Text(
@@ -370,21 +370,21 @@ private fun BranchRow(branchName: String) {
             style = MaterialTheme.typography.bodyMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant,
             maxLines = 1,
-            overflow = TextOverflow.Ellipsis,
+            overflow = TextOverflow.Ellipsis
         )
     }
 }
 
 @Composable
 private fun NotDatView(
-    @RawRes animation: Int,
+    @RawRes animation: Int
 ) {
     val composition by rememberLottieComposition(
-        LottieCompositionSpec.RawRes(animation),
+        LottieCompositionSpec.RawRes(animation)
     )
     Box(
         modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center,
+        contentAlignment = Alignment.Center
     ) {
         Column(horizontalAlignment = Alignment.CenterHorizontally) {
             LottieAnimation(
@@ -394,13 +394,13 @@ private fun NotDatView(
                         .width(220.dp),
                 iterations = LottieConstants.IterateForever,
                 composition = composition,
-                alignment = Alignment.Center,
+                alignment = Alignment.Center
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = stringResource(R.string.no_appointments_yet),
                 style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
         }
     }
@@ -421,16 +421,16 @@ private fun AppointHistoryListPreview() {
             employeeId = "",
             date = "",
             hour = "",
-            clientName = "",
+            clientName = ""
         )
     AppointHistoryList(
         appointments =
             listOf(
                 mAppointment,
                 mAppointment.copy(id = "2", status = AppointmentStatus.COMPLETED),
-                mAppointment.copy(id = "3", status = AppointmentStatus.CANCELLED),
+                mAppointment.copy(id = "3", status = AppointmentStatus.CANCELLED)
             ),
         onEvents = {},
-        animation = 1,
+        animation = 1
     )
 }

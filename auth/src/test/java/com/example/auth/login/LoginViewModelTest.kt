@@ -36,7 +36,7 @@ class LoginViewModelTest {
         LoginUseCase(
             authRepository = authRepository,
             userPreferences = loginPreferences,
-            userRepository = userRepository,
+            userRepository = userRepository
         )
 
     @Before
@@ -47,7 +47,7 @@ class LoginViewModelTest {
                 emailValidator = emailValidator,
                 userPreferences = loginPreferences,
                 passwordValidator = passwordValidator,
-                loginUseCase = loginUseCase,
+                loginUseCase = loginUseCase
             )
     }
 
@@ -139,11 +139,11 @@ class LoginViewModelTest {
             coEvery {
                 authRepository.login(
                     email = any(),
-                    password = any(),
+                    password = any()
                 )
             } returns
                 ApiResult.Success(
-                    Unit,
+                    Unit
                 )
             val user: User = mockk(relaxed = true)
             coEvery { userRepository.getUser() } returns ApiResult.Success(user)
@@ -173,7 +173,7 @@ class LoginViewModelTest {
                 authRepository.login(email = any(), password = any())
             } returns
                 ApiResult.Error(
-                    error = "Invalid credentials",
+                    error = "Invalid credentials"
                 )
 
             viewModel.state.test {

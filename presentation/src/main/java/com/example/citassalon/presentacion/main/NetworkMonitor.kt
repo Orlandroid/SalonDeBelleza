@@ -15,7 +15,7 @@ import javax.inject.Singleton
 class NetworkMonitor
     @Inject
     constructor(
-        @param:ApplicationContext private val context: Context,
+        @param:ApplicationContext private val context: Context
     ) {
         private val connectivityManager =
             context.getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
@@ -35,14 +35,14 @@ class NetworkMonitor
 
                 override fun onCapabilitiesChanged(
                     network: Network,
-                    networkCapabilities: NetworkCapabilities,
+                    networkCapabilities: NetworkCapabilities
                 ) {
                     val hasInternet =
                         networkCapabilities.hasCapability(
-                            NetworkCapabilities.NET_CAPABILITY_INTERNET,
+                            NetworkCapabilities.NET_CAPABILITY_INTERNET
                         ) &&
                             networkCapabilities.hasCapability(
-                                NetworkCapabilities.NET_CAPABILITY_VALIDATED,
+                                NetworkCapabilities.NET_CAPABILITY_VALIDATED
                             )
                     _isConnected.value = hasInternet
                 }

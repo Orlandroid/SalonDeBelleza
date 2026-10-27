@@ -14,12 +14,12 @@ class PurchaseProductsUseCase
     @Inject
     constructor(
         private val walletRepository: WalletRepository,
-        private val transactionRepository: TransactionRepository,
+        private val transactionRepository: TransactionRepository
     ) {
         suspend operator fun invoke(
             amount: Long,
             transactionType: TransactionType,
-            description: String,
+            description: String
         ): ApiResult<Unit> {
             val balanceResult = walletRepository.getWallet()
             if (balanceResult.isError()) {
@@ -43,8 +43,8 @@ class PurchaseProductsUseCase
                             amount = amount,
                             transactionType = transactionType,
                             description = description,
-                            createdAt = System.currentTimeMillis(),
-                        ),
+                            createdAt = System.currentTimeMillis()
+                        )
                 )
             if (transactionResult.isError()) {
                 return ApiResult.Error("Creation of transaction fail")

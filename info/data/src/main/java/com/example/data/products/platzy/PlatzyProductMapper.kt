@@ -10,5 +10,5 @@ fun ProductPlatzi.toDomain(): Product =
         description = description,
         price = (price.toDouble()).roundToLong(),
         image = images.firstOrNull(),
-        category = category.name,
+        category = category.name
     )

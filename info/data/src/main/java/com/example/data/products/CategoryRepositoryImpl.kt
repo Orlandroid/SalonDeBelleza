@@ -6,12 +6,12 @@ import com.example.domain.repository.CategoryRepository
 import com.example.model.state.models.CategorySource
 
 class CategoryRepositoryImpl(
-    private val categoryResolver: CategoryProviderResolver,
+    private val categoryResolver: CategoryProviderResolver
 ) : CategoryRepository {
     override suspend fun getCategories(source: CategorySource) = categoryResolver.resolve(source = source).getCategories()
 
     override suspend fun getProductByCategory(
         source: CategorySource,
-        category: String,
+        category: String
     ): List<Product> = categoryResolver.resolve(source).getProductsByCategory(category = category)
 }

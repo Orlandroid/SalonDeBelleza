@@ -58,7 +58,7 @@ import kotlinx.coroutines.flow.collectLatest
 fun ScheduleConfirmationScreen(
     navController: NavController,
     confirmScheduleViewModel: ConfirmScheduleViewModel = hiltViewModel(),
-    navigateToAppointmentSchedule: () -> Unit,
+    navigateToAppointmentSchedule: () -> Unit
 ) {
     val uiState by confirmScheduleViewModel.uiState.collectAsStateWithLifecycle()
     val onEvents = confirmScheduleViewModel::onEvents
@@ -73,11 +73,11 @@ fun ScheduleConfirmationScreen(
     }
     BaseComposeScreen(
         navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.confirmar_cita)),
+        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.confirmar_cita))
     ) {
         ScheduleConfirmationScreenContent(
             uiState = uiState,
-            event = onEvents,
+            event = onEvents
         )
     }
 }
@@ -86,7 +86,7 @@ fun ScheduleConfirmationScreen(
 private fun ScheduleConfirmationScreenContent(
     modifier: Modifier = Modifier,
     uiState: ScheduleAppointmentState,
-    event: (ScheduleAppointmentEvents) -> Unit,
+    event: (ScheduleAppointmentEvents) -> Unit
 ) {
     if (uiState.showConfirmationDialog) {
         ConfirmAppointmentDialog(
@@ -96,7 +96,7 @@ private fun ScheduleConfirmationScreenContent(
             },
             clickOnCancel = {
                 event(ScheduleAppointmentEvents.OnConfirmationDialogCancel)
-            },
+            }
         )
     }
 
@@ -108,14 +108,14 @@ private fun ScheduleConfirmationScreenContent(
                 .verticalScroll(rememberScrollState())
                 .padding(horizontal = 20.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Top,
+        verticalArrangement = Arrangement.Top
     ) {
         Spacer(modifier = Modifier.height(24.dp))
 
         Text(
             text = stringResource(id = R.string.confirmacionDeCita),
             style = MaterialTheme.typography.titleLarge,
-            color = AlwaysBlack,
+            color = AlwaysBlack
         )
 
         Spacer(modifier = Modifier.height(24.dp))
@@ -124,39 +124,39 @@ private fun ScheduleConfirmationScreenContent(
             modifier = Modifier.fillMaxWidth(),
             colors = CardDefaults.cardColors(containerColor = AlwaysWhite),
             elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-            shape = RoundedCornerShape(20.dp),
+            shape = RoundedCornerShape(20.dp)
         ) {
             Column(modifier = Modifier.padding(vertical = 8.dp)) {
                 DetailRow(
                     label = stringResource(id = R.string.sucursal_label),
                     value = uiState.branchName.orEmpty(),
-                    iconImage = R.drawable.place_24p_negro,
+                    iconImage = R.drawable.place_24p_negro
                 )
                 DetailRow(
                     label = stringResource(id = R.string.especialista_label),
                     value = uiState.staffName.orEmpty(),
-                    iconImage = R.drawable.face_unlock_24px,
+                    iconImage = R.drawable.face_unlock_24px
                 )
                 DetailRow(
                     label = stringResource(id = R.string.servicio_label),
                     value = uiState.serviceName,
-                    iconImage = R.drawable.stars_24px,
+                    iconImage = R.drawable.stars_24px
                 )
                 DetailRow(
                     label = stringResource(id = R.string.fecha_label),
                     value = uiState.date,
-                    iconImage = R.drawable.insert_invitation_24px,
+                    iconImage = R.drawable.insert_invitation_24px
                 )
                 DetailRow(
                     label = stringResource(id = R.string.hora_label),
                     value = uiState.time,
                     iconImage = R.drawable.watch_later_24px,
-                    showDivider = false,
+                    showDivider = false
                 )
 
                 HorizontalDivider(
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                    color = AlwaysBlack.copy(alpha = 0.1f),
+                    color = AlwaysBlack.copy(alpha = 0.1f)
                 )
 
                 PromoCodeSection(
@@ -165,18 +165,18 @@ private fun ScheduleConfirmationScreenContent(
                     error = uiState.promoError,
                     isLoading = uiState.validatingPromo,
                     onCodeChange = { event(ScheduleAppointmentEvents.OnPromoCodeChanged(it)) },
-                    onApply = { event(ScheduleAppointmentEvents.OnApplyPromoCode) },
+                    onApply = { event(ScheduleAppointmentEvents.OnApplyPromoCode) }
                 )
 
                 HorizontalDivider(
                     modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp),
-                    color = AlwaysBlack.copy(alpha = 0.1f),
+                    color = AlwaysBlack.copy(alpha = 0.1f)
                 )
 
                 val originalPrice = uiState.servicePrice.toDoubleOrNull() ?: 0.0
                 PriceSummary(
                     originalPrice = originalPrice,
-                    appliedPromo = uiState.appliedPromo,
+                    appliedPromo = uiState.appliedPromo
                 )
             }
         }
@@ -184,7 +184,7 @@ private fun ScheduleConfirmationScreenContent(
         Spacer(modifier = Modifier.height(32.dp))
 
         ConfirmButton(
-            modifier = Modifier.padding(bottom = 24.dp),
+            modifier = Modifier.padding(bottom = 24.dp)
         ) {
             event(ScheduleAppointmentEvents.OnSaveAppointment)
         }
@@ -198,18 +198,18 @@ private fun PromoCodeSection(
     error: String?,
     isLoading: Boolean,
     onCodeChange: (String) -> Unit,
-    onApply: () -> Unit,
+    onApply: () -> Unit
 ) {
     Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
         Text(
             text = stringResource(R.string.promotional_code),
             style = MaterialTheme.typography.labelMedium,
-            color = AlwaysBlack.copy(alpha = 0.6f),
+            color = AlwaysBlack.copy(alpha = 0.6f)
         )
         Spacer(modifier = Modifier.height(8.dp))
         Row(
             modifier = Modifier.fillMaxWidth(),
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             OutlinedTextField(
                 value = promoCode,
@@ -218,7 +218,7 @@ private fun PromoCodeSection(
                 placeholder = {
                     Text(
                         text = stringResource(R.string.enter_your_code),
-                        fontSize = 14.sp,
+                        fontSize = 14.sp
                     )
                 },
                 singleLine = true,
@@ -227,21 +227,21 @@ private fun PromoCodeSection(
                 colors =
                     OutlinedTextFieldDefaults.colors(
                         focusedBorderColor = MaterialTheme.colorScheme.primary,
-                        unfocusedBorderColor = AlwaysBlack.copy(alpha = 0.2f),
-                    ),
+                        unfocusedBorderColor = AlwaysBlack.copy(alpha = 0.2f)
+                    )
             )
             Spacer(modifier = Modifier.width(8.dp))
             Button(
                 onClick = onApply,
                 enabled = !isApplied && promoCode.isNotBlank() && !isLoading,
                 shape = RoundedCornerShape(12.dp),
-                modifier = Modifier.height(52.dp),
+                modifier = Modifier.height(52.dp)
             ) {
                 if (isLoading) {
                     CircularProgressIndicator(
                         modifier = Modifier.size(24.dp),
                         color = AlwaysWhite,
-                        strokeWidth = 2.dp,
+                        strokeWidth = 2.dp
                     )
                 } else {
                     Text(if (isApplied) stringResource(R.string.applied) else stringResource(R.string.apply))
@@ -253,7 +253,7 @@ private fun PromoCodeSection(
                 text = error,
                 color = MaterialTheme.colorScheme.error,
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.padding(top = 4.dp, start = 4.dp),
+                modifier = Modifier.padding(top = 4.dp, start = 4.dp)
             )
         }
         if (isApplied) {
@@ -261,7 +261,7 @@ private fun PromoCodeSection(
                 text = stringResource(R.string.coupon_applied_successfully),
                 color = Color(0xFF4CAF50),
                 style = MaterialTheme.typography.bodySmall,
-                modifier = Modifier.padding(top = 4.dp, start = 4.dp),
+                modifier = Modifier.padding(top = 4.dp, start = 4.dp)
             )
         }
     }
@@ -270,44 +270,44 @@ private fun PromoCodeSection(
 @Composable
 private fun PriceSummary(
     originalPrice: Double,
-    appliedPromo: PromotionCode?,
+    appliedPromo: PromotionCode?
 ) {
     Column(modifier = Modifier.padding(horizontal = 16.dp, vertical = 8.dp)) {
         if (appliedPromo != null) {
             val discount = originalPrice * appliedPromo.discountPercentage / 100.0
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     "Subtotal",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = AlwaysBlack.copy(alpha = 0.6f),
+                    color = AlwaysBlack.copy(alpha = 0.6f)
                 )
                 Text(
                     originalPrice.toCurrencyString(Currency.USD),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = AlwaysBlack,
+                    color = AlwaysBlack
                 )
             }
             Spacer(modifier = Modifier.height(4.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.SpaceBetween,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
                 Text(
                     text =
                         stringResource(
                             R.string.discount_percentage,
-                            appliedPromo.discountPercentage,
+                            appliedPromo.discountPercentage
                         ),
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color(0xFF4CAF50),
+                    color = Color(0xFF4CAF50)
                 )
                 Text(
                     "-${discount.toCurrencyString(Currency.USD)}",
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color(0xFF4CAF50),
+                    color = Color(0xFF4CAF50)
                 )
             }
             Spacer(modifier = Modifier.height(8.dp))
@@ -316,12 +316,12 @@ private fun PriceSummary(
         Row(
             modifier = Modifier.fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = stringResource(id = R.string.Total),
                 style = MaterialTheme.typography.titleMedium,
-                color = AlwaysBlack,
+                color = AlwaysBlack
             )
             val finalPrice =
                 if (appliedPromo != null) {
@@ -332,7 +332,7 @@ private fun PriceSummary(
             Text(
                 text = finalPrice.toCurrencyString(Currency.USD),
                 style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                color = Color(0xff051721),
+                color = Color(0xff051721)
             )
         }
     }
@@ -341,7 +341,7 @@ private fun PriceSummary(
 @Composable
 private fun ConfirmButton(
     modifier: Modifier = Modifier,
-    onClick: () -> Unit,
+    onClick: () -> Unit
 ) {
     Button(
         modifier =
@@ -352,13 +352,13 @@ private fun ConfirmButton(
         colors =
             ButtonDefaults.buttonColors(
                 containerColor = Color(0xff051721),
-                contentColor = AlwaysWhite,
+                contentColor = AlwaysWhite
             ),
-        onClick = { onClick.invoke() },
+        onClick = { onClick.invoke() }
     ) {
         Text(
             text = stringResource(id = R.string.confirma_cita),
-            style = MaterialTheme.typography.labelLarge,
+            style = MaterialTheme.typography.labelLarge
         )
     }
 }
@@ -369,7 +369,7 @@ private fun DetailRow(
     value: String,
     sizeIcon: Dp = 22.dp,
     @DrawableRes iconImage: Int,
-    showDivider: Boolean = true,
+    showDivider: Boolean = true
 ) {
     Column {
         Row(
@@ -377,32 +377,32 @@ private fun DetailRow(
                 Modifier
                     .fillMaxWidth()
                     .padding(horizontal = 16.dp, vertical = 12.dp),
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Image(
                 painter = painterResource(id = iconImage),
                 contentDescription = label,
                 colorFilter = ColorFilter.tint(Color(0xff051721)),
-                modifier = Modifier.size(sizeIcon),
+                modifier = Modifier.size(sizeIcon)
             )
             Spacer(modifier = Modifier.width(16.dp))
             Column {
                 Text(
                     text = label,
                     style = MaterialTheme.typography.labelSmall,
-                    color = AlwaysBlack.copy(alpha = 0.6f),
+                    color = AlwaysBlack.copy(alpha = 0.6f)
                 )
                 Text(
                     text = value,
                     style = MaterialTheme.typography.bodyLarge,
-                    color = AlwaysBlack,
+                    color = AlwaysBlack
                 )
             }
         }
         if (showDivider) {
             HorizontalDivider(
                 modifier = Modifier.padding(start = 54.dp, end = 16.dp),
-                color = AlwaysBlack.copy(alpha = 0.08f),
+                color = AlwaysBlack.copy(alpha = 0.08f)
             )
         }
     }
@@ -419,8 +419,8 @@ private fun ScheduleConfirmationScreenContentPreview() {
                 time = "12:30 am",
                 serviceName = "Haircut",
                 branchName = "Zacatecas",
-                staffName = "Orlando",
+                staffName = "Orlando"
             ),
-        event = {},
+        event = {}
     )
 }

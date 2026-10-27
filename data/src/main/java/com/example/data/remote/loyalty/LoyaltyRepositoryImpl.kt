@@ -27,7 +27,7 @@ class LoyaltyRepositoryImpl
         @LoyaltyRef private val loyaltyRef: DatabaseReference,
         @LoyaltyTransactionsRef private val loyaltyTransactionsRef: DatabaseReference,
         @RewardsRef private val rewardsRef: DatabaseReference,
-        @PromotionCodesRef private val promotionCodesRef: DatabaseReference,
+        @PromotionCodesRef private val promotionCodesRef: DatabaseReference
     ) : LoyaltyRepository {
         override suspend fun initializeLoyalty(userId: String): ApiResult<Unit> =
             runCatching {
@@ -57,7 +57,7 @@ class LoyaltyRepositoryImpl
 
         override suspend fun addLoyaltyTransaction(
             userId: String,
-            transaction: LoyaltyTransaction,
+            transaction: LoyaltyTransaction
         ): ApiResult<Unit> =
             runCatching {
                 loyaltyTransactionsRef
@@ -81,7 +81,7 @@ class LoyaltyRepositoryImpl
 
         override suspend fun addPromotionCode(
             userId: String,
-            promotionCode: PromotionCode,
+            promotionCode: PromotionCode
         ): ApiResult<Unit> =
             runCatching {
                 promotionCodesRef
@@ -106,7 +106,7 @@ class LoyaltyRepositoryImpl
 
         override suspend fun usePromotionCode(
             userId: String,
-            promoId: String,
+            promoId: String
         ): ApiResult<Unit> =
             runCatching {
                 promotionCodesRef

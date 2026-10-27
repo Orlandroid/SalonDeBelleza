@@ -19,7 +19,7 @@ import javax.inject.Inject
 data class LoyaltyHistoryUiState(
     val transactions: List<LoyaltyTransaction> = emptyList(),
     val isLoading: Boolean = false,
-    val error: String? = null,
+    val error: String? = null
 )
 
 @HiltViewModel
@@ -27,7 +27,7 @@ class LoyaltyHistoryViewModel
     @Inject
     constructor(
         private val repository: LoyaltyRepository,
-        private val auth: FirebaseAuth,
+        private val auth: FirebaseAuth
     ) : ViewModel() {
         private val _state = MutableStateFlow(LoyaltyHistoryUiState())
         val state: StateFlow<LoyaltyHistoryUiState> = _state.asStateFlow()

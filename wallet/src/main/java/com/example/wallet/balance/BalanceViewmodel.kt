@@ -22,14 +22,14 @@ data class BalanceUiState(
     val currency: Currency = Currency.USD,
     val createdAtMillis: Long = 0L,
     val userId: String = "",
-    val initialsFrom: String? = null,
+    val initialsFrom: String? = null
 )
 
 @HiltViewModel
 class BalanceViewmodel
     @Inject
     constructor(
-        private val getBalanceUseCase: GetBalanceUseCase,
+        private val getBalanceUseCase: GetBalanceUseCase
     ) : ViewModel() {
         private val _state: MutableStateFlow<BaseScreenState<BalanceUiState>> =
             MutableStateFlow(BaseScreenState.OnLoading)
@@ -48,8 +48,8 @@ class BalanceViewmodel
                                         userName = wallet.userName,
                                         currency = wallet.currency,
                                         createdAtMillis = wallet.createdAtMillis,
-                                        initialsFrom = initialsFrom(wallet.userName),
-                                    ),
+                                        initialsFrom = initialsFrom(wallet.userName)
+                                    )
                             )
                         }
                     } else {
@@ -58,7 +58,7 @@ class BalanceViewmodel
                 }.stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(5000),
-                    initialValue = BaseScreenState.OnLoading,
+                    initialValue = BaseScreenState.OnLoading
                 )
 
         private fun initialsFrom(name: String): String =

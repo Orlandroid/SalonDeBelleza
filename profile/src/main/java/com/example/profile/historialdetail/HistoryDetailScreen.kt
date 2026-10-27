@@ -45,10 +45,10 @@ fun HistoryDetailScreen(
         hiltViewModel(
             creationCallback = { factory: HistoryDetailViewModelFactory ->
                 factory.create(
-                    appointmentId = appointmentId,
+                    appointmentId = appointmentId
                 )
-            },
-        ),
+            }
+        )
 ) {
     val uiState = viewModel.uiState.collectAsStateWithLifecycle()
 
@@ -58,7 +58,7 @@ fun HistoryDetailScreen(
                 if (state != null) {
                     BaseComposeScreen(
                         navController = navController,
-                        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.history_detail)),
+                        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.history_detail))
                     ) {
                         val appointment = state.appointment
                         appointment?.let {
@@ -85,24 +85,24 @@ private fun HistoryDetailContent(appointment: AppointmentObject) {
                     .padding(all = 8.dp)
                     .fillMaxWidth(),
             shape = RoundedCornerShape(16.dp),
-            colors = CardDefaults.cardColors(containerColor = Color.White),
+            colors = CardDefaults.cardColors(containerColor = Color.White)
         ) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalAlignment = Alignment.CenterHorizontally,
-                verticalArrangement = Arrangement.Center,
+                verticalArrangement = Arrangement.Center
             ) {
                 Spacer(modifier = Modifier.height(16.dp))
                 Image(
                     painter = painterResource(id = R.drawable.tienda),
-                    contentDescription = stringResource(R.string.cd_establishment_image),
+                    contentDescription = stringResource(R.string.cd_establishment_image)
                 )
                 TextHistory(
                     text =
                         stringResource(
                             R.string.establishment_label,
-                            appointment.establishment,
-                        ),
+                            appointment.establishment
+                        )
                 )
                 TextHistory(text = stringResource(R.string.employee_label, appointment.employee))
                 TextHistory(text = stringResource(R.string.service_label, appointment.service))
@@ -123,7 +123,7 @@ private fun Container(content: @Composable ColumnScope.() -> Unit) {
                 .background(Background),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-        content = content,
+        content = content
     )
 }
 
@@ -134,7 +134,7 @@ private fun TextHistory(text: String) {
         text = text,
         color = Color.Black,
         fontSize = 18.sp,
-        modifier = Modifier.padding(top = 16.dp),
+        modifier = Modifier.padding(top = 16.dp)
     )
 }
 
@@ -148,7 +148,7 @@ private fun HistoryDetailContentPreview() {
                 employee = "Diego",
                 service = "Delineado de barba y bigote, o cejas",
                 hour = "16:00 pm",
-                date = "01/01/202",
-            ),
+                date = "01/01/202"
+            )
     )
 }

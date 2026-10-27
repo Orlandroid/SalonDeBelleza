@@ -14,7 +14,7 @@ class DefaultBusinessRepository
     @Inject
     constructor(
         private val productDao: ProductDao,
-        private val webServices: WebServices,
+        private val webServices: WebServices
     ) : BusinessRepository {
         companion object {
             private const val NOT_SAVE = -1
@@ -29,7 +29,7 @@ class DefaultBusinessRepository
                 },
                 onFailure = {
                     ApiResult.Error(it.message)
-                },
+                }
             )
 
         override suspend fun deleteAllProducts(): ApiResult<Unit> {
@@ -64,6 +64,6 @@ class DefaultBusinessRepository
                 },
                 onFailure = {
                     ApiResult.Error(it.message ?: "Unknown error")
-                },
+                }
             )
     }

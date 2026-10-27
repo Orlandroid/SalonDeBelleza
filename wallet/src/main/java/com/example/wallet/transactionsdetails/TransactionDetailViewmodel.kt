@@ -18,7 +18,7 @@ import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.flow.update
 
 data class TransactionUiState(
-    val transaction: Transaction,
+    val transaction: Transaction
 )
 
 @HiltViewModel(assistedFactory = TransactionDetailViewModelFactory::class)
@@ -26,7 +26,7 @@ class TransactionDetailViewmodel
     @AssistedInject
     constructor(
         private val transactionRepository: TransactionRepository,
-        @Assisted private val transactionId: String,
+        @Assisted private val transactionId: String
     ) : ViewModel() {
         private val _state: MutableStateFlow<BaseScreenState<TransactionUiState>> =
             MutableStateFlow(BaseScreenState.OnLoading)
@@ -42,8 +42,8 @@ class TransactionDetailViewmodel
                             BaseScreenState.OnContent(
                                 content =
                                     TransactionUiState(
-                                        transaction = transaction,
-                                    ),
+                                        transaction = transaction
+                                    )
                             )
                         }
                     } else {
@@ -52,6 +52,6 @@ class TransactionDetailViewmodel
                 }.stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(5000),
-                    initialValue = BaseScreenState.OnLoading,
+                    initialValue = BaseScreenState.OnLoading
                 )
     }

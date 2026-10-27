@@ -8,6 +8,6 @@ interface ProductsRepository {
 
     suspend fun getSingleProduct(
         source: ProductSource,
-        id: Int,
+        id: Int
     ): Product
 }

@@ -3,7 +3,7 @@ package com.example.domain.perfil
 data class ProfileItem(
     val nameResId: Int,
     val image: Int,
-    val menu: MENU,
+    val menu: MENU
 )
 
 enum class MENU {
@@ -11,5 +11,5 @@ enum class MENU {
     HISTORY,
     CONTACTS,
     TERMS_AND_CONDITIONS,
-    CLOSE_SESSION,
+    CLOSE_SESSION
 }

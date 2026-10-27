@@ -20,7 +20,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 data class ProductsDetailUiState(
-    val product: Product,
+    val product: Product
 )
 
 @HiltViewModel(assistedFactory = ProductDetailViewModelFactory::class)
@@ -30,7 +30,7 @@ class DetailProductViewModel
         private val productsRepository: ProductsRepository,
         @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
         @Assisted private val productId: Int,
-        @Assisted private val source: ProductSource,
+        @Assisted private val source: ProductSource
     ) : ViewModel() {
         private val _state: MutableStateFlow<BaseScreenState<ProductsDetailUiState>> =
             MutableStateFlow(BaseScreenState.OnLoading)
@@ -42,7 +42,7 @@ class DetailProductViewModel
                 }.stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(5000L),
-                    BaseScreenState.OnLoading,
+                    BaseScreenState.OnLoading
                 )
 
         private val coroutineExceptionHandler =

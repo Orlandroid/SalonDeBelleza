@@ -8,5 +8,5 @@ enum class TransactionType {
     DAILY_REWARD,
     APPOINTMENT_REWARD,
     REFUND,
-    BONUS,
+    BONUS
 }

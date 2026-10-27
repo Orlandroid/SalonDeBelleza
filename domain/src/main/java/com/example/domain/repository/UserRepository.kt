@@ -12,6 +12,6 @@ interface UserRepository {
 
     suspend fun saveUserInfo(
         userId: String,
-        user: User,
+        user: User
     ): ApiResult<Any>
 }

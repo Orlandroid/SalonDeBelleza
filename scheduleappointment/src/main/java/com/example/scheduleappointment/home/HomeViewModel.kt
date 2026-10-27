@@ -15,7 +15,7 @@ import javax.inject.Inject
 
 data class HomeUiState(
     val balance: Long = 0L,
-    val isLoading: Boolean = true,
+    val isLoading: Boolean = true
 )
 
 sealed class HomeScreenEvents {
@@ -34,7 +34,7 @@ sealed class HomeScreenEvents {
 class HomeViewModel
     @Inject
     constructor(
-        private val walletRepository: WalletRepository,
+        private val walletRepository: WalletRepository
     ) : ViewModel() {
         private val _state: MutableStateFlow<HomeUiState> =
             MutableStateFlow(HomeUiState())
@@ -46,7 +46,7 @@ class HomeViewModel
                         _state.update {
                             it.copy(
                                 balance = getBalanceResult.getContent().balance,
-                                isLoading = false,
+                                isLoading = false
                             )
                         }
                     } else {
@@ -56,6 +56,6 @@ class HomeViewModel
                 }.stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(5000),
-                    initialValue = HomeUiState(),
+                    initialValue = HomeUiState()
                 )
     }

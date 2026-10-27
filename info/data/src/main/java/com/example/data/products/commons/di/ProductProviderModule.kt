@@ -21,7 +21,7 @@ import dagger.multibindings.IntoMap
 @MapKey
 @Retention(AnnotationRetention.RUNTIME)
 annotation class ProductSourceKey(
-    val value: ProductSource,
+    val value: ProductSource
 )
 
 @Module
@@ -52,12 +52,12 @@ object ProductProviderModule {
         dummy: DummyJsonProductProvider,
         fake: FakeStoreProductProvider,
         platzi: PlatzyProductProvider,
-        productsApi: MyDummyProductProvider,
+        productsApi: MyDummyProductProvider
     ): ProductProviderResolver =
         ProductProviderResolver(
             dummy,
             fake,
             platzi,
-            productsApi,
+            productsApi
         )
 }

@@ -13,7 +13,7 @@ class GetCartInfoUseCase
     @Inject
     constructor(
         private val repository: BusinessRepository,
-        private val walletRepository: WalletRepository,
+        private val walletRepository: WalletRepository
     ) {
         suspend operator fun invoke(): ApiResult<CartInfo> {
             val productsResult = repository.getAllProducts()
@@ -35,8 +35,8 @@ class GetCartInfoUseCase
                 CartInfo(
                     products = productsResult.getContent(),
                     userMoney = balanceUserResult.getContent().balance,
-                    cartTotal = cartTotal,
-                ),
+                    cartTotal = cartTotal
+                )
             )
         }
     }

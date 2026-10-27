@@ -10,7 +10,7 @@ fun ProductEntity.toProduct() =
         price = price,
         description = description,
         rating = rate,
-        image = image,
+        image = image
     )
 
 fun Product.toProductEntity() =
@@ -20,5 +20,5 @@ fun Product.toProductEntity() =
         price = price,
         description = description,
         image = image ?: "",
-        rate = rating ?: 0.0,
+        rate = rating ?: 0.0
     )

@@ -57,7 +57,7 @@ import java.util.Locale
 @Composable
 fun TransactionsScreen(
     navController: NavController,
-    viewModel: TransactionViewmodel = hiltViewModel(),
+    viewModel: TransactionViewmodel = hiltViewModel()
 ) {
     val viewState by viewModel.state.collectAsStateWithLifecycle()
     when (viewState) {
@@ -69,17 +69,17 @@ fun TransactionsScreen(
             viewState.getContentOrNull()?.let { state ->
                 BaseComposeScreen(
                     toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.transactions)),
-                    navController = navController,
+                    navController = navController
                 ) {
                     TransactionsScreenContent(
                         transactions = state.transactions,
                         onClick = { transactionId ->
                             navController.navigate(
                                 WalletNavigationRoutes.TransactionDetail(
-                                    transactionId = transactionId,
-                                ),
+                                    transactionId = transactionId
+                                )
                             )
-                        },
+                        }
                     )
                 }
             }
@@ -95,14 +95,14 @@ fun TransactionsScreen(
 private fun TransactionsScreenContent(
     modifier: Modifier = Modifier,
     transactions: List<Transaction>,
-    onClick: (transactionId: String) -> Unit,
+    onClick: (transactionId: String) -> Unit
 ) {
     if (transactions.isEmpty()) {
         EmptyTransactions(
             modifier =
                 modifier
                     .fillMaxSize()
-                    .background(Background),
+                    .background(Background)
         )
         return
     }
@@ -112,15 +112,15 @@ private fun TransactionsScreenContent(
             modifier
                 .fillMaxSize()
                 .background(Background)
-                .padding(vertical = 8.dp),
+                .padding(vertical = 8.dp)
     ) {
         items(
             items = transactions,
-            key = { it.id },
+            key = { it.id }
         ) { transaction ->
             ItemTransaction(
                 transaction = transaction,
-                onClick = { onClick.invoke(transaction.id) },
+                onClick = { onClick.invoke(transaction.id) }
             )
         }
     }
@@ -129,7 +129,7 @@ private fun TransactionsScreenContent(
 @Composable
 private fun ItemTransaction(
     transaction: Transaction,
-    onClick: () -> Unit,
+    onClick: () -> Unit
 ) {
     val noDateText = stringResource(R.string.no_date)
     Card(
@@ -139,14 +139,14 @@ private fun ItemTransaction(
                 .padding(horizontal = 8.dp, vertical = 4.dp),
         shape = RoundedCornerShape(16.dp),
         colors = CardDefaults.cardColors(containerColor = AlwaysWhite),
-        onClick = onClick,
+        onClick = onClick
     ) {
         Row(
             modifier =
                 Modifier
                     .fillMaxWidth()
                     .padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             TransactionIcon(type = transaction.transactionType)
 
@@ -160,13 +160,13 @@ private fun ItemTransaction(
                         },
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.bodyMedium,
+                    style = MaterialTheme.typography.bodyMedium
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = formatTransactionDate(transaction.createdAt, noDateText),
                     style = MaterialTheme.typography.bodySmall,
-                    color = Color.Gray,
+                    color = Color.Gray
                 )
             }
 
@@ -174,7 +174,7 @@ private fun ItemTransaction(
 
             Text(
                 text = transaction.amount.toCurrencyString(Currency.USD),
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.titleMedium
             )
         }
     }
@@ -187,7 +187,7 @@ private fun TransactionIcon(type: TransactionType) {
             Modifier
                 .size(40.dp)
                 .background(color = Color(0xFFEFEFEF), shape = CircleShape),
-        contentAlignment = Alignment.Center,
+        contentAlignment = Alignment.Center
     ) {
         val icon =
             when (type) {
@@ -197,7 +197,7 @@ private fun TransactionIcon(type: TransactionType) {
         Icon(
             imageVector = icon,
             contentDescription = null,
-            modifier = Modifier.size(20.dp),
+            modifier = Modifier.size(20.dp)
         )
     }
 }
@@ -211,7 +211,7 @@ private fun transactionTypeLabel(type: TransactionType): String =
 
 private fun formatTransactionDate(
     createdAt: Long,
-    noDateText: String,
+    noDateText: String
 ): String {
     if (createdAt <= 0L) return noDateText
     val sdf = SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault())
@@ -223,17 +223,17 @@ private fun EmptyTransactions(modifier: Modifier = Modifier) {
     Column(
         modifier = modifier,
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center,
+        verticalArrangement = Arrangement.Center
     ) {
         Icon(
             imageVector = Icons.Default.SwapHoriz,
             contentDescription = null,
-            modifier = Modifier.size(64.dp),
+            modifier = Modifier.size(64.dp)
         )
         Spacer(modifier = Modifier.height(8.dp))
         Text(
             text = stringResource(R.string.not_transactions),
-            style = MaterialTheme.typography.bodyLarge,
+            style = MaterialTheme.typography.bodyLarge
         )
     }
 }
@@ -245,9 +245,9 @@ private fun TransactionsScreenContentPreview() {
         transactions =
             listOf(
                 Transaction(),
-                Transaction(),
+                Transaction()
             ),
-        onClick = {},
+        onClick = {}
     )
 }
 

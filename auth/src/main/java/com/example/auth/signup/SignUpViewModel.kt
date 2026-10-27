@@ -28,19 +28,19 @@ sealed class SingUpEvents {
     data object OnSignUpClick : SingUpEvents()
 
     data class OnNameChange(
-        val name: String,
+        val name: String
     ) : SingUpEvents()
 
     data class OnPhoneChange(
-        val phone: String,
+        val phone: String
     ) : SingUpEvents()
 
     data class OnEmailChange(
-        val email: String,
+        val email: String
     ) : SingUpEvents()
 
     data class OnPasswordChange(
-        val password: String,
+        val password: String
     ) : SingUpEvents()
 
     object OnOpenDatePick : SingUpEvents()
@@ -48,7 +48,7 @@ sealed class SingUpEvents {
     object OnCloseDatePicker : SingUpEvents()
 
     data class OnDateSelected(
-        val birthday: String,
+        val birthday: String
     ) : SingUpEvents()
 }
 
@@ -57,7 +57,7 @@ sealed class SignUpSideEffects {
 
     // Change message to enum with types of messages
     data class ShowSnackBar(
-        val kindOfMessage: KindOfMessage,
+        val kindOfMessage: KindOfMessage
     ) : SignUpSideEffects()
 }
 
@@ -74,7 +74,7 @@ data class SignUpUiState(
     val isEnableButton: Boolean = false,
     val isLoading: Boolean = false,
     val error: Exception? = null,
-    val showDatePicker: Boolean = false,
+    val showDatePicker: Boolean = false
 )
 
 @HiltViewModel
@@ -84,7 +84,7 @@ class SignUpViewModel
         private val useCaseValidateForm: ValidateFormSignUpUseCase,
         @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
         private val saveUserInformationUseCase: SaveUserInformationUseCase,
-        private val singUpUseCase: SingUpUseCase,
+        private val singUpUseCase: SingUpUseCase
     ) : ViewModel() {
         private val _state: MutableStateFlow<SignUpUiState> = MutableStateFlow(SignUpUiState())
         val state = _state.asStateFlow()
@@ -100,7 +100,7 @@ class SignUpViewModel
                 email = email,
                 password = password,
                 birthDay = birthday,
-                uid = uid,
+                uid = uid
             )
 
         fun onEvents(event: SingUpEvents) {
@@ -151,7 +151,7 @@ class SignUpViewModel
                 val signUpResult =
                     singUpUseCase.invoke(
                         email = user.email,
-                        password = user.password,
+                        password = user.password
                     )
                 if (signUpResult.isSuccess()) {
                     saveUserInformation(user)
@@ -190,7 +190,7 @@ class SignUpViewModel
                     showErrorPassword = false,
                     showErrorEmail = false,
                     showErrorPhone = false,
-                    isEnableButton = false,
+                    isEnableButton = false
                 )
             }
         }
@@ -203,14 +203,14 @@ class SignUpViewModel
                     name = state.value.name,
                     password = state.value.password,
                     email = state.value.email,
-                    phone = state.value.phone,
+                    phone = state.value.phone
                 )
             _state.update {
                 it.copy(
                     showErrorPhone = !resultForm.isValidPhone,
                     showErrorPassword = !resultForm.isValidPassword,
                     showErrorEmail = !resultForm.isValidEmail,
-                    isEnableButton = resultForm.isFormValid,
+                    isEnableButton = resultForm.isFormValid
                 )
             }
         }

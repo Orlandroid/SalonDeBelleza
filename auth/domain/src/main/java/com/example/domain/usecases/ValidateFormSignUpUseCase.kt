@@ -6,7 +6,7 @@ import javax.inject.Inject
 class ValidateFormSignUpUseCase
     @Inject
     constructor(
-        private val emailValidator: EmailValidator,
+        private val emailValidator: EmailValidator
     ) {
         companion object {
             private const val MINIMAL_CHARACTERS_PASSWORD = 8
@@ -18,7 +18,7 @@ class ValidateFormSignUpUseCase
             name: String,
             password: String,
             email: String,
-            phone: String,
+            phone: String
         ): FormValidationResult {
             var isValidPhone = true
             var isValidEmail = true
@@ -32,7 +32,7 @@ class ValidateFormSignUpUseCase
                     name = name,
                     password = password,
                     email = email,
-                    phone = phone,
+                    phone = phone
                 )
             ) {
                 areEmptyFields = true
@@ -47,7 +47,7 @@ class ValidateFormSignUpUseCase
                 isValidPhone = isValidPhone,
                 isValidEmail = isValidEmail,
                 isValidPassword = isValidPassword,
-                hasEmptyFields = areEmptyFields,
+                hasEmptyFields = areEmptyFields
             )
         }
 
@@ -63,7 +63,7 @@ class ValidateFormSignUpUseCase
             name: String,
             password: String,
             email: String,
-            phone: String,
+            phone: String
         ): Boolean {
             val nameIsEmpty = name.trim().isEmpty()
             val phoneIsEmpty = phone.trim().isEmpty()
@@ -77,7 +77,7 @@ class ValidateFormSignUpUseCase
             val isValidPhone: Boolean,
             val isValidEmail: Boolean,
             val isValidPassword: Boolean,
-            val hasEmptyFields: Boolean,
+            val hasEmptyFields: Boolean
         ) {
             val isFormValid: Boolean
                 get() = isValidPhone && isValidEmail && isValidPassword && !hasEmptyFields

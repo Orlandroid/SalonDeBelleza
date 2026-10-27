@@ -42,7 +42,7 @@ import com.example.info.R
 @Composable
 fun OurStaffScreen(
     navController: NavController,
-    ourStaffViewModel: OurStaffViewModel = hiltViewModel(),
+    ourStaffViewModel: OurStaffViewModel = hiltViewModel()
 ) {
     val uiState = ourStaffViewModel.state.collectAsStateWithLifecycle()
     when (uiState.value) {
@@ -53,7 +53,7 @@ fun OurStaffScreen(
         is BaseScreenState.OnContent -> {
             BaseComposeScreen(
                 navController = navController,
-                toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.nuestro_staff)),
+                toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.nuestro_staff))
             ) {
                 uiState.value.getContentOrNull()?.let {
                     OurStaffScreenContent(users = it.staffs.toUserUiList())
@@ -70,13 +70,13 @@ fun OurStaffScreen(
 @Composable
 private fun OurStaffScreenContent(
     modifier: Modifier = Modifier,
-    users: List<UserUi>,
+    users: List<UserUi>
 ) {
     Column(
         modifier =
             modifier
                 .fillMaxSize()
-                .background(Background),
+                .background(Background)
     ) {
         Column(modifier = Modifier.fillMaxHeight(0.15f)) {
             Text(
@@ -86,15 +86,15 @@ private fun OurStaffScreenContent(
                         .padding(top = 8.dp),
                 fontSize = 24.sp,
                 textAlign = TextAlign.Center,
-                text = stringResource(id = R.string.nuestro_staff),
+                text = stringResource(id = R.string.nuestro_staff)
             )
         }
         Card(
             modifier = Modifier.fillMaxHeight(),
             colors =
                 CardDefaults.cardColors(
-                    containerColor = Color.White,
-                ),
+                    containerColor = Color.White
+                )
         ) {
             LazyColumn {
                 items(items = users, key = { it.email }) { user ->
@@ -112,13 +112,13 @@ private fun OurStaffItem(user: UserUi) {
             Modifier
                 .fillMaxWidth()
                 .padding(8.dp),
-        border = BorderStroke(1.dp, Color.Black),
+        border = BorderStroke(1.dp, Color.Black)
     ) {
         Row(
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .height(IntrinsicSize.Max),
+                    .height(IntrinsicSize.Max)
         ) {
             AsyncImage(
                 modifier =
@@ -126,29 +126,29 @@ private fun OurStaffItem(user: UserUi) {
                         .size(100.dp)
                         .fillMaxHeight(),
                 model = user.image,
-                contentDescription = "ImageOurStaff",
+                contentDescription = "ImageOurStaff"
             )
             Column(
                 modifier =
                     Modifier
                         .padding(start = 8.dp)
                         .fillMaxHeight(),
-                verticalArrangement = Arrangement.Center,
+                verticalArrangement = Arrangement.Center
             ) {
                 Text(
                     text = "${user.firstName} ${user.lastName}",
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Bold
                 )
                 Text(
                     text = user.email,
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Bold
                 )
                 Text(
                     text = user.address,
                     fontSize = 16.sp,
-                    fontWeight = FontWeight.Bold,
+                    fontWeight = FontWeight.Bold
                 )
             }
         }
@@ -164,7 +164,7 @@ private fun OurStaffScreenContentPreview() {
             "Uzumaki",
             "android@gmail.com",
             address = "Mexico",
-            image = "",
+            image = ""
         )
     OurStaffScreenContent(
         users =
@@ -172,7 +172,7 @@ private fun OurStaffScreenContentPreview() {
                 user,
                 user.copy(email = "android4@gmail.com"),
                 user.copy(email = "android1@gmail.com"),
-                user.copy(email = "android2@gmail.com"),
-            ),
+                user.copy(email = "android2@gmail.com")
+            )
     )
 }

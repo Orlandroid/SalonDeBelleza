@@ -19,12 +19,12 @@ class SubmitAppointmentReviewUseCase
         private val userRepository: UserRepository,
         private val appointmentsRepository: AppointmentsRepository,
         private val reviewRepository: ReviewRepository,
-        private val earnPointsUseCase: EarnPointsUseCase,
+        private val earnPointsUseCase: EarnPointsUseCase
     ) {
         suspend operator fun invoke(
             appointmentId: String,
             rating: Int,
-            comment: String,
+            comment: String
         ): ApiResult<Unit> {
             val userResult = userRepository.getUser()
             val firebaseUser = userResult.getResultOrNull() ?: return ApiResult.Error("User not found")
@@ -41,7 +41,7 @@ class SubmitAppointmentReviewUseCase
             val searchResult =
                 appointmentsRepository.findStaff(
                     branchName = fullAppointment.establishment,
-                    staffName = fullAppointment.employee,
+                    staffName = fullAppointment.employee
                 )
 
             val (branchId, staff) = (searchResult as? ApiResult.Success)?.result ?: Pair("", null)
@@ -56,7 +56,7 @@ class SubmitAppointmentReviewUseCase
                     staffName = fullAppointment.employee,
                     appointmentId = appointmentId,
                     rating = rating,
-                    comment = comment,
+                    comment = comment
                 )
 
             val reviewResult = reviewRepository.addReview(review)
@@ -67,7 +67,7 @@ class SubmitAppointmentReviewUseCase
                 pointsEarned = 50,
                 sourceId = review.id,
                 description = "Reward for leaving a review",
-                type = LoyaltyTransactionType.REVIEW_EARNED,
+                type = LoyaltyTransactionType.REVIEW_EARNED
             )
         }
     }

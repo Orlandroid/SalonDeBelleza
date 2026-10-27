@@ -10,7 +10,7 @@ import javax.inject.Inject
 class MainViewModel
     @Inject
     constructor(
-        private val networkMonitor: NetworkMonitor,
+        private val networkMonitor: NetworkMonitor
     ) : ViewModel() {
         val isConnected: StateFlow<Boolean> = networkMonitor.isConnected
 

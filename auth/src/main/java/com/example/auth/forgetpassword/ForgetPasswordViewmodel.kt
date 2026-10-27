@@ -23,11 +23,11 @@ class ForgetPasswordViewmodel
     constructor(
         private val authRepository: AuthRepository,
         @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-        private val emailValidator: EmailValidator,
+        private val emailValidator: EmailValidator
     ) : ViewModel() {
         sealed class ForgetPasswordEvents {
             data class OnEmailChange(
-                val email: String,
+                val email: String
             ) : ForgetPasswordEvents()
 
             object OnResetPassword : ForgetPasswordEvents()
@@ -35,7 +35,7 @@ class ForgetPasswordViewmodel
 
         sealed class ForgetPasswordEffects {
             data class ShowSnackBar(
-                val kindOfMessage: KindOfMessage,
+                val kindOfMessage: KindOfMessage
             ) : ForgetPasswordEffects()
         }
 
@@ -43,7 +43,7 @@ class ForgetPasswordViewmodel
             val userEmail: String? = null,
             val enableButton: Boolean = false,
             val showErrorInvalidEmail: Boolean = false,
-            val isLoading: Boolean = false,
+            val isLoading: Boolean = false
         )
 
         private val _state: MutableStateFlow<ForgetPasswordUiState> =

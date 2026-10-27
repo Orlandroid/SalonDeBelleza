@@ -14,7 +14,7 @@ object ProfileMenuProvider {
             ProfileItem(
                 R.string.terms_and_conditions,
                 R.drawable.terminos,
-                MENU.TERMS_AND_CONDITIONS,
+                MENU.TERMS_AND_CONDITIONS
             )
         val closeSession = ProfileItem(R.string.logout, R.drawable.cerrar, MENU.CLOSE_SESSION)
         elementsMenu.add(profile)

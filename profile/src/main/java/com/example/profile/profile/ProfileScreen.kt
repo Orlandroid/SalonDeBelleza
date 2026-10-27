@@ -55,7 +55,7 @@ import kotlinx.coroutines.flow.collectLatest
 fun ProfileScreen(
     navController: NavHostController,
     onCloseApp: () -> Unit,
-    profileViewModel: ProfileViewModel = hiltViewModel(),
+    profileViewModel: ProfileViewModel = hiltViewModel()
 ) {
     val onEvents = profileViewModel::onEvents
     val uiState by profileViewModel.uiState.collectAsStateWithLifecycle()
@@ -92,14 +92,14 @@ fun ProfileScreen(
                 isWithBackIcon = true,
                 title =
                     stringResource(
-                        id = R.string.perfil,
-                    ),
-            ),
+                        id = R.string.perfil
+                    )
+            )
     ) {
         ProfileScreenContent(
             modifier = Modifier,
             email = uiState.user.orEmpty(),
-            elementsProfile = ProfileMenuProvider.getMenusProfile(),
+            elementsProfile = ProfileMenuProvider.getMenusProfile()
         ) { itemProfile ->
             when (itemProfile.menu) {
                 MENU.PROFILE -> {
@@ -147,9 +147,9 @@ private fun DialogCloseSession(onEvents: (event: ProfileEvents) -> Unit) {
                         },
                         clickOnAccept = {
                             onEvents(ProfileEvents.OnConfirmClicked)
-                        },
-                    ),
-            ),
+                        }
+                    )
+            )
     )
 }
 
@@ -158,19 +158,19 @@ private fun ProfileScreenContent(
     modifier: Modifier = Modifier,
     email: String,
     elementsProfile: List<ProfileItem>,
-    clickOnItemProfile: (ProfileItem) -> Unit = {},
+    clickOnItemProfile: (ProfileItem) -> Unit = {}
 ) {
     Column(
         modifier =
             modifier
                 .fillMaxSize()
-                .background(Background),
+                .background(Background)
     ) {
         Box(
             modifier =
                 Modifier
                     .fillMaxHeight(0.4f)
-                    .fillMaxWidth(),
+                    .fillMaxWidth()
         ) {
             Image(
                 modifier =
@@ -178,7 +178,7 @@ private fun ProfileScreenContent(
                         .size(100.dp)
                         .align(Alignment.Center),
                 painter = painterResource(id = R.drawable.perfil),
-                contentDescription = null,
+                contentDescription = null
             )
             Text(
                 modifier =
@@ -186,7 +186,7 @@ private fun ProfileScreenContent(
                         .align(Alignment.TopCenter)
                         .padding(top = 24.dp),
                 text = email,
-                fontSize = 20.sp,
+                fontSize = 20.sp
             )
         }
         LazyColumn(
@@ -194,13 +194,13 @@ private fun ProfileScreenContent(
                 Modifier
                     .border(
                         shape = RoundedCornerShape(topStart = 16.dp, topEnd = 16.dp),
-                        border = BorderStroke(0.dp, Color.White),
+                        border = BorderStroke(0.dp, Color.White)
                     ).background(Color.White)
-                    .fillMaxHeight(),
+                    .fillMaxHeight()
         ) {
             items(
                 items = elementsProfile,
-                key = { it.nameResId },
+                key = { it.nameResId }
             ) { mProfile ->
                 ItemProfile(elementProfile = mProfile) {
                     clickOnItemProfile(mProfile)
@@ -213,7 +213,7 @@ private fun ProfileScreenContent(
 @Composable
 private fun ItemProfile(
     elementProfile: ProfileItem,
-    clickOnItem: () -> Unit,
+    clickOnItem: () -> Unit
 ) {
     Card(
         modifier =
@@ -221,11 +221,11 @@ private fun ItemProfile(
                 .fillMaxWidth()
                 .padding(8.dp),
         shape = RoundedCornerShape(16.dp),
-        onClick = { clickOnItem.invoke() },
+        onClick = { clickOnItem.invoke() }
     ) {
         Row(
             modifier = Modifier,
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             MediumSpacer(orientation = Orientation.HORIZONTAL)
             Image(
@@ -234,7 +234,7 @@ private fun ItemProfile(
                         .height(50.dp)
                         .width(50.dp),
                 painter = painterResource(id = elementProfile.image),
-                contentDescription = null,
+                contentDescription = null
             )
             MediumSpacer(orientation = Orientation.HORIZONTAL)
             Text(text = stringResource(id = elementProfile.nameResId), fontSize = 20.sp)
@@ -243,7 +243,7 @@ private fun ItemProfile(
                 modifier = Modifier.padding(end = 16.dp),
                 painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_24),
                 contentDescription = null,
-                tint = Color.Black,
+                tint = Color.Black
             )
         }
     }
@@ -254,6 +254,6 @@ private fun ItemProfile(
 private fun ProfileScreenPreview() {
     ProfileScreenContent(
         email = "android@gmail.com",
-        elementsProfile = ProfileMenuProvider.getMenusProfile(),
+        elementsProfile = ProfileMenuProvider.getMenusProfile()
     )
 }

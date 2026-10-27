@@ -29,11 +29,11 @@ import com.example.info.R
 @Composable
 fun EstablishingScreen(
     modifier: Modifier = Modifier,
-    navController: NavHostController,
+    navController: NavHostController
 ) {
     BaseComposeScreen(
         navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.nombre_establecimiento)),
+        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.nombre_establecimiento))
     ) {
         EstablishingScreenContent(
             modifier = modifier,
@@ -42,7 +42,7 @@ fun EstablishingScreen(
             },
             navigateToBranches = {
                 navController.navigate(InfoNavigationRoutes.BranchesRoute)
-            },
+            }
         )
     }
 }
@@ -51,12 +51,12 @@ fun EstablishingScreen(
 private fun EstablishingScreenContent(
     modifier: Modifier = Modifier,
     navigateToStore: () -> Unit,
-    navigateToBranches: () -> Unit,
+    navigateToBranches: () -> Unit
 ) {
     Column(
         modifier
             .fillMaxSize()
-            .background(Background),
+            .background(Background)
     ) {
         Column(
             modifier =
@@ -64,20 +64,20 @@ private fun EstablishingScreenContent(
                     .fillMaxHeight(0.4f)
                     .fillMaxWidth(),
             verticalArrangement = Arrangement.Center,
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
                 text = stringResource(id = R.string.nombre_establecimiento),
-                fontSize = 18.sp,
+                fontSize = 18.sp
             )
         }
         Card(
             modifier = Modifier.fillMaxHeight(),
-            colors = CardDefaults.cardColors(containerColor = Color.White),
+            colors = CardDefaults.cardColors(containerColor = Color.White)
         ) {
             MenuBranch(
                 clickOnBranches = navigateToBranches,
-                clickOnStore = navigateToStore,
+                clickOnStore = navigateToStore
             )
         }
     }
@@ -86,7 +86,7 @@ private fun EstablishingScreenContent(
 @Composable
 private fun MenuBranch(
     clickOnBranches: () -> Unit,
-    clickOnStore: () -> Unit,
+    clickOnStore: () -> Unit
 ) {
     LazyColumn {
         item {
@@ -96,8 +96,8 @@ private fun MenuBranch(
                         text = stringResource(id = R.string.sucursales),
                         clickOnItem = {
                             clickOnBranches.invoke()
-                        },
-                    ),
+                        }
+                    )
             )
         }
         item {
@@ -107,8 +107,8 @@ private fun MenuBranch(
                         text = stringResource(id = R.string.tiendas),
                         clickOnItem = {
                             clickOnStore.invoke()
-                        },
-                    ),
+                        }
+                    )
             )
         }
     }
@@ -119,6 +119,6 @@ private fun MenuBranch(
 private fun EstablishingScreenPreview() {
     EstablishingScreenContent(
         navigateToBranches = {},
-        navigateToStore = {},
+        navigateToStore = {}
     )
 }

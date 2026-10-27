@@ -7,7 +7,7 @@ data class UserUi(
     val lastName: String,
     val email: String,
     val address: String,
-    val image: String,
+    val image: String
 )
 
 fun User.toUserUi() =
@@ -16,7 +16,7 @@ fun User.toUserUi() =
         lastName = lastName,
         email = email,
         address = address.address,
-        image = image,
+        image = image
     )
 
 fun List<User>.toUserUiList() = map { it.toUserUi() }

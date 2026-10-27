@@ -30,7 +30,7 @@ class GetCartInfoUseCaseTest {
         getCartInfoUseCase =
             GetCartInfoUseCase(
                 repository = repository,
-                walletRepository = walletRepository,
+                walletRepository = walletRepository
             )
     }
 

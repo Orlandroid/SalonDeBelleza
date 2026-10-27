@@ -46,7 +46,7 @@ object ModuleApi {
 
     private fun createRetrofit(
         okHttpClient: OkHttpClient,
-        baseUrl: String,
+        baseUrl: String
     ) = Retrofit
         .Builder()
         .baseUrl(baseUrl)

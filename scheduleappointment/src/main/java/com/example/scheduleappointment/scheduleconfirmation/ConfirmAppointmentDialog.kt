@@ -25,16 +25,16 @@ fun ConfirmAppointmentDialog(
     modifier: Modifier = Modifier,
     branchName: String,
     clickOnAccept: () -> Unit,
-    clickOnCancel: () -> Unit,
+    clickOnCancel: () -> Unit
 ) {
     BaseCustomDialog(
         modifier = modifier,
-        onDismissRequest = { },
+        onDismissRequest = { }
     ) {
         ConfirmAppointmentDialogContent(
             branchName = branchName,
             clickOnAccept = clickOnAccept,
-            clickOnCancel = clickOnCancel,
+            clickOnCancel = clickOnCancel
         )
     }
 }
@@ -44,29 +44,29 @@ private fun ConfirmAppointmentDialogContent(
     modifier: Modifier = Modifier,
     branchName: String,
     clickOnCancel: () -> Unit,
-    clickOnAccept: () -> Unit,
+    clickOnAccept: () -> Unit
 ) {
     Column(
         modifier = modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         LongSpacer(orientation = Orientation.VERTICAL)
         Text(
             modifier = Modifier.padding(vertical = 8.dp),
             text = stringResource(R.string.mensaje_confirmacion, branchName),
-            fontSize = 24.sp,
+            fontSize = 24.sp
         )
         LongSpacer(orientation = Orientation.VERTICAL)
         Button(
             colors = ButtonDefaults.buttonColors(containerColor = BtnNext),
-            onClick = clickOnAccept,
+            onClick = clickOnAccept
         ) {
             Text(text = stringResource(R.string.confirmar))
         }
         LongSpacer(orientation = Orientation.VERTICAL)
         Button(
             colors = ButtonDefaults.buttonColors(containerColor = Cafe),
-            onClick = clickOnCancel,
+            onClick = clickOnCancel
         ) {
             Text(stringResource(R.string.cancelar))
         }
@@ -79,6 +79,6 @@ private fun ConfirmAppointmentDialogPreview() {
     ConfirmAppointmentDialog(
         branchName = "Zacatecas",
         clickOnCancel = {},
-        clickOnAccept = {},
+        clickOnAccept = {}
     )
 }

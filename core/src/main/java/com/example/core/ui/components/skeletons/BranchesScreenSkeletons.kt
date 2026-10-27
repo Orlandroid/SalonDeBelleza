@@ -31,10 +31,10 @@ fun BranchesScreenSkeletons(modifier: Modifier = Modifier) {
             modifier
                 .fillMaxSize()
                 .background(Background),
-        verticalArrangement = Arrangement.Bottom,
+        verticalArrangement = Arrangement.Bottom
     ) {
         Card(
-            colors = CardDefaults.cardColors(containerColor = BackgroundListsMainFlow),
+            colors = CardDefaults.cardColors(containerColor = BackgroundListsMainFlow)
         ) {
             Branches()
             LongSpacer(orientation = Orientation.VERTICAL)
@@ -54,7 +54,7 @@ private fun Branches() {
                         .padding(8.dp)
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(8.dp))
-                        .background(shimmerBrush()),
+                        .background(shimmerBrush())
                 )
             }
         }

@@ -31,7 +31,7 @@ class SingUpUseCaseTest {
             SingUpUseCase(
                 authRepository = authRepository,
                 createWalletUseCase = createWalletUseCase,
-                loyaltyRepository = loyaltyRepository,
+                loyaltyRepository = loyaltyRepository
             )
     }
 

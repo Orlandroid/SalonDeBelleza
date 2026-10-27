@@ -48,14 +48,14 @@ fun TransactionSkeletonItem(transaction: Transaction) {
                 .fillMaxWidth()
                 .padding(horizontal = 8.dp, vertical = 4.dp),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = AlwaysWhite),
+        colors = CardDefaults.cardColors(containerColor = AlwaysWhite)
     ) {
         Row(
             modifier =
                 Modifier
                     .fillMaxWidth()
                     .padding(12.dp),
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             TransactionIcon()
             Spacer(modifier = Modifier.width(12.dp))
@@ -67,14 +67,14 @@ fun TransactionSkeletonItem(transaction: Transaction) {
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
                     style = MaterialTheme.typography.bodyMedium,
-                    color = Color.Transparent,
+                    color = Color.Transparent
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     modifier = Modifier.background(shimmerBrush()),
                     text = "transaction.createdAt.toString()",
                     style = MaterialTheme.typography.bodySmall,
-                    color = Color.Transparent,
+                    color = Color.Transparent
                 )
             }
 
@@ -84,7 +84,7 @@ fun TransactionSkeletonItem(transaction: Transaction) {
                 modifier = Modifier.background(shimmerBrush()),
                 color = Color.Transparent,
                 text = transaction.amount.toCurrencyString(Currency.USD),
-                style = MaterialTheme.typography.titleMedium,
+                style = MaterialTheme.typography.titleMedium
             )
         }
     }
@@ -96,13 +96,13 @@ private fun TransactionIcon() {
         modifier =
             Modifier
                 .size(40.dp),
-        contentAlignment = Alignment.Center,
+        contentAlignment = Alignment.Center
     ) {
         Spacer(
             modifier =
                 Modifier
                     .size(20.dp)
-                    .background(shimmerBrush()),
+                    .background(shimmerBrush())
         )
     }
 }

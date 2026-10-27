@@ -32,7 +32,7 @@ fun BaseOutlinedTextField(
     inputError: InputError? = null,
     isInputPassword: Boolean = false,
     onValueChange: (value: String) -> Unit = {},
-    clickOnIcon: () -> Unit = {},
+    clickOnIcon: () -> Unit = {}
 ) {
     val isPasswordVisible = remember { mutableStateOf(false) }
     OutlinedTextField(
@@ -40,7 +40,7 @@ fun BaseOutlinedTextField(
             if (inputError != null) {
                 Text(
                     text = inputError.errorText,
-                    color = MaterialTheme.colorScheme.error,
+                    color = MaterialTheme.colorScheme.error
                 )
             }
         },
@@ -59,11 +59,11 @@ fun BaseOutlinedTextField(
                     if (isInputPassword) {
                         isPasswordVisible.value = !isPasswordVisible.value
                     }
-                },
+                }
             ) {
                 Icon(
                     imageVector = imageVector,
-                    contentDescription = null,
+                    contentDescription = null
                 )
             }
         },
@@ -77,7 +77,7 @@ fun BaseOutlinedTextField(
                 PasswordVisualTransformation()
             } else {
                 VisualTransformation.None
-            },
+            }
     )
 }
 
@@ -87,10 +87,10 @@ private fun BaseOutlinedTextFieldPreview() {
     BaseOutlinedTextField(
         modifier = Modifier.padding(8.dp),
         text = "Email",
-        value = "android@gmail.com",
+        value = "android@gmail.com"
     )
 }
 
 data class InputError(
-    val errorText: String = "Error",
+    val errorText: String = "Error"
 )

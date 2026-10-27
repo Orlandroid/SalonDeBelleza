@@ -13,14 +13,14 @@ import javax.inject.Inject
 class EarnPointsUseCase
     @Inject
     constructor(
-        private val repository: LoyaltyRepository,
+        private val repository: LoyaltyRepository
     ) {
         suspend operator fun invoke(
             userId: String,
             pointsEarned: Int,
             sourceId: String,
             description: String = "Points earned",
-            type: LoyaltyTransactionType = LoyaltyTransactionType.APPOINTMENT_EARNED,
+            type: LoyaltyTransactionType = LoyaltyTransactionType.APPOINTMENT_EARNED
         ): ApiResult<Unit> {
             val result = repository.getLoyalty(userId)
             if (result.isError()) {
@@ -37,7 +37,7 @@ class EarnPointsUseCase
                 current.copy(
                     balance = newBalance,
                     lifetimePoints = newLifetime,
-                    tier = newTier,
+                    tier = newTier
                 )
 
             val transaction =
@@ -46,7 +46,7 @@ class EarnPointsUseCase
                     type = type,
                     sourceId = sourceId,
                     description = description,
-                    createdAt = System.currentTimeMillis(),
+                    createdAt = System.currentTimeMillis()
                 )
 
             repository.addLoyaltyTransaction(userId, transaction)

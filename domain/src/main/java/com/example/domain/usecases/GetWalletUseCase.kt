@@ -10,7 +10,7 @@ import javax.inject.Inject
 class GetWalletUseCase
     @Inject
     constructor(
-        private val walletRepository: WalletRepository,
+        private val walletRepository: WalletRepository
     ) {
         suspend operator fun invoke(): ApiResult<Balance> {
             val walletResult = walletRepository.getWallet()
@@ -22,8 +22,8 @@ class GetWalletUseCase
                     balance = balance.balance,
                     currency = balance.currency,
                     createdAtMillis = balance.createdAt,
-                    userId = balance.userId,
-                ),
+                    userId = balance.userId
+                )
             )
         }
     }

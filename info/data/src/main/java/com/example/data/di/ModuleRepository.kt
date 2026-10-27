@@ -43,7 +43,7 @@ object ModuleRepository {
 
     private fun createRetrofit(
         okHttpClient: OkHttpClient,
-        baseUrl: String,
+        baseUrl: String
     ) = Retrofit
         .Builder()
         .baseUrl(baseUrl)
@@ -67,44 +67,44 @@ object ModuleRepository {
     @Singleton
     @Provides
     fun provideDummyJsonApi(
-        @MyDummyJson retrofit: Retrofit,
+        @MyDummyJson retrofit: Retrofit
     ) = retrofit.createApi<DummyJsonApi>()
 
     @Singleton
     @Provides
     fun provideFakeStoreService(
-        @FakeStoreRetrofit retrofit: Retrofit,
+        @FakeStoreRetrofit retrofit: Retrofit
     ) = retrofit.createApi<FakeStoreService>()
 
     @Singleton
     @Provides
     fun provideFakeStoreApi(
-        @FakeStoreRetrofit retrofit: Retrofit,
+        @FakeStoreRetrofit retrofit: Retrofit
     ) = retrofit.createApi<FakeStoreApi>()
 
     @Singleton
     @Provides
     fun provideDummyJsonApiV2(
-        @MyDummyJson retrofit: Retrofit,
+        @MyDummyJson retrofit: Retrofit
     ) = retrofit.createApi<DummyJsonApiV2>()
 
     @Singleton
     @Provides
     fun provideMyDummyApi(
-        @MyDummyRetrofit retrofit: Retrofit,
+        @MyDummyRetrofit retrofit: Retrofit
     ) = retrofit.createApi<MyDummyApi>()
 
     @Singleton
     @Provides
     fun providePlatzyApi(
-        @PlatzyRetrofit retrofit: Retrofit,
+        @PlatzyRetrofit retrofit: Retrofit
     ) = retrofit.create(PlatzyApi::class.java)
 
     @Singleton
     @Provides
     fun provideBusinessRepository(
         productDao: ProductDao,
-        webServices: WebServices,
+        webServices: WebServices
     ): BusinessRepository = DefaultBusinessRepository(productDao = productDao, webServices = webServices)
 
     @Singleton

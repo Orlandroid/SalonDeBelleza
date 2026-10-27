@@ -26,37 +26,37 @@ fun BaseErrorScreen(
     modifier: Modifier = Modifier,
     title: String = "Something went wrong",
     message: String = "We couldn't load the information. Please try again.",
-    onRetry: (() -> Unit)? = null,
+    onRetry: (() -> Unit)? = null
 ) {
     Box(
         modifier =
             modifier
                 .fillMaxSize()
                 .padding(24.dp),
-        contentAlignment = Alignment.Center,
+        contentAlignment = Alignment.Center
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Icon(
                 imageVector = Icons.Default.ErrorOutline,
                 contentDescription = "Error",
                 tint = MaterialTheme.colorScheme.error,
-                modifier = Modifier.size(64.dp),
+                modifier = Modifier.size(64.dp)
             )
 
             Text(
                 text = title,
                 style = MaterialTheme.typography.titleLarge,
-                textAlign = TextAlign.Center,
+                textAlign = TextAlign.Center
             )
 
             Text(
                 text = message,
                 style = MaterialTheme.typography.bodyMedium,
                 textAlign = TextAlign.Center,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
             )
 
             if (onRetry != null) {

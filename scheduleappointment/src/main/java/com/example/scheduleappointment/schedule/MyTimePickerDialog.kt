@@ -17,7 +17,7 @@ import java.util.Calendar
 @Composable
 fun MyTimePickerDialog(
     onConfirm: (TimePickerState) -> Unit,
-    onDismiss: () -> Unit,
+    onDismiss: () -> Unit
 ) {
     val currentTime = Calendar.getInstance()
 
@@ -25,15 +25,15 @@ fun MyTimePickerDialog(
         rememberTimePickerState(
             initialHour = currentTime.get(Calendar.HOUR_OF_DAY),
             initialMinute = currentTime.get(Calendar.MINUTE),
-            is24Hour = true,
+            is24Hour = true
         )
 
     TimePickerDialog(
         onDismiss = { onDismiss() },
-        onConfirm = { onConfirm(timePickerState) },
+        onConfirm = { onConfirm(timePickerState) }
     ) {
         TimePicker(
-            state = timePickerState,
+            state = timePickerState
         )
     }
 }
@@ -42,7 +42,7 @@ fun MyTimePickerDialog(
 fun TimePickerDialog(
     onDismiss: () -> Unit,
     onConfirm: () -> Unit,
-    content: @Composable () -> Unit,
+    content: @Composable () -> Unit
 ) {
     AlertDialog(
         onDismissRequest = onDismiss,
@@ -56,7 +56,7 @@ fun TimePickerDialog(
                 Text(text = stringResource(R.string.ok))
             }
         },
-        text = { content() },
+        text = { content() }
     )
 }
 
@@ -66,6 +66,6 @@ fun TimePickerDialog(
 fun TimePickerDialogPreview() {
     MyTimePickerDialog(
         onDismiss = {},
-        onConfirm = {},
+        onConfirm = {}
     )
 }

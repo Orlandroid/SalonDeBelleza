@@ -17,7 +17,7 @@ import dagger.multibindings.IntoMap
 @MapKey
 @Retention(AnnotationRetention.RUNTIME)
 annotation class CategorySourceKey(
-    val value: CategorySource,
+    val value: CategorySource
 )
 
 @Module
@@ -36,10 +36,10 @@ object CategoryProviderModule {
     @Provides
     fun provideCategoryProviderResolver(
         fakeProvider: FakeStoreCategoryProvider,
-        platziProvider: PlatzyCategoryProvider,
+        platziProvider: PlatzyCategoryProvider
     ): CategoryProviderResolver =
         CategoryProviderResolver(
             fakeProvider,
-            platziProvider,
+            platziProvider
         )
 }

@@ -22,12 +22,12 @@ import javax.inject.Inject
 
 data class DetailStaffUiState(
     val currentStaff: Staff? = null,
-    val ratingSummary: StaffRatingSummary = StaffRatingSummary(),
+    val ratingSummary: StaffRatingSummary = StaffRatingSummary()
 )
 
 sealed class ServiceEvents {
     data class ClickOnService(
-        val service: Service,
+        val service: Service
     ) : ServiceEvents()
 }
 
@@ -40,7 +40,7 @@ class DetailStaffViewModel
     @Inject
     constructor(
         private val appointmentSession: AppointmentSession,
-        private val getStaffRatingUseCase: GetStaffRatingUseCase,
+        private val getStaffRatingUseCase: GetStaffRatingUseCase
     ) : ViewModel() {
         private val _effects = Channel<ServiceEffects>()
         val effects = _effects.receiveAsFlow()
@@ -53,14 +53,14 @@ class DetailStaffViewModel
                     val currentStaff = appointmentSession.draft.value.staff
                     _state.update {
                         it.copy(
-                            currentStaff = currentStaff,
+                            currentStaff = currentStaff
                         )
                     }
                     getStaffRatting()
                 }.stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(5000),
-                    initialValue = DetailStaffUiState(),
+                    initialValue = DetailStaffUiState()
                 )
 
         private fun getStaffRatting() {

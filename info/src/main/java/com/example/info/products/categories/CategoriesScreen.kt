@@ -42,8 +42,8 @@ fun CategoriesScreen(
     categorySource: CategorySource,
     viewmodel: CategoriesViewModel =
         hiltViewModel(
-            creationCallback = { factory: CategoriesViewModelFactory -> factory.create(categorySource) },
-        ),
+            creationCallback = { factory: CategoriesViewModelFactory -> factory.create(categorySource) }
+        )
 ) {
     val uiState = viewmodel.state.collectAsStateWithLifecycle()
     when (uiState.value) {
@@ -59,8 +59,8 @@ fun CategoriesScreen(
                             navController.navigate(
                                 InfoNavigationRoutes.ProductsRoute(
                                     source = it.source,
-                                    category = it.category,
-                                ),
+                                    category = it.category
+                                )
                             )
                         }
                     }
@@ -68,12 +68,12 @@ fun CategoriesScreen(
             }
             BaseComposeScreen(
                 navController = navController,
-                toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.categorias)),
+                toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.categorias))
             ) {
                 uiState.value.getContentOrNull()?.let { categoriesUiState ->
                     CategoriesScreenContent(
                         categories = categoriesUiState.categories,
-                        onEvent = viewmodel::onEvents,
+                        onEvent = viewmodel::onEvents
                     )
                 }
             }
@@ -89,14 +89,14 @@ fun CategoriesScreen(
 private fun CategoriesScreenContent(
     modifier: Modifier = Modifier,
     categories: List<Category>,
-    onEvent: (event: CategoriesEvents) -> Unit,
+    onEvent: (event: CategoriesEvents) -> Unit
 ) {
     Column(
         modifier =
             modifier
                 .fillMaxSize()
                 .background(Background),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         MediumSpacer(orientation = Orientation.VERTICAL)
         Image(
@@ -105,7 +105,7 @@ private fun CategoriesScreenContent(
                     .height(150.dp)
                     .width(150.dp),
             painter = painterResource(id = R.drawable.estar),
-            contentDescription = null,
+            contentDescription = null
         )
         MediumSpacer(orientation = Orientation.VERTICAL)
         Categories(categories = categories) { category ->
@@ -117,12 +117,12 @@ private fun CategoriesScreenContent(
 @Composable
 private fun Categories(
     categories: List<Category>,
-    goToProductsScreen: (category: Category) -> Unit,
+    goToProductsScreen: (category: Category) -> Unit
 ) {
     LazyColumn {
         items(
             items = categories,
-            key = { it.id },
+            key = { it.id }
         ) { category ->
             TextWithArrow(
                 config =
@@ -130,8 +130,8 @@ private fun Categories(
                         text = category.name,
                         clickOnItem = {
                             goToProductsScreen(category)
-                        },
-                    ),
+                        }
+                    )
             )
         }
     }
@@ -146,8 +146,8 @@ private fun CategoriesScreenContentPreview() {
                 Category(id = "0", name = "Category 1"),
                 Category(id = "1", name = "Category 2"),
                 Category(id = "2", name = "Category 3"),
-                Category(id = "3", name = "Category 4"),
+                Category(id = "3", name = "Category 4")
             ),
-        onEvent = {},
+        onEvent = {}
     )
 }

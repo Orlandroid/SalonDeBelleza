@@ -14,14 +14,14 @@ import javax.inject.Inject
 data class SplashScreenUiState(
     val isLoading: Boolean = true,
     val isUserLoggedIn: Boolean = false,
-    val isDeviceRooted: Boolean = false,
+    val isDeviceRooted: Boolean = false
 )
 
 @HiltViewModel
 class SplashScreenViewModel
     @Inject
     constructor(
-        private val userPreferences: UserPreferences,
+        private val userPreferences: UserPreferences
     ) : ViewModel() {
         private val _state: MutableStateFlow<SplashScreenUiState> =
             MutableStateFlow(SplashScreenUiState())
@@ -38,6 +38,6 @@ class SplashScreenViewModel
                 }.stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(5000),
-                    initialValue = SplashScreenUiState(),
+                    initialValue = SplashScreenUiState()
                 )
     }

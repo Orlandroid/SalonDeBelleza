@@ -25,12 +25,12 @@ import com.example.info.R
 fun BranchInfoScreen(navController: NavController) {
     BaseComposeScreen(
         navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(title = "Branch Name"),
+        toolbarConfiguration = ToolbarConfiguration(title = "Branch Name")
     ) {
         BranchInfoScreenContent(
             goTOServicesScreen = { navController.navigate(InfoNavigationRoutes.ServicesRoute) },
             goToOurStaffScreen = { navController.navigate(InfoNavigationRoutes.OurStaffRoute) },
-            goToLocationScreen = { navController.navigate(InfoNavigationRoutes.LocationRoute) },
+            goToLocationScreen = { navController.navigate(InfoNavigationRoutes.LocationRoute) }
         )
     }
 }
@@ -40,23 +40,23 @@ private fun BranchInfoScreenContent(
     modifier: Modifier = Modifier,
     goToOurStaffScreen: () -> Unit,
     goTOServicesScreen: () -> Unit,
-    goToLocationScreen: () -> Unit,
+    goToLocationScreen: () -> Unit
 ) {
     Column(
         modifier =
             modifier
                 .background(Background)
-                .fillMaxSize(),
+                .fillMaxSize()
     ) {
         Spacer(Modifier.weight(0.4f))
         Card(
             modifier = Modifier.weight(1f),
-            colors = CardDefaults.cardColors(containerColor = Color.White),
+            colors = CardDefaults.cardColors(containerColor = Color.White)
         ) {
             BranchInfoMenu(
                 goToOurStaffScreen = goToOurStaffScreen,
                 goTOServicesScreen = goTOServicesScreen,
-                goToLocationScreen = goToLocationScreen,
+                goToLocationScreen = goToLocationScreen
             )
         }
     }
@@ -67,7 +67,7 @@ private fun BranchInfoMenu(
     modifier: Modifier = Modifier,
     goToOurStaffScreen: () -> Unit,
     goTOServicesScreen: () -> Unit,
-    goToLocationScreen: () -> Unit,
+    goToLocationScreen: () -> Unit
 ) {
     LazyColumn(modifier = modifier) {
         item {
@@ -75,8 +75,8 @@ private fun BranchInfoMenu(
                 config =
                     TextWithArrowConfig(
                         text = stringResource(R.string.staff),
-                        clickOnItem = goToOurStaffScreen,
-                    ),
+                        clickOnItem = goToOurStaffScreen
+                    )
             )
         }
         item {
@@ -84,8 +84,8 @@ private fun BranchInfoMenu(
                 config =
                     TextWithArrowConfig(
                         text = stringResource(R.string.servicios),
-                        clickOnItem = goTOServicesScreen,
-                    ),
+                        clickOnItem = goTOServicesScreen
+                    )
             )
         }
         item {
@@ -93,8 +93,8 @@ private fun BranchInfoMenu(
                 config =
                     TextWithArrowConfig(
                         text = stringResource(R.string.ubicacion),
-                        clickOnItem = goToLocationScreen,
-                    ),
+                        clickOnItem = goToLocationScreen
+                    )
             )
         }
     }
@@ -106,6 +106,6 @@ private fun BranchInfoScreenContentPreview() {
     BranchInfoScreenContent(
         goTOServicesScreen = {},
         goToLocationScreen = {},
-        goToOurStaffScreen = {},
+        goToOurStaffScreen = {}
     )
 }

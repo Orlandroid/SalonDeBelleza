@@ -66,7 +66,7 @@ import kotlinx.coroutines.flow.collectLatest
 @Composable
 fun ScheduleScreen(
     navController: NavController,
-    scheduleScreenViewmodel: ScheduleScreenViewmodel = hiltViewModel(),
+    scheduleScreenViewmodel: ScheduleScreenViewmodel = hiltViewModel()
 ) {
     val uiState by scheduleScreenViewmodel.uiState.collectAsStateWithLifecycle()
     val onEvents = scheduleScreenViewmodel::onEvents
@@ -81,7 +81,7 @@ fun ScheduleScreen(
     }
     BaseComposeScreen(
         navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.agendar_hora)),
+        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.agendar_hora))
     ) {
         if (uiState.showDateDialog) {
             MyDatePickerDialog(
@@ -90,14 +90,14 @@ fun ScheduleScreen(
                 },
                 onDateSelected = { dateSelected ->
                     onEvents(ScheduleScreenEvents.OnConfirmDate(dateSelected))
-                },
+                }
             )
         }
         ScheduleScreenContent(
             date = uiState.dateAppointment,
             time = uiState.hourAppointment,
             onEvents = onEvents,
-            state = uiState,
+            state = uiState
         )
     }
 }
@@ -108,7 +108,7 @@ private fun ScheduleScreenContent(
     state: ScheduleScreenUiState,
     date: String,
     time: String,
-    onEvents: (event: ScheduleScreenEvents) -> Unit,
+    onEvents: (event: ScheduleScreenEvents) -> Unit
 ) {
     Column(
         modifier =
@@ -117,7 +117,7 @@ private fun ScheduleScreenContent(
                 .background(Background)
                 .padding(horizontal = 16.dp)
                 .verticalScroll(rememberScrollState()),
-        verticalArrangement = Arrangement.Top,
+        verticalArrangement = Arrangement.Top
     ) {
         Spacer(modifier = Modifier.height(24.dp))
         StaffInfo(
@@ -125,7 +125,7 @@ private fun ScheduleScreenContent(
             name = state.currentStaff?.name.orEmpty(),
             branch = state.branchName.orEmpty(),
             services = state.selectedService?.name ?: "",
-            price = (state.selectedService?.precio?.toLong() ?: 0L),
+            price = (state.selectedService?.precio?.toLong() ?: 0L)
         )
         Spacer(modifier = Modifier.height(24.dp))
         ScheduleInputs(
@@ -133,7 +133,7 @@ private fun ScheduleScreenContent(
             time = time,
             availableSlots = state.availableSlots,
             isLoadingSlots = state.isLoadingSlots,
-            onEvents = onEvents,
+            onEvents = onEvents
         )
         Spacer(modifier = Modifier.height(24.dp))
     }
@@ -145,19 +145,19 @@ private fun StaffInfo(
     name: String,
     branch: String,
     services: String,
-    price: Long,
+    price: Long
 ) {
     ElevatedCard(
         elevation = CardDefaults.cardElevation(defaultElevation = 4.dp),
         shape = MaterialTheme.shapes.large,
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
     ) {
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
             modifier =
                 Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 24.dp, horizontal = 16.dp),
+                    .padding(vertical = 24.dp, horizontal = 16.dp)
         ) {
             AsyncImage(
                 model = image,
@@ -166,14 +166,14 @@ private fun StaffInfo(
                     Modifier
                         .size(96.dp)
                         .clip(CircleShape)
-                        .background(MaterialTheme.colorScheme.surfaceVariant),
+                        .background(MaterialTheme.colorScheme.surfaceVariant)
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = name,
                 style = MaterialTheme.typography.headlineSmall,
                 fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onSurface,
+                color = MaterialTheme.colorScheme.onSurface
             )
             Spacer(modifier = Modifier.height(4.dp))
             InfoRow(icon = Icons.Default.Place, text = branch)
@@ -188,7 +188,7 @@ private fun StaffInfo(
                 text = price.toCurrencyString(Currency.USD),
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.primary
             )
         }
     }
@@ -197,22 +197,22 @@ private fun StaffInfo(
 @Composable
 private fun InfoRow(
     icon: ImageVector,
-    text: String,
+    text: String
 ) {
     Row(
         verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(6.dp),
+        horizontalArrangement = Arrangement.spacedBy(6.dp)
     ) {
         Icon(
             imageVector = icon,
             contentDescription = null,
             tint = MaterialTheme.colorScheme.onSurfaceVariant,
-            modifier = Modifier.size(16.dp),
+            modifier = Modifier.size(16.dp)
         )
         Text(
             text = text,
             style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
         )
     }
 }
@@ -223,27 +223,27 @@ private fun ScheduleInputs(
     time: String,
     availableSlots: List<AvailabilitySlot>,
     isLoadingSlots: Boolean,
-    onEvents: (event: ScheduleScreenEvents) -> Unit,
+    onEvents: (event: ScheduleScreenEvents) -> Unit
 ) {
     OutlinedCard(
         shape = RoundedCornerShape(28.dp),
         modifier = Modifier.fillMaxWidth(),
         colors =
             CardDefaults.outlinedCardColors(
-                containerColor = MaterialTheme.colorScheme.surface,
-            ),
+                containerColor = MaterialTheme.colorScheme.surface
+            )
     ) {
         Column(
             modifier =
                 Modifier
                     .fillMaxWidth()
                     .padding(20.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
             Text(
                 text = stringResource(R.string.appointment_details),
                 style = MaterialTheme.typography.titleMedium,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Bold
             )
 
             InputDate(currentDate = date) {
@@ -254,7 +254,7 @@ private fun ScheduleInputs(
                 slots = availableSlots,
                 selectedTime = time,
                 isLoading = isLoadingSlots,
-                onTimeSelected = { onEvents(ScheduleScreenEvents.OnConfirmTime(it)) },
+                onTimeSelected = { onEvents(ScheduleScreenEvents.OnConfirmTime(it)) }
             )
 
             Spacer(modifier = Modifier.height(4.dp))
@@ -270,7 +270,7 @@ private fun TimeSlotSelection(
     slots: List<AvailabilitySlot>,
     selectedTime: String,
     isLoading: Boolean,
-    onTimeSelected: (String) -> Unit,
+    onTimeSelected: (String) -> Unit
 ) {
     Column {
         Row(verticalAlignment = Alignment.CenterVertically) {
@@ -278,7 +278,7 @@ private fun TimeSlotSelection(
                 text = stringResource(R.string.select_a_time),
                 style = MaterialTheme.typography.labelMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.weight(1f),
+                modifier = Modifier.weight(1f)
             )
             if (isLoading) {
                 CircularProgressIndicator(modifier = Modifier.size(16.dp), strokeWidth = 2.dp)
@@ -291,13 +291,13 @@ private fun TimeSlotSelection(
                 text = stringResource(R.string.no_schedules_available),
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.error,
-                modifier = Modifier.padding(vertical = 8.dp),
+                modifier = Modifier.padding(vertical = 8.dp)
             )
         } else {
             FlowRow(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.spacedBy(8.dp),
-                verticalArrangement = Arrangement.spacedBy(8.dp),
+                verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 slots.forEach { slot ->
                     FilterChip(
@@ -310,9 +310,9 @@ private fun TimeSlotSelection(
                                 selectedContainerColor = MaterialTheme.colorScheme.primary,
                                 selectedLabelColor = MaterialTheme.colorScheme.onPrimary,
                                 disabledContainerColor = Color.LightGray.copy(alpha = 0.3f),
-                                disabledLabelColor = Color.Gray,
+                                disabledLabelColor = Color.Gray
                             ),
-                        shape = RoundedCornerShape(12.dp),
+                        shape = RoundedCornerShape(12.dp)
                     )
                 }
             }
@@ -323,7 +323,7 @@ private fun TimeSlotSelection(
 @Composable
 private fun InputDate(
     currentDate: String,
-    clickOnIcon: () -> Unit,
+    clickOnIcon: () -> Unit
 ) {
     OutlinedTextField(
         enabled = false,
@@ -341,7 +341,7 @@ private fun InputDate(
             Icon(
                 imageVector = Icons.Default.CalendarToday,
                 contentDescription = null,
-                modifier = Modifier.clickable { clickOnIcon() },
+                modifier = Modifier.clickable { clickOnIcon() }
             )
         },
         colors =
@@ -350,15 +350,15 @@ private fun InputDate(
                 disabledBorderColor = MaterialTheme.colorScheme.outline,
                 disabledTrailingIconColor = MaterialTheme.colorScheme.primary,
                 disabledPlaceholderColor = MaterialTheme.colorScheme.onSurfaceVariant,
-                disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant,
-            ),
+                disabledLabelColor = MaterialTheme.colorScheme.onSurfaceVariant
+            )
     )
 }
 
 @Composable
 private fun NextButton(
     enabled: Boolean,
-    goToConfirmationScreen: () -> Unit,
+    goToConfirmationScreen: () -> Unit
 ) {
     Button(
         onClick = { goToConfirmationScreen() },
@@ -371,13 +371,13 @@ private fun NextButton(
         colors =
             ButtonDefaults.buttonColors(
                 containerColor = Color(0xff051721),
-                contentColor = Color.White,
-            ),
+                contentColor = Color.White
+            )
     ) {
         Text(
             text = stringResource(id = R.string.next),
             fontSize = 16.sp,
-            fontWeight = FontWeight.SemiBold,
+            fontWeight = FontWeight.SemiBold
         )
     }
 }
@@ -397,15 +397,15 @@ private fun ScheduleScreenContentPreview() {
                         name = "Orlando",
                         gender = "male",
                         image_url = "",
-                        rating = 4,
+                        rating = 4
                     ),
                 availableSlots =
                     listOf(
                         AvailabilitySlot("10:00", isAvailable = true),
                         AvailabilitySlot("10:30", isAvailable = false),
-                        AvailabilitySlot("11:00", isAvailable = true),
-                    ),
+                        AvailabilitySlot("11:00", isAvailable = true)
+                    )
             ),
-        onEvents = {},
+        onEvents = {}
     )
 }

@@ -20,5 +20,5 @@ fun UserProfile.toUiState(): UserProfileUiState =
             when (sessionStatus) {
                 UserSessionStatus.ACTIVE -> Color.Green
                 UserSessionStatus.INACTIVE -> Color.Red
-            },
+            }
     )

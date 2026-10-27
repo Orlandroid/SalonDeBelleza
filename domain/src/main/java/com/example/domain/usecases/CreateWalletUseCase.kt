@@ -13,7 +13,7 @@ import kotlin.random.Random
 class CreateWalletUseCase
     @Inject
     constructor(
-        private val walletRepository: WalletRepository,
+        private val walletRepository: WalletRepository
     ) {
         suspend operator fun invoke(userId: String): ApiResult<Unit> {
             val walletResult = walletRepository.getWallet()
@@ -23,7 +23,7 @@ class CreateWalletUseCase
             val initialBalance =
                 Random.nextLong(
                     from = 2_000,
-                    until = 10_001,
+                    until = 10_001
                 )
 
             val wallet =
@@ -31,7 +31,7 @@ class CreateWalletUseCase
                     userId = userId,
                     balance = initialBalance,
                     currency = Currency.USD,
-                    createdAt = System.currentTimeMillis(),
+                    createdAt = System.currentTimeMillis()
                 )
 
             val createWalletResult = walletRepository.createWallet(wallet)

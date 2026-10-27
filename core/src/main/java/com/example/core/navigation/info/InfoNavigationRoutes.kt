@@ -18,19 +18,19 @@ sealed class InfoNavigationRoutes {
 
     @Serializable
     data class CategoriesRoute(
-        val source: CategorySource,
+        val source: CategorySource
     ) : InfoNavigationRoutes()
 
     @Serializable
     data class ProductsRoute(
         val source: ProductSource,
-        val category: String? = null,
+        val category: String? = null
     ) : InfoNavigationRoutes()
 
     @Serializable
     data class DetailProductRoute(
         val source: ProductSource,
-        val productId: Int,
+        val productId: Int
     ) : InfoNavigationRoutes()
 
     @Serializable

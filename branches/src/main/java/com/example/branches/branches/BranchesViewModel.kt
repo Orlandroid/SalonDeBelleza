@@ -36,7 +36,7 @@ class BranchViewModel
     constructor(
         private val repository: AppointmentsRepository,
         @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-        private val appointmentSession: AppointmentSession,
+        private val appointmentSession: AppointmentSession
     ) : ViewModel() {
         private val _effects = Channel<BranchesEffects>()
         val effects = _effects.receiveAsFlow()
@@ -47,7 +47,7 @@ class BranchViewModel
             _state.onStart { getBranches() }.stateIn(
                 scope = viewModelScope,
                 started = SharingStarted.WhileSubscribed(5000L),
-                BaseScreenState.OnLoading,
+                BaseScreenState.OnLoading
             )
 
         private val coroutineExceptionHandler =

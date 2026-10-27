@@ -8,7 +8,7 @@ import javax.inject.Inject
 class FakeStoreProductProvider
     @Inject
     constructor(
-        private val api: FakeStoreApi,
+        private val api: FakeStoreApi
     ) : ProductProvider,
         CategoryProvider {
         override suspend fun getProducts() = api.getProducts().map { it.toDomain() }

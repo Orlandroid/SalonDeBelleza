@@ -25,7 +25,7 @@ object RootChecker {
                 "/system/sd/xbin/su",
                 "/system/bin/failsafe/su",
                 "/data/local/su",
-                "/su/bin/su",
+                "/su/bin/su"
             )
         for (path in paths) {
             if (File(path).exists()) return true

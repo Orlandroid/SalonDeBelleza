@@ -18,7 +18,7 @@ data class AppointmentDraft(
     val staff: Staff? = null,
     val service: Service? = null,
     val date: String = getCurrentDateTime().toStringFormat(DATE_FORMAT),
-    val time: String = getInitialTime(),
+    val time: String = getInitialTime()
 )
 
 @Singleton
@@ -34,7 +34,7 @@ class AppointmentSession
                 it.copy(
                     branch = branch,
                     staff = null,
-                    service = null,
+                    service = null
                 )
             }
         }
@@ -43,7 +43,7 @@ class AppointmentSession
             _draft.update {
                 it.copy(
                     staff = staff,
-                    service = null,
+                    service = null
                 )
             }
         }
@@ -51,7 +51,7 @@ class AppointmentSession
         fun selectService(service: Service) {
             _draft.update {
                 it.copy(
-                    service = service,
+                    service = service
                 )
             }
         }

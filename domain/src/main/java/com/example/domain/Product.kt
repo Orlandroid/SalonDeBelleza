@@ -8,7 +8,7 @@ data class Product(
     val rating: Double? = null,
     val image: String? = null,
     val category: String? = null,
-    val quantity: Int = 1,
+    val quantity: Int = 1
 ) {
     fun total(): Long = quantity * price
 
@@ -20,7 +20,7 @@ data class Product(
                 description = "This is a dummy product for testing purposes.",
                 price = 999L,
                 rating = 4.5,
-                image = "https://via.placeholder.com/150",
+                image = "https://via.placeholder.com/150"
             )
     }
 }

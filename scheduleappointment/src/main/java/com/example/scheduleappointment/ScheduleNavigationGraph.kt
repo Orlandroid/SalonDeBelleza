@@ -22,10 +22,10 @@ fun NavGraphBuilder.scheduleNavigationGraph(
     goToInfoNavigation: () -> Unit,
     goToProfileNavigation: () -> Unit,
     goToWallet: () -> Unit,
-    onRestart: () -> Unit,
+    onRestart: () -> Unit
 ) {
     navigation<AppNavigationRoutes.ScheduleNavigationRoute>(
-        startDestination = ScheduleNavigationRoutes.HomeRoute,
+        startDestination = ScheduleNavigationRoutes.HomeRoute
     ) {
         composable<ScheduleNavigationRoutes.HomeRoute> {
             HomeScreen(
@@ -51,12 +51,12 @@ fun NavGraphBuilder.scheduleNavigationGraph(
                             goToWallet()
                         }
                     }
-                },
+                }
             )
         }
         composable<ScheduleNavigationRoutes.ChoseBranchRoute> {
             BranchesScreen(
-                navController = navController,
+                navController = navController
             )
         }
         composable<ScheduleNavigationRoutes.ScheduleStaffRoute> {
@@ -73,7 +73,7 @@ fun NavGraphBuilder.scheduleNavigationGraph(
         }
         composable<ScheduleNavigationRoutes.ScheduleConfirmationRoute> {
             ScheduleConfirmationScreen(
-                navController = navController,
+                navController = navController
             ) {
                 navController.navigate(ScheduleNavigationRoutes.SuccessScheduleRoute)
             }
@@ -81,7 +81,7 @@ fun NavGraphBuilder.scheduleNavigationGraph(
         composable<ScheduleNavigationRoutes.SuccessScheduleRoute> {
             SuccessScreen(
                 title = stringResource(R.string.appointment_success_title),
-                description = stringResource(R.string.appointment_success_subtitle),
+                description = stringResource(R.string.appointment_success_subtitle)
             ) {
                 onRestart()
             }

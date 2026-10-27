@@ -8,7 +8,7 @@ import javax.inject.Inject
 class PlatzyCategoryProvider
     @Inject
     constructor(
-        private val api: PlatzyApi,
+        private val api: PlatzyApi
     ) : CategoryProvider {
         override suspend fun getCategories(): List<Category> = api.getCategories().map { Category(id = it.id.toString(), name = it.name) }
 

@@ -18,6 +18,6 @@ interface WalletRepository {
         userId: String,
         amount: Long,
         type: TransactionType,
-        description: String,
+        description: String
     ): ApiResult<Unit>
 }

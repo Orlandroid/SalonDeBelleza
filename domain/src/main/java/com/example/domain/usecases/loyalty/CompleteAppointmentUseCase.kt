@@ -13,7 +13,7 @@ class CompleteAppointmentUseCase
     constructor(
         private val appointmentsRepository: AppointmentsRepository,
         private val earnPointsUseCase: EarnPointsUseCase,
-        private val firebaseAuth: FirebaseAuth,
+        private val firebaseAuth: FirebaseAuth
     ) {
         suspend operator fun invoke(appointmentId: String): ApiResult<Unit> {
             val appointmentResult = appointmentsRepository.getAppointmentById(appointmentId)
@@ -36,7 +36,7 @@ class CompleteAppointmentUseCase
                 return earnPointsUseCase(
                     userId = userId,
                     pointsEarned = points,
-                    sourceId = appointment.idAppointment,
+                    sourceId = appointment.idAppointment
                 )
             }
 

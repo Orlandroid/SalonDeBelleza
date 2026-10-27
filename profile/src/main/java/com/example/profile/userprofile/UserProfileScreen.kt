@@ -88,15 +88,15 @@ fun UserProfileScreen(navController: NavHostController) {
                     val imageBitmap = context.uriToBitmap(uri)
                     // userProfileViewModel.saveImageUser(...)
                 }
-            },
+            }
         )
     BaseComposeScreen(
         navController = navController,
         toolbarConfiguration =
             ToolbarConfiguration(
                 showToolbar = true,
-                title = stringResource(id = R.string.userProfile),
-            ),
+                title = stringResource(id = R.string.userProfile)
+            )
     ) {
         when (uiState.value) {
             BaseScreenState.OnLoading -> {
@@ -110,7 +110,7 @@ fun UserProfileScreen(navController: NavHostController) {
                         launchGallery = { galleryLauncher.launch("image/*") },
                         userProfileState = state,
                         navigateToLoyalty = { navController.navigate(AppNavigationRoutes.LoyaltyNavigationRoute) },
-                        onViewHistory = { navController.navigate(LoyaltyNavigationRoutes.LoyaltyHistoryRoute) },
+                        onViewHistory = { navController.navigate(LoyaltyNavigationRoutes.LoyaltyHistoryRoute) }
                     )
                 }
             }
@@ -129,7 +129,7 @@ private fun UserProfileScreenContent(
     launchGallery: () -> Unit,
     navigateToLoyalty: () -> Unit,
     onViewHistory: () -> Unit,
-    userProfileState: UserProfileUiState,
+    userProfileState: UserProfileUiState
 ) {
     Column(
         modifier
@@ -137,7 +137,7 @@ private fun UserProfileScreenContent(
             .background(Background)
             .verticalScroll(rememberScrollState())
             .padding(bottom = 24.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Spacer(modifier = Modifier.height(24.dp))
 
@@ -156,12 +156,12 @@ private fun UserProfileScreenContent(
                 .fillMaxWidth()
                 .padding(top = 16.dp),
             horizontalArrangement = Arrangement.Center,
-            verticalAlignment = Alignment.CenterVertically,
+            verticalAlignment = Alignment.CenterVertically
         ) {
             Text(
                 text = userProfileState.name ?: stringResource(R.string.name_user),
                 fontSize = 24.sp,
-                fontWeight = FontWeight.Bold,
+                fontWeight = FontWeight.Bold
             )
             Spacer(modifier = Modifier.width(12.dp))
             CircleStatus(statusColor = Color.Green)
@@ -176,29 +176,29 @@ private fun UserProfileScreenContent(
                     .padding(horizontal = 16.dp),
             colors = CardDefaults.cardColors(containerColor = Color.White),
             elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-            shape = RoundedCornerShape(16.dp),
+            shape = RoundedCornerShape(16.dp)
         ) {
             BaseLabel(key = stringResource(R.string.name), value = userProfileState.name)
             HorizontalDivider(
                 Modifier.padding(horizontal = 16.dp),
                 thickness = 0.5.dp,
-                color = Color.LightGray,
+                color = Color.LightGray
             )
             BaseLabel(key = stringResource(R.string.phone), value = userProfileState.phone)
             HorizontalDivider(
                 Modifier.padding(horizontal = 16.dp),
                 thickness = 0.5.dp,
-                color = Color.LightGray,
+                color = Color.LightGray
             )
             BaseLabel(key = stringResource(R.string.label_email), value = userProfileState.email)
             HorizontalDivider(
                 Modifier.padding(horizontal = 16.dp),
                 thickness = 0.5.dp,
-                color = Color.LightGray,
+                color = Color.LightGray
             )
             BaseLabel(
                 key = stringResource(R.string.money),
-                value = userProfileState.money?.toCurrencyString(Currency.USD),
+                value = userProfileState.money?.toCurrencyString(Currency.USD)
             )
         }
 
@@ -210,7 +210,7 @@ private fun UserProfileScreenContent(
                 lifetimePoints = loyalty.lifetimePoints,
                 tier = loyalty.tier,
                 onRedeem = navigateToLoyalty,
-                onViewHistory = onViewHistory,
+                onViewHistory = onViewHistory
             )
         }
 
@@ -227,7 +227,7 @@ private fun LoyaltySection(
     lifetimePoints: Int,
     tier: LoyaltyTier,
     onViewHistory: () -> Unit,
-    onRedeem: () -> Unit,
+    onRedeem: () -> Unit
 ) {
     Card(
         modifier =
@@ -237,31 +237,31 @@ private fun LoyaltySection(
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
         shape = RoundedCornerShape(16.dp),
-        onClick = onRedeem,
+        onClick = onRedeem
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             Row(
                 verticalAlignment = Alignment.CenterVertically,
                 horizontalArrangement = Arrangement.SpaceBetween,
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth()
             ) {
                 Column {
                     Text(
                         text = "My Loyalty",
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
-                        color = Color.Black,
+                        color = Color.Black
                     )
                     Text(
                         text = "$tier Member",
                         style = MaterialTheme.typography.bodyMedium,
-                        color = Color.Gray,
+                        color = Color.Gray
                     )
                     Text(
                         text = "Ver actividad >",
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.primary,
-                        modifier = Modifier.clickable { onViewHistory() },
+                        modifier = Modifier.clickable { onViewHistory() }
                     )
                 }
                 Icon(
@@ -273,7 +273,7 @@ private fun LoyaltySection(
                             LoyaltyTier.GOLD -> Color(0xFFFFD700)
                             LoyaltyTier.SILVER -> Color(0xFFC0C0C0)
                             else -> Color(0xFFCD7F32)
-                        },
+                        }
                 )
             }
 
@@ -283,7 +283,7 @@ private fun LoyaltySection(
                 text = "$balance ⭐",
                 style = MaterialTheme.typography.headlineLarge,
                 fontWeight = FontWeight.ExtraBold,
-                color = MaterialTheme.colorScheme.primary,
+                color = MaterialTheme.colorScheme.primary
             )
 
             Spacer(modifier = Modifier.height(8.dp))
@@ -308,7 +308,7 @@ private fun LoyaltySection(
                                 .height(8.dp)
                                 .clip(RoundedCornerShape(4.dp)),
                         color = MaterialTheme.colorScheme.primary,
-                        trackColor = Color.LightGray.copy(alpha = 0.3f),
+                        trackColor = Color.LightGray.copy(alpha = 0.3f)
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
@@ -316,7 +316,7 @@ private fun LoyaltySection(
                             nextTier.name.lowercase().replaceFirstChar { it.uppercase() }
                         }",
                         style = MaterialTheme.typography.labelSmall,
-                        color = Color.Gray,
+                        color = Color.Gray
                     )
                 }
             }
@@ -330,18 +330,18 @@ private fun CouponsSection(coupons: List<PromotionCode>) {
         modifier =
             Modifier
                 .fillMaxWidth()
-                .padding(horizontal = 16.dp),
+                .padding(horizontal = 16.dp)
     ) {
         Text(
             text = stringResource(R.string.my_cupons),
             style = MaterialTheme.typography.titleMedium,
             fontWeight = FontWeight.Bold,
-            color = Color.Black,
+            color = Color.Black
         )
         Spacer(modifier = Modifier.height(12.dp))
         LazyRow(
             contentPadding = PaddingValues(end = 16.dp),
-            horizontalArrangement = Arrangement.spacedBy(12.dp),
+            horizontalArrangement = Arrangement.spacedBy(12.dp)
         ) {
             items(coupons) { coupon ->
                 CouponItem(coupon = coupon)
@@ -358,36 +358,36 @@ private fun CouponItem(coupon: PromotionCode) {
                 .width(180.dp),
         colors = CardDefaults.cardColors(containerColor = Color.White),
         elevation = CardDefaults.cardElevation(defaultElevation = 2.dp),
-        shape = RoundedCornerShape(12.dp),
+        shape = RoundedCornerShape(12.dp)
     ) {
         Column(
             modifier = Modifier.padding(12.dp),
-            horizontalAlignment = Alignment.CenterHorizontally,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Icon(
                 imageVector = Icons.Outlined.ConfirmationNumber,
                 contentDescription = null,
                 tint = MaterialTheme.colorScheme.primary,
-                modifier = Modifier.size(32.dp),
+                modifier = Modifier.size(32.dp)
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
                 text = "${coupon.discountPercentage}% OFF",
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
-                color = Color.Black,
+                color = Color.Black
             )
             Spacer(modifier = Modifier.height(4.dp))
             Surface(
                 color = MaterialTheme.colorScheme.primary.copy(alpha = 0.1f),
-                shape = RoundedCornerShape(4.dp),
+                shape = RoundedCornerShape(4.dp)
             ) {
                 Text(
                     text = coupon.code,
                     modifier = Modifier.padding(horizontal = 8.dp, vertical = 2.dp),
                     style = MaterialTheme.typography.labelMedium,
                     color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.Medium,
+                    fontWeight = FontWeight.Medium
                 )
             }
         }
@@ -397,20 +397,20 @@ private fun CouponItem(coupon: PromotionCode) {
 @Composable
 private fun BaseLabel(
     key: String,
-    value: String?,
+    value: String?
 ) {
     Column(modifier = Modifier.padding(16.dp)) {
         Text(
             text = key,
             fontWeight = FontWeight.Bold,
             color = Color.Gray,
-            fontSize = 12.sp,
+            fontSize = 12.sp
         )
         Spacer(modifier = Modifier.height(4.dp))
         Text(
             text = value.orEmpty(),
             fontSize = 16.sp,
-            color = Color.Black,
+            color = Color.Black
         )
     }
 }
@@ -418,7 +418,7 @@ private fun BaseLabel(
 @Composable
 private fun ImageUser(
     model: Any,
-    launchGallery: () -> Unit,
+    launchGallery: () -> Unit
 ) {
     val imageModifier =
         Modifier
@@ -433,14 +433,14 @@ private fun ImageUser(
             contentScale = ContentScale.Crop,
             bitmap = model,
             contentDescription = "ImageProfile",
-            modifier = imageModifier,
+            modifier = imageModifier
         )
     } else {
         AsyncImage(
             contentScale = ContentScale.Crop,
             model = model,
             contentDescription = "ImageProfile",
-            modifier = imageModifier,
+            modifier = imageModifier
         )
     }
 }
@@ -466,12 +466,12 @@ private fun UserProfileScreenContentPreview() {
                 coupons =
                     listOf(
                         PromotionCode(code = "SALON-123", discountPercentage = 10),
-                        PromotionCode(code = "SALON-ABC", discountPercentage = 20),
+                        PromotionCode(code = "SALON-ABC", discountPercentage = 20)
                     ),
-                role = UserRole.ADMIN,
+                role = UserRole.ADMIN
             ),
         launchGallery = {},
         navigateToLoyalty = {},
-        onViewHistory = {},
+        onViewHistory = {}
     )
 }

@@ -34,7 +34,7 @@ import com.example.profile.R
 fun RatingDialog(
     staffName: String,
     onDismiss: () -> Unit,
-    onSubmit: (Int, String) -> Unit,
+    onSubmit: (Int, String) -> Unit
 ) {
     var rating by remember { mutableIntStateOf(5) }
     var comment by remember { mutableStateOf("") }
@@ -52,20 +52,20 @@ fun RatingDialog(
                 },
                 onRatingChanged = {
                     rating = it
-                },
+                }
             )
         },
         confirmButton = {
             Button(onClick = {
                 onSubmit(
                     rating,
-                    comment,
+                    comment
                 )
             }) { Text(text = stringResource(R.string.submit)) }
         },
         dismissButton = {
             TextButton(onClick = onDismiss) { Text(text = stringResource(R.string.maybe_later)) }
-        },
+        }
     )
 }
 
@@ -75,10 +75,10 @@ private fun RatingDialogContent(
     rating: Int,
     comment: String,
     onValueChange: (String) -> Unit,
-    onRatingChanged: (Int) -> Unit,
+    onRatingChanged: (Int) -> Unit
 ) {
     Column(
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         Text(text = stringResource(R.string.service_rating_question, staffName))
 
@@ -90,7 +90,7 @@ private fun RatingDialogContent(
             text = stringResource(R.string.earn_stars_for_feedback),
             style = MaterialTheme.typography.labelSmall,
             color = MaterialTheme.colorScheme.primary,
-            modifier = Modifier.padding(top = 8.dp),
+            modifier = Modifier.padding(top = 8.dp)
         )
     }
 }
@@ -98,7 +98,7 @@ private fun RatingDialogContent(
 @Composable
 private fun StartsIcon(
     rating: Int,
-    onRatingChanged: (Int) -> Unit,
+    onRatingChanged: (Int) -> Unit
 ) {
     Row(modifier = Modifier.padding(vertical = 16.dp)) {
         (1..5).forEach { index ->
@@ -109,7 +109,7 @@ private fun StartsIcon(
                 modifier =
                     Modifier
                         .size(32.dp)
-                        .clickable { onRatingChanged(index) },
+                        .clickable { onRatingChanged(index) }
             )
         }
     }
@@ -118,13 +118,13 @@ private fun StartsIcon(
 @Composable
 private fun InputComment(
     comment: String,
-    onValueChange: (String) -> Unit,
+    onValueChange: (String) -> Unit
 ) {
     OutlinedTextField(
         value = comment,
         onValueChange = onValueChange,
         label = { Text(text = stringResource(R.string.write_a_comment_optional)) },
-        modifier = Modifier.fillMaxWidth(),
+        modifier = Modifier.fillMaxWidth()
     )
 }
 

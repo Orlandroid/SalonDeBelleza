@@ -1,12 +1,12 @@
 package com.example.model.state.models
 
 enum class ProductSource(
-    val supportsCategories: Boolean,
+    val supportsCategories: Boolean
 ) {
     DUMMY_JSON(false),
     FAKE_STORE(true),
     PLATZI(true),
-    MY_DUMMY_API(false),
+    MY_DUMMY_API(false)
 }
 
 fun ProductSource.toCategorySource(): CategorySource? =

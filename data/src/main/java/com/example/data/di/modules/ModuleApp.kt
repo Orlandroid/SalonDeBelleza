@@ -17,6 +17,6 @@ object ModuleApp {
     @Singleton
     @Provides
     fun provideSharePreferences(
-        @ApplicationContext context: Context,
+        @ApplicationContext context: Context
     ): SharedPreferences = context.getSharedPreferences(SHARE_PREFERENCES, Context.MODE_PRIVATE)
 }

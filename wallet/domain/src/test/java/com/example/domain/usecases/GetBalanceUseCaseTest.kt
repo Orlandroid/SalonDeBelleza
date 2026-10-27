@@ -30,7 +30,7 @@ class GetBalanceUseCaseTest {
         getBalanceUseCase =
             GetBalanceUseCase(
                 userRepository = userRepository,
-                walletRepository = walletRepository,
+                walletRepository = walletRepository
             )
     }
 

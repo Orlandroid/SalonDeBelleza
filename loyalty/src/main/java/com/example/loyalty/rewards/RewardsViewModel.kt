@@ -21,25 +21,25 @@ data class RewardsUiState(
     val userBalance: Int = 0,
     val rewards: List<Reward> = emptyList(),
     val isLoading: Boolean = false,
-    val error: String? = null,
+    val error: String? = null
 )
 
 sealed class RewardsEvents {
     object OnLoadData : RewardsEvents()
 
     data class OnRedeemReward(
-        val reward: Reward,
+        val reward: Reward
     ) : RewardsEvents()
 }
 
 sealed class RewardsEffects {
     data class ShowSuccess(
         val promoCode: String,
-        val discount: Int,
+        val discount: Int
     ) : RewardsEffects()
 
     data class ShowError(
-        val message: String,
+        val message: String
     ) : RewardsEffects()
 }
 
@@ -49,7 +49,7 @@ class RewardsViewModel
     constructor(
         private val redeemRewardUseCase: RedeemRewardUseCase,
         private val loyaltyRepository: LoyaltyRepository,
-        val auth: FirebaseAuth,
+        val auth: FirebaseAuth
     ) : ViewModel() {
         private val userId = auth.uid ?: ""
 

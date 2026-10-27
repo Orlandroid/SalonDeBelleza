@@ -9,7 +9,7 @@ import com.example.core.navigation.admin.AdminNavigationRoutes
 
 fun NavGraphBuilder.adminNavigationGraph(navController: NavHostController) {
     navigation<AppNavigationRoutes.AdminNavigationRoute>(
-        startDestination = AdminNavigationRoutes.AdminDashboardRoute,
+        startDestination = AdminNavigationRoutes.AdminDashboardRoute
     ) {
         composable<AdminNavigationRoutes.AdminDashboardRoute> {
             AdminDashboardRoute(navController)

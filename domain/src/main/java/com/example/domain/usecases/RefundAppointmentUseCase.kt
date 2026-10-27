@@ -14,12 +14,12 @@ class RefundAppointmentUseCase
     @Inject
     constructor(
         private val walletRepository: WalletRepository,
-        private val transactionRepository: TransactionRepository,
+        private val transactionRepository: TransactionRepository
     ) {
         suspend operator fun invoke(
             userId: String,
             refundAmount: Double,
-            description: String,
+            description: String
         ): ApiResult<Unit> {
             val walletResult = walletRepository.getWallet()
             if (walletResult.isError()) return ApiResult.Error("Wallet not found")
@@ -37,7 +37,7 @@ class RefundAppointmentUseCase
                     amount = refundAmountLong,
                     transactionType = TransactionType.REFUND,
                     description = description,
-                    createdAt = System.currentTimeMillis(),
+                    createdAt = System.currentTimeMillis()
                 )
             transactionRepository.createTransaction(transaction)
 

@@ -12,5 +12,5 @@ fun ProductDummyJson.toDomain(): Product =
         description = description,
         price = (price).roundToLong(),
         rating = rating,
-        image = images.firstOrNull() ?: thumbnail,
+        image = images.firstOrNull() ?: thumbnail
     )

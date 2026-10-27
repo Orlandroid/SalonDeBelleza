@@ -20,12 +20,12 @@ fun AppNavigation() {
     val activity = LocalActivity.current as MainActivityCompose
     NavHost(
         navController = navController,
-        startDestination = AppNavigationRoutes.AuthNavigationRoute,
+        startDestination = AppNavigationRoutes.AuthNavigationRoute
     ) {
         authNavigationGraph(
             navController = navController,
             goToScheduleFlow = { navController.navigate(AppNavigationRoutes.ScheduleNavigationRoute) },
-            onRestart = { activity.closeAndOpenActivity() },
+            onRestart = { activity.closeAndOpenActivity() }
         )
         scheduleNavigationGraph(
             navController = navController,
@@ -38,12 +38,12 @@ fun AppNavigation() {
             goToWallet = {
                 navController.navigate(AppNavigationRoutes.WalletNavigationRoute)
             },
-            onRestart = { activity.closeAndOpenActivity() },
+            onRestart = { activity.closeAndOpenActivity() }
         )
         infoNavigationGraph(navController = navController)
         profileNavigationGraph(
             navController = navController,
-            onRestart = { activity.closeAndOpenActivity() },
+            onRestart = { activity.closeAndOpenActivity() }
         )
         walletNavigationGraph(navController = navController)
         loyaltyNavigationGraph(navController = navController)

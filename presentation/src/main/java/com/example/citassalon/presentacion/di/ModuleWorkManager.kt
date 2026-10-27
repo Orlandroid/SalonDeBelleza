@@ -21,12 +21,12 @@ object ModuleWorkManager {
     @Singleton
     @Named(TASK_SESSION_MANAGER)
     fun provideWorkManager(
-        @ApplicationContext context: Context,
+        @ApplicationContext context: Context
     ): WorkManager = WorkManager.getInstance(context)
 
     @Provides
     @Singleton
     fun provideReminderManager(
-        @ApplicationContext context: Context,
+        @ApplicationContext context: Context
     ): ReminderManager = ReminderManagerImpl(context)
 }

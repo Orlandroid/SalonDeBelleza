@@ -40,17 +40,17 @@ fun BaseAlertDialogMessages(
         AlertDialogMessagesConfig(
             title = R.string.title,
             bodyMessage = stringResource(R.string.message_body),
-            buttonText = R.string.aceptar,
+            buttonText = R.string.aceptar
         ),
-    onDismissRequest: () -> Unit = {},
+    onDismissRequest: () -> Unit = {}
 ) {
     BaseCustomDialog(
         modifier = modifier,
-        onDismissRequest = onDismissRequest,
+        onDismissRequest = onDismissRequest
     ) {
         BaseAlertDialogMessagesContent(
             onConfirmation = alertDialogMessagesConfig.onConfirmation,
-            alertDialogMessagesConfig = alertDialogMessagesConfig,
+            alertDialogMessagesConfig = alertDialogMessagesConfig
         )
     }
 }
@@ -59,15 +59,15 @@ fun BaseAlertDialogMessages(
 private fun BaseAlertDialogMessagesContent(
     modifier: Modifier = Modifier,
     alertDialogMessagesConfig: AlertDialogMessagesConfig,
-    onConfirmation: () -> Unit,
+    onConfirmation: () -> Unit
 ) {
     Column(
-        modifier = modifier.fillMaxWidth(),
+        modifier = modifier.fillMaxWidth()
     ) {
         AlertTitle(
             kindOfMessage = alertDialogMessagesConfig.kindOfMessage,
             modifier = Modifier,
-            title = alertDialogMessagesConfig.title,
+            title = alertDialogMessagesConfig.title
         )
         MediumSpacer(orientation = Orientation.VERTICAL)
         Text(
@@ -79,14 +79,14 @@ private fun BaseAlertDialogMessagesContent(
                     .wrapContentHeight(),
             text = alertDialogMessagesConfig.bodyMessage,
             fontSize = 18.sp,
-            color = AlwaysBlack,
+            color = AlwaysBlack
         )
         MediumSpacer(orientation = Orientation.VERTICAL)
         AlertButtonOrButtons(
             modifier = Modifier,
             acceptText = alertDialogMessagesConfig.buttonText,
             isTwoButtonsAlert = alertDialogMessagesConfig.isTwoButtonsAlert,
-            onAccept = onConfirmation,
+            onAccept = onConfirmation
         )
     }
 }
@@ -96,17 +96,17 @@ private fun AlertButtonOrButtons(
     modifier: Modifier = Modifier,
     @StringRes acceptText: Int,
     onAccept: () -> Unit,
-    isTwoButtonsAlert: IsTwoButtonsAlert?,
+    isTwoButtonsAlert: IsTwoButtonsAlert?
 ) {
     if (isTwoButtonsAlert == null) {
         AlertButton(
             modifier = modifier,
             buttonMessage = acceptText,
-            onClick = onAccept,
+            onClick = onAccept
         )
     } else {
         Row(
-            modifier = Modifier,
+            modifier = Modifier
         ) {
             AlertButton(
                 isRounded = true,
@@ -115,10 +115,10 @@ private fun AlertButtonOrButtons(
                         .weight(1f)
                         .padding(start = 4.dp, bottom = 4.dp),
                 buttonMessage = acceptText,
-                onClick = isTwoButtonsAlert.clickOnAccept,
+                onClick = isTwoButtonsAlert.clickOnAccept
             )
             SmallSpacer(
-                orientation = Orientation.HORIZONTAL,
+                orientation = Orientation.HORIZONTAL
             )
             AlertButton(
                 isRounded = true,
@@ -127,7 +127,7 @@ private fun AlertButtonOrButtons(
                         .weight(1f)
                         .padding(end = 4.dp, bottom = 4.dp),
                 buttonMessage = isTwoButtonsAlert.cancelText,
-                onClick = isTwoButtonsAlert.clickOnCancel,
+                onClick = isTwoButtonsAlert.clickOnCancel
             )
             SmallSpacer(orientation = Orientation.VERTICAL)
         }
@@ -138,7 +138,7 @@ private fun AlertButtonOrButtons(
 private fun AlertTitle(
     kindOfMessage: AlertKindOfMessage,
     modifier: Modifier = Modifier,
-    @StringRes title: Int,
+    @StringRes title: Int
 ) {
     Card(
         modifier =
@@ -146,7 +146,7 @@ private fun AlertTitle(
                 .height(48.dp)
                 .fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = kindOfMessage.color),
-        shape = RectangleShape,
+        shape = RectangleShape
     ) {
         SmallSpacer(orientation = Orientation.VERTICAL)
         Text(
@@ -154,7 +154,7 @@ private fun AlertTitle(
             color = AlwaysWhite,
             fontSize = 24.sp,
             text = stringResource(title),
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }
@@ -164,7 +164,7 @@ private fun AlertButton(
     modifier: Modifier = Modifier,
     isRounded: Boolean = false,
     @StringRes buttonMessage: Int,
-    onClick: () -> Unit,
+    onClick: () -> Unit
 ) {
     Card(
         modifier =
@@ -178,7 +178,7 @@ private fun AlertButton(
                 RoundedCornerShape(8.dp)
             } else {
                 RectangleShape
-            },
+            }
     ) {
         SmallSpacer(orientation = Orientation.VERTICAL)
         Text(
@@ -186,7 +186,7 @@ private fun AlertButton(
             color = AlwaysWhite,
             fontSize = 24.sp,
             text = stringResource(buttonMessage),
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth()
         )
     }
 }
@@ -206,18 +206,18 @@ fun BaseAlertDialogPreviewTwoButton() {
         alertDialogMessagesConfig =
             AlertDialogMessagesConfig(
                 bodyMessage = "Error al crear el usuario",
-                isTwoButtonsAlert = IsTwoButtonsAlert(clickOnCancel = {}),
-            ),
+                isTwoButtonsAlert = IsTwoButtonsAlert(clickOnCancel = {})
+            )
     )
 }
 
 enum class AlertKindOfMessage(
-    val color: Color,
+    val color: Color
 ) {
     SUCCESS(Success),
     WARING(Waring),
     ERROR(Danger),
-    INFO(Info),
+    INFO(Info)
 }
 
 data class AlertDialogMessagesConfig(
@@ -226,12 +226,12 @@ data class AlertDialogMessagesConfig(
     @param:StringRes val buttonText: Int = R.string.aceptar,
     val kindOfMessage: AlertKindOfMessage = AlertKindOfMessage.INFO,
     val onConfirmation: () -> Unit = {},
-    val isTwoButtonsAlert: IsTwoButtonsAlert? = null,
+    val isTwoButtonsAlert: IsTwoButtonsAlert? = null
 )
 
 data class IsTwoButtonsAlert(
     @param:StringRes val acceptText: Int = R.string.aceptar,
     val clickOnAccept: () -> Unit = {},
     @param:StringRes val cancelText: Int = R.string.cancelar_alert,
-    val clickOnCancel: () -> Unit,
+    val clickOnCancel: () -> Unit
 )

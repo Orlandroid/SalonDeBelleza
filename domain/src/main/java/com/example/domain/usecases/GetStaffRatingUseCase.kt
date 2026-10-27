@@ -9,7 +9,7 @@ import javax.inject.Inject
 class GetStaffRatingUseCase
     @Inject
     constructor(
-        private val reviewRepository: ReviewRepository,
+        private val reviewRepository: ReviewRepository
     ) {
         suspend operator fun invoke(staffId: String): ApiResult<StaffRatingSummary> {
             val result = reviewRepository.getStaffReviews(staffId)
@@ -28,8 +28,8 @@ class GetStaffRatingUseCase
                 StaffRatingSummary(
                     averageRating = average,
                     totalReviews = reviews.size,
-                    recentComments = reviews.take(5),
-                ),
+                    recentComments = reviews.take(5)
+                )
             )
         }
     }

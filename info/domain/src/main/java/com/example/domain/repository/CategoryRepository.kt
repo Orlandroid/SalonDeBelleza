@@ -9,6 +9,6 @@ interface CategoryRepository {
 
     suspend fun getProductByCategory(
         source: CategorySource,
-        category: String,
+        category: String
     ): List<Product>
 }

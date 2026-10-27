@@ -9,7 +9,7 @@ class GetAvailableSlotsUseCase
     constructor() {
         operator fun invoke(
             schedule: Schedule,
-            bookedSlots: List<String> = emptyList(),
+            bookedSlots: List<String> = emptyList()
         ): List<AvailabilitySlot> {
             val slots = mutableListOf<AvailabilitySlot>()
 
@@ -23,7 +23,7 @@ class GetAvailableSlotsUseCase
         private fun generateSlots(
             startTime: String,
             endTime: String,
-            bookedSlots: List<String>,
+            bookedSlots: List<String>
         ): List<AvailabilitySlot> {
             val timeList = mutableListOf<AvailabilitySlot>()
             var current = startTime

@@ -33,7 +33,7 @@ class PurchaseProductsUseCaseTest {
         purchaseProductsUseCase =
             PurchaseProductsUseCase(
                 walletRepository = walletRepository,
-                transactionRepository = transactionRepository,
+                transactionRepository = transactionRepository
             )
     }
 
@@ -52,7 +52,7 @@ class PurchaseProductsUseCaseTest {
                 purchaseProductsUseCase.invoke(
                     amount = 300L,
                     transactionType = TransactionType.MARKETPLACE_PURCHASE,
-                    description = "Some description",
+                    description = "Some description"
                 )
 
             coVerify(exactly = 1) { walletRepository.getWallet() }
@@ -69,7 +69,7 @@ class PurchaseProductsUseCaseTest {
                 Wallet(
                     userId = "",
                     balance = 50L,
-                    currency = Currency.USD,
+                    currency = Currency.USD
                 )
             coEvery { walletRepository.getWallet() } returns ApiResult.Success(wallet)
 
@@ -77,7 +77,7 @@ class PurchaseProductsUseCaseTest {
                 purchaseProductsUseCase.invoke(
                     amount = 1000L,
                     transactionType = TransactionType.MARKETPLACE_PURCHASE,
-                    description = "Some description",
+                    description = "Some description"
                 )
 
             coVerify(exactly = 1) { walletRepository.getWallet() }
@@ -94,7 +94,7 @@ class PurchaseProductsUseCaseTest {
                 Wallet(
                     userId = "",
                     balance = 5000L,
-                    currency = Currency.USD,
+                    currency = Currency.USD
                 )
             coEvery { walletRepository.getWallet() } returns ApiResult.Success(wallet)
             coEvery { walletRepository.updateBalance(any()) } returns ApiResult.Error()
@@ -103,7 +103,7 @@ class PurchaseProductsUseCaseTest {
                 purchaseProductsUseCase.invoke(
                     amount = 1000L,
                     transactionType = TransactionType.MARKETPLACE_PURCHASE,
-                    description = "Some description",
+                    description = "Some description"
                 )
 
             coVerify(exactly = 1) { walletRepository.getWallet() }
@@ -120,7 +120,7 @@ class PurchaseProductsUseCaseTest {
                 Wallet(
                     userId = "",
                     balance = 5000L,
-                    currency = Currency.USD,
+                    currency = Currency.USD
                 )
             coEvery { walletRepository.getWallet() } returns ApiResult.Success(wallet)
             coEvery { walletRepository.updateBalance(any()) } returns ApiResult.Success(Unit)
@@ -130,7 +130,7 @@ class PurchaseProductsUseCaseTest {
                 purchaseProductsUseCase.invoke(
                     amount = 1000L,
                     transactionType = TransactionType.MARKETPLACE_PURCHASE,
-                    description = "Some description",
+                    description = "Some description"
                 )
 
             coVerify(exactly = 1) { walletRepository.getWallet() }
@@ -147,20 +147,20 @@ class PurchaseProductsUseCaseTest {
                 Wallet(
                     userId = "",
                     balance = 5000L,
-                    currency = Currency.USD,
+                    currency = Currency.USD
                 )
             coEvery { walletRepository.getWallet() } returns ApiResult.Success(wallet)
             coEvery { walletRepository.updateBalance(any()) } returns ApiResult.Success(Unit)
             coEvery { transactionRepository.createTransaction(any()) } returns
                 ApiResult.Success(
-                    Unit,
+                    Unit
                 )
 
             val purchaseResult =
                 purchaseProductsUseCase.invoke(
                     amount = 1000L,
                     transactionType = TransactionType.MARKETPLACE_PURCHASE,
-                    description = "Some description",
+                    description = "Some description"
                 )
 
             coVerify(exactly = 1) { walletRepository.getWallet() }

@@ -14,7 +14,7 @@ class TransactionRepositoryImp
     @Inject
     constructor(
         @param:TransactionReference private val databaseReference: DatabaseReference,
-        private val firebaseAuth: FirebaseAuth,
+        private val firebaseAuth: FirebaseAuth
     ) : TransactionRepository {
         override suspend fun createTransaction(transaction: Transaction): ApiResult<Unit> {
             return runCatching {

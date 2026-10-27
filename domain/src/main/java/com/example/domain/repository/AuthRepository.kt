@@ -7,12 +7,12 @@ import com.google.firebase.auth.AuthResult
 interface AuthRepository {
     suspend fun login(
         email: String,
-        password: String,
+        password: String
     ): ApiResult<Unit>
 
     suspend fun register(
         email: String,
-        password: String,
+        password: String
     ): ApiResult<AuthResult>
 
     suspend fun forgetPassword(email: String): ApiResult<Unit>

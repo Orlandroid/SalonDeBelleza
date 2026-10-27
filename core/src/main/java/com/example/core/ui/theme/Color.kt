@@ -40,7 +40,7 @@ val avatarBackgrounds =
         Color(0xFFEDE9FE) to Color(0xFF7C3AED),
         Color(0xFFFCE7F3) to Color(0xFFDB2777),
         Color(0xFFD1FAE5) to Color(0xFF059669),
-        Color(0xFFFEF3C7) to Color(0xFFD97706),
+        Color(0xFFFEF3C7) to Color(0xFFD97706)
     )
 val Confirmed = Color(0xFF2196F3)
 val Completed = Color(0xFF4CAF50)

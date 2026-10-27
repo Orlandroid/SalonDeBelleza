@@ -33,7 +33,7 @@ class ForgetPasswordViewmodelTest {
             ForgetPasswordViewmodel(
                 authRepository,
                 ioDispatcher = testDispatcher,
-                emailValidator = emailValidator,
+                emailValidator = emailValidator
             )
     }
 
@@ -66,7 +66,7 @@ class ForgetPasswordViewmodelTest {
                 assertEquals(false, awaitItem().isLoading)
 
                 viewModel.onEvents(
-                    ForgetPasswordViewmodel.ForgetPasswordEvents.OnResetPassword,
+                    ForgetPasswordViewmodel.ForgetPasswordEvents.OnResetPassword
                 )
 
                 assertEquals(true, awaitItem().isLoading)
@@ -83,7 +83,7 @@ class ForgetPasswordViewmodelTest {
 
                 assertEquals(
                     errorMessage,
-                    (effect as ForgetPasswordViewmodel.ForgetPasswordEffects.ShowSnackBar).kindOfMessage,
+                    (effect as ForgetPasswordViewmodel.ForgetPasswordEffects.ShowSnackBar).kindOfMessage
                 )
 
                 cancelAndIgnoreRemainingEvents()
@@ -109,7 +109,7 @@ class ForgetPasswordViewmodelTest {
                     assertEquals(false, awaitItem().isLoading)
 
                     viewModel.onEvents(
-                        ForgetPasswordViewmodel.ForgetPasswordEvents.OnResetPassword,
+                        ForgetPasswordViewmodel.ForgetPasswordEvents.OnResetPassword
                     )
 
                     assertEquals(true, awaitItem().isLoading)
@@ -125,7 +125,7 @@ class ForgetPasswordViewmodelTest {
 
                 assertEquals(
                     kindOfMessageError,
-                    (effect as ForgetPasswordViewmodel.ForgetPasswordEffects.ShowSnackBar).kindOfMessage,
+                    (effect as ForgetPasswordViewmodel.ForgetPasswordEffects.ShowSnackBar).kindOfMessage
                 )
 
                 cancelAndIgnoreRemainingEvents()

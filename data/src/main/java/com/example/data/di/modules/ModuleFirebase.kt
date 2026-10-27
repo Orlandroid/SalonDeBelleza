@@ -55,7 +55,7 @@ object ModuleFirebase {
     @AppointmentsRef
     fun provideFirebaseRealtimeDatabaseReferenceAppointment(
         firebaseDatabase: FirebaseDatabase,
-        firebaseAuth: FirebaseAuth,
+        firebaseAuth: FirebaseAuth
     ): DatabaseReference {
         val uuidUser = firebaseAuth.uid
         return firebaseDatabase.reference.child(APPOINTMENT_PATH).child(uuidUser!!)
@@ -72,7 +72,7 @@ object ModuleFirebase {
     @ImagesRef
     fun provideFirebaseRealtimeImageReference(
         firebaseDatabase: FirebaseDatabase,
-        firebaseAuth: FirebaseAuth,
+        firebaseAuth: FirebaseAuth
     ): DatabaseReference {
         val uuidUser = firebaseAuth.uid
         return firebaseDatabase.reference.child(IMAGE_USER).child(uuidUser!!)

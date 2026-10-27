@@ -14,7 +14,7 @@ sealed class ProfileNavigationRoutes {
 
     @Serializable
     data class HistoryDetailRoute(
-        val appointmentId: String,
+        val appointmentId: String
     ) : ProfileNavigationRoutes()
 
     @Serializable

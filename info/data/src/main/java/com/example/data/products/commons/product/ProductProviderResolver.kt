@@ -13,7 +13,7 @@ class ProductProviderResolver
         private val dummyProvider: DummyJsonProductProvider,
         private val fakeProvider: FakeStoreProductProvider,
         private val platziProvider: PlatzyProductProvider,
-        private val productsApiProvider: MyDummyProductProvider,
+        private val productsApiProvider: MyDummyProductProvider
     ) {
         fun resolve(source: ProductSource): ProductProvider =
             when (source) {

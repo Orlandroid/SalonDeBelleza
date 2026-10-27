@@ -21,21 +21,21 @@ class ModuleWallet {
     @Provides
     fun provideWalletRepository(
         @WalletReference databaseReference: DatabaseReference,
-        firebaseAuth: FirebaseAuth,
+        firebaseAuth: FirebaseAuth
     ): WalletRepository =
         WalletRepositoryImplement(
             databaseReference = databaseReference,
-            firebaseAuth = firebaseAuth,
+            firebaseAuth = firebaseAuth
         )
 
     @Singleton
     @Provides
     fun provideTransactionRepository(
         @TransactionReference databaseReference: DatabaseReference,
-        firebaseAuth: FirebaseAuth,
+        firebaseAuth: FirebaseAuth
     ): TransactionRepository =
         TransactionRepositoryImp(
             databaseReference = databaseReference,
-            firebaseAuth = firebaseAuth,
+            firebaseAuth = firebaseAuth
         )
 }

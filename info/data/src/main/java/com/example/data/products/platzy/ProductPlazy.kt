@@ -9,7 +9,7 @@ data class ProductPlatzi(
     val category: Category,
     val images: List<String>,
     val creationAt: String,
-    val updatedAt: String,
+    val updatedAt: String
 )
 
 data class Category(
@@ -18,5 +18,5 @@ data class Category(
     val slug: String,
     val image: String,
     val creationAt: String,
-    val updatedAt: String,
+    val updatedAt: String
 )

@@ -29,7 +29,7 @@ class AppointmentsRepositoryImpl
         @param:AppointmentsRef private val databaseReference: DatabaseReference,
         @param:MasterScheduleRef private val masterScheduleRef: DatabaseReference,
         private val webServices: WebServices,
-        private val isBranchOpenUseCase: IsBranchOpenUseCase,
+        private val isBranchOpenUseCase: IsBranchOpenUseCase
     ) : AppointmentsRepository {
         override suspend fun deleteAppointment(idAppointment: String): ApiResult<Any> =
             runCatching {
@@ -87,7 +87,7 @@ class AppointmentsRepositoryImpl
 
         override suspend fun updateAppointment(
             appointmentId: String,
-            appointment: AppointmentFirebase,
+            appointment: AppointmentFirebase
         ): ApiResult<Unit> =
             runCatching {
                 databaseReference.child(appointmentId).setValue(appointment).await()
@@ -104,10 +104,10 @@ class AppointmentsRepositoryImpl
                             staffs =
                                 branch.staffs.map { staff ->
                                     staff.copy(
-                                        initials = staff.name.toInitials(),
+                                        initials = staff.name.toInitials()
                                     )
                                 },
-                            sucursal = branch.sucursal.copy(isOpen = isBranchOpenUseCase.invoke(branch.sucursal.schedule)),
+                            sucursal = branch.sucursal.copy(isOpen = isBranchOpenUseCase.invoke(branch.sucursal.schedule))
                         )
                     }
                 ApiResult.Success(branches)
@@ -131,7 +131,7 @@ class AppointmentsRepositoryImpl
 
         override suspend fun findStaff(
             branchName: String,
-            staffName: String,
+            staffName: String
         ): ApiResult<Pair<String, Staff?>> {
             return runCatching {
                 val branchesResult = getBranches()
@@ -156,7 +156,7 @@ class AppointmentsRepositoryImpl
         override suspend fun getBookedSlots(
             branchName: String,
             date: String,
-            staffName: String,
+            staffName: String
         ): ApiResult<List<String>> =
             runCatching {
                 val snapshot =
@@ -178,7 +178,7 @@ class AppointmentsRepositoryImpl
             date: String,
             staffName: String,
             time: String,
-            appointmentId: String,
+            appointmentId: String
         ): ApiResult<Unit> =
             runCatching {
                 masterScheduleRef

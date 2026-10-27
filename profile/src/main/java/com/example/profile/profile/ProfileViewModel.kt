@@ -23,7 +23,7 @@ import javax.inject.Inject
 data class ProfileUiState(
     val showAlertCloseSession: Boolean = false,
     val user: String? = null,
-    val menusProfile: List<ProfileItem> = ProfileMenuProvider.getMenusProfile(),
+    val menusProfile: List<ProfileItem> = ProfileMenuProvider.getMenusProfile()
 )
 
 sealed class ProfileEvents {
@@ -62,7 +62,7 @@ class ProfileViewModel
     constructor(
         private val userRepository: UserRepository,
         private val authRepository: AuthRepository,
-        private val userPreferences: UserPreferences,
+        private val userPreferences: UserPreferences
     ) : ViewModel() {
         private val _uiState: MutableStateFlow<ProfileUiState> =
             MutableStateFlow(ProfileUiState())
@@ -77,7 +77,7 @@ class ProfileViewModel
                 }.stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(500L),
-                    initialValue = ProfileUiState(),
+                    initialValue = ProfileUiState()
                 )
 
         private val _effects = Channel<ProfileEffects>()

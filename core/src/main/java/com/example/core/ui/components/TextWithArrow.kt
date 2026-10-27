@@ -39,30 +39,30 @@ fun TextWithArrow(config: TextWithArrowConfig) {
         border = BorderStroke(width = 1.dp, color = Color.Black),
         onClick = {
             config.clickOnItem.invoke()
-        },
+        }
     ) {
         Column(
             modifier =
                 Modifier
                     .fillMaxWidth()
                     .padding(vertical = config.verticalPadding),
-            verticalArrangement = Arrangement.Center,
+            verticalArrangement = Arrangement.Center
         ) {
             Row(
                 modifier = Modifier,
-                verticalAlignment = Alignment.CenterVertically,
+                verticalAlignment = Alignment.CenterVertically
             ) {
                 Spacer(modifier = Modifier.width(16.dp))
                 Text(
                     text = config.text,
-                    fontSize = config.fontSize,
+                    fontSize = config.fontSize
                 )
                 Spacer(Modifier.weight(1f))
                 Icon(
                     modifier = Modifier.padding(end = 16.dp),
                     painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_24),
                     contentDescription = null,
-                    tint = Color.Black,
+                    tint = Color.Black
                 )
             }
         }
@@ -76,7 +76,7 @@ data class TextWithArrowConfig(
     val cardElevation: Dp = 6.dp,
     val cornerSize: Dp = 8.dp,
     val verticalPadding: Dp = 16.dp,
-    val clickOnItem: () -> Unit,
+    val clickOnItem: () -> Unit
 )
 
 @Composable

@@ -44,12 +44,12 @@ import kotlin.time.Duration.Companion.seconds
 
 sealed class CartEffects {
     data class OnProductsDeleted(
-        val message: String,
+        val message: String
     ) : CartEffects()
 
     data class NavigateToProductDetail(
         val source: ProductSource,
-        val product: Product,
+        val product: Product
     ) : CartEffects()
 
     data object OnPurchaseCompleted : CartEffects()
@@ -58,7 +58,7 @@ sealed class CartEffects {
 sealed class CartEvents {
     data class OnProductSelect(
         val source: ProductSource,
-        val product: Product,
+        val product: Product
     ) : CartEvents()
 
     object OnDeleteIconClicked : CartEvents()
@@ -70,19 +70,19 @@ sealed class CartEvents {
     object OnPay : CartEvents()
 
     data class OnRemoveProductClicked(
-        val productId: Int,
+        val productId: Int
     ) : CartEvents()
 
     data class OnIncrease(
-        val productId: Int,
+        val productId: Int
     ) : CartEvents()
 
     data class OnDecrease(
-        val productId: Int,
+        val productId: Int
     ) : CartEvents()
 
     data class OnPromoCodeChanged(
-        val code: String,
+        val code: String
     ) : CartEvents()
 
     object OnApplyPromoCode : CartEvents()
@@ -109,7 +109,7 @@ data class CartUiState(
     val appliedPromo: PromotionCode? = null,
     val isPromoApplied: Boolean = false,
     val promoError: String? = null,
-    val validatingPromo: Boolean = false,
+    val validatingPromo: Boolean = false
 )
 
 @HiltViewModel
@@ -124,7 +124,7 @@ class CartViewModel
         private val verifyPromoCodeUseCase: VerifyPromoCodeUseCase,
         private val earnPointsUseCase: EarnPointsUseCase,
         private val loyaltyRepository: LoyaltyRepository,
-        private val userRepository: UserRepository,
+        private val userRepository: UserRepository
     ) : ViewModel() {
         private val _state: MutableStateFlow<CartUiState> = MutableStateFlow(CartUiState())
         val state =
@@ -134,7 +134,7 @@ class CartViewModel
                 }.stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(5000L),
-                    CartUiState(),
+                    CartUiState()
                 )
 
         private val _effects = Channel<CartEffects>()
@@ -158,8 +158,8 @@ class CartViewModel
                         _effects.send(
                             NavigateToProductDetail(
                                 source = event.source,
-                                product = event.product,
-                            ),
+                                product = event.product
+                            )
                         )
                     }
                 }
@@ -200,7 +200,7 @@ class CartViewModel
                             purchaseProductsUseCase.invoke(
                                 description = description,
                                 amount = finalTotal,
-                                transactionType = TransactionType.MARKETPLACE_PURCHASE,
+                                transactionType = TransactionType.MARKETPLACE_PURCHASE
                             )
 
                         if (purchaseResult.isSuccess()) {
@@ -215,7 +215,7 @@ class CartViewModel
                                 pointsEarned = finalTotal.toInt(),
                                 sourceId = UUID.randomUUID().toString(),
                                 description = "Compra en Marketplace: $description",
-                                type = LoyaltyTransactionType.MARKETPLACE_PURCHASE,
+                                type = LoyaltyTransactionType.MARKETPLACE_PURCHASE
                             )
 
                             _effects.send(CartEffects.OnPurchaseCompleted)
@@ -223,7 +223,7 @@ class CartViewModel
                             _state.update {
                                 it.copy(
                                     error = "Purchase failed",
-                                    showLoadingButton = false,
+                                    showLoadingButton = false
                                 )
                             }
                         }
@@ -266,7 +266,7 @@ class CartViewModel
                         it.copy(
                             appliedPromo = result.result,
                             isPromoApplied = true,
-                            validatingPromo = false,
+                            validatingPromo = false
                         )
                     }
                 } else {
@@ -294,7 +294,7 @@ class CartViewModel
                     products =
                         currentState.products.filterNot { product ->
                             product.id == productId
-                        },
+                        }
                 )
             }
             _state.update { currentState ->
@@ -312,7 +312,7 @@ class CartViewModel
                             } else {
                                 product
                             }
-                        },
+                        }
                 )
             }
             _state.update { currentState ->
@@ -330,7 +330,7 @@ class CartViewModel
                             } else {
                                 product
                             }
-                        },
+                        }
                 )
             }
             _state.update { currentState ->
@@ -360,7 +360,7 @@ class CartViewModel
                         isLoading = false,
                         products = userInfo.products,
                         userMoney = userInfo.userMoney,
-                        cartTotal = userInfo.cartTotal,
+                        cartTotal = userInfo.cartTotal
                     )
                 }
             }
@@ -376,7 +376,7 @@ class CartViewModel
                         it.copy(
                             isLoading = false,
                             showDeleteDialog = false,
-                            products = emptyList(),
+                            products = emptyList()
                         )
                     }
                 }

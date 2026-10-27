@@ -13,5 +13,5 @@ data class AppointmentFirebase(
     val hour: String = "",
     val total: String = "",
     val clientName: String = "",
-    val status: AppointmentStatus = AppointmentStatus.CONFIRMED,
+    val status: AppointmentStatus = AppointmentStatus.CONFIRMED
 )

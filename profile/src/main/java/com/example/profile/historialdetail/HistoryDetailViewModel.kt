@@ -17,7 +17,7 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 data class HistoryDetailUiState(
-    val appointment: AppointmentObject? = null,
+    val appointment: AppointmentObject? = null
 )
 
 @HiltViewModel(assistedFactory = HistoryDetailViewModelFactory::class)
@@ -25,7 +25,7 @@ class HistoryDetailViewModel
     @AssistedInject
     constructor(
         private val appointmentsRepository: AppointmentsRepository,
-        @Assisted private val appointmentId: String,
+        @Assisted private val appointmentId: String
     ) : ViewModel() {
         private val _uiState: MutableStateFlow<BaseScreenState<HistoryDetailUiState>> =
             MutableStateFlow(BaseScreenState.OnLoading)
@@ -37,7 +37,7 @@ class HistoryDetailViewModel
                 }.stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(500L),
-                    initialValue = BaseScreenState.OnLoading,
+                    initialValue = BaseScreenState.OnLoading
                 )
 
         private fun getAppointment(appointmentId: String) {
@@ -46,7 +46,7 @@ class HistoryDetailViewModel
                     is ApiResult.Success -> {
                         _uiState.update {
                             BaseScreenState.OnContent(
-                                content = HistoryDetailUiState(appointment = result.result),
+                                content = HistoryDetailUiState(appointment = result.result)
                             )
                         }
                     }
@@ -54,7 +54,7 @@ class HistoryDetailViewModel
                     is ApiResult.Error -> {
                         _uiState.update {
                             BaseScreenState.OnError(
-                                error = Throwable("Error get appointment"),
+                                error = Throwable("Error get appointment")
                             )
                         }
                     }

@@ -24,19 +24,19 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 data class CategoriesUiState(
-    val categories: List<Category> = emptyList(),
+    val categories: List<Category> = emptyList()
 )
 
 sealed class CategoriesEvents {
     data class OnCategoryClicked(
-        val category: Category,
+        val category: Category
     ) : CategoriesEvents()
 }
 
 sealed class CategoriesEffects {
     data class NavigateToProducts(
         val source: ProductSource,
-        val category: String,
+        val category: String
     ) : CategoriesEffects()
 }
 
@@ -46,7 +46,7 @@ class CategoriesViewModel
     constructor(
         private val categoryRepository: CategoryRepository,
         @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-        @Assisted private val source: CategorySource,
+        @Assisted private val source: CategorySource
     ) : ViewModel() {
         private val _effects = Channel<CategoriesEffects>()
         val effects = _effects.receiveAsFlow()
@@ -60,7 +60,7 @@ class CategoriesViewModel
                 }.stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(5000L),
-                    BaseScreenState.OnLoading,
+                    BaseScreenState.OnLoading
                 )
 
         fun onEvents(event: CategoriesEvents) {
@@ -70,8 +70,8 @@ class CategoriesViewModel
                         _effects.send(
                             CategoriesEffects.NavigateToProducts(
                                 source = source.toProductSource(),
-                                category = getKindOfCategory(event.category),
-                            ),
+                                category = getKindOfCategory(event.category)
+                            )
                         )
                     }
                 }
@@ -104,10 +104,10 @@ class CategoriesViewModel
                                 categories.map {
                                     Category(
                                         id = it.id,
-                                        name = it.name,
+                                        name = it.name
                                     )
-                                },
-                            ),
+                                }
+                            )
                     )
                 }
             }

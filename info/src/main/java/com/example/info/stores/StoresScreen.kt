@@ -36,7 +36,7 @@ import kotlin.random.Random
 fun StoresScreen(navController: NavController) {
     BaseComposeScreen(
         navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.stores)),
+        toolbarConfiguration = ToolbarConfiguration(title = stringResource(R.string.stores))
     ) {
         StoresScreenContent { source ->
             if (source.supportsCategories) {
@@ -53,11 +53,11 @@ fun StoresScreen(navController: NavController) {
 @Composable
 private fun StoresScreenContent(
     modifier: Modifier = Modifier,
-    goToCategories: (source: ProductSource) -> Unit,
+    goToCategories: (source: ProductSource) -> Unit
 ) {
     Column(
         modifier.fillMaxSize(),
-        horizontalAlignment = Alignment.CenterHorizontally,
+        horizontalAlignment = Alignment.CenterHorizontally
     ) {
         val composition by rememberLottieComposition(LottieCompositionSpec.RawRes(setAnimation()))
         Spacer(Modifier.height(32.dp))
@@ -67,7 +67,7 @@ private fun StoresScreenContent(
                     .height(250.dp)
                     .width(250.dp),
             composition = composition,
-            iterations = LottieConstants.IterateForever,
+            iterations = LottieConstants.IterateForever
         )
         StoresMenu(goToStoresList = goToCategories)
     }
@@ -79,7 +79,7 @@ private fun StoresMenu(goToStoresList: (source: ProductSource) -> Unit) {
         modifier =
             Modifier
                 .background(Color.White)
-                .fillMaxHeight(),
+                .fillMaxHeight()
     ) {
         items(stores) { store ->
             Spacer(modifier = Modifier.height(8.dp))
@@ -89,8 +89,8 @@ private fun StoresMenu(goToStoresList: (source: ProductSource) -> Unit) {
                         text = store.name,
                         clickOnItem = {
                             goToStoresList(store.source)
-                        },
-                    ),
+                        }
+                    )
             )
         }
     }
@@ -100,20 +100,20 @@ private val stores =
     listOf(
         Store(
             name = FAKE_STORE,
-            source = ProductSource.FAKE_STORE,
+            source = ProductSource.FAKE_STORE
         ),
         Store(
             name = DUMMY_JSON,
-            source = ProductSource.DUMMY_JSON,
+            source = ProductSource.DUMMY_JSON
         ),
         Store(
             name = PLATZY,
-            source = ProductSource.PLATZI,
+            source = ProductSource.PLATZI
         ),
         Store(
             name = MY_DUMMY,
-            source = ProductSource.MY_DUMMY_API,
-        ),
+            source = ProductSource.MY_DUMMY_API
+        )
     )
 
 private fun setAnimation(): Int {

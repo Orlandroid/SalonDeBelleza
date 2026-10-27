@@ -11,7 +11,7 @@ import com.example.loyalty.rewards.RewardsScreen
 
 fun NavGraphBuilder.loyaltyNavigationGraph(navController: NavHostController) {
     navigation<AppNavigationRoutes.LoyaltyNavigationRoute>(
-        startDestination = LoyaltyNavigationRoutes.RewardsRoute,
+        startDestination = LoyaltyNavigationRoutes.RewardsRoute
     ) {
         composable<LoyaltyNavigationRoutes.RewardsRoute> {
             RewardsScreen(navController = navController)

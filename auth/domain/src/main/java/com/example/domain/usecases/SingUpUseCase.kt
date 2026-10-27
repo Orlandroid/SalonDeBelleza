@@ -12,11 +12,11 @@ class SingUpUseCase
     constructor(
         private val authRepository: AuthRepository,
         private val createWalletUseCase: CreateWalletUseCase,
-        private val loyaltyRepository: LoyaltyRepository,
+        private val loyaltyRepository: LoyaltyRepository
     ) {
         suspend operator fun invoke(
             email: String,
-            password: String,
+            password: String
         ): ApiResult<Unit> {
             val authResult = authRepository.register(email, password)
 

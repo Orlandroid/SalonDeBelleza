@@ -34,12 +34,12 @@ data class AppointmentHistoryUiState(
     val showDialog: Boolean = false,
     val appointments: List<Appointment> = emptyList(),
     val isLoading: Boolean = false,
-    val error: String? = null,
+    val error: String? = null
 )
 
 sealed class AppointmentHistoryEvents {
     data class OnRemove(
-        val idAppointment: String,
+        val idAppointment: String
     ) : AppointmentHistoryEvents()
 
     object OnAccept : AppointmentHistoryEvents()
@@ -47,20 +47,20 @@ sealed class AppointmentHistoryEvents {
     object OnCancel : AppointmentHistoryEvents()
 
     data class OnAppointmentClicked(
-        val appointment: String,
+        val appointment: String
     ) : AppointmentHistoryEvents()
 
     data class OnComplete(
-        val idAppointment: String,
+        val idAppointment: String
     ) : AppointmentHistoryEvents()
 
     data class OnCancelAppointment(
-        val idAppointment: String,
+        val idAppointment: String
     ) : AppointmentHistoryEvents()
 
     data class OnSubmitReview(
         val rating: Int,
-        val comment: String,
+        val comment: String
     ) : AppointmentHistoryEvents()
 
     object OnDismissReview : AppointmentHistoryEvents()
@@ -68,7 +68,7 @@ sealed class AppointmentHistoryEvents {
 
 sealed class AppointmentHistoryEffects {
     data class NavigateToDetail(
-        val idAppointment: String,
+        val idAppointment: String
     ) : AppointmentHistoryEffects()
 }
 
@@ -78,7 +78,7 @@ class AppointmentHistoryViewModel
     constructor(
         private val appointmentsRepository: AppointmentsRepository,
         private val completeAppointmentUseCase: CompleteAppointmentUseCase,
-        private val submitAppointmentReviewUseCase: SubmitAppointmentReviewUseCase,
+        private val submitAppointmentReviewUseCase: SubmitAppointmentReviewUseCase
     ) : ViewModel() {
         private var idAppointment: String? = null
 
@@ -91,7 +91,7 @@ class AppointmentHistoryViewModel
                 }.stateIn(
                     scope = viewModelScope,
                     started = SharingStarted.WhileSubscribed(5000L),
-                    initialValue = AppointmentHistoryUiState(),
+                    initialValue = AppointmentHistoryUiState()
                 )
 
         private val _effects = Channel<AppointmentHistoryEffects>()
@@ -142,7 +142,7 @@ class AppointmentHistoryViewModel
                     viewModelScope.launch {
                         submitReview(
                             rating = event.rating,
-                            comment = event.comment,
+                            comment = event.comment
                         )
                     }
                 }
@@ -196,7 +196,7 @@ class AppointmentHistoryViewModel
                         it.copy(
                             isLoading = false,
                             showReviewDialog = true,
-                            appointmentToReview = appointment,
+                            appointmentToReview = appointment
                         )
                     }
                     getAppointments()
@@ -216,7 +216,7 @@ class AppointmentHistoryViewModel
                 val updateResult =
                     appointmentsRepository.updateAppointment(
                         appointmentId = idAppointment,
-                        appointment = cancelledAppointment,
+                        appointment = cancelledAppointment
                     )
                 if (updateResult.isError()) {
                     _state.update { it.copy(error = updateResult.getErrorMessage(), isLoading = false) }
@@ -227,13 +227,13 @@ class AppointmentHistoryViewModel
 
         private suspend fun submitReview(
             rating: Int,
-            comment: String,
+            comment: String
         ) {
             val submitAppointmentReviewResult =
                 submitAppointmentReviewUseCase(
                     appointmentId = _state.value.appointmentToReview?.id ?: "",
                     rating = rating,
-                    comment = comment,
+                    comment = comment
                 )
             _state.update { it.copy(isSavingReview = true) }
             if (submitAppointmentReviewResult.isSuccess()) {
@@ -241,14 +241,14 @@ class AppointmentHistoryViewModel
                     it.copy(
                         showReviewDialog = false,
                         appointmentToReview = null,
-                        isSavingReview = false,
+                        isSavingReview = false
                     )
                 }
             } else {
                 _state.update {
                     it.copy(
                         error = submitAppointmentReviewResult.getErrorMessage(),
-                        isSavingReview = false,
+                        isSavingReview = false
                     )
                 }
             }

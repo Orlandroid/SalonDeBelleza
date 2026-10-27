@@ -11,5 +11,5 @@ fun FakeStoreProduct.toDomain(): Product =
         price = (price).roundToLong(),
         rating = rating.rate,
         image = image,
-        category = category,
+        category = category
     )

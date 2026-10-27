@@ -38,7 +38,7 @@ class ProfileViewModelTest {
             ProfileViewModel(
                 authRepository = authRepository,
                 userPreferences = loginPreferences,
-                userRepository = userRepository,
+                userRepository = userRepository
             )
     }
 

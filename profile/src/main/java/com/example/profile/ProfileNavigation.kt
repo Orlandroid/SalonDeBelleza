@@ -16,10 +16,10 @@ import com.example.profile.userprofile.UserProfileScreen
 
 fun NavGraphBuilder.profileNavigationGraph(
     navController: NavHostController,
-    onRestart: () -> Unit,
+    onRestart: () -> Unit
 ) {
     navigation<AppNavigationRoutes.ProfileNavigationRoute>(
-        startDestination = ProfileNavigationRoutes.ProfileRoute,
+        startDestination = ProfileNavigationRoutes.ProfileRoute
     ) {
         composable<ProfileNavigationRoutes.ProfileRoute> {
             ProfileScreen(navController = navController, onCloseApp = onRestart)
@@ -34,7 +34,7 @@ fun NavGraphBuilder.profileNavigationGraph(
             val arguments = it.toRoute<ProfileNavigationRoutes.HistoryDetailRoute>()
             HistoryDetailScreen(
                 navController = navController,
-                appointmentId = arguments.appointmentId,
+                appointmentId = arguments.appointmentId
             )
         }
         composable<ProfileNavigationRoutes.ContactsRoute> {

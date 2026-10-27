@@ -17,7 +17,7 @@ class AdminRepositoryImpl
     @Inject
     constructor(
         @RootAppointmentsRef private val rootAppointmentsReference: DatabaseReference,
-        private val firebaseAuth: FirebaseAuth,
+        private val firebaseAuth: FirebaseAuth
     ) : AdminRepository {
         override suspend fun getPendingAppointmentsForAdmin(): ApiResult<List<AdminAppointmentUiModel>> =
             runCatching {
@@ -39,7 +39,7 @@ class AdminRepositoryImpl
                                             staffName = appointment.employee,
                                             date = appointment.date,
                                             time = appointment.date,
-                                            status = appointment.status.toString(),
+                                            status = appointment.status.toString()
                                         )
                                     allAppointments.add(adminAppointmentUiModel)
                                 }
@@ -69,7 +69,7 @@ class AdminRepositoryImpl
 
         override suspend fun updateAppointmentStatus(
             appointmentId: String,
-            newStatus: AppointmentStatus,
+            newStatus: AppointmentStatus
         ): ApiResult<Unit> {
             return runCatching {
                 val currentUser =

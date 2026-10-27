@@ -8,12 +8,12 @@ data class LoyaltyTransaction(
     val type: LoyaltyTransactionType = LoyaltyTransactionType.APPOINTMENT_EARNED,
     val sourceId: String = "",
     val description: String = "",
-    val createdAt: Long = System.currentTimeMillis(),
+    val createdAt: Long = System.currentTimeMillis()
 )
 
 enum class LoyaltyTransactionType {
     APPOINTMENT_EARNED,
     REWARD_REDEEMED,
     MARKETPLACE_PURCHASE,
-    REVIEW_EARNED,
+    REVIEW_EARNED
 }
