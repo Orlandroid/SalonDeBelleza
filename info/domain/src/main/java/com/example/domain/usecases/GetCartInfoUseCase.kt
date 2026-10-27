@@ -36,7 +36,7 @@ class GetCartInfoUseCase
                     products = productsResult.getContent(),
                     userMoney = balanceUserResult.getContent().balance,
                     cartTotal = cartTotal,
-                )
+                ),
             )
         }
     }

@@ -12,5 +12,5 @@ data class AppointmentObject(
     val date: String = "",
     val hour: String = "",
     val total: String = "",
-    val status: AppointmentStatus = AppointmentStatus.CONFIRMED
+    val status: AppointmentStatus = AppointmentStatus.CONFIRMED,
 )

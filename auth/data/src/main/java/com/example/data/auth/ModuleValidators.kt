@@ -12,19 +12,12 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object ModuleEmailValidator {
-
+object ModuleValidators {
+    @Provides
+    @Singleton
+    fun provideAndroidEmailValidator(): EmailValidator = AndroidEmailValidator()
 
     @Provides
     @Singleton
-    fun provideAndroidEmailValidator(): EmailValidator {
-        return AndroidEmailValidator()
-    }
-
-    @Provides
-    @Singleton
-    fun passwordValidator(): PasswordValidator {
-        return MainPasswordValidator()
-    }
-
+    fun passwordValidator(): PasswordValidator = MainPasswordValidator()
 }

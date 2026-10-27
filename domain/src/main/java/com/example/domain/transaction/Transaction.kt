@@ -8,5 +8,5 @@ data class Transaction(
     val amount: Long = 0L,
     val transactionType: TransactionType = TransactionType.INITIAL_BALANCE,
     val description: String = "",
-    val createdAt: Long = 0L
+    val createdAt: Long = 0L,
 )

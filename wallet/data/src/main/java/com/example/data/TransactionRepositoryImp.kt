@@ -10,69 +10,70 @@ import com.google.firebase.database.ktx.getValue
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
 
-class TransactionRepositoryImp @Inject constructor(
-    @param:TransactionReference private val databaseReference: DatabaseReference,
-    private val firebaseAuth: FirebaseAuth
-) : TransactionRepository {
+class TransactionRepositoryImp
+    @Inject
+    constructor(
+        @param:TransactionReference private val databaseReference: DatabaseReference,
+        private val firebaseAuth: FirebaseAuth,
+    ) : TransactionRepository {
+        override suspend fun createTransaction(transaction: Transaction): ApiResult<Unit> {
+            return runCatching {
+                val userId =
+                    firebaseAuth.uid
+                        ?: return ApiResult.Error("User not authenticated")
 
+                databaseReference
+                    .child(userId)
+                    .child(transaction.id)
+                    .setValue(transaction)
+                    .await()
 
-    override suspend fun createTransaction(transaction: Transaction): ApiResult<Unit> {
-        return runCatching {
-            val userId = firebaseAuth.uid
-                ?: return ApiResult.Error("User not authenticated")
-
-            databaseReference
-                .child(userId)
-                .child(transaction.id)
-                .setValue(transaction)
-                .await()
-
-            ApiResult.Success(Unit)
-
-        }.getOrElse {
-            ApiResult.Error(it.message)
-        }
-    }
-
-
-    override suspend fun getTransaction(
-        transactionId: String
-    ): ApiResult<Transaction> {
-        return runCatching {
-            val userId = firebaseAuth.uid
-                ?: return ApiResult.Error("User not authenticated")
-
-            val snapshot = databaseReference.child(userId).child(transactionId).get().await()
-
-            if (!snapshot.exists()) {
-                return ApiResult.Error("Transaction not found")
+                ApiResult.Success(Unit)
+            }.getOrElse {
+                ApiResult.Error(it.message)
             }
+        }
 
-            val transaction = snapshot.getValue<Transaction>()
-                ?: return ApiResult.Error("Unable to parse transaction")
+        override suspend fun getTransaction(transactionId: String): ApiResult<Transaction> {
+            return runCatching {
+                val userId =
+                    firebaseAuth.uid
+                        ?: return ApiResult.Error("User not authenticated")
 
-            ApiResult.Success(transaction)
+                val snapshot =
+                    databaseReference
+                        .child(userId)
+                        .child(transactionId)
+                        .get()
+                        .await()
 
-        }.getOrElse {
-            ApiResult.Error(it.message)
+                if (!snapshot.exists()) {
+                    return ApiResult.Error("Transaction not found")
+                }
+
+                val transaction =
+                    snapshot.getValue<Transaction>()
+                        ?: return ApiResult.Error("Unable to parse transaction")
+
+                ApiResult.Success(transaction)
+            }.getOrElse {
+                ApiResult.Error(it.message)
+            }
+        }
+
+        override suspend fun getTransactions(): ApiResult<List<Transaction>> {
+            return runCatching {
+                val userId =
+                    firebaseAuth.uid
+                        ?: return ApiResult.Error("User not authenticated")
+
+                val snapshot = databaseReference.child(userId).get().await()
+
+                val transactions = snapshot.children.mapNotNull { it.getValue<Transaction>() }
+
+                ApiResult.Success(transactions)
+            }.getOrElse {
+                ApiResult.Error(it.message)
+            }
         }
     }
-
-    override suspend fun getTransactions(): ApiResult<List<Transaction>> {
-        return runCatching {
-            val userId = firebaseAuth.uid
-                ?: return ApiResult.Error("User not authenticated")
-
-            val snapshot = databaseReference.child(userId).get().await()
-
-            val transactions = snapshot.children.mapNotNull { it.getValue<Transaction>() }
-
-            ApiResult.Success(transactions)
-
-        }.getOrElse {
-            ApiResult.Error(it.message)
-        }
-    }
-
-
-}

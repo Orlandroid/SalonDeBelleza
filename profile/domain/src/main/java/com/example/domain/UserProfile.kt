@@ -14,5 +14,5 @@ data class UserProfile(
     val sessionStatus: UserSessionStatus,
     val loyalty: Loyalty? = null,
     val coupons: List<PromotionCode> = emptyList(),
-    val role: UserRole = UserRole.CUSTOMER
+    val role: UserRole = UserRole.CUSTOMER,
 )

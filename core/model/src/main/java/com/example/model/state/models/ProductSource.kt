@@ -1,14 +1,16 @@
 package com.example.model.state.models
 
-enum class ProductSource(val supportsCategories: Boolean) {
+enum class ProductSource(
+    val supportsCategories: Boolean,
+) {
     DUMMY_JSON(false),
     FAKE_STORE(true),
     PLATZI(true),
-    MY_DUMMY_API(false)
+    MY_DUMMY_API(false),
 }
 
-fun ProductSource.toCategorySource(): CategorySource? {
-    return when (this) {
+fun ProductSource.toCategorySource(): CategorySource? =
+    when (this) {
         ProductSource.DUMMY_JSON -> {
             null
         }
@@ -25,4 +27,3 @@ fun ProductSource.toCategorySource(): CategorySource? {
             null
         }
     }
-}

@@ -35,25 +35,25 @@ import com.example.core.ui.dialogs.BaseAlertDialogMessages
 import com.example.core.ui.dialogs.ProgressDialog
 import com.example.core.ui.theme.StatusBarColor
 
-
 @Composable
 fun SplashScreen(
     viewModel: SplashScreenViewModel = hiltViewModel(),
     navController: NavController,
-    goToScheduleNav: () -> Unit
+    goToScheduleNav: () -> Unit,
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
     val activity = LocalActivity.current
 
     if (state.isDeviceRooted) {
-        val config = AlertDialogMessagesConfig(
-            kindOfMessage = AlertKindOfMessage.ERROR,
-            title = R.string.error,
-            bodyMessage = stringResource(R.string.security_warning_rooted_device),
-            onConfirmation = {
-                activity?.finish()
-            }
-        )
+        val config =
+            AlertDialogMessagesConfig(
+                kindOfMessage = AlertKindOfMessage.ERROR,
+                title = R.string.error,
+                bodyMessage = stringResource(R.string.security_warning_rooted_device),
+                onConfirmation = {
+                    activity?.finish()
+                },
+            )
         BaseAlertDialogMessages(alertDialogMessagesConfig = config)
     } else if (state.isLoading) {
         ProgressDialog()
@@ -66,20 +66,20 @@ fun SplashScreen(
     }
     BaseComposeScreen(
         navController = navController,
-        toolbarConfiguration = ToolbarConfiguration(showToolbar = false)
+        toolbarConfiguration = ToolbarConfiguration(showToolbar = false),
     ) {
         SplashScreenContent()
     }
 }
 
-
 @Composable
 private fun SplashScreenContent() {
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .background(StatusBarColor),
-        verticalArrangement = Arrangement.Center
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .background(StatusBarColor),
+        verticalArrangement = Arrangement.Center,
     ) {
         Spacer(Modifier.weight(1f))
         Text(
@@ -88,22 +88,22 @@ private fun SplashScreenContent() {
             fontWeight = FontWeight.Bold,
             fontSize = 40.sp,
             text = stringResource(id = R.string.skeduly),
-            modifier = Modifier.fillMaxWidth()
+            modifier = Modifier.fillMaxWidth(),
         )
         Spacer(Modifier.weight(1f))
         Image(
             alignment = Alignment.Center,
-            modifier = Modifier
-                .height(300.dp)
-                .fillMaxWidth(),
+            modifier =
+                Modifier
+                    .height(300.dp)
+                    .fillMaxWidth(),
             painter = painterResource(id = R.drawable.logo),
-            contentDescription = "ImageSplashScreen"
+            contentDescription = "ImageSplashScreen",
         )
         Spacer(Modifier.weight(1f))
         Spacer(Modifier.weight(1f))
     }
 }
-
 
 @Composable
 @Preview(showBackground = true)

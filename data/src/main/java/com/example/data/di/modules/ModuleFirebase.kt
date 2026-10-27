@@ -1,6 +1,5 @@
 package com.example.data.di.modules
 
-
 import com.example.di.qualifiers.AppointmentsRef
 import com.example.di.qualifiers.ImagesRef
 import com.example.di.qualifiers.LoyaltyRef
@@ -22,11 +21,9 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-
 @Module
 @InstallIn(SingletonComponent::class)
 object ModuleFirebase {
-
     private const val IMAGE_USER = "imageUser"
     private const val APPOINTMENT_PATH = "Appointment"
     private const val USERS_PATH = "users"
@@ -39,7 +36,6 @@ object ModuleFirebase {
     private const val MASTER_SCHEDULE = "masterSchedule"
     private const val REVIEWS = "reviews"
 
-
     @Singleton
     @Provides
     fun provideFirebaseInstance(): FirebaseAuth = FirebaseAuth.getInstance()
@@ -51,17 +47,15 @@ object ModuleFirebase {
     @Singleton
     @Provides
     @ReviewsRef
-    fun provideFirebaseRealtimeReviewsReference(
-        firebaseDatabase: FirebaseDatabase
-    ): DatabaseReference {
-        return firebaseDatabase.reference.child(REVIEWS)
-    }
+    fun provideFirebaseRealtimeReviewsReference(firebaseDatabase: FirebaseDatabase): DatabaseReference =
+        firebaseDatabase.reference.child(REVIEWS)
 
     @Singleton
     @Provides
     @AppointmentsRef
     fun provideFirebaseRealtimeDatabaseReferenceAppointment(
-        firebaseDatabase: FirebaseDatabase, firebaseAuth: FirebaseAuth
+        firebaseDatabase: FirebaseDatabase,
+        firebaseAuth: FirebaseAuth,
     ): DatabaseReference {
         val uuidUser = firebaseAuth.uid
         return firebaseDatabase.reference.child(APPOINTMENT_PATH).child(uuidUser!!)
@@ -70,17 +64,15 @@ object ModuleFirebase {
     @Singleton
     @Provides
     @UsersRef
-    fun provideFirebaseRealtimeDatabaseReferenceUsers(
-        firebaseDatabase: FirebaseDatabase
-    ): DatabaseReference {
-        return firebaseDatabase.reference.child(USERS_PATH)
-    }
+    fun provideFirebaseRealtimeDatabaseReferenceUsers(firebaseDatabase: FirebaseDatabase): DatabaseReference =
+        firebaseDatabase.reference.child(USERS_PATH)
 
     @Singleton
     @Provides
     @ImagesRef
     fun provideFirebaseRealtimeImageReference(
-        firebaseDatabase: FirebaseDatabase, firebaseAuth: FirebaseAuth
+        firebaseDatabase: FirebaseDatabase,
+        firebaseAuth: FirebaseAuth,
     ): DatabaseReference {
         val uuidUser = firebaseAuth.uid
         return firebaseDatabase.reference.child(IMAGE_USER).child(uuidUser!!)
@@ -89,74 +81,48 @@ object ModuleFirebase {
     @Singleton
     @Provides
     @WalletReference
-    fun provideFirebaseRealtimeWalletReference(
-        firebaseDatabase: FirebaseDatabase
-    ): DatabaseReference {
-        return firebaseDatabase.reference.child(WALLET)
-    }
-
+    fun provideFirebaseRealtimeWalletReference(firebaseDatabase: FirebaseDatabase): DatabaseReference =
+        firebaseDatabase.reference.child(WALLET)
 
     @Singleton
     @Provides
     @TransactionReference
-    fun provideFirebaseRealtimeTransactionReference(
-        firebaseDatabase: FirebaseDatabase
-    ): DatabaseReference {
-        return firebaseDatabase.reference.child(TRANSACTIONS)
-    }
+    fun provideFirebaseRealtimeTransactionReference(firebaseDatabase: FirebaseDatabase): DatabaseReference =
+        firebaseDatabase.reference.child(TRANSACTIONS)
 
     @Singleton
     @Provides
     @LoyaltyRef
-    fun provideFirebaseRealtimeLoyaltyReference(
-        firebaseDatabase: FirebaseDatabase
-    ): DatabaseReference {
-        return firebaseDatabase.reference.child(LOYALTY)
-    }
+    fun provideFirebaseRealtimeLoyaltyReference(firebaseDatabase: FirebaseDatabase): DatabaseReference =
+        firebaseDatabase.reference.child(LOYALTY)
 
     @Singleton
     @Provides
     @LoyaltyTransactionsRef
-    fun provideFirebaseRealtimeLoyaltyTransactionsReference(
-        firebaseDatabase: FirebaseDatabase
-    ): DatabaseReference {
-        return firebaseDatabase.reference.child(LOYALTY_TRANSACTIONS)
-    }
+    fun provideFirebaseRealtimeLoyaltyTransactionsReference(firebaseDatabase: FirebaseDatabase): DatabaseReference =
+        firebaseDatabase.reference.child(LOYALTY_TRANSACTIONS)
 
     @Singleton
     @Provides
     @RewardsRef
-    fun provideFirebaseRealtimeRewardsReference(
-        firebaseDatabase: FirebaseDatabase
-    ): DatabaseReference {
-        return firebaseDatabase.reference.child(REWARDS)
-    }
+    fun provideFirebaseRealtimeRewardsReference(firebaseDatabase: FirebaseDatabase): DatabaseReference =
+        firebaseDatabase.reference.child(REWARDS)
 
     @Singleton
     @Provides
     @PromotionCodesRef
-    fun provideFirebaseRealtimePromotionCodesReference(
-        firebaseDatabase: FirebaseDatabase
-    ): DatabaseReference {
-        return firebaseDatabase.reference.child(PROMOTION_CODES)
-    }
+    fun provideFirebaseRealtimePromotionCodesReference(firebaseDatabase: FirebaseDatabase): DatabaseReference =
+        firebaseDatabase.reference.child(PROMOTION_CODES)
 
     @Singleton
     @Provides
     @MasterScheduleRef
-    fun provideFirebaseRealtimeMasterScheduleReference(
-        firebaseDatabase: FirebaseDatabase
-    ): DatabaseReference {
-        return firebaseDatabase.reference.child(MASTER_SCHEDULE)
-    }
+    fun provideFirebaseRealtimeMasterScheduleReference(firebaseDatabase: FirebaseDatabase): DatabaseReference =
+        firebaseDatabase.reference.child(MASTER_SCHEDULE)
 
     @Singleton
     @Provides
     @RootAppointmentsRef
-    fun provideRootAppointmentsReference(
-        firebaseDatabase: FirebaseDatabase
-    ): DatabaseReference {
-        return firebaseDatabase.reference.child("Appointment")
-    }
-
+    fun provideRootAppointmentsReference(firebaseDatabase: FirebaseDatabase): DatabaseReference =
+        firebaseDatabase.reference.child("Appointment")
 }

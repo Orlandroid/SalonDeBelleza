@@ -6,19 +6,18 @@ import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Singleton
-class CoroutineDispatchers @Inject constructor(
-    @param:DefaultDispatcher
-    val default: CoroutineDispatcher,
-
-    @param:MainDispatcher
-    val main: CoroutineDispatcher,
-
-    @param:IoDispatcher
-    val io: CoroutineDispatcher,
-
-    @param:MainImmediateDispatcher
-    val immediate: CoroutineDispatcher,
-)
+class CoroutineDispatchers
+    @Inject
+    constructor(
+        @param:DefaultDispatcher
+        val default: CoroutineDispatcher,
+        @param:MainDispatcher
+        val main: CoroutineDispatcher,
+        @param:IoDispatcher
+        val io: CoroutineDispatcher,
+        @param:MainImmediateDispatcher
+        val immediate: CoroutineDispatcher,
+    )
 
 @Qualifier
 @Retention(AnnotationRetention.BINARY)

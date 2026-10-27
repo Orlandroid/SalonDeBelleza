@@ -18,7 +18,7 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavHostController
-import com.example.core.navigation.info.InfoNavigationScreens
+import com.example.core.navigation.info.InfoNavigationRoutes
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.components.TextWithArrow
 import com.example.core.ui.components.TextWithArrowConfig
@@ -38,10 +38,10 @@ fun EstablishingScreen(
         EstablishingScreenContent(
             modifier = modifier,
             navigateToStore = {
-                navController.navigate(InfoNavigationScreens.StoresRoute)
+                navController.navigate(InfoNavigationRoutes.StoresRoute)
             },
             navigateToBranches = {
-                navController.navigate(InfoNavigationScreens.BranchesRoute)
+                navController.navigate(InfoNavigationRoutes.BranchesRoute)
             },
         )
     }

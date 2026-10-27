@@ -9,39 +9,39 @@ import com.example.model.state.getErrorMessage
 import com.example.model.state.isError
 import javax.inject.Inject
 
-class GetBalanceUseCase @Inject constructor(
-    private val userRepository: UserRepository,
-    private val walletRepository: WalletRepository
-) {
+class GetBalanceUseCase
+    @Inject
+    constructor(
+        private val userRepository: UserRepository,
+        private val walletRepository: WalletRepository,
+    ) {
+        suspend operator fun invoke(): ApiResult<Balance> {
+            val userResult = userRepository.getUser()
+            if (userResult.isError()) {
+                return ApiResult.Error(
+                    userResult.getErrorMessage(),
+                )
+            }
 
-    suspend operator fun invoke(): ApiResult<Balance> {
+            val user = userResult.getContent()
 
-        val userResult = userRepository.getUser()
-        if (userResult.isError()) {
-            return ApiResult.Error(
-                userResult.getErrorMessage()
+            val walletResult = walletRepository.getWallet()
+            if (walletResult.isError()) {
+                return ApiResult.Error(
+                    walletResult.getErrorMessage(),
+                )
+            }
+
+            val wallet = walletResult.getContent()
+
+            return ApiResult.Success(
+                Balance(
+                    userId = wallet.userId,
+                    userName = user.name,
+                    balance = wallet.balance,
+                    currency = wallet.currency,
+                    createdAtMillis = wallet.createdAt,
+                ),
             )
         }
-
-        val user = userResult.getContent()
-
-        val walletResult = walletRepository.getWallet()
-        if (walletResult.isError()) {
-            return ApiResult.Error(
-                walletResult.getErrorMessage()
-            )
-        }
-
-        val wallet = walletResult.getContent()
-
-        return ApiResult.Success(
-            Balance(
-                userId = wallet.userId,
-                userName = user.name,
-                balance = wallet.balance,
-                currency = wallet.currency,
-                createdAtMillis = wallet.createdAt
-            )
-        )
     }
-}

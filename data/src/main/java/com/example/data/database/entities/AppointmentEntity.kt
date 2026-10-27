@@ -12,5 +12,5 @@ data class AppointmentEntity(
     val service: String,
     val date: String,
     val time: String,
-    val total: String
+    val total: String,
 )

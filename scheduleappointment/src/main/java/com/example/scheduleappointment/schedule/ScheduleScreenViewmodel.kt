@@ -3,7 +3,7 @@ package com.example.scheduleappointment.schedule
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.core.AppointmentSession
-import com.example.core.util.dateFormat
+import com.example.core.util.DATE_FORMAT
 import com.example.core.util.getCurrentDateTime
 import com.example.core.util.toStringFormat
 import com.example.domain.AvailabilitySlot
@@ -23,23 +23,30 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 data class ScheduleScreenUiState(
     val selectedService: Service? = null,
     val branchName: String? = null,
     val currentStaff: Staff? = null,
-    val dateAppointment: String = getCurrentDateTime().toStringFormat(dateFormat),
+    val dateAppointment: String = getCurrentDateTime().toStringFormat(DATE_FORMAT),
     val hourAppointment: String = "",
     val showDateDialog: Boolean = false,
     val availableSlots: List<AvailabilitySlot> = emptyList(),
-    val isLoadingSlots: Boolean = false
+    val isLoadingSlots: Boolean = false,
 )
 
 sealed class ScheduleScreenEvents {
     object OnDateSelected : ScheduleScreenEvents()
-    data class OnConfirmDate(val date: String) : ScheduleScreenEvents()
+
+    data class OnConfirmDate(
+        val date: String,
+    ) : ScheduleScreenEvents()
+
     object OnDismissDate : ScheduleScreenEvents()
-    data class OnConfirmTime(val time: String) : ScheduleScreenEvents()
+
+    data class OnConfirmTime(
+        val time: String,
+    ) : ScheduleScreenEvents()
+
     object OnNextButtonClicked : ScheduleScreenEvents()
 }
 
@@ -48,90 +55,89 @@ sealed class ScheduleScreenEffects {
 }
 
 @HiltViewModel
-class ScheduleScreenViewmodel @Inject constructor(
-    private val appointmentSession: AppointmentSession,
-    private val appointmentsRepository: AppointmentsRepository,
-    private val getAvailableSlotsUseCase: GetAvailableSlotsUseCase
-) :
-    ViewModel() {
+class ScheduleScreenViewmodel
+    @Inject
+    constructor(
+        private val appointmentSession: AppointmentSession,
+        private val appointmentsRepository: AppointmentsRepository,
+        private val getAvailableSlotsUseCase: GetAvailableSlotsUseCase,
+    ) : ViewModel() {
+        private val _uiState: MutableStateFlow<ScheduleScreenUiState> =
+            MutableStateFlow(ScheduleScreenUiState())
 
+        val uiState =
+            _uiState
+                .onStart {
+                    val draft = appointmentSession.draft.value
+                    _uiState.update {
+                        it.copy(
+                            selectedService = draft.service,
+                            branchName = draft.branch?.sucursal?.name,
+                            currentStaff = draft.staff,
+                        )
+                    }
+                    fetchAvailableSlots()
+                }.stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(5000),
+                    initialValue = ScheduleScreenUiState(),
+                )
 
-    private val _uiState: MutableStateFlow<ScheduleScreenUiState> =
-        MutableStateFlow(ScheduleScreenUiState())
+        private val _effects = Channel<ScheduleScreenEffects>()
 
-    val uiState = _uiState.onStart {
-        val draft = appointmentSession.draft.value
-        _uiState.update {
-            it.copy(
-                selectedService = draft.service,
-                branchName = draft.branch?.sucursal?.name,
-                currentStaff = draft.staff
-            )
-        }
-        fetchAvailableSlots()
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = ScheduleScreenUiState()
-    )
+        val effects = _effects.receiveAsFlow()
 
-    private val _effects = Channel<ScheduleScreenEffects>()
+        fun onEvents(event: ScheduleScreenEvents) {
+            when (event) {
+                ScheduleScreenEvents.OnDateSelected -> {
+                    _uiState.update { it.copy(showDateDialog = true) }
+                }
 
-    val effects = _effects.receiveAsFlow()
+                is ScheduleScreenEvents.OnConfirmDate -> {
+                    _uiState.update { it.copy(showDateDialog = false, dateAppointment = event.date) }
+                    appointmentSession.selectDate(event.date)
+                    fetchAvailableSlots()
+                }
 
+                ScheduleScreenEvents.OnDismissDate -> {
+                    _uiState.update { it.copy(showDateDialog = false) }
+                }
 
-    fun onEvents(event: ScheduleScreenEvents) {
-        when (event) {
-            ScheduleScreenEvents.OnDateSelected -> {
-                _uiState.update { it.copy(showDateDialog = true) }
-            }
+                is ScheduleScreenEvents.OnConfirmTime -> {
+                    _uiState.update { it.copy(hourAppointment = event.time) }
+                    appointmentSession.selectTime(event.time)
+                }
 
-            is ScheduleScreenEvents.OnConfirmDate -> {
-                _uiState.update { it.copy(showDateDialog = false, dateAppointment = event.date) }
-                appointmentSession.selectDate(event.date)
-                fetchAvailableSlots()
-            }
-
-            ScheduleScreenEvents.OnDismissDate -> {
-                _uiState.update { it.copy(showDateDialog = false) }
-            }
-
-            is ScheduleScreenEvents.OnConfirmTime -> {
-                _uiState.update { it.copy(hourAppointment = event.time) }
-                appointmentSession.selectTime(event.time)
-            }
-
-            ScheduleScreenEvents.OnNextButtonClicked -> {
-                viewModelScope.launch {
-                    _effects.send(ScheduleScreenEffects.NavigateToConfirmationScreen)
+                ScheduleScreenEvents.OnNextButtonClicked -> {
+                    viewModelScope.launch {
+                        _effects.send(ScheduleScreenEffects.NavigateToConfirmationScreen)
+                    }
                 }
             }
         }
+
+        private fun fetchAvailableSlots() =
+            viewModelScope.launch {
+                val draft = appointmentSession.draft.value
+                val schedule = draft.branch?.sucursal?.schedule ?: return@launch
+                val branchName = draft.branch?.sucursal?.name ?: return@launch
+                val staffName = draft.staff?.name ?: return@launch
+                val date = _uiState.value.dateAppointment
+
+                _uiState.update { it.copy(isLoadingSlots = true) }
+
+                val bookedResult = appointmentsRepository.getBookedSlots(branchName, date, staffName)
+                val bookedTimes =
+                    if (bookedResult is ApiResult.Success) bookedResult.result else emptyList()
+
+                val slots = getAvailableSlotsUseCase(schedule, bookedTimes)
+
+                _uiState.update {
+                    it.copy(
+                        availableSlots = slots,
+                        isLoadingSlots = false,
+                        hourAppointment = if (bookedTimes.contains(it.hourAppointment)) "" else it.hourAppointment,
+                    )
+                }
+            }
     }
-
-    private fun fetchAvailableSlots() = viewModelScope.launch {
-        val draft = appointmentSession.draft.value
-        val schedule = draft.branch?.sucursal?.schedule ?: return@launch
-        val branchName = draft.branch?.sucursal?.name ?: return@launch
-        val staffName = draft.staff?.name ?: return@launch
-        val date = _uiState.value.dateAppointment
-
-        _uiState.update { it.copy(isLoadingSlots = true) }
-
-        val bookedResult = appointmentsRepository.getBookedSlots(branchName, date, staffName)
-        val bookedTimes =
-            if (bookedResult is ApiResult.Success) bookedResult.result else emptyList()
-
-
-        val slots = getAvailableSlotsUseCase(schedule, bookedTimes)
-
-        _uiState.update {
-            it.copy(
-                availableSlots = slots,
-                isLoadingSlots = false,
-                hourAppointment = if (bookedTimes.contains(it.hourAppointment)) "" else it.hourAppointment
-            )
-        }
-    }
-
-}

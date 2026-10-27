@@ -1,6 +1,5 @@
 package com.example.profile.userprofile
 
-
 import androidx.compose.runtime.Stable
 import androidx.compose.ui.graphics.Color
 import androidx.lifecycle.ViewModel
@@ -37,34 +36,36 @@ data class UserProfileUiState(
     val statusColor: Color? = null,
     val loyalty: Loyalty? = null,
     val coupons: List<PromotionCode> = emptyList(),
-    val role: UserRole = UserRole.CUSTOMER
+    val role: UserRole = UserRole.CUSTOMER,
 )
 
 @HiltViewModel
-class UserProfileViewModel @Inject constructor(
-    private val getUserInfoUseCase: GetUserInfoUseCase
-) : ViewModel() {
+class UserProfileViewModel
+    @Inject
+    constructor(
+        private val getUserInfoUseCase: GetUserInfoUseCase,
+    ) : ViewModel() {
+        private val _state: MutableStateFlow<BaseScreenState<UserProfileUiState>> =
+            MutableStateFlow(BaseScreenState.OnLoading)
 
-    private val _state: MutableStateFlow<BaseScreenState<UserProfileUiState>> =
-        MutableStateFlow(BaseScreenState.OnLoading)
+        val state =
+            _state
+                .onStart {
+                    getUserInfo()
+                }.stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(5000L),
+                    BaseScreenState.OnLoading,
+                )
 
-    val state = _state.onStart {
-        getUserInfo()
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000L),
-        BaseScreenState.OnLoading
-    )
-
-
-    private fun getUserInfo() = viewModelScope.launch {
-        val userInfoResult = getUserInfoUseCase()
-        if (userInfoResult.isSuccess()) {
-            val profile = userInfoResult.getContent().toUiState()
-            _state.update { BaseScreenState.OnContent(content = profile) }
-        } else {
-            _state.update { BaseScreenState.OnError(error = Throwable()) }
-        }
+        private fun getUserInfo() =
+            viewModelScope.launch {
+                val userInfoResult = getUserInfoUseCase()
+                if (userInfoResult.isSuccess()) {
+                    val profile = userInfoResult.getContent().toUiState()
+                    _state.update { BaseScreenState.OnContent(content = profile) }
+                } else {
+                    _state.update { BaseScreenState.OnError(error = Throwable()) }
+                }
+            }
     }
-
-}

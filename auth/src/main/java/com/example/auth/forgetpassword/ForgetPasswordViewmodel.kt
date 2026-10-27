@@ -17,77 +17,80 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 @HiltViewModel
-class ForgetPasswordViewmodel @Inject constructor(
-    private val authRepository: AuthRepository,
-    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val emailValidator: EmailValidator
-) : ViewModel() {
+class ForgetPasswordViewmodel
+    @Inject
+    constructor(
+        private val authRepository: AuthRepository,
+        @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+        private val emailValidator: EmailValidator,
+    ) : ViewModel() {
+        sealed class ForgetPasswordEvents {
+            data class OnEmailChange(
+                val email: String,
+            ) : ForgetPasswordEvents()
 
+            object OnResetPassword : ForgetPasswordEvents()
+        }
 
-    sealed class ForgetPasswordEvents {
-        data class OnEmailChange(val email: String) : ForgetPasswordEvents()
-        object OnResetPassword : ForgetPasswordEvents()
-    }
+        sealed class ForgetPasswordEffects {
+            data class ShowSnackBar(
+                val kindOfMessage: KindOfMessage,
+            ) : ForgetPasswordEffects()
+        }
 
-    sealed class ForgetPasswordEffects {
-        data class ShowSnackBar(val kindOfMessage: KindOfMessage) : ForgetPasswordEffects()
-    }
+        data class ForgetPasswordUiState(
+            val userEmail: String? = null,
+            val enableButton: Boolean = false,
+            val showErrorInvalidEmail: Boolean = false,
+            val isLoading: Boolean = false,
+        )
 
-    data class ForgetPasswordUiState(
-        val userEmail: String? = null,
-        val enableButton: Boolean = false,
-        val showErrorInvalidEmail: Boolean = false,
-        val isLoading: Boolean = false
-    )
+        private val _state: MutableStateFlow<ForgetPasswordUiState> =
+            MutableStateFlow(ForgetPasswordUiState())
+        val state = _state.asStateFlow()
 
-    private val _state: MutableStateFlow<ForgetPasswordUiState> =
-        MutableStateFlow(ForgetPasswordUiState())
-    val state = _state.asStateFlow()
+        private val _effects = Channel<ForgetPasswordEffects>()
+        val effects = _effects.receiveAsFlow()
 
-    private val _effects = Channel<ForgetPasswordEffects>()
-    val effects = _effects.receiveAsFlow()
+        fun onEvents(event: ForgetPasswordEvents) {
+            when (event) {
+                is ForgetPasswordEvents.OnResetPassword -> {
+                    _state.update { it.copy(isLoading = true) }
+                    forgetPassword(state.value.userEmail.toString())
+                }
 
-    fun onEvents(event: ForgetPasswordEvents) {
-        when (event) {
-            is ForgetPasswordEvents.OnResetPassword -> {
-                _state.update { it.copy(isLoading = true) }
-                forgetPassword(state.value.userEmail.toString())
+                is ForgetPasswordEvents.OnEmailChange -> {
+                    _state.update { it.copy(userEmail = event.email) }
+                    validateEmail(email = event.email)
+                }
             }
+        }
 
-            is ForgetPasswordEvents.OnEmailChange -> {
-                _state.update { it.copy(userEmail = event.email) }
-                validateEmail(email = event.email)
+        private fun validateEmail(email: String) {
+            _state.update { it.copy(showErrorInvalidEmail = false, enableButton = false) }
+            if (!emailValidator.isValidEmail(email)) {
+                _state.update { it.copy(showErrorInvalidEmail = true) }
+                return
+            }
+            _state.update { it.copy(enableButton = true) }
+        }
+
+        private fun forgetPassword(email: String) {
+            viewModelScope.launch(ioDispatcher) {
+                val result = authRepository.forgetPassword(email)
+                if (result.isSuccess()) {
+                    sendEffect(ForgetPasswordEffects.ShowSnackBar(kindOfMessage = KindOfMessage.SUCCESS))
+                } else {
+                    sendEffect(ForgetPasswordEffects.ShowSnackBar(kindOfMessage = KindOfMessage.SUCCESS))
+                }
+                _state.update { state -> state.copy(isLoading = false) }
+            }
+        }
+
+        private fun sendEffect(effect: ForgetPasswordEffects) {
+            viewModelScope.launch(ioDispatcher) {
+                _effects.send(effect)
             }
         }
     }
-
-    private fun validateEmail(email: String) {
-        _state.update { it.copy(showErrorInvalidEmail = false, enableButton = false) }
-        if (!emailValidator.isValidEmail(email)) {
-            _state.update { it.copy(showErrorInvalidEmail = true) }
-            return
-        }
-        _state.update { it.copy(enableButton = true) }
-    }
-
-    private fun forgetPassword(email: String) {
-        viewModelScope.launch(ioDispatcher) {
-            val result = authRepository.forgetPassword(email)
-            if (result.isSuccess()) {
-                sendEffect(ForgetPasswordEffects.ShowSnackBar(kindOfMessage = KindOfMessage.SUCCESS))
-            } else {
-                sendEffect(ForgetPasswordEffects.ShowSnackBar(kindOfMessage = KindOfMessage.SUCCESS))
-            }
-            _state.update { state -> state.copy(isLoading = false) }
-        }
-    }
-
-    private fun sendEffect(effect: ForgetPasswordEffects) {
-        viewModelScope.launch(ioDispatcher) {
-            _effects.send(effect)
-        }
-    }
-
-}

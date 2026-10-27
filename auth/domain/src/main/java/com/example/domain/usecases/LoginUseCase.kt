@@ -11,32 +11,34 @@ import com.example.model.state.isSuccess
 import com.example.model.state.models.UserRole
 import javax.inject.Inject
 
+class LoginUseCase
+    @Inject
+    constructor(
+        private val authRepository: AuthRepository,
+        private val userPreferences: UserPreferences,
+        private val userRepository: UserRepository,
+    ) {
+        suspend operator fun invoke(
+            email: String,
+            password: String,
+        ): ApiResult<UserRole> {
+            val loginResult = authRepository.login(email, password)
 
-class LoginUseCase @Inject constructor(
-    private val authRepository: AuthRepository,
-    private val userPreferences: UserPreferences,
-    private val userRepository: UserRepository
-) {
+            if (loginResult.isError()) {
+                return ApiResult.Error(loginResult.getErrorMessage())
+            }
 
-    suspend operator fun invoke(email: String, password: String): ApiResult<UserRole> {
+            val userResult = userRepository.getUser()
+            val userRole =
+                if (userResult.isSuccess()) {
+                    userResult.getContent().role
+                } else {
+                    UserRole.CUSTOMER
+                }
 
-        val loginResult = authRepository.login(email, password)
+            userPreferences.saveUserLogged()
+            userPreferences.saveUserEmail(email)
 
-        if (loginResult.isError()) {
-            return ApiResult.Error(loginResult.getErrorMessage())
+            return ApiResult.Success(userRole)
         }
-
-        val userResult = userRepository.getUser()
-        val userRole = if (userResult.isSuccess()) {
-            userResult.getContent().role
-        } else {
-            UserRole.CUSTOMER
-        }
-
-        userPreferences.saveUserLogged()
-        userPreferences.saveUserEmail(email)
-
-
-        return ApiResult.Success(userRole)
     }
-}

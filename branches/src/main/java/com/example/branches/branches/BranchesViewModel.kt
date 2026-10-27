@@ -26,46 +26,49 @@ import kotlin.time.Duration.Companion.seconds
 
 sealed class BranchesEffects {
     data object GoToScheduleStaff : BranchesEffects()
+
     data object GotoBranchInfo : BranchesEffects()
 }
 
 @HiltViewModel
-class BranchViewModel @Inject constructor(
-    private val repository: AppointmentsRepository,
-    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    private val appointmentSession: AppointmentSession
-) : ViewModel() {
+class BranchViewModel
+    @Inject
+    constructor(
+        private val repository: AppointmentsRepository,
+        @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+        private val appointmentSession: AppointmentSession,
+    ) : ViewModel() {
+        private val _effects = Channel<BranchesEffects>()
+        val effects = _effects.receiveAsFlow()
 
-    private val _effects = Channel<BranchesEffects>()
-    val effects = _effects.receiveAsFlow()
+        private val _state: MutableStateFlow<BaseScreenState<List<NegoInfo>>> =
+            MutableStateFlow(BaseScreenState.OnLoading)
+        val state =
+            _state.onStart { getBranches() }.stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000L),
+                BaseScreenState.OnLoading,
+            )
 
-    private val _state: MutableStateFlow<BaseScreenState<List<NegoInfo>>> =
-        MutableStateFlow(BaseScreenState.OnLoading)
-    val state = _state.onStart { getBranches() }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000L),
-        BaseScreenState.OnLoading
-    )
+        private val coroutineExceptionHandler =
+            CoroutineExceptionHandler { _, exception ->
+                _state.update { BaseScreenState.OnError(error = exception) }
+            }
 
-
-    private val coroutineExceptionHandler = CoroutineExceptionHandler { _, exception ->
-        _state.update { BaseScreenState.OnError(error = exception) }
-    }
-
-    fun onBranchSelected(branchId: String) {
-        val branch = state.value.getContentOrNull()?.find { it.sucursal.id == branchId }
-        branch?.let {
-            appointmentSession.selectBranch(branch)
-            viewModelScope.launch {
-                _effects.send(BranchesEffects.GoToScheduleStaff)
+        fun onBranchSelected(branchId: String) {
+            val branch = state.value.getContentOrNull()?.find { it.sucursal.id == branchId }
+            branch?.let {
+                appointmentSession.selectBranch(branch)
+                viewModelScope.launch {
+                    _effects.send(BranchesEffects.GoToScheduleStaff)
+                }
             }
         }
-    }
 
-    private fun getBranches() = viewModelScope.launch(coroutineExceptionHandler + ioDispatcher) {
-        delay(1L.seconds)
-        val response = repository.getBranches().getContent()
-        _state.update { BaseScreenState.OnContent(content = response) }
+        private fun getBranches() =
+            viewModelScope.launch(coroutineExceptionHandler + ioDispatcher) {
+                delay(1L.seconds)
+                val response = repository.getBranches().getContent()
+                _state.update { BaseScreenState.OnContent(content = response) }
+            }
     }
-
-}

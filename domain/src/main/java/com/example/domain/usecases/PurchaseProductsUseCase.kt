@@ -10,42 +10,46 @@ import com.example.model.state.models.TransactionType
 import java.util.UUID
 import javax.inject.Inject
 
-class PurchaseProductsUseCase @Inject constructor(
-    private val walletRepository: WalletRepository,
-    private val transactionRepository: TransactionRepository
-) {
-    suspend operator fun invoke(
-        amount: Long,
-        transactionType: TransactionType,
-        description: String
-    ): ApiResult<Unit> {
-        val balanceResult = walletRepository.getWallet()
-        if (balanceResult.isError()) {
-            return ApiResult.Error("Unable to make the purchase")
-        }
-        val currentBalance = balanceResult.getContent().balance
-        if (currentBalance < amount) {
-            return ApiResult.Error("Insufficient balance")
-        }
-        val newBalance = currentBalance - amount
-        val updateResult = walletRepository.updateBalance(newBalance)
-        if (updateResult.isError()) {
-            return ApiResult.Error("Unable to update balance")
-        }
-        //Todo migrate to atomic multi-location update firebase
-        val transactionResult = transactionRepository.createTransaction(
-            transaction = Transaction(
-                id = UUID.randomUUID().toString(),
-                amount = amount,
-                transactionType = transactionType,
-                description = description,
-                createdAt = System.currentTimeMillis()
-            )
-        )
-        if (transactionResult.isError()) {
-            return ApiResult.Error("Creation of transaction fail")
-        }
+class PurchaseProductsUseCase
+    @Inject
+    constructor(
+        private val walletRepository: WalletRepository,
+        private val transactionRepository: TransactionRepository,
+    ) {
+        suspend operator fun invoke(
+            amount: Long,
+            transactionType: TransactionType,
+            description: String,
+        ): ApiResult<Unit> {
+            val balanceResult = walletRepository.getWallet()
+            if (balanceResult.isError()) {
+                return ApiResult.Error("Unable to make the purchase")
+            }
+            val currentBalance = balanceResult.getContent().balance
+            if (currentBalance < amount) {
+                return ApiResult.Error("Insufficient balance")
+            }
+            val newBalance = currentBalance - amount
+            val updateResult = walletRepository.updateBalance(newBalance)
+            if (updateResult.isError()) {
+                return ApiResult.Error("Unable to update balance")
+            }
+            // Todo migrate to atomic multi-location update firebase
+            val transactionResult =
+                transactionRepository.createTransaction(
+                    transaction =
+                        Transaction(
+                            id = UUID.randomUUID().toString(),
+                            amount = amount,
+                            transactionType = transactionType,
+                            description = description,
+                            createdAt = System.currentTimeMillis(),
+                        ),
+                )
+            if (transactionResult.isError()) {
+                return ApiResult.Error("Creation of transaction fail")
+            }
 
-        return ApiResult.Success(Unit)
+            return ApiResult.Success(Unit)
+        }
     }
-}

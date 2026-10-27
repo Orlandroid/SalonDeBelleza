@@ -30,4 +30,3 @@ sealed class ScheduleNavigationRoutes {
     @Serializable
     data object AppointmentScheduledRoute : ScheduleNavigationRoutes()
 }
-

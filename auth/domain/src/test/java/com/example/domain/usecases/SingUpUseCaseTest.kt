@@ -1,6 +1,5 @@
 package com.example.domain.usecases
 
-
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.LoyaltyRepository
 import com.example.model.state.ApiResult
@@ -19,22 +18,21 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SingUpUseCaseTest {
-
     private lateinit var singUpUseCase: SingUpUseCase
     private val testDispatcher = StandardTestDispatcher()
     private val authRepository = mockk<AuthRepository>()
     private val createWalletUseCase = mockk<CreateWalletUseCase>()
     private val loyaltyRepository: LoyaltyRepository = mockk()
 
-
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        singUpUseCase = SingUpUseCase(
-            authRepository = authRepository,
-            createWalletUseCase = createWalletUseCase,
-            loyaltyRepository = loyaltyRepository
-        )
+        singUpUseCase =
+            SingUpUseCase(
+                authRepository = authRepository,
+                createWalletUseCase = createWalletUseCase,
+                loyaltyRepository = loyaltyRepository,
+            )
     }
 
     @After
@@ -49,19 +47,16 @@ class SingUpUseCaseTest {
 
             val signUpResult = singUpUseCase.invoke("", "")
 
-
-            com.google.common.truth.Truth.assertThat(signUpResult)
+            com.google.common.truth.Truth
+                .assertThat(signUpResult)
                 .isInstanceOf(ApiResult.Error::class.java)
             coVerify(exactly = 1) { authRepository.register(any(), any()) }
             coVerify(inverse = true) { createWalletUseCase.invoke(any()) }
-
         }
-
 
     @Test
     fun `When authResult Register Return Success and createWallet Return Error `(): Unit =
         runTest {
-
             val authResult = mockk<AuthResult>(relaxed = true)
 
             coEvery { authRepository.register(any(), any()) } returns ApiResult.Success(authResult)
@@ -69,18 +64,16 @@ class SingUpUseCaseTest {
 
             val signUpResult = singUpUseCase.invoke("", "")
 
-
             coVerify(exactly = 1) { authRepository.register(any(), any()) }
             coVerify(exactly = 1) { createWalletUseCase.invoke(any()) }
-            com.google.common.truth.Truth.assertThat(signUpResult)
+            com.google.common.truth.Truth
+                .assertThat(signUpResult)
                 .isInstanceOf(ApiResult.Error::class.java)
-
         }
 
     @Test
     fun `When authResult Register Return Success and createWallet Return Success `(): Unit =
         runTest {
-
             val authResult = mockk<AuthResult>(relaxed = true)
 
             coEvery { authRepository.register(any(), any()) } returns ApiResult.Success(authResult)
@@ -89,13 +82,10 @@ class SingUpUseCaseTest {
 
             val signUpResult = singUpUseCase.invoke("", "")
 
-
             coVerify(exactly = 1) { authRepository.register(any(), any()) }
             coVerify(exactly = 1) { createWalletUseCase.invoke(any()) }
-            com.google.common.truth.Truth.assertThat(signUpResult)
+            com.google.common.truth.Truth
+                .assertThat(signUpResult)
                 .isInstanceOf(ApiResult.Success::class.java)
-
         }
-
-
 }

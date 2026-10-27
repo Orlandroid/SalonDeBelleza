@@ -16,17 +16,17 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 data class ServiceScreenUiState(
     val branchName: String? = null,
     val currentStaff: Staff? = null,
-    val services: List<Service> = emptyList()
+    val services: List<Service> = emptyList(),
 )
 
 sealed class ServiceEvents {
-    data class ClickOnService(val service: Service) : ServiceEvents()
+    data class ClickOnService(
+        val service: Service,
+    ) : ServiceEvents()
 }
-
 
 sealed class ServiceEffects {
     data object NavigateToScheduleAppointment : ServiceEffects()
@@ -34,47 +34,46 @@ sealed class ServiceEffects {
 
 @HiltViewModel
 class ServiceViewModel
-@Inject constructor(
-    private val appointmentSession: AppointmentSession
-) : ViewModel() {
+    @Inject
+    constructor(
+        private val appointmentSession: AppointmentSession,
+    ) : ViewModel() {
+        private val _effects = Channel<ServiceEffects>()
+        val effects = _effects.receiveAsFlow()
 
-    private val _effects = Channel<ServiceEffects>()
-    val effects = _effects.receiveAsFlow()
+        private val _state: MutableStateFlow<ServiceScreenUiState> =
+            MutableStateFlow(ServiceScreenUiState())
+        val state =
+            _state
+                .onStart {
+                    val branch = appointmentSession.draft.value.branch
+                    val branchName = branch?.sucursal?.name
+                    val currentStaff = appointmentSession.draft.value.staff
+                    _state.update {
+                        it.copy(
+                            branchName = branchName,
+                            currentStaff = currentStaff,
+                            services = branch?.services ?: emptyList(),
+                        )
+                    }
+                }.stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(5000),
+                    initialValue = ServiceScreenUiState(),
+                )
 
-    private val _state: MutableStateFlow<ServiceScreenUiState> =
-        MutableStateFlow(ServiceScreenUiState())
-    val state = _state.onStart {
-        val branch = appointmentSession.draft.value.branch
-        val branchName = branch?.sucursal?.name
-        val currentStaff = appointmentSession.draft.value.staff
-        _state.update {
-            it.copy(
-                branchName = branchName,
-                currentStaff = currentStaff,
-                services = branch?.services ?: emptyList()
-            )
+        fun onEvents(event: ServiceEvents) {
+            when (event) {
+                is ServiceEvents.ClickOnService -> {
+                    appointmentSession.selectService(event.service)
+                    sentEffect(ServiceEffects.NavigateToScheduleAppointment)
+                }
+            }
         }
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = ServiceScreenUiState()
-    )
 
-
-    fun onEvents(event: ServiceEvents) {
-        when (event) {
-            is ServiceEvents.ClickOnService -> {
-                appointmentSession.selectService(event.service)
-                sentEffect(ServiceEffects.NavigateToScheduleAppointment)
+        private fun sentEffect(effects: ServiceEffects) {
+            viewModelScope.launch {
+                _effects.send(effects)
             }
         }
     }
-
-    private fun sentEffect(effects: ServiceEffects) {
-        viewModelScope.launch {
-            _effects.send(effects)
-        }
-    }
-
-
-}

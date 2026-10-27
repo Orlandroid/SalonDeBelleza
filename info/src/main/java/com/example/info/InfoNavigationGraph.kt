@@ -7,7 +7,7 @@ import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.example.branches.branches.BranchesScreen
 import com.example.core.navigation.AppNavigationRoutes
-import com.example.core.navigation.info.InfoNavigationScreens
+import com.example.core.navigation.info.InfoNavigationRoutes
 import com.example.core.ui.components.SuccessScreen
 import com.example.info.cart.CartScreen
 import com.example.info.establishing.EstablishingScreen
@@ -22,58 +22,58 @@ import com.example.info.ubicacion.LocationScreen
 
 fun NavGraphBuilder.infoNavigationGraph(navController: NavHostController) {
     navigation<AppNavigationRoutes.InfoNavigationRoute>(
-        startDestination = InfoNavigationScreens.EstablishingRoute,
+        startDestination = InfoNavigationRoutes.EstablishingRoute,
     ) {
-        composable<InfoNavigationScreens.EstablishingRoute> {
+        composable<InfoNavigationRoutes.EstablishingRoute> {
             EstablishingScreen(navController = navController)
         }
-        composable<InfoNavigationScreens.StoresRoute> {
+        composable<InfoNavigationRoutes.StoresRoute> {
             StoresScreen(navController = navController)
         }
-        composable<InfoNavigationScreens.BranchesRoute> {
+        composable<InfoNavigationRoutes.BranchesRoute> {
             BranchesScreen(
                 navController = navController,
             )
         }
-        composable<InfoNavigationScreens.CategoriesRoute> {
-            val arguments = it.toRoute<InfoNavigationScreens.CategoriesRoute>()
+        composable<InfoNavigationRoutes.CategoriesRoute> {
+            val arguments = it.toRoute<InfoNavigationRoutes.CategoriesRoute>()
             CategoriesScreen(
                 navController = navController,
                 categorySource = arguments.source,
             )
         }
-        composable<InfoNavigationScreens.ProductsRoute> {
-            val arguments = it.toRoute<InfoNavigationScreens.ProductsRoute>()
+        composable<InfoNavigationRoutes.ProductsRoute> {
+            val arguments = it.toRoute<InfoNavigationRoutes.ProductsRoute>()
             ProductsScreen(
                 navController = navController,
                 source = arguments.source,
                 category = arguments.category,
             )
         }
-        composable<InfoNavigationScreens.DetailProductRoute> {
-            val arguments = it.toRoute<InfoNavigationScreens.DetailProductRoute>()
+        composable<InfoNavigationRoutes.DetailProductRoute> {
+            val arguments = it.toRoute<InfoNavigationRoutes.DetailProductRoute>()
             DetailProductScreen(
                 navController = navController,
                 productId = arguments.productId,
                 source = arguments.source,
             )
         }
-        composable<InfoNavigationScreens.CartRoute> {
+        composable<InfoNavigationRoutes.CartRoute> {
             CartScreen(navController = navController)
         }
-        composable<InfoNavigationScreens.BranchInfoRoute> {
+        composable<InfoNavigationRoutes.BranchInfoRoute> {
             BranchInfoScreen(navController = navController)
         }
-        composable<InfoNavigationScreens.OurStaffRoute> {
+        composable<InfoNavigationRoutes.OurStaffRoute> {
             OurStaffScreen(navController = navController)
         }
-        composable<InfoNavigationScreens.ServicesRoute> {
+        composable<InfoNavigationRoutes.ServicesRoute> {
             ServicesScreen(navController = navController)
         }
-        composable<InfoNavigationScreens.LocationRoute> {
+        composable<InfoNavigationRoutes.LocationRoute> {
             LocationScreen(navController = navController)
         }
-        composable<InfoNavigationScreens.SuccessScreenRoute> {
+        composable<InfoNavigationRoutes.SuccessScreenRoute> {
             SuccessScreen(
                 title = "Purchase successful!",
                 description = "Your order has been successfully placed.",

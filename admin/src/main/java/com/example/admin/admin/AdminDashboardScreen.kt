@@ -64,20 +64,20 @@ fun AdminDashboardRoute(
 @Composable
 private fun AdminDashboardScreenContent(
     uiState: AdminUiState,
-    onEvents: (AdminEvents) -> Unit
+    onEvents: (AdminEvents) -> Unit,
 ) {
     LazyColumn(
         modifier =
             Modifier
                 .fillMaxSize()
                 .padding(16.dp),
-        verticalArrangement = Arrangement.spacedBy(16.dp)
+        verticalArrangement = Arrangement.spacedBy(16.dp),
     ) {
         item {
             Text(
                 text = stringResource(R.string.business_overview),
                 fontSize = 20.sp,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
             )
             Spacer(modifier = Modifier.height(8.dp))
             ContainerCards {
@@ -137,7 +137,7 @@ private fun AdminDashboardScreenContent(
                     },
                     onReject = {
                         onEvents(AdminEvents.OnReject(appointmentId = appointment.id))
-                    }
+                    },
                 )
             }
         }
@@ -145,9 +145,7 @@ private fun AdminDashboardScreenContent(
 }
 
 @Composable
-private fun ContainerCards(
-    content: @Composable RowScope.() -> Unit
-) {
+private fun ContainerCards(content: @Composable RowScope.() -> Unit) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
@@ -194,15 +192,15 @@ private fun PendingAppointmentCard(
                 text =
                     stringResource(
                         R.string.client,
-                        appointment.clientName
-                    )
+                        appointment.clientName,
+                    ),
             )
             Text(
                 text =
                     stringResource(
                         R.string.staff,
-                        appointment.staffName
-                    )
+                        appointment.staffName,
+                    ),
             )
 
             Text(
@@ -210,14 +208,14 @@ private fun PendingAppointmentCard(
                     stringResource(
                         R.string.date_and_time,
                         appointment.date,
-                        appointment.time
-                    )
+                        appointment.time,
+                    ),
             )
 
             Spacer(modifier = Modifier.height(12.dp))
             Row(
                 modifier = Modifier.fillMaxWidth(),
-                horizontalArrangement = Arrangement.End
+                horizontalArrangement = Arrangement.End,
             ) {
                 RejectButton(onReject = onReject)
                 Spacer(modifier = Modifier.width(8.dp))
@@ -239,7 +237,6 @@ private fun ConfirmButton(onApprove: () -> Unit) {
         Text(stringResource(R.string.confirm))
     }
 }
-
 
 @Composable
 private fun RejectButton(onReject: () -> Unit) {

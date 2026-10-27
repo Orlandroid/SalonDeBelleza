@@ -21,7 +21,6 @@ import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
-
 @Composable
 fun BaseOutlinedTextField(
     modifier: Modifier = Modifier,
@@ -33,7 +32,7 @@ fun BaseOutlinedTextField(
     inputError: InputError? = null,
     isInputPassword: Boolean = false,
     onValueChange: (value: String) -> Unit = {},
-    clickOnIcon: () -> Unit = {}
+    clickOnIcon: () -> Unit = {},
 ) {
     val isPasswordVisible = remember { mutableStateOf(false) }
     OutlinedTextField(
@@ -41,13 +40,14 @@ fun BaseOutlinedTextField(
             if (inputError != null) {
                 Text(
                     text = inputError.errorText,
-                    color = MaterialTheme.colorScheme.error
+                    color = MaterialTheme.colorScheme.error,
                 )
             }
         },
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(0.dp, 16.dp, 0.dp, 0.dp),
+        modifier =
+            modifier
+                .fillMaxWidth()
+                .padding(0.dp, 16.dp, 0.dp, 0.dp),
         value = value,
         onValueChange = { mText ->
             onValueChange.invoke(mText)
@@ -59,11 +59,11 @@ fun BaseOutlinedTextField(
                     if (isInputPassword) {
                         isPasswordVisible.value = !isPasswordVisible.value
                     }
-                }
+                },
             ) {
                 Icon(
                     imageVector = imageVector,
-                    contentDescription = null
+                    contentDescription = null,
                 )
             }
         },
@@ -72,14 +72,14 @@ fun BaseOutlinedTextField(
         },
         keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
         enabled = isEnable,
-        visualTransformation = if (isInputPassword && isPasswordVisible.value) {
-            PasswordVisualTransformation()
-        } else {
-            VisualTransformation.None
-        }
+        visualTransformation =
+            if (isInputPassword && isPasswordVisible.value) {
+                PasswordVisualTransformation()
+            } else {
+                VisualTransformation.None
+            },
     )
 }
-
 
 @Composable
 @Preview(showBackground = true)
@@ -87,7 +87,7 @@ private fun BaseOutlinedTextFieldPreview() {
     BaseOutlinedTextField(
         modifier = Modifier.padding(8.dp),
         text = "Email",
-        value = "android@gmail.com"
+        value = "android@gmail.com",
     )
 }
 

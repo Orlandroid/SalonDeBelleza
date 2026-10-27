@@ -9,5 +9,5 @@ data class User(
     val email: String,
     val password: String,
     val birthDay: String,
-    val role: UserRole = UserRole.CUSTOMER
+    val role: UserRole = UserRole.CUSTOMER,
 )

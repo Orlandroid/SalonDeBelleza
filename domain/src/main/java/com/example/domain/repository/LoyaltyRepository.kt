@@ -9,13 +9,31 @@ import kotlinx.coroutines.flow.Flow
 
 interface LoyaltyRepository {
     suspend fun initializeLoyalty(userId: String): ApiResult<Unit>
+
     suspend fun getLoyalty(userId: String): ApiResult<Loyalty>
+
     suspend fun updateLoyalty(loyalty: Loyalty): ApiResult<Unit>
-    suspend fun addLoyaltyTransaction(userId: String, transaction: LoyaltyTransaction): ApiResult<Unit>
+
+    suspend fun addLoyaltyTransaction(
+        userId: String,
+        transaction: LoyaltyTransaction,
+    ): ApiResult<Unit>
+
     suspend fun getRewards(): ApiResult<List<Reward>>
-    suspend fun addPromotionCode(userId: String, promotionCode: PromotionCode): ApiResult<Unit>
+
+    suspend fun addPromotionCode(
+        userId: String,
+        promotionCode: PromotionCode,
+    ): ApiResult<Unit>
+
     suspend fun getPromotionCodes(userId: String): ApiResult<List<PromotionCode>>
-    suspend fun usePromotionCode(userId: String, promoId: String): ApiResult<Unit>
+
+    suspend fun usePromotionCode(
+        userId: String,
+        promoId: String,
+    ): ApiResult<Unit>
+
     suspend fun getLoyaltyTransactions(userId: String): ApiResult<List<LoyaltyTransaction>>
+
     fun observeLoyalty(userId: String): Flow<Loyalty?>
 }

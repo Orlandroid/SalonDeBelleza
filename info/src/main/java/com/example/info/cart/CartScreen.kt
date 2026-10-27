@@ -46,8 +46,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.SubcomposeAsyncImage
-import com.example.core.navigation.info.InfoNavigationScreens.DetailProductRoute
-import com.example.core.navigation.info.InfoNavigationScreens.SuccessScreenRoute
+import com.example.core.navigation.info.InfoNavigationRoutes.DetailProductRoute
+import com.example.core.navigation.info.InfoNavigationRoutes.SuccessScreenRoute
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.components.BaseErrorScreen
 import com.example.core.ui.components.ToolbarConfiguration

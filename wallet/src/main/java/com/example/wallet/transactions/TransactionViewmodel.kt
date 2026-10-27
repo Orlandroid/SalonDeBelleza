@@ -17,38 +17,38 @@ import kotlinx.coroutines.flow.update
 import javax.inject.Inject
 
 data class TransactionUiState(
-    val transactions: List<Transaction>
+    val transactions: List<Transaction>,
 )
 
 @HiltViewModel
 class TransactionViewmodel
-@Inject constructor(
-    private val transactionRepository: TransactionRepository
-) : ViewModel() {
+    @Inject
+    constructor(
+        private val transactionRepository: TransactionRepository,
+    ) : ViewModel() {
+        private val _state: MutableStateFlow<BaseScreenState<TransactionUiState>> =
+            MutableStateFlow(BaseScreenState.OnLoading)
 
-
-    private val _state: MutableStateFlow<BaseScreenState<TransactionUiState>> =
-        MutableStateFlow(BaseScreenState.OnLoading)
-
-    val state = _state.onStart {
-        val transactionsResult = transactionRepository.getTransactions()
-        if (transactionsResult.isSuccess()) {
-            val transactions = transactionsResult.getContent()
-            _state.update {
-                BaseScreenState.OnContent(
-                    content = TransactionUiState(
-                        transactions = transactions
-                    )
+        val state =
+            _state
+                .onStart {
+                    val transactionsResult = transactionRepository.getTransactions()
+                    if (transactionsResult.isSuccess()) {
+                        val transactions = transactionsResult.getContent()
+                        _state.update {
+                            BaseScreenState.OnContent(
+                                content =
+                                    TransactionUiState(
+                                        transactions = transactions,
+                                    ),
+                            )
+                        }
+                    } else {
+                        _state.update { BaseScreenState.OnError(error = Throwable(transactionsResult.getErrorMessage())) }
+                    }
+                }.stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(5000),
+                    initialValue = BaseScreenState.OnLoading,
                 )
-            }
-        } else {
-            _state.update { BaseScreenState.OnError(error = Throwable(transactionsResult.getErrorMessage())) }
-        }
-
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = BaseScreenState.OnLoading
-    )
-
-}
+    }

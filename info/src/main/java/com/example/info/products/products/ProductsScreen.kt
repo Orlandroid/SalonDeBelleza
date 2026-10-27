@@ -42,7 +42,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import androidx.navigation.NavController
 import coil.compose.SubcomposeAsyncImage
-import com.example.core.navigation.info.InfoNavigationScreens
+import com.example.core.navigation.info.InfoNavigationRoutes
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.base.BaseScreenState
 import com.example.core.ui.base.getContentOrNull
@@ -82,12 +82,12 @@ fun ProductsScreen(
                 productsViewModel.effects.collectLatest {
                     when (it) {
                         is ProductScreenEffects.NavigateToCar -> {
-                            navController.navigate(InfoNavigationScreens.CartRoute)
+                            navController.navigate(InfoNavigationRoutes.CartRoute)
                         }
 
                         is ProductScreenEffects.NavigateToProductDetail -> {
                             navController.navigate(
-                                InfoNavigationScreens.DetailProductRoute(
+                                InfoNavigationRoutes.DetailProductRoute(
                                     productId = it.product.id,
                                     source = it.source,
                                 ),

@@ -1,19 +1,17 @@
 package com.example.core.util
 
 import android.annotation.SuppressLint
-import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.TimePickerState
 import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
-fun getCurrentDateTime(): Date {
-    return Calendar.getInstance().time
-}
+fun getCurrentDateTime(): Date = Calendar.getInstance().time
 
-
-fun Date.toStringFormat(format: String, locale: Locale = Locale.getDefault()): String {
+fun Date.toStringFormat(
+    format: String,
+    locale: Locale = Locale.getDefault(),
+): String {
     val formatter = SimpleDateFormat(format, locale)
     return formatter.format(this)
 }
@@ -30,17 +28,4 @@ fun convertMillisToDate(millis: Long): String {
     return formatter.format(Date(millis))
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
-fun TimePickerState.getHourFormat() = "${this.hour}:${this.minute}"
-
-const val dateFormat = "dd/MM/yyyy"
-
-fun parseDateTime(date: String, hour: String): Long? {
-    return try {
-        val fullDate = "$date $hour"
-        val sdf = SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault())
-        sdf.parse(fullDate)?.time
-    } catch (e: Exception) {
-        null
-    }
-}
+const val DATE_FORMAT = "dd/MM/yyyy"

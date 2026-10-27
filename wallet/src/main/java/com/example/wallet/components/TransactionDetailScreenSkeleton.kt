@@ -23,6 +23,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,20 +35,19 @@ import com.example.core.util.toCurrencyString
 import com.example.domain.transaction.Transaction
 import com.example.model.state.models.Currency
 import com.example.model.state.models.TransactionType
+import com.example.wallet.R
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.Locale
 
-
 @Composable
-fun TransactionDetailScreenSkeleton(
-    modifier: Modifier = Modifier
-) {
+fun TransactionDetailScreenSkeleton(modifier: Modifier = Modifier) {
     Column(
-        modifier = modifier
-            .fillMaxSize()
-            .background(Background)
-            .padding(16.dp)
+        modifier =
+            modifier
+                .fillMaxSize()
+                .background(Background)
+                .padding(16.dp),
     ) {
         TransactionHeader(transaction = Transaction())
 
@@ -55,22 +55,21 @@ fun TransactionDetailScreenSkeleton(
 
         TransactionDetailsCard(transaction = Transaction())
     }
-
 }
 
 @Composable
 private fun TransactionHeader(transaction: Transaction) {
     Column(
         modifier = Modifier.fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box(
-            modifier = Modifier
-                .size(64.dp)
-                .background(color = Color.Gray, shape = CircleShape),
-            contentAlignment = Alignment.Center
+            modifier =
+                Modifier
+                    .size(64.dp)
+                    .background(color = Color.Gray, shape = CircleShape),
+            contentAlignment = Alignment.Center,
         ) {
-
         }
 
         Spacer(modifier = Modifier.height(12.dp))
@@ -80,7 +79,7 @@ private fun TransactionHeader(transaction: Transaction) {
             color = Color.Transparent,
             text = transaction.amount.toCurrencyString(Currency.USD),
             style = MaterialTheme.typography.headlineMedium,
-            fontWeight = FontWeight.Bold
+            fontWeight = FontWeight.Bold,
         )
 
         Spacer(modifier = Modifier.height(4.dp))
@@ -94,47 +93,46 @@ private fun TransactionHeader(transaction: Transaction) {
     }
 }
 
-
 @Composable
 private fun TransactionDetailsCard(transaction: Transaction) {
     Card(
         modifier = Modifier.fillMaxWidth(),
         shape = RoundedCornerShape(16.dp),
-        colors = CardDefaults.cardColors(containerColor = AlwaysWhite)
+        colors = CardDefaults.cardColors(containerColor = AlwaysWhite),
     ) {
         Column(modifier = Modifier.padding(16.dp)) {
             DetailRow(
                 label = "Descripción",
-                value = transaction.description.ifBlank {
-                    transactionTypeLabel(transaction.transactionType)
-                }
+                value =
+                    transaction.description.ifBlank {
+                        transactionTypeLabel(transaction.transactionType)
+                    },
             )
             Divider(modifier = Modifier.padding(vertical = 12.dp))
             DetailRow(
                 label = "Fecha",
-                value = formatTransactionDate(transaction.createdAt)
+                value = formatTransactionDate(transaction.createdAt),
             )
             Divider(modifier = Modifier.padding(vertical = 12.dp))
             DetailRow(
                 label = "Tipo",
-                value = transactionTypeLabel(transaction.transactionType)
+                value = transactionTypeLabel(transaction.transactionType),
             )
             Divider(modifier = Modifier.padding(vertical = 12.dp))
             DetailRow(
-                label = "ID de transacción",
-                value = transaction.id
+                label = stringResource(R.string.label_transaction_id),
+                value = transaction.id,
             )
         }
     }
 }
 
-private fun transactionTypeLabel(type: TransactionType): String = when (type) {
-    TransactionType.MARKETPLACE_PURCHASE -> "Compra en marketplace"
-    TransactionType.UNKNOWN -> "Transacción"
-    else -> {
-        "Transacción"
+@Composable
+private fun transactionTypeLabel(type: TransactionType): String =
+    when (type) {
+        TransactionType.MARKETPLACE_PURCHASE -> stringResource(R.string.type_marketplace_purchase)
+        else -> stringResource(R.string.type_transaction)
     }
-}
 
 private fun formatTransactionDate(createdAt: Long): String {
     if (createdAt <= 0L) return "Sin fecha"
@@ -143,10 +141,13 @@ private fun formatTransactionDate(createdAt: Long): String {
 }
 
 @Composable
-private fun DetailRow(label: String, value: String) {
+private fun DetailRow(
+    label: String,
+    value: String,
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
-        horizontalArrangement = Arrangement.SpaceBetween
+        horizontalArrangement = Arrangement.SpaceBetween,
     ) {
         Text(
             modifier = Modifier.background(shimmerBrush()),
@@ -156,9 +157,10 @@ private fun DetailRow(label: String, value: String) {
         )
         Spacer(modifier = Modifier.width(12.dp))
         Text(
-            modifier = Modifier
-                .weight(1f, fill = false)
-                .background(shimmerBrush()),
+            modifier =
+                Modifier
+                    .weight(1f, fill = false)
+                    .background(shimmerBrush()),
             color = Color.Transparent,
             text = value,
             style = MaterialTheme.typography.bodyMedium,

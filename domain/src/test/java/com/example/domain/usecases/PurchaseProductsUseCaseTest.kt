@@ -2,11 +2,11 @@ package com.example.domain.usecases
 
 import com.example.domain.repository.WalletRepository
 import com.example.domain.transaction.TransactionRepository
-import com.example.model.state.models.TransactionType
-import com.example.model.state.models.Currency
 import com.example.domain.wallet.Wallet
 import com.example.model.state.ApiResult
 import com.example.model.state.getErrorMessage
+import com.example.model.state.models.Currency
+import com.example.model.state.models.TransactionType
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
 import io.mockk.coVerify
@@ -20,23 +20,21 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-
 @OptIn(ExperimentalCoroutinesApi::class)
 class PurchaseProductsUseCaseTest {
-
     private val testDispatcher = StandardTestDispatcher()
     private var purchaseProductsUseCase: PurchaseProductsUseCase = mockk()
     private val walletRepository: WalletRepository = mockk()
     private val transactionRepository: TransactionRepository = mockk()
 
-
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        purchaseProductsUseCase = PurchaseProductsUseCase(
-            walletRepository = walletRepository,
-            transactionRepository = transactionRepository
-        )
+        purchaseProductsUseCase =
+            PurchaseProductsUseCase(
+                walletRepository = walletRepository,
+                transactionRepository = transactionRepository,
+            )
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -45,41 +43,42 @@ class PurchaseProductsUseCaseTest {
         Dispatchers.setMain(Dispatchers.Default)
     }
 
-
     @Test
-    fun `When getWallet Return Error `() = runTest {
+    fun `When getWallet Return Error `() =
+        runTest {
+            coEvery { walletRepository.getWallet() } returns ApiResult.Error()
 
-        coEvery { walletRepository.getWallet() } returns ApiResult.Error()
+            val purchaseResult =
+                purchaseProductsUseCase.invoke(
+                    amount = 300L,
+                    transactionType = TransactionType.MARKETPLACE_PURCHASE,
+                    description = "Some description",
+                )
 
-        val purchaseResult = purchaseProductsUseCase.invoke(
-            amount = 300L,
-            transactionType = TransactionType.MARKETPLACE_PURCHASE,
-            description = "Some description"
-        )
-
-        coVerify(exactly = 1) { walletRepository.getWallet() }
-        coVerify(exactly = 0) { walletRepository.updateBalance(any()) }
-        coVerify(inverse = true) { transactionRepository.createTransaction(any()) }
-        assertThat(purchaseResult).isInstanceOf(ApiResult.Error::class.java)
-        assertThat(purchaseResult.getErrorMessage()).isEqualTo("Unable to make the purchase")
-    }
+            coVerify(exactly = 1) { walletRepository.getWallet() }
+            coVerify(exactly = 0) { walletRepository.updateBalance(any()) }
+            coVerify(inverse = true) { transactionRepository.createTransaction(any()) }
+            assertThat(purchaseResult).isInstanceOf(ApiResult.Error::class.java)
+            assertThat(purchaseResult.getErrorMessage()).isEqualTo("Unable to make the purchase")
+        }
 
     @Test
     fun `When getWallet  Return Success but The user don,t have enough money `() =
         runTest {
-
-            val wallet = Wallet(
-                userId = "",
-                balance = 50L,
-                currency = Currency.USD
-            )
+            val wallet =
+                Wallet(
+                    userId = "",
+                    balance = 50L,
+                    currency = Currency.USD,
+                )
             coEvery { walletRepository.getWallet() } returns ApiResult.Success(wallet)
 
-            val purchaseResult = purchaseProductsUseCase.invoke(
-                amount = 1000L,
-                transactionType = TransactionType.MARKETPLACE_PURCHASE,
-                description = "Some description"
-            )
+            val purchaseResult =
+                purchaseProductsUseCase.invoke(
+                    amount = 1000L,
+                    transactionType = TransactionType.MARKETPLACE_PURCHASE,
+                    description = "Some description",
+                )
 
             coVerify(exactly = 1) { walletRepository.getWallet() }
             coVerify(exactly = 0) { walletRepository.updateBalance(any()) }
@@ -88,24 +87,24 @@ class PurchaseProductsUseCaseTest {
             assertThat(purchaseResult.getErrorMessage()).isEqualTo("Insufficient balance")
         }
 
-
     @Test
     fun `When getWallet  Return Success but Update balance fails `() =
         runTest {
-
-            val wallet = Wallet(
-                userId = "",
-                balance = 5000L,
-                currency = Currency.USD
-            )
+            val wallet =
+                Wallet(
+                    userId = "",
+                    balance = 5000L,
+                    currency = Currency.USD,
+                )
             coEvery { walletRepository.getWallet() } returns ApiResult.Success(wallet)
             coEvery { walletRepository.updateBalance(any()) } returns ApiResult.Error()
 
-            val purchaseResult = purchaseProductsUseCase.invoke(
-                amount = 1000L,
-                transactionType = TransactionType.MARKETPLACE_PURCHASE,
-                description = "Some description"
-            )
+            val purchaseResult =
+                purchaseProductsUseCase.invoke(
+                    amount = 1000L,
+                    transactionType = TransactionType.MARKETPLACE_PURCHASE,
+                    description = "Some description",
+                )
 
             coVerify(exactly = 1) { walletRepository.getWallet() }
             coVerify(exactly = 1) { walletRepository.updateBalance(any()) }
@@ -114,25 +113,25 @@ class PurchaseProductsUseCaseTest {
             assertThat(purchaseResult.getErrorMessage()).isEqualTo("Unable to update balance")
         }
 
-
     @Test
     fun `When getWallet  Return Success but createTransaction fails `() =
         runTest {
-
-            val wallet = Wallet(
-                userId = "",
-                balance = 5000L,
-                currency = Currency.USD
-            )
+            val wallet =
+                Wallet(
+                    userId = "",
+                    balance = 5000L,
+                    currency = Currency.USD,
+                )
             coEvery { walletRepository.getWallet() } returns ApiResult.Success(wallet)
             coEvery { walletRepository.updateBalance(any()) } returns ApiResult.Success(Unit)
             coEvery { transactionRepository.createTransaction(any()) } returns ApiResult.Error()
 
-            val purchaseResult = purchaseProductsUseCase.invoke(
-                amount = 1000L,
-                transactionType = TransactionType.MARKETPLACE_PURCHASE,
-                description = "Some description"
-            )
+            val purchaseResult =
+                purchaseProductsUseCase.invoke(
+                    amount = 1000L,
+                    transactionType = TransactionType.MARKETPLACE_PURCHASE,
+                    description = "Some description",
+                )
 
             coVerify(exactly = 1) { walletRepository.getWallet() }
             coVerify(exactly = 1) { walletRepository.updateBalance(any()) }
@@ -144,28 +143,29 @@ class PurchaseProductsUseCaseTest {
     @Test
     fun `When all the services success `() =
         runTest {
-
-            val wallet = Wallet(
-                userId = "",
-                balance = 5000L,
-                currency = Currency.USD
-            )
+            val wallet =
+                Wallet(
+                    userId = "",
+                    balance = 5000L,
+                    currency = Currency.USD,
+                )
             coEvery { walletRepository.getWallet() } returns ApiResult.Success(wallet)
             coEvery { walletRepository.updateBalance(any()) } returns ApiResult.Success(Unit)
-            coEvery { transactionRepository.createTransaction(any()) } returns ApiResult.Success(
-                Unit
-            )
+            coEvery { transactionRepository.createTransaction(any()) } returns
+                ApiResult.Success(
+                    Unit,
+                )
 
-            val purchaseResult = purchaseProductsUseCase.invoke(
-                amount = 1000L,
-                transactionType = TransactionType.MARKETPLACE_PURCHASE,
-                description = "Some description"
-            )
+            val purchaseResult =
+                purchaseProductsUseCase.invoke(
+                    amount = 1000L,
+                    transactionType = TransactionType.MARKETPLACE_PURCHASE,
+                    description = "Some description",
+                )
 
             coVerify(exactly = 1) { walletRepository.getWallet() }
             coVerify(exactly = 1) { walletRepository.updateBalance(any()) }
             coVerify(exactly = 1) { transactionRepository.createTransaction(any()) }
             assertThat(purchaseResult).isInstanceOf(ApiResult.Success::class.java)
         }
-
 }

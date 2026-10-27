@@ -1,6 +1,5 @@
 package com.example.data.api
 
-
 import com.example.domain.entities.remote.dummyUsers.DummyUsersResponse
 import com.example.domain.entities.remote.migration.BranchesResponse
 import com.example.domain.entities.remote.migration.Service
@@ -9,7 +8,6 @@ import retrofit2.http.GET
 import retrofit2.http.Url
 
 interface WebServices {
-
     @GET("servicios")
     suspend fun getServicios(): List<Service>
 
@@ -21,8 +19,6 @@ interface WebServices {
 
     @GET
     suspend fun getStaffUsers(
-        @Url url: String
+        @Url url: String,
     ): DummyUsersResponse
-
-
 }

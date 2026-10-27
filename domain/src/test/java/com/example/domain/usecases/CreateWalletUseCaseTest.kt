@@ -1,7 +1,7 @@
 package com.example.domain.usecases
 
-import com.example.domain.wallet.Wallet
 import com.example.domain.repository.WalletRepository
+import com.example.domain.wallet.Wallet
 import com.example.model.state.ApiResult
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
@@ -18,12 +18,9 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class CreateWalletUseCaseTest {
-
-
     private lateinit var createWalletUseCase: CreateWalletUseCase
     private val testDispatcher = StandardTestDispatcher()
     private val walletRepository = mockk<WalletRepository>(relaxed = true)
-
 
     @Before
     fun setUp() {
@@ -40,40 +37,40 @@ class CreateWalletUseCaseTest {
      * it means that the user already has one wallet created there is no reason for create another
      */
     @Test
-    fun `when getWalletReturn Success immediately`() = runTest {
-        val wallet = Wallet()
-        coEvery { walletRepository.getWallet() } returns ApiResult.Success(wallet)
+    fun `when getWalletReturn Success immediately`() =
+        runTest {
+            val wallet = Wallet()
+            coEvery { walletRepository.getWallet() } returns ApiResult.Success(wallet)
 
-        val response = createWalletUseCase.invoke("fakeUserId")
+            val response = createWalletUseCase.invoke("fakeUserId")
 
-        coVerify(inverse = true) { walletRepository.createWallet(wallet) }
-        assertThat(response).isInstanceOf(ApiResult.Success::class.java)
-    }
-
-
-    @Test
-    fun `when getWalletReturn Error and createWallet return Error`() = runTest {
-        coEvery { walletRepository.getWallet() } returns ApiResult.Error()
-        coEvery { walletRepository.createWallet(any()) } returns ApiResult.Error()
-
-        val response = createWalletUseCase.invoke("fakeUserId")
-
-        coVerify(exactly = 1) { walletRepository.getWallet() }
-        coVerify(exactly = 1) { walletRepository.createWallet(any()) }
-        assertThat(response).isInstanceOf(ApiResult.Error::class.java)
-    }
+            coVerify(inverse = true) { walletRepository.createWallet(wallet) }
+            assertThat(response).isInstanceOf(ApiResult.Success::class.java)
+        }
 
     @Test
-    fun `when getWalletReturn Error and createWallet return Success`() = runTest {
-        coEvery { walletRepository.getWallet() } returns ApiResult.Error()
-        coEvery { walletRepository.createWallet(any()) } returns ApiResult.Success(Unit)
+    fun `when getWalletReturn Error and createWallet return Error`() =
+        runTest {
+            coEvery { walletRepository.getWallet() } returns ApiResult.Error()
+            coEvery { walletRepository.createWallet(any()) } returns ApiResult.Error()
 
-        val response = createWalletUseCase.invoke("fakeUserId")
+            val response = createWalletUseCase.invoke("fakeUserId")
 
-        coVerify(exactly = 1) { walletRepository.getWallet() }
-        coVerify(exactly = 1) { walletRepository.createWallet(any()) }
-        assertThat(response).isInstanceOf(ApiResult.Success::class.java)
-    }
+            coVerify(exactly = 1) { walletRepository.getWallet() }
+            coVerify(exactly = 1) { walletRepository.createWallet(any()) }
+            assertThat(response).isInstanceOf(ApiResult.Error::class.java)
+        }
 
+    @Test
+    fun `when getWalletReturn Error and createWallet return Success`() =
+        runTest {
+            coEvery { walletRepository.getWallet() } returns ApiResult.Error()
+            coEvery { walletRepository.createWallet(any()) } returns ApiResult.Success(Unit)
 
+            val response = createWalletUseCase.invoke("fakeUserId")
+
+            coVerify(exactly = 1) { walletRepository.getWallet() }
+            coVerify(exactly = 1) { walletRepository.createWallet(any()) }
+            assertThat(response).isInstanceOf(ApiResult.Success::class.java)
+        }
 }

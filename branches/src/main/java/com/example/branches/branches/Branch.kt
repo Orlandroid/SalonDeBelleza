@@ -7,15 +7,14 @@ import com.example.domain.entities.remote.migration.NegoInfo
 data class Branch(
     val id: String,
     val name: String,
-    val isOpen: Boolean
+    val isOpen: Boolean,
 )
 
-
-fun NegoInfo.toBranch() = Branch(
-    id = sucursal.id,
-    name = sucursal.name,
-    isOpen = sucursal.isOpen
-)
-
+fun NegoInfo.toBranch() =
+    Branch(
+        id = sucursal.id,
+        name = sucursal.name,
+        isOpen = sucursal.isOpen,
+    )
 
 fun List<NegoInfo>.toBranchList() = map { it.toBranch() }

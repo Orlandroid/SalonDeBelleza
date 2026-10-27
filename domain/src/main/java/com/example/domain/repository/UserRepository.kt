@@ -4,7 +4,6 @@ import com.example.domain.entities.remote.User
 import com.example.model.state.ApiResult
 
 interface UserRepository {
-
     suspend fun getUser(): ApiResult<User>
 
     suspend fun getUserImage(): ApiResult<String>
@@ -13,7 +12,6 @@ interface UserRepository {
 
     suspend fun saveUserInfo(
         userId: String,
-        user: User
+        user: User,
     ): ApiResult<Any>
-
 }

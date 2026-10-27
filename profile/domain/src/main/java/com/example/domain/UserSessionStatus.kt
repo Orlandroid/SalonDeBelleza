@@ -1,6 +1,6 @@
 package com.example.domain
 
 enum class UserSessionStatus {
-    ACTIVE, INACTIVE
+    ACTIVE,
+    INACTIVE,
 }
-

@@ -21,7 +21,6 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ProfileViewModelTest {
-
     private lateinit var viewModel: ProfileViewModel
     private val testDispatcher = StandardTestDispatcher()
     private val authRepository: AuthRepository = mockk()
@@ -35,11 +34,12 @@ class ProfileViewModelTest {
         coEvery { userRepository.getUser() } returns ApiResult.Success(mockk(relaxed = true))
         coEvery { loginPreferences.destroyUserSession() } returns Unit
         coEvery { authRepository.logout() } returns ApiResult.Success(Unit)
-        viewModel = ProfileViewModel(
-            authRepository = authRepository,
-            userPreferences = loginPreferences,
-            userRepository = userRepository
-        )
+        viewModel =
+            ProfileViewModel(
+                authRepository = authRepository,
+                userPreferences = loginPreferences,
+                userRepository = userRepository,
+            )
     }
 
     @OptIn(ExperimentalCoroutinesApi::class)
@@ -49,55 +49,58 @@ class ProfileViewModelTest {
     }
 
     @Test
-    fun `initial state should have correct default values`() = runTest(testDispatcher) {
-        viewModel.uiState.test {
-            val initialState = awaitItem()
-            assertThat(initialState.showAlertCloseSession).isFalse()
-            assertThat(initialState.user).isNull()
-            assertThat(initialState.menusProfile).isNotEmpty()
+    fun `initial state should have correct default values`() =
+        runTest(testDispatcher) {
+            viewModel.uiState.test {
+                val initialState = awaitItem()
+                assertThat(initialState.showAlertCloseSession).isFalse()
+                assertThat(initialState.user).isNull()
+                assertThat(initialState.menusProfile).isNotEmpty()
+            }
         }
-    }
 
     @Test
-    fun `OnCloseSession should open alert dialog`() = runTest(testDispatcher) {
-        viewModel.uiState.test {
-            awaitItem()
+    fun `OnCloseSession should open alert dialog`() =
+        runTest(testDispatcher) {
+            viewModel.uiState.test {
+                awaitItem()
 
-            viewModel.onEvents(ProfileEvents.OnCloseSession)
+                viewModel.onEvents(ProfileEvents.OnCloseSession)
 
-            val updatedState = awaitItem()
-            assertThat(updatedState.showAlertCloseSession).isTrue()
+                val updatedState = awaitItem()
+                assertThat(updatedState.showAlertCloseSession).isTrue()
+            }
         }
-    }
 
     @Test
-    fun `OnContactClicked should send NavigateToContacts effect`() = runTest(testDispatcher) {
-        viewModel.effects.test {
-            viewModel.onEvents(ProfileEvents.OnContactClicked)
-            val effect = awaitItem()
-            assertThat(effect).isInstanceOf(ProfileEffects.NavigateToContacts::class.java)
+    fun `OnContactClicked should send NavigateToContacts effect`() =
+        runTest(testDispatcher) {
+            viewModel.effects.test {
+                viewModel.onEvents(ProfileEvents.OnContactClicked)
+                val effect = awaitItem()
+                assertThat(effect).isInstanceOf(ProfileEffects.NavigateToContacts::class.java)
+            }
         }
-    }
-
 
     @Test
-    fun `OnProfileClicked should send NavigateToProfile effect`() = runTest(testDispatcher) {
-        viewModel.effects.test {
-            viewModel.onEvents(ProfileEvents.OnProfileClicked)
-            val effect = awaitItem()
-            assertThat(effect).isInstanceOf(ProfileEffects.NavigateToProfile::class.java)
+    fun `OnProfileClicked should send NavigateToProfile effect`() =
+        runTest(testDispatcher) {
+            viewModel.effects.test {
+                viewModel.onEvents(ProfileEvents.OnProfileClicked)
+                val effect = awaitItem()
+                assertThat(effect).isInstanceOf(ProfileEffects.NavigateToProfile::class.java)
+            }
         }
-    }
 
     @Test
-    fun `OnHistoricalClicked should send NavigateToHistory effect`() = runTest(testDispatcher) {
-        viewModel.effects.test {
-            viewModel.onEvents(ProfileEvents.OnHistoricalClicked)
-            val effect = awaitItem()
-            assertThat(effect).isInstanceOf(ProfileEffects.NavigateToHistory::class.java)
+    fun `OnHistoricalClicked should send NavigateToHistory effect`() =
+        runTest(testDispatcher) {
+            viewModel.effects.test {
+                viewModel.onEvents(ProfileEvents.OnHistoricalClicked)
+                val effect = awaitItem()
+                assertThat(effect).isInstanceOf(ProfileEffects.NavigateToHistory::class.java)
+            }
         }
-    }
-
 
     @Test
     fun `OnTermAndCondictionsClicked should send NavigateToTermAndCondictions effect`() =
@@ -109,54 +112,53 @@ class ProfileViewModelTest {
             }
         }
 
-
     @Test
-    fun `OnDismissDialog should close alert dialog`() = runTest(testDispatcher) {
-        viewModel.uiState.test {
-            awaitItem()
+    fun `OnDismissDialog should close alert dialog`() =
+        runTest(testDispatcher) {
+            viewModel.uiState.test {
+                awaitItem()
 
+                viewModel.onEvents(ProfileEvents.OnCloseSession)
+                awaitItem()
 
-            viewModel.onEvents(ProfileEvents.OnCloseSession)
-            awaitItem()
+                viewModel.onEvents(ProfileEvents.OnDismissDialog)
 
-
-            viewModel.onEvents(ProfileEvents.OnDismissDialog)
-
-            val updatedState = awaitItem()
-            assertThat(updatedState.showAlertCloseSession).isFalse()
+                val updatedState = awaitItem()
+                assertThat(updatedState.showAlertCloseSession).isFalse()
+            }
         }
-    }
 
     @Test
-    fun `OnCancel should close alert dialog`() = runTest(testDispatcher) {
-        viewModel.uiState.test {
-            awaitItem()
+    fun `OnCancel should close alert dialog`() =
+        runTest(testDispatcher) {
+            viewModel.uiState.test {
+                awaitItem()
 
-            viewModel.onEvents(ProfileEvents.OnCloseSession)
-            awaitItem()
+                viewModel.onEvents(ProfileEvents.OnCloseSession)
+                awaitItem()
 
+                viewModel.onEvents(ProfileEvents.OnCancel)
 
-            viewModel.onEvents(ProfileEvents.OnCancel)
-
-            val updatedState = awaitItem()
-            assertThat(updatedState.showAlertCloseSession).isFalse()
+                val updatedState = awaitItem()
+                assertThat(updatedState.showAlertCloseSession).isFalse()
+            }
         }
-    }
-
 
     @Test
-    fun `OnConfirmClicked should destroy user session`() = runTest(testDispatcher) {
-        viewModel.onEvents(ProfileEvents.OnConfirmClicked)
-        advanceUntilIdle()
-        coVerify { loginPreferences.destroyUserSession() }
-    }
+    fun `OnConfirmClicked should destroy user session`() =
+        runTest(testDispatcher) {
+            viewModel.onEvents(ProfileEvents.OnConfirmClicked)
+            advanceUntilIdle()
+            coVerify { loginPreferences.destroyUserSession() }
+        }
 
     @Test
-    fun `OnConfirmClicked should call logout on authRepository`() = runTest(testDispatcher) {
-        viewModel.onEvents(ProfileEvents.OnConfirmClicked)
-        advanceUntilIdle()
-        coVerify { authRepository.logout() }
-    }
+    fun `OnConfirmClicked should call logout on authRepository`() =
+        runTest(testDispatcher) {
+            viewModel.onEvents(ProfileEvents.OnConfirmClicked)
+            advanceUntilIdle()
+            coVerify { authRepository.logout() }
+        }
 
     @Test
     fun `OnConfirmClicked when logout fails should still send CloseAndOpenActivity effect`() =
@@ -170,7 +172,6 @@ class ProfileViewModelTest {
                 assertThat(effect).isInstanceOf(ProfileEffects.CloseAndOpenActivity::class.java)
             }
         }
-
 
     @Test
     fun `multiple navigation events should send multiple effects in order`() =
@@ -189,5 +190,4 @@ class ProfileViewModelTest {
                 assertThat(thirdEffect).isInstanceOf(ProfileEffects.NavigateToContacts::class.java)
             }
         }
-
 }

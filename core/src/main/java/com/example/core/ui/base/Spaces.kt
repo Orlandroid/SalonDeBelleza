@@ -3,10 +3,10 @@ package com.example.core.ui.base
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.width
+import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.runtime.Composable
 
 @Composable
 fun SmallSpacer(orientation: Orientation) {
@@ -24,7 +24,10 @@ fun LongSpacer(orientation: Orientation) {
 }
 
 @Composable
-fun BaseSpacer(orientation: Orientation, size: Dp) {
+fun BaseSpacer(
+    orientation: Orientation,
+    size: Dp,
+) {
     when (orientation) {
         Orientation.VERTICAL -> {
             Spacer(modifier = Modifier.height(size))
@@ -36,11 +39,7 @@ fun BaseSpacer(orientation: Orientation, size: Dp) {
     }
 }
 
-
 enum class Orientation {
-    VERTICAL,//height
-    HORIZONTAL//width
+    VERTICAL, // height
+    HORIZONTAL, // width
 }
-
-
-

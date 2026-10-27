@@ -22,49 +22,50 @@ data class BalanceUiState(
     val currency: Currency = Currency.USD,
     val createdAtMillis: Long = 0L,
     val userId: String = "",
-    val initialsFrom: String? = null
+    val initialsFrom: String? = null,
 )
 
 @HiltViewModel
 class BalanceViewmodel
-@Inject constructor(
-    private val getBalanceUseCase: GetBalanceUseCase
-) : ViewModel() {
+    @Inject
+    constructor(
+        private val getBalanceUseCase: GetBalanceUseCase,
+    ) : ViewModel() {
+        private val _state: MutableStateFlow<BaseScreenState<BalanceUiState>> =
+            MutableStateFlow(BaseScreenState.OnLoading)
 
-
-    private val _state: MutableStateFlow<BaseScreenState<BalanceUiState>> =
-        MutableStateFlow(BaseScreenState.OnLoading)
-
-    val state = _state.onStart {
-        val balanceResult = getBalanceUseCase()
-        if (balanceResult.isSuccess()) {
-            val wallet = balanceResult.getContent()
-            _state.update {
-                BaseScreenState.OnContent(
-                    content = BalanceUiState(
-                        balance = wallet.balance,
-                        userName = wallet.userName,
-                        currency = wallet.currency,
-                        createdAtMillis = wallet.createdAtMillis,
-                        initialsFrom = initialsFrom(wallet.userName)
-                    )
+        val state =
+            _state
+                .onStart {
+                    val balanceResult = getBalanceUseCase()
+                    if (balanceResult.isSuccess()) {
+                        val wallet = balanceResult.getContent()
+                        _state.update {
+                            BaseScreenState.OnContent(
+                                content =
+                                    BalanceUiState(
+                                        balance = wallet.balance,
+                                        userName = wallet.userName,
+                                        currency = wallet.currency,
+                                        createdAtMillis = wallet.createdAtMillis,
+                                        initialsFrom = initialsFrom(wallet.userName),
+                                    ),
+                            )
+                        }
+                    } else {
+                        _state.update { BaseScreenState.OnError(error = Throwable(balanceResult.getErrorMessage())) }
+                    }
+                }.stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(5000),
+                    initialValue = BaseScreenState.OnLoading,
                 )
-            }
-        } else {
-            _state.update { BaseScreenState.OnError(error = Throwable(balanceResult.getErrorMessage())) }
-        }
 
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(5000),
-        initialValue = BaseScreenState.OnLoading
-    )
-
-
-    private fun initialsFrom(name: String): String =
-        name.trim()
-            .split(" ")
-            .filter { it.isNotBlank() }
-            .take(2)
-            .joinToString("") { it.first().uppercase() }
-}
+        private fun initialsFrom(name: String): String =
+            name
+                .trim()
+                .split(" ")
+                .filter { it.isNotBlank() }
+                .take(2)
+                .joinToString("") { it.first().uppercase() }
+    }

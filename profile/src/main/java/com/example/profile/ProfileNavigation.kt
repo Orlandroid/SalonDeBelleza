@@ -1,6 +1,5 @@
 package com.example.profile
 
-
 import androidx.compose.material3.Text
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
@@ -9,16 +8,18 @@ import androidx.navigation.navigation
 import androidx.navigation.toRoute
 import com.example.core.navigation.AppNavigationRoutes
 import com.example.core.navigation.profile.ProfileNavigationRoutes
-import com.example.profile.contact_us.ContactUsScreen
-import com.example.profile.historial_citas.AppointmentHistoryScreen
-import com.example.profile.historial_detail.HistoryDetailScreen
+import com.example.profile.contactus.ContactUsScreen
+import com.example.profile.historialcitas.AppointmentHistoryScreen
+import com.example.profile.historialdetail.HistoryDetailScreen
 import com.example.profile.profile.ProfileScreen
 import com.example.profile.userprofile.UserProfileScreen
 
-
-fun NavGraphBuilder.profileNavigationGraph(navController: NavHostController, onRestart: () -> Unit) {
+fun NavGraphBuilder.profileNavigationGraph(
+    navController: NavHostController,
+    onRestart: () -> Unit,
+) {
     navigation<AppNavigationRoutes.ProfileNavigationRoute>(
-        startDestination = ProfileNavigationRoutes.ProfileRoute
+        startDestination = ProfileNavigationRoutes.ProfileRoute,
     ) {
         composable<ProfileNavigationRoutes.ProfileRoute> {
             ProfileScreen(navController = navController, onCloseApp = onRestart)
@@ -33,7 +34,7 @@ fun NavGraphBuilder.profileNavigationGraph(navController: NavHostController, onR
             val arguments = it.toRoute<ProfileNavigationRoutes.HistoryDetailRoute>()
             HistoryDetailScreen(
                 navController = navController,
-                appointmentId = arguments.appointmentId
+                appointmentId = arguments.appointmentId,
             )
         }
         composable<ProfileNavigationRoutes.ContactsRoute> {

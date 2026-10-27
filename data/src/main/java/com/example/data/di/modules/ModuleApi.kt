@@ -17,7 +17,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object ModuleApi {
-
     private const val RETROFIT_DUMMY_JSON = "DummyJson"
     private const val CONNECT_TIMEOUT = 60L
     private const val READ_TIMEOUT = 60L
@@ -26,39 +25,43 @@ object ModuleApi {
     @Singleton
     @Provides
     fun provideOkHttpClient(): OkHttpClient {
-        val builder = OkHttpClient.Builder()
-            .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
-            .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
-            .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
-            .retryOnConnectionFailure(true)
+        val builder =
+            OkHttpClient
+                .Builder()
+                .connectTimeout(CONNECT_TIMEOUT, TimeUnit.SECONDS)
+                .readTimeout(READ_TIMEOUT, TimeUnit.SECONDS)
+                .writeTimeout(WRITE_TIMEOUT, TimeUnit.SECONDS)
+                .retryOnConnectionFailure(true)
 
         if (BuildConfig.DEBUG) {
-            val loggingInterceptor = HttpLoggingInterceptor().apply {
-                level = HttpLoggingInterceptor.Level.BODY
-            }
+            val loggingInterceptor =
+                HttpLoggingInterceptor().apply {
+                    level = HttpLoggingInterceptor.Level.BODY
+                }
             builder.addInterceptor(loggingInterceptor)
         }
 
         return builder.build()
     }
 
-    private fun createRetrofit(okHttpClient: OkHttpClient, baseUrl: String) =
-        Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create())
-            .client(okHttpClient)
-            .build()
+    private fun createRetrofit(
+        okHttpClient: OkHttpClient,
+        baseUrl: String,
+    ) = Retrofit
+        .Builder()
+        .baseUrl(baseUrl)
+        .addConverterFactory(GsonConverterFactory.create())
+        .client(okHttpClient)
+        .build()
 
     @Singleton
     @Provides
-    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit =
-        createRetrofit(okHttpClient, BuildConfig.API_BASE_URL_BRANCHES)
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = createRetrofit(okHttpClient, BuildConfig.API_BASE_URL_BRANCHES)
 
     @Singleton
     @Provides
     @Named(RETROFIT_DUMMY_JSON)
-    fun provideRetroDummyJson(okHttpClient: OkHttpClient): Retrofit =
-        createRetrofit(okHttpClient, BuildConfig.API_BASE_URL_DUMMY_JSON)
+    fun provideRetroDummyJson(okHttpClient: OkHttpClient): Retrofit = createRetrofit(okHttpClient, BuildConfig.API_BASE_URL_DUMMY_JSON)
 
     @Singleton
     @Provides

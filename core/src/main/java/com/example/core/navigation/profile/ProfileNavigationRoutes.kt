@@ -2,7 +2,6 @@ package com.example.core.navigation.profile
 
 import kotlinx.serialization.Serializable
 
-
 sealed class ProfileNavigationRoutes {
     @Serializable
     data object ProfileRoute : ProfileNavigationRoutes()
@@ -14,7 +13,9 @@ sealed class ProfileNavigationRoutes {
     data object AppointmentHistoryRoute : ProfileNavigationRoutes()
 
     @Serializable
-    data class HistoryDetailRoute(val appointmentId: String) : ProfileNavigationRoutes()
+    data class HistoryDetailRoute(
+        val appointmentId: String,
+    ) : ProfileNavigationRoutes()
 
     @Serializable
     data object ContactsRoute : ProfileNavigationRoutes()
@@ -22,4 +23,3 @@ sealed class ProfileNavigationRoutes {
     @Serializable
     data object TermsAndConditionsRoute : ProfileNavigationRoutes()
 }
-

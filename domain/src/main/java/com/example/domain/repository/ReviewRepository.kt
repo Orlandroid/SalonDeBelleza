@@ -5,5 +5,6 @@ import com.example.model.state.ApiResult
 
 interface ReviewRepository {
     suspend fun addReview(review: Review): ApiResult<Unit>
+
     suspend fun getStaffReviews(staffId: String): ApiResult<List<Review>>
 }

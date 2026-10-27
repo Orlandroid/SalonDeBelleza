@@ -4,7 +4,6 @@ import com.example.domain.perfil.MENU
 import com.example.domain.perfil.ProfileItem
 
 object ProfileMenuProvider {
-
     fun getMenusProfile(): List<ProfileItem> {
         val elementsMenu = arrayListOf<ProfileItem>()
         val profile = ProfileItem(R.string.profile, R.drawable.perfil, MENU.PROFILE)
@@ -15,7 +14,7 @@ object ProfileMenuProvider {
             ProfileItem(
                 R.string.terms_and_conditions,
                 R.drawable.terminos,
-                MENU.TERMS_AND_CONDITIONS
+                MENU.TERMS_AND_CONDITIONS,
             )
         val closeSession = ProfileItem(R.string.logout, R.drawable.cerrar, MENU.CLOSE_SESSION)
         elementsMenu.add(profile)

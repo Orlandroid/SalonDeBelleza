@@ -20,115 +20,126 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
-
 data class ProfileUiState(
     val showAlertCloseSession: Boolean = false,
     val user: String? = null,
-    val menusProfile: List<ProfileItem> = ProfileMenuProvider.getMenusProfile()
+    val menusProfile: List<ProfileItem> = ProfileMenuProvider.getMenusProfile(),
 )
 
 sealed class ProfileEvents {
     object OnProfileClicked : ProfileEvents()
+
     object OnHistoricalClicked : ProfileEvents()
+
     object OnContactClicked : ProfileEvents()
+
     object OnTermAndCondictionsClicked : ProfileEvents()
+
     object OnCloseSession : ProfileEvents()
+
     object OnDismissDialog : ProfileEvents()
+
     object OnConfirmClicked : ProfileEvents()
+
     object OnCancel : ProfileEvents()
 }
 
 sealed class ProfileEffects {
     object CloseAndOpenActivity : ProfileEffects()
+
     object NavigateToProfile : ProfileEffects()
+
     object NavigateToHistory : ProfileEffects()
+
     object NavigateToContacts : ProfileEffects()
+
     object NavigateToTermAndCondictions : ProfileEffects()
 }
 
 @HiltViewModel
-class ProfileViewModel @Inject constructor(
-    private val userRepository: UserRepository,
-    private val authRepository: AuthRepository,
-    private val userPreferences: UserPreferences
-) :
-    ViewModel() {
+class ProfileViewModel
+    @Inject
+    constructor(
+        private val userRepository: UserRepository,
+        private val authRepository: AuthRepository,
+        private val userPreferences: UserPreferences,
+    ) : ViewModel() {
+        private val _uiState: MutableStateFlow<ProfileUiState> =
+            MutableStateFlow(ProfileUiState())
 
-    private val _uiState: MutableStateFlow<ProfileUiState> =
-        MutableStateFlow(ProfileUiState())
+        val uiState =
+            _uiState
+                .onStart {
+                    val authResult = userRepository.getUser()
+                    if (authResult.isSuccess()) {
+                        _uiState.update { it.copy(user = authResult.getContent().email) }
+                    }
+                }.stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(500L),
+                    initialValue = ProfileUiState(),
+                )
 
-    val uiState = _uiState.onStart {
-        val authResult = userRepository.getUser()
-        if (authResult.isSuccess()) {
-            _uiState.update { it.copy(user = authResult.getContent().email) }
+        private val _effects = Channel<ProfileEffects>()
+
+        val effects = _effects.receiveAsFlow()
+
+        fun onEvents(event: ProfileEvents) {
+            when (event) {
+                ProfileEvents.OnCloseSession -> {
+                    _uiState.update { it.copy(showAlertCloseSession = true) }
+                }
+
+                ProfileEvents.OnContactClicked -> {
+                    viewModelScope.launch {
+                        sendEffect(ProfileEffects.NavigateToContacts)
+                    }
+                }
+
+                ProfileEvents.OnHistoricalClicked -> {
+                    viewModelScope.launch {
+                        sendEffect(ProfileEffects.NavigateToHistory)
+                    }
+                }
+
+                ProfileEvents.OnProfileClicked -> {
+                    viewModelScope.launch {
+                        sendEffect(ProfileEffects.NavigateToProfile)
+                    }
+                }
+
+                ProfileEvents.OnTermAndCondictionsClicked -> {
+                    viewModelScope.launch {
+                        sendEffect(ProfileEffects.NavigateToTermAndCondictions)
+                    }
+                }
+
+                ProfileEvents.OnDismissDialog -> {
+                    _uiState.update { it.copy(showAlertCloseSession = false) }
+                }
+
+                ProfileEvents.OnConfirmClicked -> {
+                    _uiState.update { it.copy(showAlertCloseSession = false) }
+                    logout()
+                }
+
+                ProfileEvents.OnCancel -> {
+                    _uiState.update { it.copy(showAlertCloseSession = false) }
+                }
+            }
         }
-    }.stateIn(
-        scope = viewModelScope,
-        started = SharingStarted.WhileSubscribed(500L),
-        initialValue = ProfileUiState()
-    )
 
-    private val _effects = Channel<ProfileEffects>()
+        private suspend fun sendEffect(effect: ProfileEffects) {
+            _effects.send(effect)
+        }
 
-    val effects = _effects.receiveAsFlow()
-
-    fun onEvents(event: ProfileEvents) {
-        when (event) {
-            ProfileEvents.OnCloseSession -> {
-                _uiState.update { it.copy(showAlertCloseSession = true) }
-            }
-
-            ProfileEvents.OnContactClicked -> {
-                viewModelScope.launch {
-                    sendEffect(ProfileEffects.NavigateToContacts)
+        private fun logout() {
+            viewModelScope.launch {
+                val loginResult = authRepository.logout()
+                if (loginResult.isSuccess()) {
+                    userPreferences.destroyUserSession()
+                    sendEffect(ProfileEffects.CloseAndOpenActivity)
                 }
-            }
-
-            ProfileEvents.OnHistoricalClicked -> {
-                viewModelScope.launch {
-                    sendEffect(ProfileEffects.NavigateToHistory)
-                }
-            }
-
-            ProfileEvents.OnProfileClicked -> {
-                viewModelScope.launch {
-                    sendEffect(ProfileEffects.NavigateToProfile)
-                }
-            }
-
-            ProfileEvents.OnTermAndCondictionsClicked -> {
-                viewModelScope.launch {
-                    sendEffect(ProfileEffects.NavigateToTermAndCondictions)
-                }
-            }
-
-            ProfileEvents.OnDismissDialog -> {
-                _uiState.update { it.copy(showAlertCloseSession = false) }
-            }
-
-            ProfileEvents.OnConfirmClicked -> {
-                _uiState.update { it.copy(showAlertCloseSession = false) }
-                logout()
-            }
-
-            ProfileEvents.OnCancel -> {
-                _uiState.update { it.copy(showAlertCloseSession = false) }
             }
         }
     }
-
-    private suspend fun sendEffect(effect: ProfileEffects) {
-        _effects.send(effect)
-    }
-
-    private fun logout() {
-        viewModelScope.launch {
-            val loginResult = authRepository.logout()
-            if (loginResult.isSuccess()) {
-                userPreferences.destroyUserSession()
-                sendEffect(ProfileEffects.CloseAndOpenActivity)
-            }
-        }
-    }
-
-}
