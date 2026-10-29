@@ -27,14 +27,14 @@ class EarnPointsUseCase
                 return ApiResult.Error(result.getErrorMessage())
             }
 
-            val current = result.getContent()
+            val currentLoyalty = result.getContent()
 
-            val newBalance = current.balance + pointsEarned
-            val newLifetime = current.lifetimePoints + pointsEarned
+            val newBalance = currentLoyalty.balance + pointsEarned
+            val newLifetime = currentLoyalty.lifetimePoints + pointsEarned
             val newTier = LoyaltyTier.fromPoints(newLifetime)
 
             val updatedLoyalty =
-                current.copy(
+                currentLoyalty.copy(
                     balance = newBalance,
                     lifetimePoints = newLifetime,
                     tier = newTier

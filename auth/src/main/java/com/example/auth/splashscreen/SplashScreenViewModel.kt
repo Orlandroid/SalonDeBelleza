@@ -18,26 +18,24 @@ data class SplashScreenUiState(
 )
 
 @HiltViewModel
-class SplashScreenViewModel
-    @Inject
-    constructor(
-        private val userPreferences: UserPreferences
-    ) : ViewModel() {
-        private val _state: MutableStateFlow<SplashScreenUiState> =
-            MutableStateFlow(SplashScreenUiState())
-        val state =
-            _state
-                .onStart {
-                    val rooted = RootChecker.isDeviceRooted()
-                    if (rooted) {
-                        _state.update { it.copy(isLoading = false, isDeviceRooted = true) }
-                    } else {
-                        val isUserLoggedIn = userPreferences.isUserLoggedIn()
-                        _state.update { it.copy(isUserLoggedIn = isUserLoggedIn, isLoading = false) }
-                    }
-                }.stateIn(
-                    scope = viewModelScope,
-                    started = SharingStarted.WhileSubscribed(5000),
-                    initialValue = SplashScreenUiState()
-                )
-    }
+class SplashScreenViewModel @Inject constructor(
+    private val userPreferences: UserPreferences
+) : ViewModel() {
+    private val _state: MutableStateFlow<SplashScreenUiState> =
+        MutableStateFlow(SplashScreenUiState())
+    val state =
+        _state
+            .onStart {
+                val rooted = RootChecker.isDeviceRooted()
+                if (rooted) {
+                    _state.update { it.copy(isLoading = false, isDeviceRooted = true) }
+                } else {
+                    val isUserLoggedIn = userPreferences.isUserLoggedIn()
+                    _state.update { it.copy(isUserLoggedIn = isUserLoggedIn, isLoading = false) }
+                }
+            }.stateIn(
+                scope = viewModelScope,
+                started = SharingStarted.WhileSubscribed(5000),
+                initialValue = SplashScreenUiState()
+            )
+}
