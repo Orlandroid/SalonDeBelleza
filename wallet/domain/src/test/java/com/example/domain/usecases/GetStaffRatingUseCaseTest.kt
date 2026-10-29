@@ -20,11 +20,9 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class GetStaffRatingUseCaseTest {
-
     private lateinit var getStaffRatingUseCaseTest: GetStaffRatingUseCase
     private val testDispatcher = StandardTestDispatcher()
     private val reviewRepository: ReviewRepository = mockk()
-
 
     @Before
     fun setUp() {
@@ -37,7 +35,6 @@ class GetStaffRatingUseCaseTest {
         Dispatchers.setMain(Dispatchers.Default)
     }
 
-
     @Test
     fun `when getStaffReviews returns Error`() =
         runTest {
@@ -48,7 +45,6 @@ class GetStaffRatingUseCaseTest {
             coVerify(exactly = 1) { reviewRepository.getStaffReviews(any()) }
             Truth.assertThat(response).isInstanceOf(ApiResult.Error::class.java)
         }
-
 
     @Test
     fun `when getStaffReviews returns Success but don,t have any review`() =
@@ -62,14 +58,14 @@ class GetStaffRatingUseCaseTest {
             Truth.assertThat(response).isInstanceOf(ApiResult.Success::class.java)
         }
 
-
     @Test
     fun `when getStaffReviews returns Success with list of reviews`() =
         runTest {
-            val sampleReviews = listOf(
-                Review(id = "1", staffId = "78", rating = 4, comment = "Great service"),
-                Review(id = "2", staffId = "78", rating = 5, comment = "Excellent!")
-            )
+            val sampleReviews =
+                listOf(
+                    Review(id = "1", staffId = "78", rating = 4, comment = "Great service"),
+                    Review(id = "2", staffId = "78", rating = 5, comment = "Excellent!")
+                )
             coEvery { reviewRepository.getStaffReviews("78") } returns ApiResult.Success(sampleReviews)
 
             val response = getStaffRatingUseCaseTest.invoke("78")
@@ -82,18 +78,4 @@ class GetStaffRatingUseCaseTest {
             Truth.assertThat(summary.averageRating).isEqualTo(4.5)
             Truth.assertThat(summary.recentComments).isEqualTo(sampleReviews)
         }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
