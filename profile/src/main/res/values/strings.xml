@@ -61,4 +61,9 @@
     <string name="submit">Submit</string>
     <string name="maybe_later">Maybe later</string>
     <string name="earn_stars_for_feedback">Earn +50 stars for your feedback!</string>
+    <string name="coupon_discount_percentage">%1$d%% OFF</string>
+    <string name="points_until_next_tier">%1$d points until %2$s</string>
+    <string name="view_activity">Ver actividad &gt;</string>
+    <string name="my_loyalty">My Loyalty</string>
+    <string name="tier_member">%1$s Member</string>
 </resources>

@@ -5,13 +5,13 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.Appointment
 import com.example.domain.repository.AppointmentsRepository
+import com.example.domain.usecases.CancelAppointmentUseCase
 import com.example.domain.usecases.SubmitAppointmentReviewUseCase
 import com.example.domain.usecases.loyalty.CompleteAppointmentUseCase
 import com.example.model.state.getContent
 import com.example.model.state.getErrorMessage
 import com.example.model.state.isError
 import com.example.model.state.isSuccess
-import com.example.model.state.models.AppointmentStatus
 import com.example.profile.R
 import com.example.profile.historialcitas.AppointmentHistoryEffects.NavigateToDetail
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -76,7 +76,8 @@ sealed class AppointmentHistoryEffects {
 class AppointmentHistoryViewModel @Inject constructor(
     private val appointmentsRepository: AppointmentsRepository,
     private val completeAppointmentUseCase: CompleteAppointmentUseCase,
-    private val submitAppointmentReviewUseCase: SubmitAppointmentReviewUseCase
+    private val submitAppointmentReviewUseCase: SubmitAppointmentReviewUseCase,
+    private val cancelAppointmentUseCase: CancelAppointmentUseCase
 ) : ViewModel() {
     private var idAppointment: String? = null
 
@@ -204,20 +205,9 @@ class AppointmentHistoryViewModel @Inject constructor(
     private fun cancelAppointment(idAppointment: String) =
         viewModelScope.launch {
             _state.update { it.copy(isLoading = true) }
-            val result = appointmentsRepository.getAppointmentById(idAppointment)
+            val result = cancelAppointmentUseCase(idAppointment)
             if (result.isError()) {
                 _state.update { it.copy(error = result.getErrorMessage(), isLoading = false) }
-                return@launch
-            }
-            val appointment = result.getContent()
-            val cancelledAppointment = appointment.copy(status = AppointmentStatus.CANCELLED)
-            val updateResult =
-                appointmentsRepository.updateAppointment(
-                    appointmentId = idAppointment,
-                    appointment = cancelledAppointment
-                )
-            if (updateResult.isError()) {
-                _state.update { it.copy(error = updateResult.getErrorMessage(), isLoading = false) }
             } else {
                 getAppointments()
             }

@@ -47,7 +47,7 @@ class LoyaltyHistoryViewModel
                     val sortedList = result.result.sortedByDescending { it.createdAt }
                     _state.update { it.copy(transactions = sortedList, isLoading = false) }
                 } else {
-                    _state.update { it.copy(isLoading = false, error = "Error al cargar el historial") }
+                    _state.update { it.copy(isLoading = false, error = "Error loading history") }
                 }
             }
     }

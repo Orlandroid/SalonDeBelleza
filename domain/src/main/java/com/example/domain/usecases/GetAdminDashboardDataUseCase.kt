@@ -8,7 +8,6 @@ import com.example.model.state.getContent
 import com.example.model.state.getErrorMessage
 import com.example.model.state.isError
 import com.example.model.state.isSuccess
-import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.withContext
@@ -20,10 +19,9 @@ data class AdminDashboardData(
 )
 
 class GetAdminDashboardDataUseCase @Inject constructor(
-    private val adminRepository: AdminRepository,
-    private val ioDispatcher: CoroutineDispatcher = Dispatchers.IO
+    private val adminRepository: AdminRepository
 ) {
-    suspend operator fun invoke(): ApiResult<AdminDashboardData> = withContext(ioDispatcher) {
+    suspend operator fun invoke(): ApiResult<AdminDashboardData> = withContext(Dispatchers.IO) {
         val revenueDeferred = async { adminRepository.getRevenue() }
         val bookingsDeferred = async { adminRepository.getTotalBookings() }
         val pendingDeferred = async { adminRepository.getPendingAppointmentsForAdmin() }

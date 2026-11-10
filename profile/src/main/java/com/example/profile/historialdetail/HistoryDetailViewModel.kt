@@ -54,7 +54,7 @@ class HistoryDetailViewModel
                     is ApiResult.Error -> {
                         _uiState.update {
                             BaseScreenState.OnError(
-                                error = Throwable("Error get appointment")
+                                error = Throwable("Error getting appointment")
                             )
                         }
                     }

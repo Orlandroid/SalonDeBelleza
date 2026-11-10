@@ -9,9 +9,7 @@ import com.example.di.qualifiers.PromotionCodesRef
 import com.example.di.qualifiers.ReviewsRef
 import com.example.di.qualifiers.RewardsRef
 import com.example.di.qualifiers.RootAppointmentsRef
-import com.example.di.qualifiers.TransactionReference
 import com.example.di.qualifiers.UsersRef
-import com.example.di.qualifiers.WalletReference
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
@@ -27,8 +25,6 @@ object ModuleFirebase {
     private const val IMAGE_USER = "imageUser"
     private const val APPOINTMENT_PATH = "Appointment"
     private const val USERS_PATH = "users"
-    private const val WALLET = "wallets"
-    private const val TRANSACTIONS = "transactions"
     private const val LOYALTY = "loyalty"
     private const val LOYALTY_TRANSACTIONS = "loyaltyTransactions"
     private const val REWARDS = "rewards"
@@ -77,18 +73,6 @@ object ModuleFirebase {
         val uuidUser = firebaseAuth.uid
         return firebaseDatabase.reference.child(IMAGE_USER).child(uuidUser!!)
     }
-
-    @Singleton
-    @Provides
-    @WalletReference
-    fun provideFirebaseRealtimeWalletReference(firebaseDatabase: FirebaseDatabase): DatabaseReference =
-        firebaseDatabase.reference.child(WALLET)
-
-    @Singleton
-    @Provides
-    @TransactionReference
-    fun provideFirebaseRealtimeTransactionReference(firebaseDatabase: FirebaseDatabase): DatabaseReference =
-        firebaseDatabase.reference.child(TRANSACTIONS)
 
     @Singleton
     @Provides

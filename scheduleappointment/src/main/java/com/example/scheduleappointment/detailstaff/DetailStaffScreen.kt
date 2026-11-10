@@ -156,7 +156,7 @@ private fun StaffRatingHeader(summary: StaffRatingSummary) {
             )
         }
         Text(
-            text = "(${summary.totalReviews} reviews)",
+            text = stringResource(R.string.total_reviews, summary.totalReviews),
             color = Color.Gray,
             style = MaterialTheme.typography.labelMedium
         )

@@ -247,18 +247,18 @@ private fun LoyaltySection(
             ) {
                 Column {
                     Text(
-                        text = "My Loyalty",
+                        text = stringResource(R.string.my_loyalty),
                         style = MaterialTheme.typography.titleMedium,
                         fontWeight = FontWeight.Bold,
                         color = Color.Black
                     )
                     Text(
-                        text = "$tier Member",
+                        text = stringResource(R.string.tier_member, tier),
                         style = MaterialTheme.typography.bodyMedium,
                         color = Color.Gray
                     )
                     Text(
-                        text = "Ver actividad >",
+                        text = stringResource(R.string.view_activity),
                         style = MaterialTheme.typography.labelMedium,
                         color = MaterialTheme.colorScheme.primary,
                         modifier = Modifier.clickable { onViewHistory() }
@@ -312,9 +312,11 @@ private fun LoyaltySection(
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = "$pointsNeeded points until ${
+                        text = stringResource(
+                            R.string.points_until_next_tier,
+                            pointsNeeded,
                             nextTier.name.lowercase().replaceFirstChar { it.uppercase() }
-                        }",
+                        ),
                         style = MaterialTheme.typography.labelSmall,
                         color = Color.Gray
                     )
@@ -372,7 +374,10 @@ private fun CouponItem(coupon: PromotionCode) {
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = "${coupon.discountPercentage}% OFF",
+                text = stringResource(
+                    R.string.coupon_discount_percentage,
+                    coupon.discountPercentage
+                ),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black

@@ -1,6 +1,6 @@
 package com.example.data
 
-import com.example.di.qualifiers.WalletReference
+import com.example.data.di.WalletReference
 import com.example.domain.repository.WalletRepository
 import com.example.domain.wallet.Wallet
 import com.example.model.state.ApiResult

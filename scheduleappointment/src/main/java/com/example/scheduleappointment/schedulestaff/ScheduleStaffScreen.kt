@@ -4,6 +4,7 @@ import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.BoxScope
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -116,7 +117,7 @@ private fun ScheduleStaffScreenContent(
             Spacer(modifier = Modifier.weight(1f))
             Text(
                 modifier = Modifier.padding(end = 16.dp),
-                text = "${uiState.staffs.size} estilistas",
+                text = stringResource(R.string.total_stylists, uiState.staffs.size),
                 fontSize = 24.sp
             )
         }
@@ -188,39 +189,14 @@ private fun StaffCard(
                         .background(bgColor),
                 contentAlignment = Alignment.Center
             ) {
-                Box(
-                    modifier =
-                        Modifier
-                            .size(52.dp)
-                            .clip(CircleShape)
-                            .background(initialsColor),
-                    contentAlignment = Alignment.Center
-                ) {
-                    Text(
-                        text = staff.initials,
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color.White
-                    )
-                }
 
-                Surface(
-                    onClick = onDetailClick,
-                    shape = RoundedCornerShape(6.dp),
-                    color = Color.White.copy(alpha = 0.9f),
-                    border = BorderStroke(0.5.dp, CardBorder),
-                    modifier =
-                        Modifier
-                            .align(Alignment.TopEnd)
-                            .padding(8.dp)
-                ) {
-                    Text(
-                        text = stringResource(R.string.detail),
-                        fontSize = 11.sp,
-                        color = TextMuted,
-                        modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
-                    )
-                }
+                StaffInitialsAvatar(
+                    initialsColor = initialsColor,
+                    staffInitial = staff.initials
+                )
+
+                DetailText(onDetailClick = onDetailClick)
+
             }
             Column(
                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
@@ -251,29 +227,78 @@ private fun StaffCard(
                     )
                 }
 
-                Button(
-                    onClick = onSelectClick,
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .height(32.dp),
-                    shape = RoundedCornerShape(8.dp),
-                    colors =
-                        ButtonDefaults.buttonColors(
-                            containerColor = PurpleLight,
-                            contentColor = Purple
-                        ),
-                    contentPadding = PaddingValues(0.dp),
-                    border = BorderStroke(0.5.dp, PurpleBorder)
-                ) {
-                    Text(
-                        text = stringResource(R.string.select),
-                        fontSize = 12.sp,
-                        fontWeight = FontWeight.Medium
-                    )
-                }
+                ButtonSelect(onSelectClick = onSelectClick)
             }
         }
+    }
+}
+
+@Composable
+private fun StaffInitialsAvatar(
+    initialsColor: Color,
+    staffInitial: String
+) {
+    Box(
+        modifier =
+            Modifier
+                .size(52.dp)
+                .clip(CircleShape)
+                .background(initialsColor),
+        contentAlignment = Alignment.Center
+    ) {
+        Text(
+            text = staffInitial,
+            fontSize = 18.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = Color.White
+        )
+    }
+}
+
+@Composable
+private fun BoxScope.DetailText(onDetailClick: () -> Unit) {
+    Surface(
+        onClick = onDetailClick,
+        shape = RoundedCornerShape(6.dp),
+        color = Color.White.copy(alpha = 0.9f),
+        border = BorderStroke(0.5.dp, CardBorder),
+        modifier =
+            Modifier
+                .align(Alignment.TopEnd)
+                .padding(8.dp)
+    ) {
+        Text(
+            text = stringResource(R.string.detail),
+            fontSize = 11.sp,
+            color = TextMuted,
+            modifier = Modifier.padding(horizontal = 6.dp, vertical = 2.dp)
+        )
+    }
+}
+
+
+@Composable
+private fun ButtonSelect(onSelectClick: () -> Unit) {
+    Button(
+        onClick = onSelectClick,
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .height(32.dp),
+        shape = RoundedCornerShape(8.dp),
+        colors =
+            ButtonDefaults.buttonColors(
+                containerColor = PurpleLight,
+                contentColor = Purple
+            ),
+        contentPadding = PaddingValues(0.dp),
+        border = BorderStroke(0.5.dp, PurpleBorder)
+    ) {
+        Text(
+            text = stringResource(R.string.select),
+            fontSize = 12.sp,
+            fontWeight = FontWeight.Medium
+        )
     }
 }
 

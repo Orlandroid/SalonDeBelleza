@@ -55,7 +55,6 @@ sealed class SingUpEvents {
 sealed class SignUpSideEffects {
     data object NavigateToLoginScreen : SignUpSideEffects()
 
-    // Change message to enum with types of messages
     data class ShowSnackBar(
         val kindOfMessage: KindOfMessage
     ) : SignUpSideEffects()

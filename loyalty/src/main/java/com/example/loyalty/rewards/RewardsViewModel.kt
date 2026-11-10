@@ -87,7 +87,7 @@ class RewardsViewModel
                 if (result is ApiResult.Success) {
                     _state.update { it.copy(rewards = result.result, isLoading = false) }
                 } else {
-                    _state.update { it.copy(isLoading = false, error = "Error al cargar recompensas") }
+                    _state.update { it.copy(isLoading = false, error = "Error loading rewards") }
                 }
             }
 
@@ -103,7 +103,7 @@ class RewardsViewModel
                     val promo = result.result
                     _effects.send(RewardsEffects.ShowSuccess(promo.code, promo.discountPercentage))
                 } else {
-                    val errorMsg = (result as? ApiResult.Error)?.error ?: "Error al canjear recompensa"
+                    val errorMsg = (result as? ApiResult.Error)?.error ?: "Error redeeming reward"
                     _effects.send(RewardsEffects.ShowError(errorMsg))
                 }
             }

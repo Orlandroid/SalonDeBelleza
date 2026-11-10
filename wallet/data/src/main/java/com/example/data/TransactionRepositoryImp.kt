@@ -1,6 +1,6 @@
 package com.example.data
 
-import com.example.di.qualifiers.TransactionReference
+import com.example.data.di.TransactionReference
 import com.example.domain.transaction.Transaction
 import com.example.domain.transaction.TransactionRepository
 import com.example.model.state.ApiResult
