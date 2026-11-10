@@ -1,6 +1,10 @@
 package com.example.auth.login
 
+import android.util.Log
+import android.widget.Toast
 import androidx.activity.compose.BackHandler
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -32,6 +36,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.res.painterResource
@@ -60,7 +65,12 @@ import com.example.core.ui.dialogs.AlertKindOfMessage
 import com.example.core.ui.dialogs.BaseAlertDialogMessages
 import com.example.core.ui.theme.Background
 import com.example.core.ui.theme.Danger
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions
+import com.google.android.gms.common.api.ApiException
 import kotlinx.coroutines.flow.collectLatest
+
+private const val WEB_CLIENT_ID = "619340747074-93lsb31bhcsp1nkptvkve9rlhecbclnd.apps.googleusercontent.com"
 
 @Composable
 fun LoginScreen(
@@ -73,6 +83,32 @@ fun LoginScreen(
     }
     val uiState by viewModel.state.collectAsStateWithLifecycle()
     val focusManager = LocalFocusManager.current
+    val context = LocalContext.current
+
+    val googleSignInLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.StartActivityForResult()
+    ) { result ->
+        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+        try {
+            val account = task.getResult(ApiException::class.java)
+            account?.idToken?.let { idToken ->
+                viewModel.onEvents(LoginEvents.OnGoogleSignInSuccess(idToken))
+            }
+        } catch (e: ApiException) {
+            Log.e("GoogleSignIn", "Google Sign-In failed with status code: ${e.statusCode} (resultCode=${result.resultCode})", e)
+            Toast.makeText(context, "Google Sign-In Error Code: ${e.statusCode}", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    fun launchGoogleSignIn() {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+            .requestIdToken(WEB_CLIENT_ID)
+            .requestEmail()
+            .build()
+        val googleSignInClient = GoogleSignIn.getClient(context, gso)
+        googleSignInLauncher.launch(googleSignInClient.signInIntent)
+    }
+
     LaunchedEffect(viewModel) {
         viewModel.effects.collectLatest { effect ->
             when (effect) {
@@ -126,7 +162,11 @@ fun LoginScreen(
         LoginScreenContent(
             uiState = uiState,
             onEvents = { event ->
-                viewModel.onEvents(event)
+                if (event is LoginEvents.OnSignUpWithGoogle) {
+                    launchGoogleSignIn()
+                } else {
+                    viewModel.onEvents(event)
+                }
             },
             clearFocus = {
                 focusManager.clearFocus()

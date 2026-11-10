@@ -6,6 +6,7 @@ import com.example.domain.UserPreferences
 import com.example.domain.interfaces.EmailValidator
 import com.example.domain.interfaces.PasswordValidator
 import com.example.domain.usecases.LoginUseCase
+import com.example.domain.usecases.SignInWithGoogleUseCase
 import com.example.model.state.getContent
 import com.example.model.state.isSuccess
 import com.example.model.state.models.UserRole
@@ -50,6 +51,10 @@ sealed class LoginEvents {
     data object GoToSignUpScreen : LoginEvents()
 
     data object OnSignUpWithGoogle : LoginEvents()
+
+    data class OnGoogleSignInSuccess(
+        val idToken: String
+    ) : LoginEvents()
 }
 
 sealed class LoginSideEffects {
@@ -83,7 +88,8 @@ class LoginViewModel @Inject constructor(
     private val userPreferences: UserPreferences,
     private val emailValidator: EmailValidator,
     private val passwordValidator: PasswordValidator,
-    private val loginUseCase: LoginUseCase
+    private val loginUseCase: LoginUseCase,
+    private val signInWithGoogleUseCase: SignInWithGoogleUseCase
 ) : ViewModel() {
     private val _state: MutableStateFlow<LoginUiState> =
         MutableStateFlow(LoginUiState())
@@ -128,7 +134,11 @@ class LoginViewModel @Inject constructor(
             }
 
             is LoginEvents.OnSignUpWithGoogle -> {
-//                firebaseAuthWithGoogle("619340747074-93lsb31bhcsp1nkptvkve9rlhecbclnd.apps.googleusercontent.com")
+                // Handled via GoogleSignIn launcher in UI layer
+            }
+
+            is LoginEvents.OnGoogleSignInSuccess -> {
+                signInWithGoogle(event.idToken)
             }
 
             is LoginEvents.GoToSignUpScreen -> {
@@ -185,6 +195,27 @@ class LoginViewModel @Inject constructor(
                 _state.update { oldState ->
                     oldState.copy(
                         isLoading = false,
+                        showDialogPasswordOrEmailWrong = true
+                    )
+                }
+            }
+        }
+
+    fun signInWithGoogle(idToken: String) =
+        viewModelScope.launch {
+            _state.update { oldState -> oldState.copy(isLoading = true) }
+            val googleResult = signInWithGoogleUseCase(idToken)
+            _state.update { oldState -> oldState.copy(isLoading = false) }
+            if (googleResult.isSuccess()) {
+                val role = googleResult.getContent()
+                if (role == UserRole.ADMIN) {
+                    _effects.send(LoginSideEffects.NavigateToAdmin)
+                } else {
+                    _effects.send(LoginSideEffects.NavigateToHomeScreen)
+                }
+            } else {
+                _state.update { oldState ->
+                    oldState.copy(
                         showDialogPasswordOrEmailWrong = true
                     )
                 }

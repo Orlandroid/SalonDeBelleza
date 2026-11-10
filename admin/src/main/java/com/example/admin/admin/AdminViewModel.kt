@@ -6,7 +6,9 @@ import androidx.lifecycle.viewModelScope
 import com.example.domain.AdminAppointmentUiModel
 import com.example.domain.AdminMetrics
 import com.example.domain.repository.AdminRepository
+import com.example.domain.usecases.GetAdminDashboardDataUseCase
 import com.example.model.state.getContent
+import com.example.model.state.getErrorMessage
 import com.example.model.state.isSuccess
 import com.example.model.state.models.AppointmentStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -35,11 +37,16 @@ sealed class AdminEvents {
     data class OnReject(
         val appointmentId: String
     ) : AdminEvents()
+
+    data object OnRefresh : AdminEvents()
+
+    data object OnClearError : AdminEvents()
 }
 
 @HiltViewModel
 class AdminViewModel @Inject constructor(
-    private val repository: AdminRepository
+    private val repository: AdminRepository,
+    private val getAdminDashboardDataUseCase: GetAdminDashboardDataUseCase
 ) : ViewModel() {
     private val _uiState = MutableStateFlow(AdminUiState())
     val uiState: StateFlow<AdminUiState> =
@@ -52,41 +59,6 @@ class AdminViewModel @Inject constructor(
                 initialValue = AdminUiState()
             )
 
-    suspend fun getDataForDashboard() {
-        val revenueResult = repository.getRevenue()
-        val bookingsResult = repository.getTotalBookings()
-        val pendingAppointmentsResult = repository.getPendingAppointmentsForAdmin()
-        val revenue =
-            if (revenueResult.isSuccess()) {
-                revenueResult.getContent()
-            } else {
-                0.0
-            }
-        val bookings =
-            if (bookingsResult.isSuccess()) {
-                bookingsResult.getContent()
-            } else {
-                "0"
-            }
-        val pendingAppointments =
-            if (pendingAppointmentsResult.isSuccess()) {
-                pendingAppointmentsResult.getContent()
-            } else {
-                emptyList()
-            }
-        _uiState.update {
-            it.copy(
-                metrics =
-                    AdminMetrics(
-                        totalRevenue = revenue,
-                        totalBookings = bookings.toInt(),
-                        pendingAppointmentsCount = pendingAppointments.size
-                    ),
-                pendingAppointments = pendingAppointments
-            )
-        }
-    }
-
     fun onEvents(event: AdminEvents) {
         when (event) {
             is AdminEvents.OnApprove -> {
@@ -95,6 +67,38 @@ class AdminViewModel @Inject constructor(
 
             is AdminEvents.OnReject -> {
                 rejectAppointment(event.appointmentId)
+            }
+
+            AdminEvents.OnRefresh -> {
+                viewModelScope.launch {
+                    getDataForDashboard()
+                }
+            }
+
+            AdminEvents.OnClearError -> {
+                _uiState.update { it.copy(errorMessage = null) }
+            }
+        }
+    }
+
+    suspend fun getDataForDashboard() {
+        _uiState.update { it.copy(isLoading = true, errorMessage = null) }
+        val result = getAdminDashboardDataUseCase()
+        if (result.isSuccess()) {
+            val data = result.getContent()
+            _uiState.update {
+                it.copy(
+                    isLoading = false,
+                    metrics = data.metrics,
+                    pendingAppointments = data.pendingAppointments
+                )
+            }
+        } else {
+            _uiState.update {
+                it.copy(
+                    isLoading = false,
+                    errorMessage = result.getErrorMessage()
+                )
             }
         }
     }
@@ -118,11 +122,21 @@ class AdminViewModel @Inject constructor(
         newStatus: AppointmentStatus
     ) {
         viewModelScope.launch {
-            repository.updateAppointmentStatus(
+            _uiState.update { it.copy(isLoading = true) }
+            val result = repository.updateAppointmentStatus(
                 appointmentId = appointmentId,
                 newStatus = newStatus
             )
-            getDataForDashboard()
+            if (result.isSuccess()) {
+                getDataForDashboard()
+            } else {
+                _uiState.update {
+                    it.copy(
+                        isLoading = false,
+                        errorMessage = result.getErrorMessage() ?: "Failed to update appointment status"
+                    )
+                }
+            }
         }
     }
 }

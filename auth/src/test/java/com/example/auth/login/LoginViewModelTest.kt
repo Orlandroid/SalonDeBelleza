@@ -17,6 +17,7 @@ import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
+import com.example.domain.usecases.SignInWithGoogleUseCase
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After
@@ -32,6 +33,7 @@ class LoginViewModelTest {
     private val emailValidator: EmailValidator = mockk()
     private val passwordValidator: PasswordValidator = mockk()
     private val loginPreferences: UserPreferences = mockk(relaxed = true)
+    private val signInWithGoogleUseCase: SignInWithGoogleUseCase = mockk(relaxed = true)
     private var loginUseCase: LoginUseCase =
         LoginUseCase(
             authRepository = authRepository,
@@ -47,7 +49,8 @@ class LoginViewModelTest {
                 emailValidator = emailValidator,
                 userPreferences = loginPreferences,
                 passwordValidator = passwordValidator,
-                loginUseCase = loginUseCase
+                loginUseCase = loginUseCase,
+                signInWithGoogleUseCase = signInWithGoogleUseCase
             )
     }
 

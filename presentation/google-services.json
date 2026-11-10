@@ -1,8 +1,9 @@
 {
   "project_info": {
     "project_number": "619340747074",
+    "firebase_url": "https://skedulyv2-default-rtdb.firebaseio.com",
     "project_id": "skedulyv2",
-    "storage_bucket": "skedulyv2.appspot.com"
+    "storage_bucket": "skedulyv2.firebasestorage.app"
   },
   "client": [
     {
@@ -14,15 +15,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "619340747074-8ijf2aj1hournh8hsjud1k16mv1csg31.apps.googleusercontent.com",
+          "client_id": "619340747074-mgsaindmsb5qoni4ufs9istak3lsccsh.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.citassalon",
-            "certificate_hash": "81aa5cf6c6959ee41f4511a47b8f2758c2e950c4"
+            "certificate_hash": "34df208202f119025bffd19175d74d9b00a3e44e"
           }
         },
         {
-          "client_id": "619340747074-gbnirf34km79f5l784pn3nh8h9ti41un.apps.googleusercontent.com",
+          "client_id": "619340747074-93lsb31bhcsp1nkptvkve9rlhecbclnd.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -35,7 +36,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "619340747074-gbnirf34km79f5l784pn3nh8h9ti41un.apps.googleusercontent.com",
+              "client_id": "619340747074-93lsb31bhcsp1nkptvkve9rlhecbclnd.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
