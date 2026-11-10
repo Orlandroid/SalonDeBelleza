@@ -11,6 +11,7 @@ import com.example.domain.repository.UserRepository
 import com.example.domain.usecases.SaveAppointmentUseCase
 import com.example.domain.usecases.loyalty.VerifyPromoCodeUseCase
 import com.example.model.state.ApiResult
+import com.example.model.state.getErrorMessage
 import com.example.model.state.getResultOrNull
 import com.example.model.state.isSuccess
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -157,28 +158,16 @@ class ConfirmScheduleViewModel
             val draft = appointmentSession.draft.value
             val userId = userRepository.getUser().getResultOrNull()?.uid ?: return
 
-            val originalPrice = draft.service?.precio?.toDouble() ?: 0.0
-            val finalPrice =
-                if (_uiState.value.isPromoApplied) {
-                    val discount =
-                        originalPrice * (
-                            _uiState.value.appliedPromo
-                                ?.discountPercentage
-                                ?.toDouble()
-                                ?: 0.0
-                        ) / 100.0
-                    originalPrice - discount
-                } else {
-                    originalPrice
-                }
+            val currentState = _uiState.value
+            val originalPrice = draft.service?.precio?.toDouble() ?: DEFAULT_PRICE
+            val finalPrice = calculateFinalPrice(
+                originalPrice = originalPrice,
+                promo = if (currentState.isPromoApplied) currentState.appliedPromo else null
+            )
 
             val saveAppointmentResult =
                 saveAppointmentUseCase.invoke(
-                    establishment =
-                        draft.branch
-                            ?.sucursal
-                            ?.name
-                            .orEmpty(),
+                    establishment = draft.branch?.sucursal?.name.orEmpty(),
                     employeeName = draft.staff?.name.orEmpty(),
                     employeeId = draft.staff?.id.orEmpty(),
                     service = draft.service?.name.orEmpty(),
@@ -188,8 +177,8 @@ class ConfirmScheduleViewModel
                 )
 
             if (saveAppointmentResult.isSuccess()) {
-                if (_uiState.value.isPromoApplied) {
-                    _uiState.value.appliedPromo?.id?.let { promoId ->
+                if (currentState.isPromoApplied) {
+                    currentState.appliedPromo?.id?.let { promoId ->
                         loyaltyRepository.usePromotionCode(userId, promoId)
                     }
                 }
@@ -197,7 +186,26 @@ class ConfirmScheduleViewModel
                 _uiState.update { it.copy(showAnimation = true) }
                 _effects.send(ScheduleAppointmentEffects.NavigateToAppointComplete)
             } else {
-                // Todo add some kind of screen the creation of the appointment failed
+                _uiState.update {
+                    it.copy(
+                        error = saveAppointmentResult.getErrorMessage() ?: "Failed to save appointment"
+                    )
+                }
             }
+        }
+
+        private fun calculateFinalPrice(
+            originalPrice: Double,
+            promo: PromotionCode?
+        ): Double {
+            if (promo == null) return originalPrice
+            val discountPercentage = promo.discountPercentage.toDouble()
+            val discountAmount = originalPrice * (discountPercentage / PERCENTAGE_BASE)
+            return (originalPrice - discountAmount).coerceAtLeast(DEFAULT_PRICE)
+        }
+
+        private companion object {
+            const val DEFAULT_PRICE = 0.0
+            const val PERCENTAGE_BASE = 100.0
         }
     }
