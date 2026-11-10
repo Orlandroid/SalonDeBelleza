@@ -1,9 +1,11 @@
 package com.example.auth.login
 
+import android.content.Context
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
 import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -70,7 +72,8 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import kotlinx.coroutines.flow.collectLatest
 
-private const val WEB_CLIENT_ID = "619340747074-93lsb31bhcsp1nkptvkve9rlhecbclnd.apps.googleusercontent.com"
+private const val WEB_CLIENT_ID =
+    "619340747074-93lsb31bhcsp1nkptvkve9rlhecbclnd.apps.googleusercontent.com"
 
 @Composable
 fun LoginScreen(
@@ -88,16 +91,13 @@ fun LoginScreen(
     val googleSignInLauncher = rememberLauncherForActivityResult(
         contract = ActivityResultContracts.StartActivityForResult()
     ) { result ->
-        val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
-        try {
-            val account = task.getResult(ApiException::class.java)
-            account?.idToken?.let { idToken ->
+        handleGoogleSignInResult(
+            result = result,
+            context = context,
+            onSuccess = { idToken ->
                 viewModel.onEvents(LoginEvents.OnGoogleSignInSuccess(idToken))
             }
-        } catch (e: ApiException) {
-            Log.e("GoogleSignIn", "Google Sign-In failed with status code: ${e.statusCode} (resultCode=${result.resultCode})", e)
-            Toast.makeText(context, "Google Sign-In Error Code: ${e.statusCode}", Toast.LENGTH_LONG).show()
-        }
+        )
     }
 
     fun launchGoogleSignIn() {
@@ -172,6 +172,24 @@ fun LoginScreen(
                 focusManager.clearFocus()
             }
         )
+    }
+}
+
+
+private fun handleGoogleSignInResult(
+    result: ActivityResult,
+    context: Context,
+    onSuccess: (String) -> Unit
+) {
+    val task = GoogleSignIn.getSignedInAccountFromIntent(result.data)
+    try {
+        val account = task.getResult(ApiException::class.java)
+        account?.idToken?.let { idToken ->
+            onSuccess(idToken)
+        }
+    } catch (e: ApiException) {
+        Log.e("GoogleSignIn", "Failed code=${e.statusCode}", e)
+        Toast.makeText(context, "Google Sign-In Error: ${e.statusCode}", Toast.LENGTH_LONG).show()
     }
 }
 
