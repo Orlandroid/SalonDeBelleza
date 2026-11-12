@@ -1,13 +1,10 @@
 package com.example.domain.entities.remote.migration
 
-import com.google.gson.annotations.SerializedName
-
 data class BranchesResponse(
     val sucursales: List<NegoInfo>
 )
 
 data class NegoInfo(
-    @SerializedName("sucursal")
     val sucursal: Sucursal,
     val staffs: List<Staff>,
     val services: List<Service>
@@ -17,19 +14,15 @@ data class Sucursal(
     val id: String,
     val lat: String,
     val long: String,
-    var name: String,
+    val name: String,
     val schedule: Schedule,
     val isOpen: Boolean = false
 )
 
 data class Schedule(
-    @SerializedName("morning_open")
     val morningOpen: String,
-    @SerializedName("morning_close")
     val morningClose: String,
-    @SerializedName("afternoon_open")
     val afternoonOpen: String,
-    @SerializedName("afternoon_close")
     val afternoonClose: String
 )
 
@@ -38,7 +31,7 @@ data class Service(
     val name: String,
     val precio: Int,
     val durationInMinutes: Int,
-    var isSelect: Boolean = false
+    val isSelect: Boolean = false
 ) {
     companion object {
         private fun mockService() = Service(id = "0", name = "Corte de pelo", precio = 150, durationInMinutes = 30)
@@ -58,11 +51,8 @@ data class Staff(
     val initials: String = "",
     val id: String,
     val image_url: String,
-    @SerializedName("nombre")
     val name: String?,
-    @SerializedName("sexo")
     val gender: String,
-    @SerializedName("valoracion")
     val rating: Int
 ) {
     companion object {

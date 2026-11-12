@@ -2,6 +2,7 @@ package com.example.data.remote.appointments
 
 import com.example.data.api.WebServices
 import com.example.data.extension.toInitials
+import com.example.data.remote.model.toDomain
 import com.example.di.qualifiers.AppointmentsRef
 import com.example.di.qualifiers.MasterScheduleRef
 import com.example.domain.Appointment
@@ -99,7 +100,7 @@ class AppointmentsRepositoryImpl
         override suspend fun getBranches(): ApiResult<List<NegoInfo>> =
             runCatching {
                 val branches =
-                    webServices.getSucursales().sucursales.map { branch ->
+                    webServices.getSucursales().toDomain().sucursales.map { branch ->
                         branch.copy(
                             staffs =
                                 branch.staffs.map { staff ->
@@ -117,14 +118,14 @@ class AppointmentsRepositoryImpl
 
         override suspend fun getStaffs(): ApiResult<List<Staff>> =
             runCatching {
-                ApiResult.Success(webServices.getStaff())
+                ApiResult.Success(webServices.getStaff().map { it.toDomain() })
             }.getOrElse {
                 ApiResult.Error(it.message.orEmpty())
             }
 
         override suspend fun getServices(): ApiResult<List<Service>> =
             runCatching {
-                ApiResult.Success(webServices.getServicios())
+                ApiResult.Success(webServices.getServicios().map { it.toDomain() })
             }.getOrElse {
                 ApiResult.Error(it.message.orEmpty())
             }
