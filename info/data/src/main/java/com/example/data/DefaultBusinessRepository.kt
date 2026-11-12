@@ -4,6 +4,7 @@ import com.example.data.api.WebServices
 import com.example.data.database.daos.ProductDao
 import com.example.data.database.mappers.toProduct
 import com.example.data.database.mappers.toProductEntity
+import com.example.data.remote.model.toDomain
 import com.example.domain.Product
 import com.example.domain.entities.remote.dummyUsers.User
 import com.example.domain.repository.BusinessRepository
@@ -44,7 +45,7 @@ class DefaultBusinessRepository
         override suspend fun getStaffUsers(): ApiResult<List<User>> {
             val resultStaffs = runCatching { webServices.getStaffUsers("https://dummyjson.com/users") }
             if (resultStaffs.isSuccess) {
-                val response = resultStaffs.getOrNull()?.users
+                val response = resultStaffs.getOrNull()?.toDomain()?.users
                 return ApiResult.Success(result = response ?: emptyList())
             } else {
                 return ApiResult.Error(error = resultStaffs.exceptionOrNull()?.message)

@@ -1,9 +1,9 @@
 package com.example.data.api
 
 import com.example.data.remote.model.BranchesResponseDto
+import com.example.data.remote.model.DummyUsersResponseDto
 import com.example.data.remote.model.ServiceDto
 import com.example.data.remote.model.StaffDto
-import com.example.domain.entities.remote.dummyUsers.DummyUsersResponse
 import retrofit2.http.GET
 import retrofit2.http.Url
 
@@ -20,5 +20,5 @@ interface WebServices {
     @GET
     suspend fun getStaffUsers(
         @Url url: String
-    ): DummyUsersResponse
+    ): DummyUsersResponseDto
 }
