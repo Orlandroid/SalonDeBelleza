@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.example.core.ui.base.BaseScreenState
 import com.example.domain.loyalty.Loyalty
 import com.example.domain.loyalty.PromotionCode
+import com.example.domain.repository.UserRepository
 import com.example.domain.usecases.GetUserInfoUseCase
 import com.example.model.state.getContent
 import com.example.model.state.isSuccess
@@ -43,7 +44,8 @@ data class UserProfileUiState(
 class UserProfileViewModel
     @Inject
     constructor(
-        private val getUserInfoUseCase: GetUserInfoUseCase
+        private val getUserInfoUseCase: GetUserInfoUseCase,
+        private val userRepository: UserRepository
     ) : ViewModel() {
         private val _state: MutableStateFlow<BaseScreenState<UserProfileUiState>> =
             MutableStateFlow(BaseScreenState.OnLoading)
@@ -57,6 +59,14 @@ class UserProfileViewModel
                     started = SharingStarted.WhileSubscribed(5000L),
                     BaseScreenState.OnLoading
                 )
+
+        fun saveUserImage(imageLikeBase64: String) =
+            viewModelScope.launch {
+                val result = userRepository.saveUserImage(imageLikeBase64,"")
+                if (result.isSuccess()) {
+                    getUserInfo()
+                }
+            }
 
         private fun getUserInfo() =
             viewModelScope.launch {

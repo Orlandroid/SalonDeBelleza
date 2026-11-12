@@ -13,6 +13,7 @@ import com.example.di.qualifiers.UsersRef
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -39,6 +40,10 @@ object ModuleFirebase {
     @Singleton
     @Provides
     fun provideFirebaseRealtimeInstance(): FirebaseDatabase = FirebaseDatabase.getInstance()
+
+    @Singleton
+    @Provides
+    fun provideFirebaseStorageInstance(): FirebaseStorage = FirebaseStorage.getInstance()
 
     @Singleton
     @Provides

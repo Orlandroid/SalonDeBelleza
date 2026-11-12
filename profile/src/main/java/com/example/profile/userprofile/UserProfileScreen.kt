@@ -46,7 +46,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ImageBitmap
 import androidx.compose.ui.graphics.asImageBitmap
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -66,7 +65,6 @@ import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.components.skeletons.UserProfileScreenSkeleton
 import com.example.core.ui.theme.Background
 import com.example.core.util.toCurrencyString
-import com.example.core.util.uriToBitmap
 import com.example.domain.loyalty.Loyalty
 import com.example.domain.loyalty.LoyaltyTier
 import com.example.domain.loyalty.PromotionCode
@@ -76,7 +74,6 @@ import com.example.profile.R
 
 @Composable
 fun UserProfileScreen(navController: NavHostController) {
-    val context = LocalContext.current
     val userProfileViewModel: UserProfileViewModel = hiltViewModel()
     val uiState = userProfileViewModel.state.collectAsStateWithLifecycle()
     val imageUserRemote = remember { mutableStateOf<Bitmap?>(null) }
@@ -85,8 +82,7 @@ fun UserProfileScreen(navController: NavHostController) {
             contract = ActivityResultContracts.GetContent(),
             onResult = { uri ->
                 uri?.let {
-                    val imageBitmap = context.uriToBitmap(uri)
-                    // userProfileViewModel.saveImageUser(...)
+                    userProfileViewModel.saveUserImage(it.toString())
                 }
             }
         )
@@ -141,14 +137,13 @@ private fun UserProfileScreenContent(
     ) {
         Spacer(modifier = Modifier.height(24.dp))
 
-        if (imageUserRemote == null) {
-            ImageUser(model = R.drawable.userprofile) {
-                launchGallery.invoke()
-            }
-        } else {
-            ImageUser(model = imageUserRemote.asImageBitmap()) {
-                launchGallery.invoke()
-            }
+        val imageModel: Any = when {
+            imageUserRemote != null -> imageUserRemote.asImageBitmap()
+            !userProfileState.image.isNullOrEmpty() -> userProfileState.image
+            else -> R.drawable.userprofile
+        }
+        ImageUser(model = imageModel) {
+            launchGallery.invoke()
         }
 
         Row(

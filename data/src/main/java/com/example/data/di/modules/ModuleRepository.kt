@@ -25,6 +25,7 @@ import com.example.domain.repository.UserRepository
 import com.example.domain.usecases.IsBranchOpenUseCase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
+import com.google.firebase.storage.FirebaseStorage
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -53,11 +54,13 @@ object ModuleRepository {
     @Provides
     fun provideUserRepository(
         @UsersRef databaseReference: DatabaseReference,
-        firebaseAuth: FirebaseAuth
+        firebaseAuth: FirebaseAuth,
+        firebaseStorage: FirebaseStorage
     ): UserRepository =
         UserRepositoryImpl(
             databaseReference = databaseReference,
-            firebaseAuth = firebaseAuth
+            firebaseAuth = firebaseAuth,
+            firebaseStorage = firebaseStorage
         )
 
     @Singleton

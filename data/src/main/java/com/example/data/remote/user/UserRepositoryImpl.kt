@@ -9,14 +9,17 @@ import com.example.model.state.models.UserRole
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DatabaseReference
 import com.google.firebase.database.ktx.getValue
+import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
+import androidx.core.net.toUri
 
 class UserRepositoryImpl
     @Inject
     constructor(
         @param:UsersRef private val databaseReference: DatabaseReference,
-        private val firebaseAuth: FirebaseAuth
+        private val firebaseAuth: FirebaseAuth,
+        private val firebaseStorage: FirebaseStorage
     ) : UserRepository {
         override suspend fun getUser(): ApiResult<User> {
             return runCatching {
@@ -67,9 +70,21 @@ class UserRepositoryImpl
                 ApiResult.Error(it.message.orEmpty())
             }
 
-        override suspend fun saveUserImage(imageLikeBase64: String): ApiResult<Any> =
+        override suspend fun saveUserImage(imageLikeBase64: String, userId: String): ApiResult<Any> =
             runCatching {
-                databaseReference.setValue(imageLikeBase64).await()
+                val currentUserId = userId.ifEmpty { firebaseAuth.uid.orEmpty() }
+                if (currentUserId.isEmpty()) return ApiResult.Error("User not authenticated")
+
+                val downloadUrl = if (imageLikeBase64.startsWith("content://") || imageLikeBase64.startsWith("file://")) {
+                    val uri = imageLikeBase64.toUri()
+                    val storageRef = firebaseStorage.reference.child("user_images/$currentUserId.jpg")
+                    storageRef.putFile(uri).await()
+                    storageRef.downloadUrl.await().toString()
+                } else {
+                    imageLikeBase64
+                }
+
+                databaseReference.child(currentUserId).child("image").setValue(downloadUrl).await()
                 ApiResult.Success(Any())
             }.getOrElse {
                 ApiResult.Error(it.message.orEmpty())

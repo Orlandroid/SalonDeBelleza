@@ -86,6 +86,7 @@ firebaseAuth = { module = "com.google.firebase:firebase-auth-ktx" } # version vi
 firebaseAuthV = { module = "com.google.firebase:firebase-auth-ktx", version.ref = "firebaseAuth" }
 firebaseAnalytics = { module = "com.google.firebase:firebase-analytics-ktx" }
 firebaseDatabase = { module = "com.google.firebase:firebase-database-ktx" }
+firebaseStorage = { module = "com.google.firebase:firebase-storage-ktx" }
 
 googlePlayServicesAuth = { module = "com.google.android.gms:play-services-auth", version.ref = "googlePlayServices" }
 
@@ -134,7 +135,7 @@ kotlinSerializationJson = { module = "org.jetbrains.kotlinx:kotlinx-serializatio
 room = ["roomRuntime", "roomKtx"]
 retrofit = ["retrofit", "retrofitConverterMoshi", "retrofitConverterGson", "okhttpLogging"]
 daggerHilt = ["hiltAndroid", "androidxHiltWork"]
-firebase = ["firebaseAuth", "firebaseAuthV", "firebaseAnalytics", "firebaseDatabase", "googlePlayServicesAuth"]
+firebase = ["firebaseAuth", "firebaseAuthV", "firebaseAnalytics", "firebaseDatabase", "firebaseStorage", "googlePlayServicesAuth"]
 composeMaterial = ["composeMaterial", "composeMaterialIconsExtended", "composeMaterial3"]
 composeUi = ["composeUi", "composeUiTooling", "composeUiToolingPreview"]
 compose = [

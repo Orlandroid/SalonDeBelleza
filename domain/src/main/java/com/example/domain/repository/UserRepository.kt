@@ -8,7 +8,7 @@ interface UserRepository {
 
     suspend fun getUserImage(): ApiResult<String>
 
-    suspend fun saveUserImage(imageLikeBase64: String): ApiResult<Any>
+    suspend fun saveUserImage(imageLikeBase64: String,userId: String): ApiResult<Any>
 
     suspend fun saveUserInfo(
         userId: String,
