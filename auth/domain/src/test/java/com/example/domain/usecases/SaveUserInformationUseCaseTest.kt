@@ -3,9 +3,11 @@ package com.example.domain.usecases
 import com.example.domain.entities.remote.User
 import com.example.domain.repository.UserRepository
 import com.example.model.state.ApiResult
-import com.google.common.truth.Truth
+import com.google.common.truth.Truth.assertThat
+import com.google.firebase.auth.FirebaseAuth
 import io.mockk.coEvery
 import io.mockk.coVerify
+import io.mockk.every
 import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
@@ -21,14 +23,16 @@ class SaveUserInformationUseCaseTest {
     private lateinit var saveUserInformationUseCase: SaveUserInformationUseCase
     private val testDispatcher = StandardTestDispatcher()
     private val userRepository: UserRepository = mockk()
+    private val firebaseAuth: FirebaseAuth = mockk()
 
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        saveUserInformationUseCase =
-            SaveUserInformationUseCase(
-                userRepository = userRepository
-            )
+        every { firebaseAuth.uid } returns "user123"
+        saveUserInformationUseCase = SaveUserInformationUseCase(
+            userRepository = userRepository,
+            firebaseAuth = firebaseAuth
+        )
     }
 
     @After
@@ -37,42 +41,36 @@ class SaveUserInformationUseCaseTest {
     }
 
     @Test
-    fun `when getUser Return Error`(): Unit =
-        runTest {
-            val user: User = mockk(relaxed = true)
-            coEvery { userRepository.getUser() } returns ApiResult.Error()
+    fun `when user has valid uid, saveUserInfo is called and returns Success`() = runTest {
+        val user = User(name = "Ana", phone = "123", email = "ana@test.com", password = "pass", birthDay = "01/01", uid = "user123")
+        coEvery { userRepository.saveUserInfo("user123", user) } returns ApiResult.Success(Any())
 
-            val loginResult = saveUserInformationUseCase.invoke(user)
+        val result = saveUserInformationUseCase.invoke(user)
 
-            Truth.assertThat(loginResult).isInstanceOf(ApiResult.Error::class.java)
-            coVerify(exactly = 1) { userRepository.getUser() }
-            coVerify(exactly = 0) { userRepository.saveUserInfo(any(), any()) }
-        }
+        assertThat(result).isInstanceOf(ApiResult.Success::class.java)
+        coVerify(exactly = 1) { userRepository.saveUserInfo("user123", user) }
+    }
 
     @Test
-    fun `when getUser Return Success , and saveUserInfo Return Success `(): Unit =
-        runTest {
-            val user = User(name = "", phone = "", email = "", password = "", birthDay = "", uid = "sysh")
-            coEvery { userRepository.getUser() } returns ApiResult.Success(user)
-            coEvery { userRepository.saveUserInfo(any(), any()) } returns ApiResult.Success(Any())
+    fun `when uid is empty in user, fallback to firebaseAuth uid`() = runTest {
+        val userWithoutUid = User(name = "Ana", phone = "123", email = "ana@test.com", password = "pass", birthDay = "01/01", uid = "")
+        val expectedSavedUser = userWithoutUid.copy(uid = "user123")
+        coEvery { userRepository.saveUserInfo("user123", expectedSavedUser) } returns ApiResult.Success(Any())
 
-            val loginResult = saveUserInformationUseCase.invoke(user)
+        val result = saveUserInformationUseCase.invoke(userWithoutUid)
 
-            Truth.assertThat(loginResult).isInstanceOf(ApiResult.Success::class.java)
-            coVerify(exactly = 1) { userRepository.getUser() }
-            coVerify(exactly = 1) { userRepository.saveUserInfo(any(), any()) }
-        }
+        assertThat(result).isInstanceOf(ApiResult.Success::class.java)
+        coVerify(exactly = 1) { userRepository.saveUserInfo("user123", expectedSavedUser) }
+    }
 
     @Test
-    fun `when getUser Return Success , but getContent uid is null `(): Unit =
-        runTest {
-            val user = User(name = "", phone = "", email = "", password = "", birthDay = "", uid = "")
-            coEvery { userRepository.getUser() } returns ApiResult.Success(user)
+    fun `when uid and firebaseAuth uid are both empty, returns Error`() = runTest {
+        every { firebaseAuth.uid } returns null
+        val userWithoutUid = User(name = "Ana", phone = "123", email = "ana@test.com", password = "pass", birthDay = "01/01", uid = "")
 
-            val loginResult = saveUserInformationUseCase.invoke(user)
+        val result = saveUserInformationUseCase.invoke(userWithoutUid)
 
-            Truth.assertThat(loginResult).isInstanceOf(ApiResult.Error::class.java)
-            coVerify(exactly = 1) { userRepository.getUser() }
-            coVerify(exactly = 0) { userRepository.saveUserInfo(any(), any()) }
-        }
+        assertThat(result).isInstanceOf(ApiResult.Error::class.java)
+        coVerify(exactly = 0) { userRepository.saveUserInfo(any(), any()) }
+    }
 }
