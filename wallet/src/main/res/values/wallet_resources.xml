@@ -13,4 +13,7 @@
     <string name="type_marketplace_purchase">Marketplace Purchase</string>
     <string name="type_transaction">Transaction</string>
     <string name="no_date">No date</string>
+    <string name="history">History</string>
+    <string name="member_since">Member since %1$s</string>
+    <string name="user_id">ID •••%1$s</string>
 </resources>

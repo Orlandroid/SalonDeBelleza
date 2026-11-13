@@ -154,7 +154,7 @@ class CartViewModel
                 }
 
                 is CartEvents.OnProductSelect -> {
-                    viewModelScope.launch {
+                    viewModelScope.launch(context = coroutineExceptionHandler) {
                         _effects.send(
                             NavigateToProductDetail(
                                 source = event.source,
@@ -175,7 +175,7 @@ class CartViewModel
                 }
 
                 CartEvents.OnPay -> {
-                    viewModelScope.launch {
+                    viewModelScope.launch(context = coroutineExceptionHandler) {
                         _state.update { it.copy(showLoadingButton = true) }
                         delay(0.5.seconds)
                         val userId = userRepository.getUser().getResultOrNull()?.uid ?: return@launch
@@ -270,7 +270,7 @@ class CartViewModel
                         )
                     }
                 } else {
-                    val errorMsg = (result as? ApiResult.Error)?.error ?: "Código inválido"
+                    val errorMsg = (result as? ApiResult.Error)?.error ?: "invalid code"
                     _state.update { it.copy(promoError = errorMsg, validatingPromo = false) }
                 }
             }

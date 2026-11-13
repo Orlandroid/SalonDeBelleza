@@ -59,7 +59,7 @@ class BranchViewModel
             val branch = state.value.getContentOrNull()?.find { it.sucursal.id == branchId }
             branch?.let {
                 appointmentSession.selectBranch(branch)
-                viewModelScope.launch {
+                viewModelScope.launch(coroutineExceptionHandler+ioDispatcher) {
                     _effects.send(BranchesEffects.GoToScheduleStaff)
                 }
             }

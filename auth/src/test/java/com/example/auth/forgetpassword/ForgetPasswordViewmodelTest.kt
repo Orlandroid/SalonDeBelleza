@@ -20,7 +20,7 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class ForgetPasswordViewmodelTest {
-    private lateinit var viewModel: ForgetPasswordViewmodel
+    private lateinit var viewModel: ForgetPasswordViewModel
     private lateinit var authRepository: AuthRepository
     private val testDispatcher = StandardTestDispatcher()
 
@@ -30,7 +30,7 @@ class ForgetPasswordViewmodelTest {
 
         authRepository = mockk(relaxed = true)
         viewModel =
-            ForgetPasswordViewmodel(
+            ForgetPasswordViewModel(
                 authRepository,
                 ioDispatcher = testDispatcher,
                 emailValidator = emailValidator
@@ -66,7 +66,7 @@ class ForgetPasswordViewmodelTest {
                 assertEquals(false, awaitItem().isLoading)
 
                 viewModel.onEvents(
-                    ForgetPasswordViewmodel.ForgetPasswordEvents.OnResetPassword
+                    ForgetPasswordViewModel.ForgetPasswordEvents.OnResetPassword
                 )
 
                 assertEquals(true, awaitItem().isLoading)
@@ -79,11 +79,11 @@ class ForgetPasswordViewmodelTest {
             viewModel.effects.test {
                 val effect = awaitItem()
 
-                assert(effect is ForgetPasswordViewmodel.ForgetPasswordEffects.ShowSnackBar)
+                assert(effect is ForgetPasswordViewModel.ForgetPasswordEffects.ShowSnackBar)
 
                 assertEquals(
                     errorMessage,
-                    (effect as ForgetPasswordViewmodel.ForgetPasswordEffects.ShowSnackBar).kindOfMessage
+                    (effect as ForgetPasswordViewModel.ForgetPasswordEffects.ShowSnackBar).kindOfMessage
                 )
 
                 cancelAndIgnoreRemainingEvents()
@@ -109,7 +109,7 @@ class ForgetPasswordViewmodelTest {
                     assertEquals(false, awaitItem().isLoading)
 
                     viewModel.onEvents(
-                        ForgetPasswordViewmodel.ForgetPasswordEvents.OnResetPassword
+                        ForgetPasswordViewModel.ForgetPasswordEvents.OnResetPassword
                     )
 
                     assertEquals(true, awaitItem().isLoading)
@@ -121,11 +121,11 @@ class ForgetPasswordViewmodelTest {
 
                 val effect = awaitItem()
 
-                assert(effect is ForgetPasswordViewmodel.ForgetPasswordEffects.ShowSnackBar)
+                assert(effect is ForgetPasswordViewModel.ForgetPasswordEffects.ShowSnackBar)
 
                 assertEquals(
                     kindOfMessageError,
-                    (effect as ForgetPasswordViewmodel.ForgetPasswordEffects.ShowSnackBar).kindOfMessage
+                    (effect as ForgetPasswordViewModel.ForgetPasswordEffects.ShowSnackBar).kindOfMessage
                 )
 
                 cancelAndIgnoreRemainingEvents()
@@ -140,7 +140,7 @@ class ForgetPasswordViewmodelTest {
     fun onValidEmail_whenValidEmailProvided_shouldEnableButton() {
         coEvery { emailValidator.isValidEmail(any()) } returns true
 
-        viewModel.onEvents(ForgetPasswordViewmodel.ForgetPasswordEvents.OnEmailChange("test@example.com"))
+        viewModel.onEvents(ForgetPasswordViewModel.ForgetPasswordEvents.OnEmailChange("test@example.com"))
 
         val updatedState = viewModel.state.value
         assertEquals(true, updatedState.enableButton)
@@ -151,7 +151,7 @@ class ForgetPasswordViewmodelTest {
     fun onValidEmail_whenInvalidEmailProvided_shouldDisableButton() {
         coEvery { emailValidator.isValidEmail(any()) } returns false
 
-        viewModel.onEvents(ForgetPasswordViewmodel.ForgetPasswordEvents.OnEmailChange("invalid-email"))
+        viewModel.onEvents(ForgetPasswordViewModel.ForgetPasswordEvents.OnEmailChange("invalid-email"))
 
         val updatedState = viewModel.state.value
         assertEquals(false, updatedState.enableButton)

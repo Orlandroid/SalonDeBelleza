@@ -11,7 +11,7 @@ data class FakeStoreProduct(
     val category: String,
     val image: String,
     val rating: FakeStoreProductRating,
-    var imageBase64: String? = ""
+    val imageBase64: String? = ""
 )
 
 @Serializable

@@ -10,4 +10,6 @@
     <string name="aceptar">Aceptar</string>
     <string name="cancelar_alert">Cancelar</string>
     <string name="message_body">Message Body</string>
+    <string name="no_internet_connection">No internet connection</string>
+    <string name="check_internet_connection">Check your Wi-Fi or mobile data and try again.</string>
 </resources>

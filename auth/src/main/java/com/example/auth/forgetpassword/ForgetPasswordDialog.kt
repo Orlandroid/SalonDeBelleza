@@ -46,14 +46,14 @@ import com.example.core.ui.theme.Background
 import com.example.core.ui.theme.Danger
 import com.example.domain.KindOfMessage
 import kotlinx.coroutines.flow.collectLatest
-import com.example.auth.forgetpassword.ForgetPasswordViewmodel.ForgetPasswordEvents as Events
+import com.example.auth.forgetpassword.ForgetPasswordViewModel.ForgetPasswordEvents as Events
 
 @Composable
 fun ForgetPasswordDialog(
     modifier: Modifier = Modifier,
     onDismissRequest: () -> Unit
 ) {
-    val viewmodel = hiltViewModel<ForgetPasswordViewmodel>()
+    val viewmodel = hiltViewModel<ForgetPasswordViewModel>()
     val uiState by viewmodel.state.collectAsStateWithLifecycle()
     val snackBarHostState = remember { SnackbarHostState() }
     val successMessage = stringResource(R.string.password_changed_successfully)
@@ -61,7 +61,7 @@ fun ForgetPasswordDialog(
     LaunchedEffect(Unit) {
         viewmodel.effects.collectLatest {
             when (it) {
-                is ForgetPasswordViewmodel.ForgetPasswordEffects.ShowSnackBar -> {
+                is ForgetPasswordViewModel.ForgetPasswordEffects.ShowSnackBar -> {
                     val message =
                         when (it.kindOfMessage) {
                             KindOfMessage.ERROR -> {

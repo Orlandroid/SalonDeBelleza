@@ -142,7 +142,7 @@ private fun RowScope.HistoryButton(onHistoryClick: () -> Unit) {
         )
         Spacer(modifier = Modifier.width(6.dp))
         Text(
-            text = "History",
+            text = stringResource(R.string.history),
             fontSize = 14.sp,
             fontWeight = FontWeight.Medium,
             color = TextPrimary
@@ -275,13 +275,19 @@ private fun WalletBalanceCard(state: BalanceUiState) {
                 )
                 Spacer(modifier = Modifier.width(5.dp))
                 Text(
-                    text = "Member since ${formatCreatedAt(state.createdAtMillis)}",
+                    stringResource(
+                        R.string.member_since,
+                        formatCreatedAt(state.createdAtMillis)
+                    ),
                     fontSize = 12.sp,
                     color = TextMuted
                 )
             }
             Text(
-                text = "ID •••${state.userId.takeLast(5)}",
+                text = stringResource(
+                    R.string.user_id,
+                    state.userId.takeLast(5)
+                ),
                 fontSize = 12.sp,
                 color = TextMuted
             )
@@ -315,7 +321,8 @@ private fun initialsFrom(name: String): String =
         .take(2)
         .joinToString("") { it.first().uppercase() }
 
-private fun formatCreatedAt(millis: Long): String = SimpleDateFormat("MMM yyyy", Locale.getDefault()).format(Date(millis))
+private fun formatCreatedAt(millis: Long): String =
+    SimpleDateFormat("MMM yyyy", Locale.getDefault()).format(Date(millis))
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

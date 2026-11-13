@@ -67,7 +67,7 @@ class ScheduleStaffViewmodel
                 ScheduleStaffEvents.OnRandomStaff -> {
                     val randomIndex =
                         _state.value.staffs.indices
-                            .random()
+                            .randomOrNull() ?: return
                     val randomStaff = _state.value.staffs[randomIndex]
                     appointmentSession.selectStaff(randomStaff)
                     sentEffect(ScheduleStaffEffects.GoToScheduleService)
