@@ -19,5 +19,5 @@ interface CategoriesDao {
     fun getCategoriesFlow(): Flow<List<CategoryEntity>>
 
     @Query("SELECT * FROM CategoryEntity")
-    fun getCategories(): List<CategoryEntity>
+    suspend fun getCategories(): List<CategoryEntity>
 }

@@ -22,7 +22,7 @@ interface AppointmentDao {
     suspend fun deleteAppointment(appointment: AppointmentEntity): Int
 
     @Query("SELECT * FROM appointmententity")
-    fun getAllAppointment(): List<AppointmentEntity>
+    suspend fun getAllAppointment(): List<AppointmentEntity>
 
     @Query("DELETE  FROM appointmententity")
     suspend fun deleteAll()

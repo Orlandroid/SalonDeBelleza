@@ -16,11 +16,11 @@ interface ProductDao {
     suspend fun insertManyProductDb(productDb: List<ProductEntity>)
 
     @Query("SELECT * FROM ProductEntity")
-    fun getAllProductDb(): List<ProductEntity>
+    suspend fun getAllProductDb(): List<ProductEntity>
 
     @Query("SELECT * FROM ProductEntity WHERE id =:id")
     fun getProductDbById(id: Int): Flow<ProductEntity>
 
-    @Query("DELETE  FROM ProductEntity")
+    @Query("DELETE FROM ProductEntity")
     suspend fun deleteAll(): Int
 }
