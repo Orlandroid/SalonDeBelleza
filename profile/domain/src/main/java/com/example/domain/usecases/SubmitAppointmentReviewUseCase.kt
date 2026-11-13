@@ -40,7 +40,7 @@ class SubmitAppointmentReviewUseCase
 
             val searchResult =
                 appointmentsRepository.findStaff(
-                    branchName = fullAppointment.establishment,
+                    branchName = fullAppointment.branch,
                     staffName = fullAppointment.employee
                 )
 

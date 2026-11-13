@@ -1,6 +1,6 @@
 package com.example.domain.usecases
 
-import com.example.domain.AppointmentFirebase
+import com.example.domain.Appointment
 import com.example.domain.entities.remote.User
 import com.example.domain.repository.AppointmentsRepository
 import com.example.domain.repository.ReminderManager
@@ -70,7 +70,7 @@ class SaveAppointmentUseCaseTest {
             )
         } returns ApiResult.Success(Unit)
 
-        val appointmentSlot = slot<AppointmentFirebase>()
+        val appointmentSlot = slot<Appointment>()
 
         val result = saveAppointmentUseCase(
             establishment = "Centro Salon",
@@ -86,7 +86,7 @@ class SaveAppointmentUseCaseTest {
 
         coVerify { appointmentsRepository.saveAppointment(capture(appointmentSlot)) }
         assertThat(appointmentSlot.captured.clientName).isEqualTo("Ana Garcia")
-        assertThat(appointmentSlot.captured.establishment).isEqualTo("Centro Salon")
+        assertThat(appointmentSlot.captured.branch).isEqualTo("Centro Salon")
 
         coVerify(exactly = 1) {
             appointmentsRepository.bookMasterSchedule(
@@ -121,7 +121,7 @@ class SaveAppointmentUseCaseTest {
         coEvery { appointmentsRepository.saveAppointment(any()) } returns ApiResult.Success(Unit)
         coEvery { purchaseProductsUseCase.invoke(any(), any(), any()) } returns ApiResult.Success(Unit)
 
-        val appointmentSlot = slot<AppointmentFirebase>()
+        val appointmentSlot = slot<Appointment>()
 
         val result = saveAppointmentUseCase(
             establishment = "Centro Salon",

@@ -1,7 +1,6 @@
 package com.example.domain.repository
 
 import com.example.domain.Appointment
-import com.example.domain.AppointmentFirebase
 import com.example.domain.entities.local.AppointmentObject
 import com.example.domain.entities.remote.migration.NegoInfo
 import com.example.domain.entities.remote.migration.Service
@@ -15,13 +14,13 @@ interface AppointmentsRepository {
 
     suspend fun getSingleAppointment(appointmentId: String): ApiResult<AppointmentObject>
 
-    suspend fun getAppointmentById(appointmentId: String): ApiResult<AppointmentFirebase>
+    suspend fun getAppointmentById(appointmentId: String): ApiResult<Appointment>
 
-    suspend fun saveAppointment(appointment: AppointmentFirebase): ApiResult<Any>
+    suspend fun saveAppointment(appointment: Appointment): ApiResult<Any>
 
     suspend fun updateAppointment(
         appointmentId: String,
-        appointment: AppointmentFirebase
+        appointment: Appointment
     ): ApiResult<Unit>
 
     suspend fun getBranches(): ApiResult<List<NegoInfo>>

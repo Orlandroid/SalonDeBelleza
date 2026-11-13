@@ -1,7 +1,8 @@
 package com.example.data.remote.user
 
+import androidx.core.net.toUri
+import com.example.data.remote.model.UserInfoFirebaseDto
 import com.example.di.qualifiers.UsersRef
-import com.example.domain.UserInfoFirebase
 import com.example.domain.entities.remote.User
 import com.example.domain.repository.UserRepository
 import com.example.model.state.ApiResult
@@ -12,7 +13,6 @@ import com.google.firebase.database.ktx.getValue
 import com.google.firebase.storage.FirebaseStorage
 import kotlinx.coroutines.tasks.await
 import javax.inject.Inject
-import androidx.core.net.toUri
 
 class UserRepositoryImpl
     @Inject
@@ -34,7 +34,7 @@ class UserRepositoryImpl
                 }
 
                 val userInfo =
-                    snapshot.getValue<UserInfoFirebase>()
+                    snapshot.getValue<UserInfoFirebaseDto>()
                         ?: return ApiResult.Error("Unable to parse user info")
 
                 val userRole =

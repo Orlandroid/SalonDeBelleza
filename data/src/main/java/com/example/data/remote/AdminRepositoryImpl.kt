@@ -1,10 +1,10 @@
 package com.example.data.remote
 
+import com.example.data.remote.model.AppointmentFirebaseDto
+import com.example.data.remote.model.toDomain
 import com.example.di.qualifiers.RootAppointmentsRef
 import com.example.domain.AdminAppointmentUiModel
-import com.example.domain.AppointmentFirebase
 import com.example.domain.repository.AdminRepository
-import com.example.domain.toAppointment
 import com.example.model.state.ApiResult
 import com.example.model.state.models.AppointmentStatus
 import com.google.firebase.auth.FirebaseAuth
@@ -27,8 +27,8 @@ class AdminRepositoryImpl
                 for (userSnapshot in snapshot.children) {
                     for (appointmentSnapshot in userSnapshot.children) {
                         appointmentSnapshot
-                            .getValue<AppointmentFirebase>()
-                            ?.toAppointment()
+                            .getValue<AppointmentFirebaseDto>()
+                            ?.toDomain()
                             ?.let { appointment ->
                                 if (appointment.status == AppointmentStatus.CONFIRMED) {
                                     val adminAppointmentUiModel =

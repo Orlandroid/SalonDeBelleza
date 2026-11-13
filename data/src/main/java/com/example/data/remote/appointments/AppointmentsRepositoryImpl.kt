@@ -2,18 +2,17 @@ package com.example.data.remote.appointments
 
 import com.example.data.api.WebServices
 import com.example.data.extension.toInitials
+import com.example.data.remote.model.AppointmentFirebaseDto
 import com.example.data.remote.model.toDomain
+import com.example.data.remote.model.toDto
 import com.example.di.qualifiers.AppointmentsRef
 import com.example.di.qualifiers.MasterScheduleRef
 import com.example.domain.Appointment
-import com.example.domain.AppointmentFirebase
 import com.example.domain.entities.local.AppointmentObject
 import com.example.domain.entities.remote.migration.NegoInfo
 import com.example.domain.entities.remote.migration.Service
 import com.example.domain.entities.remote.migration.Staff
 import com.example.domain.repository.AppointmentsRepository
-import com.example.domain.toAppointment
-import com.example.domain.toAppointmentObject
 import com.example.domain.usecases.IsBranchOpenUseCase
 import com.example.model.state.ApiResult
 import com.example.model.state.getContent
@@ -45,7 +44,7 @@ class AppointmentsRepositoryImpl
                 val snapshot = databaseReference.get().await()
                 val appointments =
                     snapshot.children.mapNotNull { child ->
-                        child.getValue<AppointmentFirebase>()?.toAppointment()
+                        child.getValue<AppointmentFirebaseDto>()?.toDomain()
                     }
                 ApiResult.Success(appointments)
             }.getOrElse {
@@ -55,9 +54,20 @@ class AppointmentsRepositoryImpl
         override suspend fun getSingleAppointment(appointmentId: String): ApiResult<AppointmentObject> =
             runCatching {
                 val snapshot = databaseReference.child(appointmentId).get().await()
-                val appointment = snapshot.getValue<AppointmentFirebase>()?.toAppointmentObject()
+                val appointment = snapshot.getValue<AppointmentFirebaseDto>()?.toDomain()
                 if (appointment != null) {
-                    ApiResult.Success(appointment)
+                    ApiResult.Success(
+                        AppointmentObject(
+                            idAppointment = appointment.idAppointment,
+                            establishment = appointment.branch,
+                            employee = appointment.employee,
+                            service = appointment.service,
+                            date = appointment.date,
+                            hour = appointment.hour,
+                            total = "",
+                            status = appointment.status
+                        )
+                    )
                 } else {
                     ApiResult.Error("Appointment not found")
                 }
@@ -65,10 +75,10 @@ class AppointmentsRepositoryImpl
                 ApiResult.Error(it.message.orEmpty())
             }
 
-        override suspend fun getAppointmentById(appointmentId: String): ApiResult<AppointmentFirebase> =
+        override suspend fun getAppointmentById(appointmentId: String): ApiResult<Appointment> =
             runCatching {
                 val snapshot = databaseReference.child(appointmentId).get().await()
-                val appointment = snapshot.getValue<AppointmentFirebase>()
+                val appointment = snapshot.getValue<AppointmentFirebaseDto>()?.toDomain()
                 if (appointment != null) {
                     ApiResult.Success(appointment)
                 } else {
@@ -78,9 +88,10 @@ class AppointmentsRepositoryImpl
                 ApiResult.Error(it.message.orEmpty())
             }
 
-        override suspend fun saveAppointment(appointment: AppointmentFirebase): ApiResult<Any> =
+        override suspend fun saveAppointment(appointment: Appointment): ApiResult<Any> =
             runCatching {
-                databaseReference.child(appointment.idAppointment).setValue(appointment).await()
+                val dto = appointment.toDto()
+                databaseReference.child(dto.idAppointment).setValue(dto).await()
                 ApiResult.Success(Any())
             }.getOrElse {
                 ApiResult.Error(it.message.orEmpty())
@@ -88,10 +99,11 @@ class AppointmentsRepositoryImpl
 
         override suspend fun updateAppointment(
             appointmentId: String,
-            appointment: AppointmentFirebase
+            appointment: Appointment
         ): ApiResult<Unit> =
             runCatching {
-                databaseReference.child(appointmentId).setValue(appointment).await()
+                val dto = appointment.toDto()
+                databaseReference.child(appointmentId).setValue(dto).await()
                 ApiResult.Success(Unit)
             }.getOrElse {
                 ApiResult.Error(it.message.orEmpty())

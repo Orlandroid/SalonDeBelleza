@@ -1,10 +1,10 @@
 package com.example.data.di.modules
 
+import com.example.data.remote.appointments.AppointmentsRepositoryImpl
 import com.example.data.api.WebServices
 import com.example.data.remote.AdminRepositoryImpl
 import com.example.data.remote.AuthRepositoryImp
 import com.example.data.remote.ReviewRepositoryImpl
-import com.example.data.remote.appointments.AppointmentsRepositoryImpl
 import com.example.data.remote.loyalty.LoyaltyRepositoryImpl
 import com.example.data.remote.user.UserRepositoryImpl
 import com.example.di.qualifiers.AppointmentsRef
