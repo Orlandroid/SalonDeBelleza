@@ -28,4 +28,18 @@ fun convertMillisToDate(millis: Long): String {
     return formatter.format(Date(millis))
 }
 
+fun formatTransactionDate(
+    createdAt: Long,
+    noDateText: String
+): String {
+    if (createdAt <= 0L) return noDateText
+    val sdf = SimpleDateFormat("dd MMM yyyy, hh:mm a", Locale.getDefault())
+    return sdf.format(Date(createdAt))
+}
+
+fun formatDate(timestamp: Long): String {
+    val sdf = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
+    return sdf.format(Date(timestamp))
+}
+
 const val DATE_FORMAT = "dd/MM/yyyy"

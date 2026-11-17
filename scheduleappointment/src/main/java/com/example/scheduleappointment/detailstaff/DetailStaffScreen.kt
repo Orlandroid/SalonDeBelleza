@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyListScope
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -38,6 +39,7 @@ import coil.compose.AsyncImage
 import com.example.core.ui.base.BaseComposeScreen
 import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.theme.Background
+import com.example.core.util.formatDate
 import com.example.domain.entities.Review
 import com.example.domain.entities.StaffRatingSummary
 import com.example.domain.entities.remote.migration.Staff
@@ -81,6 +83,7 @@ private fun DetailStaffScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         contentPadding = PaddingValues(bottom = 32.dp)
     ) {
+
         item {
             Spacer(modifier = Modifier.height(24.dp))
             AsyncImage(
@@ -106,21 +109,7 @@ private fun DetailStaffScreenContent(
         }
 
         if (ratingSummary.recentComments.isNotEmpty()) {
-            item {
-                Text(
-                    text = stringResource(R.string.recent_feedback),
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(horizontal = 24.dp, vertical = 8.dp),
-                    style = MaterialTheme.typography.titleMedium,
-                    fontWeight = FontWeight.Bold
-                )
-            }
-
-            items(ratingSummary.recentComments) { review ->
-                ReviewItem(review)
-            }
+            recentComments(recentComments = ratingSummary.recentComments)
         } else {
             item {
                 Text(
@@ -132,6 +121,28 @@ private fun DetailStaffScreenContent(
             }
         }
     }
+}
+
+
+private fun LazyListScope.recentComments(
+    recentComments: List<Review>
+) {
+    item {
+        Text(
+            text = stringResource(R.string.recent_feedback),
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(horizontal = 24.dp, vertical = 8.dp),
+            style = MaterialTheme.typography.titleMedium,
+            fontWeight = FontWeight.Bold
+        )
+    }
+
+    items(recentComments) { review ->
+        ReviewItem(review)
+    }
+
 }
 
 @Composable
@@ -210,11 +221,6 @@ private fun ReviewItem(review: Review) {
             }
         }
     }
-}
-
-private fun formatDate(timestamp: Long): String {
-    val sdf = SimpleDateFormat("MMM dd, yyyy", Locale.getDefault())
-    return sdf.format(Date(timestamp))
 }
 
 @Composable

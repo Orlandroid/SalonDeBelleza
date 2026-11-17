@@ -258,40 +258,52 @@ private fun WalletBalanceCard(state: BalanceUiState) {
 
         DashedDivider()
 
-        Row(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(vertical = 14.dp),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Row(verticalAlignment = Alignment.CenterVertically) {
-                Icon(
-                    imageVector = Icons.Filled.CalendarToday,
-                    contentDescription = null,
-                    modifier = Modifier.size(14.dp),
-                    tint = TextMuted
-                )
-                Spacer(modifier = Modifier.width(5.dp))
-                Text(
-                    stringResource(
-                        R.string.member_since,
-                        formatCreatedAt(state.createdAtMillis)
-                    ),
-                    fontSize = 12.sp,
-                    color = TextMuted
-                )
-            }
+        MemberSinceLabel(
+            createdAtMillis = state.createdAtMillis,
+            userId = state.userId
+        )
+    }
+}
+
+
+@Composable
+private fun MemberSinceLabel(
+    createdAtMillis: Long,
+    userId: String
+) {
+    Row(
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(vertical = 14.dp),
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            Icon(
+                imageVector = Icons.Filled.CalendarToday,
+                contentDescription = null,
+                modifier = Modifier.size(14.dp),
+                tint = TextMuted
+            )
+            Spacer(modifier = Modifier.width(5.dp))
             Text(
-                text = stringResource(
-                    R.string.user_id,
-                    state.userId.takeLast(5)
+                stringResource(
+                    R.string.member_since,
+                    formatCreatedAt(createdAtMillis)
                 ),
                 fontSize = 12.sp,
                 color = TextMuted
             )
         }
+        Text(
+            text = stringResource(
+                R.string.user_id,
+                userId.takeLast(5)
+            ),
+            fontSize = 12.sp,
+            color = TextMuted
+        )
     }
 }
 
