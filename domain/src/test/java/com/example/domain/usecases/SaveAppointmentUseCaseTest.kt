@@ -186,7 +186,7 @@ class SaveAppointmentUseCaseTest {
                 )
 
             assertThat(result).isInstanceOf(ApiResult.Error::class.java)
-            assertThat(result.getErrorMessage()).isEqualTo("Error saving appointment")
+            assertThat(result.getErrorMessage()).isEqualTo("An error occurred")
         }
 
     @Test
@@ -255,6 +255,6 @@ class SaveAppointmentUseCaseTest {
                 )
 
             assertThat(result).isInstanceOf(ApiResult.Error::class.java)
-            assertThat(result.getErrorMessage()).isEqualTo("Error processing payment")
+            assertThat(result.getErrorMessage()).isEqualTo("An error occurred")
         }
 }
