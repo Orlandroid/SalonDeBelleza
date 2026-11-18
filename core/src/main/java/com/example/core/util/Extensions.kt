@@ -42,11 +42,10 @@ fun Bitmap.toBase64(quality: Int = 70): String {
     return android.util.Base64.encodeToString(byteArray, android.util.Base64.DEFAULT)
 }
 
-fun String.base64ToBitmap(): Bitmap? {
-    return try {
+fun String.base64ToBitmap(): Bitmap? =
+    try {
         val decodedBytes = android.util.Base64.decode(this, android.util.Base64.DEFAULT)
         BitmapFactory.decodeByteArray(decodedBytes, 0, decodedBytes.size)
     } catch (e: Exception) {
         null
     }
-}

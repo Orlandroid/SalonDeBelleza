@@ -27,7 +27,6 @@ import org.junit.Test
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class SubmitAppointmentReviewUseCaseTest {
-
     private val testDispatcher = StandardTestDispatcher()
     private val userRepository: UserRepository = mockk()
     private val appointmentsRepository: AppointmentsRepository = mockk()
@@ -39,12 +38,13 @@ class SubmitAppointmentReviewUseCaseTest {
     @Before
     fun setUp() {
         Dispatchers.setMain(testDispatcher)
-        useCase = SubmitAppointmentReviewUseCase(
-            userRepository = userRepository,
-            appointmentsRepository = appointmentsRepository,
-            reviewRepository = reviewRepository,
-            earnPointsUseCase = earnPointsUseCase
-        )
+        useCase =
+            SubmitAppointmentReviewUseCase(
+                userRepository = userRepository,
+                appointmentsRepository = appointmentsRepository,
+                reviewRepository = reviewRepository,
+                earnPointsUseCase = earnPointsUseCase
+            )
     }
 
     @After
@@ -53,53 +53,56 @@ class SubmitAppointmentReviewUseCaseTest {
     }
 
     @Test
-    fun `when submitting review succeeds, adds review and earns loyalty points`() = runTest {
-        val user = User(uid = "user123", name = "Ana", phone = "123", email = "a@a.com", password = "p", birthDay = "01/01")
-        val appointment = Appointment(
-            id = "app123",
-            idAppointment = "app123",
-            branch = "Centro",
-            employee = "Carlos",
-            employeeId = "emp1",
-            service = "Haircut",
-            date = "15/03/2025",
-            hour = "14:30",
-            clientName = "Ana"
-        )
-        val staff = Staff(id = "emp1", image_url = "", name = "Carlos", gender = "M", rating = 5)
+    fun `when submitting review succeeds, adds review and earns loyalty points`() =
+        runTest {
+            val user = User(uid = "user123", name = "Ana", phone = "123", email = "a@a.com", password = "p", birthDay = "01/01")
+            val appointment =
+                Appointment(
+                    id = "app123",
+                    idAppointment = "app123",
+                    branch = "Centro",
+                    employee = "Carlos",
+                    employeeId = "emp1",
+                    service = "Haircut",
+                    date = "15/03/2025",
+                    hour = "14:30",
+                    clientName = "Ana"
+                )
+            val staff = Staff(id = "emp1", image_url = "", name = "Carlos", gender = "M", rating = 5)
 
-        coEvery { userRepository.getUser() } returns ApiResult.Success(user)
-        coEvery { appointmentsRepository.getAppointmentById("app123") } returns ApiResult.Success(appointment)
-        coEvery { appointmentsRepository.findStaff("Centro", "Carlos") } returns ApiResult.Success(Pair("branch123", staff))
+            coEvery { userRepository.getUser() } returns ApiResult.Success(user)
+            coEvery { appointmentsRepository.getAppointmentById("app123") } returns ApiResult.Success(appointment)
+            coEvery { appointmentsRepository.findStaff("Centro", "Carlos") } returns ApiResult.Success(Pair("branch123", staff))
 
-        val reviewSlot = slot<Review>()
-        coEvery { reviewRepository.addReview(capture(reviewSlot)) } returns ApiResult.Success(Unit)
-        coEvery {
-            earnPointsUseCase(
-                userId = "user123",
-                pointsEarned = 50,
-                sourceId = any(),
-                description = any(),
-                type = LoyaltyTransactionType.REVIEW_EARNED
-            )
-        } returns ApiResult.Success(Unit)
+            val reviewSlot = slot<Review>()
+            coEvery { reviewRepository.addReview(capture(reviewSlot)) } returns ApiResult.Success(Unit)
+            coEvery {
+                earnPointsUseCase(
+                    userId = "user123",
+                    pointsEarned = 50,
+                    sourceId = any(),
+                    description = any(),
+                    type = LoyaltyTransactionType.REVIEW_EARNED
+                )
+            } returns ApiResult.Success(Unit)
 
-        val result = useCase(appointmentId = "app123", rating = 5, comment = "Great service!")
+            val result = useCase(appointmentId = "app123", rating = 5, comment = "Great service!")
 
-        assertThat(result).isInstanceOf(ApiResult.Success::class.java)
-        coVerify(exactly = 1) { reviewRepository.addReview(any()) }
-        coVerify(exactly = 1) { earnPointsUseCase("user123", 50, any(), any(), LoyaltyTransactionType.REVIEW_EARNED) }
-        assertThat(reviewSlot.captured.staffId).isEqualTo("branch123_emp1")
-    }
+            assertThat(result).isInstanceOf(ApiResult.Success::class.java)
+            coVerify(exactly = 1) { reviewRepository.addReview(any()) }
+            coVerify(exactly = 1) { earnPointsUseCase("user123", 50, any(), any(), LoyaltyTransactionType.REVIEW_EARNED) }
+            assertThat(reviewSlot.captured.staffId).isEqualTo("branch123_emp1")
+        }
 
     @Test
-    fun `when user is not found, returns error`() = runTest {
-        coEvery { userRepository.getUser() } returns ApiResult.Error("User not logged in")
+    fun `when user is not found, returns error`() =
+        runTest {
+            coEvery { userRepository.getUser() } returns ApiResult.Error("User not logged in")
 
-        val result = useCase(appointmentId = "app123", rating = 5, comment = "Great service!")
+            val result = useCase(appointmentId = "app123", rating = 5, comment = "Great service!")
 
-        assertThat(result).isInstanceOf(ApiResult.Error::class.java)
-        assertThat(result.getErrorMessage()).isEqualTo("User not found")
-        coVerify(exactly = 0) { reviewRepository.addReview(any()) }
-    }
+            assertThat(result).isInstanceOf(ApiResult.Error::class.java)
+            assertThat(result.getErrorMessage()).isEqualTo("User not found")
+            coVerify(exactly = 0) { reviewRepository.addReview(any()) }
+        }
 }

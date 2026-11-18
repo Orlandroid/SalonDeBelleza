@@ -18,41 +18,47 @@ data class AdminDashboardData(
     val pendingAppointments: List<AdminAppointmentUiModel>
 )
 
-class GetAdminDashboardDataUseCase @Inject constructor(
-    private val adminRepository: AdminRepository
-) {
-    suspend operator fun invoke(): ApiResult<AdminDashboardData> = withContext(Dispatchers.IO) {
-        val revenueDeferred = async { adminRepository.getRevenue() }
-        val bookingsDeferred = async { adminRepository.getTotalBookings() }
-        val pendingDeferred = async { adminRepository.getPendingAppointmentsForAdmin() }
+class GetAdminDashboardDataUseCase
+    @Inject
+    constructor(
+        private val adminRepository: AdminRepository
+    ) {
+        suspend operator fun invoke(): ApiResult<AdminDashboardData> =
+            withContext(Dispatchers.IO) {
+                val revenueDeferred = async { adminRepository.getRevenue() }
+                val bookingsDeferred = async { adminRepository.getTotalBookings() }
+                val pendingDeferred = async { adminRepository.getPendingAppointmentsForAdmin() }
 
-        val revenueResult = revenueDeferred.await()
-        val bookingsResult = bookingsDeferred.await()
-        val pendingResult = pendingDeferred.await()
+                val revenueResult = revenueDeferred.await()
+                val bookingsResult = bookingsDeferred.await()
+                val pendingResult = pendingDeferred.await()
 
-        val hasError = revenueResult.isError() || bookingsResult.isError() || pendingResult.isError()
-        if (hasError) {
-            val errorMsg = revenueResult.getErrorMessage()
-                ?: bookingsResult.getErrorMessage()
-                ?: pendingResult.getErrorMessage()
-                ?: "Error loading dashboard data"
-            return@withContext ApiResult.Error(errorMsg)
-        }
+                val hasError = revenueResult.isError() || bookingsResult.isError() || pendingResult.isError()
+                if (hasError) {
+                    val errorMsg =
+                        revenueResult.getErrorMessage()
+                            ?: bookingsResult.getErrorMessage()
+                            ?: pendingResult.getErrorMessage()
+                            ?: "Error loading dashboard data"
+                    return@withContext ApiResult.Error(errorMsg)
+                }
 
-        val revenue = if (revenueResult.isSuccess()) revenueResult.getContent() else 0.0
-        val bookingsStr = if (bookingsResult.isSuccess()) bookingsResult.getContent() else "0"
-        val totalBookings = bookingsStr.toIntOrNull() ?: 0
-        val pendingAppointments = if (pendingResult.isSuccess()) pendingResult.getContent() else emptyList()
+                val revenue = if (revenueResult.isSuccess()) revenueResult.getContent() else 0.0
+                val bookingsStr = if (bookingsResult.isSuccess()) bookingsResult.getContent() else "0"
+                val totalBookings = bookingsStr.toIntOrNull() ?: 0
+                val pendingAppointments = if (pendingResult.isSuccess()) pendingResult.getContent() else emptyList()
 
-        val dashboardData = AdminDashboardData(
-            metrics = AdminMetrics(
-                totalRevenue = revenue,
-                totalBookings = totalBookings,
-                pendingAppointmentsCount = pendingAppointments.size
-            ),
-            pendingAppointments = pendingAppointments
-        )
+                val dashboardData =
+                    AdminDashboardData(
+                        metrics =
+                            AdminMetrics(
+                                totalRevenue = revenue,
+                                totalBookings = totalBookings,
+                                pendingAppointmentsCount = pendingAppointments.size
+                            ),
+                        pendingAppointments = pendingAppointments
+                    )
 
-        ApiResult.Success(dashboardData)
+                ApiResult.Success(dashboardData)
+            }
     }
-}

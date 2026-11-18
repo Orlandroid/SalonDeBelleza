@@ -160,14 +160,19 @@ class ConfirmScheduleViewModel
 
             val currentState = _uiState.value
             val originalPrice = draft.service?.precio?.toDouble() ?: DEFAULT_PRICE
-            val finalPrice = calculateFinalPrice(
-                originalPrice = originalPrice,
-                promo = if (currentState.isPromoApplied) currentState.appliedPromo else null
-            )
+            val finalPrice =
+                calculateFinalPrice(
+                    originalPrice = originalPrice,
+                    promo = if (currentState.isPromoApplied) currentState.appliedPromo else null
+                )
 
             val saveAppointmentResult =
                 saveAppointmentUseCase.invoke(
-                    establishment = draft.branch?.sucursal?.name.orEmpty(),
+                    establishment =
+                        draft.branch
+                            ?.sucursal
+                            ?.name
+                            .orEmpty(),
                     employeeName = draft.staff?.name.orEmpty(),
                     employeeId = draft.staff?.id.orEmpty(),
                     service = draft.service?.name.orEmpty(),

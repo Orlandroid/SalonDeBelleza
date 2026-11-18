@@ -62,7 +62,7 @@ class UserProfileViewModel
 
         fun saveUserImage(imageLikeBase64: String) =
             viewModelScope.launch {
-                val result = userRepository.saveUserImage(imageLikeBase64,"")
+                val result = userRepository.saveUserImage(imageLikeBase64, "")
                 if (result.isSuccess()) {
                     getUserInfo()
                 }

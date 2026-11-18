@@ -88,23 +88,26 @@ fun LoginScreen(
     val focusManager = LocalFocusManager.current
     val context = LocalContext.current
 
-    val googleSignInLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.StartActivityForResult()
-    ) { result ->
-        handleGoogleSignInResult(
-            result = result,
-            context = context,
-            onSuccess = { idToken ->
-                viewModel.onEvents(LoginEvents.OnGoogleSignInSuccess(idToken))
-            }
-        )
-    }
+    val googleSignInLauncher =
+        rememberLauncherForActivityResult(
+            contract = ActivityResultContracts.StartActivityForResult()
+        ) { result ->
+            handleGoogleSignInResult(
+                result = result,
+                context = context,
+                onSuccess = { idToken ->
+                    viewModel.onEvents(LoginEvents.OnGoogleSignInSuccess(idToken))
+                }
+            )
+        }
 
     fun launchGoogleSignIn() {
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(WEB_CLIENT_ID)
-            .requestEmail()
-            .build()
+        val gso =
+            GoogleSignInOptions
+                .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(WEB_CLIENT_ID)
+                .requestEmail()
+                .build()
         val googleSignInClient = GoogleSignIn.getClient(context, gso)
         googleSignInLauncher.launch(googleSignInClient.signInIntent)
     }
@@ -174,7 +177,6 @@ fun LoginScreen(
         )
     }
 }
-
 
 private fun handleGoogleSignInResult(
     result: ActivityResult,

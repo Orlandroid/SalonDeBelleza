@@ -8,6 +8,7 @@ import com.example.domain.interfaces.PasswordValidator
 import com.example.domain.repository.AuthRepository
 import com.example.domain.repository.UserRepository
 import com.example.domain.usecases.LoginUseCase
+import com.example.domain.usecases.SignInWithGoogleUseCase
 import com.example.model.state.ApiResult
 import com.google.common.truth.Truth.assertThat
 import io.mockk.coEvery
@@ -17,7 +18,6 @@ import io.mockk.mockk
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
-import com.example.domain.usecases.SignInWithGoogleUseCase
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
 import org.junit.After

@@ -107,227 +107,228 @@ data class CartUiState(
 
 @HiltViewModel
 class CartViewModel
-@Inject
-constructor(
-    @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
-    @param:ApplicationContext private val context: Context,
-    private val repository: BusinessRepository,
-    private val checkoutCartUseCase: CheckoutCartUseCase,
-    private val getCartInfoUseCase: GetCartInfoUseCase,
-    private val verifyPromoCodeUseCase: VerifyPromoCodeUseCase,
-    private val userRepository: UserRepository
-) : ViewModel() {
-    private val _state: MutableStateFlow<CartUiState> = MutableStateFlow(CartUiState())
-    val state =
-        _state
-            .onStart {
-                getCartInfo()
-            }.stateIn(
-                scope = viewModelScope,
-                started = SharingStarted.WhileSubscribed(5000L),
-                CartUiState()
-            )
-
-    private val _effects = Channel<CartEffects>()
-    val effects = _effects.receiveAsFlow()
-
-    private val coroutineExceptionHandler =
-        CoroutineExceptionHandler { _, exception ->
-            _state.update { it.copy(error = exception.message) }
-        }
-
-    fun onEvents(event: CartEvents) {
-        when (event) {
-            CartEvents.OnDeleteIconClicked -> {
-                _state.update {
-                    it.copy(showDeleteDialog = true)
-                }
-            }
-
-            is CartEvents.OnProductSelect -> {
-                viewModelScope.launch(context = coroutineExceptionHandler) {
-                    _effects.send(
-                        NavigateToProductDetail(
-                            source = event.source,
-                            product = event.product
-                        )
-                    )
-                }
-            }
-
-            CartEvents.OnAccept -> {
-                deleteAllTheProducts()
-            }
-
-            CartEvents.OnCancelPressed -> {
-                _state.update {
-                    it.copy(showDeleteDialog = false)
-                }
-            }
-
-            CartEvents.OnPay -> {
-                viewModelScope.launch(context = coroutineExceptionHandler) {
-                    onPay()
-                }
-            }
-
-            is CartEvents.OnRemoveProductClicked -> {
-                onRemoveProduct(event.productId)
-            }
-
-            is CartEvents.OnDecrease -> {
-                onDecreaseProduct(event.productId)
-            }
-
-            is CartEvents.OnIncrease -> {
-                onIncreaseProduct(event.productId)
-            }
-
-            is CartEvents.OnPromoCodeChanged -> {
-                _state.update { it.copy(promoCode = event.code, promoError = null) }
-            }
-
-            CartEvents.OnApplyPromoCode -> {
-                applyPromoCode()
-            }
-        }
-    }
-
-    private suspend fun onPay() {
-        _state.update { it.copy(showLoadingButton = true) }
-        val currentState = state.value
-        val result = checkoutCartUseCase(
-            products = currentState.products,
-            appliedPromo = if (currentState.isPromoApplied) currentState.appliedPromo else null
-        )
-
-        if (result.isSuccess()) {
-            _effects.send(CartEffects.OnPurchaseCompleted)
-        } else {
-            _state.update {
-                it.copy(
-                    error = result.getErrorMessage() ?: "Purchase failed",
-                    showLoadingButton = false
+    @Inject
+    constructor(
+        @param:IoDispatcher private val ioDispatcher: CoroutineDispatcher,
+        @param:ApplicationContext private val context: Context,
+        private val repository: BusinessRepository,
+        private val checkoutCartUseCase: CheckoutCartUseCase,
+        private val getCartInfoUseCase: GetCartInfoUseCase,
+        private val verifyPromoCodeUseCase: VerifyPromoCodeUseCase,
+        private val userRepository: UserRepository
+    ) : ViewModel() {
+        private val _state: MutableStateFlow<CartUiState> = MutableStateFlow(CartUiState())
+        val state =
+            _state
+                .onStart {
+                    getCartInfo()
+                }.stateIn(
+                    scope = viewModelScope,
+                    started = SharingStarted.WhileSubscribed(5000L),
+                    CartUiState()
                 )
+
+        private val _effects = Channel<CartEffects>()
+        val effects = _effects.receiveAsFlow()
+
+        private val coroutineExceptionHandler =
+            CoroutineExceptionHandler { _, exception ->
+                _state.update { it.copy(error = exception.message) }
+            }
+
+        fun onEvents(event: CartEvents) {
+            when (event) {
+                CartEvents.OnDeleteIconClicked -> {
+                    _state.update {
+                        it.copy(showDeleteDialog = true)
+                    }
+                }
+
+                is CartEvents.OnProductSelect -> {
+                    viewModelScope.launch(context = coroutineExceptionHandler) {
+                        _effects.send(
+                            NavigateToProductDetail(
+                                source = event.source,
+                                product = event.product
+                            )
+                        )
+                    }
+                }
+
+                CartEvents.OnAccept -> {
+                    deleteAllTheProducts()
+                }
+
+                CartEvents.OnCancelPressed -> {
+                    _state.update {
+                        it.copy(showDeleteDialog = false)
+                    }
+                }
+
+                CartEvents.OnPay -> {
+                    viewModelScope.launch(context = coroutineExceptionHandler) {
+                        onPay()
+                    }
+                }
+
+                is CartEvents.OnRemoveProductClicked -> {
+                    onRemoveProduct(event.productId)
+                }
+
+                is CartEvents.OnDecrease -> {
+                    onDecreaseProduct(event.productId)
+                }
+
+                is CartEvents.OnIncrease -> {
+                    onIncreaseProduct(event.productId)
+                }
+
+                is CartEvents.OnPromoCodeChanged -> {
+                    _state.update { it.copy(promoCode = event.code, promoError = null) }
+                }
+
+                CartEvents.OnApplyPromoCode -> {
+                    applyPromoCode()
+                }
             }
         }
-    }
 
-    private fun applyPromoCode() =
-        viewModelScope.launch {
-            val userId = userRepository.getUser().getResultOrNull()?.uid ?: return@launch
-            val code = _state.value.promoCode
-            if (code.isBlank()) return@launch
+        private suspend fun onPay() {
+            _state.update { it.copy(showLoadingButton = true) }
+            val currentState = state.value
+            val result =
+                checkoutCartUseCase(
+                    products = currentState.products,
+                    appliedPromo = if (currentState.isPromoApplied) currentState.appliedPromo else null
+                )
 
-            _state.update { it.copy(validatingPromo = true, promoError = null) }
-            val result = verifyPromoCodeUseCase(userId, code)
-
-            if (result is ApiResult.Success) {
+            if (result.isSuccess()) {
+                _effects.send(CartEffects.OnPurchaseCompleted)
+            } else {
                 _state.update {
                     it.copy(
-                        appliedPromo = result.result,
-                        isPromoApplied = true,
-                        validatingPromo = false
+                        error = result.getErrorMessage() ?: "Purchase failed",
+                        showLoadingButton = false
                     )
                 }
-            } else {
-                val errorMsg = (result as? ApiResult.Error)?.error ?: "invalid code"
-                _state.update { it.copy(promoError = errorMsg, validatingPromo = false) }
             }
         }
 
-    private fun onRemoveProduct(productId: Int) {
-        _state.update { currentState ->
-            currentState.copy(
-                products =
-                    currentState.products.filterNot { product ->
-                        product.id == productId
+        private fun applyPromoCode() =
+            viewModelScope.launch {
+                val userId = userRepository.getUser().getResultOrNull()?.uid ?: return@launch
+                val code = _state.value.promoCode
+                if (code.isBlank()) return@launch
+
+                _state.update { it.copy(validatingPromo = true, promoError = null) }
+                val result = verifyPromoCodeUseCase(userId, code)
+
+                if (result is ApiResult.Success) {
+                    _state.update {
+                        it.copy(
+                            appliedPromo = result.result,
+                            isPromoApplied = true,
+                            validatingPromo = false
+                        )
                     }
-            )
-        }
-        _state.update { currentState ->
-            currentState.copy(cartTotal = getCartTotal(currentState.products))
-        }
-    }
-
-    private fun onDecreaseProduct(productId: Int) {
-        _state.update { currentState ->
-            currentState.copy(
-                products =
-                    currentState.products.map { product ->
-                        if (product.id == productId && product.quantity > 1) {
-                            product.copy(quantity = product.quantity - 1)
-                        } else {
-                            product
-                        }
-                    }
-            )
-        }
-        _state.update { currentState ->
-            currentState.copy(cartTotal = getCartTotal(currentState.products))
-        }
-    }
-
-    private fun onIncreaseProduct(productId: Int) {
-        _state.update { currentState ->
-            currentState.copy(
-                products =
-                    currentState.products.map { product ->
-                        if (product.id == productId) {
-                            product.copy(quantity = product.quantity + 1)
-                        } else {
-                            product
-                        }
-                    }
-            )
-        }
-        _state.update { currentState ->
-            currentState.copy(cartTotal = getCartTotal(currentState.products))
-        }
-    }
-
-    private fun getCartTotal(products: List<Product>): Long {
-        var cartTotal = 0L
-
-        products.forEach {
-            cartTotal += it.price * it.quantity
-        }
-        return cartTotal
-    }
-
-    fun getCartInfo() {
-        viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
-            val userInfoResult = getCartInfoUseCase()
-            if (userInfoResult.isError()) {
-                _state.update { it.copy(error = userInfoResult.getErrorMessage()) }
-                return@launch
+                } else {
+                    val errorMsg = (result as? ApiResult.Error)?.error ?: "invalid code"
+                    _state.update { it.copy(promoError = errorMsg, validatingPromo = false) }
+                }
             }
-            val userInfo = userInfoResult.getContent()
-            _state.update {
-                it.copy(
-                    isLoading = false,
-                    products = userInfo.products,
-                    userMoney = userInfo.userMoney,
-                    cartTotal = userInfo.cartTotal
+
+        private fun onRemoveProduct(productId: Int) {
+            _state.update { currentState ->
+                currentState.copy(
+                    products =
+                        currentState.products.filterNot { product ->
+                            product.id == productId
+                        }
                 )
             }
+            _state.update { currentState ->
+                currentState.copy(cartTotal = getCartTotal(currentState.products))
+            }
         }
-    }
 
-    private fun deleteAllTheProducts() {
-        viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
-            _state.update { it.copy(isLoading = true) }
-            val result = repository.deleteAllProducts()
-            if (result.isSuccess()) {
-                _effects.send(CartEffects.OnProductsDeleted(message = context.getString(R.string.products_deleted)))
+        private fun onDecreaseProduct(productId: Int) {
+            _state.update { currentState ->
+                currentState.copy(
+                    products =
+                        currentState.products.map { product ->
+                            if (product.id == productId && product.quantity > 1) {
+                                product.copy(quantity = product.quantity - 1)
+                            } else {
+                                product
+                            }
+                        }
+                )
+            }
+            _state.update { currentState ->
+                currentState.copy(cartTotal = getCartTotal(currentState.products))
+            }
+        }
+
+        private fun onIncreaseProduct(productId: Int) {
+            _state.update { currentState ->
+                currentState.copy(
+                    products =
+                        currentState.products.map { product ->
+                            if (product.id == productId) {
+                                product.copy(quantity = product.quantity + 1)
+                            } else {
+                                product
+                            }
+                        }
+                )
+            }
+            _state.update { currentState ->
+                currentState.copy(cartTotal = getCartTotal(currentState.products))
+            }
+        }
+
+        private fun getCartTotal(products: List<Product>): Long {
+            var cartTotal = 0L
+
+            products.forEach {
+                cartTotal += it.price * it.quantity
+            }
+            return cartTotal
+        }
+
+        fun getCartInfo() {
+            viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
+                val userInfoResult = getCartInfoUseCase()
+                if (userInfoResult.isError()) {
+                    _state.update { it.copy(error = userInfoResult.getErrorMessage()) }
+                    return@launch
+                }
+                val userInfo = userInfoResult.getContent()
                 _state.update {
                     it.copy(
                         isLoading = false,
-                        showDeleteDialog = false,
-                        products = emptyList()
+                        products = userInfo.products,
+                        userMoney = userInfo.userMoney,
+                        cartTotal = userInfo.cartTotal
                     )
                 }
             }
         }
+
+        private fun deleteAllTheProducts() {
+            viewModelScope.launch(ioDispatcher + coroutineExceptionHandler) {
+                _state.update { it.copy(isLoading = true) }
+                val result = repository.deleteAllProducts()
+                if (result.isSuccess()) {
+                    _effects.send(CartEffects.OnProductsDeleted(message = context.getString(R.string.products_deleted)))
+                    _state.update {
+                        it.copy(
+                            isLoading = false,
+                            showDeleteDialog = false,
+                            products = emptyList()
+                        )
+                    }
+                }
+            }
+        }
     }
-}

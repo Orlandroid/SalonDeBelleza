@@ -14,44 +14,48 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 import javax.inject.Inject
 
-class SignInWithGoogleUseCase @Inject constructor(
-    private val authRepository: AuthRepository,
-    private val userPreferences: UserPreferences,
-    private val userRepository: UserRepository,
-    private val firebaseAuth: FirebaseAuth
-) {
-    suspend operator fun invoke(idToken: String): ApiResult<UserRole> {
-        val credential = GoogleAuthProvider.getCredential(idToken, null)
-        val loginResult = authRepository.signInWithCredential(credential)
+class SignInWithGoogleUseCase
+    @Inject
+    constructor(
+        private val authRepository: AuthRepository,
+        private val userPreferences: UserPreferences,
+        private val userRepository: UserRepository,
+        private val firebaseAuth: FirebaseAuth
+    ) {
+        suspend operator fun invoke(idToken: String): ApiResult<UserRole> {
+            val credential = GoogleAuthProvider.getCredential(idToken, null)
+            val loginResult = authRepository.signInWithCredential(credential)
 
-        if (loginResult.isError()) {
-            return ApiResult.Error(loginResult.getErrorMessage())
-        }
-
-        val currentUser = firebaseAuth.currentUser
-        val userResult = userRepository.getUser()
-
-        val userRole = if (userResult.isSuccess()) {
-            userResult.getContent().role
-        } else {
-            if (currentUser != null) {
-                val newUser = User(
-                    uid = currentUser.uid,
-                    name = currentUser.displayName.orEmpty().ifEmpty { "Customer" },
-                    phone = currentUser.phoneNumber.orEmpty(),
-                    email = currentUser.email.orEmpty(),
-                    password = "",
-                    birthDay = "",
-                    role = UserRole.CUSTOMER
-                )
-                userRepository.saveUserInfo(currentUser.uid, newUser)
+            if (loginResult.isError()) {
+                return ApiResult.Error(loginResult.getErrorMessage())
             }
-            UserRole.CUSTOMER
+
+            val currentUser = firebaseAuth.currentUser
+            val userResult = userRepository.getUser()
+
+            val userRole =
+                if (userResult.isSuccess()) {
+                    userResult.getContent().role
+                } else {
+                    if (currentUser != null) {
+                        val newUser =
+                            User(
+                                uid = currentUser.uid,
+                                name = currentUser.displayName.orEmpty().ifEmpty { "Customer" },
+                                phone = currentUser.phoneNumber.orEmpty(),
+                                email = currentUser.email.orEmpty(),
+                                password = "",
+                                birthDay = "",
+                                role = UserRole.CUSTOMER
+                            )
+                        userRepository.saveUserInfo(currentUser.uid, newUser)
+                    }
+                    UserRole.CUSTOMER
+                }
+
+            userPreferences.saveUserLogged()
+            userPreferences.saveUserEmail(currentUser?.email.orEmpty())
+
+            return ApiResult.Success(userRole)
         }
-
-        userPreferences.saveUserLogged()
-        userPreferences.saveUserEmail(currentUser?.email.orEmpty())
-
-        return ApiResult.Success(userRole)
     }
-}

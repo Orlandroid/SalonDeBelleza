@@ -46,9 +46,6 @@ import com.example.domain.entities.remote.migration.Staff
 import com.example.scheduleappointment.R
 import com.gowtham.ratingbar.RatingBar
 import com.gowtham.ratingbar.RatingBarStyle
-import java.text.SimpleDateFormat
-import java.util.Date
-import java.util.Locale
 
 @Composable
 fun DetailStaffScreen(
@@ -83,7 +80,6 @@ private fun DetailStaffScreenContent(
         horizontalAlignment = Alignment.CenterHorizontally,
         contentPadding = PaddingValues(bottom = 32.dp)
     ) {
-
         item {
             Spacer(modifier = Modifier.height(24.dp))
             AsyncImage(
@@ -123,10 +119,7 @@ private fun DetailStaffScreenContent(
     }
 }
 
-
-private fun LazyListScope.recentComments(
-    recentComments: List<Review>
-) {
+private fun LazyListScope.recentComments(recentComments: List<Review>) {
     item {
         Text(
             text = stringResource(R.string.recent_feedback),
@@ -142,7 +135,6 @@ private fun LazyListScope.recentComments(
     items(recentComments) { review ->
         ReviewItem(review)
     }
-
 }
 
 @Composable

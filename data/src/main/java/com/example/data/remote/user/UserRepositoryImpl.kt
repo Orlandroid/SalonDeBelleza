@@ -70,21 +70,29 @@ class UserRepositoryImpl
                 ApiResult.Error(it.message.orEmpty())
             }
 
-        override suspend fun saveUserImage(imageLikeBase64: String, userId: String): ApiResult<Any> =
+        override suspend fun saveUserImage(
+            imageLikeBase64: String,
+            userId: String
+        ): ApiResult<Any> =
             runCatching {
                 val currentUserId = userId.ifEmpty { firebaseAuth.uid.orEmpty() }
                 if (currentUserId.isEmpty()) return ApiResult.Error("User not authenticated")
 
-                val downloadUrl = if (imageLikeBase64.startsWith("content://") || imageLikeBase64.startsWith("file://")) {
-                    val uri = imageLikeBase64.toUri()
-                    val storageRef = firebaseStorage.reference.child("user_images/$currentUserId.jpg")
-                    storageRef.putFile(uri).await()
-                    storageRef.downloadUrl.await().toString()
-                } else {
-                    imageLikeBase64
-                }
+                val downloadUrl =
+                    if (imageLikeBase64.startsWith("content://") || imageLikeBase64.startsWith("file://")) {
+                        val uri = imageLikeBase64.toUri()
+                        val storageRef = firebaseStorage.reference.child("user_images/$currentUserId.jpg")
+                        storageRef.putFile(uri).await()
+                        storageRef.downloadUrl.await().toString()
+                    } else {
+                        imageLikeBase64
+                    }
 
-                databaseReference.child(currentUserId).child("image").setValue(downloadUrl).await()
+                databaseReference
+                    .child(currentUserId)
+                    .child("image")
+                    .setValue(downloadUrl)
+                    .await()
                 ApiResult.Success(Any())
             }.getOrElse {
                 ApiResult.Error(it.message.orEmpty())

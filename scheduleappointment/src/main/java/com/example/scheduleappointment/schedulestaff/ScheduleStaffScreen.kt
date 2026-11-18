@@ -189,14 +189,12 @@ private fun StaffCard(
                         .background(bgColor),
                 contentAlignment = Alignment.Center
             ) {
-
                 StaffInitialsAvatar(
                     initialsColor = initialsColor,
                     staffInitial = staff.initials
                 )
 
                 DetailText(onDetailClick = onDetailClick)
-
             }
             Column(
                 modifier = Modifier.padding(horizontal = 12.dp, vertical = 10.dp),
@@ -275,7 +273,6 @@ private fun BoxScope.DetailText(onDetailClick: () -> Unit) {
         )
     }
 }
-
 
 @Composable
 private fun ButtonSelect(onSelectClick: () -> Unit) {

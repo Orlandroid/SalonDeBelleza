@@ -16,10 +16,8 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object ModuleWallet {
-
     private const val WALLET = "wallets"
     private const val TRANSACTIONS = "transactions"
-
 
     @Singleton
     @Provides

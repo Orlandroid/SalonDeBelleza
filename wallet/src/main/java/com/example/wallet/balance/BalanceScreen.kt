@@ -265,7 +265,6 @@ private fun WalletBalanceCard(state: BalanceUiState) {
     }
 }
 
-
 @Composable
 private fun MemberSinceLabel(
     createdAtMillis: Long,
@@ -297,10 +296,11 @@ private fun MemberSinceLabel(
             )
         }
         Text(
-            text = stringResource(
-                R.string.user_id,
-                userId.takeLast(5)
-            ),
+            text =
+                stringResource(
+                    R.string.user_id,
+                    userId.takeLast(5)
+                ),
             fontSize = 12.sp,
             color = TextMuted
         )
@@ -333,8 +333,7 @@ private fun initialsFrom(name: String): String =
         .take(2)
         .joinToString("") { it.first().uppercase() }
 
-private fun formatCreatedAt(millis: Long): String =
-    SimpleDateFormat("MMM yyyy", Locale.getDefault()).format(Date(millis))
+private fun formatCreatedAt(millis: Long): String = SimpleDateFormat("MMM yyyy", Locale.getDefault()).format(Date(millis))
 
 @Preview(showBackground = true, showSystemUi = true)
 @Composable

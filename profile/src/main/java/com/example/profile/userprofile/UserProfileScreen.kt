@@ -137,11 +137,12 @@ private fun UserProfileScreenContent(
     ) {
         Spacer(modifier = Modifier.height(24.dp))
 
-        val imageModel: Any = when {
-            imageUserRemote != null -> imageUserRemote.asImageBitmap()
-            !userProfileState.image.isNullOrEmpty() -> userProfileState.image
-            else -> R.drawable.userprofile
-        }
+        val imageModel: Any =
+            when {
+                imageUserRemote != null -> imageUserRemote.asImageBitmap()
+                !userProfileState.image.isNullOrEmpty() -> userProfileState.image
+                else -> R.drawable.userprofile
+            }
         ImageUser(model = imageModel) {
             launchGallery.invoke()
         }
@@ -307,11 +308,12 @@ private fun LoyaltySection(
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = stringResource(
-                            R.string.points_until_next_tier,
-                            pointsNeeded,
-                            nextTier.name.lowercase().replaceFirstChar { it.uppercase() }
-                        ),
+                        text =
+                            stringResource(
+                                R.string.points_until_next_tier,
+                                pointsNeeded,
+                                nextTier.name.lowercase().replaceFirstChar { it.uppercase() }
+                            ),
                         style = MaterialTheme.typography.labelSmall,
                         color = Color.Gray
                     )
@@ -369,10 +371,11 @@ private fun CouponItem(coupon: PromotionCode) {
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = stringResource(
-                    R.string.coupon_discount_percentage,
-                    coupon.discountPercentage
-                ),
+                text =
+                    stringResource(
+                        R.string.coupon_discount_percentage,
+                        coupon.discountPercentage
+                    ),
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.Bold,
                 color = Color.Black

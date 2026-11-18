@@ -123,10 +123,11 @@ class AdminViewModel @Inject constructor(
     ) {
         viewModelScope.launch {
             _uiState.update { it.copy(isLoading = true) }
-            val result = repository.updateAppointmentStatus(
-                appointmentId = appointmentId,
-                newStatus = newStatus
-            )
+            val result =
+                repository.updateAppointmentStatus(
+                    appointmentId = appointmentId,
+                    newStatus = newStatus
+                )
             if (result.isSuccess()) {
                 getDataForDashboard()
             } else {
