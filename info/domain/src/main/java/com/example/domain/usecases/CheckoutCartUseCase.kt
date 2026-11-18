@@ -35,12 +35,12 @@ class CheckoutCartUseCase
             }
 
             val originalPrice = calculateTotalOfProducts(products)
-            val finalPrice = calculateFinalPrice(originalPrice, appliedPromo)
+            val priceWithDiscount = calculateFinalPriceWithDiscount(originalPrice, appliedPromo)
             val description = buildDescription(products)
 
             val purchaseResult =
                 purchaseProductsUseCase(
-                    amount = finalPrice,
+                    amount = priceWithDiscount,
                     transactionType = TransactionType.MARKETPLACE_PURCHASE,
                     description = description
                 )
@@ -55,7 +55,7 @@ class CheckoutCartUseCase
 
             earnPointsUseCase(
                 userId = userId,
-                pointsEarned = finalPrice.toInt(),
+                pointsEarned = priceWithDiscount.toInt(),
                 sourceId = UUID.randomUUID().toString(),
                 description = "Marketplace purchase: $description",
                 type = LoyaltyTransactionType.MARKETPLACE_PURCHASE
@@ -66,7 +66,7 @@ class CheckoutCartUseCase
 
         private fun calculateTotalOfProducts(products: List<Product>): Long = products.sumOf { it.price * it.quantity }
 
-        private fun calculateFinalPrice(
+        private fun calculateFinalPriceWithDiscount(
             originalPrice: Long,
             promo: PromotionCode?
         ): Long {
