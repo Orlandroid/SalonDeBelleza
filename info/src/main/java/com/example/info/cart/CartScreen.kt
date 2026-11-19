@@ -1,5 +1,6 @@
 package com.example.info.cart
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -56,7 +57,7 @@ import com.example.core.ui.dialogs.BaseAlertDialogMessages
 import com.example.core.ui.dialogs.IsTwoButtonsAlert
 import com.example.core.ui.dialogs.ProgressDialog
 import com.example.core.ui.theme.AlwaysWhite
-import com.example.core.ui.theme.Background
+import com.example.core.ui.theme.SkedulyComposeTheme
 import com.example.core.util.toCurrencyString
 import com.example.domain.Product
 import com.example.domain.loyalty.PromotionCode
@@ -161,7 +162,7 @@ private fun CartScreenContent(
         modifier =
             modifier
                 .fillMaxSize()
-                .background(Background)
+                .background(MaterialTheme.colorScheme.background)
     ) {
         LazyColumn(
             modifier =
@@ -224,7 +225,7 @@ private fun PromoCodeSection(
             Text(
                 text = stringResource(R.string.discount_coupon),
                 style = MaterialTheme.typography.labelMedium,
-                color = Color.Gray
+                color = MaterialTheme.colorScheme.primary
             )
             Spacer(modifier = Modifier.height(8.dp))
             Row(
@@ -238,7 +239,8 @@ private fun PromoCodeSection(
                     placeholder = {
                         Text(
                             text = stringResource(R.string.enter_your_code),
-                            fontSize = 14.sp
+                            fontSize = 14.sp,
+                            color = MaterialTheme.colorScheme.primary
                         )
                     },
                     singleLine = true,
@@ -273,10 +275,10 @@ private fun PromoCodeSection(
             }
             if (error != null) {
                 Text(
+                    modifier = Modifier.padding(top = 4.dp),
                     text = error,
                     color = MaterialTheme.colorScheme.error,
-                    style = MaterialTheme.typography.bodySmall,
-                    modifier = Modifier.padding(top = 4.dp)
+                    style = MaterialTheme.typography.bodySmall
                 )
             }
             if (isApplied) {
@@ -330,12 +332,14 @@ private fun ProductItem(
                     text = product.title,
                     maxLines = 2,
                     overflow = TextOverflow.Ellipsis,
-                    style = MaterialTheme.typography.bodyMedium
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.height(4.dp))
                 Text(
                     text = product.total().toCurrencyString(Currency.USD),
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.height(8.dp))
                 QuantityStepper(
@@ -356,7 +360,8 @@ private fun ProductItem(
             ) {
                 Icon(
                     imageVector = Icons.Default.Delete,
-                    contentDescription = stringResource(R.string.remove)
+                    contentDescription = stringResource(R.string.remove),
+                    tint = MaterialTheme.colorScheme.primary
                 )
             }
         }
@@ -376,13 +381,15 @@ private fun QuantityStepper(
         ) {
             Icon(
                 imageVector = Icons.Default.Remove,
-                contentDescription = stringResource(R.string.cd_decrease)
+                contentDescription = stringResource(R.string.cd_decrease),
+                tint = MaterialTheme.colorScheme.primary
             )
         }
         Text(
             text = quantity.toString(),
             modifier = Modifier.padding(horizontal = 8.dp),
-            style = MaterialTheme.typography.bodyMedium
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.primary
         )
         IconButton(
             onClick = onIncrease,
@@ -390,7 +397,8 @@ private fun QuantityStepper(
         ) {
             Icon(
                 imageVector = Icons.Default.Add,
-                contentDescription = stringResource(R.string.cd_increase)
+                contentDescription = stringResource(R.string.cd_increase),
+                tint = MaterialTheme.colorScheme.primary
             )
         }
     }
@@ -434,7 +442,11 @@ private fun OrderSummarySection(
                     horizontalArrangement = Arrangement.SpaceBetween
                 ) {
                     Text(
-                        text = stringResource(R.string.discount_format, appliedPromo.discountPercentage),
+                        text =
+                            stringResource(
+                                R.string.discount_format,
+                                appliedPromo.discountPercentage
+                            ),
                         color = Color(0xFF4CAF50),
                         style = MaterialTheme.typography.bodyMedium
                     )
@@ -455,7 +467,8 @@ private fun OrderSummarySection(
             ) {
                 Text(
                     text = stringResource(R.string.total),
-                    style = MaterialTheme.typography.titleMedium
+                    style = MaterialTheme.typography.titleMedium,
+                    color = MaterialTheme.colorScheme.primary
                 )
                 val finalTotal =
                     if (appliedPromo != null) {
@@ -466,7 +479,8 @@ private fun OrderSummarySection(
                 Text(
                     text = finalTotal.toCurrencyString(Currency.USD),
                     style = MaterialTheme.typography.titleLarge,
-                    fontWeight = FontWeight.Bold
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.primary
                 )
             }
             Spacer(modifier = Modifier.height(16.dp))
@@ -493,7 +507,8 @@ private fun OrderSummarySection(
 }
 
 @Composable
-@Preview(showBackground = true)
+@Preview(name = "Light Mode", showBackground = true)
+@Preview(name = "Dark Mode", showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun CartScreenContentPreview() {
     val product =
         Product(
@@ -504,17 +519,19 @@ private fun CartScreenContentPreview() {
             rating = 1.0,
             image = ""
         )
-    CartScreenContent(
-        uiState =
-            CartUiState(
-                products =
-                    listOf(
-                        product,
-                        product.copy(id = 2, title = "Mouse"),
-                        product.copy(id = 3, title = "Keyboard")
-                    ),
-                cartTotal = 458L
-            ),
-        onEvents = {}
-    )
+    SkedulyComposeTheme {
+        CartScreenContent(
+            uiState =
+                CartUiState(
+                    products =
+                        listOf(
+                            product,
+                            product.copy(id = 2, title = "Mouse"),
+                            product.copy(id = 3, title = "Keyboard")
+                        ),
+                    cartTotal = 458L
+                ),
+            onEvents = {}
+        )
+    }
 }

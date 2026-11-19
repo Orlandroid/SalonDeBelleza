@@ -1,5 +1,6 @@
 package com.example.branches.branches
 
+import android.content.res.Configuration
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -16,6 +17,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -45,10 +47,10 @@ import com.example.core.ui.components.BaseErrorScreen
 import com.example.core.ui.components.TextWithArrowConfig
 import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.components.skeletons.BranchesScreenSkeletons
-import com.example.core.ui.theme.Background
 import com.example.core.ui.theme.BackgroundListsMainFlow
 import com.example.core.ui.theme.GreenOpen
 import com.example.core.ui.theme.RedClosed
+import com.example.core.ui.theme.SkedulyComposeTheme
 
 @Composable
 fun BranchesScreen(
@@ -107,7 +109,7 @@ private fun BranchesScreenContent(
         modifier =
             modifier
                 .fillMaxSize()
-                .background(Background),
+                .background(MaterialTheme.colorScheme.background),
         verticalArrangement = Arrangement.Bottom
     ) {
         Row(
@@ -119,13 +121,15 @@ private fun BranchesScreenContent(
             Text(
                 modifier = Modifier.padding(start = 16.dp),
                 text = stringResource(R.string.avalible_locations),
-                fontSize = 20.sp
+                fontSize = 20.sp,
+                color = MaterialTheme.colorScheme.primary
             )
             Spacer(modifier = Modifier.weight(1f))
             Text(
                 modifier = Modifier.padding(end = 16.dp),
                 text = "${branches.size} Branches",
-                fontSize = 20.sp
+                fontSize = 20.sp,
+                color = MaterialTheme.colorScheme.primary
             )
         }
         Branches(
@@ -212,9 +216,10 @@ private fun BranchItem(
                 Text(
                     text = config.text,
                     fontSize = config.fontSize,
-                    fontWeight = FontWeight.SemiBold
+                    fontWeight = FontWeight.SemiBold,
+                    color = MaterialTheme.colorScheme.primary
                 )
-                Spacer(Modifier.weight(1f))
+                Spacer(modifier = Modifier.weight(1f))
                 Icon(
                     modifier = Modifier.padding(end = 16.dp),
                     painter = painterResource(id = R.drawable.ic_baseline_arrow_forward_24),
@@ -231,7 +236,8 @@ private fun BranchItem(
                 Text(
                     modifier = Modifier.padding(start = 16.dp),
                     text = stringResource(R.string.main_street),
-                    fontSize = 16.sp
+                    fontSize = 16.sp,
+                    color = MaterialTheme.colorScheme.primary
                 )
                 Spacer(modifier = Modifier.width(16.dp))
                 OpenBadge(isOpen = isOpen)
@@ -241,19 +247,22 @@ private fun BranchItem(
 }
 
 @Composable
-@Preview(showBackground = true)
+@Preview(name = "Light Mode", showBackground = true)
+@Preview(name = "Dark Mode", showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun BranchesScreenContentPreview() {
     val branch = Branch(id = "", name = "Sucursal 1", isOpen = true)
-    BranchesScreenContent(
-        modifier = Modifier,
-        branches =
-            listOf(
-                branch,
-                branch.copy(id = "2"),
-                branch.copy(id = "3"),
-                branch.copy(id = "4", isOpen = false),
-                branch.copy(id = "5")
-            ),
-        clickOnBranch = {}
-    )
+    SkedulyComposeTheme {
+        BranchesScreenContent(
+            modifier = Modifier,
+            branches =
+                listOf(
+                    branch,
+                    branch.copy(id = "2"),
+                    branch.copy(id = "3"),
+                    branch.copy(id = "4", isOpen = false),
+                    branch.copy(id = "5")
+                ),
+            clickOnBranch = {}
+        )
+    }
 }
