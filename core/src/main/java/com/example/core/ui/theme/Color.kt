@@ -45,3 +45,16 @@ val avatarBackgrounds =
 val Confirmed = Color(0xFF2196F3)
 val Completed = Color(0xFF4CAF50)
 val Canceled = Color(0xFFF44336)
+
+// Dark Theme Palette
+val DarkBackground = Color(0xFF121212)
+val DarkSurface = Color(0xFF1E1E1E)
+val DarkSurfaceVariant = Color(0xFF2C2C2C)
+val DarkOnBackground = Color(0xFFE0E0E0)
+val DarkOnSurface = Color(0xFFFFFFFF)
+val DarkOnSurfaceVariant = Color(0xFFA0A0A0)
+val DarkPrimary = Color(0xFF90CAF9)
+val DarkOnPrimary = Color(0xFF00325B)
+val DarkPrimaryContainer = Color(0xFF004881)
+val DarkOnPrimaryContainer = Color(0xFFD1E4FF)
+val DarkOutline = Color(0xFF49454F)

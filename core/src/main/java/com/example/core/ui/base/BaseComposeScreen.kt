@@ -1,5 +1,6 @@
 package com.example.core.ui.base
 
+import android.content.res.Configuration
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -17,20 +18,22 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.core.ui.components.Toolbar
+import androidx.compose.material3.MaterialTheme
 import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.dialogs.ProgressDialog
-import com.example.core.ui.theme.Background
+import com.example.core.ui.theme.SkedulyComposeTheme
 
 @Composable
 fun BaseComposeScreen(
     navController: NavController,
     toolbarConfiguration: ToolbarConfiguration = ToolbarConfiguration(),
     snackBarHostState: SnackbarHostState = remember { SnackbarHostState() },
-    background: Color = Background,
+    background: Color = MaterialTheme.colorScheme.background,
     isLoading: Boolean = false,
     content: @Composable () -> Unit
 ) {
     Scaffold(
+        containerColor = background,
         snackbarHost = { SnackbarHost(hostState = snackBarHostState) },
         topBar = {
             if (toolbarConfiguration.showToolbar) {
@@ -73,7 +76,19 @@ fun ContentScreen(
 @Composable
 @Preview(showBackground = true)
 private fun BaseViewPreview() {
-    BaseComposeScreen(navController = rememberNavController()) {
-        Text(text = "I am just trying to be my best software engineer version")
+    SkedulyComposeTheme {
+        BaseComposeScreen(navController = rememberNavController()) {
+            Text(text = "I am just trying to be my best software engineer version")
+        }
+    }
+}
+
+@Composable
+@Preview(showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
+private fun BaseViewPreviewDark() {
+    SkedulyComposeTheme {
+        BaseComposeScreen(navController = rememberNavController()) {
+            Text(text = "I am just trying to be my best software engineer version")
+        }
     }
 }

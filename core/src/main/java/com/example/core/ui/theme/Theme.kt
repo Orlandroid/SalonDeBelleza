@@ -15,34 +15,52 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalView
 import androidx.core.view.WindowCompat
 
+import androidx.compose.ui.graphics.Color
+
 private val DarkColorScheme =
     darkColorScheme(
         primary = Purple80,
+        onPrimary = AlwaysBlack,
+        primaryContainer = Purple40,
+        onPrimaryContainer = Purple80,
         secondary = PurpleGrey80,
-        tertiary = Pink80
+        onSecondary = AlwaysBlack,
+        tertiary = Pink80,
+        background = DarkBackground,
+        onBackground = DarkOnBackground,
+        surface = DarkSurface,
+        onSurface = DarkOnSurface,
+        surfaceVariant = DarkSurfaceVariant,
+        onSurfaceVariant = DarkOnSurfaceVariant,
+        outline = DarkOutline,
+        error = Danger,
+        onError = AlwaysWhite
     )
 
 private val LightColorScheme =
     lightColorScheme(
-        primary = Purple40,
-        secondary = PurpleGrey40,
-        tertiary = Pink40
-    /* Other default colors to override
-    background = Color(0xFFFFFBFE),
-    surface = Color(0xFFFFFBFE),
-    onPrimary = Color.White,
-    onSecondary = Color.White,
-    onTertiary = Color.White,
-    onBackground = Color(0xFF1C1B1F),
-    onSurface = Color(0xFF1C1B1F),
-     */
+        primary = Purple,
+        onPrimary = AlwaysWhite,
+        primaryContainer = PurpleLight,
+        onPrimaryContainer = Purple,
+        secondary = Azul,
+        onSecondary = AlwaysWhite,
+        tertiary = Pink40,
+        background = Color(0xFFF8F9FA),
+        onBackground = TextPrimary,
+        surface = AlwaysWhite,
+        onSurface = TextPrimary,
+        surfaceVariant = Color(0xFFF0F0F0),
+        onSurfaceVariant = TextSecondary,
+        outline = CardBorder,
+        error = Danger,
+        onError = AlwaysWhite
     )
 
 @Composable
 fun SkedulyComposeTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
-    // Dynamic color is available on Android 12+
-    dynamicColor: Boolean = true,
+    dynamicColor: Boolean = false,
     content: @Composable () -> Unit
 ) {
     val colorScheme =
@@ -59,8 +77,8 @@ fun SkedulyComposeTheme(
     if (!view.isInEditMode) {
         SideEffect {
             val window = (view.context as Activity).window
-            window.statusBarColor = StatusBarColor.toArgb()
-            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = darkTheme
+            window.statusBarColor = colorScheme.background.toArgb()
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
         }
     }
 
