@@ -1,5 +1,6 @@
 package com.example.auth.signup
 
+import android.content.res.Configuration
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +19,7 @@ import androidx.compose.material.icons.filled.Phone
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -25,7 +27,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.input.KeyboardType
@@ -41,7 +42,7 @@ import com.example.core.ui.base.MyDatePickerDialog
 import com.example.core.ui.components.BaseOutlinedTextField
 import com.example.core.ui.components.InputError
 import com.example.core.ui.components.ToolbarConfiguration
-import com.example.core.ui.theme.Background
+import com.example.core.ui.theme.SkedulyComposeTheme
 import com.example.domain.KindOfMessage
 import kotlinx.coroutines.flow.collectLatest
 
@@ -166,7 +167,7 @@ private fun ContainerSignUp(content: @Composable ColumnScope.() -> Unit) {
         modifier =
             Modifier
                 .fillMaxSize()
-                .background(Background)
+                .background(MaterialTheme.colorScheme.background)
                 .padding(8.dp),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally
@@ -186,12 +187,15 @@ private fun ButtonSignUp(
         modifier = modifier.fillMaxWidth(),
         enabled = isEnabled,
         onClick = onClick,
-        colors = ButtonDefaults.buttonColors(containerColor = Color.White)
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.primary,
+            contentColor = MaterialTheme.colorScheme.onPrimary
+        )
     ) {
         if (isLoading) {
             CircularProgressIndicator(Modifier.size(40.dp))
         } else {
-            Text(text = stringResource(id = R.string.registrarse), color = Color.Black)
+            Text(text = stringResource(id = R.string.registrarse))
         }
     }
 }
@@ -308,11 +312,14 @@ private fun InputBirthday(
 }
 
 @Composable
-@Preview(showBackground = true)
+@Preview(name = "Light Mode", showBackground = true)
+@Preview(name = "Dark Mode", showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun SignUpScreenPreview() {
-    SignUpScreenContent(
-        modifier = Modifier,
-        uiState = SignUpUiState(),
-        onEvents = {}
-    )
+    SkedulyComposeTheme {
+        SignUpScreenContent(
+            modifier = Modifier,
+            uiState = SignUpUiState(),
+            onEvents = {}
+        )
+    }
 }

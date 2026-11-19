@@ -1,6 +1,7 @@
 package com.example.auth.login
 
 import android.content.Context
+import android.content.res.Configuration
 import android.util.Log
 import android.widget.Toast
 import androidx.activity.compose.BackHandler
@@ -29,6 +30,7 @@ import androidx.compose.material3.Checkbox
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
@@ -37,7 +39,6 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.platform.LocalInspectionMode
@@ -65,8 +66,8 @@ import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.dialogs.AlertDialogMessagesConfig
 import com.example.core.ui.dialogs.AlertKindOfMessage
 import com.example.core.ui.dialogs.BaseAlertDialogMessages
-import com.example.core.ui.theme.Background
 import com.example.core.ui.theme.Danger
+import com.example.core.ui.theme.SkedulyComposeTheme
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
@@ -206,7 +207,7 @@ private fun LoginScreenContent(
         modifier =
             modifier
                 .fillMaxSize()
-                .background(Background)
+                .background(MaterialTheme.colorScheme.background)
                 .padding(8.dp)
                 .clickable {
                     clearFocus()
@@ -242,7 +243,8 @@ private fun LoginScreenContent(
                 Modifier.clickable {
                     onEvents(LoginEvents.OnForgetPasswordClick)
                 },
-            text = stringResource(id = R.string.olvidaste_contraseña)
+            text = stringResource(id = R.string.olvidaste_contraseña),
+            color = MaterialTheme.colorScheme.primary
         )
         Spacer(modifier = Modifier.height(16.dp))
         TextOr()
@@ -375,7 +377,10 @@ private fun CheckRememberUser(
                 onEvents(LoginEvents.OnRememberUserChecker(it))
             }
         )
-        Text(text = stringResource(id = R.string.recuerda_tu_usuario))
+        Text(
+            text = stringResource(id = R.string.recuerda_tu_usuario),
+            color = MaterialTheme.colorScheme.onBackground
+        )
     }
 }
 
@@ -423,15 +428,19 @@ private fun TextOr() {
                 Modifier
                     .height(1.dp)
                     .weight(1F)
-                    .background(Color.Black)
+                    .background(MaterialTheme.colorScheme.outline)
         )
-        Text(text = stringResource(R.string.or), Modifier.padding(horizontal = 16.dp))
+        Text(
+            text = stringResource(R.string.or),
+            modifier = Modifier.padding(horizontal = 16.dp),
+            color = MaterialTheme.colorScheme.onBackground
+        )
         Spacer(
             modifier =
                 Modifier
                     .height(1.dp)
                     .weight(1F)
-                    .background(Color.Black)
+                    .background(MaterialTheme.colorScheme.outline)
         )
     }
 }
@@ -443,12 +452,14 @@ private fun SignUpButton(
 ) {
     Button(
         onClick = onClick,
-        colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+        ),
         modifier = modifier.fillMaxWidth()
     ) {
         Text(
-            text = stringResource(id = R.string.sing_up),
-            color = Color.Black
+            text = stringResource(id = R.string.sing_up)
         )
     }
 }
@@ -462,21 +473,26 @@ private fun GoogleButton(
         onClick = {
             onClick.invoke()
         },
-        colors = ButtonDefaults.buttonColors(containerColor = Color.White),
+        colors = ButtonDefaults.buttonColors(
+            containerColor = MaterialTheme.colorScheme.surfaceVariant,
+            contentColor = MaterialTheme.colorScheme.onSurfaceVariant
+        ),
         modifier =
             modifier
                 .fillMaxWidth()
                 .padding(bottom = 8.dp)
     ) {
         Text(
-            text = stringResource(id = R.string.ingresar_con_google),
-            color = Color.Black
+            text = stringResource(id = R.string.ingresar_con_google)
         )
     }
 }
 
 @Composable
-@Preview(showBackground = true)
+@Preview(name = "Light Mode", showBackground = true)
+@Preview(name = "Dark Mode", showBackground = true, uiMode = Configuration.UI_MODE_NIGHT_YES)
 private fun LoginScreenContentPreview() {
-    LoginScreenContent(uiState = LoginUiState(), onEvents = {}, clearFocus = {})
+    SkedulyComposeTheme {
+        LoginScreenContent(uiState = LoginUiState(), onEvents = {}, clearFocus = {})
+    }
 }
