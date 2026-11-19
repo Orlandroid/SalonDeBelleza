@@ -187,10 +187,11 @@ private fun ButtonSignUp(
         modifier = modifier.fillMaxWidth(),
         enabled = isEnabled,
         onClick = onClick,
-        colors = ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.primary,
-            contentColor = MaterialTheme.colorScheme.onPrimary
-        )
+        colors =
+            ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.primary,
+                contentColor = MaterialTheme.colorScheme.onPrimary
+            )
     ) {
         if (isLoading) {
             CircularProgressIndicator(Modifier.size(40.dp))

@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
@@ -18,7 +19,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.example.core.ui.components.Toolbar
-import androidx.compose.material3.MaterialTheme
 import com.example.core.ui.components.ToolbarConfiguration
 import com.example.core.ui.dialogs.ProgressDialog
 import com.example.core.ui.theme.SkedulyComposeTheme
